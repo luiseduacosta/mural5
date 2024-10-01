@@ -46,7 +46,7 @@
                     <td><?= (isset($estagiario->estudante)) ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->estudante->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->has('estudante') ? $estagiario->estudante->nome : '' ?></td>
+                    <td><?= $estagiario->hasValue('estudante') ? $estagiario->estudante->nome : '' ?></td>
                 <?php endif; ?>
             </tr>
             <tr>
@@ -67,7 +67,7 @@
                     <td><?= isset($estagiario->instituicaoestagio) ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->has('instituicaoestagio') ? $estagiario->instituicaoestagio->instituicao : '' ?>
+                    <td><?= $estagiario->hasValue('instituicaoestagio') ? $estagiario->instituicaoestagio->instituicao : '' ?>
                     </td>
                 <?php endif; ?>
             </tr>
@@ -77,7 +77,7 @@
                     <td><?= isset($estagiario->supervisor) ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->has('supervisor') ? $estagiario->supervisor->nome : '' ?></td>
+                    <td><?= $estagiario->hasValue('supervisor') ? $estagiario->supervisor->nome : '' ?></td>
                 <?php endif; ?>
             </tr>
             <tr>
@@ -86,7 +86,7 @@
                     <td><?= isset($estagiario->docente) ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->has('docente') ? $estagiario->docente->nome : '' ?></td>
+                    <td><?= $estagiario->hasValue('docente') ? $estagiario->docente->nome : '' ?></td>
                 <?php endif; ?>
             </tr>
             <tr>

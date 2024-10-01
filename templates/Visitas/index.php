@@ -24,7 +24,7 @@
                 <?php foreach ($visitas as $visita): ?>
                     <tr>
                         <td><?= $visita->id ?></td>
-                        <td><?= $visita->has('instituicaoestagio') ? $this->Html->link($visita->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $visita->instituicaoestagio->id]) : '' ?>
+                        <td><?= $visita->hasValue('instituicaoestagio') ? $this->Html->link($visita->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $visita->instituicaoestagio->id]) : '' ?>
                         </td>
                         <td><?= date('d-m-Y', strtotime(h($visita->data))) ?></td>
                         <td><?= h($visita->motivo) ?></td>

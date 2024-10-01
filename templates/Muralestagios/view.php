@@ -1,13 +1,11 @@
 <?php
 $usuario = $this->getRequest()->getAttribute('identity');
-pr($muralestagio->docente);
+// pr($muralestagio->docente);
 // die();
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
-// pr($muralestagio);
-// die();
 ?>
 <div class="container">
 
@@ -47,10 +45,10 @@ pr($muralestagio->docente);
                     <tr>
                         <th><?= __('Instituição') ?></th>
                         <?php if ($this->getRequest()->getSession()->read('id_categoaria') == 1): ?>
-                            <td><?= $muralestagio->has('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio->id]) : '' ?>
+                            <td><?= $muralestagio->hasValue('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio->id]) : '' ?>
                             </td>
                         <?php else: ?>
-                            <td><?= $muralestagio->has('instituicaoestagio') ? $muralestagio->instituicao : '' ?></td>
+                            <td><?= $muralestagio->hasValue('instituicaoestagio') ? $muralestagio->instituicao : '' ?></td>
                         <?php endif; ?>
                     </tr>
                     <tr>
@@ -87,7 +85,7 @@ pr($muralestagio->docente);
                     </tr>
                     <tr>
                         <th><?= __('Área de estágio') ?></th>
-                        <td><?= $muralestagio->has('areaestagio') ? $this->Html->link($muralestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
+                        <td><?= $muralestagio->hasValue('areaestagio') ? $this->Html->link($muralestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
                         </td>
                     </tr>
                     <tr>
@@ -112,7 +110,7 @@ pr($muralestagio->docente);
                     <tr>
                         <th><?= __('Docente') ?></th>
                         <?php if (!empty($muralestagio->docente->nome)): ?>
-                            <td><?= $muralestagio->has('docente') ? $this->Html->link($muralestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $muralestagio->docente->id]) : '' ?>
+                            <td><?= $muralestagio->hasValue('docente') ? $this->Html->link($muralestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $muralestagio->docente->id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td>Sem dados</td>
@@ -279,13 +277,12 @@ pr($muralestagio->docente);
 
             <div id="inscricoes" class="tab-pane fade">
                 <h3><?= __('Inscrições para seleção de estágio') ?></h3>
-                <?php if (!empty($muralestagio->muralinscricoes)): ?>
+                <?php if (sizeof($muralestagio->muralinscricoes) > 0): ?>
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Estudante') ?></th>
-                            <th><?= __('Vaga de estágio') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
@@ -297,13 +294,9 @@ pr($muralestagio->docente);
                             <tr>
                                 <?php // pr($muralinscricoes) ?>
                                 <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->id_aluno) ?></td>
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->alunonovo_id]) : $muralinscricoes->estudante->nome; ?>
+                                <td><?= h($muralinscricoes->registro) ?></td>
+                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->estudante->id]) : $muralinscricoes->estudante->nome; ?>
                                 </td>
-<?php if (!empty($muralinscricoes->muralestagio->instituicao)): ?>
-                                <td><?= $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) ?>
-                                </td>
-<?php endif; ?>           
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
                                 <td><?= h($muralinscricoes->periodo) ?></td>
                                 <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>

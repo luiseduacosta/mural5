@@ -38,14 +38,14 @@
                         <?php endif; ?>
                         <td><?= $this->Html->link('Imprime declaração de estágio', ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
                         <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                            <td><?= $c_estagiario->has('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
+                            <td><?= $c_estagiario->hasValue('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
                         <?php else: ?>
-                            <td><?= $c_estagiario->has('estudante') ? $c_estagiario->estudante->nome : '' ?></td>
+                            <td><?= $c_estagiario->hasValue('estudante') ? $c_estagiario->estudante->nome : '' ?></td>
                         <?php endif; ?>
                         <td><?= $c_estagiario->periodo ?></td>
                         <td><?= $c_estagiario->nivel ?></td>
-                        <td><?= $c_estagiario->has('instituicaoestagio') ? $c_estagiario->instituicaoestagio->instituicao : '' ?></td>
-                        <td><?= $c_estagiario->has('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
+                        <td><?= $c_estagiario->hasValue('instituicaoestagio') ? $c_estagiario->instituicaoestagio->instituicao : '' ?></td>
+                        <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
                         <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>

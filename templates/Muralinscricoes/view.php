@@ -32,12 +32,12 @@ $usuario = $this->getRequest()->getAttribute('identity');
                 </tr>
                 <tr>
                     <th><?= __('Estudante') ?></th>
-                    <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante->id]) : '' ?>
+                    <td><?= $muralinscricao->hasValue('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?= __('Inscrição para estagio') ?></th>
-                    <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                    <td><?= $muralinscricao->hasValue('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>

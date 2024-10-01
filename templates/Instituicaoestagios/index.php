@@ -42,9 +42,9 @@
                         <td><?= $instituicaoestagio->id ?></td>
                         <td><?= $this->Html->link($instituicaoestagio->instituicao, ['controller' => 'instituicaoestagios', 'action' => 'view', $instituicaoestagio->id]) ?>
                         </td>
-                        <td><?= $instituicaoestagio->has('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
+                        <td><?= $instituicaoestagio->hasValue('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
                         </td>
-                        <td><?= $instituicaoestagio->has('areaestagio') ? $this->Html->link($instituicaoestagio->areaestagio->area, ['controller' => 'areaestagios', 'action' => 'view', $instituicaoestagio->area]) : '' ?>
+                        <td><?= $instituicaoestagio->hasValue('areaestagio') ? $this->Html->link($instituicaoestagio->areaestagio->area, ['controller' => 'areaestagios', 'action' => 'view', $instituicaoestagio->area]) : '' ?>
                         </td>
                         <td><?= h($instituicaoestagio->natureza) ?></td>
                         <td><?= h($instituicaoestagio->cnpj) ?></td>

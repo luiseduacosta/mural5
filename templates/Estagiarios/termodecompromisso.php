@@ -91,9 +91,9 @@ $submit = [
                         <tr>
                             <?php // pr($estagiario);  ?>
                             <td><?= $estagiario->id ?></td>
-                            <td><?= $estagiario->has('aluno') ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
+                            <td><?= $estagiario->hasValue('aluno') ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
                             </td>
-                            <td><?= $estagiario->has('estudante') ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->alunonovo_id]) : '' ?>
+                            <td><?= $estagiario->hasValue('estudante') ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->alunonovo_id]) : '' ?>
                             </td>
                             <td><?= $estagiario->registro ?></td>
                             <td><?= ($estagiario->ajuste2020 == 0) ? 'Não' : 'Sim' ?></td>
@@ -102,15 +102,15 @@ $submit = [
                             <td><?= $estagiario->tc ?></td>
                             <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?>
                             </td>
-                            <td><?= $estagiario->has('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
+                            <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
                             </td>
-                            <td><?= $estagiario->has('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id, 'empty' => 'Seleciona']) : '' ?>
+                            <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id, 'empty' => 'Seleciona']) : '' ?>
                             </td>
-                            <td><?= $estagiario->has('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
+                            <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
                             </td>
                             <td><?= h($estagiario->periodo) ?></td>
                             <td><?= h($estagiario->tipo_de_estagio) ?></td>
-                            <td><?= $estagiario->has('areaestagio') ? $this->Html->link($estagiario->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
+                            <td><?= $estagiario->hasValue('areaestagio') ? $this->Html->link($estagiario->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
                             </td>
                             <td><?= $this->Number->format($estagiario->nota, ['places' => 2]) ?></td>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>
@@ -131,7 +131,7 @@ $submit = [
 <?php if ((isset($ultimoestagio) && $ultimoestagio) || (isset($estudante_semestagio) && $estudante_semestagio)): ?>
     <div class="row">
         <div class="container">
-            <?= $this->Form->create($estagiario, ['type' => 'post']) ?>
+            <?= $this->Form->create(null, ['type' => 'post']) ?>
             <fieldset>
                 <legend><?= __('Solicitação de termo de compromisso') ?></legend>
                 <?php

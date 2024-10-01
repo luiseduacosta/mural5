@@ -58,11 +58,11 @@
                     <tr>
                         <td><?= $muralinscricao->id ?></td>
                         <td><?= $muralinscricao->id_aluno ?></td>
-                        <td><?= $muralinscricao->has('aluno') ? $this->Html->link($muralinscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $muralinscricao->aluno_id]) : '' ?>
+                        <td><?= $muralinscricao->hasValue('aluno') ? $this->Html->link($muralinscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $muralinscricao->aluno_id]) : '' ?>
                         </td>
-                        <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->alunonovo_id]) : '' ?>
+                        <td><?= $muralinscricao->hasValue('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->alunonovo_id]) : '' ?>
                         </td>
-                        <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                        <td><?= $muralinscricao->hasValue('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
                         </td>
                         <td><?= date('d-m-Y', strtotime(h($muralinscricao->data))) ?></td>
                         <td><?= h($muralinscricao->periodo) ?></td>

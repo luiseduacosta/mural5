@@ -43,17 +43,17 @@
                     </tr>
                     <tr>
                         <th><?= __('Estudante') ?></th>
-                        <td><?= $userestagio->has('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
+                        <td><?= $userestagio->hasValue('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
                         </td>
                     </tr>
                     <tr>
                         <th><?= __('Docente') ?></th>
-                        <td><?= $userestagio->has('docente') ? $this->Html->link($userestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $userestagio->docente->id]) : '' ?>
+                        <td><?= $userestagio->hasValue('docente') ? $this->Html->link($userestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $userestagio->docente->id]) : '' ?>
                         </td>
                     </tr>
                     <tr>
                         <th><?= __('Supervisor') ?></th>
-                        <td><?= $userestagio->has('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                        <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
                         </td>
                     </tr>
                     <!--

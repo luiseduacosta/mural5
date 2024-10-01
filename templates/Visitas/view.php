@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th><?= __('Instituição') ?></th>
-                <td><?= $visita->has('instituicaoestagio') ? $this->Html->link($visita->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $visita->instituicaoestagio->id]) : '' ?>
+                <td><?= $visita->hasValue('instituicaoestagio') ? $this->Html->link($visita->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $visita->instituicaoestagio->id]) : '' ?>
                 </td>
             </tr>
             <tr>

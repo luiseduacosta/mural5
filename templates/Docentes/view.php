@@ -34,7 +34,7 @@
 
     <div class="tab-content">
         <div id="docente" class="tab-pane container active show">
-            <h3><?= h($docente->id) ?></h3>
+            <h3><?= h($docente->nome) ?></h3>
             <table class="table table-striped table-hover table-responsive">
                 <tr>
                     <th><?= __('Id') ?></th>

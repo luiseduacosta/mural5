@@ -61,7 +61,7 @@
                     <tr>
                         <th><?= __('Área instituicao') ?></th>
                         <?php if (!empty($instituicaoestagio->areainstituicao->area)): ?>
-                            <td><?= $instituicaoestagio->has('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
+                            <td><?= $instituicaoestagio->hasValue('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td>Sem dados</td>
@@ -219,26 +219,26 @@
                                     <td><?= h($estagiarios->id) ?></td>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->has('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
-                                        <td><?= $estagiarios->has('estudante') ? $estagiarios->estudante->nome : '' ?></td>
+                                        <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : '' ?></td>
                                     <?php endif; ?>
 
                                     <td><?= h($estagiarios->registro) ?></td>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->has('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
                                         </td>
                                     <?php else: ?>
-                                        <td><?= $estagiarios->has('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
+                                        <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                     <?php endif; ?>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->has('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
                                         </td>
                                     <?php else: ?>
-                                        <td><?= $estagiarios->has('docente') ? $estagiarios->docente->nome : '' ?></td>
+                                        <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : '' ?></td>
                                     <?php endif; ?>
 
                                     <td><?= h($estagiarios->periodo) ?></td>
@@ -250,7 +250,7 @@
                                         <td><?= h($estagiarios->tc) ?></td>
                                         <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
                                         </td>
-                                        <td><?= $estagiarios->has('areaestagio') ? $estagiarios->areaestagio->area : '' ?></td>
+                                        <td><?= $estagiarios->hasValue('areaestagio') ? $estagiarios->areaestagio->area : '' ?></td>
                                         <td><?= $this->Number->format($estagiarios->nota, ['places' => 2]) ?></td>
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>

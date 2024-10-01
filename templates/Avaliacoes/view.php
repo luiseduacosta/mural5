@@ -70,7 +70,7 @@ if ($professora) {
                     </tr>
                     <tr>
                         <th><?= __('Estagiario') ?></th>
-                        <td><?= $avaliacao->has('estagiario') ? $this->Html->link($avaliacao->estagiario->estudante->nome, ['controller' => 'Estagiarios', 'action' => 'view', $avaliacao->estagiario->id]) : '' ?></td>
+                        <td><?= $avaliacao->hasValue('estagiario') ? $this->Html->link($avaliacao->estagiario->estudante->nome, ['controller' => 'Estagiarios', 'action' => 'view', $avaliacao->estagiario->id]) : '' ?></td>
                     </tr>
                     <tr>
                         <th><?= __('1) ASSIDUIDADE: Desenvolveu as atividades propostas com frequência, ausentando-se apenas com conhecimento e acordado com o(a) supervisor(a) de campo e ou acadêmico(a), seja por motivo de saúde, seja por situações estabelecidas na Lei 11788/2008, entre outras:') ?></th>

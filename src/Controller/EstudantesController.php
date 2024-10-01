@@ -407,7 +407,7 @@ class EstudantesController extends AppController
         /** 
          * Autorização. Verifica se o estudante cadastrado no Users está acessando seu próprio registro.
          */
-        if ($this->getRequest()->getAttribute('identity')->get('categoria') == '2') {
+        if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '2') {
             $estudante_id = $this->getRequest()->getAttribute('identity')->get('estudante_id');
             if ($id == $estudante_id) {
                 /**
@@ -432,7 +432,7 @@ class EstudantesController extends AppController
                     die('Estudante não autorizado.');
                 }
             }
-        } elseif ($this->getRequest()->getAttribute('identity')->get('categoria') == '1') {
+        } elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1') {
             echo "Administrador autorizado";
         } else {
             $this->Flash->error(__('2. Operação não autorizada.'));

@@ -18,16 +18,16 @@
     <ul class="nav nav-tabs id=" myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estudante-tab" href="#estudante"
-                data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
+               data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
                 estudante</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" href="#inscricoes" data-target="#inscricoes"
-                role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
+               role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" href="#estagios" data-target="#estagios"
-                role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
+               role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
         </li>
     </ul>
 
@@ -131,7 +131,6 @@
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Registro') ?></th>
-                            <th><?= __('Estudante') ?></th>
                             <th><?= __('Mural de estágio') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Período') ?></th>
@@ -145,13 +144,12 @@
                         <?php foreach ($estudante->muralinscricoes as $muralinscricoes): ?>
                             <tr>
                                 <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->id_aluno) ?></td>
-                                <td><?= h($muralinscricoes->alunonovo_id) ?></td>
+                                <td><?= h($muralinscricoes->registro) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $muralinscricoes->has('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) : '' ?>
+                                    <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->muralestagio->id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $muralinscricoes->has('muralestagio') ? $muralinscricoes->muralestagio->instituicao : '' ?>
+                                    <td><?= $muralinscricoes->hasValue('muralestagio') ? $muralinscricoes->muralestagio->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
@@ -202,35 +200,35 @@
                                 <?php // pr($estagiarios); ?>
                                 <td><?= h($estagiarios->id) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->has('estudante') ? $this->Html->link(h($estagiarios->estudante->nome), ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link(h($estagiarios->estudante->nome), ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->has('estudante') ? $estagiarios->estudante->nome : '' ?></td>
+                                    <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : '' ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= h($estagiarios->periodo) ?></td>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->has('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->id_instituicao]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->instituicaoestagio_id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->has('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : '' ?>
+                                    <td><?= $estagiarios->hasValue('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->has('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->has('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
+                                    <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                 <?php endif; ?>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->has('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->docente->id]) : 'Sem dados' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->has('docente') ? $estagiarios->docente->nome : '' ?></td>
+                                    <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : '' ?></td>
                                 <?php endif; ?>
 
                                 <td><?= $this->Number->format($estagiarios->nota, ['places' => 2]) ?></td>

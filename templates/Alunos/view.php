@@ -108,7 +108,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($muralinscricoes->id) ?></td>
                                 <td><?= h($muralinscricoes->id_aluno) ?></td>
                                 <td><?= h($muralinscricoes->alunonovo_id) ?></td>
-                                <td><?= $muralinscricoes->has('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) : '' ?>
+                                <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) : '' ?>
                                 </td>
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
                                 <td><?= h($muralinscricoes->periodo) ?></td>
@@ -168,13 +168,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->tc) ?></td>
                                 <td><?= date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) ?></td>
-                                <td><?= $estagiarios->has('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->id_instituicao]) : '' ?>
+                                <td><?= $estagiarios->hasValue('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->id_instituicao]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->has('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
+                                <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->has('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
+                                <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->has('areaestagio') ? h($estagiarios->areaestagio->area) : '' ?></td>
+                                <td><?= $estagiarios->hasValue('areaestagio') ? h($estagiarios->areaestagio->area) : '' ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>

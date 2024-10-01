@@ -31,15 +31,15 @@
                 </tr>
                 <tr>
                     <th><?= __('Aluno') ?></th>
-                    <td><?= $user->has('aluno') ? $this->Html->link($user->aluno->id, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?></td>
+                    <td><?= $user->hasValue('aluno') ? $this->Html->link($user->aluno->id, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Supervisor') ?></th>
-                    <td><?= $user->has('supervisor') ? $this->Html->link($user->supervisor->id, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?></td>
+                    <td><?= $user->hasValue('supervisor') ? $this->Html->link($user->supervisor->id, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Professor') ?></th>
-                    <td><?= $user->has('professor') ? $this->Html->link($user->professor->id, ['controller' => 'Professor', 'action' => 'view', $user->professor->id]) : '' ?></td>
+                    <td><?= $user->hasValue('professor') ? $this->Html->link($user->professor->id, ['controller' => 'Professor', 'action' => 'view', $user->professor->id]) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Id') ?></th>

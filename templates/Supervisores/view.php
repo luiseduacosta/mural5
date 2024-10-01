@@ -4,6 +4,8 @@
  * @var \App\Model\Entity\Supervisor $supervisor
  */
 $user = $this->getRequest()->getAttribute('identity');
+// pr($supervisor);
+// die();
 ?>
 <div class="container">
     <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
@@ -202,12 +204,12 @@ $user = $this->getRequest()->getAttribute('identity');
                             <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
                                 <tr>
                                     <td><?= h($estagiarios->id) ?></td>
-                                    <td><?= $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) ?>
+                                    <td><?= $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) ?>
                                     </td>
                                     <td><?= h($estagiarios->registro) ?></td>
                                     <td><?= h($estagiarios->turno) ?></td>
                                     <td><?= h($estagiarios->nivel) ?></td>
-                                    <td><?= $estagiarios->has('docente') ? $this->Html->link(h($estagiarios->docente->nome), ['controller' => 'docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                     </td>
                                     <td><?= h($estagiarios->periodo) ?></td>
                                     <td><?= h($estagiarios->nota) ?></td>

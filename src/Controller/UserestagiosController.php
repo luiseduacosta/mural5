@@ -359,7 +359,7 @@ class UserestagiosController extends AppController {
                         // echo "Docente sem cadastrado";
                         return $this->redirect(__('/docentes/add?siape=' . $this->Authentication->getIdentityData('registro')));
                     }
-                    if ($docente->has('estagiarios')) {
+                    if ($docente->hasValue('estagiarios')) {
                         $this->getRequest()->getSession()->write('docente_com_estagiarios', 1);
                     } else {
                         $this->getRequest()->getSession()->delete('docente_com_estagiario');
