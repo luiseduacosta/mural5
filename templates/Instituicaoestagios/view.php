@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row">
         <div class="container">
-            <?php if (isset($this->getRequest()->getAttribute('identity')['categoria']) && $this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+            <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                 <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicaoestagio->id], ['class' => 'btn btn-primary float-end']) ?>
                 <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 <?= $this->Html->link(__('Nova Instituição de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
@@ -158,14 +158,14 @@
                                 <th><?= __('Nome') ?></th>
                                 <th><?= __('Cress') ?></th>
                                 <th><?= __('Observações') ?></th>
-                                <?php if (isset($this->getRequest()->getAttribute('identity')['categoria']) && $this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 <?php endif; ?>
                             </tr>
                             <?php foreach ($instituicaoestagio->supervisores as $supervisores): ?>
                                 <tr>
                                     <td><?= h($supervisores->id) ?></td>
-                                    <?php if (isset($this->getRequest()->getAttribute('identity')['categoria']) && $this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td><?= $this->Html->link($supervisores->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                         </td>
                                     <?php else: ?>
@@ -173,7 +173,7 @@
                                     <?php endif; ?>
                                     <td><?= h($supervisores->cress) ?></td>
                                     <td><?= h($supervisores->observacoes) ?></td>
-                                    <?php if (isset($this->getRequest()->getAttribute('identity')['categoria']) && $this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td class="actions">
                                             <?= $this->Html->link(__('View'), ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                             <?= $this->Html->link(__('Edit'), ['controller' => 'Supervisores', 'action' => 'edit', $supervisores->id]) ?>
@@ -200,7 +200,7 @@
                                 <th><?= __('Docente') ?></th>
                                 <th><?= __('Período') ?></th>
                                 <th><?= __('Nível') ?></th>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <th><?= __('Ajuste 2020') ?></th>
                                     <th><?= __('Turno') ?></th>
                                     <th><?= __('Tc') ?></th>
@@ -218,7 +218,7 @@
                                 <tr>
                                     <td><?= h($estagiarios->id) ?></td>
 
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td><?= $estagiarios->has('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
@@ -227,14 +227,14 @@
 
                                     <td><?= h($estagiarios->registro) ?></td>
 
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td><?= $estagiarios->has('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
                                         </td>
                                     <?php else: ?>
                                         <td><?= $estagiarios->has('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                     <?php endif; ?>
 
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td><?= $estagiarios->has('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
                                         </td>
                                     <?php else: ?>
@@ -244,7 +244,7 @@
                                     <td><?= h($estagiarios->periodo) ?></td>
                                     <td><?= h($estagiarios->nivel) ?></td>
 
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td><?= h($estagiarios->ajuste2020) ?></td>
                                         <td><?= h($estagiarios->turno) ?></td>
                                         <td><?= h($estagiarios->tc) ?></td>
@@ -277,7 +277,7 @@
                                 <th><?= __('Instituicao') ?></th>
                                 <th><?= __('Vagas') ?></th>
                                 <th><?= __('Periodo') ?></th>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 <?php endif; ?>
                             </tr>
@@ -288,7 +288,7 @@
                                     </td>
                                     <td><?= h($muralestagios->vagas) ?></td>
                                     <td><?= h($muralestagios->periodo) ?></td>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Muralestagios', 'action' => 'edit', $muralestagios->id]) ?>
@@ -315,7 +315,7 @@
                                 <th><?= __('Responsável') ?></th>
                                 <th><?= __('Descrição') ?></th>
                                 <th><?= __('Avaliação') ?></th>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 <?php endif; ?>
                             </tr>
@@ -328,7 +328,7 @@
                                     <td><?= h($visitas->responsavel) ?></td>
                                     <td><?= h($visitas->descricao) ?></td>
                                     <td><?= h($visitas->avaliacao) ?></td>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visitas->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visitas->id]) ?>

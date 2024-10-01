@@ -91,18 +91,6 @@ class FolhadeatividadesController extends AppController {
             }
             $this->Flash->error(__('Atividade não foi cadastrada. Tente mais uma vez.'));
         }
-        /*
-          $estagiariocategoria = $this->getRequest()->getSession()->read('id_categoria');
-          $estagiarionumero = $this->getRequest()->getSession()->read('registro');
-          if ($estagiariocategoria == 2) {
-          $estagiariotabela $this->fetchTable('Estagiarios');
-          $estudantequery = $estagiariotabela->find()
-          ->contain(['Estudantes'])
-          ->where(['estagiarios.registro' => $estagiarionumero]);
-
-          }
-          // $estagiario = $this->Folhadeatividades->Estagiarios->find('list', ['limit' => 200]);
-         * */
 
         $this->set(compact('folhadeatividade', 'estagiario'));
     }

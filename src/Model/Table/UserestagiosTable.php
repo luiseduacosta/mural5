@@ -48,13 +48,12 @@ class UserestagiosTable extends Table
 
         $this->belongsTo('Estudantes', [
             'foreignKey' => 'estudante_id',
-        ]);
-        
+        ]);        
         $this->belongsTo('Supervisores', [
             'foreignKey' => 'supervisor_id',
         ]);
         $this->belongsTo('Docentes', [
-            'foreignKey' => 'docente_id',
+            'foreignKey' => 'professor_id',
         ]);
         
     }
@@ -81,13 +80,13 @@ class UserestagiosTable extends Table
             ->notEmptyString('password');
 
         $validator
-            ->scalar('categoria')
-            ->notEmptyString('categoria');
+            ->scalar('categoria_id')
+            ->notEmptyString('categoria_id');
 
         $validator
-            ->integer('numero')
-            ->requirePresence('numero', 'create')
-            ->notEmptyString('numero');
+            ->integer('registro')
+            ->requirePresence('registro', 'create')
+            ->notEmptyString('registro');
 
         $validator
             /* ->dateTime('timestamp') */
@@ -107,7 +106,7 @@ class UserestagiosTable extends Table
     {
         $rules->add($rules->existsIn(['estudante_id'], 'Estudantes'), ['errorField' => 'estudante_id']);
         $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
-        $rules->add($rules->existsIn(['docente_id'], 'Docentes'), ['errorField' => 'docente_id']);
+        $rules->add($rules->existsIn(['professor_id'], 'Docentes'), ['errorField' => 'professor_id']);
 
         return $rules;
     }

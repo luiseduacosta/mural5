@@ -7,7 +7,7 @@
 <?= $this->element('templates') ?>
 <div class="container">
     <div class="row">
-        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
             <aside class="column">
                 <div class="side-nav">
                     <?=

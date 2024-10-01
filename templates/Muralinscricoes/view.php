@@ -4,17 +4,17 @@
  * @var \App\Model\Entity\Muralinscricao $muralinscricao
  */
 $usuario = $this->getRequest()->getAttribute('identity');
-// pr($usuario->get('categoria'));
+// pr($usuario->get('categoria_id'));
 ?>
 <div class="container">
     <div class="row">
         <aside class="column">
             <div class="side-nav">
-                <?php if ($usuario->categoria == 1): ?>
+                <?php if ($usuario->categoria_id == 1): ?>
                     <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $muralinscricao->id], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                <?php elseif ($usuario->get('categoria') == 2): ?>
+                <?php elseif ($usuario->get('categoria_id') == 2): ?>
                     <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']) ?>
                 <?php endif; ?>
             </div>

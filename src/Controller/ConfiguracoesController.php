@@ -6,10 +6,10 @@ namespace App\Controller;
 /**
  * Configuracao Controller
  *
- * @property \App\Model\Table\ConfiguracaoTable $Configuracao
+ * @property \App\Model\Table\ConfiguracoesTable $Configuracoes
  * @method \App\Model\Entity\Configuracao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ConfiguracaoController extends AppController
+class ConfiguracoesController extends AppController
 {
     /**
      * Index method
@@ -18,7 +18,7 @@ class ConfiguracaoController extends AppController
      */
     public function index()
     {
-        $configuracao = $this->paginate($this->Configuracao);
+        $configuracao = $this->paginate($this->Configuracoes);
 
         $this->set(compact('configuracao'));
     }
@@ -32,7 +32,7 @@ class ConfiguracaoController extends AppController
      */
     public function view($id = null)
     {
-        $configuracao = $this->Configuracao->get($id, [
+        $configuracao = $this->Configuracoes->get($id, [
             'contain' => [],
         ]);
 
@@ -46,10 +46,10 @@ class ConfiguracaoController extends AppController
      */
     public function add()
     {
-        $configuracao = $this->Configuracao->newEmptyEntity();
+        $configuracao = $this->Configuracoes->newEmptyEntity();
         if ($this->request->is('post')) {
-            $configuracao = $this->Configuracao->patchEntity($configuracao, $this->request->getData());
-            if ($this->Configuracao->save($configuracao)) {
+            $configuracao = $this->Configuracoes->patchEntity($configuracao, $this->request->getData());
+            if ($this->Configuracoes->save($configuracao)) {
                 $this->Flash->success(__('Dados de configuração inseridos.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -68,12 +68,12 @@ class ConfiguracaoController extends AppController
      */
     public function edit($id = null)
     {
-        $configuracao = $this->Configuracao->get($id, [
+        $configuracao = $this->Configuracoes->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $configuracao = $this->Configuracao->patchEntity($configuracao, $this->request->getData());
-            if ($this->Configuracao->save($configuracao)) {
+            $configuracao = $this->Configuracoes->patchEntity($configuracao, $this->request->getData());
+            if ($this->Configuracoes->save($configuracao)) {
                 $this->Flash->success(__('Configuração atualizada.'));
 
                 return $this->redirect(['action' => 'view', $id]);
@@ -93,8 +93,8 @@ class ConfiguracaoController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $configuracao = $this->Configuracao->get($id);
-        if ($this->Configuracao->delete($configuracao)) {
+        $configuracao = $this->Configuracoes->get($id);
+        if ($this->Configuracoes->delete($configuracao)) {
             $this->Flash->success(__('Dados de configuração excluídos.'));
         } else {
             $this->Flash->error(__('Não foi possível excluír os dados de configuração. Tente novamente.'));

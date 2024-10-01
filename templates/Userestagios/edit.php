@@ -28,8 +28,8 @@
                 <?php
                 echo $this->Form->control('email');
                 echo $this->Form->control('password');
-                echo $this->Form->control('categoria');
-                echo $this->Form->control('numero');
+                echo $this->Form->control('categoria_id');
+                echo $this->Form->control('registro');
                 echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => true]);
                 echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
                 echo $this->Form->control('docente_id', ['options' => $docentes, 'empty' => true]);

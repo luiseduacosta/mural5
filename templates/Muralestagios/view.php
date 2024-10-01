@@ -11,7 +11,7 @@ pr($muralestagio->docente);
 ?>
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria == '1'): ?>
+    <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
         <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
         <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary float-end']) ?>
         <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
@@ -24,7 +24,7 @@ pr($muralestagio->docente);
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
                     aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
-            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
                         aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
@@ -224,7 +224,7 @@ pr($muralestagio->docente);
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if (isset($usuario) && $usuario->categoria == '1'): ?>
+                    <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Form->create(null, ['url' => '/muralinscricoes/add/' . $muralestagio->id, 'type' => 'post']); ?>
@@ -242,7 +242,7 @@ pr($muralestagio->docente);
                             </td>
                         </tr>
 
-                    <?php elseif ((isset($usuario) && $usuario->categoria == 2) || (isset($usuario) && $usuario->categoria == 3) || (isset($usuario) && $usuario->categoria == 4)): ?>
+                    <?php elseif ((isset($usuario) && $usuario->categoria_id == 2) || (isset($usuario) && $usuario->categoria_id == 3) || (isset($usuario) && $usuario->categoria_id == 4)): ?>
                         <!--
                         Para os outros usuários as inscrições dependem da data de encerramento
                         //-->
@@ -288,7 +288,7 @@ pr($muralestagio->docente);
                             <th><?= __('Vaga de estágio') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                                 <th><?= __('Timestamp') ?></th>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
@@ -298,7 +298,7 @@ pr($muralestagio->docente);
                                 <?php // pr($muralinscricoes) ?>
                                 <td><?= h($muralinscricoes->id) ?></td>
                                 <td><?= h($muralinscricoes->id_aluno) ?></td>
-                                <td><?= (isset($usuario) && $usuario->categoria == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->alunonovo_id]) : $muralinscricoes->estudante->nome; ?>
+                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->alunonovo_id]) : $muralinscricoes->estudante->nome; ?>
                                 </td>
 <?php if (!empty($muralinscricoes->muralestagio->instituicao)): ?>
                                 <td><?= $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) ?>
@@ -306,7 +306,7 @@ pr($muralestagio->docente);
 <?php endif; ?>           
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
                                 <td><?= h($muralinscricoes->periodo) ?></td>
-                                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                                <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                                     <td><?= date('d-m-Y', strtotime($muralinscricoes->timestamp)) ?></td>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>

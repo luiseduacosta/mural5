@@ -13,8 +13,8 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('categoria') ?></th>
-                    <th><?= $this->Paginator->sort('numero') ?></th>
+                    <th><?= $this->Paginator->sort('categoria_id') ?></th>
+                    <th><?= $this->Paginator->sort('registro') ?></th>
                     <th><?= $this->Paginator->sort('estudante_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
                     <th><?= $this->Paginator->sort('docente_id') ?></th>
@@ -26,8 +26,8 @@
                     <tr>
                         <td><?= $userestagio->id ?></td>
                         <td><?= h($userestagio->email) ?></td>
-                        <td><?= h($userestagio->categoria) ?></td>
-                        <td><?= $userestagio->numero ?></td>
+                        <td><?= h($userestagio->categoria_id) ?></td>
+                        <td><?= $userestagio->registro ?></td>
                         <td><?= $userestagio->has('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
                         </td>
                         <td><?= $userestagio->has('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>

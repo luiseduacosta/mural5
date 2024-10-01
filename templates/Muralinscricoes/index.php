@@ -25,7 +25,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
             <?= $this->Form->create($muralinscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'MuralinscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>

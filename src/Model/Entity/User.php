@@ -11,8 +11,8 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $email
  * @property string|null $password
- * @property string $categoria
- * @property int $numero
+ * @property string $categoria_id
+ * @property int $registro
  * @property int|null $aluno_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
@@ -36,8 +36,8 @@ class User extends Entity
     protected array $_accessible = [
         'email' => true,
         'password' => true,
-        'categoria' => true,
-        'numero' => true,
+        'categoria_id' => true,
+        'registro' => true,
         'timestamp' => true,
     ];
 

@@ -9,12 +9,12 @@
     <div class="row">
         <aside class="column">
             <div class="side-nav">
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <?= $this->Html->link(__('Editar Docente'), ['action' => 'edit', $docente->id], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Form->postLink(__('Excluir Docente'), ['action' => 'delete', $docente->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $docente->id), 'class' => 'btn btn-danger float-end']) ?>
                     <?= $this->Html->link(__('Listar Docentes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Novo Docente'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                <?php elseif ($this->getRequest()->getAttribute('identity')['categoria'] == 3): ?>
+                <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
                     <?= $this->Html->link(__('Editar Docente'), ['action' => 'edit', $docente->id], ['class' => 'btn btn-primary float-end']) ?>
                 <?php endif; ?>
             </div>
@@ -191,7 +191,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                            <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Estudante') ?></th>
@@ -209,7 +209,7 @@
                         </tr>
                         <?php foreach ($docente->estagiarios as $estagiarios) : ?>
                             <tr>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->estudante->nome) ?></td>

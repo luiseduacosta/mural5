@@ -47,17 +47,16 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
         
         $this->hasMany('Categorias', [
-            'foreignKey' => 'categoria',
-        ]);
-        
+            'foreignKey' => 'categoria_id',
+        ]);        
         $this->belongsTo('Alunos', [
-            'foreignKey' => 'id_aluno',
+            'foreignKey' => 'aluno_id',
         ]);
         $this->belongsTo('Supervisores', [
-            'foreignKey' => 'id_supervisor',
+            'foreignKey' => 'supervisor_id',
         ]);
         $this->belongsTo('Professores', [
-            'foreignKey' => 'id_professor',
+            'foreignKey' => 'professor_id',
         ]);
 
     }
@@ -84,13 +83,13 @@ class UsersTable extends Table
             ->allowEmptyString('password');
 
         $validator
-            ->scalar('categoria')
-            ->notEmptyString('categoria');
+            ->scalar('categoria_id')
+            ->notEmptyString('categoria_id');
 
         $validator
-            ->integer('numero')
-            ->requirePresence('numero', 'create')
-            ->notEmptyString('numero');
+            ->integer('registro')
+            ->requirePresence('registro', 'create')
+            ->notEmptyString('registro');
 
         $validator
             ->dateTime('timestamp')

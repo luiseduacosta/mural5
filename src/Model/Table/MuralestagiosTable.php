@@ -48,16 +48,16 @@ class MuralestagiosTable extends Table {
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Instituicaoestagios', [
-            'foreignKey' => ['id_estagio'],
+            'foreignKey' => ['instituicaoestagio_id'],
         ]);
         $this->belongsTo('Areaestagios', [
-            'foreignKey' => ['id_area'],
+            'foreignKey' => ['areaestagios_id'],
         ]);
         $this->belongsTo('Docentes', [
-            'foreignKey' => ['id_professor'],
+            'foreignKey' => ['professor_id'],
         ]);
         $this->hasMany('Muralinscricoes', [
-            'foreignKey' => ['id_instituicao'],
+            'foreignKey' => ['muralestagio_id'],
         ]);
     }
 
@@ -174,9 +174,10 @@ class MuralestagiosTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
-        $rules->add($rules->existsIn(['id_estagio'], 'Instituicaoestagios'), ['errorField' => 'instituicaoestagio_id']);
-        $rules->add($rules->existsIn(['id_area'], 'Areaestagios'), ['errorField' => 'id_area']);
-        $rules->add($rules->existsIn(['id_professor'], 'Docentes'), ['errorField' => 'id_professor']);
+
+        $rules->add($rules->existsIn(['instituicoaestagio_id'], 'Instituicaoestagios'), ['errorField' => 'instituicaoestagio_id']);
+        $rules->add($rules->existsIn(['areaestagio_id'], 'Areaestagios'), ['errorField' => 'areaestagio_id']);
+        $rules->add($rules->existsIn(['professor_id'], 'Docentes'), ['errorField' => 'professor_id']);
 
         return $rules;
     }

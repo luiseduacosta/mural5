@@ -55,10 +55,10 @@ class UsersController extends AppController {
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $categorias = $this->Users->Categorias->find('list', ['limit' => 200]);
-        $alunos = $this->Users->Alunos->find('list', ['limit' => 200]);
-        $supervisores = $this->Users->Supervisores->find('list', ['limit' => 200]);
-        $professores = $this->Users->Professores->find('list', ['limit' => 200]);
+        $categorias = $this->Users->Categorias->find('list');
+        $alunos = $this->Users->Alunos->find('list');
+        $supervisores = $this->Users->Supervisores->find('list');
+        $professores = $this->Users->Professores->find('list');
         $this->set(compact('user', 'alunos', 'supervisores', 'professores', 'categorias'));
     }
 
@@ -82,10 +82,10 @@ class UsersController extends AppController {
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $categorias = $this->Users->Categorias->find('list', ['limit' => 200]);
-        $alunos = $this->Users->Alunos->find('list', ['limit' => 200]);
-        $supervisores = $this->Users->Supervisores->find('list', ['limit' => 200]);
-        $professores = $this->Users->Professores->find('list', ['limit' => 200]);
+        $categorias = $this->Users->Categorias->find('list');
+        $alunos = $this->Users->Alunos->find('list');
+        $supervisores = $this->Users->Supervisores->find('list');
+        $professores = $this->Users->Professores->find('list');
         $this->set(compact('user', 'alunos', 'supervisores', 'professores', 'categorias'));
     }
 
@@ -116,13 +116,13 @@ class UsersController extends AppController {
 
         $user = $this->Users->find('all');
         foreach ($user as $c_user) {
-            // pr($c_user->categoria);
-            if ($c_user->categoria == 2) {
-                // pr($c_user->numero);
+            // pr($c_user->categoria_id);
+            if ($c_user->categoria_id == 2) {
+                // pr($c_user->registro);
                 $alunostabela = $this->fetchTable('Alunos');
                 $aluno = $alunostabela->find()
                         ->contain([])
-                        ->where(['alunos.registro' => $c_user->numero])
+                        ->where(['alunos.registro' => $c_user->registro])
                         ->first();
                 // pr($aluno);
                 // pr($aluno->first()->registro);
@@ -140,13 +140,13 @@ class UsersController extends AppController {
             }
             // die('Alunos');
             // Professores
-            if ($c_user->categoria == 3) {
-                // pr($c_user->numero);
+            if ($c_user->categoria_id == 3) {
+                // pr($c_user->registro);
                 // die();
                 $professorestabela = $this->fetchTable('Professores');
                 $professor = $professorestabela->find()
                         ->contain([])
-                        ->where(['professores.siape' => $c_user->numero])
+                        ->where(['professores.siape' => $c_user->registro])
                         ->first();
                 // pr($professor);
                 // pr($professor->first()->siape);
@@ -165,13 +165,13 @@ class UsersController extends AppController {
             }
             // die('Professores');
             // Supervisores
-            if ($c_user->categoria == 4) {
-                // pr($c_user->numero);
+            if ($c_user->categoria_id == 4) {
+                // pr($c_user->registro);
                 // die();
                 $supervisorestabela = $this->fetchTable('Supervisores');
                 $supervisor = $supervisorestabela->find()
                         ->contain([])
-                        ->where(['supervisores.cress' => $c_user->numero])
+                        ->where(['supervisores.cress' => $c_user->registro])
                         ->first();
                 // pr($professor);
                 // pr($professor->first()->siape);

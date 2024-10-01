@@ -40,6 +40,7 @@ class AvaliacoesTable extends Table {
         parent::initialize($config);
 
         $this->setTable('avaliacoes');
+        $this->setAlias('Avalicaoes');
         $this->setDisplayField('estagiario_id');
         $this->setPrimaryKey('id');
 
@@ -195,6 +196,7 @@ class AvaliacoesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
+
         $rules->add($rules->existsIn(['estagiario_id'], 'Estagiarios'), ['errorField' => 'estagiario_id']);
 
         return $rules;

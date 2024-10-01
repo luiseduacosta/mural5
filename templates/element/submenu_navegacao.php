@@ -1,6 +1,6 @@
 <?php
-if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
-    $categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
+if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
+    $categoria = $this->getRequest()->getAttribute('identity')->get('categoria_id');
 } else {
     $categoria = null;
 }
@@ -54,7 +54,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
                     <a style='color: white' class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="true" aria-expanded="false">Administração</a>
                     <div class="dropdown-menu">
-                        <?php echo $this->Html->link('Configuração', '/Configuracao/view/1', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                        <?php echo $this->Html->link('Configuração', '/Configuracoes/view/1', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Usuários', '/Userestagios/index', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Planilha seguro', '/Estudantes/planilhaseguro/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Planilha CRESS', '/Estudantes/planilhacress/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>

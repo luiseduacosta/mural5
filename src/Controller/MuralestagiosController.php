@@ -32,7 +32,7 @@ class MuralestagiosController extends AppController
         // pr($periodo);
 
         if (empty($periodo)) {
-            $configuracaotabela = $this->fetchTable('Configuracao');
+            $configuracaotabela = $this->fetchTable('Configuracoes');
             $periodo_atual = $configuracaotabela->find()->select(['mural_periodo_atual'])->first();
             $periodo = $periodo_atual->mural_periodo_atual;
         }
@@ -83,7 +83,7 @@ class MuralestagiosController extends AppController
     {
 
         if (empty($periodo)) {
-            $configuracaotabela = $this->fetchTable('Configuracao');
+            $configuracaotabela = $this->fetchTable('Configuracoes');
             $periodoconfiguracao = $configuracaotabela->find()
                 ->first();
             $periodo = $periodoconfiguracao->mural_periodo_atual;

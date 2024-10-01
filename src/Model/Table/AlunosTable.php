@@ -46,7 +46,7 @@ class AlunosTable extends Table {
         $this->setPrimaryKey('id');
 
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'id_aluno',
+            'foreignKey' => 'aluno_id',
         ]);
 
         $this->hasMany('Muralinscricoes', [
@@ -158,9 +158,9 @@ class AlunosTable extends Table {
     public function buildRules(RulesChecker $rules): RulesChecker {
 
         $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
-        $rules->add($rules->isUnique(['id_aluno']), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['id_aluno'], 'Estagiarios'));
-        $rules->add($rules->existsIn(['id_aluno'], 'Muralinscricoes'));
+        $rules->add($rules->isUnique(['aluno_id']), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Estagiarios'), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Muralinscricoes'), ['errorField' => 'aluno_id']);
 
         return $rules;
     }

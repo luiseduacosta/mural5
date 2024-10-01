@@ -31,10 +31,10 @@ class Muralinscricao extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'id_aluno' => true, // registro 
+        'registro' => true, // registro 
         'aluno_id' => true,
-        'alunonovo_id' => true,
-        'id_instituicao' => true, // id atual do mural de estagios
+        'estudante_id' => true,
+        'muralestagio_id' => true, // id atual do mural de estagios
         'data' => true,
         'periodo' => true,
         'timestamp' => true,

@@ -6,7 +6,7 @@
 // pr($alunonovos);
 // pr($alunoestagios);
 // die();
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
+$categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
 // die();
 ?>
 

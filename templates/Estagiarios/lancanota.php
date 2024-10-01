@@ -27,7 +27,7 @@
 ?>
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if ($this->getRequest()->getSession()->read('id_categoria') == 1): ?>
+        <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
             <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -44,7 +44,7 @@
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <?php if ($this->getRequest()->getSession()->read('id_categoria') == 1): ?>
+                    <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
                     <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
@@ -65,7 +65,7 @@
                     <?php // pr($estagiario); ?>
                     <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getSession()->read('id_categoria') == 1): ?>
+                        <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                             <td><?= $estagiario->id ?></td>
                         <?php endif; ?>
                         <td><?= $this->Html->link($estagiario['estudante'], ['controller' => 'Estudantes', 'action' => 'view', $estagiario['estudante_id']]) ?>
@@ -93,7 +93,7 @@
                         <?php endif; ?>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario['id']]) ?>
-                            <?php if ($this->getRequest()->getSession()->read('id_categoria') == 1): ?>
+                            <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario['id']]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario['id']], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario['id'])]) ?>
                             <?php endif; ?>

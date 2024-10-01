@@ -12,7 +12,7 @@
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria']): ?>
+                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id']): ?>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
                     <th><?= $this->Paginator->sort('estagiario.avaliacao.id', 'Imprime folha de atividades') ?></th>
@@ -23,7 +23,7 @@
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -33,7 +33,7 @@
                     <?php // pr($c_estagiario); ?>
                     <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
@@ -41,7 +41,7 @@
 
                         <td><?= $this->Html->link('Imprime folha de atividades', ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                             <td><?= $c_estagiario->has('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->has('estudante') ? $c_estagiario->estudante->nome : '' ?></td>
@@ -53,7 +53,7 @@
                         <td><?= $c_estagiario->has('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                             <?php if (isset($c_estagiario->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->id]) ?>

@@ -7,7 +7,7 @@
 <?= $this->element('templates') ?>
 <div class="container">
     <h3><?= __('Estudantes') ?></h3>
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria') == 1): ?>
+    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == 1): ?>
         <?= $this->Html->link(__('Novo estudante'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
         <div class="row justify-content-start">
             <div class="col-auto">

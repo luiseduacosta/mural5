@@ -50,10 +50,10 @@ class MuralinscricoesTable extends Table
             'foreignKey' => 'aluno_id',
         ]);
         $this->belongsTo('Estudantes', [
-            'foreignKey' => 'alunonovo_id',
+            'foreignKey' => 'estudante_id',
         ]);
         $this->belongsTo('Muralestagios', [
-            'foreignKey' => 'id_instituicao',
+            'foreignKey' => 'muralestagio_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -114,8 +114,8 @@ class MuralinscricoesTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['alunonovo_id'], 'Estudantes'), ['errorField' => 'alunonovo_id']);
-        $rules->add($rules->existsIn(['id_instituicao'], 'Muralestagios'), ['errorField' => 'muralestagio_id']);
+        $rules->add($rules->existsIn(['estudante_id'], 'Estudantes'), ['errorField' => 'estudante_id']);
+        $rules->add($rules->existsIn(['muralestagio_id'], 'Muralestagios'), ['errorField' => 'muralestagio_id']);
 
         return $rules;
     }

@@ -59,7 +59,7 @@ class UserestagiosController extends AppController {
         // die();
         if ($this->request->is('post')) {
 
-            if ($this->request->getData('categoria') == 2):
+            if ($this->request->getData('categoria_id') == 2):
 
                 $dados = $this->request->getData();
                 // pr($dados);
@@ -79,7 +79,7 @@ class UserestagiosController extends AppController {
                 /* Verifico se está cadatrado como estudante */
                 $estudantetabela = $this->fetchTable('Estudantes');
                 $estudantecadastrado = $estudantetabela->find()
-                        ->where(['registro' => $this->request->getData('numero')])
+                        ->where(['registro' => $this->request->getData('registro')])
                         ->first();
                 // pr($estudantecadastrado);
                 // die();
@@ -90,8 +90,8 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Usuário estudante inserido.'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('registro', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('registro', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Mostro o estudante */
@@ -102,19 +102,19 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Usuário inserido.'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('registro', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('registro', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Cadastro o estudante  */
-                        return $this->redirect(['controller' => 'estudantes', 'action' => 'add', '?' => ['registro' => $this->request->getData('numero'), 'email' => $this->request->getData('email')]]);
+                        return $this->redirect(['controller' => 'estudantes', 'action' => 'add', '?' => ['registro' => $this->request->getData('registro'), 'email' => $this->request->getData('email')]]);
                     }
                 }
                 $this->Flash->error(__('O usuário de estagio não foi cadastrado. Tente novamente.'));
                 return $this->redirect(['action' => 'login']);
             endif;
 
-            if ($this->request->getData('categoria') == 3):
+            if ($this->request->getData('categoria_id') == 3):
 
                 $dados = $this->request->getData();
                 /* Verifico se já está cadastrado */
@@ -131,7 +131,7 @@ class UserestagiosController extends AppController {
                 /* Verifico se está cadatrado como docente */
                 $docentetabela = $this->fetchTable('Docentes');
                 $docentecadastrado = $docentetabela->find()
-                        ->where(['siape' => $this->request->getData('numero')])
+                        ->where(['siape' => $this->request->getData('registro')])
                         ->first();
                 // pr($docentecadastrado);
                 // die();
@@ -143,8 +143,8 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Docente cadastrado.'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('siape', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('siape', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Precisa de autorização na ação add do controller Docentes */
@@ -155,19 +155,19 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Professora(o) cadastrada(o).'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('siape', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('siape', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Precisa de autorização na ação add do controller Estudantes */
-                        return $this->redirect(['controller' => 'docentes', 'action' => 'add', '?' => ['registro' => $this->request->getData('numero'), 'email' => $this->request->getData('email')]]);
+                        return $this->redirect(['controller' => 'docentes', 'action' => 'add', '?' => ['registro' => $this->request->getData('registro'), 'email' => $this->request->getData('email')]]);
                     }
                 }
                 $this->Flash->error(__('Docentes são cadastrados diretamente junto com a Coordenação de Estágio'));
                 return $this->redirect('/muralestagios/index');
             endif;
 
-            if ($this->request->getData('categoria') == 4):
+            if ($this->request->getData('categoria_id') == 4):
 
                 $dados = $this->request->getData();
                 /* Verifico se já está cadastrado */
@@ -184,7 +184,7 @@ class UserestagiosController extends AppController {
                 /* Verifico se está cadatrado como supervisor */
                 $supervisorestabela = $this->fetchTable('Supervisores');
                 $supervisorcadastrado = $supervisorestabela->find()
-                        ->where(['cress' => $this->request->getData('numero')])
+                        ->where(['cress' => $this->request->getData('registro')])
                         ->first();
                 // pr($supervisorcadastrado);
                 // die();
@@ -196,8 +196,8 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Supervisor cadastrado.'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('cress', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('cress', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Precisa de autorização na ação add do controller Docentes */
@@ -208,12 +208,12 @@ class UserestagiosController extends AppController {
                     if ($this->Userestagios->save($userestagio)) {
                         $this->Flash->success(__('Supervisora(o) cadastrada(o).'));
 
-                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria'));
-                        $this->getRequest()->getSession()->write('cress', $this->request->getData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
+                        $this->getRequest()->getSession()->write('cress', $this->request->getData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->request->getData('email'));
 
                         /* Precisa de autorização na ação add do controller Estudantes */
-                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['registro' => $this->request->getData('numero'), 'email' => $this->request->getData('email')]]);
+                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['registro' => $this->request->getData('registro'), 'email' => $this->request->getData('email')]]);
                     }
                 }
 
@@ -280,18 +280,18 @@ class UserestagiosController extends AppController {
         if ($result->isValid()) {
             // pr($this->request->getAttribute('authentication'));
             // die();
-            switch ($this->Authentication->getIdentityData('categoria')):
+            switch ($this->Authentication->getIdentityData('categoria_id')):
                 case 1:
                     echo "Administrador";
                     $this->Flash->success(__('Bem-vindo administrador!'));
-                    $this->getRequest()->getSession()->write('id_categoria', $this->Authentication->getIdentityData('categoria'));
+                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
                     return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
                     break;
                 case 2:
                     echo "Estudante";
                     $this->Flash->success(__('Bem-vindo estudante!'));
-                    $this->getRequest()->getSession()->write('id_categoria', $this->Authentication->getIdentityData('categoria'));
-                    $this->getRequest()->getSession()->write('registro', $this->Authentication->getIdentityData('numero'));
+                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
+                    $this->getRequest()->getSession()->write('registro', $this->Authentication->getIdentityData('registro'));
                     $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
                     if (empty($this->Authentication->getIdentityData('estudante_id'))):
                         // echo "Estudante sem o id cadastrado";
@@ -299,7 +299,7 @@ class UserestagiosController extends AppController {
                         $userestagios = $this->Userestagios->get($this->Authentication->getIdentityData('id'));
                         $estudantestabela = $this->fetchTable('Estudantes');
                         $estudantecadastrado = $estudantestabela->find()
-                                ->where(['registro' => $this->Authentication->getIdentityData('numero')])
+                                ->where(['registro' => $this->Authentication->getIdentityData('registro')])
                                 ->select(['id'])
                                 ->first();
                         if ($estudantecadastrado) {
@@ -312,25 +312,25 @@ class UserestagiosController extends AppController {
                                 return $this->redirect('/muralestagios/index');
                             }
                         } else {
-                            return $this->redirect(['controller' => 'estudantes', 'action' => 'add', '?' => ['registro', $this->Authentication->getIdentityData('numero'), 'email' => $this->Authentication->getIdentityData('usuario')]]);
+                            return $this->redirect(['controller' => 'estudantes', 'action' => 'add', '?' => ['registro', $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
                         }
                     // die();
                     else:
                         $estudantestabela = $this->fetchTable('Estudantes');
                         $estudantequery = $estudantestabela->find()
-                                ->where(['registro' => $this->Authentication->getIdentityData('numero')])
+                                ->where(['registro' => $this->Authentication->getIdentityData('registro')])
                                 ->first();
                         // pr($estudantequery);
                         // die();
                         /** Se um usuário da categoria estudante e não está cadastrado como estudante então realiza cadastramento */
                         if (empty($estudantequery)) {
-                            return $this->redirect(['controller' => '__(estudantes', 'action' => 'add', '?' => ['registro', $this->Authentication->getIdentityData('numero'), 'email' => $this->Authentication->getIdentityData('email')]]);
+                            return $this->redirect(['controller' => '__(estudantes', 'action' => 'add', '?' => ['registro', $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
                         } else {
                             $this->Flash->success(__('Bem-vindo estudante!'));
                             /* Verifico se é estagiário capturo o id  e guardo numa varíavel de sessão */
                             $estagiariostabela = $this->fetchTable('Estagiarios');
                             $estagiarioultimo = $estagiariostabela->find()
-                                    ->where(['Estagiarios.registro' => $this->Authentication->getIdentityData('numero')])
+                                    ->where(['Estagiarios.registro' => $this->Authentication->getIdentityData('registro')])
                                     ->select(['id'])
                                     ->orderDesc('nivel')
                                     ->first();
@@ -353,11 +353,11 @@ class UserestagiosController extends AppController {
                     $docentestabela = $this->fetchTable('Docentes');
                     $docente = $docentestabela->find()
                             ->contain(['Estagiarios'])
-                            ->where(['siape' => $this->Authentication->getIdentityData('numero')])
+                            ->where(['siape' => $this->Authentication->getIdentityData('registro')])
                             ->first();
                     if (!$docente) {
                         // echo "Docente sem cadastrado";
-                        return $this->redirect(__('/docentes/add?siape=' . $this->Authentication->getIdentityData('numero')));
+                        return $this->redirect(__('/docentes/add?siape=' . $this->Authentication->getIdentityData('registro')));
                     }
                     if ($docente->has('estagiarios')) {
                         $this->getRequest()->getSession()->write('docente_com_estagiarios', 1);
@@ -369,11 +369,11 @@ class UserestagiosController extends AppController {
                     /* Verifico ainda se o campo professor_id está preenchido */
                     if (empty($dados['professor_id'])):
                         // echo "Docente não cadastrado";
-                        return $this->redirect('/docentes/add?siape=' . $this->Authentication->getIdentityData('numero'));
+                        return $this->redirect('/docentes/add?siape=' . $this->Authentication->getIdentityData('registro'));
                     else:
 
-                        $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria'));
-                        $this->getRequest()->getSession()->write('siape', $this->Authentication->getIdentityData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
+                        $this->getRequest()->getSession()->write('siape', $this->Authentication->getIdentityData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
 
                         $this->Flash->success(__('Bem-vinda(o) professora(o)!'));
@@ -385,10 +385,10 @@ class UserestagiosController extends AppController {
                     // die();
                     if (empty($this->Authentication->getIdentityData('supervisor_id'))):
                         // echo "Supervisor não cadastrado";
-                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('numero')]]);
+                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('registro')]]);
                     else:
-                        $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria'));
-                        $this->getRequest()->getSession()->write('cress', $this->Authentication->getIdentityData('numero'));
+                        $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
+                        $this->getRequest()->getSession()->write('cress', $this->Authentication->getIdentityData('registro'));
                         $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
 
                         $this->Flash->success(__('Bem-vinda(o) supervisora(o)!'));
@@ -414,7 +414,7 @@ class UserestagiosController extends AppController {
         if ($result->isValid()) {
             $this->Authentication->logout();
 
-            $this->getRequest()->getSession()->delete('id_categoria');
+            $this->getRequest()->getSession()->delete('categoria');
             $this->getRequest()->getSession()->delete('registro');
             $this->getRequest()->getSession()->delete('siape');
             $this->getRequest()->getSession()->delete('cress');
@@ -434,13 +434,13 @@ class UserestagiosController extends AppController {
 
         $user = $this->Userestagios->find('all');
         foreach ($user as $c_user) {
-            // pr($c_user->categoria);
-            if ($c_user->categoria == 2) {
-                // pr($c_user->numero);
+            // pr($c_user->categoria_id);
+            if ($c_user->categoria_id == 2) {
+                // pr($c_user->registro);
                 $docentestabela = $this->fetchTable('Estudantes');
                 $estudante = $docentestabela->find()
                         ->contain([])
-                        ->where(['estudantes.registro' => $c_user->numero])
+                        ->where(['estudantes.registro' => $c_user->registro])
                         ->first();
                 // pr($estudante);
                 // pr($estudante->first()->registro);
@@ -459,13 +459,13 @@ class UserestagiosController extends AppController {
             }
             // die('Estudantes');
             // Professores
-            if ($c_user->categoria == 3) {
-                // pr($c_user->numero);
+            if ($c_user->categoria_id == 3) {
+                // pr($c_user->registro);
                 // die();
                 $docentestabela = $this->fetchTable('Docentes');
                 $docente = $docentestabela->find()
                         ->contain([])
-                        ->where(['docentes.siape' => $c_user->numero])
+                        ->where(['docentes.siape' => $c_user->registro])
                         ->first();
                 // pr($docente);
                 // pr($docente->first()->siape);
@@ -485,13 +485,13 @@ class UserestagiosController extends AppController {
             }
             // die('Docentes');
             // Supervisores
-            if ($c_user->categoria == 4) {
-                // pr($c_user->numero);
+            if ($c_user->categoria_id == 4) {
+                // pr($c_user->registro);
                 // die();
                 $supervisorestabela = $this->fetchTable('Supervisores');
                 $supervisor = $supervisorestabela->find()
                         ->contain([])
-                        ->where(['supervisores.cress' => $c_user->numero])
+                        ->where(['supervisores.cress' => $c_user->registro])
                         ->first();
                 // pr($docente);
                 // pr($docente->first()->siape);

@@ -25,7 +25,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Número') ?></th>
-                        <td><?= $userestagio->numero ?></td>
+                        <td><?= $userestagio->registro ?></td>
                     </tr>
                     <tr>
                         <th><?= __('E-mail') ?></th>

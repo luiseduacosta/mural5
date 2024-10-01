@@ -50,7 +50,7 @@ if ($professora) {
     <div class="row">
         <aside class="column">
             <div class="side-nav">
-                <?php if ($this->getRequest()->getSession()->read('id_categoria') == 1): ?>
+                <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                     <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $avaliacao->id), 'class' => 'btn btn-danger float-end']) ?>
                     <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>

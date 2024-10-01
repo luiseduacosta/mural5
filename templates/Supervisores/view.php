@@ -8,7 +8,7 @@ $user = $this->getRequest()->getAttribute('identity');
 <div class="container">
     <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
     <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-    <?php if ($user['categoria'] == 1): ?>
+    <?php if ($user['categoria_id'] == 1): ?>
         <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
         <?= $this->Form->postLink(__('Exclur supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
     <?php endif; ?>

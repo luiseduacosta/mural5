@@ -25,7 +25,7 @@
     })
 </script>
 <?php
-// $this->request->getSession()->write('id_categoria', 1);
+// $this->request->getSession()->write('categoria', 1);
 // $session = $this->getRequest()->getSession();
 // echo $this->getRequest()->getAttribute('identity');
 // pr(is_null($this->getRequest()->getAttribute('identity')));
@@ -33,7 +33,7 @@
 ?>
 <div class="container">
     <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-    <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria') == '1'): ?>
+    <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
         <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
     <?php endif; ?>
 
@@ -41,7 +41,7 @@
     <div class="row justify-content-center">
         <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria') == '1'): ?>
+        <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -70,7 +70,7 @@
                     <th><?= $this->Paginator->sort('dataInscricao', 'Inscrição') ?></th>
                     <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
                     <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria'] == '1'): ?>
+                    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -87,7 +87,7 @@
                         <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
                         <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
                         <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria'] == '1'): ?>
+                        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

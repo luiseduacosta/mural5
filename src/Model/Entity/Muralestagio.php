@@ -49,7 +49,7 @@ class Muralestagio extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'id_estagio' => true,
+        'instituicaoestagio_id' => true,
         'instituicao' => true,
         'convenio' => true,
         'vagas' => true,
@@ -57,9 +57,9 @@ class Muralestagio extends Entity
         'final_de_semana' => true,
         'cargaHoraria' => true,
         'requisitos' => true,
-        'id_area' => true,
+        'areaestagio_id' => true,
         'horario' => true,
-        'id_professor' => true,
+        'professor_id' => true,
         'dataSelecao' => true,
         'dataInscricao' => true,
         'horarioSelecao' => true,

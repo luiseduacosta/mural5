@@ -47,14 +47,14 @@ class SupervisoresTable extends Table {
         $this->setPrimaryKey('id');
 
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'id_supervisor',
+            'foreignKey' => 'supervisor_id',
         ]);
         $this->hasMany('Userestagios', [
-            'foreignKey' => 'id_supervisor',
+            'foreignKey' => 'supervisor_id',
         ]);
         $this->belongsToMany('Instituicaoestagios', [
-            'foreignKey' => 'id_supervisor',
-            'targetForeignKey' => 'id_instituicao',
+            'foreignKey' => 'supervisor_id',
+            'targetForeignKey' => 'instituicaoestagio_id',
             'joinTable' => 'inst_super',
         ]);
     }

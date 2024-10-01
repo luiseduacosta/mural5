@@ -51,8 +51,8 @@ class Instituicaoestagio extends Entity
      */
     protected array $_accessible = [
         'instituicao' => true,
-        'area_instituicoes_id' => true,
-        'area' => true,
+        'areainstituicoes_id' => true,
+        'areaestagio_id' => true,
         'natureza' => true,
         'cnpj' => true,
         'email' => true,

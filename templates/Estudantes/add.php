@@ -10,7 +10,7 @@
 
 <?= $this->element('templates') ?>
 <div class="container">
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria') == '1'): ?>
+    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
         <?= $this->Html->link(__('Listar estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
     <?php endif; ?>
     <div class="row">

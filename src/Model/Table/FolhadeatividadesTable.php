@@ -101,6 +101,7 @@ class FolhadeatividadesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
+        
         $rules->add($rules->existsIn(['estagiario_id'], 'Estagiarios'), ['errorField' => 'estagiario_id']);
 
         return $rules;

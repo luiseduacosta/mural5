@@ -47,13 +47,13 @@ class EstudantesTable extends Table {
         $this->setPrimaryKey('id');
 
         $this->hasMany('Muralinscricoes', [
-            'foreignKey' => 'alunonovo_id',
+            'foreignKey' => 'estudante_id',
         ]);
         $this->hasMany('Userestagios', [
             'foreignKey' => 'estudante_id',
         ]);
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'alunonovo_id',
+            'foreignKey' => 'estudante_id',
         ]);
     }
 
@@ -169,6 +169,7 @@ class EstudantesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
+        
         $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
         $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
         

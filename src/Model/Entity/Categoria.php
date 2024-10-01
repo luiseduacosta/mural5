@@ -26,5 +26,6 @@ class Categoria extends Entity
      */
     protected array $_accessible = [
         'categoria' => true,
+        'users' => true,
     ];
 }

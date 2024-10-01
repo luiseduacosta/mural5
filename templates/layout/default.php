@@ -71,10 +71,10 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                     <div class='col-auto'>
                     //-->
                     <?php
-                    $id_categoria = $this->getRequest()->getSession()->read('id_categoria');
+                    $categoria = $this->getRequest()->getSession()->read('categoria');
                     // die();
-                    if (isset($id_categoria) && (!empty($id_categoria))) {
-                        switch ($id_categoria) {
+                    if (isset($categoria) && (!empty($categoria))) {
+                        switch ($categoria) {
                             case 1: // Administrador
                                 echo $this->element('submenu_navegacao');
                                 break;

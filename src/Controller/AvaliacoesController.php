@@ -81,7 +81,7 @@ class AvaliacoesController extends AppController {
     public function view($id = null) {
 
         /* Esta incompleto porque somente o aluno pode ver. Tem que deixar para o supervisor e o professor */
-        if ($this->getRequest()->getSession()->read('id_categoria') == 2) {
+        if ($this->getRequest()->getSession()->read('categoria') == 2) {
 
             $registro = $this->getRequest()->getQuery('registro');
             // pr($registro);

@@ -27,7 +27,7 @@ class EstagiariosController extends AppController {
         $periodo = $this->getRequest()->getQuery('periodo');
 
         if (empty($periodo)) {
-            $configuracao = $this->fetchTable('Configuracao');
+            $configuracao = $this->fetchTable('Configuracoes');
             $periodo_atual = $configuracao->find()->select(['mural_periodo_atual'])->first();
             $periodo = $periodo_atual->mural_periodo_atual;
         }
@@ -113,7 +113,7 @@ class EstagiariosController extends AppController {
         // pr($id);
         // die();
         /** O administrador pode fazer Termo de Compromisso. Precisa do DRE ou ID do estudante */
-        if ($this->getRequest()->getSession()->read('id_categoria') == 1):
+        if ($this->getRequest()->getSession()->read('categoria') == 1):
             if (empty($id)) {
                 $this->Flash->error(__('Administrador: selecionar o registro do estudante'));
                 return $this->redirect('/estudantes/index');
@@ -270,7 +270,7 @@ class EstagiariosController extends AppController {
 
         /** Calculo o periodo atual para estimar o nivel de estágio do Termo de Compromisso. */
         if (!isset($periodoatual) || empty($periodoatual)) {
-            $configuracaotabela = $this->fetchTable('Configuracao');
+            $configuracaotabela = $this->fetchTable('Configuracoes');
             $periodo = $configuracaotabela->find()->first();
             $periodoatual = $periodo->mural_periodo_atual;
         }
@@ -394,7 +394,7 @@ class EstagiariosController extends AppController {
         }
         // pr($estagiario->first());
         // die();
-        $configuracaotabela = $this->fetchTable('Configuracao');
+        $configuracaotabela = $this->fetchTable('Configuracoes');
         $configuracao = $configuracaotabela->get(1);
         // pr($configuracao);
         // die();

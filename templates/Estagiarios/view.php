@@ -11,7 +11,7 @@
 
     <div class="row">
         <div class="col-auto">
-            <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+            <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                 <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
@@ -20,7 +20,7 @@
             <?= $this->Html->link(__('Imprimir Termo de compromisso'), ['action' => 'termodecompromissopdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
             <?= $this->Html->link(__('Preencher Folha de atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
             <?= $this->Html->link(__('Imprimir Folha de atividades'), ['action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
-            <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1 || $this->getRequest()->getAttribute('identity')['categoria'] == 4): ?>
+            <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
                 <?= $this->Html->link(__('Preencher Avaliação discente'), ['controller' => 'avaliacoes', 'action' => 'index', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
             <?php endif; ?>
             <?= $this->Html->link(__('Imprimir Avaliação discente'), ['action' => 'avaliacaodiscentepdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <th><?= __('Estudante') ?></th>
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <td><?= (isset($estagiario->estudante)) ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->estudante->id]) : '' ?>
                     </td>
                 <?php else: ?>
@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <th><?= __('Instituição') ?></th>
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <td><?= isset($estagiario->instituicaoestagio) ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
                     </td>
                 <?php else: ?>
@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <th><?= __('Supervisor(a)') ?></th>
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <td><?= isset($estagiario->supervisor) ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                     </td>
                 <?php else: ?>
@@ -82,7 +82,7 @@
             </tr>
             <tr>
                 <th><?= __('Docente') ?></th>
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <td><?= isset($estagiario->docente) ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
                     </td>
                 <?php else: ?>

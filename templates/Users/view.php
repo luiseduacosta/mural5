@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Categoria') ?></th>
-                    <td><?= h($user->categoria) ?></td>
+                    <td><?= h($user->categoria_id) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Aluno') ?></th>
@@ -46,8 +46,8 @@
                     <td><?= $this->Number->format($user->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Numero') ?></th>
-                    <td><?= $this->Number->format($user->numero) ?></td>
+                    <th><?= __('registro') ?></th>
+                    <td><?= $this->Number->format($user->registro) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Timestamp') ?></th>

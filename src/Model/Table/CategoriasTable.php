@@ -45,7 +45,7 @@ class CategoriasTable extends Table
         $this->setPrimaryKey('id');
 
         $this->hasMany('Users', [
-            'foreignKey' => 'id_categoria',
+            'foreignKey' => 'categoria_id',
         ]);
     }
 

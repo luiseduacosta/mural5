@@ -295,7 +295,7 @@
                             <th><?= __('Email') ?></th>
                             <th><?= __('Password') ?></th>
                             <th><?= __('Categoria') ?></th>
-                            <th><?= __('Numero') ?></th>
+                            <th><?= __('registro') ?></th>
                             <th><?= __('Aluno Id') ?></th>
                             <th><?= __('Supervisor Id') ?></th>
                             <th><?= __('Professor Id') ?></th>
@@ -307,8 +307,8 @@
                             <td><?= h($users->id) ?></td>
                             <td><?= h($users->email) ?></td>
                             <td><?= h($users->password) ?></td>
-                            <td><?= h($users->categoria) ?></td>
-                            <td><?= h($users->numero) ?></td>
+                            <td><?= h($users->categoria_id) ?></td>
+                            <td><?= h($users->registro) ?></td>
                             <td><?= h($users->aluno_id) ?></td>
                             <td><?= h($users->supervisor_id) ?></td>
                             <td><?= h($users->professor_id) ?></td>

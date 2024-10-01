@@ -10,19 +10,19 @@ use Cake\ORM\Entity;
  * Estagiario Entity
  *
  * @property int $id
- * @property int $id_aluno
- * @property int|null $alunonovo_id
+ * @property int $aluno_id
+ * @property int|null $estudante_id
  * @property int $registro
  * @property string $ajuste2020
  * @property string $turno
  * @property string $nivel
  * @property int $tc
  * @property \Cake\I18n\FrozenDate|null $tc_solicitacao
- * @property int $id_instituicao
- * @property int|null $id_supervisor
- * @property int|null $id_professor
+ * @property int $instituicaoestagio_id
+ * @property int|null $supervisor_id
+ * @property int|null $professor_id
  * @property string $periodo
- * @property int|null $id_area
+ * @property int|null $areaestagio_id
  * @property string|null $nota
  * @property int|null $ch
  * @property string|null $observacoes
@@ -52,19 +52,19 @@ class Estagiario extends Entity {
      * @var array
      */
     protected array $_accessible = [
-        'id_aluno' => true,
-        'alunonovo_id' => true,
+        'aluno_id' => true,
+        'estudante_id' => true,
         'registro' => true,
         'ajuste2020' => true,
         'turno' => true,
         'nivel' => true,
         'tc' => true,
         'tc_solicitacao' => true,
-        'id_instituicao' => true,
-        'id_supervisor' => true,
-        'id_professor' => true,
+        'instituicaoestagio_id' => true,
+        'supervisor_id' => true,
+        'professor_id' => true,
         'periodo' => true,
-        'id_area' => true,
+        'areaestagio_id' => true,
         'nota' => true,
         'ch' => true,
         'observacoes' => true,

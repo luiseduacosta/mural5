@@ -25,7 +25,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Configuracao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Configuracao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class ConfiguracaoTable extends Table
+class ConfiguracoesTable extends Table
 {
     /**
      * Initialize method
@@ -37,7 +37,8 @@ class ConfiguracaoTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('configuracao');
+        $this->setTable('configuracoes');
+        $this->setAlias('Configuracoes');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
     }

@@ -96,7 +96,7 @@ class EstudantesController extends AppController
              */
             $registroestudante = $this->request->getData('registro');
             $usercadastrado = $this->Estudantes->Userestagios->find()
-                ->where(['numero' => $registroestudante])
+                ->where(['registro' => $registroestudante])
                 ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Estudante naõ cadastrado como usuário'));
@@ -118,7 +118,7 @@ class EstudantesController extends AppController
                  * Primeiro busco o usuário. 
                  */
                 $userestagios = $this->Estudantes->Userestagios->find()
-                    ->where(['numero' => $estudanteultimo->registro])
+                    ->where(['registro' => $estudanteultimo->registro])
                     ->first();
                 $userdata = $userestagios->toArray();
                 // pr($userdata);
@@ -417,7 +417,7 @@ class EstudantesController extends AppController
                 $option = "id = $estudante_id";
                 // echo "Estudante Id autorizado";
             } else {
-                $estudante_registro = $this->getRequest()->getAttribute('identity')->get('numero');
+                $estudante_registro = $this->getRequest()->getAttribute('identity')->get('registro');
                 if ($estudante_registro == $this->getRequest()->getQuery('registro')) {
                     /**
                      * @var $option
@@ -428,7 +428,7 @@ class EstudantesController extends AppController
                 } else {
                     // echo "Registros não coincidem" . "<br>";
                     $this->Flash->error(__('1. Operação não autorizada.'));
-                    return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('numero')]);
+                    return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('registro')]);
                     die('Estudante não autorizado.');
                 }
             }
@@ -451,7 +451,7 @@ class EstudantesController extends AppController
          */
 
         /* Capturo o periodo do calendario academico atual */
-        $configuracaotabela = $this->fetchTable('Configuracao');
+        $configuracaotabela = $this->fetchTable('Configuracoes');
         $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
         // pr($periodoacademicoatual);
         // die();
@@ -503,7 +503,7 @@ class EstudantesController extends AppController
         /** Se o período inicial é maior que o período atual então informar que há um erro */
         if ($totalperiodos <= 0) {
             $this->Flash->error(__('Error: período inicial é maior que período atual'));
-            return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('numero')]);
+            return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('registro')]);
         }
 
         // pr($totalperiodos);

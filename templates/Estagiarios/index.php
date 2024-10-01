@@ -27,7 +27,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 ?>
 <?= $this->element('templates') ?>
 <div class='row'>
-    <?php if ($usuario->categoria == 1): ?>
+    <?php if ($usuario->categoria_id == 1): ?>
         <?= $this->Form->create($estagiarios); ?>
         <div class="form-group row">
             <label class='col-sm-1 col-form-label'>Período</label>
@@ -42,7 +42,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 </div>
 
 <div class="estagiarios index content">
-    <?php if ($usuario->categoria == 1): ?>
+    <?php if ($usuario->categoria_id == 1): ?>
         <?= $this->Html->link(__('Novo estagiário'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
     <?php endif; ?>
     <h3><?= __('Estagiarios') ?></h3>
@@ -66,7 +66,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('nota') ?></th>
                     <th><?= $this->Paginator->sort('ch', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
-                    <?php if ($usuario->categoria == 1): ?>
+                    <?php if ($usuario->categoria_id == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -110,7 +110,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
                         <td><?= $this->Number->format($estagiario->ch) ?></td>
                         <td><?= h($estagiario->observacoes) ?></td>
-                        <?php if ($usuario->categoria == 1): ?>
+                        <?php if ($usuario->categoria_id == 1): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>

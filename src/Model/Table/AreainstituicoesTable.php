@@ -45,7 +45,7 @@ class AreainstituicoesTable extends Table {
         $this->setPrimaryKey('id');
 
         $this->hasMany('Instituicaoestagios', [
-            'foreignKey' => 'area_instituicoes_id',
+            'foreignKey' => 'areainstituicoes_id',
         ]);
     }
 

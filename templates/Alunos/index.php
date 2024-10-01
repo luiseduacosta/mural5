@@ -1,5 +1,5 @@
 <?php
-$categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')->get('categoria') : null; 
+$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')->get('categoria_id') : null; 
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno[]|\Cake\Collection\CollectionInterface $alunos

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -32,16 +33,15 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class InstituicaoestagiosTable extends Table
-{
+class InstituicaoestagiosTable extends Table {
+
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void
-    {
+    public function initialize(array $config): void {
         parent::initialize($config);
 
         $this->setTable('estagio');
@@ -50,27 +50,27 @@ class InstituicaoestagiosTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Areainstituicoes', [
-            'foreignKey' => 'area_instituicoes_id',
+            'foreignKey' => 'areainstituicao_id',
         ]);
         $this->belongsTo('Areaestagios', [
-            'foreignKey' => 'area',
-        ]);        
+            'foreignKey' => 'areaestagio_id',
+        ]);
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'id_instituicao',
+            'foreignKey' => 'instituicaoestagio_id',
         ]);
         $this->hasMany('Muralestagios', [
-            'foreignKey' => 'id_estagio',
+            'foreignKey' => 'instituicaoestagio_id',
         ]);
         $this->hasMany('Visitas', [
-            'foreignKey' => 'estagio_id',
+            'foreignKey' => 'instituicaoestagio_id',
         ]);
         $this->belongsToMany('Supervisores', [
-            'foreignKey' => 'id_instituicao',
-            'targetForeignKey' => 'id_supervisor',
+            'foreignKey' => 'instituicaoestagio_id',
+            'targetForeignKey' => 'supervisor_id',
             'joinTable' => 'inst_super',
         ]);
     }
-    
+
     public function beforeFind($event, $query, $options, $primary) {
 
         $query->order(['instituicao' => 'ASC']);
@@ -83,109 +83,111 @@ class InstituicaoestagiosTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator
-    {
+    public function validationDefault(Validator $validator): Validator {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+                ->integer('id')
+                ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('instituicao')
-            ->maxLength('instituicao', 120)
-            ->notEmptyString('instituicao');
+                ->scalar('instituicao')
+                ->maxLength('instituicao', 120)
+                ->notEmptyString('instituicao');
 
         $validator
-            ->allowEmptyString('area');
+                ->allowEmptyString('instituciaoestagio_id');
 
         $validator
-            ->scalar('natureza')
-            ->maxLength('natureza', 50)
-            ->allowEmptyString('natureza');
+                ->allowEmptyString('areaestagio_id');
 
         $validator
-            ->scalar('cnpj')
-            ->maxLength('cnpj', 18)
-            ->requirePresence('cnpj', 'create')
-            ->notEmptyString('cnpj');
+                ->scalar('natureza')
+                ->maxLength('natureza', 50)
+                ->allowEmptyString('natureza');
 
         $validator
-            ->email('email')
-            ->allowEmptyString('email');
+                ->scalar('cnpj')
+                ->maxLength('cnpj', 18)
+                ->requirePresence('cnpj', 'create')
+                ->notEmptyString('cnpj');
 
         $validator
-            ->scalar('url')
-            ->maxLength('url', 100)
-            ->allowEmptyString('url');
+                ->email('email')
+                ->allowEmptyString('email');
 
         $validator
-            ->scalar('endereco')
-            ->maxLength('endereco', 105)
-            ->notEmptyString('endereco');
+                ->scalar('url')
+                ->maxLength('url', 100)
+                ->allowEmptyString('url');
 
         $validator
-            ->scalar('bairro')
-            ->maxLength('bairro', 30)
-            ->requirePresence('bairro', 'create')
-            ->notEmptyString('bairro');
+                ->scalar('endereco')
+                ->maxLength('endereco', 105)
+                ->notEmptyString('endereco');
 
         $validator
-            ->scalar('municipio')
-            ->maxLength('municipio', 30)
-            ->requirePresence('municipio', 'create')
-            ->notEmptyString('municipio');
+                ->scalar('bairro')
+                ->maxLength('bairro', 30)
+                ->requirePresence('bairro', 'create')
+                ->notEmptyString('bairro');
 
         $validator
-            ->scalar('cep')
-            ->maxLength('cep', 9)
-            ->notEmptyString('cep');
+                ->scalar('municipio')
+                ->maxLength('municipio', 30)
+                ->requirePresence('municipio', 'create')
+                ->notEmptyString('municipio');
 
         $validator
-            ->scalar('telefone')
-            ->maxLength('telefone', 50)
-            ->notEmptyString('telefone');
+                ->scalar('cep')
+                ->maxLength('cep', 9)
+                ->notEmptyString('cep');
 
         $validator
-            ->scalar('fax')
-            ->maxLength('fax', 20)
-            ->allowEmptyString('fax');
+                ->scalar('telefone')
+                ->maxLength('telefone', 50)
+                ->notEmptyString('telefone');
 
         $validator
-            ->scalar('beneficio')
-            ->maxLength('beneficio', 50)
-            ->allowEmptyString('beneficio');
+                ->scalar('fax')
+                ->maxLength('fax', 20)
+                ->allowEmptyString('fax');
 
         $validator
-            ->scalar('fim_de_semana')
-            ->maxLength('fim_de_semana', 1)
-            ->allowEmptyString('fim_de_semana');
+                ->scalar('beneficio')
+                ->maxLength('beneficio', 50)
+                ->allowEmptyString('beneficio');
 
         $validator
-            ->scalar('localInscricao')
-            ->notEmptyString('localInscricao');
+                ->scalar('fim_de_semana')
+                ->maxLength('fim_de_semana', 1)
+                ->allowEmptyString('fim_de_semana');
 
         $validator
-            ->integer('convenio')
-            ->requirePresence('convenio', 'create')
-            ->allowEmptyString('convenio');
+                ->scalar('localInscricao')
+                ->notEmptyString('localInscricao');
 
         $validator
-            ->date('expira')
-            ->allowEmptyDate('expira');
+                ->integer('convenio')
+                ->requirePresence('convenio', 'create')
+                ->allowEmptyString('convenio');
 
         $validator
-            ->scalar('seguro')
-            ->maxLength('seguro', 1)
-            ->requirePresence('seguro', 'create')
-            ->notEmptyString('seguro');
+                ->date('expira')
+                ->allowEmptyDate('expira');
 
         $validator
-            ->scalar('avaliacao')
-            ->notEmptyString('avaliacao');
+                ->scalar('seguro')
+                ->maxLength('seguro', 1)
+                ->requirePresence('seguro', 'create')
+                ->notEmptyString('seguro');
 
         $validator
-            ->scalar('observacoes')
-            ->maxLength('observacoes', 255)
-            ->allowEmptyString('observacoes');
+                ->scalar('avaliacao')
+                ->notEmptyString('avaliacao');
+
+        $validator
+                ->scalar('observacoes')
+                ->maxLength('observacoes', 255)
+                ->allowEmptyString('observacoes');
 
         return $validator;
     }
@@ -197,9 +199,10 @@ class InstituicaoestagiosTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->existsIn(['area'], 'Areaestagios'), ['errorField' => 'area']);
+    public function buildRules(RulesChecker $rules): RulesChecker {
+        
+        $rules->add($rules->existsIn(['areainstituicao_id'], 'Areainstituicoes'), ['errorField' => 'areainstituicao_id']);
+        $rules->add($rules->existsIn(['areaestagio_id'], 'Areaestagios'), ['errorField' => 'areaestagio_id']);
 
         return $rules;
     }

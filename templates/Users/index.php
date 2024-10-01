@@ -13,8 +13,8 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('categoria') ?></th>
-                    <th><?= $this->Paginator->sort('numero') ?></th>
+                    <th><?= $this->Paginator->sort('categoria_id') ?></th>
+                    <th><?= $this->Paginator->sort('registro') ?></th>
                     <th><?= $this->Paginator->sort('aluno_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
                     <th><?= $this->Paginator->sort('professor_id') ?></th>
@@ -28,8 +28,8 @@
                     <!-- <p> <?= pr($user); ?> </p> -->
                     <td><?= $this->Number->format($user->id) ?></td>
                     <td><?= h($user->email) ?></td>
-                    <td><?= h($user->categoria) ?></td>
-                    <td><?= $this->Number->format($user->numero) ?></td>
+                    <td><?= h($user->categoria_id) ?></td>
+                    <td><?= $this->Number->format($user->registro) ?></td>
                     <td><?= $user->has('aluno') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?></td>
                     <td><?= $user->has('supervisor') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?></td>
                     <td><?= $user->has('professor') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?></td>

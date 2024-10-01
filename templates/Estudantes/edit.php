@@ -8,7 +8,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 <?= $this->element('templates') ?>
 <div class='container'>
     <div class="row">
-        <?php if ($usuario->get('categoria') == 1): ?>
+        <?php if ($usuario->get('categoria_id') == 1): ?>
             <?= $this->Html->link(__('List Estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
             <?=
                 $this->Form->postLink(

@@ -5,10 +5,10 @@
  */
 // pr($supervisores);
 $user = $this->getRequest()->getAttribute('identity');
-// pr($user['categoria']);
+// pr($user['categoria_id']);
 ?>
 <div class="container">
-    <?php if ($user['categoria'] == 1): ?>
+    <?php if ($user['categoria_id'] == 1): ?>
         <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-secondary float-end']) ?>
     <?php endif; ?>
     <h3><?= __('Supervisores') ?></h3>
@@ -25,7 +25,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('codigo_cel', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <?php if ($user['categoria'] == 1): ?>
+                    <?php if ($user['categoria_id'] == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -34,7 +34,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 <?php foreach ($supervisores as $supervisor): ?>
                     <tr>
                         <td><?= $supervisor->id ?></td>
-                        <?php if ($user['categoria'] == 1): ?>
+                        <?php if ($user['categoria_id'] == 1): ?>
                             <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?></td>
                         <?php else: ?>
                             <td><?= $supervisor->nome ?></td>
@@ -46,7 +46,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= h($supervisor->codigo_cel) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
-                        <?php if ($user['categoria'] == 1): ?>
+                        <?php if ($user['categoria_id'] == 1): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>
