@@ -1,5 +1,5 @@
 <?php
-$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')->get('categoria_id') : null; 
+$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')->get('categoria_id') : null;
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno[]|\Cake\Collection\CollectionInterface $alunos
@@ -73,14 +73,8 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
 <div class="d-flex justify-content-center">
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
+            <?= $this->element('paginator') ?>
         </ul>
     </div>
 </div>
-<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
-</p>
-</div>
+<?= $this->element('paginator_count') ?>

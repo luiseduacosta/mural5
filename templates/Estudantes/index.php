@@ -48,7 +48,8 @@
                 <?php foreach ($estudantes as $estudante): ?>
                     <tr>
                         <td><?= $estudante->id ?></td>
-                        <td><?= $this->Html->link($estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estudante->id]) ?></td>
+                        <td><?= $this->Html->link($estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estudante->id]) ?>
+                        </td>
                         <td><?= $estudante->registro ?></td>
                         <td><?= $estudante->nascimento ? date('d-m-Y', strtotime($estudante->nascimento)) : '' ?></td>
                         <td><?= h($estudante->cpf) ?></td>
@@ -74,15 +75,13 @@
             </tbody>
         </table>
     </div>
-    <div class="paginator d-flex justify-content-center">
-        <?= $this->element('templates') ?>
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
+
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
-    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-</div>
+    <?= $this->element('paginator_count') ?>

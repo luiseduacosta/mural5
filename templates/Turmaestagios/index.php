@@ -31,19 +31,14 @@
             </tbody>
         </table>
     </div>
-    <?= $this->element('templates') ?>
+
+    <?= $this->element('templates'); ?>
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
+                <?= $this->element('paginator') ?>
             </ul>
         </div>
     </div>
-    <br>
-    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
-    </p>
+    <?= $this->element('paginator_count') ?>
 </div>

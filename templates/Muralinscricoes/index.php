@@ -77,19 +77,14 @@
             </tbody>
         </table>
     </div>
+
+    <?= $this->element('templates'); ?>
     <div class="d-flex justify-content-center">
         <div class="paginator">
-            <?= $this->element('templates') ?>
             <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
+                <?= $this->element('paginator') ?>
             </ul>
-
-            </p>
         </div>
     </div>
-    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
+    <?= $this->element('paginator_count') ?>
 </div>

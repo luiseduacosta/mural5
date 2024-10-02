@@ -24,13 +24,6 @@
 
     })
 </script>
-<?php
-// $this->request->getSession()->write('categoria', 1);
-// $session = $this->getRequest()->getSession();
-// echo $this->getRequest()->getAttribute('identity');
-// pr(is_null($this->getRequest()->getAttribute('identity')));
-// die();
-?>
 <div class="container">
     <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
     <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
@@ -79,7 +72,8 @@
                 <?php foreach ($muralestagios as $muralestagio): ?>
                     <tr>
                         <td><?= $muralestagio->id ?></td>
-                        <td><?= $muralestagio->hasValue('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?></td>
+                        <td><?= $muralestagio->hasValue('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?>
+                        </td>
                         <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>
                         <td><?= (h($muralestagio->final_de_semana) == 0) ? 'Não' : 'Sim' ?></td>
@@ -99,16 +93,13 @@
             </tbody>
         </table>
     </div>
-
-    <?= $this->element('templates') ?>
-    <div class="pagination justify-content-center">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('Primeiro')) ?>
-            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-            <?= $this->Paginator->numbers(['separator' => false]) ?>
-            <?= $this->Paginator->next(__('próximo') . ' >') ?>
-            <?= $this->Paginator->last(__('Último') . ' >>') ?>
-        </ul>
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
-    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+    <?= $this->element('paginator_count') ?>
 </div>

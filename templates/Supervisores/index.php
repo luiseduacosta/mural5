@@ -35,7 +35,8 @@ $user = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <td><?= $supervisor->id ?></td>
                         <?php if ($user['categoria_id'] == 1): ?>
-                            <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?></td>
+                            <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
+                            </td>
                         <?php else: ?>
                             <td><?= $supervisor->nome ?></td>
                         <?php endif; ?>
@@ -58,15 +59,14 @@ $user = $this->getRequest()->getAttribute('identity');
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <?= $this->element('templates') ?>
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
+
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
-    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+    <?= $this->element('paginator_count') ?>
 </div>
