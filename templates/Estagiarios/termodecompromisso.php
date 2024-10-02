@@ -78,7 +78,7 @@ $submit = [
                         <th><?= $this->Paginator->sort('Docentes.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo') ?></th>
                         <th><?= $this->Paginator->sort('tipo_de_estagio') ?></th>
-                        <th><?= $this->Paginator->sort('Areaestagio.area', 'Área') ?></th>
+                        <th><?= $this->Paginator->sort('Turmaestagio.area', 'Área') ?></th>
                         <th><?= $this->Paginator->sort('nota') ?></th>
                         <th><?= $this->Paginator->sort('ch', 'CH') ?></th>
                         <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
@@ -110,7 +110,7 @@ $submit = [
                             </td>
                             <td><?= h($estagiario->periodo) ?></td>
                             <td><?= h($estagiario->tipo_de_estagio) ?></td>
-                            <td><?= $estagiario->hasValue('areaestagio') ? $this->Html->link($estagiario->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
+                            <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
                             </td>
                             <td><?= $this->Number->format($estagiario->nota, ['places' => 2]) ?></td>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>

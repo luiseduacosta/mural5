@@ -174,7 +174,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 </td>
                                 <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('areaestagio') ? h($estagiarios->areaestagio->area) : '' ?></td>
+                                <td><?= $estagiarios->hasValue('turmaestagio') ? h($estagiarios->turmaestagio->area) : '' ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>

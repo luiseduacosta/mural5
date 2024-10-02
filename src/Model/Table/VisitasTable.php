@@ -39,7 +39,7 @@ class VisitasTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('visita');
+        $this->setTable('visitas');
         $this->setAlias('Visitas');
         $this->setDisplayField('instituicaoestagio_id');
         $this->setPrimaryKey('id');

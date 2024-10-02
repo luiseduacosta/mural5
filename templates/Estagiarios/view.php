@@ -95,7 +95,7 @@
             </tr>
             <tr>
                 <th><?= __('Área de estágio') ?></th>
-                <td><?= isset($estagiario->areaestagio) ? $this->Html->link($estagiario->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $estagiario->areaestagio->id]) : '' ?>
+                <td><?= isset($estagiario->turmaestagio) ? $this->Html->link($estagiario->Turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
                 </td>
             </tr>
             <tr>

@@ -26,7 +26,7 @@ class MuralestagiosTableTest extends TestCase
     protected $fixtures = [
         'app.Muralestagios',
         'app.Instituicaoestagios',
-        'app.Areaestagios',
+        'app.Turmaestagios',
         'app.Professores',
         'app.Muralinscricoes',
     ];

@@ -18,7 +18,7 @@
             <?php
             echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição']]);
             echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areainstituicoes, 'empty' => true]);
-            echo $this->Form->control('area', ['label' => ['text' => 'Área de estágio'], 'options' => $areaestagios, 'empty' => true]);
+            echo $this->Form->control('area', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('natureza', ['label' => ['text' => 'Natureza']]);
             echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ']]);
             echo $this->Form->control('email');

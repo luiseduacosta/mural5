@@ -85,7 +85,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     </tr>
                     <tr>
                         <th><?= __('Área de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('areaestagio') ? $this->Html->link($muralestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
+                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->area, ['controller' => 'turmaestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
                         </td>
                     </tr>
                     <tr>

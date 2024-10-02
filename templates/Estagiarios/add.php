@@ -29,7 +29,7 @@
                 echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
                 echo $this->Form->control('docente_id', ['options' => $docentes, 'empty' => true]);
                 echo $this->Form->control('periodo');
-                echo $this->Form->control('areaestagio_id', ['options' => $areaestagios, 'empty' => true]);
+                echo $this->Form->control('turmaestagio_id', ['options' => $turmaestagios, 'empty' => true]);
                 echo $this->Form->control('nota');
                 echo $this->Form->control('ch');
                 echo $this->Form->control('observacoes');

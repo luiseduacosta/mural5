@@ -27,7 +27,7 @@ class EstagiariosControllerTest extends TestCase
         'app.Instituicaoestagios',
         'app.Supervisores',
         'app.Professores',
-        'app.Areaestagios',
+        'app.Turmaestagios',
     ];
 
     /**

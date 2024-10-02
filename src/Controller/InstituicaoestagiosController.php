@@ -33,7 +33,7 @@ class InstituicaoestagiosController extends AppController
     public function view($id = null)
     {
         $instituicaoestagio = $this->Instituicaoestagios->get($id, [
-            'contain' => ['Areainstituicoes', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicaoestagios', 'Docentes', 'Supervisores'], 'Muralestagios', 'Visitas'],
+            'contain' => ['Areainstituicoes', 'Supervisores', 'Estagiarios' => ['Estudantes', 'Instituicaoestagios', 'Docentes', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas'],
         ]);
 
         $this->set(compact('instituicaoestagio'));
@@ -56,9 +56,9 @@ class InstituicaoestagiosController extends AppController
             $this->Flash->error(__('Não foi possível inserir o registro instituicaoestagio. Tente novamente.'));
         }
         $areainstituicoes = $this->Instituicaoestagios->Areainstituicoes->find('list');
-        $areaestagios = $this->Instituicaoestagios->Areaestagios->find('list');        
+        $turmaestagios = $this->Instituicaoestagios->Turmaestagios->find('list');        
         $supervisores = $this->Instituicaoestagios->Supervisores->find('list');
-        $this->set(compact('instituicaoestagio', 'areainstituicoes', 'areaestagios', 'supervisores'));
+        $this->set(compact('instituicaoestagio', 'areainstituicoes', 'turmaestagios', 'supervisores'));
     }
 
     /**
@@ -82,8 +82,9 @@ class InstituicaoestagiosController extends AppController
             $this->Flash->error(__('Registro instituicaoestagio não foi inserido. Tente novamente.'));
         }
         $areainstituicoes = $this->Instituicaoestagios->Areainstituicoes->find('list');
+        $turmaestagios = $this->Instituicaoestagios->Turmaestagios->find('list');                
         $supervisores = $this->Instituicaoestagios->Supervisores->find('list');
-        $this->set(compact('instituicaoestagio', 'areainstituicoes', 'supervisores'));
+        $this->set(compact('instituicaoestagio', 'areainstituicoes', 'supervisores', 'turmaestagios'));
     }
 
     /**

@@ -44,7 +44,7 @@
                         </td>
                         <td><?= $instituicaoestagio->hasValue('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
                         </td>
-                        <td><?= $instituicaoestagio->hasValue('areaestagio') ? $this->Html->link($instituicaoestagio->areaestagio->area, ['controller' => 'areaestagios', 'action' => 'view', $instituicaoestagio->area]) : '' ?>
+                        <td><?= $instituicaoestagio->hasValue('turmaestagio') ? $this->Html->link($instituicaoestagio->turmaestagio->area, ['controller' => 'turmaestagios', 'action' => 'view', $instituicaoestagio->area]) : '' ?>
                         </td>
                         <td><?= h($instituicaoestagio->natureza) ?></td>
                         <td><?= h($instituicaoestagio->cnpj) ?></td>

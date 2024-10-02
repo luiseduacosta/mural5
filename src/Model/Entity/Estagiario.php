@@ -22,7 +22,7 @@ use Cake\ORM\Entity;
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
- * @property int|null $areaestagio_id
+ * @property int|null $turmaestagio_id
  * @property string|null $nota
  * @property int|null $ch
  * @property string|null $observacoes
@@ -36,7 +36,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
  * @property \App\Model\Entity\Supervisor[] $supervisores
  * @property \App\Model\Entity\Docente[] $docentes
- * @property \App\Model\Entity\Areaestagio[] $areaestagios
+ * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
  * @property \App\Model\Entity\Avaliacao[] $avaliacoes
  * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividades
  */
@@ -64,7 +64,7 @@ class Estagiario extends Entity {
         'supervisor_id' => true,
         'professor_id' => true,
         'periodo' => true,
-        'areaestagio_id' => true,
+        'turmaestagio_id' => true,
         'nota' => true,
         'ch' => true,
         'observacoes' => true,
@@ -77,7 +77,7 @@ class Estagiario extends Entity {
         'instituicaoestagios' => true,
         'supervisores' => true,
         'docentes' => true,
-        'areaestagios' => true,
+        'turmaestagios' => true,
         'avaliacoes' => true,
         'folhadeatividades' => true,
     ];

@@ -44,7 +44,7 @@
                     echo $this->Form->control('id_supervisor', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
                     echo $this->Form->control('id_professor', ['label' => ['text' => 'Professor(a)'], 'options' => $docentes, 'empty' => true]);
                     echo $this->Form->control('periodo', ['label' => ['text' => 'Período']]);
-                    echo $this->Form->control('id_area', ['label' => ['text' => 'Área'], 'options' => $areaestagios, 'empty' => true]);
+                    echo $this->Form->control('id_area', ['label' => ['text' => 'Área'], 'options' => $turmaestagios, 'empty' => true]);
                     echo $this->Form->control('nota');
                     echo $this->Form->control('ch', ['label' => ['text' => 'CH']]);
                     echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações'], 'name' => 'observacoes', 'class' => 'form-control']);

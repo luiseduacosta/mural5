@@ -62,7 +62,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                     <th><?= $this->Paginator->sort('Docentes.nome', 'Professor/a') ?></th>
                     <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
-                    <th><?= $this->Paginator->sort('Areaestagio.area', 'Área') ?></th>
+                    <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Área') ?></th>
                     <th><?= $this->Paginator->sort('nota') ?></th>
                     <th><?= $this->Paginator->sort('ch', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
@@ -101,8 +101,8 @@ $usuario = $this->getRequest()->getAttribute('identity');
                             <td>Sem dados</td>
                         <?php endif; ?>
                         <td><?= h($estagiario->periodo) ?></td>
-                        <?php if (!empty($estagiario->areaestagio->area)): ?>
-                            <td><?= $estagiario->hasValue('areaestagio') ? $this->Html->link($estagiario->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
+                        <?php if (!empty($estagiario->turmaestagio->area)): ?>
+                            <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td>Sem dados</td>

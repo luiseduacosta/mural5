@@ -60,12 +60,8 @@
                     </tr>
                     <tr>
                         <th><?= __('Área instituicao') ?></th>
-                        <?php if (!empty($instituicaoestagio->areainstituicao->area)): ?>
-                            <td><?= $instituicaoestagio->hasValue('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : '' ?>
-                            </td>
-                        <?php else: ?>
-                            <td>Sem dados</td>
-                        <?php endif; ?>
+                        <td><?= $instituicaoestagio->hasValue('areainstituicao') ? $this->Html->link($instituicaoestagio->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicaoestagio->areainstituicao->id]) : 'Sem dados' ?>
+                        </td>
                     </tr>
                     <tr>
                         <th><?= __('Natureza') ?></th>
@@ -129,8 +125,8 @@
                         <td><?= h($instituicaoestagio->avaliacao) ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Área') ?></th>
-                        <td><?= $instituicaoestagio->area ?></td>
+                        <th><?= __('Turma de estágio') ?></th>
+                        <td><?= $instituicaoestagio->hasValue('turmaestagio') ? $instituicaoestagio->turmaestagio->area : ''; ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Convênio') ?></th>
@@ -200,26 +196,25 @@
                                 <th><?= __('Docente') ?></th>
                                 <th><?= __('Período') ?></th>
                                 <th><?= __('Nível') ?></th>
+                                <th><?= __('Ajuste 2020') ?></th>
+                                <th><?= __('Turno') ?></th>
+                                <th><?= __('Tc') ?></th>
+                                <th><?= __('Tc Solicitação') ?></th>
+                                <th><?= __('Turma de estágio') ?></th>
+                                <th><?= __('Nota') ?></th>
+                                <th><?= __('CH') ?></th>
+                                <th><?= __('Observações') ?></th>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <th><?= __('Ajuste 2020') ?></th>
-                                    <th><?= __('Turno') ?></th>
-                                    <th><?= __('Tc') ?></th>
-                                    <th><?= __('Tc Solicitação') ?></th>
-                                    <th><?= __('Instituição de estagio') ?></th>
-                                    <th><?= __('Área de estágio') ?></th>
-                                    <th><?= __('Nota') ?></th>
-                                    <th><?= __('CH') ?></th>
-                                    <th><?= __('Observações') ?></th>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 <?php endif; ?>
                             </tr>
                             <?php foreach ($instituicaoestagio->estagiarios as $estagiarios): ?>
-                                <?php // pr($estagiarios->areaestagio); ?>
+                                <?php // pr($estagiarios->estudante); ?>
                                 <tr>
                                     <td><?= h($estagiarios->id) ?></td>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
                                         <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : '' ?></td>
@@ -250,8 +245,10 @@
                                         <td><?= h($estagiarios->tc) ?></td>
                                         <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
                                         </td>
-                                        <td><?= $estagiarios->hasValue('areaestagio') ? $estagiarios->areaestagio->area : '' ?></td>
-                                        <td><?= $this->Number->format($estagiarios->nota, ['places' => 2]) ?></td>
+                                        <td><?= $estagiarios->hasValue('turmaestagio') ? $estagiarios->turmaestagio->area : '' ?>
+                                        </td>
+                                        <td><?= !is_null($estagiarios->nota) ? $this->Number->format($estagiarios->nota, ['places' => 2]) : 'Sem dados' ?>
+                                        </td>
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">

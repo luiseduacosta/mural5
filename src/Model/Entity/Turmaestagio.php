@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Areaestagio Entity
+ * Turmaestagio Entity
  *
  * @property int $id
  * @property string $area
@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
  */
-class Areaestagio extends Entity
+class Turmaestagio extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

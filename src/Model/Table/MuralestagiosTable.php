@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Muralestagios Model
  *
  * @property \App\Model\Table\InstituicaoestagiosTable&\Cake\ORM\Association\BelongsTo $Instituicaoestagios
- * @property \App\Model\Table\AreaestagiosTable&\Cake\ORM\Association\BelongsTo $Areaestagios
+ * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\DocentesTable&\Cake\ORM\Association\BelongsTo $Docentes
  * @property \App\Model\Table\MuralinscricoesTable&\Cake\ORM\Association\HasMany $Muralinscricoes
  *
@@ -50,8 +50,8 @@ class MuralestagiosTable extends Table {
         $this->belongsTo('Instituicaoestagios', [
             'foreignKey' => ['instituicaoestagio_id'],
         ]);
-        $this->belongsTo('Areaestagios', [
-            'foreignKey' => ['areaestagios_id'],
+        $this->belongsTo('Turmaestagios', [
+            'foreignKey' => ['turmaestagios_id'],
         ]);
         $this->belongsTo('Docentes', [
             'foreignKey' => ['professor_id'],
@@ -176,7 +176,7 @@ class MuralestagiosTable extends Table {
     public function buildRules(RulesChecker $rules): RulesChecker {
 
         $rules->add($rules->existsIn(['instituicoaestagio_id'], 'Instituicaoestagios'), ['errorField' => 'instituicaoestagio_id']);
-        $rules->add($rules->existsIn(['areaestagio_id'], 'Areaestagios'), ['errorField' => 'areaestagio_id']);
+        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
         $rules->add($rules->existsIn(['professor_id'], 'Docentes'), ['errorField' => 'professor_id']);
 
         return $rules;

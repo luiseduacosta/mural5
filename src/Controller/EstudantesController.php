@@ -55,7 +55,7 @@ class EstudantesController extends AppController
         // pr($id);
         // die();
         $estudante = $this->Estudantes->get($id, [
-            'contain' => ['Estagiarios' => ['Instituicaoestagios', 'Alunos', 'Estudantes', 'Supervisores', 'Docentes', 'Areaestagios'], 'Muralinscricoes' => 'Muralestagios'],
+            'contain' => ['Estagiarios' => ['Instituicaoestagios', 'Alunos', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => 'Muralestagios'],
         ]);
         // pr($estudante);
         // die();

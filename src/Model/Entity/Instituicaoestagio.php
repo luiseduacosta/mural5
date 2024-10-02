@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $instituicao
  * @property int|null $areainstituicoes_id
- * @property int|null $area
+ * @property int|null $turmaestagio
  * @property string|null $natureza
  * @property string $cnpj
  * @property string $email
@@ -32,7 +32,7 @@ use Cake\ORM\Entity;
  * @property string|null $observacoes
  *
  * @property \App\Model\Entity\Areainstituicao[] $areainstituicoes
- * @property \App\Model\Entity\Areaestagio[] $areaestagios
+ * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\Visita[] $visitas
@@ -52,7 +52,7 @@ class Instituicaoestagio extends Entity
     protected array $_accessible = [
         'instituicao' => true,
         'areainstituicoes_id' => true,
-        'areaestagio_id' => true,
+        'turmaestagio_id' => true,
         'natureza' => true,
         'cnpj' => true,
         'email' => true,
@@ -72,7 +72,7 @@ class Instituicaoestagio extends Entity
         'avaliacao' => true,
         'observacoes' => true,
         'areainstituicoes' => true,
-        'areaestagios' => true,
+        'turmaestagios' => true,
         'estagiarios' => true,
         'muralestagios' => true,
         'visitas' => true,

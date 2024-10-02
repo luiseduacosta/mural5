@@ -1,12 +1,12 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areaestagio[]|\Cake\Collection\CollectionInterface $areaestagios
+ * @var \App\Model\Entity\Turmaestagio[]|\Cake\Collection\CollectionInterface $turmaestagios
  */
 ?>
 <div class="container">
-    <?= $this->Html->link(__('Nova área de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-    <h3><?= __('Áreas de estágios') ?></h3>
+    <?= $this->Html->link(__('Nova turma de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+    <h3><?= __('Turmas de estágios') ?></h3>
     <div class="table-responsive">
         <table class="table table-stripted table-hover table-responsive">
             <thead>
@@ -17,14 +17,14 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($areaestagios as $areaestagio): ?>
+                <?php foreach ($turmaestagios as $turmaestagio): ?>
                     <tr>
-                        <td><?= $areaestagio->id ?></td>
-                        <td><?= h($areaestagio->area) ?></td>
+                        <td><?= $turmaestagio->id ?></td>
+                        <td><?= h($turmaestagio->area) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $areaestagio->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $areaestagio->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $areaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $areaestagio->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $turmaestagio->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $turmaestagio->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -183,7 +183,7 @@
                             <th><?= __('Supervisor Id') ?></th>
                             <th><?= __('Professor Id') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <th><?= __('Areaestagio Id') ?></th>
+                            <th><?= __('Turmaestagio Id') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('Ch') ?></th>
                             <th><?= __('Observacoes') ?></th>
@@ -203,7 +203,7 @@
                             <td><?= h($estagiarios->supervisor_id) ?></td>
                             <td><?= h($estagiarios->professor_id) ?></td>
                             <td><?= h($estagiarios->periodo) ?></td>
-                            <td><?= h($estagiarios->areaestagio_id) ?></td>
+                            <td><?= h($estagiarios->turmaestagio_id) ?></td>
                             <td><?= h($estagiarios->nota) ?></td>
                             <td><?= h($estagiarios->ch) ?></td>
                             <td><?= h($estagiarios->observacoes) ?></td>
@@ -233,7 +233,7 @@
                             <th><?= __('Final De Semana') ?></th>
                             <th><?= __('CargaHoraria') ?></th>
                             <th><?= __('Requisitos') ?></th>
-                            <th><?= __('Areaestagio Id') ?></th>
+                            <th><?= __('Turmaestagio Id') ?></th>
                             <th><?= __('Horario') ?></th>
                             <th><?= __('Professor Id') ?></th>
                             <th><?= __('DataSelecao') ?></th>
@@ -260,7 +260,7 @@
                             <td><?= h($muralestagios->final_de_semana) ?></td>
                             <td><?= h($muralestagios->cargaHoraria) ?></td>
                             <td><?= h($muralestagios->requisitos) ?></td>
-                            <td><?= h($muralestagios->areaestagio_id) ?></td>
+                            <td><?= h($muralestagios->turmaestagio_id) ?></td>
                             <td><?= h($muralestagios->horario) ?></td>
                             <td><?= h($muralestagios->professor_id) ?></td>
                             <td><?= h($muralestagios->dataSelecao) ?></td>

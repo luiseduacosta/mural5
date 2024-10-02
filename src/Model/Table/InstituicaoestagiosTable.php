@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Instituicaoestagios Model
  *
  * @property \App\Model\Table\AreainstituicoesTable&\Cake\ORM\Association\BelongsTo $Areainstituicoes
- * @property \App\Model\Table\AreaestagiosTable&\Cake\ORM\Association\BelongsTo $Areaestagios
+ * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
@@ -52,8 +52,8 @@ class InstituicaoestagiosTable extends Table {
         $this->belongsTo('Areainstituicoes', [
             'foreignKey' => 'areainstituicao_id',
         ]);
-        $this->belongsTo('Areaestagios', [
-            'foreignKey' => 'areaestagio_id',
+        $this->belongsTo('Turmaestagios', [
+            'foreignKey' => 'turmaestagio_id',
         ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicaoestagio_id',
@@ -97,7 +97,7 @@ class InstituicaoestagiosTable extends Table {
                 ->allowEmptyString('instituciaoestagio_id');
 
         $validator
-                ->allowEmptyString('areaestagio_id');
+                ->allowEmptyString('turmaestagio_id');
 
         $validator
                 ->scalar('natureza')
@@ -202,7 +202,7 @@ class InstituicaoestagiosTable extends Table {
     public function buildRules(RulesChecker $rules): RulesChecker {
         
         $rules->add($rules->existsIn(['areainstituicao_id'], 'Areainstituicoes'), ['errorField' => 'areainstituicao_id']);
-        $rules->add($rules->existsIn(['areaestagio_id'], 'Areaestagios'), ['errorField' => 'areaestagio_id']);
+        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
 
         return $rules;
     }

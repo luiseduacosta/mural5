@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\AreaestagiosTable;
+use App\Model\Table\TurmaestagiosTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\AreaestagiosTable Test Case
+ * App\Model\Table\TurmaestagiosTable Test Case
  */
-class AreaestagiosTableTest extends TestCase
+class TurmaestagiosTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\AreaestagiosTable
+     * @var \App\Model\Table\TurmaestagiosTable
      */
-    protected $Areaestagios;
+    protected $Turmaestagios;
 
     /**
      * Fixtures
@@ -24,7 +24,7 @@ class AreaestagiosTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Areaestagios',
+        'app.Turmaestagios',
         'app.Estagiarios',
         'app.Muralestagios',
     ];
@@ -37,8 +37,8 @@ class AreaestagiosTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areaestagios') ? [] : ['className' => AreaestagiosTable::class];
-        $this->Areaestagios = $this->getTableLocator()->get('Areaestagios', $config);
+        $config = $this->getTableLocator()->exists('Turmaestagios') ? [] : ['className' => TurmaestagiosTable::class];
+        $this->Turmaestagios = $this->getTableLocator()->get('Turmaestagios', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class AreaestagiosTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->Areaestagios);
+        unset($this->Turmaestagios);
 
         parent::tearDown();
     }
