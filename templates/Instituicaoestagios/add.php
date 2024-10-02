@@ -31,10 +31,10 @@
             echo $this->Form->control('fax', ['type' => 'hidden']);
             echo $this->Form->control('beneficio', ['label' => ['text' => 'Benefícios (digitar por extenso)']]);
             echo $this->Form->control('fim_de_semana', ['label' => ['text' => 'Estágio no final de semana?'], 'options' => ['0' => 'Não', '1' => 'Sim', '3' => 'Parcialmente']]);
-            echo $this->Form->control('localInscricao');
+            echo $this->Form->control('localInscricao', ['label' => ['text' => 'Local de inscrição para estágio']]);
             echo $this->Form->control('convenio', ['label' => ['text' => 'Número do convênio com a UFRJ'], 'default' => 0]);
             echo $this->Form->control('expira', ['label' => ['text' => 'Data de expiração do convênio'], 'empty' => true]);
-            echo $this->Form->control('seguro', ['options' => ['0' => 'Não', '1' => 'Sim']]);
+            echo $this->Form->control('seguro', ['label' => ['text' => 'Oferece seguro para os estagiários?'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
             echo $this->Form->control('avaliacao', ['type' => 'hidden']);
             echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações']]);
             echo $this->Form->control('supervisores._ids', ['options' => $supervisores, 'empty' => true]);

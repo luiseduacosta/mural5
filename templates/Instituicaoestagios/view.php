@@ -134,7 +134,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Expira') ?></th>
-                        <td><?= ($instituicaoestagio->expira) ? date('d-m-Y', strtotime($instituicaoestagio->expira)) : 'Sem informação' ?>
+                        <td><?= $instituicaoestagio->expira ? date('d-m-Y', strtotime($instituicaoestagio->expira)) : 'Sem informação' ?>
                         </td>
                     </tr>
                     <tr>

@@ -17,33 +17,32 @@
         )
         ?>
 
-
     <div class="container">
         <?= $this->Form->create($instituicaoestagio) ?>
         <fieldset>
             <legend><?= __('Editar instituição') ?></legend>
             <?php
-            echo $this->Form->control('instituicao');
-            echo $this->Form->control('areainstituicoes_id', ['options' => $areainstituicoes, 'empty' => true]);
+            echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituiçõa']]);
+            echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área de instituições'] ,'options' => $areainstituicoes, 'empty' => true]);
             echo $this->Form->control('area', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('natureza');
-            echo $this->Form->control('cnpj');
+            echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ']]);
             echo $this->Form->control('email');
-            echo $this->Form->control('url');
-            echo $this->Form->control('endereco');
+            echo $this->Form->control('url', ['label' => ['text' => 'Página web']]);
+            echo $this->Form->control('endereco', ['label' => ['text' => 'Endereço']]);
             echo $this->Form->control('bairro');
             echo $this->Form->control('municipio');
-            echo $this->Form->control('cep');
+            echo $this->Form->control('cep', ['label' => ['text' => 'CEP']]);
             echo $this->Form->control('telefone');
             echo $this->Form->control('fax');
-            echo $this->Form->control('beneficio');
-            echo $this->Form->control('fim_de_semana');
-            echo $this->Form->control('localInscricao');
-            echo $this->Form->control('convenio');
-            echo $this->Form->control('expira', ['empty' => true]);
-            echo $this->Form->control('seguro');
+            echo $this->Form->control('beneficio', ['label' => ['text' => 'Benefícios para os estagiários']]);
+            echo $this->Form->control('fim_de_semana', ['label' => ['text' => 'Estágio no final de semana?']]);
+            echo $this->Form->control('localInscricao', ['label' => ['text' => 'Local de inscrição para estágio']]);
+            echo $this->Form->control('convenio', ['label' => ['text' => 'Número de convênio'], 'default' => 0]);
+            echo $this->Form->control('expira', ['label' => ['text' => 'Data de expiração do convênio'], 'empty' => true]);
+            echo $this->Form->control('seguro', ['label' => ['text' => 'Oferece seguro para os estagiários?'] ,'options' => ['0' => 'Não', '1' => 'Sim']]);
             echo $this->Form->control('avaliacao');
-            echo $this->Form->control('observacoes');
+            echo $this->Form->control('observacoes', ['label' => ['text' => 'Outras informações']]);
             echo $this->Form->control('supervisores._ids', ['options' => $supervisores]);
             ?>
         </fieldset>
