@@ -109,3 +109,4 @@
         </div>
     </div>
     <?= $this->element('paginator_count') ?>
+</div>

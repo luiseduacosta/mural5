@@ -4,8 +4,9 @@
  * @var \App\Model\Entity\Muralinscricao $muralinscricao
  */
 $usuario = $this->getRequest()->getAttribute('identity');
-// pr($usuario->get('categoria_id'));
+// pr($muralinscricao);
 ?>
+
 <div class="container">
     <div class="row">
         <aside class="column">
@@ -14,7 +15,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $muralinscricao->id], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                <?php elseif ($usuario->get('categoria_id') == 2): ?>
+                <?php elseif ($usuario->categoria_id == 2): ?>
                     <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']) ?>
                 <?php endif; ?>
             </div>
@@ -28,16 +29,16 @@ $usuario = $this->getRequest()->getAttribute('identity');
                 </tr>
                 <tr>
                     <th><?= __('Registro') ?></th>
-                    <td><?= $muralinscricao->id_aluno ?></td>
+                    <td><?= $muralinscricao->registro ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Estudante') ?></th>
-                    <td><?= $muralinscricao->hasValue('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante->id]) : '' ?>
+                    <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?= __('Inscrição para estagio') ?></th>
-                    <td><?= $muralinscricao->hasValue('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                    <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>

@@ -51,5 +51,4 @@
     </div>
     <?= $this->element('paginator_count') ?>
 </div>
-</div>
-</div>
+

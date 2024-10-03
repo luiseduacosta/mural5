@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Muralinscricao[]|\Cake\Collection\CollectionInterface $muralinscricoes
  */
 // pr($muralinscricoes);
+// pr($periodo);
 ?>
 
 <script type="text/javascript">
@@ -43,26 +44,23 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('id_aluno', 'Registro') ?></th>
-                    <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
+                    <th><?= $this->Paginator->sort('registro', 'Registro') ?></th>
                     <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
                     <th><?= $this->Paginator->sort('Muralestagios.instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('data') ?></th>
                     <th><?= $this->Paginator->sort('periodo') ?></th>
                     <th><?= $this->Paginator->sort('timestamp') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th class="actions"><?= __('Açoes') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($muralinscricoes as $muralinscricao): ?>
                     <tr>
                         <td><?= $muralinscricao->id ?></td>
-                        <td><?= $muralinscricao->id_aluno ?></td>
-                        <td><?= $muralinscricao->hasValue('aluno') ? $this->Html->link($muralinscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $muralinscricao->aluno_id]) : '' ?>
+                        <td><?= $muralinscricao->registro ?></td>
+                        <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante_id]) : '' ?>
                         </td>
-                        <td><?= $muralinscricao->hasValue('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->alunonovo_id]) : '' ?>
-                        </td>
-                        <td><?= $muralinscricao->hasValue('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                        <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
                         </td>
                         <td><?= date('d-m-Y', strtotime(h($muralinscricao->data))) ?></td>
                         <td><?= h($muralinscricao->periodo) ?></td>
@@ -77,14 +75,19 @@
             </tbody>
         </table>
     </div>
-
-    <?= $this->element('templates'); ?>
     <div class="d-flex justify-content-center">
         <div class="paginator">
+            <?= $this->element('templates') ?>
             <ul class="pagination">
-                <?= $this->element('paginator') ?>
+                <?= $this->Paginator->first('<< ' . __('first')) ?>
+                <?= $this->Paginator->prev('< ' . __('previous')) ?>
+                <?= $this->Paginator->numbers() ?>
+                <?= $this->Paginator->next(__('next') . ' >') ?>
+                <?= $this->Paginator->last(__('last') . ' >>') ?>
             </ul>
+
+            </p>
         </div>
     </div>
-    <?= $this->element('paginator_count') ?>
+    <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?>
 </div>

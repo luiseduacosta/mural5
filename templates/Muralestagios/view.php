@@ -1,11 +1,13 @@
 <?php
 $usuario = $this->getRequest()->getAttribute('identity');
-// pr($muralestagio->docente);
+// pr($usuario);
 // die();
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
+// pr($muralestagio);
+// die();
 ?>
 <div class="container">
 
@@ -20,12 +22,12 @@ $usuario = $this->getRequest()->getAttribute('identity');
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
-                    aria-controls="Instituição" aria-selected="true">Instituição</a>
+                   aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
-                        aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
+                       aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
                 </li>
             <?php endif; ?>
         </ul>
@@ -45,10 +47,10 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Instituição') ?></th>
                         <?php if ($this->getRequest()->getSession()->read('id_categoaria') == 1): ?>
-                            <td><?= $muralestagio->hasValue('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio->id]) : '' ?>
+                            <td><?= $muralestagio->has('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio->id]) : '' ?>
                             </td>
                         <?php else: ?>
-                            <td><?= $muralestagio->hasValue('instituicaoestagio') ? $muralestagio->instituicao : '' ?></td>
+                            <td><?= $muralestagio->has('instituicaoestagio') ? $muralestagio->instituicao : '' ?></td>
                         <?php endif; ?>
                     </tr>
                     <tr>
@@ -62,21 +64,21 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Final de Semana') ?></th>
                         <td><?php
-                        switch ($muralestagio->final_de_semana) {
-                            case 0:
-                                echo "Não";
-                                break;
-                            case 1;
-                                echo "Sim";
-                                break;
-                            case 2:
-                                echo "Parcialmente";
-                                break;
-                            default;
-                                echo "Não";
-                                break;
-                        }
-                        ?>
+                            switch ($muralestagio->final_de_semana) {
+                                case 0:
+                                    echo "Não";
+                                    break;
+                                case 1;
+                                    echo "Sim";
+                                    break;
+                                case 2:
+                                    echo "Parcialmente";
+                                    break;
+                                default;
+                                    echo "Não";
+                                    break;
+                            }
+                            ?>
                         </td>
                     </tr>
                     <tr>
@@ -84,33 +86,37 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <td><?= $muralestagio->requisitos ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Área de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->area, ['controller' => 'turmaestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
-                        </td>
+                        <th><?= __('Turma de estágio') ?></th>
+                        <?php if (isset($muralestagio->areaestagio->area)): ?>
+                            <td><?= $muralestagio->has('areaestagio') ? $this->Html->link($muralestagio->areaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $muralestagio->areaestagio->id]) : '' ?>
+                            </td>
+                        <?php else: ?>
+                            <td>Sem dados</td>
+                        <?php endif; ?>
                     </tr>
                     <tr>
                         <th><?= __('Horário da OTP') ?></th>
                         <td><?php
-                        switch ($muralestagio->horario) {
-                            case 'D':
-                                echo "Diurno";
-                                break;
-                            case 'N':
-                                echo "Noturno";
-                                break;
-                            case 'I':
-                                echo 'Indeterminado';
-                                break;
-                            default:
-                                echo 'Indeterminado';
-                                break;
-                        }
-                        ?></td>
+                            switch ($muralestagio->horario) {
+                                case 'D':
+                                    echo "Diurno";
+                                    break;
+                                case 'N':
+                                    echo "Noturno";
+                                    break;
+                                case 'I':
+                                    echo 'Indeterminado';
+                                    break;
+                                default:
+                                    echo 'Indeterminado';
+                                    break;
+                            }
+                            ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Docente') ?></th>
                         <?php if (!empty($muralestagio->docente->nome)): ?>
-                            <td><?= $muralestagio->hasValue('docente') ? $this->Html->link($muralestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $muralestagio->docente->id]) : '' ?>
+                            <td><?= $muralestagio->has('docente') ? $this->Html->link($muralestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $muralestagio->docente->id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td>Sem dados</td>
@@ -127,24 +133,24 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Forma de seleção') ?></th>
                         <td><?php
-                        switch ($muralestagio->formaSelecao) {
-                            case '0':
-                                echo 'Entrevista';
-                                break;
-                            case '1':
-                                echo 'CR';
-                                break;
-                            case '2':
-                                echo 'Prova';
-                                break;
-                            case '3':
-                                echo 'Outras';
-                                break;
-                            default:
-                                echo 'Outras: ver nas observações';
-                                break;
-                        }
-                        ?></td>
+                            switch ($muralestagio->formaSelecao) {
+                                case '0':
+                                    echo 'Entrevista';
+                                    break;
+                                case '1':
+                                    echo 'CR';
+                                    break;
+                                case '2':
+                                    echo 'Prova';
+                                    break;
+                                case '3':
+                                    echo 'Outras';
+                                    break;
+                                default:
+                                    echo 'Outras: ver nas observações';
+                                    break;
+                            }
+                            ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Contato') ?></th>
@@ -161,18 +167,18 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Local da inscrição') ?></th>
                         <td><?php
-                        switch ($muralestagio->localInscricao) {
-                            case '0':
-                                echo 'Somente no mural da Coordenação de Estágio/ESS';
-                                break;
-                            case '1':
-                                echo 'Diretamente na Instituição e no mural da Coordenação de Estágio/ESS';
-                                break;
-                            default:
-                                echo 'Somente no mural da Coordenação de Estágio/ESS';
-                                break;
-                        }
-                        ?></td>
+                            switch ($muralestagio->localInscricao) {
+                                case '0':
+                                    echo 'Somente no mural da Coordenação de Estágio/ESS';
+                                    break;
+                                case '1':
+                                    echo 'Diretamente na Instituição e no mural da Coordenação de Estágio/ESS';
+                                    break;
+                                default:
+                                    echo 'Somente no mural da Coordenação de Estágio/ESS';
+                                    break;
+                            }
+                            ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Vagas') ?></th>
@@ -198,14 +204,14 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         </td>
                     </tr>
                     <tr>
-                        <div class="text">
-                            <th><?= __('Outras informações') ?></th>
-                            <td>
-                                <blockquote>
-                                    <?= $this->Text->autoParagraph($muralestagio->outras); ?>
-                                </blockquote>
-                            </td>
-                        </div>
+                    <div class="text">
+                        <th><?= __('Outras informações') ?></th>
+                        <td>
+                            <blockquote>
+                                <?= $this->Text->autoParagraph($muralestagio->outras); ?>
+                            </blockquote>
+                        </td>
+                    </div>
                     </tr>
                     <!--
                     Se a inscricao e na instituição também tem que fazer inscrição no mural
@@ -225,15 +231,15 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
-                                <?= $this->Form->create(null, ['url' => '/muralinscricoes/add/' . $muralestagio->id, 'type' => 'post']); ?>
-                                <?= $this->Form->input('id_instituicao', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, $muralestagio->periodo]], 'type' => 'post']); ?>
+                                <?= $this->Form->input('instituicaoestagio_id', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
                                 <div class='row justify-content-center'>
                                     <div class='col-auto'>
                                         <?=
-                                            $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
+                                        $this->Form->submit('Inscrição administrador', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
                                         ?>
                                         <?=
-                                            $this->Form->end();
+                                        $this->Form->end();
                                         ?>
                                     </div>
                                 </div>
@@ -248,15 +254,15 @@ $usuario = $this->getRequest()->getAttribute('identity');
                             <tr>
                                 <td colspan=2 style="text-align: center">
 
-                                    <?= $this->Form->create(null, ['url' => '/Muralinscricoes/add/' . $muralestagio->id, 'type' => 'post']); ?>
-                                    <?= $this->Form->input('id_instituicao', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
+                                    <?= $this->Form->create(null, ['url' => ['controller' => 'Muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => $muralestagio->periodo]], 'type' => 'post']); ?>
+                                    <?= $this->Form->input('instituicao_id', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
                                     <div class='row justify-content-center'>
                                         <div class='col-auto'>
                                             <?=
-                                                $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
+                                            $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
                                             ?>
                                             <?=
-                                                $this->Form->end();
+                                            $this->Form->end();
                                             ?>
                                         </div>
                                     </div>
@@ -277,7 +283,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 
             <div id="inscricoes" class="tab-pane fade">
                 <h3><?= __('Inscrições para seleção de estágio') ?></h3>
-                <?php if (sizeof($muralestagio->muralinscricoes) > 0): ?>
+                <?php if (!empty($muralestagio->muralinscricoes)): ?>
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
@@ -295,8 +301,10 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                 <?php // pr($muralinscricoes) ?>
                                 <td><?= h($muralinscricoes->id) ?></td>
                                 <td><?= h($muralinscricoes->registro) ?></td>
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->estudante->id]) : $muralinscricoes->estudante->nome; ?>
+
+                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->estudante_id]) : $muralinscricoes->estudante->nome; ?>
                                 </td>
+
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
                                 <td><?= h($muralinscricoes->periodo) ?></td>
                                 <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
