@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+
 // use CakePdf\View\PdfView
 
 /**
@@ -11,20 +12,23 @@ namespace App\Controller;
  * @property \App\Model\Table\EstudantesTable $Estudantes
  * @method \App\Model\Entity\Estudante[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class EstudantesController extends AppController
-{
+class EstudantesController extends AppController {
 
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
-    {
+    public function index($id = null) {
 
-        $estudantes = $this->paginate($this->Estudantes);
-
-        $this->set(compact('estudantes'));
+        /** Estudantes nao podem ver os dados dos outros estudantes */
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
+            $estudantes = $this->paginate($this->Estudantes);
+            $this->set(compact('estudantes'));
+        } else {
+            $this->Flash->error(__('Nao autorizado!'));
+            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $id]);
+        }
     }
 
     /**
@@ -34,28 +38,17 @@ class EstudantesController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
 
         if (!$id) {
-            $registro = $this->getRequest()->getQuery('registro');
-            if ($registro) {
-                $estudante = $this->Estudantes->find()->select('id')->where(['registro' => $registro])->first();
-                if (!$estudante) {
-                    $this->Flash->error(__('Selecionar estudante'));
-                    return $this->redirect('/estudantes/index');
-                } else {
-                    $id = $estudante->id;
-                }
-            } else {
+            $id = $this->getRequest()->getAttribute('identity')['estudante_id'];
+            if (empty($id)) {
                 $this->Flash->error(__('Registro não localizado'));
                 return $this->redirect('/Estudantes/index');
             }
         }
-        // pr($id);
-        // die();
         $estudante = $this->Estudantes->get($id, [
-            'contain' => ['Estagiarios' => ['Instituicaoestagios', 'Alunos', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => 'Muralestagios'],
+            'contain' => ['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => 'Muralestagios'],
         ]);
         // pr($estudante);
         // die();
@@ -67,8 +60,7 @@ class EstudantesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($id = NULL)
-    {
+    public function add($id = NULL) {
 
         /* Estes dados vêm da funcao add do UsersController. Envio paro o formulário */
         $registro = $this->getRequest()->getQuery('registro');
@@ -78,8 +70,8 @@ class EstudantesController extends AppController
 
         /* Verifico se já está cadastrado */
         $estudantecadastrado = $this->Estudantes->find()
-            ->where(['registro' => $registro])
-            ->first();
+                ->where(['registro' => $registro])
+                ->first();
         // pr($estudantecadastrado);
         // die();    
         if ($estudantecadastrado):
@@ -90,14 +82,14 @@ class EstudantesController extends AppController
 
             $estudante = $this->Estudantes->newEmptyEntity();
 
-            /** 
+            /**
              * Verifico se já é um usuário cadastrado.
              * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
              */
             $registroestudante = $this->request->getData('registro');
             $usercadastrado = $this->Estudantes->Userestagios->find()
-                ->where(['registro' => $registroestudante])
-                ->first();
+                    ->where(['registro' => $registroestudante])
+                    ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Estudante naõ cadastrado como usuário'));
                 return $this->redirect('/userestagios/add');
@@ -113,17 +105,17 @@ class EstudantesController extends AppController
                 // pr($estudanteultimo->id);
                 // die('estudanteultimo');
 
-                /** 
+                /**
                  * Verifico se está preenchido o campo estudante_id na tabela Users.
                  * Primeiro busco o usuário. 
                  */
                 $userestagios = $this->Estudantes->Userestagios->find()
-                    ->where(['registro' => $estudanteultimo->registro])
-                    ->first();
+                        ->where(['registro' => $estudanteultimo->registro])
+                        ->first();
                 $userdata = $userestagios->toArray();
                 // pr($userdata);
                 // die();
-                /** 
+                /**
                  * Se o estudante_id é diferente do id do estudante cadastrado na tabela Users, então atualizo a tabela Users com o valor do estudante_id.
                  */
                 if ($userestagios->estudante_id <> $estudanteultimo->id) {
@@ -159,8 +151,7 @@ class EstudantesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
 
         $estudante = $this->Estudantes->get($id, [
             'contain' => [],
@@ -184,8 +175,7 @@ class EstudantesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $estudante = $this->Estudantes->get($id);
         if ($this->Estudantes->delete($estudante)) {
@@ -197,8 +187,7 @@ class EstudantesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function planilhacress($id = NULL)
-    {
+    public function planilhacress($id = NULL) {
 
         $periodo = !is_null($this->getRequest()->getQuery('periodo')) ? $this->getRequest()->getQuery('periodo') : NULL;
         // pr($periodo);
@@ -219,10 +208,10 @@ class EstudantesController extends AppController
         // pr($periodos);
 
         $cressquery = $this->Estudantes->Estagiarios->find()
-            ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes'])
-            ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Docentes.nome'])
-            ->where(['Estagiarios.periodo' => $periodo])
-            ->order(['Estudantes.nome']);
+                ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes'])
+                ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Docentes.nome'])
+                ->where(['Estagiarios.periodo' => $periodo])
+                ->order(['Estudantes.nome']);
 
         $cress = $cressquery->all();
         // pr($cress);
@@ -233,8 +222,7 @@ class EstudantesController extends AppController
         // die();
     }
 
-    public function planilhaseguro($id = NULL)
-    {
+    public function planilhaseguro($id = NULL) {
 
         $periodo = $this->getRequest()->getQuery('periodo');
 
@@ -252,19 +240,19 @@ class EstudantesController extends AppController
         }
 
         $seguroquery = $this->Estudantes->Estagiarios->find()
-            ->contain(['Estudantes', 'Instituicaoestagios'])
-            ->where(['Estagiarios.periodo' => $periodo])
-            ->select([
-                'Estudantes.id',
-                'Estudantes.nome',
-                'Estudantes.cpf',
-                'Estudantes.nascimento',
-                'Estudantes.registro',
-                'Estagiarios.nivel',
-                'Estagiarios.periodo',
-                'Instituicaoestagios.instituicao'
-            ])
-            ->order(['Estagiarios.nivel']);
+                ->contain(['Estudantes', 'Instituicaoestagios'])
+                ->where(['Estagiarios.periodo' => $periodo])
+                ->select([
+                    'Estudantes.id',
+                    'Estudantes.nome',
+                    'Estudantes.cpf',
+                    'Estudantes.nascimento',
+                    'Estudantes.registro',
+                    'Estagiarios.nivel',
+                    'Estagiarios.periodo',
+                    'Instituicaoestagios.instituicao'
+                ])
+                ->order(['Estagiarios.nivel']);
 
         $seguro = $seguroquery->all();
 
@@ -402,9 +390,8 @@ class EstudantesController extends AppController
         // die();
     }
 
-    public function certificadoperiodo($id = NULL)
-    {
-        /** 
+    public function certificadoperiodo($id = NULL) {
+        /**
          * Autorização. Verifica se o estudante cadastrado no Users está acessando seu próprio registro.
          */
         if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '2') {
@@ -444,12 +431,11 @@ class EstudantesController extends AppController
          * Consulto a tabela estudantes com o registro ou o id
          */
         $estudante = $this->Estudantes->find()
-            ->where([$option])
-            ->first();
+                ->where([$option])
+                ->first();
         /**
          * Calculo a partir do ingresso em que periodo o estudante esté neste momento.
          */
-
         /* Capturo o periodo do calendario academico atual */
         $configuracaotabela = $this->fetchTable('Configuracoes');
         $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
@@ -517,7 +503,6 @@ class EstudantesController extends AppController
         // die();
         $this->set('estudante', $estudante);
         $this->set('totalperiodos', $totalperiodos);
-
     }
 
     public function certificadoperiodopdf($id = NULL) {

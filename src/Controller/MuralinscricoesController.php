@@ -74,11 +74,6 @@ class MuralinscricoesController extends AppController
         $muralestagio_id = $this->getRequest()->getQuery('muralestagio_id');
         $periodo = $this->getRequest()->getQuery('periodo');
 
-        /** Capturo o id do aluno se estiver cadastrado. */
-        $estudante_id = $this->Authentication->getIdentityData('estudante_id');
-
-        $muralinscricao = $this->Muralinscricoes->newEmptyEntity();
-
         if (empty($periodo)) {
             $configuracaotabela = $this->fetchTable('Configuracoes');
             $periodoconfiguracao = $configuracaotabela->find()
@@ -86,8 +81,12 @@ class MuralinscricoesController extends AppController
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
 
-        /** Entra para fazer a inscricao se receber o estudante_id no request */
-        if (!empty($this->request->getData('estudante_id'))) {
+        /** Capturo o id do aluno se estiver cadastrado. */
+        $estudante_id = $this->Authentication->getIdentityData('estudante_id');
+
+        $muralinscricao = $this->Muralinscricoes->newEmptyEntity();
+
+        if ($this->request->is('post')) {
 
             $estudantestabela = $this->fetchTable('Estudantes');
             if (isset($estudante_id)) {
@@ -98,6 +97,9 @@ class MuralinscricoesController extends AppController
                 $estudante = $estudantestabela->find()
                     ->where(['id' => $this->getRequest()->getData('estudante_id')])
                     ->first();
+            } else {
+                $this->Flash->error(__('Selecione estudante'));
+                return $this->redirect(['controller' => 'Muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio_id]]);
             }
 
             $alunostabela = $this->fetchTable('Alunos');
@@ -127,6 +129,10 @@ class MuralinscricoesController extends AppController
                 return $this->redirect(['controller' => 'Muralinscricoes', 'action' => 'view', $inscricao->id]);
             }
 
+            /** Verifico se esté com o id do estudante */
+            if (empty($estudante_id)) {
+            }
+    
             /** Preparo os dados para inseir na tabela */
             $dados['registro'] = $estudante->registro;
             if ($aluno) {
@@ -142,8 +148,7 @@ class MuralinscricoesController extends AppController
             $muralinscricao = $this->Muralinscricoes->patchEntity($muralinscricao, $dados);
             if ($this->Muralinscricoes->save($muralinscricao)) {
                 $this->Flash->success(__('Registro de inscricao inserido.'));
-                $ultimo = $this->Muralinscricoes->find()->select(['id'])->all()->last();
-                return $this->redirect(['action' => 'view', $ultimo->id]);
+                return $this->redirect(['action' => 'view', $muralinscricao->id]);
             }
             // debug($muralinscricao);
             $this->Flash->error(__('Registro de inscricao nao foi inserido. Tente novamente.'));
@@ -152,7 +157,7 @@ class MuralinscricoesController extends AppController
         $estudantestabela = $this->fetchTable('Estudantes');
         $estudantes = $estudantestabela->find('list');
 
-        /** Mostra uma lista da ofertas de instituicoes de estagio organizadas por periodo */
+        /** Mostra a lista da ofertas de instituicoes de estagio organizadas por periodo */
         $muralestagiostabela = $this->fetchTable('Muralestagios');
         $options = [
             'keyField' => 'id',
@@ -203,6 +208,8 @@ class MuralinscricoesController extends AppController
      */
     public function delete($id = null)
     {
+        /** Para retornar para o registro do estudante */
+        $estudante = $this->Muralinscricoes->find()->where(['id' => $id])->select(['estudante_id'])->first();
         $this->request->allowMethod(['post', 'delete']);
         $muralinscricao = $this->Muralinscricoes->get($id);
         if ($this->Muralinscricoes->delete($muralinscricao)) {
@@ -210,7 +217,6 @@ class MuralinscricoesController extends AppController
         } else {
             $this->Flash->error(__('Registro de inscricao nao foi excluido. Tente novamente.'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $estudante->id]);
     }
 }

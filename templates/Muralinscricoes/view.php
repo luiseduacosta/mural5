@@ -16,7 +16,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 <?php elseif ($usuario->categoria_id == 2): ?>
-                    <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']) ?>
                 <?php endif; ?>
             </div>
         </aside>

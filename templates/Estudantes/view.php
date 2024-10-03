@@ -18,16 +18,16 @@
     <ul class="nav nav-tabs id=" myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estudante-tab" href="#estudante"
-               data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
+                data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
                 estudante</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" href="#inscricoes" data-target="#inscricoes"
-               role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
+                role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" href="#estagios" data-target="#estagios"
-               role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
+                role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
         </li>
     </ul>
 
@@ -186,8 +186,8 @@
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Período') ?></th>
                             <th><?= __('Instituição de estágio') ?></th>
-                            <th><?= __('Supervisor') ?></th>
-                            <th><?= __('Docente') ?></th>
+                            <th><?= __('Supervisor(a)') ?></th>
+                            <th><?= __('Professor(a)') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
                             <th><?= __('Observações') ?></th>
@@ -228,10 +228,16 @@
                                     <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->docente->id]) : 'Sem dados' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : '' ?></td>
+                                    <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : 'Sem informação' ?>
+                                    </td>
                                 <?php endif; ?>
 
-                                <td><?= $this->Number->format($estagiarios->nota, ['places' => 2]) ?></td>
+                                <?php if ($estagiarios->nota): ?>
+                                    <td><?= $this->Number->format($estagiarios->nota, ['places' => 2]) ?></td>
+                                <?php else: ?>
+                                    <td>Sem nota</td>
+                                <?php endif; ?>
+
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>

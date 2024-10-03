@@ -231,21 +231,9 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
-                                <?= $this->Form->create(null, ['url' => ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, $muralestagio->periodo]], 'type' => 'post']); ?>
-                                <?= $this->Form->input('instituicaoestagio_id', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
-                                <div class='row justify-content-center'>
-                                    <div class='col-auto'>
-                                        <?=
-                                            $this->Form->submit('Inscrição administrador', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
-                                        ?>
-                                        <?=
-                                            $this->Form->end();
-                                        ?>
-                                    </div>
-                                </div>
+                                <?= $this->Html->link('Incricão administrador', ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
                             </td>
                         </tr>
-
                     <?php elseif (isset($usuario) && $usuario->categoria_id <> 1): ?>
                         <!--
                         Para os outros usuários as inscrições dependem da data de encerramento
@@ -253,41 +241,25 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <?php
                         $timeZone = new DateTimeZone('America/Sao_Paulo');
                         $dataDeHoje = new DateTime(null, $timeZone);
+                        /** Sem data de encerramento. Coloco a data de hoje e deixo aberto */
                         if (empty($muralestagio->dataInscricao)) {
-                            // echo "Sem data de encerramento. Coloco a data de hoje e deixo aberto" . "<br>";
                             $dataEnerramentoDaInscricao = new DateTime(null, $timeZone);
                         } else {
                             $dataEnerramentoDaInscricao = DateTime::createFromFormat('d-m-Y', $muralestagio->dataInscricao, $timeZone);
                         }
                         ?>
-                        <?php if ($dataDeHoje <= $dataEnerramentoDaInscricao): ?>
-                            <tr>
+                        <tr>
+                            <?php if ($dataDeHoje <= $dataEnerramentoDaInscricao): ?>
                                 <td colspan=2 style="text-align: center">
-
-                                    <?= $this->Form->create(null, ['url' => ['controller' => 'Muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => $muralestagio->periodo]], 'type' => 'post']); ?>
-                                    <?= $this->Form->input('instituicao_id', ['type' => 'hidden', 'value' => $muralestagio->id]); ?>
-                                    <div class='row justify-content-center'>
-                                        <div class='col-auto'>
-                                            <?=
-                                                $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
-                                            ?>
-                                            <?=
-                                                $this->Form->end();
-                                            ?>
-                                        </div>
-                                    </div>
+                                    <?= $this->Html->link('Incricão', ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
                                 </td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan=2>
+                            <?php else: ?>
+                                <td colspan=2 style="text-align: center">
                                     <p style="text-align: center; color: red">Inscrições encerradas!</p>
                                 </td>
-                            </tr>
-                        <?php endif; ?>
-
+                            <?php endif; ?>
+                        </tr>
                     <?php endif; ?>
-
                 </table>
             </div>
 
