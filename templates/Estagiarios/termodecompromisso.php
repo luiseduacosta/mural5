@@ -38,12 +38,12 @@ if (isset($supervisores)) {
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso?instituicao=']); ?>";
+        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante_id]]); ?>";
         // alert(url);
         $("#id-instituicao").change(function () {
             var instituicao = $(this).val();
             // alert(url + instituicao);
-            window.location = url + instituicao;
+            window.location = url + '&instituicao_id=' + instituicao;
         })
 
     })

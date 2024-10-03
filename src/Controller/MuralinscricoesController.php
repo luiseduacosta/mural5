@@ -24,7 +24,7 @@ class MuralinscricoesController extends AppController
         $periodo = $this->getRequest()->getQuery('periodo');
 
         if (empty($periodo)) {
-            $configuracao = $this->fetchTable('Configuracao');
+            $configuracao = $this->fetchTable('Configuracoes');
             $periodo_atual = $configuracao->find()->select(['mural_periodo_atual'])->first();
             $periodo = $periodo_atual->mural_periodo_atual;
         }
@@ -74,6 +74,7 @@ class MuralinscricoesController extends AppController
         $muralestagio_id = $this->getRequest()->getQuery('muralestagio_id');
         $periodo = $this->getRequest()->getQuery('periodo');
 
+        /** Capturo o id do aluno se estiver cadastrado. */
         $estudante_id = $this->Authentication->getIdentityData('estudante_id');
 
         $muralinscricao = $this->Muralinscricoes->newEmptyEntity();
@@ -85,6 +86,7 @@ class MuralinscricoesController extends AppController
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
 
+        /** Entra para fazer a inscricao se receber o estudante_id no request */
         if (!empty($this->request->getData('estudante_id'))) {
 
             $estudantestabela = $this->fetchTable('Estudantes');

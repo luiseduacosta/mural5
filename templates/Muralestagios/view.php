@@ -22,12 +22,12 @@ $usuario = $this->getRequest()->getAttribute('identity');
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
-                   aria-controls="Instituição" aria-selected="true">Instituição</a>
+                    aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
-                       aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
+                        aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
                 </li>
             <?php endif; ?>
         </ul>
@@ -64,21 +64,21 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Final de Semana') ?></th>
                         <td><?php
-                            switch ($muralestagio->final_de_semana) {
-                                case 0:
-                                    echo "Não";
-                                    break;
-                                case 1;
-                                    echo "Sim";
-                                    break;
-                                case 2:
-                                    echo "Parcialmente";
-                                    break;
-                                default;
-                                    echo "Não";
-                                    break;
-                            }
-                            ?>
+                        switch ($muralestagio->final_de_semana) {
+                            case 0:
+                                echo "Não";
+                                break;
+                            case 1;
+                                echo "Sim";
+                                break;
+                            case 2:
+                                echo "Parcialmente";
+                                break;
+                            default;
+                                echo "Não";
+                                break;
+                        }
+                        ?>
                         </td>
                     </tr>
                     <tr>
@@ -97,21 +97,21 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Horário da OTP') ?></th>
                         <td><?php
-                            switch ($muralestagio->horario) {
-                                case 'D':
-                                    echo "Diurno";
-                                    break;
-                                case 'N':
-                                    echo "Noturno";
-                                    break;
-                                case 'I':
-                                    echo 'Indeterminado';
-                                    break;
-                                default:
-                                    echo 'Indeterminado';
-                                    break;
-                            }
-                            ?></td>
+                        switch ($muralestagio->horario) {
+                            case 'D':
+                                echo "Diurno";
+                                break;
+                            case 'N':
+                                echo "Noturno";
+                                break;
+                            case 'I':
+                                echo 'Indeterminado';
+                                break;
+                            default:
+                                echo 'Indeterminado';
+                                break;
+                        }
+                        ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Docente') ?></th>
@@ -133,24 +133,24 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Forma de seleção') ?></th>
                         <td><?php
-                            switch ($muralestagio->formaSelecao) {
-                                case '0':
-                                    echo 'Entrevista';
-                                    break;
-                                case '1':
-                                    echo 'CR';
-                                    break;
-                                case '2':
-                                    echo 'Prova';
-                                    break;
-                                case '3':
-                                    echo 'Outras';
-                                    break;
-                                default:
-                                    echo 'Outras: ver nas observações';
-                                    break;
-                            }
-                            ?></td>
+                        switch ($muralestagio->formaSelecao) {
+                            case '0':
+                                echo 'Entrevista';
+                                break;
+                            case '1':
+                                echo 'CR';
+                                break;
+                            case '2':
+                                echo 'Prova';
+                                break;
+                            case '3':
+                                echo 'Outras';
+                                break;
+                            default:
+                                echo 'Outras: ver nas observações';
+                                break;
+                        }
+                        ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Contato') ?></th>
@@ -167,18 +167,18 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <th><?= __('Local da inscrição') ?></th>
                         <td><?php
-                            switch ($muralestagio->localInscricao) {
-                                case '0':
-                                    echo 'Somente no mural da Coordenação de Estágio/ESS';
-                                    break;
-                                case '1':
-                                    echo 'Diretamente na Instituição e no mural da Coordenação de Estágio/ESS';
-                                    break;
-                                default:
-                                    echo 'Somente no mural da Coordenação de Estágio/ESS';
-                                    break;
-                            }
-                            ?></td>
+                        switch ($muralestagio->localInscricao) {
+                            case '0':
+                                echo 'Somente no mural da Coordenação de Estágio/ESS';
+                                break;
+                            case '1':
+                                echo 'Diretamente na Instituição e no mural da Coordenação de Estágio/ESS';
+                                break;
+                            default:
+                                echo 'Somente no mural da Coordenação de Estágio/ESS';
+                                break;
+                        }
+                        ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Vagas') ?></th>
@@ -204,14 +204,14 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         </td>
                     </tr>
                     <tr>
-                    <div class="text">
-                        <th><?= __('Outras informações') ?></th>
-                        <td>
-                            <blockquote>
-                                <?= $this->Text->autoParagraph($muralestagio->outras); ?>
-                            </blockquote>
-                        </td>
-                    </div>
+                        <div class="text">
+                            <th><?= __('Outras informações') ?></th>
+                            <td>
+                                <blockquote>
+                                    <?= $this->Text->autoParagraph($muralestagio->outras); ?>
+                                </blockquote>
+                            </td>
+                        </div>
                     </tr>
                     <!--
                     Se a inscricao e na instituição também tem que fazer inscrição no mural
@@ -236,21 +236,31 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                 <div class='row justify-content-center'>
                                     <div class='col-auto'>
                                         <?=
-                                        $this->Form->submit('Inscrição administrador', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
+                                            $this->Form->submit('Inscrição administrador', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
                                         ?>
                                         <?=
-                                        $this->Form->end();
+                                            $this->Form->end();
                                         ?>
                                     </div>
                                 </div>
                             </td>
                         </tr>
 
-                    <?php elseif ((isset($usuario) && $usuario->categoria_id == 2) || (isset($usuario) && $usuario->categoria_id == 3) || (isset($usuario) && $usuario->categoria_id == 4)): ?>
+                    <?php elseif (isset($usuario) && $usuario->categoria_id <> 1): ?>
                         <!--
                         Para os outros usuários as inscrições dependem da data de encerramento
                         //-->
-                        <?php if (date('Y-m-d') < date('Y-m-d', strtotime($muralestagio->dataInscricao))): ?>
+                        <?php
+                        $timeZone = new DateTimeZone('America/Sao_Paulo');
+                        $dataDeHoje = new DateTime(null, $timeZone);
+                        if (empty($muralestagio->dataInscricao)) {
+                            // echo "Sem data de encerramento. Coloco a data de hoje e deixo aberto" . "<br>";
+                            $dataEnerramentoDaInscricao = new DateTime(null, $timeZone);
+                        } else {
+                            $dataEnerramentoDaInscricao = DateTime::createFromFormat('d-m-Y', $muralestagio->dataInscricao, $timeZone);
+                        }
+                        ?>
+                        <?php if ($dataDeHoje <= $dataEnerramentoDaInscricao): ?>
                             <tr>
                                 <td colspan=2 style="text-align: center">
 
@@ -259,10 +269,10 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                     <div class='row justify-content-center'>
                                         <div class='col-auto'>
                                             <?=
-                                            $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
+                                                $this->Form->submit('Inscrição', ['type' => 'Submit', 'label' => ['text' => 'Inscrição', 'class' => 'col-4'], 'class' => 'btn btn-primary']);
                                             ?>
                                             <?=
-                                            $this->Form->end();
+                                                $this->Form->end();
                                             ?>
                                         </div>
                                     </div>

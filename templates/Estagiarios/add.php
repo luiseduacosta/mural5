@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
+// pr($estudantedeestagio);
 ?>
 <?= $this->element('templates') ?>
 <div class="row">
@@ -11,32 +12,45 @@
             <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
         </div>
     </aside>
-    <div class="column-responsive column-80">
-        <div class="estagiarios form content">
-            <?= $this->Form->create($estagiario) ?>
-            <fieldset>
-                <legend><?= __('Novo estagiário') ?></legend>
-                <?php
-                echo $this->Form->control('aluno_id', ['options' => $alunos]);
-                echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => true]);
+    <div class="container">
+        <?= $this->Form->create($estagiario) ?>
+        <fieldset>
+            <legend><?= __('Novo estagiário') ?></legend>
+            <?php
+            if (isset($estudante_id)) {
+                echo $this->Form->control('estudante_id', ['options' => $estudantes, 'value' => $estudante_id]);
+                echo $this->Form->control('registro', ['value' => $estudanteestagiarios->registro]);
+                echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Nao', '1' => 'Sim']]);
+                echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'A' => 'Ambos', 'I' => 'Indeterminado'], 'value' => $estudanteestagiarios->turno]);
+                echo $this->Form->control('nivel', ['label' => ['text' => 'Nivel de estagio'], 'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Extra-curricular'], 'value' => $estudantedeestagio->nivel]);
+            } else {
+                echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => 'Seleciona']);
                 echo $this->Form->control('registro');
-                echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020']]);
-                echo $this->Form->control('turno');
-                echo $this->Form->control('nivel');
-                echo $this->Form->control('tc');
-                echo $this->Form->control('tc_solicitacao', ['empty' => true]);
-                echo $this->Form->control('instituicaoestagio_id', ['options' => $instituicaoestagios]);
-                echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
-                echo $this->Form->control('docente_id', ['options' => $docentes, 'empty' => true]);
-                echo $this->Form->control('periodo');
-                echo $this->Form->control('turmaestagio_id', ['options' => $turmaestagios, 'empty' => true]);
-                echo $this->Form->control('nota');
-                echo $this->Form->control('ch');
-                echo $this->Form->control('observacoes');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
-        </div>
+                echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Nao', '1' => 'Sim']]);
+                echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'A' => 'Ambos', 'I' => 'Indeterminado']]);
+                echo $this->Form->control('nivel', ['label' => ['text' => 'Nivel de estagio'], 'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Extra-curricular']]);
+            }
+
+            echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso'], 'options' => [0 => "Nao", 1 => "Sim"]]);
+            echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data de solicitaçao do TC'], 'empty' => true, 'value' => new DateTime()]);
+
+            if (isset($estudante_id)) {
+                echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituicao de estagio'], 'options' => $instituicaoestagios, 'value' => $estudantedeestagio->instituicaoestagio_id]);
+                echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'value' => $estudantedeestagio->supervisor_id]);
+                echo $this->Form->control('docente_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'value' => $estudantedeestagio->professor_id]);
+            } else {
+                echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituicao de estagio'], 'options' => $instituicaoestagios, 'empty' => "Seleciona"]);
+                echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => "Seleciona"]);
+                echo $this->Form->control('docente_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'empty' => "Seleciona"]);
+            }
+            echo $this->Form->control('periodo', ['value' => $periodo]);
+            echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estagio'], 'options' => $turmaestagios, 'empty' => "Seleciona"]);
+            echo $this->Form->control('nota');
+            echo $this->Form->control('ch', ['label' => ['text' => 'Carga horaria']]);
+            echo $this->Form->control('observacoes', ['label' => ['text' => 'Outras informacoes']]);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
     </div>
 </div>

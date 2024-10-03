@@ -153,8 +153,8 @@ class MuralestagiosController extends AppController
             $this->Flash->error(__('No foi possível atualizar o registro. Tente novamente.'));
         }
         $instituicaoestagios = $this->Muralestagios->Instituicaoestagios->find('list');
-        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list', ['limit' => 200]);
-        $docentes = $this->Muralestagios->Docentes->find('list', ['limit' => 500]);
+        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
+        $docentes = $this->Muralestagios->Docentes->find('list');
         $this->set(compact('muralestagio', 'instituicaoestagios', 'turmaestagios', 'docentes', 'periodostotal'));
     }
 
