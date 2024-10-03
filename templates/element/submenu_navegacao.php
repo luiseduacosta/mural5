@@ -1,6 +1,6 @@
 <?php
 if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
-    $categoria = $this->getRequest()->getAttribute('identity')->get('categoria_id');
+    $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
 } else {
     $categoria = null;
 }

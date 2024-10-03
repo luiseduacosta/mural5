@@ -26,7 +26,7 @@
 </script>
 <div class="container">
     <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-    <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
+    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
         <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
     <?php endif; ?>
 
@@ -34,7 +34,7 @@
     <div class="row justify-content-center">
         <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
+        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>

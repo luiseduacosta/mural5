@@ -60,11 +60,11 @@ class AvaliacoesController extends AppController {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
-            $estagiarioquery = $this->Avaliacoes->Estagiarios->find()
+            $estagiario = $this->Avaliacoes->Estagiarios->find()
                     ->contain(['Supervisores', 'Estudantes', 'Docentes', 'Folhadeatividades'])
                     ->where(['Supervisores.cress' => $cress])
-                    ->order(['periodo' => 'desc']);
-            $estagiario = $estagiarioquery->all();
+                    ->order(['periodo' => 'desc'])
+                    ->all();
             // pr($estagiario);
             // die();
             $this->set('estagiario', $estagiario);
@@ -123,13 +123,12 @@ class AvaliacoesController extends AppController {
             $this->Flash->error(__('Selecione um nível e período de estágio do estudante'));
             return $this->redirect('/Estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
-            $avaliacaoquery = $this->Avaliacoes->find()->where(['estagiario_id' => $id]);
+            $avaliacao = $this->Avaliacoes->find()->where(['estagiario_id' => $id])->first();
             // pr($avaliacaoquery);
-            $avaliacaoverifica = $avaliacaoquery->first();
             // pr($avaliacaoverifica);
-            if (isset($avaliacaoverifica) && !is_null($avaliacaoverifica)) {
+            if (isset($avaliacao) && !is_null($avaliacao)) {
                 $this->Flash->error(__('Estagiário já foi avaliado'));
-                return $this->redirect('/avaliacoes/view/' . $avaliacaoverifica->id);
+                return $this->redirect('/avaliacoes/view/' . $avaliacao->id);
             }
             // die();
         }
@@ -138,20 +137,20 @@ class AvaliacoesController extends AppController {
         // die();
         $avaliacao = $this->Avaliacoes->newEmptyEntity();
         if ($this->request->is('post')) {
-            $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
+            $avaliacaoresultado = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
             // pr($avaliacao);
             // die();
-            if ($this->Avaliacoes->save($avaliacao)) {
+            if ($this->Avaliacoes->save($avaliacaoresultado)) {
                 $this->Flash->success(__('Avaliação registrada.'));
 
                 return $this->redirect(['controller' => 'avaliacoes', 'action' => 'index', $this->getRequest()->getData('estagiario_id')]);
             }
             $this->Flash->error(__('Avaliaçãoo no foi registrada. Tente novamente.'));
         }
-        $estagiarioquery = $this->Avaliacoes->Estagiarios->find()
+        $estagiario = $this->Avaliacoes->Estagiarios->find()
                 ->contain(['Estudantes'])
-                ->where(['Estagiarios.id' => $id]);
-        $estagiario = $estagiarioquery->first();
+                ->where(['Estagiarios.id' => $id])
+                ->first();
         // pr($avaliacao);
         // pr($estagiario);
         $this->set(compact('avaliacao', 'estagiario'));
@@ -165,6 +164,7 @@ class AvaliacoesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
         $avaliacao = $this->Avaliacoes->get($id, [
             'contain' => ['Estagiarios' => 'Estudantes'],
         ]);
@@ -172,13 +172,13 @@ class AvaliacoesController extends AppController {
         $estagiario = $avaliacao->estagiario;
         // die();
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
-            if ($this->Avaliacoes->save($avaliacao)) {
-                $this->Flash->success(__('The avaliacao has been saved.'));
+            $avaliacaoresultado = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
+            if ($this->Avaliacoes->save($avaliacaoresultado)) {
+                $this->Flash->success(__('Registro avaliacao atualizado.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $avaliacaoresultado->id]);
             }
-            $this->Flash->error(__('The avaliacao could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro avaliacao nao foi atualizado. Tente novamente.'));
         }
         // $estagiarios = $this->Avaliacoes->Estagiarios->find('list', ['limit' => 200]);
         $this->set(compact('avaliacao', 'estagiario'));
@@ -192,12 +192,13 @@ class AvaliacoesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $avaliacao = $this->Avaliacoes->get($id);
         if ($this->Avaliacoes->delete($avaliacao)) {
-            $this->Flash->success(__('The avaliacao has been deleted.'));
+            $this->Flash->success(__('Registro avaliacao excluido.'));
         } else {
-            $this->Flash->error(__('The avaliacao could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro avaliacao nao foi excluido. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);

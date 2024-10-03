@@ -73,7 +73,7 @@ class EstudantesController extends AppController {
                 ->where(['registro' => $registro])
                 ->first();
         // pr($estudantecadastrado);
-        // die();    
+        // die();
         if ($estudantecadastrado):
             return $this->redirect(['view' => $estudantecadastrado->id]);
         endif;
@@ -107,7 +107,7 @@ class EstudantesController extends AppController {
 
                 /**
                  * Verifico se está preenchido o campo estudante_id na tabela Users.
-                 * Primeiro busco o usuário. 
+                 * Primeiro busco o usuário.
                  */
                 $userestagios = $this->Estudantes->Userestagios->find()
                         ->where(['registro' => $estudanteultimo->registro])
@@ -177,7 +177,13 @@ class EstudantesController extends AppController {
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $estudante = $this->Estudantes->get($id);
+        $estudante = $this->Estudantes->get($id, [
+            'contain' => ['Estagiarios']
+        ]);
+        if (sizeof($estudante->estagiarios) > 0) {
+            $this->Flash->error(__('Estudante tem estagiarios associados.'));
+            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $id]);
+        }
         if ($this->Estudantes->delete($estudante)) {
             $this->Flash->success(__('Registro de estudante excluído.'));
         } else {
@@ -394,8 +400,8 @@ class EstudantesController extends AppController {
         /**
          * Autorização. Verifica se o estudante cadastrado no Users está acessando seu próprio registro.
          */
-        if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '2') {
-            $estudante_id = $this->getRequest()->getAttribute('identity')->get('estudante_id');
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == '2') {
+            $estudante_id = $this->getRequest()->getAttribute('identity')['estudante_id'];
             if ($id == $estudante_id) {
                 /**
                  * @var $option
@@ -404,7 +410,7 @@ class EstudantesController extends AppController {
                 $option = "id = $estudante_id";
                 // echo "Estudante Id autorizado";
             } else {
-                $estudante_registro = $this->getRequest()->getAttribute('identity')->get('registro');
+                $estudante_registro = $this->getRequest()->getAttribute('identity')['registro'];
                 if ($estudante_registro == $this->getRequest()->getQuery('registro')) {
                     /**
                      * @var $option
@@ -415,11 +421,11 @@ class EstudantesController extends AppController {
                 } else {
                     // echo "Registros não coincidem" . "<br>";
                     $this->Flash->error(__('1. Operação não autorizada.'));
-                    return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('registro')]);
+                    return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')['registro']]);
                     die('Estudante não autorizado.');
                 }
             }
-        } elseif ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1') {
+        } elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1') {
             echo "Administrador autorizado";
         } else {
             $this->Flash->error(__('2. Operação não autorizada.'));
@@ -446,8 +452,8 @@ class EstudantesController extends AppController {
          */
         $periodo_atual = $periodoacademicoatual->periodo_calendario_academico;
         /** Capturo o periodo inicial para o cálculo dos semetres.
-         *  Inicialmente coincide com o campo de ingresso. 
-         *  Mas pode ser alterada para fazer coincider os semestres no casos dos alunos que trancaram.  
+         *  Inicialmente coincide com o campo de ingresso.
+         *  Mas pode ser alterada para fazer coincider os semestres no casos dos alunos que trancaram.
          */
         $novoperiodo = $this->getRequest()->getData('novoperiodo');
         if ($novoperiodo) {
@@ -489,7 +495,7 @@ class EstudantesController extends AppController {
         /** Se o período inicial é maior que o período atual então informar que há um erro */
         if ($totalperiodos <= 0) {
             $this->Flash->error(__('Error: período inicial é maior que período atual'));
-            return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')->get('registro')]);
+            return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo', '?' => ['registro' => $this->getRequest()->getAttribute('identity')['registro']]]);
         }
 
         // pr($totalperiodos);

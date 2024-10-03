@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -9,15 +10,14 @@ namespace App\Controller;
  * @property \App\Model\Table\AreainstituicoesTable $Areainstituicoes
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AreainstituicoesController extends AppController
-{
+class AreainstituicoesController extends AppController {
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
-    {
+    public function index() {
         $areainstituicoes = $this->paginate($this->Areainstituicoes);
 
         $this->set(compact('areainstituicoes'));
@@ -30,8 +30,7 @@ class AreainstituicoesController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $areainstituicao = $this->Areainstituicoes->get($id, [
             'contain' => [],
         ]);
@@ -44,17 +43,16 @@ class AreainstituicoesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $areainstituicao = $this->Areainstituicoes->newEmptyEntity();
         if ($this->request->is('post')) {
-            $areainstituicao = $this->Areainstituicoes->patchEntity($areainstituicao, $this->request->getData());
-            if ($this->Areainstituicoes->save($areainstituicao)) {
-                $this->Flash->success(__('The areainstituicao has been saved.'));
+            $areainstituicaoresultado = $this->Areainstituicoes->patchEntity($areainstituicao, $this->request->getData());
+            if ($this->Areainstituicoes->save($areainstituicaoresultado)) {
+                $this->Flash->success(__('Registro areainstituicao inserido.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $areainstituicaoresultado->id]);
             }
-            $this->Flash->error(__('The areainstituicao could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro areainstituicao nao foi inserido. Tente novamente.'));
         }
         $this->set(compact('areainstituicao'));
     }
@@ -66,19 +64,18 @@ class AreainstituicoesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $areainstituicao = $this->Areainstituicoes->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $areainstituicao = $this->Areainstituicoes->patchEntity($areainstituicao, $this->request->getData());
-            if ($this->Areainstituicoes->save($areainstituicao)) {
-                $this->Flash->success(__('The areainstituicao has been saved.'));
+            $areainstituicaoresultado = $this->Areainstituicoes->patchEntity($areainstituicao, $this->request->getData());
+            if ($this->Areainstituicoes->save($areainstituicaoresultado)) {
+                $this->Flash->success(__('Registro areainstituicao atualizado.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $areainstituicaoresultado->id]);
             }
-            $this->Flash->error(__('The areainstituicao could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro areainstituicao nao foi atualziado. Tente novamente.'));
         }
         $this->set(compact('areainstituicao'));
     }
@@ -90,14 +87,14 @@ class AreainstituicoesController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $areainstituicao = $this->Areainstituicoes->get($id);
-        if ($this->Areainstituicoes->delete($areainstituicao)) {
-            $this->Flash->success(__('The areainstituicao has been deleted.'));
+        $areainstituicaoresultado = $this->Areainstituicoes->get($id);
+        if ($this->Areainstituicoes->delete($areainstituicaoresultado)) {
+            $this->Flash->success(__('Registro areainstituicao excluido.'));
         } else {
-            $this->Flash->error(__('The areainstituicao could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro areainstituicao nao foi excluido. Tente novamente.'));
+            return $this->redirect(['action' => 'view', $id]);
         }
 
         return $this->redirect(['action' => 'index']);
