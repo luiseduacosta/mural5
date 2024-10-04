@@ -80,8 +80,8 @@ class MuralinscricoesTable extends Table
             ->notEmptyDate('data');
         
         $validator
-                ->integer('alunonovo_id')
-                ->notEmptyString('alunonovo_id');
+                ->integer('estudante_id')
+                ->notEmptyString('estudante_id');
         
         $validator
                 ->integer('id_instituicao')

@@ -21,13 +21,13 @@ class EstudantesController extends AppController {
      */
     public function index($id = null) {
 
-        /** Estudantes nao podem ver os dados dos outros estudantes */
+        /** Estudantes não podem ver os dados dos outros estudantes */
         if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
             $estudantes = $this->paginate($this->Estudantes);
             $this->set(compact('estudantes'));
         } else {
-            $this->Flash->error(__('Nao autorizado!'));
-            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $id]);
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $this->getRequest()->getAttribute('identity')['estudante_id']]);
         }
     }
 
@@ -40,18 +40,18 @@ class EstudantesController extends AppController {
      */
     public function view($id = null) {
 
-        if (!$id) {
-            $id = $this->getRequest()->getAttribute('identity')['estudante_id'];
-            if (empty($id)) {
-                $this->Flash->error(__('Registro não localizado'));
-                return $this->redirect('/Estudantes/index');
-            }
+        $registro = $this->getRequest()->getQuery('registro');
+        if ($registro) {
+            $estudante = $this->Estudantes->find()
+                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                    ->where(['registro' => $registro])
+                    ->first();
+        } else {
+            $estudante = $this->Estudantes->find()
+                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                    ->where(['id' => $id])
+                    ->first();
         }
-        $estudante = $this->Estudantes->get($id, [
-            'contain' => ['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => 'Muralestagios'],
-        ]);
-        // pr($estudante);
-        // die();
         $this->set(compact('estudante'));
     }
 
@@ -65,30 +65,31 @@ class EstudantesController extends AppController {
         /* Estes dados vêm da funcao add do UsersController. Envio paro o formulário */
         $registro = $this->getRequest()->getQuery('registro');
         $email = $this->getRequest()->getQuery('email');
-        // pr($email);
-        // die();
 
         /* Verifico se já está cadastrado */
-        $estudantecadastrado = $this->Estudantes->find()
-                ->where(['registro' => $registro])
-                ->first();
-        // pr($estudantecadastrado);
-        // die();
-        if ($estudantecadastrado):
-            return $this->redirect(['view' => $estudantecadastrado->id]);
-        endif;
+        if ($registro) {
+            $estudantecadastrado = $this->Estudantes->find()
+                    ->where(['registro' => $registro])
+                    ->first();
+            // pr($estudantecadastrado);
+            // die();
+            if ($estudantecadastrado):
+                $this->Flash->error(__('Estudante já cadastrado'));
+                return $this->redirect(['view' => $estudantecadastrado->id]);
+            endif;
+        }
+
+        $estudante = $this->Estudantes->newEmptyEntity();
 
         if ($this->request->is('post')) {
 
-            $estudante = $this->Estudantes->newEmptyEntity();
-
             /**
-             * Verifico se já é um usuário cadastrado.
+             * Verifico se já é um usuário cadastrado no userestagios.
              * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
              */
-            $registroestudante = $this->request->getData('registro');
+            $registro = $this->request->getData('registro');
             $usercadastrado = $this->Estudantes->Userestagios->find()
-                    ->where(['registro' => $registroestudante])
+                    ->where(['registro' => $registro])
                     ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Estudante naõ cadastrado como usuário'));
@@ -97,51 +98,50 @@ class EstudantesController extends AppController {
             // pr($estudante);
             // pr($this->request->getData()).
             // die();
-            $estudante = $this->Estudantes->patchEntity($estudante, $this->request->getData());
+            $estudanteresultado = $this->Estudantes->patchEntity($estudante, $this->request->getData());
             // debug($estudante);
-            if ($this->Estudantes->save($estudante)) {
+            if ($this->Estudantes->save($estudanteresultado)) {
                 $this->Flash->success(__('Estudante cadastrado 1.'));
-                $estudanteultimo = $this->Estudantes->find()->orderDesc('id')->select(['id', 'registro'])->first();
-                // pr($estudanteultimo->id);
-                // die('estudanteultimo');
 
                 /**
                  * Verifico se está preenchido o campo estudante_id na tabela Users.
                  * Primeiro busco o usuário.
                  */
                 $userestagios = $this->Estudantes->Userestagios->find()
-                        ->where(['registro' => $estudanteultimo->registro])
+                        ->where(['id' => $estudanteresultado->id])
                         ->first();
+
                 $userdata = $userestagios->toArray();
-                // pr($userdata);
-                // die();
+
                 /**
                  * Se o estudante_id é diferente do id do estudante cadastrado na tabela Users, então atualizo a tabela Users com o valor do estudante_id.
                  */
-                if ($userestagios->estudante_id <> $estudanteultimo->id) {
-                    $userdata['estudante_id'] = $estudanteultimo->id;
+                if ($userestagios->estudante_id <> $estudanteresultado->id) {
+                    $userdata['estudante_id'] = $estudanteresultado->id;
                     $userestagiostabela = $this->fetchTable('Userestagios');
-                    $userestagios = $this->Userestagios->patchEntity($userestagiostabela, $userdata);
+                    $userestagiosresultado = $this->Userestagios->patchEntity($userestagiostabela, $userdata);
                     // pr($userestagios);
                     // die('userestagios');
-                    if ($this->Userestagios->save($userestagios)) {
+                    if ($this->Userestagios->save($userestagiosresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do estudante'));
-                        return $this->redirect(['action' => 'view', $estudanteultimo->id]);
+                        return $this->redirect(['action' => 'view', $userestagiosresultado->id]);
                     } else {
                         $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do estudante'));
-                        debug($userestagios->getErrors());
-                        die();
+                        // debug($userestagios->getErrors());
+                        return $this->redirect(['controller' => 'Userestagios', 'action' => 'logout']);
+                        // die();
                     }
                 }
             } else {
-                debug($estudante)->getErrors();
+                // debug($estudante)->getErrors();
                 $this->Flash->error(__('Não foi possível cadastrar o estudante. Tente novamente.'));
-                return $this->redirect(['action' => 'add?registro=' . $registro . '&' . 'email=' . $email]);
-                // die('Error');
+                return $this->redirect(['action' => 'add', '?' => ['registro' => $registro, 'email' => $email]]);
             }
         }
-
-        $this->set(compact('estudantecadastrado', 'registro', 'email'));
+        if (isset($estudantecadastrado)) {
+            $this->set(compact('estudantecadastrado', 'registro', 'email'));
+        }
+        $this->set(compact('estudante'));
     }
 
     /**
@@ -157,13 +157,13 @@ class EstudantesController extends AppController {
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $estudante = $this->Estudantes->patchEntity($estudante, $this->request->getData());
-            if ($this->Estudantes->save($estudante)) {
+            $estudanteresultado = $this->Estudantes->patchEntity($estudante, $this->request->getData());
+            if ($this->Estudantes->save($estudanteresultado)) {
                 $this->Flash->success(__('Registo de estudante atualizado.'));
 
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('Registro de estudante no foi atualizado. Tente novamente.'));
+            $this->Flash->error(__('Registro de estudante não foi atualizado. Tente novamente.'));
         }
         $this->set(compact('estudante'));
     }
@@ -176,12 +176,13 @@ class EstudantesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $estudante = $this->Estudantes->get($id, [
             'contain' => ['Estagiarios']
         ]);
         if (sizeof($estudante->estagiarios) > 0) {
-            $this->Flash->error(__('Estudante tem estagiarios associados.'));
+            $this->Flash->error(__('Estudante tem estagiários associados.'));
             return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $id]);
         }
         if ($this->Estudantes->delete($estudante)) {
@@ -207,19 +208,19 @@ class EstudantesController extends AppController {
             'order' => 'periodo'
         ]);
         $periodos = $periodototal->toArray();
-        /* Se o periodo não veio então o período é o último período */
+        /* Se o periodo não veio anexo como parametro então o período é o último da lista dos períodos */
         if (empty($periodo)) {
             $periodo = end($periodos);
         }
         // pr($periodos);
 
-        $cressquery = $this->Estudantes->Estagiarios->find()
+        $cress = $this->Estudantes->Estagiarios->find()
                 ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes'])
                 ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Docentes.nome'])
                 ->where(['Estagiarios.periodo' => $periodo])
-                ->order(['Estudantes.nome']);
+                ->order(['Estudantes.nome'])
+                ->all();
 
-        $cress = $cressquery->all();
         // pr($cress);
         // die();
         $this->set('cress', $cress);
@@ -245,7 +246,7 @@ class EstudantesController extends AppController {
             $periodo = end($periodos);
         }
 
-        $seguroquery = $this->Estudantes->Estagiarios->find()
+        $seguro = $this->Estudantes->Estagiarios->find()
                 ->contain(['Estudantes', 'Instituicaoestagios'])
                 ->where(['Estagiarios.periodo' => $periodo])
                 ->select([
@@ -258,9 +259,8 @@ class EstudantesController extends AppController {
                     'Estagiarios.periodo',
                     'Instituicaoestagios.instituicao'
                 ])
-                ->order(['Estagiarios.nivel']);
-
-        $seguro = $seguroquery->all();
+                ->order(['Estagiarios.nivel'])
+                ->all();
 
         $i = 0;
         foreach ($seguro as $c_seguro) {
@@ -422,7 +422,7 @@ class EstudantesController extends AppController {
                     // echo "Registros não coincidem" . "<br>";
                     $this->Flash->error(__('1. Operação não autorizada.'));
                     return $this->redirect(['controller' => 'Estudantes', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')['registro']]);
-                    die('Estudante não autorizado.');
+                    // die('Estudante não autorizado.');
                 }
             }
         } elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1') {
@@ -430,11 +430,11 @@ class EstudantesController extends AppController {
         } else {
             $this->Flash->error(__('2. Operação não autorizada.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            die('Professores e Supervisores não autorizados');
+            // die('Professores e Supervisores não autorizados');
         }
 
         /**
-         * Consulto a tabela estudantes com o registro ou o id
+         * Consulto a tabela estudantes com o registro ou com o id
          */
         $estudante = $this->Estudantes->find()
                 ->where([$option])
@@ -543,5 +543,60 @@ class EstudantesController extends AppController {
 
         $this->set('estudante', $estudante);
         $this->set('totalperiodos', $totalperiodos);
+    }
+
+    public function cargahoraria($ordem = null) {
+
+        $ordem = $this->getRequest()->getQuery('ordem');
+
+        if (empty($ordem)):
+            $ordem = 'q_semestres';
+        endif;
+
+        // pr($ordem);
+        // die();
+
+        $estudantes = $this->Estudantes->find()->contain(['Estagiarios'])->limit(20)->toArray();
+
+        $i = 0;
+        foreach ($estudantes as $estudante):
+            //pr($estudante['estagiarios']);
+            // pr(sizeof($estudante['estagiarios']));
+            // die();
+            $cargahorariatotal[$i]['id'] = $estudante['Estudante']['id'];
+            $cargahorariatotal[$i]['registro'] = $estudante['Estudante']['registro'];
+            $cargahorariatotal[$i]['q_semestres'] = sizeof($estudante['estagiarios']);
+            $carga_estagio = null;
+            $y = 0;
+            foreach ($estudante['estagiarios'] as $estagiario):
+                // pr($estagiario);
+                // die();
+                if ($estagiario['nivel'] == 1):
+                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
+                    $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
+                    $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'];
+                    $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
+                // $criterio[$i][$ordem] = $c_estagio['periodo'];
+                else:
+                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
+                    $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
+                    $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'];
+                    $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
+                // $criterio[$i][$ordem] = NULL;
+                endif;
+                $y++;
+            endforeach;
+            $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
+            $criterio[$i] = $cargahorariatotal[$i][$ordem];
+            $i++;
+            //            endif;
+        endforeach;
+
+        array_multisort($criterio, SORT_ASC, $cargahorariatotal);
+        // pr($cargahorariatotal);
+        // die();
+        $this->set('cargahorariatotal', $cargahorariatotal);
+
+        // die();
     }
 }

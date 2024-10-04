@@ -71,7 +71,7 @@
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td><?= h($estagiarios->complemento_id) ?></td>
-                                        <td><?= h($estagiarios->alunonovo_id) ?></td>
+                                        <td><?= h($estagiarios->estudante_id) ?></td>
                                         <td><?= h($estagiarios->ajuste2020) ?></td>
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>

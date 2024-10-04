@@ -76,7 +76,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <tr>
                         <?php // pr($estagiario); ?>
                         <td><?= $estagiario->id ?></td>
-                        <td><?= $estagiario->hasValue('estudante') ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->alunonovo_id]) : '' ?>
+                        <td><?= $estagiario->hasValue('estudante') ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->estudante_id]) : '' ?>
                         </td>
                         <td><?= $estagiario->registro ?></td>
                         <td><?= h($estagiario->ajuste2020) == 0 ? 'Não' : 'Sim' ?></td>

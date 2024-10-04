@@ -21,7 +21,7 @@
                 <?php
                 echo $this->Form->control('nome', ['required']);
                 echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social']]);
-                if ($registro):
+                if (isset($registro)):
                     echo $this->Form->control('registro', ['value' => $registro, 'readonly', 'required']);
                 else:
                     echo $this->Form->control('registro', ['required']);
@@ -32,7 +32,7 @@
                 echo $this->Form->control('telefone');
                 echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD']]);
                 echo $this->Form->control('celular', ['pattern' => '\d{5}.\d{4}', 'placeholder' => '_____.____']);
-                if ($email):
+                if (isset($email)):
                     echo $this->Form->control('email', ['value' => $email, 'readonly', 'required']);
                 else:
                     echo $this->Form->control('email', ['required']);

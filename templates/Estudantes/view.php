@@ -8,26 +8,28 @@
 <?= $this->element('templates') ?>
 <div class="container">
 
-    <?= $this->Html->link(__('Editar Estudante'), ['action' => 'edit', $estudante->id], ['class' => 'btn btn-secondary float-end']) ?>
+    <?= $this->Html->link(__('Editar Estudante'), ['action' => 'edit', $estudante->id], ['class' => 'btn btn-secondary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
     <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == 1): ?>
-        <?= $this->Html->link(__('Listar Estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-        <?= $this->Html->link(__('Novo Estudante'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-        <?= $this->Form->postLink(__('Excluir Estudante'), ['action' => 'delete', $estudante->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estudante->id), 'class' => 'btn btn-danger float-end']) ?>
+        <?= $this->Form->postLink(__('Excluir Estudante'), ['action' => 'delete', $estudante->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estudante->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+        <?= $this->Html->link(__('Listar Estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+        <?= $this->Html->link(__('Novo Estudante'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+        <?= $this->Html->link(__('Declaraçao periodo'), ['controller' => 'estudantes', 'action' => 'certificadoperiodo', $estudante->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
     <?php endif; ?>
 
     <ul class="nav nav-tabs id=" myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estudante-tab" href="#estudante"
-                data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
+               data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
                 estudante</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" href="#inscricoes" data-target="#inscricoes"
-                role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
+               role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" href="#estagios" data-target="#estagios"
-                role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
+               role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
         </li>
     </ul>
 

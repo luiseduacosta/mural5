@@ -130,8 +130,8 @@
                         <?php foreach ($estudante->muralinscricoes as $muralinscricoes) : ?>
                             <tr>
                                 <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->id_aluno) ?></td>
-                                <td><?= h($muralinscricoes->alunonovo_id) ?></td>
+                                <td><?= h($muralinscricoes->registro) ?></td>
+                                <td><?= h($muralinscricoes->estudante_id) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) : '' ?></td>
                                 <?php else: ?>
@@ -185,7 +185,7 @@
                                 <?php // pr($estagiarios); ?>
                                 <td><?= h($estagiarios->id) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link(h($estagiarios->estudante->nome), ['controller' => 'estudantes', 'action' => 'view', $estagiarios->alunonovo_id]) : '' ?></td>
+                                    <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link(h($estagiarios->estudante->nome), ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) : '' ?></td>
                                 <?php else: ?>
                                     <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : '' ?></td>
                                 <?php endif; ?>

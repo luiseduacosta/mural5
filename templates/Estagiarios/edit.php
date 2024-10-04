@@ -32,8 +32,7 @@
                 <fieldset>
                     <legend><?= __('Editar Estagiário') ?></legend>
                     <?php
-                    echo $this->Form->control('id_aluno', ['label' => ['text' => 'Aluno(a)'], 'options' => $alunos]);
-                    echo $this->Form->control('alunonovo_id', ['label' => ['text' => 'Estudante'], 'options' => $estudantes]);
+                    echo $this->Form->control('estudante_id', ['label' => ['text' => 'Estudante'], 'options' => $estudantes]);
                     echo $this->Form->control('registro');
                     echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
                     echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);

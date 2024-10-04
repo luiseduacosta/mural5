@@ -2,34 +2,57 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
- */
+ */ 
+if (isset($estudante_id)) {
+    // echo "estudante_id" . "<br>";
+    // pr($estudante_id);
+    // die();
+} else {
+    // echo "Sem instituicao." . "<br>";
+}
+
+if (isset($instituicao_id)) {
+    // echo "Instituicao" . "<br>";
+    // pr($instituicao_id);
+} else {
+    // echo "Sem instituicao." . "<br>";
+}
+
 if (isset($estudanteestagiario)) {
+    // echo "estudanteestagiario" . "<br>";
     // pr($estudanteestagiario);
 } else {
     // echo "Estudante sem estágios." . "<br>";
 }
 if (isset($ultimoestagio)) {
+    // echo "ulitmoestagio" . "<br>";
     // pr($ultimoestagio);
 } else {
     // echo "Estudante sem último estágio" . "<br>";
 }
 
 if (isset($estudante_semestagio)) {
+    // echo "estudante_semestagio". "<br>";
     // pr($estudante_semestagio);
 } else {
     // echo "Estudante estagiário." . "<br>";
 }
 
 if (isset($atualizar)) {
+    // echo 'atualizar' . '<br>';
     // pr($atualizar);
 }
 
 if (isset($instituicaoestagios)) {
+    // echo 'instituicaoestagios' . '<br>';
     // pr($instituicaoestagios);
 }
 
-if (isset($supervisores)) {
-    // pr($supervisores);
+if (isset($supervisoresdainstituicao)) {
+    // echo 'supervisoresdainstituicao' . '<br>';
+    // pr($supervisoresdainstituicao);
+} else {
+    echo "Sem supervisores da instituicao" . '<br>';
 }
 // pr($periodo);
 // die();
@@ -41,8 +64,8 @@ if (isset($supervisores)) {
         var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante_id]]); ?>";
         // alert(url);
         $("#instituicaoestagio-id").change(function () {
-           var instituicao = $(this).val();
-           // alert(instituicao);
+            var instituicao = $(this).val();
+            // alert(url + '&instituicao_id=' +instituicao);
             window.location = url + '&instituicao_id=' + instituicao;
         })
 
@@ -73,11 +96,11 @@ $submit = [
                     echo "<legend>Estagiário</legend>";
                     echo $this->Form->control('registro', ['value' => $ultimoestagio->estudante->registro, 'readonly']);
                     echo $this->Form->control('estudante_id', ['label' => ['text' => 'Estudante'], 'options' => [$ultimoestagio->estudante->id => $ultimoestagio->estudante->nome], 'empty' => false, 'readonly']);
-                    echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$ultimoestagio->aluno->id => $ultimoestagio->aluno->nome], 'readonly']);
+                    // echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$ultimoestagio->aluno->id => $ultimoestagio->aluno->nome], 'readonly']);
                     echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $ultimoestagio->estudante->ingresso]);
+                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $ultimoestagio->estudante->ingresso, 'readonly']);
                     echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($ultimoestagio->estudante->turno, 0, 1)]);
-                    echo $this->Form->control('nivel', ['value' => $ultimoestagio->nivel]);
+                    echo $this->Form->control('nivel', ['value' => $ultimoestagio->nivel, 'readonly']);
                     echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']);
                     echo "</fieldset>";
                     // Estudante novo sem estágio
@@ -86,16 +109,16 @@ $submit = [
                     echo "<legend>Estudante sem estágio</legend>";
                     echo $this->Form->control('registro', ['value' => $estudante_semestagio->registro, 'readonly']);
                     echo $this->Form->control('estudante_id', ['label' => ['text' => 'Estudante'], 'options' => [$estudante_semestagio->id => $estudante_semestagio->nome], 'empty' => false, 'readonly']);
-                    echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'value' => null, 'type' => 'hidden']);
+                    // echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'value' => null, 'type' => 'hidden']);
                     echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $estudante_semestagio->ingresso]);
+                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $estudante_semestagio->ingresso, 'readonly']);
                     echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($estudante_semestagio->turno, 0, 1)]);
                     echo $this->Form->control('nivel', ['value' => 1, 'readonly']);
                     echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']);
                     echo "</fieldset>";
                 endif;
-                echo $this->Form->control('tc', ['value' => 1]);
-                echo $this->Form->control('tc_solicitacao', ['value' => date('Y-m-d')]);
+                echo $this->Form->control('tc', ['value' => 1, 'readonly']);
+                echo $this->Form->control('tc_solicitacao', ['label' => ['text'=> 'Data de solicitação do TC'] ,'value' => date('Y-m-d'), 'readonly']);
                 echo $this->Form->control('tipo_de_estagio', ['label' => ['text' => 'Tipo de estágio'], 'options' => ['1' => 'Presencial', '2' => 'Remoto'], 'default' => '1']);
 
                 if (isset($instituicao_id)) {
@@ -108,16 +131,15 @@ $submit = [
 
                 if (isset($ultimoestagio->supervisor->id) && $ultimoestagio->supervisor->id):
                     if (isset($supervisoresdainstituicao) && ($supervisoresdainstituicao)) {
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisoresdainstituicao, 'value' => $ultimoestagio->supervisor->id, 'empty' => "Selecione supervisor(a)"]);
-                        // echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => [$ultimoestagio->supervisor->id => $ultimoestagio->supervisor->nome]]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)1'], 'options' => $supervisoresdainstituicao, 'value' => $ultimoestagio->supervisor->id, 'empty' => 'Seleciona']);
                     } else {
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => ['0' => 'Sem informação'], 'value' => $ultimoestagio->supervisor->id, 'empty' => "Selecione supervisor(a)"]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)2'], 'options' => ['0' => 'Sem informação'], 'value' => $ultimoestagio->supervisor->id]);
                     }
                 else:
                     if (isset($supervisoresdainstituicao)):
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisoresdainstituicao, 'empty' => "Selecione supervisor(a)"]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)3'], 'options' => $supervisoresdainstituicao, 'empty' => "Selecione supervisor(a)"]);
                     else:
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => ['0' => 'Sem informação'], 'empty' => ['0' => 'Sem informação']]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)4'], 'options' => ['0' => 'Sem informação'], 'empty' => ['0' => 'Sem informação']]);
                     endif;
                 endif;
                 ?>
@@ -128,7 +150,7 @@ $submit = [
                         <?= $this->Html->link('Imprime PDF', ['action' => 'termodecompromissopdf', $ultimoestagio->id], ['class' => 'btn btn-lg btn-primary', 'rule' => 'button', 'style' => 'width: 200px']); ?>
                     <?php endif; ?>
                     <?php $this->Form->setTemplates($submit); ?>
-                    <?= $this->Form->button(__('Confirmar alteraçoes antes de imprimir'), ['type' => 'submit', 'class' => 'btn btn-lg btn-danger btn-xs col-lg-3', 'style' => "max-width:200px; word-wrap:break-word;" ]) ?>
+                    <?= $this->Form->button(__('Confirmar alteraçoes antes de imprimir'), ['type' => 'submit', 'class' => 'btn btn-lg btn-danger btn-xs col-lg-3', 'style' => "max-width:200px; word-wrap:break-word;"]) ?>
                     <?= $this->Form->end() ?>
                 </div>
             </div>

@@ -40,7 +40,7 @@ class AvaliacoesTable extends Table {
         parent::initialize($config);
 
         $this->setTable('avaliacoes');
-        $this->setAlias('Avalicaoes');
+        $this->setAlias('Avaliacaoes');
         $this->setDisplayField('estagiario_id');
         $this->setPrimaryKey('id');
 

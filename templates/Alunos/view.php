@@ -106,8 +106,8 @@ $user = $this->getRequest()->getAttribute('identity');
                         <?php foreach ($aluno->muralinscricoes as $muralinscricoes): ?>
                             <tr>
                                 <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->id_aluno) ?></td>
-                                <td><?= h($muralinscricoes->alunonovo_id) ?></td>
+                                <td><?= h($muralinscricoes->registro) ?></td>
+                                <td><?= h($muralinscricoes->estudante_id) ?></td>
                                 <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricoes->id_instituicao]) : '' ?>
                                 </td>
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>

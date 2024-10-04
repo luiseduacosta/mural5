@@ -49,11 +49,60 @@ class FolhadeatividadesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
-        $folhadeatividade = $this->Folhadeatividades->get($id, [
-            'contain' => ['Estagiarios'],
-        ]);
 
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        if ($estagiario_id) {
+            $folhadeatividades = $this->Folhadeatividades->find()
+                    ->where(['estagiario_id' => $estagiario_id])
+                    ->first();
+        } else {
+            $folhadeatividade = $this->Folhadeatividades->get($id, [
+                'contain' => ['Estagiarios'],
+            ]);
+        }
+        // pr($folhadeatividade);
+        // die();
+        if (!isset($folhadeatividade) && $estagiario_id) {
+            return $this->redirect(['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiario_id]]);
+        }
         $this->set(compact('folhadeatividade'));
+    }
+
+    /**
+     * Imprimefolhadeatividades method
+     *
+     * @param string|null $id Folhadeatividade id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function imprimefolhadeatividades($id = null) {
+        
+        $registro = $this->getRequest()->getQuery('registro');
+        if ($registro) {
+            $estagiariotable = $this->fetchTable('Estagiarios');
+            $estagiario = $estagiariotable->find()
+                    ->where(['registro' => $registro])
+                    ->first();
+            if ($estagiario) {
+                $this->viewBuilder()->enableAutoLayout(false);
+                $this->viewBuilder()->setClassName('CakePdf.Pdf');
+                $this->viewBuilder()->setOption(
+                        'pdfConfig',
+                        [
+                            'orientation' => 'portrait',
+                            'download' => true, // This can be omitted if "filename" is specified.
+                            'filename' => 'folhadeatividades_imprime_' . $id . '.pdf' //// This can be omitted if you want file name based on URL.
+                        ]
+                );
+                $this->set('estagiario', $estagiario);
+            } else {
+                $this->Flash->error(__('Estudante ainda sem estágio. Tente novamente'));
+                return $this->redirect(['controller' => 'estudantes', 'action' => 'view', '?' => ['registro' => $registro]]);
+            }
+        } else {
+            $this->Flash->error(__('Sem número de registro. Tente novamente'));
+            return $this->redirect(['controller' => 'estudantes', 'action' => 'index']);
+        }
     }
 
     /**
@@ -63,20 +112,16 @@ class FolhadeatividadesController extends AppController {
      */
     public function add($id = NULL) {
 
-        if (is_null($id)) {
-            $this->Flash->error(__('Selecione o estágio'));
-            return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
-        } else {
-            $estagiariostabela = $this->fetchTable('Estagiarios');
-            $estagiario = $estagiariostabela->find()
-                    ->contain(['Estudantes'])
-                    ->where(['Estagiarios.id' => $id])
-                    ->first();
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        $estagiariostabela = $this->fetchTable('Estagiarios');
+        $estagiario = $estagiariostabela->find()
+                ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores'])
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();
 
-            if (!$estagiario) {
-                $this->Flash->error(__('Estudante sem estágio cadastrado'));
-                return redirect('/Estudantes/view/' . $id);
-            }
+        if (!$estagiario) {
+            $this->Flash->error(__('Estudante sem estágio cadastrado'));
+            return redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
         }
 
         $folhadeatividade = $this->Folhadeatividades->newEmptyEntity();
@@ -134,12 +179,13 @@ class FolhadeatividadesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $folhadeatividade = $this->Folhadeatividades->get($id);
         if ($this->Folhadeatividades->delete($folhadeatividade)) {
-            $this->Flash->success(__('The folhadeatividade has been deleted.'));
+            $this->Flash->success(__('Registro de atividade excluido.'));
         } else {
-            $this->Flash->error(__('The folhadeatividade could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro de atividade nao foi excluido. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -158,8 +204,11 @@ class FolhadeatividadesController extends AppController {
             $estagiario = $estagiariostabela->find()
                     ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios'])
                     ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
-                    ->all();
+                    ->orderByDesc('nivel')
+                    ->all()
+                    ->last();
             $this->set('estagiario', $estagiario);
+            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $estagiario->estudante_id]);
         }
         // pr($estagiarios);
         // die();
@@ -167,24 +216,23 @@ class FolhadeatividadesController extends AppController {
 
     public function folhadeatividadespdf($id = NULL) {
 
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        // pr($estagiario_id);
         $this->layout = false;
-        if (is_null($id)) {
-            $this->Flash->error(__('Selecione o estagiário e o período da folha de atividades'));
-            return $this->redirect('/estagiarios/index');
-        } else {
-            $folhaquery = $this->Folhadeatividades->find()
-                    ->where(['Folhadeatividades.estagiario_id' => $id]);
+        $atividades = $this->Folhadeatividades->find()
+                ->contain(['Estagiarios' => ['Estudantes', 'Docentes', 'Instituicaoestagios', 'Supervisores']])
+                ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
+                ->all();
+// debug($atividades);
+// pr($atividades);
 
-            $estagiarioquery = $this->Folhadeatividades->find()
-                    ->contain(['Estagiarios' => ['Estudantes', 'Docentes', 'Instituicaoestagios', 'Supervisores']])
-                    ->where(['Estagiarios.id' => $id]);
-        }
-
-        $atividades = $folhaquery->all();
-        $estagiario = $estagiarioquery->first();
-        // pr($estagiario);
-        // die();
-
+        $estagiario = $this->Folhadeatividades->Estagiarios->find()
+                ->contain(['Estudantes', 'Docentes', 'Instituicaoestagios', 'Supervisores'])
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();
+// debug($estagiario);
+// pr($estagiario);
+// die();
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption(

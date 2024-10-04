@@ -3,11 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
  */
-setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-date_default_timezone_set('America/Sao_Paulo');
-$my_timezone = date_default_timezone_get();
-$hoje = date(DATE_RFC822);
-// die($hoje);
+$timeZone = new DateTimeZone('America/Sao_Paulo');
+$dataDeHoje = new DateTime(null, $timeZone);
 ?>
 
 <style>
@@ -39,7 +36,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
-    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Estudante <?= trim($estagiario->aluno->nome); ?>, a  instituição <?= $estagiario->instituicaoestagio->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de ESTÁGIO OBRIGATÓRIO. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Estudante <?= trim($estagiario->estudante->nome); ?>, a  instituição <?= $estagiario->instituicaoestagio->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de ESTÁGIO OBRIGATÓRIO. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
@@ -93,7 +90,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 <br />
 <br />
 
-<p style="text-align:right; font-size: 90%;">Rio de Janeiro, <?= strftime('%d de %B de %Y', strtotime($hoje)); ?>.</p>
+<p style="text-align:right; font-size: 90%;">Rio de Janeiro, <?= date_format($dataDeHoje, 'd-M-Y'); ?>.</p>
 
 <br />
 <br />
@@ -103,7 +100,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
     <table>
         <tr>
             <td><span style="font-size: 90%; text-decoration: overline;">Coordenação de Estágio</span></td>
-            <td><span style="font-size: 90%; text-decoration: overline;"><?= $estagiario->aluno->nome; ?></span></td>
+            <td><span style="font-size: 90%; text-decoration: overline;"><?= $estagiario->estudante->nome; ?></span></td>
             <td><span style="font-size: 90%; text-decoration: overline;"><?= $supervisor; ?></span></td>
         </tr>
 

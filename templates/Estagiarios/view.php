@@ -12,19 +12,21 @@
     <div class="row">
         <div class="col-auto">
             <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
-                <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-end']) ?>
+                <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
             <?php endif; ?>
-            <?= $this->Html->link(__('Imprimir Termo de compromisso'), ['action' => 'termodecompromissopdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
-            <?= $this->Html->link(__('Preencher Folha de atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
-            <?= $this->Html->link(__('Imprimir Folha de atividades'), ['action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
             <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
-                <?= $this->Html->link(__('Preencher Avaliação discente'), ['controller' => 'avaliacoes', 'action' => 'index', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
+                <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
             <?php endif; ?>
-            <?= $this->Html->link(__('Imprimir Avaliação discente'), ['action' => 'avaliacaodiscentepdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
-            <?= $this->Html->link(__('Imprimir Declaração de estágio'), ['action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
+            <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                <?= $this->Html->link(__('Imprimir Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Preencher Atividades'), ['controller' => 'folhadeatividades', 'action' => 'view', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Imprimir Atividades'), ['controller' => 'folhadeatividades', 'action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
+                <?= $this->Html->link(__('Declaração de estágio'), ['action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:100px; word-wrap:break-word; font-size:14px']) ?>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -64,7 +66,7 @@
             <tr>
                 <th><?= __('Instituição') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= isset($estagiario->instituicaoestagio) ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
+                    <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
                     </td>
                 <?php else: ?>
                     <td><?= $estagiario->hasValue('instituicaoestagio') ? $estagiario->instituicaoestagio->instituicao : '' ?>
@@ -74,7 +76,7 @@
             <tr>
                 <th><?= __('Supervisor(a)') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= isset($estagiario->supervisor) ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
+                    <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                     </td>
                 <?php else: ?>
                     <td><?= $estagiario->hasValue('supervisor') ? $estagiario->supervisor->nome : '' ?></td>
@@ -83,7 +85,7 @@
             <tr>
                 <th><?= __('Docente') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= isset($estagiario->docente) ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
+                    <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
                     </td>
                 <?php else: ?>
                     <td><?= $estagiario->hasValue('docente') ? $estagiario->docente->nome : '' ?></td>
@@ -94,8 +96,8 @@
                 <td><?= h($estagiario->periodo) ?></td>
             </tr>
             <tr>
-                <th><?= __('Área de estágio') ?></th>
-                <td><?= isset($estagiario->turmaestagio) ? $this->Html->link($estagiario->Turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
+                <th><?= __('Turma de estágio') ?></th>
+                <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
                 </td>
             </tr>
             <tr>
@@ -108,10 +110,14 @@
             </tr>
             <tr>
                 <th><?= __('Nota') ?></th>
-                <td><?= $this->Number->format($estagiario->nota, ['places' => 2]) ?></td>
+                <?php if ($estagiario->nota): ?>
+                    <td><?= $this->Number->format($estagiario->nota, ['places' => 2]) ?></td>
+                <?php else: ?>
+                    <td>Sem nota</td>
+                <?php endif; ?>
             </tr>
             <tr>
-                <th><?= __('CH') ?></th>
+                <th><?= __('Carga horária') ?></th>
                 <td><?= $this->Number->format($estagiario->ch) ?></td>
             </tr>
             <tr>

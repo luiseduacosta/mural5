@@ -7,7 +7,7 @@
 <?= $this->element('templates') ?>
 <div class="container">
     <h3><?= __('Estudantes') ?></h3>
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == 1): ?>
+    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
         <?= $this->Html->link(__('Novo estudante'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
         <div class="row justify-content-start">
             <div class="col-auto">
@@ -41,7 +41,7 @@
                     <th><?= $this->Paginator->sort('municipio') ?></th>
                     <th><?= $this->Paginator->sort('bairro') ?></th>
                     <th><?= $this->Paginator->sort('observacoes', 'Observacoes') ?></th>
-                    <th class="actions"><?= __('Acoes') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,7 @@
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $estudante->id]) ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estudante->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estudante->id], ['confirm' => __('Are you sure you want to delete # {0}?', $estudante->id)]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estudante->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estudante->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
