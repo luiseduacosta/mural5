@@ -81,7 +81,7 @@ class EstagiariosController extends AppController
 
     /**
      * Add method
-     * 
+     *
      * Os estagiarios sao adicionados por meio do Termodecompromisso.
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
@@ -134,18 +134,19 @@ class EstagiariosController extends AppController
      * termodecompromisso method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     * 
+     *
      */
     public function termodecompromisso($id = NULL)
     {
         $estudante_id = $this->getRequest()->getQuery('estudante_id');
         $instituicao_id = $this->getRequest()->getQuery('instituicao_id');
 
-        /** Vou utilizar a tabela estudantes em varias oportunidades */
+        /** Vou utilizar a tabela estudantes */
         $estudantestabela = $this->fetchTable('Estudantes');
 
         if ($this->getRequest()->is('post')) {
 
+            /** Guardo a informação do formulário para atualizar ou inserir um novo registro */
             $dadosinsere = $this->getRequest()->getData();
 
             /** Tem que ter uma instituição */
@@ -158,17 +159,16 @@ class EstagiariosController extends AppController
                 }
             }
 
-            /** Verifica supervisor que se não tem supervisor selecionado o valor seja nulo */
+            /** Verifica que se não tem supervisor selecionado o valor seja nulo */
             if (empty($dadosinsere['supervisor_id'])) {
                 $dadosinsere['supervisor_id'] = null;
             }
 
-            /** Atualiza ou insere um novo registro de estágio */
+            /** Se tem o id é uma atualização, senão é uma inserção de um novo registro de estágio */
             if ($this->getRequest()->getData('id')) {
                 $estagiario = $this->Estagiarios->get($this->getRequest()->getData('id'), [
                     'contain' => [],
                 ]);
-                $dadosinsere = $this->getRequest()->getData();
             } else {
                 $estagiario = $this->Estagiarios->newEmptyEntity();
                 /** Capturo o id do estudante para passar para o estagiario */
@@ -183,21 +183,19 @@ class EstagiariosController extends AppController
 
             /** Atualiza ou insere o registro em Estagiarios. */
             $estagiarioresultado = $this->Estagiarios->patchEntity($estagiario, $dadosinsere);
-            // pr($estagiarioresultado);
-            // die();
             if ($this->Estagiarios->save($estagiarioresultado)) {
 
                 $this->Flash->success(__('Estágio criado ou atualizado.'));
                 /** Gravo o cookie estagiario_id para que o menu superior fique com o submenu_aluno */
                 $this->getRequest()->getSession()->write('estagiario_id', $estagiarioresultado->id);
 
-                // die('alunoinsere');
+                /** Insere os dados do estudante na tabela alunos */
                 $this->alunoinsere($estudante_id, $estagiarioresultado->id);
 
                 return $this->redirect(['action' => 'termodecompromisso', '?' => ['estudante_id' => $estagiarioresultado->estudante_id, 'instituicao_id' => $estagiarioresultado->instituicaoestagio_id]]);
             } else {
                 // debug($estagiarioresultado);
-                $this->Flash->error(__('Não foi possível inserir o estagiario. Tente mais uma vez.'));
+                $this->Flash->error(__('Não foi possível inserir ou atualizar o estagiario. Tente mais uma vez.'));
             }
         } // Finaliza post
 
@@ -208,46 +206,50 @@ class EstagiariosController extends AppController
             $periodoatual = $periodo->mural_periodo_atual;
         }
 
-        /** Obtenho o ultimo nivel de estagio do aluno estagiario e calculo o proximo nivel */
+        /** Obtenho o último nivel de estágio do aluno estagiário e calculo o próximo nível */
         if ($estudante_id) {
 
+            /** Capturo o último estágio do estagiário */
             $ultimoestagio = $this->Estagiarios->find()
                 ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores'])
                 ->where(['Estagiarios.estudante_id' => $estudante_id])
                 ->order(['Estagiarios.nivel' => 'desc'])
                 ->first();
 
+            /** Último estágio do estagiario */
             if ($ultimoestagio) {
 
                 /** Vai para a funcao nivelsestagio() para calcular o nivel de estágio */
                 $nivel = $this->nivelestagio($periodoatual, $ultimoestagio);
-                // $instituicao_id = $ultimoestagio->instituicaoestagio->id;
+
+                /** Verifico se e uma atualizacao ou uma nova insercao */
                 if ($periodoatual == $ultimoestagio->periodo) {
-                    $this->set('atualiza', 1); // atualização
+                    $this->set('atualiza', 1); // o estagiario sera atualizado
                 } elseif ($periodoatual > $ultimoestagio->periodo) {
-                    $this->set('atualiza', 0); // inserção
+                    $this->set('atualiza', 0); // nova inserção de estagiario
+                } else {
+                    $this->Flash->error(__('Periodo atual menor que ultimo periodo de estagio cadastrado.'));
+                    return $this->redirect(['controller' => 'Estagiarios', 'action' => 'view', $ultimoestagio->id]);
                 }
-
                 $this->set('ultimoestagio', $ultimoestagio);
+                /** Nao estagiario */
             } else {
-
+                /** Estudante sem estágio: nível 1 */
                 $nivel = 1;
                 $estudante_semestagio = $estudantestabela->find()
                     ->contain([])
                     ->where(['Estudantes.id' => $estudante_id])
                     ->select(['id', 'registro', 'nome', 'turno', 'ingresso'])
                     ->first();
-
                 $this->set('estudante_semestagio', $estudante_semestagio);
-                $this->set('atualiza', 0); // inserção
+                $this->set('atualiza', 0); // nova inserção de estagiario
             }
-
             $this->set('nivel', $nivel);
             $this->set('periodo', $periodoatual);
 
+            /** Seleciona os supervisores da instituição */
             if ($instituicao_id) {
 
-                $this->set('instituicao_id', $instituicao_id);
                 $supervisoresinstituicao = $this->selecionasupervisores($instituicao_id);
                 if (isset($supervisoresinstituicao)) {
                     $this->set('supervisores', $supervisoresinstituicao);
@@ -272,7 +274,6 @@ class EstagiariosController extends AppController
     /** Seleciona os supervisores da instituicao */
     private function selecionasupervisores($instituicao_id = null)
     {
-
         $supervisoresinstituicao = null;
         if ($instituicao_id) {
 
@@ -305,10 +306,10 @@ class EstagiariosController extends AppController
             $nivel = $ultimoestagio->nivel;
             /** Se o periodo atual é maior que o cadastrado então passa para o próximo nivel e insere um novo registro */
         } elseif ($periodoatual > $ultimoestagio->periodo) {
-            /** Calculo o ultimo estagio a partir do ajuste curricular. */
             $nivel = $ultimoestagio->nivel + 1;
+            /** Calculo o ultimo nível de estágio possível a partir do ajuste curricular. */
             $ultimoestagio->ajuste2020 == 0 ? $ultimonivelestagio = 4 : $ultimonivelestagio = 3;
-            /** Se nivel é maior que o ultimo nivel curricular entao esta realizando estagio extracurricular e o nivel e 9. */
+            /** Se nivel é maior que o ultimo nivel curricular então está realizando estagio extracurricular e o nivel é 9. */
             if ($nivel > $ultimonivelestagio) {
                 // Estágio não curricular
                 $nivel = 9;
@@ -321,7 +322,7 @@ class EstagiariosController extends AppController
     }
 
     /**
-     * Inserir dados de estudante em aluno.
+     * Inserir dados de estudante na tabela aluno.
      */
     private function alunoinsere($estudante_id, $estagiario_id)
     {
@@ -330,16 +331,16 @@ class EstagiariosController extends AppController
          */
         $estagiario = $this->Estagiarios->find()->where(['id' => $estagiario_id])->first();
         $alunostabela = $this->fetchTable('Alunos');
-        $registro = $alunostabela->find()->where(['registro' => $estagiario->registro])->first();
-        if ($registro) {
-            echo 'Aluno cadastrado: atualizar aluno_id' . '<br>';
+        $aluno = $alunostabela->find()->where(['registro' => $estagiario->registro])->first();
+        if ($aluno) {
+            echo 'Aluno cadastrado: atualizar apenas o aluno_id em estagiarios' . '<br>';
             $estagiario_entity = $this->Estagiarios->get($estagiario_id);
             $estagiario = $this->Estagiarios->find()->where(['id' => $estagiario_id])->first();
             // pr($estagiario);
             $dadosinsere = $estagiario->toArray();
             // pr($dadosinsere);
             // die('estagiario');
-            $dadosinsere['aluno_id'] = $registro->id;
+            $dadosinsere['aluno_id'] = $aluno->id;
             // pr($dadosinsere);
             // die();
             $estagiario_aluno_resultado = $this->Estagiarios->patchEntity($estagiario_entity, $dadosinsere);
@@ -350,7 +351,7 @@ class EstagiariosController extends AppController
                 // die();
             }
         } else {
-            echo 'Fazer cadastro e atualizar aluno_id' . '<br>';
+            echo 'Aluno não cadastrado: fazer uma inserção nova na tabela alunos e atualizar aluno_id na tabela estagiarios' . '<br>';
             $estudantestabela = $this->fetchTable('Estudantes');
             $estudante = $estudantestabela->find()
                 ->where(['Estudantes.id' => $estudante_id])
@@ -365,6 +366,7 @@ class EstagiariosController extends AppController
             // die();
             if ($alunostabela->save($aluno_novo_resultado)) {
                 $this->Flash->success(__('Aluno inserido'));
+                /** Atualizo o aluno_id na tabela estagiarios */
                 $estagiario_entity = $this->Estagiarios->get($estagiario_id);
                 $estagiario = $this->Estagiarios->find()->where(['id' => $estagiario_id])->first();
                 // pr($estagiario);
