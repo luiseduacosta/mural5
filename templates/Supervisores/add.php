@@ -24,10 +24,18 @@
             echo $this->Form->control('telefone');
             echo $this->Form->control('codigo_cel');
             echo $this->Form->control('celular');
-            echo $this->Form->control('email');
+            if ($email) {
+                echo $this->Form->control('email', ['value' => $email, 'readonly']);
+            } else {
+                echo $this->Form->control('email', ['required']);
+            }
             echo $this->Form->control('escola');
             echo $this->Form->control('ano_formatura');
-            echo $this->Form->control('cress');
+            if ($cress) {
+                echo $this->Form->control('cress', ['value' => $cress, 'readonly']);
+            } else {
+                echo $this->Form->control('cress', ['required']);
+            }
             echo $this->Form->control('regiao');
             echo $this->Form->control('outros_estudos');
             echo $this->Form->control('area_curso');

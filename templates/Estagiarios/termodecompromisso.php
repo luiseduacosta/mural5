@@ -132,13 +132,13 @@ $submit = [
 
                 if (isset($instituicao_id)) {
                     echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição1'], 'options' => $instituicaoestagios, 'value' => $instituicao_id, 'required']);
-                } elseif ($ultimoestagio->hasValue('instituicaoestagio')) {
+                } elseif (isset($ultimoestagio) && $ultimoestagio->hasValue('instituicaoestagio')) {
                     echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição2'], 'options' => $instituicaoestagios, 'empty' => [$ultimoestagio->instituicaoestagio->id => $ultimoestagio->instituicaoestagio->instituicao], 'required']);
                 } else {
                     echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição3'], 'options' => $instituicaoestagios, 'empty' => ['Seleciona instituição de estágio'], 'required']);
                 }
 
-                if ($ultimoestagio->hasValue('supervisor')):
+                if (isset($ultimoestagio) && $ultimoestagio->hasValue('supervisor')):
                     if (isset($supervisoresdainstituicao) && ($supervisoresdainstituicao)) {
                         echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)1'], 'options' => $supervisoresdainstituicao, 'value' => $ultimoestagio->supervisor->id]);
                     } else {

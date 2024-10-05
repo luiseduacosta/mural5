@@ -46,17 +46,91 @@ class SupervisoresController extends AppController
      */
     public function add()
     {
-        $supervisor = $this->Supervisores->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $supervisor = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
-            if ($this->Supervisores->save($supervisor)) {
-                $this->Flash->success(__('The supervisor has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The supervisor could not be saved. Please, try again.'));
+        /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
+        $cress = $this->getRequest()->getQuery('registro');
+        $email = $this->getRequest()->getQuery('email');
+
+        /** Envio para o formulário */
+        if ($cress) {
+            $this->set('cress', $cress);
         }
-        $instituicaoestagios = $this->Supervisores->Instituicaoestagios->find('list', ['limit' => 200]);
+        if ($email) {
+            $this->set('email', $email);
+        }
+
+        /* Verifico se já está cadastrado */
+        if ($cress) {
+            $supervisorcadastrado = $this->Supervisores->find()
+                ->where(['cress' => $cress])
+                ->first();
+
+            if ($supervisorcadastrado):
+                $this->Flash->error(__('Supervisor(a) já cadastrado(a)'));
+                return $this->redirect(['view' => $supervisorcadastrado->id]);
+            endif;
+        }
+
+        $supervisor = $this->Supervisores->newEmptyEntity();
+
+        if ($this->request->is('post')) {
+
+            /**
+             * Verifico se já é um usuário cadastrado no userestagios.
+             * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
+             */
+            $cress = $this->request->getData('cress');
+            $usercadastrado = $this->Supervisores->Userestagios->find()
+                ->where(['cress' => $cress])
+                ->first();
+            if (empty($usercadastrado)):
+                $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
+                return $this->redirect('/userestagios/add');
+            endif;
+
+            $supervisorresultado = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
+            if ($this->Supervisores->save($supervisorresultado)) {
+                $this->Flash->success(__('Registro supervisor inserido.'));
+
+                /**
+                 * Verifico se está preenchido o campo professor_id na tabela Users.
+                 * Primeiro busco o usuário.
+                 */
+                $usersupervisor = $this->Supervisores->Userestagios->find()
+                    ->where(['supervisor_id' => $supervisorresultado->id])
+                    ->first();
+
+                /**
+                 * Se a busca retorna vazia então atualizo a tabela Users com o valor do estudante_id.
+                 */
+                if (empty($usersupervisor)) {
+
+                    $userestagio = $this->Supervisores->Userestagios->find()
+                        ->where(['cress' => $supervisorresultado->cress])
+                        ->first();
+                    $userdata = $userestagio->toArray();
+                    /** Carrego o valor do campo supervisor_id */
+                    $userdata['supervisor_id'] = $supervisorresultado->id;
+
+                    $userestagiostabela = $this->fetchTable('Userestagios');
+                    $user_entity = $userestagiostabela->get($userestagio->id);
+                    /** Atualiza */
+                    $userestagioresultado = $this->Supervisores->Userestagios->patchEntity($user_entity, $userdata);
+                    if ($this->Supervisores->Userestagios->save($userestagioresultado)) {
+                        $this->Flash->success(__('Usuário atualizado com o id do supervisor'));
+                        return $this->redirect(['action' => 'view', $supervisorresultado->id]);
+                    } else {
+                        $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do supervisor'));
+                        // debug($userestagios->getErrors());
+                        return $this->redirect(['controller' => 'Userestagios', 'action' => 'logout']);
+                    }
+                }
+                return $this->redirect(['action' => 'view', $supervisorresultado->id]);
+            }
+            $this->Flash->error(__('Registro supervisor não foi inserido. Tente novamente.'));
+            return $this->redirect(['action' => 'add', '?' => ['cress' => $cress, 'email' => $email]]);
+        }
+        $instituicaoestagios = $this->Supervisores->Instituicaoestagios->find('list');
         $this->set(compact('supervisor', 'instituicaoestagios'));
     }
 
