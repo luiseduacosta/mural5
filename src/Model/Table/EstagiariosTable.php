@@ -105,7 +105,7 @@ class EstagiariosTable extends Table {
         $validator
                 ->scalar('turno')
                 ->maxLength('turno', 1)
-                ->notEmptyString('turno');
+                ->allowEmptyString('turno');
 
         $validator
                 ->scalar('nivel')
@@ -113,17 +113,17 @@ class EstagiariosTable extends Table {
                 ->notEmptyString('nivel');
 
         $validator
-                ->notEmptyString('tc');
+                ->allowEmptyString('tc');
 
         $validator
                 ->date('tc_solicitacao')
                 ->allowEmptyDate('tc_solicitacao');
 
         $validator
-                ->notEmptyString('id_instituicao', 'Selecione uma instituicao');
+                ->notEmptyString('instituicao_id', 'Selecione uma instituicao');
 
         $validator
-                ->allowEmptyString('id_supervisor');
+                ->allowEmptyString('supervisor_id');
 
         $validator
                 ->scalar('periodo')
