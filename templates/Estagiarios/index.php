@@ -62,9 +62,9 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                     <th><?= $this->Paginator->sort('Docentes.nome', 'Professor/a') ?></th>
                     <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
-                    <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Área') ?></th>
+                    <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
                     <th><?= $this->Paginator->sort('nota') ?></th>
-                    <th><?= $this->Paginator->sort('ch', 'CH') ?></th>
+                    <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
                     <?php if ($usuario->categoria_id == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
@@ -84,29 +84,21 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <td><?= h($estagiario->nivel) ?></td>
                         <td><?= $estagiario->tc ?></td>
                         <td><?= date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) ?></td>
-                        <?php if (!empty($estagiario->instituicaoestagio->instituicao)): ?>
-                            <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
-                            </td>
-                        <?php endif; ?>
-                        <?php if (!empty($estagiario->supervisor->nome)): ?>
-                            <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
-                            </td>
-                        <?php else: ?>
-                            <td>Sem dados</td>
-                        <?php endif; ?>
-                        <?php if (!empty($estagiario->docente->nome)): ?>
-                            <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
-                            </td>
-                        <?php else: ?>
-                            <td>Sem dados</td>
-                        <?php endif; ?>
+
+                        <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
+                        </td>
+
+                        <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
+                        </td>
+
+                        <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
+                        </td>
+
                         <td><?= h($estagiario->periodo) ?></td>
-                        <?php if (!empty($estagiario->turmaestagio->area)): ?>
-                            <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->id_area]) : '' ?>
-                            </td>
-                        <?php else: ?>
-                            <td>Sem dados</td>
-                        <?php endif; ?>
+
+                        <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
+                        </td>
+
                         <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
                         <td><?= $this->Number->format($estagiario->ch) ?></td>
                         <td><?= h($estagiario->observacoes) ?></td>

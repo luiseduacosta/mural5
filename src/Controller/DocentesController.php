@@ -40,9 +40,10 @@ class DocentesController extends AppController {
                 $id = $id->id;
             endif;
         }
- 
+        /** Têm professores com muitos estagiários: aumentar a memória */
+        ini_set('memory_limit', '2048M'); 
         $docente = $this->Docentes->get($id, [
-            'contain' => ['Estagiarios' => ['Estudantes', 'Supervisores', 'Instituicaoestagios']]
+            'contain' => ['Estagiarios' => ['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Avaliacoes', 'Folhadeatividades']]
         ]);
         
         $this->set(compact('docente'));
@@ -86,7 +87,7 @@ class DocentesController extends AppController {
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
             $usercadastrado = $this->Docentes->Userestagios->find()
-                ->where(['siape' => $siape])
+                ->where(['registro' => $siape])
                 ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
@@ -95,7 +96,7 @@ class DocentesController extends AppController {
 
             $docenteresultado = $this->Docentes->patchEntity($docente, $this->request->getData());
             if ($this->Docentes->save($docenteresultado)) {
-                $this->Flash->success(__('Registro do(a) docente inserido.'));
+                $this->Flash->success(__('Registro do(a) professor(a) inserido.'));
 
                 /**
                  * Verifico se está preenchido o campo professor_id na tabela Users.
@@ -116,11 +117,11 @@ class DocentesController extends AppController {
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $docenteresultado->id;
-
                     $userestagiostabela = $this->fetchTable('Userestagios');
                     $user_entity = $userestagiostabela->get($userestagio->id);
                     /** Atualiza */
                     $userestagioresultado = $this->Docentes->Userestagios->patchEntity($user_entity, $userdata);
+                    // pr($userestagioresultado);
                     if ($this->Docentes->Userestagios->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do professor'));
                         return $this->redirect(['action' => 'view', $docenteresultado->id]);
@@ -132,7 +133,7 @@ class DocentesController extends AppController {
                 }
                 return $this->redirect(['action' => 'view', $docenteresultado->id]);
             }
-            $this->Flash->error(__('Registro do docente não inserido. Tente novamente.'));
+            $this->Flash->error(__('Registro do(a) professor(a) não inserido. Tente novamente.'));
             return $this->redirect(['action' => 'add', '?' => ['siape' => $siape, 'email' => $email]]);
         }
         $this->set(compact('docente'));
@@ -153,11 +154,11 @@ class DocentesController extends AppController {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $docente = $this->Docentes->patchEntity($docente, $this->request->getData());
             if ($this->Docentes->save($docente)) {
-                $this->Flash->success(__('Registro do docente atualizado.'));
+                $this->Flash->success(__('Registro do(a) professor(a) atualizado.'));
 
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('Registro do docente no foi atualizado. Tente novamente.'));
+            $this->Flash->error(__('Registro do(a) professor(a) no foi atualizado. Tente novamente.'));
         }
         $this->set(compact('docente'));
     }
@@ -171,11 +172,17 @@ class DocentesController extends AppController {
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $docente = $this->Docentes->get($id);
+        $docente = $this->Docentes->get($id, [
+            'contain' => ['Estagiarios']
+        ]);
+        if (sizeof($docente->estagiarios) > 0) {
+            $this->Flash->error(__('Professor(a) tem estagiários associados'));
+            return $this->redirect(['controller' => 'Docentes', 'action' => 'view', $id]);
+        }
         if ($this->Docentes->delete($docente)) {
-            $this->Flash->success(__('The docente has been deleted.'));
+            $this->Flash->success(__('Registro professor(a) excluído.'));
         } else {
-            $this->Flash->error(__('The docente could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro professor(a) não foi excluído. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);

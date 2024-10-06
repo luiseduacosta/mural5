@@ -565,7 +565,8 @@ class EstudantesController extends AppController
 
     public function cargahoraria($ordem = null)
     {
-
+        /** Aumenta a memória */
+        ini_set('memory_limit', '2048M'); 
         $ordem = $this->getRequest()->getQuery('ordem');
 
         if (empty($ordem)):

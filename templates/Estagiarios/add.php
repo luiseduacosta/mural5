@@ -37,11 +37,11 @@
             if (isset($estudante_id)) {
                 echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituicao de estagio'], 'options' => $instituicaoestagios, 'value' => $estudantedeestagio->instituicaoestagio_id]);
                 echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'value' => $estudantedeestagio->supervisor_id]);
-                echo $this->Form->control('docente_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'value' => $estudantedeestagio->professor_id]);
+                echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'value' => $estudantedeestagio->professor_id]);
             } else {
                 echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituicao de estagio'], 'options' => $instituicaoestagios, 'empty' => "Seleciona"]);
                 echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => "Seleciona"]);
-                echo $this->Form->control('docente_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'empty' => "Seleciona"]);
+                echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $docentes, 'empty' => "Seleciona"]);
             }
             echo $this->Form->control('periodo', ['value' => $periodo]);
             echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estagio'], 'options' => $turmaestagios, 'empty' => "Seleciona"]);

@@ -3,7 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade[]|\Cake\Collection\CollectionInterface $folhadeatividades
  */
-// pr($id);
+// pr($estagiario);
+// pr($folhadeatividades);
+// die();
 
 $supervisora = isset($estagiario->supervisor->nome);
 if ($supervisora) {
@@ -28,8 +30,8 @@ if ($professora) {
 ?>
 
 <div class="container">
-    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add/' . $id], ['class' => 'btn btn-primary float-end']) ?>
-    <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf/' . $id], ['class' => 'btn btn-primary float-end']) ?>
+    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+    <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', $id], ['class' => 'btn btn-primary float-end']) ?>
     <h3 class="text-center"><?= __('Folha de atividades da(o) estagiária(o) ' . $estagiario->estudante->nome) ?></h3>
 
     <div class="table-responsive">
@@ -56,13 +58,12 @@ if ($professora) {
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('estagiario_id') ?></th>
                     <th><?= $this->Paginator->sort('dia') ?></th>
                     <th><?= $this->Paginator->sort('inicio') ?></th>
                     <th><?= $this->Paginator->sort('final') ?></th>
                     <th><?= $this->Paginator->sort('horario', 'Horas') ?></th>
                     <th><?= $this->Paginator->sort('atividade') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -70,23 +71,22 @@ if ($professora) {
                 <?php foreach ($folhadeatividades as $folhadeatividade): ?>
                     <tr>
                         <td><?= $folhadeatividade->id ?></td>
-                        <td><?= $folhadeatividade->estagiario_id ?></td>
                         <td><?= h($folhadeatividade->dia) ?></td>
                         <td><?= h($folhadeatividade->inicio) ?></td>
                         <td><?= h($folhadeatividade->final) ?></td>
                         <td><?= h($folhadeatividade->horario) ?></td>
                         <td><?= h($folhadeatividade->atividade) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $folhadeatividade->id]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $folhadeatividade->id]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Are you sure you want to delete # {0}?', $folhadeatividade->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $folhadeatividade->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Are you sure you want to delete # {0}?', $folhadeatividade->id)]) ?>
                         </td>
                     </tr>
                     <?php
                     list($hour, $minute, $second) = array_pad(explode(':', $folhadeatividade->horario), 3, null);
-                    $seconds += $hour * 3600;
-                    $seconds += $minute * 60;
-                    $seconds += $second;
+                    $seconds += (int)$hour * 3600;
+                    $seconds += (int)$minute * 60;
+                    $seconds += (int)$second;
                     // pr($seconds);
                     ?>
                 <?php endforeach; ?>

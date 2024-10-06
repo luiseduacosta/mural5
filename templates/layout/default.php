@@ -82,7 +82,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                             endif;
                             break;
                         case 3: // Docente
-                            echo $this->element('submenu_docente');
+                            echo $this->element('submenu_professor');
                             break;
                         case 4: // Supervisora
                             echo $this->element('submenu_supervisor');

@@ -39,13 +39,13 @@
                     echo $this->Form->control('nivel');
                     echo $this->Form->control('tc');
                     echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data TC']]);
-                    echo $this->Form->control('id_instituicao', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
-                    echo $this->Form->control('id_supervisor', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
-                    echo $this->Form->control('id_professor', ['label' => ['text' => 'Professor(a)'], 'options' => $docentes, 'empty' => true]);
+                    echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
+                    echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
+                    echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a)'], 'options' => $docentes, 'empty' => true]);
                     echo $this->Form->control('periodo', ['label' => ['text' => 'Período']]);
-                    echo $this->Form->control('id_area', ['label' => ['text' => 'Área'], 'options' => $turmaestagios, 'empty' => true]);
+                    echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
                     echo $this->Form->control('nota');
-                    echo $this->Form->control('ch', ['label' => ['text' => 'CH']]);
+                    echo $this->Form->control('ch', ['label' => ['text' => 'Carga horária']]);
                     echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações'], 'name' => 'observacoes', 'class' => 'form-control']);
                     ?>
                 </fieldset>

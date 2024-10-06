@@ -46,7 +46,7 @@ class AvaliacoesController extends AppController {
         } else {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
             if ($this->getRequest()->getSession()->read('registro')) {
-                return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
+                return $this->redirect(['controller' => 'estudantes', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
             } else {
                 return $this->redirect('/estudantes/index');
             }
@@ -80,6 +80,7 @@ class AvaliacoesController extends AppController {
      * View method
      *
      * @param string|null $id Avaliaco id.
+     * @param mixed $estagiario_id
      * @return Response|null|void Renders view
      * @throws RecordNotFoundException When record not found.
      */
@@ -127,10 +128,10 @@ class AvaliacoesController extends AppController {
         // die();
         $avaliacao = $this->Avaliacoes->newEmptyEntity();
         if ($this->request->is('post')) {
-            $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
+            $avaliacaoresposta = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
             // pr($avaliacao);
             // die();
-            if ($this->Avaliacoes->save($avaliacao)) {
+            if ($this->Avaliacoes->save($avaliacaoresposta)) {
                 $this->Flash->success(__('Avaliação registrada.'));
 
                 return $this->redirect(['controller' => 'avaliacoes', 'action' => 'index', $this->getRequest()->getData('estagiario_id')]);

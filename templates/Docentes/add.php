@@ -19,7 +19,7 @@
                     <legend><?= __('Novo docente') ?></legend>
                     <?php
                     echo $this->Form->control('nome');
-                    echo $this->Form->control('cpf');
+                    echo $this->Form->control('cpf', ['label' => ['text' => 'CPF']]);
                     if ($siape) {
                         echo $this->Form->control('siape', ['value' => $siape, 'readonly']);
                     } else {
@@ -27,7 +27,7 @@
                     }
                     echo $this->Form->control('datanascimento', ['empty' => true]);
                     echo $this->Form->control('localnascimento');
-                    echo $this->Form->control('sexo');
+                    echo $this->Form->control('sexo', ['options' => ['0' => 'Feminino', '1' => 'Masculino'], 'default' => '0']);
                     echo $this->Form->control('ddd_telefone');
                     echo $this->Form->control('telefone');
                     echo $this->Form->control('ddd_celular');

@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  * @property int $registro
  * @property int|null $estudante_id
  * @property int|null $supervisor_id
- * @property int|null $docente_id
+ * @property int|null $professor_id
  * @property \Cake\I18n\FrozenTime $timestamp
  *
  * @property \App\Model\Entity\Estudante[] $estudantes
@@ -42,7 +42,7 @@ class Userestagio extends Entity {
         'registro' => true,
         'estudante_id' => true,
         'supervisor_id' => true,
-        'docente_id' => true,
+        'professor_id' => true,
         'timestamp' => true,
         'estudantes' => true,
         'supervisores' => true,
