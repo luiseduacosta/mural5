@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\MuralinscricoesTable;
+use App\Model\Table\InscricoesTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\MuralinscricoesTable Test Case
+ * App\Model\Table\InscricoesTable Test Case
  */
-class MuralinscricoesTableTest extends TestCase
+class InscricoesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\MuralinscricoesTable
+     * @var \App\Model\Table\InscricoesTable
      */
-    protected $Muralinscricoes;
+    protected $Inscricoes;
 
     /**
      * Fixtures
@@ -24,7 +24,7 @@ class MuralinscricoesTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Muralinscricoes',
+        'app.Inscricoes',
         'app.Alunos',
         'app.Muralestagios',
     ];
@@ -37,8 +37,8 @@ class MuralinscricoesTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Muralinscricoes') ? [] : ['className' => MuralinscricoesTable::class];
-        $this->Muralinscricoes = $this->getTableLocator()->get('Muralinscricoes', $config);
+        $config = $this->getTableLocator()->exists('Inscricoes') ? [] : ['className' => InscricoesTable::class];
+        $this->Inscricoes = $this->getTableLocator()->get('Inscricoes', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class MuralinscricoesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->Muralinscricoes);
+        unset($this->Inscricoes);
 
         parent::tearDown();
     }

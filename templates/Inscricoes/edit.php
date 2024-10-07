@@ -1,9 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Muralinscricao $muralinscricao
+ * @var \App\Model\Entity\Inscricao $inscricao
  */
-// pr($muralinscricao);
+// pr($inscricao);
 ?>
 
 <?= $this->element('templates') ?>
@@ -14,20 +14,20 @@
             <?=
                 $this->Form->postLink(
                     __('Excluir'),
-                    ['action' => 'delete', $muralinscricao->id],
-                    ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']
+                    ['action' => 'delete', $inscricao->id],
+                    ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger float-end']
                 )
                 ?>
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
         </div>
     </aside>
     <div class="container">
-        <?= $this->Form->create($muralinscricao) ?>
+        <?= $this->Form->create($inscricao) ?>
         <fieldset>
-            <legend><?= __('Editar Muralinscricao') ?></legend>
+            <legend><?= __('Editar Inscricao') ?></legend>
             <?php
-            echo $this->Form->control('registro', ['value' => $muralinscricao->estudante->registro, 'readonly']);
-            echo $this->Form->control('estudante_id', ['options' => [$muralinscricao->estudante->id => $muralinscricao->estudante->nome], 'empty' => $muralinscricao->estudante->nome, 'readonly']);
+            echo $this->Form->control('registro', ['value' => $inscricao->registro, 'readonly']);
+            echo $this->Form->control('estudante_id', ['options' => [$inscricao->estudante_id => $inscricao->estudante->nome], 'empty' => $inscricao->estudante->nome, 'readonly']);
             echo $this->Form->control('muralestagio_id', ['options' => $muralestagios]);
             echo $this->Form->control('data');
             echo $this->Form->control('periodo');

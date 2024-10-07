@@ -15,7 +15,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\InstituicaoestagiosTable&\Cake\ORM\Association\BelongsTo $Instituicaoestagios
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
- * @property \App\Model\Table\MuralinscricoesTable&\Cake\ORM\Association\HasMany $Muralinscricoes
+ * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
  *
  * @method \App\Model\Entity\Muralestagio newEmptyEntity()
  * @method \App\Model\Entity\Muralestagio newEntity(array $data, array $options = [])
@@ -56,7 +56,7 @@ class MuralestagiosTable extends Table {
         $this->belongsTo('Professores', [
             'foreignKey' => ['professor_id'],
         ]);
-        $this->hasMany('Muralinscricoes', [
+        $this->hasMany('Inscricoes', [
             'foreignKey' => ['muralestagio_id'],
         ]);
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Muralinscricao $muralinscricao
+ * @var \App\Model\Entity\Inscricao $inscricao
  */
 // pr($alunonovos);
 // pr($alunoestagios);
@@ -19,7 +19,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
         </div>
     </aside>
     <div class="container">
-        <?= $this->Form->create($muralinscricao, ['method' => 'post']) ?>
+        <?= $this->Form->create($inscricaoentity, ['method' => 'post']) ?>
         <fieldset>
             <legend><?= __('Inscrição para seleção de estágio') ?></legend>
             <?php

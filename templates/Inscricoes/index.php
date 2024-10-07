@@ -1,18 +1,18 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Muralinscricao[]|\Cake\Collection\CollectionInterface $muralinscricoes
+ * @var \App\Model\Entity\Inscricao[]|\Cake\Collection\CollectionInterface $inscricoes
  */
-// pr($muralinscricoes);
+// pr($inscricoes);
 // pr($periodo);
 ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'muralinscricoes', 'action' => 'index?periodo=']); ?>";
+        var url = "<?= $this->Html->Url->build(['controller' => 'inscricoes', 'action' => 'index?periodo=']); ?>";
         // alert(url);
-        $("#MuralinscricoesPeriodo").change(function () {
+        $("#InscricoesPeriodo").change(function () {
             var periodo = $(this).val();
             // alert(url + '/index/' + periodo);
             window.location = url + periodo;
@@ -27,8 +27,8 @@
 <div class="row justify-content-center">
     <div class="col-auto">
         <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-            <?= $this->Form->create($muralinscricoes, ['class' => 'form-inline']); ?>
-            <?= $this->Form->input('periodo', ['id' => 'MuralinscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
+            <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
+            <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
         <?php else: ?>
             <h1 style="text-align: center;">Inscrições para seleção de estágio da ESS/UFRJ. Período: <?= $periodo; ?></h1>
@@ -54,21 +54,21 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($muralinscricoes as $muralinscricao): ?>
+                <?php foreach ($inscricoes as $inscricao): ?>
                     <tr>
-                        <td><?= $muralinscricao->id ?></td>
-                        <td><?= $muralinscricao->registro ?></td>
-                        <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante_id]) : '' ?>
+                        <td><?= $inscricao->id ?></td>
+                        <td><?= $inscricao->registro ?></td>
+                        <td><?= $inscricao->has('estudante') ? $this->Html->link($inscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricao->estudante_id]) : '' ?>
                         </td>
-                        <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                        <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                         </td>
-                        <td><?= date('d-m-Y', strtotime(h($muralinscricao->data))) ?></td>
-                        <td><?= h($muralinscricao->periodo) ?></td>
-                        <td><?= h($muralinscricao->timestamp) ?></td>
+                        <td><?= date('d-m-Y', strtotime(h($inscricao->data))) ?></td>
+                        <td><?= h($inscricao->periodo) ?></td>
+                        <td><?= h($inscricao->timestamp) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralinscricao->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralinscricao->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralinscricao->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

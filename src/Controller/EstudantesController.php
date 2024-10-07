@@ -43,12 +43,12 @@ class EstudantesController extends AppController {
         $registro = $this->getRequest()->getQuery('registro');
         if ($registro) {
             $estudante = $this->Estudantes->find()
-                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
                     ->where(['registro' => $registro])
                     ->first();
         } else {
             $estudante = $this->Estudantes->find()
-                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
                     ->where(['id' => $id])
                     ->first();
         }

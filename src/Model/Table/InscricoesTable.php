@@ -9,27 +9,27 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Muralinscricoes Model
+ * Inscricoes Model
  *
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Estudantes
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
  *
- * @method \App\Model\Entity\Muralinscricao newEmptyEntity()
- * @method \App\Model\Entity\Muralinscricao newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Muralinscricao[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Muralinscricao get($primaryKey, $options = [])
- * @method \App\Model\Entity\Muralinscricao findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Muralinscricao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Muralinscricao[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Muralinscricao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Muralinscricao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Muralinscricao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Muralinscricao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Muralinscricao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Muralinscricao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Inscricao newEmptyEntity()
+ * @method \App\Model\Entity\Inscricao newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Inscricao[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Inscricao get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Inscricao findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Inscricao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Inscricao[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Inscricao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Inscricao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class MuralinscricoesTable extends Table
+class InscricoesTable extends Table
 {
     /**
      * Initialize method
@@ -41,8 +41,8 @@ class MuralinscricoesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('mural_inscricao');
-        $this->setAlias('Muralinscricoes');
+        $this->setTable('inscricoes');
+        $this->setAlias('Inscricoes');
         $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 

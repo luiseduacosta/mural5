@@ -231,7 +231,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
-                                <?= $this->Html->link('Incricão administrador', ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
+                                <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
                             </td>
                         </tr>
                     <?php elseif (isset($usuario) && $usuario->categoria_id <> 1): ?>
@@ -251,7 +251,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <tr>
                             <?php if ($dataDeHoje <= $dataEnerramentoDaInscricao): ?>
                                 <td colspan=2 style="text-align: center">
-                                    <?= $this->Html->link('Incricão', ['controller' => 'muralinscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
+                                    <?= $this->Html->link('Incricão', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]]); ?>
                                 </td>
                             <?php else: ?>
                                 <td colspan=2 style="text-align: center">
@@ -265,7 +265,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 
             <div id="inscricoes" class="tab-pane fade">
                 <h3><?= __('Inscrições para seleção de estágio') ?></h3>
-                <?php if (!empty($muralestagio->muralinscricoes)): ?>
+                <?php if (!empty($muralestagio->inscricoes)): ?>
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
@@ -277,22 +277,22 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
-                        <?php foreach ($muralestagio->muralinscricoes as $muralinscricoes): ?>
+                        <?php foreach ($muralestagio->inscricoes as $inscricoes): ?>
                             <tr>
-                                <?php // pr($muralinscricoes) ?>
-                                <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->registro) ?></td>
+                                <?php // pr($inscricoes) ?>
+                                <td><?= h($inscricoes->id) ?></td>
+                                <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($muralinscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricoes->estudante_id]) : $muralinscricoes->estudante->nome; ?>
+                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricoes->estudante_id]) : $inscricoes->estudante->nome; ?>
                                 </td>
 
-                                <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
-                                <td><?= h($muralinscricoes->periodo) ?></td>
+                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                <td><?= h($inscricoes->periodo) ?></td>
                                 <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Muralinscricoes', 'action' => 'edit', $muralinscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Muralinscricoes', 'action' => 'delete', $muralinscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralinscricoes->id)]) ?>
+                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php endif; ?>
                             </tr>

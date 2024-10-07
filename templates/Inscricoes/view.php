@@ -1,10 +1,10 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Muralinscricao $muralinscricao
+ * @var \App\Model\Entity\Inscricao $inscricao
  */
 $usuario = $this->getRequest()->getAttribute('identity');
-// pr($muralinscricao);
+// pr($inscricao);
 ?>
 
 <div class="container">
@@ -12,46 +12,46 @@ $usuario = $this->getRequest()->getAttribute('identity');
         <aside class="column">
             <div class="side-nav">
                 <?php if ($usuario->categoria_id == 1): ?>
-                    <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $muralinscricao->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 <?php elseif ($usuario->categoria_id == 2): ?>
-                    <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger float-end']) ?>
                 <?php endif; ?>
             </div>
         </aside>
         <div class="container">
-            <h3><?= h($muralinscricao->estudante->nome) ?></h3>
+            <h3><?= h($inscricao->estudante->nome) ?></h3>
             <table class="table table-striped table-hover table-responsive">
                 <tr>
                     <th><?= __('Id') ?></th>
-                    <td><?= $muralinscricao->id ?></td>
+                    <td><?= $inscricao->id ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Registro') ?></th>
-                    <td><?= $muralinscricao->registro ?></td>
+                    <td><?= $inscricao->registro ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Estudante') ?></th>
-                    <td><?= $muralinscricao->has('estudante') ? $this->Html->link($muralinscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $muralinscricao->estudante->id]) : '' ?>
+                    <td><?= $inscricao->has('estudante') ? $this->Html->link($inscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricao->estudante->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?= __('Inscrição para estagio') ?></th>
-                    <td><?= $muralinscricao->has('muralestagio') ? $this->Html->link($muralinscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricao->muralestagio->id]) : '' ?>
+                    <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?= __('Período') ?></th>
-                    <td><?= h($muralinscricao->periodo) ?></td>
+                    <td><?= h($inscricao->periodo) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Data') ?></th>
-                    <td><?= date('d-m-Y', strtotime(h($muralinscricao->data))) ?></td>
+                    <td><?= date('d-m-Y', strtotime(h($inscricao->data))) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Timestamp') ?></th>
-                    <td><?= date('d-m-Y', strtotime(h($muralinscricao->timestamp))) ?></td>
+                    <td><?= date('d-m-Y', strtotime(h($inscricao->timestamp))) ?></td>
                 </tr>
             </table>
         </div>

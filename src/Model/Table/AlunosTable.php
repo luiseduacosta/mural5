@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Alunos Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\MuralinscricoesTable&\Cake\ORM\Association\HasMany $Muralinscricoes
+ * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
  * 
  * @method \App\Model\Entity\Aluno newEmptyEntity()
  * @method \App\Model\Entity\Aluno newEntity(array $data, array $options = [])
@@ -49,7 +49,7 @@ class AlunosTable extends Table {
             'foreignKey' => 'aluno_id',
         ]);
 
-        $this->hasMany('Muralinscricoes', [
+        $this->hasMany('Inscricoes', [
             'foreignKey' => 'aluno_id',
         ]);
     }
@@ -160,7 +160,7 @@ class AlunosTable extends Table {
         $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
         $rules->add($rules->isUnique(['aluno_id']), ['errorField' => 'aluno_id']);
         $rules->add($rules->existsIn(['aluno_id'], 'Estagiarios'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['aluno_id'], 'Muralinscricoes'), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Inscricoes'), ['errorField' => 'aluno_id']);
 
         return $rules;
     }

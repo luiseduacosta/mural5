@@ -90,7 +90,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
         <div class="container">
             <h4><?= __('Inscrições para seleção de estágio') ?></h4>
-            <?php if (!empty($aluno->muralinscricoes)): ?>
+            <?php if (!empty($aluno->inscricoes)): ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
@@ -103,21 +103,21 @@ $user = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Timestamp') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
-                        <?php foreach ($aluno->muralinscricoes as $muralinscricoes): ?>
+                        <?php foreach ($aluno->inscricoes as $inscricoes): ?>
                             <tr>
-                                <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->registro) ?></td>
-                                <td><?= h($muralinscricoes->estudante_id) ?></td>
-                                <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralinscricoes->instituicaoestagio_id]) : '' ?>
+                                <td><?= h($inscricoes->id) ?></td>
+                                <td><?= h($inscricoes->registro) ?></td>
+                                <td><?= h($inscricoes->estudante_id) ?></td>
+                                <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricoes->instituicaoestagio_id]) : '' ?>
                                 </td>
-                                <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
-                                <td><?= h($muralinscricoes->periodo) ?></td>
-                                <td><?= date('d-m-Y', strtotime(h($muralinscricoes->timestamp))) ?></td>
+                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                <td><?= h($inscricoes->periodo) ?></td>
+                                <td><?= date('d-m-Y', strtotime(h($inscricoes->timestamp))) ?></td>
 
                                 <td class="actions">
-                                    <?= $this->Html->link(__('View'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>
-                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Muralinscricoes', 'action' => 'edit', $muralinscricoes->id]) ?>
-                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Muralinscricoes', 'action' => 'delete', $muralinscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricoes->id)]) ?>
+                                    <?= $this->Html->link(__('View'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
+                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricoes->id)]) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

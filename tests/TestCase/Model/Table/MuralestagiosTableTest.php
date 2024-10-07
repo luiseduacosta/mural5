@@ -28,7 +28,7 @@ class MuralestagiosTableTest extends TestCase
         'app.Instituicaoestagios',
         'app.Turmaestagios',
         'app.Professores',
-        'app.Muralinscricoes',
+        'app.Inscricoes',
     ];
 
     /**

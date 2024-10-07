@@ -230,6 +230,9 @@ Inflector::rules('irregular', ['muralinscricao' => 'muralinscricoes']);
 Inflector::rules('irregular', ['areainstituicao' => 'areainstituicoes']);
 Inflector::rules('irregular', ['professor' => 'professores']);
 Inflector::rules('irregular', ['avaliacao' => 'avaliacoes']);
+Inflector::rules('irregular', ['inscricao' => 'inscricoes']);
+Inflector::rules('irregular', ['instituicao' => 'instituicoes']);
+Inflector::rules('irregular', ['supervisor' => 'supervisores']);
 
 // set a custom date and time format
 // see https://book.cakephp.org/5/en/core-libraries/time.html#setting-the-default-locale-and-format-string

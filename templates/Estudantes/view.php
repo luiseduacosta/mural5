@@ -127,7 +127,7 @@
 
         <div id="inscricoes" class="tab-pane" role="tabpanel" aria-labelledby="inscricoes-tab">
             <h4><?= __('Inscrições para seleção de estágio') ?></h4>
-            <?php if (!empty($estudante->muralinscricoes)): ?>
+            <?php if (!empty($estudante->inscricoes)): ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
@@ -143,30 +143,30 @@
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
-                        <?php foreach ($estudante->muralinscricoes as $muralinscricoes): ?>
+                        <?php foreach ($estudante->inscricoes as $inscricoes): ?>
                             <tr>
-                                <td><?= h($muralinscricoes->id) ?></td>
-                                <td><?= h($muralinscricoes->registro) ?></td>
+                                <td><?= h($inscricoes->id) ?></td>
+                                <td><?= h($inscricoes->registro) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $muralinscricoes->hasValue('muralestagio') ? $this->Html->link($muralinscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $muralinscricoes->muralestagio->id]) : '' ?>
+                                    <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $inscricoes->muralestagio->id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $muralinscricoes->hasValue('muralestagio') ? $muralinscricoes->muralestagio->instituicao : '' ?>
+                                    <td><?= $inscricoes->hasValue('muralestagio') ? $inscricoes->muralestagio->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
-                                <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
-                                <td><?= h($muralinscricoes->periodo) ?></td>
+                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                <td><?= h($inscricoes->periodo) ?></td>
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= h($muralinscricoes->timestamp) ?></td>
+                                    <td><?= h($inscricoes->timestamp) ?></td>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Muralinscricoes', 'action' => 'edit', $muralinscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Muralinscricoes', 'action' => 'delete', $muralinscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricoes->id)]) ?>
+                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Muralinscricoes', 'action' => 'delete', $muralinscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $muralinscricoes->id)]) ?>
+                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php endif; ?>
                             </tr>
