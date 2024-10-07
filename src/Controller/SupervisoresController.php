@@ -43,7 +43,7 @@ class SupervisoresController extends AppController {
         }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicaoestagios' => ['sort' => ['Instituicaoestagios.instituicao ASC']],
-                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes' => ['sort' => ['Estudantes.nome ASC']], 'Docentes']
+                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes' => ['sort' => ['Estudantes.nome ASC']], 'Professores']
             ]
         ]); 
         $this->set(compact('supervisor'));

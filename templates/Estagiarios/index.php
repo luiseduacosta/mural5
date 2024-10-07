@@ -60,7 +60,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('tc_solicitacao') ?></th>
                     <th><?= $this->Paginator->sort('Instituicaoestagios.instituicao', 'Instituicao') ?></th>
                     <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
-                    <th><?= $this->Paginator->sort('Docentes.nome', 'Professor/a') ?></th>
+                    <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                     <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                     <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
                     <th><?= $this->Paginator->sort('nota') ?></th>
@@ -91,7 +91,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                         </td>
 
-                        <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
+                        <td><?= $estagiario->hasValue('professor') ? $this->Html->link($estagiario->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiario->professor->id]) : '' ?>
                         </td>
 
                         <td><?= h($estagiario->periodo) ?></td>

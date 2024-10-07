@@ -83,12 +83,12 @@
                 <?php endif; ?>
             </tr>
             <tr>
-                <th><?= __('Docente') ?></th>
+                <th><?= __('Professor') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= $estagiario->hasValue('docente') ? $this->Html->link($estagiario->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiario->docente->id]) : '' ?>
+                    <td><?= $estagiario->hasValue('professor') ? $this->Html->link($estagiario->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiario->professor->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->hasValue('docente') ? $estagiario->docente->nome : '' ?></td>
+                    <td><?= $estagiario->hasValue('professor') ? $estagiario->professor->nome : '' ?></td>
                 <?php endif; ?>
             </tr>
             <tr>

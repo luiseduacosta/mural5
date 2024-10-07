@@ -42,7 +42,7 @@
                             <th><?= __('Tc Solicitacao') ?></th>
                             <th><?= __('Instituicaoestagio') ?></th>
                             <th><?= __('Supervisor') ?></th>
-                            <th><?= __('Docente') ?></th>
+                            <th><?= __('Professor') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <th><?= __('Turmaestagio') ?></th>
                             <th><?= __('Nota') ?></th>
@@ -69,7 +69,7 @@
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('docente') ? $this->Html->link(h($estagiarios->docente->nome), ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
+                                <td><?= $estagiarios->hasValue('professor') ? $this->Html->link(h($estagiarios->professor->nome), ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                 </td>
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= $estagiarios->hasValue('turmaestagio') ? $this->Html->link(h($estagiarios->turmaestagio->area), ['controller' => 'turmaestagios', 'action' => 'view', $estagiarios->turmaestagio_id]) : '' ?>
@@ -105,7 +105,7 @@
                             <th><?= __('Requisitos') ?></th>
                             <th><?= __('Turmaestagio Id') ?></th>
                             <th><?= __('Horario') ?></th>
-                            <th><?= __('Docente') ?></th>
+                            <th><?= __('Professor') ?></th>
                             <th><?= __('DataSelecao') ?></th>
                             <th><?= __('DataInscricao') ?></th>
                             <th><?= __('HorarioSelecao') ?></th>

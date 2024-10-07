@@ -34,7 +34,7 @@ class TurmaestagiosController extends AppController
     {
         ini_set('memory_limit', '2048M');
         $turmaestagio = $this->Turmaestagios->get($id, [
-            'contain' => ['Estagiarios' => ['Estudantes', 'Docentes', 'Supervisores', 'Instituicaoestagios']],
+            'contain' => ['Estagiarios' => ['Estudantes', 'Professores', 'Supervisores', 'Instituicaoestagios']],
         ]);
         $this->set(compact('turmaestagio'));
     }

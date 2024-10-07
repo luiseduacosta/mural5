@@ -69,7 +69,7 @@ class MuralestagiosController extends AppController
     {
 
         $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicaoestagios' => ['Turmaestagios'], 'Docentes', 'Muralinscricoes' => ['Estudantes']]
+            'contain' => ['Instituicaoestagios' => ['Turmaestagios'], 'Professores', 'Muralinscricoes' => ['Estudantes']]
         ]);
         $this->set(compact('muralestagio'));
     }
@@ -112,8 +112,8 @@ class MuralestagiosController extends AppController
         /** Envio para fazer o formulário de cadastramento do mural */        
         $instituicaoestagios = $this->Muralestagios->Instituicaoestagios->find('list');
         $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
-        $docentes = $this->Muralestagios->Docentes->find('list');
-        $this->set(compact('muralestagio', 'instituicaoestagios', 'turmaestagios', 'docentes', 'periodo'));
+        $professores = $this->Muralestagios->Professores->find('list');
+        $this->set(compact('muralestagio', 'instituicaoestagios', 'turmaestagios', 'professores', 'periodo'));
     }
 
     /**
@@ -154,8 +154,8 @@ class MuralestagiosController extends AppController
         }
         $instituicaoestagios = $this->Muralestagios->Instituicaoestagios->find('list');
         $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
-        $docentes = $this->Muralestagios->Docentes->find('list');
-        $this->set(compact('muralestagio', 'instituicaoestagios', 'turmaestagios', 'docentes', 'periodostotal'));
+        $professores = $this->Muralestagios->Professores->find('list');
+        $this->set(compact('muralestagio', 'instituicaoestagios', 'turmaestagios', 'professores', 'periodostotal'));
     }
 
     /**

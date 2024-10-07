@@ -227,10 +227,10 @@
                                 <?php endif; ?>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->docente->id]) : 'Sem dados' ?>
+                                    <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiarios->professor->id]) : 'Sem dados' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : 'Sem informação' ?>
+                                    <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : 'Sem informação' ?>
                                     </td>
                                 <?php endif; ?>
 

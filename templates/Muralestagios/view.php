@@ -114,9 +114,9 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Docente') ?></th>
-                        <?php if (!empty($muralestagio->docente->nome)): ?>
-                            <td><?= $muralestagio->has('docente') ? $this->Html->link($muralestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $muralestagio->docente->id]) : '' ?>
+                        <th><?= __('Professor') ?></th>
+                        <?php if (!empty($muralestagio->professor->nome)): ?>
+                            <td><?= $muralestagio->has('professor') ? $this->Html->link($muralestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $muralestagio->professor->id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td>Sem dados</td>

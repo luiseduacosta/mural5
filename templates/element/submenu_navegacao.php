@@ -49,7 +49,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                     <?php echo $this->Html->link("Supervisores", "/Supervisores/index/ordem:nome", ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Professores", "/Docentes/index/", ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                    <?php echo $this->Html->link("Professores", "/Professores/index/", ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
                 <li class="nav-item dropdown">
                     <a style='color: white' class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"

@@ -53,11 +53,11 @@ if ($email) {
     $email = '_______________';
 }
 
-$docente = isset($estagiario->docente->nome);
-if ($docente) {
-    $docente = $estagiario->docente->nome;
+$professor = isset($estagiario->professor->nome);
+if ($professor) {
+    $professor = $estagiario->professor->nome;
 } else {
-    $docente = '_______________';
+    $professor = '_______________';
 }
 ?>
 
@@ -76,7 +76,7 @@ if ($docente) {
     Endereço Institucional: <?= $estagiario->instituicaoestagio->endereco ?><br />
     Período de realização do estágio: <?= $estagiario->periodo ?><br />
     Nível de Estágio: <?= $estagiario->nivel ?><br />
-    Supervisor(a) Acadêmico(a): <?= $docente ?>
+    Supervisor(a) Acadêmico(a): <?= $professor ?>
 </p>
 
 <p>

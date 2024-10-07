@@ -30,7 +30,7 @@ class FolhadeatividadesController extends AppController
         }
 
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
-            ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Docentes'])
+            ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Professores'])
             ->where(['Estagiarios.id' => $id])->first();
         $folhadeatividades = $this->Folhadeatividades->find('all')->where(['estagiario_id' => $id]);
 
@@ -226,14 +226,14 @@ class FolhadeatividadesController extends AppController
         // pr($estagiario_id);
         $this->layout = false;
         $atividades = $this->Folhadeatividades->find()
-            ->contain(['Estagiarios' => ['Estudantes', 'Docentes', 'Instituicaoestagios', 'Supervisores']])
+            ->contain(['Estagiarios' => ['Estudantes', 'Professores', 'Instituicaoestagios', 'Supervisores']])
             ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
             ->all();
         // debug($atividades);
 // pr($atividades);
 
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
-            ->contain(['Estudantes', 'Docentes', 'Instituicaoestagios', 'Supervisores'])
+            ->contain(['Estudantes', 'Professores', 'Instituicaoestagios', 'Supervisores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
         // debug($estagiario);

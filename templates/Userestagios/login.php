@@ -31,10 +31,10 @@
             É a sua primeira vez por aqui? Faça o cadastro com dados completos. Não abrevie seu nome.
             <br />
             <br />
-            Vai retirar o Termo de Compromisso? Preencha os dados da supervisão de campo e do/a docente de OTP.
+            Vai retirar o Termo de Compromisso? Preencha os dados da supervisão de campo e do/a professor de OTP.
             <br />
             <br />
-            Supervisores/as e docentes também podem fazer o cadastro e contribuir para mantermos atualizados os dados das instituições, assim como seus dados profissionais, incluindo e-mail e telefone.
+            Supervisores/as e professores também podem fazer o cadastro e contribuir para mantermos atualizados os dados das instituições, assim como seus dados profissionais, incluindo e-mail e telefone.
             <br />
             <br />
             Ficou alguma dúvida? Escreva um e-mail detalhado para: estagio@ess.ufrj.br . Estamos à disposição.

@@ -47,8 +47,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><?= __('Docente') ?></th>
-                        <td><?= $userestagio->hasValue('docente') ? $this->Html->link($userestagio->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $userestagio->docente->id]) : '' ?>
+                        <th><?= __('Professor') ?></th>
+                        <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
                         </td>
                     </tr>
                     <tr>

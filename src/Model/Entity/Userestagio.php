@@ -22,7 +22,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Estudante[] $estudantes
  * @property \App\Model\Entity\Supervisor[] $supervisores
- * @property \App\Model\Entity\Docente[] $docentes
+ * @property \App\Model\Entity\Professor[] $professores
  */
 class Userestagio extends Entity {
 
@@ -46,7 +46,7 @@ class Userestagio extends Entity {
         'timestamp' => true,
         'estudantes' => true,
         'supervisores' => true,
-        'docentes' => true,
+        'professores' => true,
     ];
 
     // Add this method

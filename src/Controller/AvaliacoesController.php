@@ -67,7 +67,7 @@ class AvaliacoesController extends AppController {
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $estagiario = $this->Avaliacoes->Estagiarios->find()
-                    ->contain(['Supervisores', 'Estudantes', 'Docentes', 'Folhadeatividades'])
+                    ->contain(['Supervisores', 'Estudantes', 'Professores', 'Folhadeatividades'])
                     ->where(['Supervisores.cress' => $cress])
                     ->order(['periodo' => 'desc'])
                     ->all();
@@ -222,7 +222,7 @@ class AvaliacoesController extends AppController {
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
-                    ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Docentes', 'Instituicaoestagios']])
+                    ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicaoestagios']])
                     ->where(['Avaliacoes.id' => $id]);
         }
         $avaliacao = $avaliacaoquery->first();

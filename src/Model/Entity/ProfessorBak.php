@@ -6,7 +6,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Docente Entity
+ * Professor Entity
  *
  * @property int $id
  * @property string $nome
@@ -49,7 +49,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\Userestagio[] $userestagios
  */
-class Docente extends Entity
+class Professor extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

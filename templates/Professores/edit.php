@@ -4,24 +4,29 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $professor->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $professor->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="professores form content">
-            <?= $this->Form->create($professor) ?>
-            <fieldset>
-                <legend><?= __('Editar Professor') ?></legend>
-                <?php
+<?= $this->element('templates') ?>
+<div class="container">
+    <div class="row">
+        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+            <aside class="column">
+                <div class="side-nav">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $professor->id],
+                            ['confirm' => __('Tem certeza de excluir # {0}?', $professor->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                    <?= $this->Html->link(__('Listar professores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </div>
+            </aside>
+        <?php endif; ?>
+        <div class="column-responsive column-80">
+            <div class="professores form content">
+                <?= $this->Form->create($professor) ?>
+                <fieldset>
+                    <legend><?= __('Editar professor') ?></legend>
+                    <?php
                     echo $this->Form->control('nome');
                     echo $this->Form->control('cpf');
                     echo $this->Form->control('siape');
@@ -57,10 +62,11 @@
                     echo $this->Form->control('dataegresso', ['empty' => true]);
                     echo $this->Form->control('motivoegresso');
                     echo $this->Form->control('observacoes');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
+                    ?>
+                </fieldset>
+                <?= $this->Form->button(__('Submit')) ?>
+                <?= $this->Form->end() ?>
+            </div>
         </div>
     </div>
 </div>

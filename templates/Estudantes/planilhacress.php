@@ -54,7 +54,7 @@
                 <td><?php echo isset($c_cress->instituicaoestagio->bairro) ? $c_cress->instituicaoestagio->bairro : ''; ?></td>
                 <td><?php echo isset($c_cress->supervisor->nome) ? $c_cress->supervisor->nome : ''; ?></td>
                 <td><?php echo isset($c_cress->supervisor->cress) ? $c_cress->supervisor->cress : ''; ?></td>
-                <td><?php echo isset($c_cress->docente->nome) ? $c_cress->docente->nome : ''; ?></td>
+                <td><?php echo isset($c_cress->professor->nome) ? $c_cress->professor->nome : ''; ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

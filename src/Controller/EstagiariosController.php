@@ -39,12 +39,12 @@ class EstagiariosController extends AppController
         if ($periodo) {
             $query = $this->Estagiarios->find('all')
                 ->where(['Estagiarios.periodo' => $periodo])
-                ->contain(['Estudantes', 'Docentes', 'Supervisores', 'Instituicaoestagios', 'Turmaestagios']);
+                ->contain(['Estudantes', 'Professores', 'Supervisores', 'Instituicaoestagios', 'Turmaestagios']);
         } else {
             $query = $this->Estagiarios->find('all')
-                ->contain(['Estudantes', 'Docentes', 'Supervisores', 'Instituicaoestagios', 'Turmaestagios']);
+                ->contain(['Estudantes', 'Professores', 'Supervisores', 'Instituicaoestagios', 'Turmaestagios']);
         }
-        $config = $this->paginate = ['sortableFields' => ['id', 'Estudantes.nome', 'registro', 'turno', 'nivel', 'Instituicaoestagios.instituicao', 'Supervisores.nome', 'Docentes.nome']];
+        $config = $this->paginate = ['sortableFields' => ['id', 'Estudantes.nome', 'registro', 'turno', 'nivel', 'Instituicaoestagios.instituicao', 'Supervisores.nome', 'Professores.nome']];
         $estagiarios = $this->paginate($query, $config);
 
         /* Todos os periódos */
@@ -73,7 +73,7 @@ class EstagiariosController extends AppController
         }
 
         $estagiario = $this->Estagiarios->get($id, [
-            'contain' => ['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes', 'Turmaestagios']
+            'contain' => ['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Professores', 'Turmaestagios']
         ]);
 
         $this->set(compact('estagiario'));
@@ -125,9 +125,9 @@ class EstagiariosController extends AppController
         $estudantes = $this->Estagiarios->Estudantes->find('list');
         $instituicaoestagios = $this->Estagiarios->Instituicaoestagios->find('list');
         $supervisores = $this->Estagiarios->Supervisores->find('list');
-        $docentes = $this->Estagiarios->Docentes->find('list');
+        $professores = $this->Estagiarios->Professores->find('list');
         $turmaestagios = $this->Estagiarios->Turmaestagios->find('list');
-        $this->set(compact('periodo', 'estagiario', 'estudantes', 'instituicaoestagios', 'supervisores', 'docentes', 'turmaestagios'));
+        $this->set(compact('periodo', 'estagiario', 'estudantes', 'instituicaoestagios', 'supervisores', 'professores', 'turmaestagios'));
     }
 
     /**
@@ -519,7 +519,7 @@ class EstagiariosController extends AppController
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $estagiario = $this->Estagiarios->find()
-                ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Docentes'])
+                ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Professores'])
                 ->where(['Estagiarios.id' => $id])
                 ->first();
         }
@@ -566,7 +566,7 @@ class EstagiariosController extends AppController
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
 
         $estagiario = $this->Estagiarios->find()
-            ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Docentes'])
+            ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Professores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
 
@@ -618,9 +618,9 @@ class EstagiariosController extends AppController
         $estudantes = $this->Estagiarios->Estudantes->find('list');
         $instituicaoestagios = $this->Estagiarios->Instituicaoestagios->find('list');
         $supervisores = $this->Estagiarios->Supervisores->find('list');
-        $docentes = $this->Estagiarios->Docentes->find('list');
+        $professores = $this->Estagiarios->Professores->find('list');
         $turmaestagios = $this->Estagiarios->Turmaestagios->find('list');
-        $this->set(compact('estagiario', 'estudantes', 'instituicaoestagios', 'supervisores', 'docentes', 'turmaestagios'));
+        $this->set(compact('estagiario', 'estudantes', 'instituicaoestagios', 'supervisores', 'professores', 'turmaestagios'));
     }
 
     /**
@@ -649,12 +649,12 @@ class EstagiariosController extends AppController
 
         $siape = $this->getRequest()->getQuery('siape');
 
-        $estagiarios = $this->Estagiarios->Docentes->find()
+        $estagiarios = $this->Estagiarios->Professores->find()
             ->contain([
                 'Estagiarios' => [
                     'sort' => ['periodo' => 'desc'],
                     'Estudantes' => ['fields' => ['id', 'nome'], 'sort' => ['nome']],
-                    'Docentes' => ['fields' => ['id', 'nome', 'siape']],
+                    'Professores' => ['fields' => ['id', 'nome', 'siape']],
                     'Supervisores' => ['fields' => ['id', 'nome']],
                     'Instituicaoestagios' => ['fields' => ['id', 'instituicao']],
                     'Avaliacoes' => ['fields' => ['id', 'estagiario_id']]
@@ -679,7 +679,7 @@ class EstagiariosController extends AppController
                 $estagiarioslancanota[$i]['ch'] = $estagio['ch'];
                 // pr($c_estagio->instituicaoestagio);
                 // pr($c_estagio->supervisor);
-                // pr($c_estagio->docente);
+                // pr($c_estagio->professor);
                 // pr($c_estagio->estudante);
                 $folhadeatividadestabela = $this->fetchTable('Folhadeatividades');
                 $folha = $folhadeatividadestabela->find()
@@ -692,8 +692,8 @@ class EstagiariosController extends AppController
                 $estagiarioslancanota[$i]['instituicao'] = $estagio->instituicaoestagio->instituicao;
                 $estagiarioslancanota[$i]['supervisor_id'] = $estagio->supervisor->id;
                 $estagiarioslancanota[$i]['supervisora'] = $estagio->supervisor->nome;
-                $estagiarioslancanota[$i]['professor_id'] = $estagio->docente->id;
-                $estagiarioslancanota[$i]['docente'] = $estagio->docente->nome;
+                $estagiarioslancanota[$i]['professor_id'] = $estagio->professor->id;
+                $estagiarioslancanota[$i]['professor'] = $estagio->professor->nome;
                 $estagiarioslancanota[$i]['estudante_id'] = $estagio->estudante->id;
                 $estagiarioslancanota[$i]['estudante'] = $estagio->estudante->nome;
                 if (isset($folha)):

@@ -146,7 +146,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Tc Solicitação') ?></th>
                             <th><?= __('Instituição de estagio') ?></th>
                             <th><?= __('Supervisor') ?></th>
-                            <th><?= __('Docente') ?></th>
+                            <th><?= __('Professor') ?></th>
                             <th><?= __('Àrea de estágio') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
@@ -172,7 +172,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'Docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
+                                <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('turmaestagio') ? h($estagiarios->turmaestagio->area) : '' ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>

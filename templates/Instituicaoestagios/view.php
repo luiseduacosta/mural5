@@ -193,7 +193,7 @@
                                 <th><?= __('Estudante') ?></th>
                                 <th><?= __('Registro') ?></th>
                                 <th><?= __('Supervisor') ?></th>
-                                <th><?= __('Docente') ?></th>
+                                <th><?= __('Professor') ?></th>
                                 <th><?= __('Período') ?></th>
                                 <th><?= __('Nível') ?></th>
                                 <th><?= __('Ajuste 2020') ?></th>
@@ -230,10 +230,10 @@
                                     <?php endif; ?>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
-                                        <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : '' ?></td>
+                                        <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : '' ?></td>
                                     <?php endif; ?>
 
                                     <td><?= h($estagiarios->periodo) ?></td>

@@ -26,9 +26,9 @@ if ($cress) {
     $cress = '_____';
 }
 
-$professora = isset($avaliacao->estagiario->docente->nome);
+$professora = isset($avaliacao->estagiario->professor->nome);
 if ($professora) {
-    $professora = $avaliacao->estagiario->docente->nome;
+    $professora = $avaliacao->estagiario->professor->nome;
 } else {
     $professora = '____________________';
 }

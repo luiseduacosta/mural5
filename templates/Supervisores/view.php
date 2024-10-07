@@ -198,7 +198,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <th><?= __('Registro') ?></th>
                                 <th><?= __('Turno') ?></th>
                                 <th><?= __('Nivel') ?></th>
-                                <th><?= __('Docente') ?></th>
+                                <th><?= __('Professor') ?></th>
                                 <th><?= __('Periodo') ?></th>
                                 <th><?= __('Nota') ?></th>
                                 <th><?= __('Ch') ?></th>
@@ -213,7 +213,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <td><?= h($estagiarios->registro) ?></td>
                                     <td><?= h($estagiarios->turno) ?></td>
                                     <td><?= h($estagiarios->nivel) ?></td>
-                                    <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                     </td>
                                     <td><?= h($estagiarios->periodo) ?></td>
                                     <td><?= h($estagiarios->nota) ?></td>
@@ -242,7 +242,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <th><?= __('Registro') ?></th>
                                 <th><?= __('Turno') ?></th>
                                 <th><?= __('Nivel') ?></th>
-                                <th><?= __('Docente') ?></th>
+                                <th><?= __('Professor') ?></th>
                                 <th><?= __('Periodo') ?></th>
                                 <th><?= __('Nota') ?></th>
                                 <th><?= __('Carga horária') ?></th>
@@ -257,7 +257,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <td><?= h($estagiarios->registro) ?></td>
                                     <td><?= h($estagiarios->turno) ?></td>
                                     <td><?= h($estagiarios->nivel) ?></td>
-                                    <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                     </td>
                                     <td><?= h($estagiarios->periodo) ?></td>
                                     <td><?= h($estagiarios->nota) ?></td>

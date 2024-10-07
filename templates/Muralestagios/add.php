@@ -61,7 +61,7 @@
                     echo $this->Form->control('requisitos');
                     echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Área de estágio'], 'options' => $turmaestagios, 'empty' => true]);
                     echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
-                    echo $this->Form->control('professor_id', ['label' => ['text' => 'Docente da OTP'], 'options' => $docentes, 'empty' => [0 => 'Seleciona']]);
+                    echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores, 'empty' => [0 => 'Seleciona']]);
                     echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
                     echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Data da inscrição'], 'empty' => true]);
                     echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);

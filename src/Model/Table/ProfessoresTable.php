@@ -14,7 +14,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
+ * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Userestagios
  *
  * @method \App\Model\Entity\Professor newEmptyEntity()
  * @method \App\Model\Entity\Professor newEntity(array $data, array $options = [])
@@ -30,208 +30,221 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Professor[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Professor[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class ProfessoresTable extends Table {
+class ProfessoresTable extends Table
+{
 
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
-    public function initialize(array $config): void {
-        parent::initialize($config);
+        /**
+         * Initialize method
+         *
+         * @param array $config The configuration for the Table.
+         * @return void
+         */
+        public function initialize(array $config): void
+        {
+                parent::initialize($config);
 
-        $this->setTable('professores');
-        $this->setAlias('Professores');
-        $this->setDisplayField('nome');
-        $this->setPrimaryKey('id');
+                $this->setTable('docentes');
+                $this->setAlias('Professores');
+                $this->setDisplayField('nome');
+                $this->setPrimaryKey('id');
 
-        $this->hasMany('Estagiarios', [
-            'foreignKey' => 'professor_id',
-        ]);
-        $this->hasMany('Muralestagios', [
-            'foreignKey' => 'professor_id',
-        ]);
-        $this->hasMany('Userestagios', [
-            'foreignKey' => 'professor_id',
-        ]);
-    }
+                $this->hasMany('Estagiarios', [
+                        'foreignKey' => 'professor_id',
+                ]);
+                $this->hasMany('Muralestagios', [
+                        'foreignKey' => 'professor_id',
+                ]);
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
-    public function validationDefault(Validator $validator): Validator {
-        $validator
-                ->integer('id')
-                ->allowEmptyString('id', null, 'create');
+                $this->hasMany('Userestagios', [
+                        'foreignKey' => 'professor_id',
+                ]);
 
-        $validator
-                ->scalar('nome')
-                ->maxLength('nome', 50)
-                ->notEmptyString('nome');
+        }
 
-        $validator
-                ->scalar('cpf')
-                ->maxLength('cpf', 12)
-                ->allowEmptyString('cpf');
+        public function beforeFind($event, $query, $options, $primary)
+        {
 
-        $validator
-                ->integer('siape')
-                ->allowEmptyString('siape');
+                $query->order(['nome' => 'ASC']);
+                return $query;
+        }
 
-        $validator
-                ->date('datanascimento')
-                ->allowEmptyDate('datanascimento');
+        /**
+         * Default validation rules.
+         *
+         * @param \Cake\Validation\Validator $validator Validator instance.
+         * @return \Cake\Validation\Validator
+         */
+        public function validationDefault(Validator $validator): Validator
+        {
+                $validator
+                        ->integer('id')
+                        ->allowEmptyString('id', null, 'create');
 
-        $validator
-                ->scalar('localnascimento')
-                ->maxLength('localnascimento', 30)
-                ->allowEmptyString('localnascimento');
+                $validator
+                        ->scalar('nome')
+                        ->maxLength('nome', 50)
+                        ->notEmptyString('nome');
 
-        $validator
-                ->scalar('sexo')
-                ->allowEmptyString('sexo');
+                $validator
+                        ->scalar('cpf')
+                        ->maxLength('cpf', 12)
+                        ->allowEmptyString('cpf');
 
-        $validator
-                ->scalar('ddd_telefone')
-                ->maxLength('ddd_telefone', 2)
-                ->notEmptyString('ddd_telefone');
+                $validator
+                        ->integer('siape')
+                        ->allowEmptyString('siape');
 
-        $validator
-                ->scalar('telefone')
-                ->maxLength('telefone', 12)
-                ->allowEmptyString('telefone');
+                $validator
+                        ->date('datanascimento')
+                        ->allowEmptyDate('datanascimento');
 
-        $validator
-                ->scalar('ddd_celular')
-                ->maxLength('ddd_celular', 2)
-                ->notEmptyString('ddd_celular');
+                $validator
+                        ->scalar('localnascimento')
+                        ->maxLength('localnascimento', 30)
+                        ->allowEmptyString('localnascimento');
 
-        $validator
-                ->scalar('celular')
-                ->maxLength('celular', 12)
-                ->allowEmptyString('celular');
+                $validator
+                        ->scalar('sexo')
+                        ->allowEmptyString('sexo');
 
-        $validator
-                ->email('email')
-                ->allowEmptyString('email');
+                $validator
+                        ->scalar('ddd_telefone')
+                        ->maxLength('ddd_telefone', 2)
+                        ->notEmptyString('ddd_telefone');
 
-        $validator
-                ->scalar('homepage')
-                ->maxLength('homepage', 120)
-                ->allowEmptyString('homepage');
+                $validator
+                        ->scalar('telefone')
+                        ->maxLength('telefone', 12)
+                        ->allowEmptyString('telefone');
 
-        $validator
-                ->scalar('redesocial')
-                ->maxLength('redesocial', 50)
-                ->allowEmptyString('redesocial');
+                $validator
+                        ->scalar('ddd_celular')
+                        ->maxLength('ddd_celular', 2)
+                        ->notEmptyString('ddd_celular');
 
-        $validator
-                ->scalar('curriculolattes')
-                ->maxLength('curriculolattes', 50)
-                ->allowEmptyString('curriculolattes');
+                $validator
+                        ->scalar('celular')
+                        ->maxLength('celular', 12)
+                        ->allowEmptyString('celular');
 
-        $validator
-                ->date('atualizacaolattes')
-                ->allowEmptyDate('atualizacaolattes');
+                $validator
+                        ->email('email')
+                        ->allowEmptyString('email');
 
-        $validator
-                ->scalar('curriculosigma')
-                ->maxLength('curriculosigma', 7)
-                ->allowEmptyString('curriculosigma');
+                $validator
+                        ->scalar('homepage')
+                        ->maxLength('homepage', 120)
+                        ->allowEmptyString('homepage');
 
-        $validator
-                ->scalar('pesquisadordgp')
-                ->maxLength('pesquisadordgp', 20)
-                ->allowEmptyString('pesquisadordgp');
+                $validator
+                        ->scalar('redesocial')
+                        ->maxLength('redesocial', 50)
+                        ->allowEmptyString('redesocial');
 
-        $validator
-                ->scalar('formacaoprofissional')
-                ->maxLength('formacaoprofissional', 30)
-                ->allowEmptyString('formacaoprofissional');
+                $validator
+                        ->scalar('curriculolattes')
+                        ->maxLength('curriculolattes', 50)
+                        ->allowEmptyString('curriculolattes');
 
-        $validator
-                ->scalar('universidadedegraduacao')
-                ->maxLength('universidadedegraduacao', 50)
-                ->allowEmptyString('universidadedegraduacao');
+                $validator
+                        ->date('atualizacaolattes')
+                        ->allowEmptyDate('atualizacaolattes');
 
-        $validator
-                ->integer('anoformacao')
-                ->allowEmptyString('anoformacao');
+                $validator
+                        ->scalar('curriculosigma')
+                        ->maxLength('curriculosigma', 7)
+                        ->allowEmptyString('curriculosigma');
 
-        $validator
-                ->scalar('mestradoarea')
-                ->maxLength('mestradoarea', 40)
-                ->allowEmptyString('mestradoarea');
+                $validator
+                        ->scalar('pesquisadordgp')
+                        ->maxLength('pesquisadordgp', 20)
+                        ->allowEmptyString('pesquisadordgp');
 
-        $validator
-                ->scalar('mestradouniversidade')
-                ->maxLength('mestradouniversidade', 50)
-                ->allowEmptyString('mestradouniversidade');
+                $validator
+                        ->scalar('formacaoprofissional')
+                        ->maxLength('formacaoprofissional', 30)
+                        ->allowEmptyString('formacaoprofissional');
 
-        $validator
-                ->integer('mestradoanoconclusao')
-                ->allowEmptyString('mestradoanoconclusao');
+                $validator
+                        ->scalar('universidadedegraduacao')
+                        ->maxLength('universidadedegraduacao', 50)
+                        ->allowEmptyString('universidadedegraduacao');
 
-        $validator
-                ->scalar('doutoradoarea')
-                ->maxLength('doutoradoarea', 40)
-                ->allowEmptyString('doutoradoarea');
+                $validator
+                        ->integer('anoformacao')
+                        ->allowEmptyString('anoformacao');
 
-        $validator
-                ->scalar('doutoradouniversidade')
-                ->maxLength('doutoradouniversidade', 50)
-                ->allowEmptyString('doutoradouniversidade');
+                $validator
+                        ->scalar('mestradoarea')
+                        ->maxLength('mestradoarea', 40)
+                        ->allowEmptyString('mestradoarea');
 
-        $validator
-                ->integer('doutoradoanoconclusao')
-                ->allowEmptyString('doutoradoanoconclusao');
+                $validator
+                        ->scalar('mestradouniversidade')
+                        ->maxLength('mestradouniversidade', 50)
+                        ->allowEmptyString('mestradouniversidade');
 
-        $validator
-                ->date('dataingresso')
-                ->allowEmptyDate('dataingresso');
+                $validator
+                        ->integer('mestradoanoconclusao')
+                        ->allowEmptyString('mestradoanoconclusao');
 
-        $validator
-                ->scalar('formaingresso')
-                ->maxLength('formaingresso', 100)
-                ->allowEmptyString('formaingresso');
+                $validator
+                        ->scalar('doutoradoarea')
+                        ->maxLength('doutoradoarea', 40)
+                        ->allowEmptyString('doutoradoarea');
 
-        $validator
-                ->scalar('tipocargo')
-                ->maxLength('tipocargo', 10)
-                ->allowEmptyString('tipocargo');
+                $validator
+                        ->scalar('doutoradouniversidade')
+                        ->maxLength('doutoradouniversidade', 50)
+                        ->allowEmptyString('doutoradouniversidade');
 
-        $validator
-                ->scalar('categoria')
-                ->maxLength('categoria', 10)
-                ->allowEmptyString('categoria');
+                $validator
+                        ->integer('doutoradoanoconclusao')
+                        ->allowEmptyString('doutoradoanoconclusao');
 
-        $validator
-                ->scalar('regimetrabalho')
-                ->maxLength('regimetrabalho', 5)
-                ->allowEmptyString('regimetrabalho');
+                $validator
+                        ->date('dataingresso')
+                        ->allowEmptyDate('dataingresso');
 
-        $validator
-                ->scalar('departamento')
-                ->maxLength('departamento', 30)
-                ->allowEmptyString('departamento');
+                $validator
+                        ->scalar('formaingresso')
+                        ->maxLength('formaingresso', 100)
+                        ->allowEmptyString('formaingresso');
 
-        $validator
-                ->date('dataegresso')
-                ->allowEmptyDate('dataegresso');
+                $validator
+                        ->scalar('tipocargo')
+                        ->maxLength('tipocargo', 10)
+                        ->allowEmptyString('tipocargo');
 
-        $validator
-                ->scalar('motivoegresso')
-                ->maxLength('motivoegresso', 100)
-                ->allowEmptyString('motivoegresso');
+                $validator
+                        ->scalar('categoria')
+                        ->maxLength('categoria', 10)
+                        ->allowEmptyString('categoria');
 
-        $validator
-                ->scalar('observacoes')
-                ->allowEmptyString('observacoes');
+                $validator
+                        ->scalar('regimetrabalho')
+                        ->maxLength('regimetrabalho', 5)
+                        ->allowEmptyString('regimetrabalho');
 
-        return $validator;
-    }
+                $validator
+                        ->scalar('departamento')
+                        ->maxLength('departamento', 30)
+                        ->allowEmptyString('departamento');
+
+                $validator
+                        ->date('dataegresso')
+                        ->allowEmptyDate('dataegresso');
+
+                $validator
+                        ->scalar('motivoegresso')
+                        ->maxLength('motivoegresso', 100)
+                        ->allowEmptyString('motivoegresso');
+
+                $validator
+                        ->scalar('observacoes')
+                        ->allowEmptyString('observacoes');
+
+                return $validator;
+        }
+
 }

@@ -18,7 +18,7 @@
                     <th><?= $this->Paginator->sort('estagiario->estudante->nome', 'Estudante') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->folhadeatividade->id', 'Folha de atividades') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->periodo', 'Período') ?></th>
-                    <th><?= $this->Paginator->sort('estagiario->docente->nome', 'Docente') ?></th>
+                    <th><?= $this->Paginator->sort('estagiario->professor->nome', 'Professor') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nivel', 'Nível') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
@@ -54,7 +54,7 @@
 
                         <td><?= $c_estagiario->hasValue('folhadeatividade') ? $this->Html->link('Ver folha de atividades on-line', ['controller' => 'folhadeatividades', 'action' => 'index', $c_estagiario->id], ['class' => 'btn btn-success']) : $this->Html->link('Imprimir folha', ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $c_estagiario->id]) ?></td>
                         <td><?= $c_estagiario->periodo ?></td>
-                        <td><?= $c_estagiario->hasValue('docente') ? $c_estagiario->docente->nome : '' ?></td>
+                        <td><?= $c_estagiario->hasValue('professor') ? $c_estagiario->professor->nome : '' ?></td>
                         <td><?= $c_estagiario->nivel ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>

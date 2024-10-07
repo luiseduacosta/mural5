@@ -39,9 +39,9 @@ if ($instituicao) {
     $instituicao = '_______________';
 }
 
-$professora = isset($estagiario->docente->nome);
+$professora = isset($estagiario->professor->nome);
 if ($professora) {
-    $professora = $estagiario->docente->nome;
+    $professora = $estagiario->professor->nome;
 } else {
     $professora = '_______________';
 }

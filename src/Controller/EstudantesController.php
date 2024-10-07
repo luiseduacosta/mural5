@@ -46,12 +46,12 @@ class EstudantesController extends AppController
         $registro = $this->getRequest()->getQuery('registro');
         if ($registro) {
             $estudante = $this->Estudantes->find()
-                ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
                 ->where(['registro' => $registro])
                 ->first();
         } else {
             $estudante = $this->Estudantes->find()
-                ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Docentes', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
+                ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
                 ->where(['id' => $id])
                 ->first();
         }
@@ -230,8 +230,8 @@ class EstudantesController extends AppController
         // pr($periodos);
 
         $cress = $this->Estudantes->Estagiarios->find()
-            ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes'])
-            ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Docentes.nome'])
+            ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Professores'])
+            ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Professores.nome'])
             ->where(['Estagiarios.periodo' => $periodo])
             ->order(['Estudantes.nome'])
             ->all();

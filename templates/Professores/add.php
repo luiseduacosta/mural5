@@ -4,30 +4,39 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
-        <div class="professores form content">
-            <?= $this->Form->create($professor) ?>
-            <fieldset>
-                <legend><?= __('Adicionar Professor') ?></legend>
-                <?php
+<?= $this->element('templates') ?>
+<div class="container">
+    <div class="row">
+        <aside class="column">
+            <div class="side-nav">
+                <?= $this->Html->link(__('Listar professores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+            </div>
+        </aside>
+        <div class="column-responsive column-80">
+            <div class="professores form content">
+                <?= $this->Form->create($professor) ?>
+                <fieldset>
+                    <legend><?= __('Novo professor') ?></legend>
+                    <?php
                     echo $this->Form->control('nome');
-                    echo $this->Form->control('cpf');
-                    echo $this->Form->control('siape');
+                    echo $this->Form->control('cpf', ['label' => ['text' => 'CPF']]);
+                    if ($siape) {
+                        echo $this->Form->control('siape', ['value' => $siape, 'readonly']);
+                    } else {
+                        echo $this->Form->control('siape', ['required']);
+                    }
                     echo $this->Form->control('datanascimento', ['empty' => true]);
                     echo $this->Form->control('localnascimento');
-                    echo $this->Form->control('sexo');
+                    echo $this->Form->control('sexo', ['options' => ['0' => 'Feminino', '1' => 'Masculino'], 'default' => '0']);
                     echo $this->Form->control('ddd_telefone');
                     echo $this->Form->control('telefone');
                     echo $this->Form->control('ddd_celular');
                     echo $this->Form->control('celular');
-                    echo $this->Form->control('email');
+                    if ($email) {
+                        echo $this->Form->control('email', ['value' => $email, 'readonly']);
+                    } else {
+                        echo $this->Form->control('email', ['required']);
+                    }
                     echo $this->Form->control('homepage');
                     echo $this->Form->control('redesocial');
                     echo $this->Form->control('curriculolattes');
@@ -52,10 +61,11 @@
                     echo $this->Form->control('dataegresso', ['empty' => true]);
                     echo $this->Form->control('motivoegresso');
                     echo $this->Form->control('observacoes');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
-            <?= $this->Form->end() ?>
+                    ?>
+                </fieldset>
+                <?= $this->Form->button(__('Submit')) ?>
+                <?= $this->Form->end() ?>
+            </div>
         </div>
     </div>
 </div>
