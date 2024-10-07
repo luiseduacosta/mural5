@@ -248,7 +248,6 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <th><?= __('Carga horária') ?></th>
                                 <th><?= __('Avaliação') ?></th>
                                 <th><?= __('Observacoes') ?></th>
-                                <th class="actions"><?= __('Ações') ?></th>
                             </tr>
                             <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
                                 <tr>
@@ -271,11 +270,6 @@ $user = $this->getRequest()->getAttribute('identity');
                                         </td>
                                     <?php endif; ?>
                                     <td><?= h($estagiarios->observacoes) ?></td>
-                                    <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Are you sure you want to delete # {0}?', $estagiarios->id)]) ?>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </table>

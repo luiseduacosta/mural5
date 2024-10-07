@@ -51,7 +51,7 @@
                 <fieldset>
                     <legend><?= __('Novo mural de estágio') ?></legend>
                     <?php
-                    echo $this->Form->control('id_estagio', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
+                    echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
                     echo $this->Form->control('instituicao', ['type' => 'hidden']);
                     echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
                     echo $this->Form->control('vagas');
@@ -61,7 +61,7 @@
                     echo $this->Form->control('requisitos');
                     echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Área de estágio'], 'options' => $turmaestagios, 'empty' => true]);
                     echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
-                    echo $this->Form->control('docente_id', ['label' => ['text' => 'Docente da OTP'], 'options' => $docentes, 'empty' => [0 => 'Seleciona']]);
+                    echo $this->Form->control('professor_id', ['label' => ['text' => 'Docente da OTP'], 'options' => $docentes, 'empty' => [0 => 'Seleciona']]);
                     echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
                     echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Data da inscrição'], 'empty' => true]);
                     echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);

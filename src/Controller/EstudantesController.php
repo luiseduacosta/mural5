@@ -100,7 +100,7 @@ class EstudantesController extends AppController
              */
             $registro = $this->request->getData('registro');
             $usercadastrado = $this->Estudantes->Userestagios->find()
-                ->where(['registro' => $registro])
+                ->where(['categoria_id' => 2,'registro' => $registro])
                 ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Estudante naõ cadastrado como usuário'));
@@ -126,7 +126,7 @@ class EstudantesController extends AppController
                 if (empty($userestagioestudante)) {
 
                     $userestagio = $this->Estudantes->Userestagios->find()
-                        ->where(['registro' => $estudanteresultado->registro])
+                        ->where(['categoria_id' => 2, 'registro' => $estudanteresultado->registro])
                         ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo estudante_id */

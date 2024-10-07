@@ -17,7 +17,7 @@
                     <th><?= $this->Paginator->sort('registro') ?></th>
                     <th><?= $this->Paginator->sort('estudante_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
-                    <th><?= $this->Paginator->sort('docente_id') ?></th>
+                    <th><?= $this->Paginator->sort('professor_id') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>

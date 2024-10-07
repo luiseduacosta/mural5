@@ -223,14 +223,14 @@
                                     <td><?= h($estagiarios->registro) ?></td>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->id_supervisor]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
                                         <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                     <?php endif; ?>
 
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->id_professor]) : '' ?>
+                                        <td><?= $estagiarios->hasValue('docente') ? $this->Html->link($estagiarios->docente->nome, ['controller' => 'docentes', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                         </td>
                                     <?php else: ?>
                                         <td><?= $estagiarios->hasValue('docente') ? $estagiarios->docente->nome : '' ?></td>

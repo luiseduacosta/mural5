@@ -12,7 +12,7 @@ ctr + shift + i
 rsync -avzhr /home/luis/html/mural_ess/ /home/luis/html/mural/
 
 # Aumentar memoria
-ini_set(memory_limit, 2048M)
+ini_set('memory_limit', '2048M')
 
 Paginação
 =========

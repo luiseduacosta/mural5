@@ -692,7 +692,7 @@ class EstagiariosController extends AppController
                 $estagiarioslancanota[$i]['instituicao'] = $estagio->instituicaoestagio->instituicao;
                 $estagiarioslancanota[$i]['supervisor_id'] = $estagio->supervisor->id;
                 $estagiarioslancanota[$i]['supervisora'] = $estagio->supervisor->nome;
-                $estagiarioslancanota[$i]['docente_id'] = $estagio->docente->id;
+                $estagiarioslancanota[$i]['professor_id'] = $estagio->docente->id;
                 $estagiarioslancanota[$i]['docente'] = $estagio->docente->nome;
                 $estagiarioslancanota[$i]['estudante_id'] = $estagio->estudante->id;
                 $estagiarioslancanota[$i]['estudante'] = $estagio->estudante->nome;

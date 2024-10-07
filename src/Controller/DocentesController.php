@@ -41,11 +41,11 @@ class DocentesController extends AppController {
             endif;
         }
         /** Têm professores com muitos estagiários: aumentar a memória */
-        ini_set('memory_limit', '2048M'); 
+        ini_set('memory_limit', '2048M');
         $docente = $this->Docentes->get($id, [
-            'contain' => ['Estagiarios' => ['Estudantes', 'Supervisores', 'Instituicaoestagios', 'Avaliacoes', 'Folhadeatividades']]
-        ]);
-        
+            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes', 'Instituicaoestagios', 'Supervisores', 'Docentes']]
+                ]
+        );
         $this->set(compact('docente'));
     }
 
@@ -71,8 +71,8 @@ class DocentesController extends AppController {
         /* Verifico se já está cadastrado */
         if ($siape) {
             $docentecadastrado = $this->Docentes->find()
-                ->where(['siape' => $siape])
-                ->first();
+                    ->where(['siape' => $siape])
+                    ->first();
 
             if ($docentecadastrado):
                 $this->Flash->error(__('Docente já cadastrado'));
@@ -87,8 +87,8 @@ class DocentesController extends AppController {
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
             $usercadastrado = $this->Docentes->Userestagios->find()
-                ->where(['registro' => $siape])
-                ->first();
+                    ->where(['categoria_id' => 3, 'registro' => $siape])
+                    ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
                 return $this->redirect('/userestagios/add');
@@ -103,17 +103,17 @@ class DocentesController extends AppController {
                  * Primeiro busco o usuário.
                  */
                 $userdocente = $this->Docentes->Userestagios->find()
-                    ->where(['professor_id' => $docenteresultado->id])
-                    ->first();
+                        ->where(['professor_id' => $docenteresultado->id])
+                        ->first();
 
                 /**
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
                  */
-                if (empty($userestagioestudante)) {
+                if (empty($userdocente)) {
 
                     $userestagio = $this->Docentes->Userestagios->find()
-                        ->where(['registro' => $docenteresultado->siape])
-                        ->first();
+                            ->where(['categoria_id' => 3, 'registro' => $docenteresultado->siape])
+                            ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $docenteresultado->id;
@@ -147,7 +147,7 @@ class DocentesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
-        
+
         $docente = $this->Docentes->get($id, [
             'contain' => [],
         ]);
@@ -171,6 +171,7 @@ class DocentesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $docente = $this->Docentes->get($id, [
             'contain' => ['Estagiarios']
@@ -187,5 +188,4 @@ class DocentesController extends AppController {
 
         return $this->redirect(['action' => 'index']);
     }
-
 }

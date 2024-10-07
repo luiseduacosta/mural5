@@ -11,13 +11,7 @@
             <li class="nav-item active">
                 <?php echo $this->Html->link("Mural", ['controller' => 'Muralestagios', 'action' => 'index'], ['class' => 'nav-link', 'style' => 'color: white;']); ?>
             </li>
-            <li class="nav-item">
-                <?php echo $this->Html->link("Declaração de período", ['controller' => "Estudantes", 'action' => 'certificadoperiodo', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-            </li>
-            <li class="nav-item">
-                <?php echo $this->Html->link("Termo de compromisso", ['controller' => "Estagiarios", 'action' => 'termodecompromisso', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-            </li>
-
+            
             <li class="nav-item">
                 <?php echo $this->Html->link("Avaliaçao", ['controller' => "Avaliacoes", 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
             </li>
@@ -27,19 +21,13 @@
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Atividades on-line", ['controller' => 'Folhadeatividades', 'action' => 'selecionafolhadeatividades', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Atividades on-line", ['controller' => 'Folhadeatividades', 'action' => 'selecionafolhadeatividades', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Meus estudantes", ['controller' => "Supervisores", 'action' => 'view', '?' => ['cress' => $this->getRequest()->getSession()->read('cress')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
-            <li class="nav-item">
-                <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-            </li>
-
-            <li class="nav-item">
-                <?php echo $this->Html->link("Meus dados", ['controller' => "Estudantes", 'action' => 'view?registro=' . $this->getRequest()->getSession()->read('registro')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-            </li>
+            
             <li class="nav-item">
                 <?php echo $this->Html->link('Sair', ['controller' => 'Userestagios', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>

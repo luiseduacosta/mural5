@@ -105,7 +105,7 @@
                             <th><?= __('Requisitos') ?></th>
                             <th><?= __('Turmaestagio Id') ?></th>
                             <th><?= __('Horario') ?></th>
-                            <th><?= __('Docente Id') ?></th>
+                            <th><?= __('Docente') ?></th>
                             <th><?= __('DataSelecao') ?></th>
                             <th><?= __('DataInscricao') ?></th>
                             <th><?= __('HorarioSelecao') ?></th>
@@ -122,8 +122,8 @@
                         <?php foreach ($turmaestagio->muralestagios as $muralestagios): ?>
                             <tr>
                                 <td><?= h($muralestagios->id) ?></td>
-                                <td><?= h($muralestagios->id_estagio) ?></td>
-                                <td><?= $muralestagios->instituicao = ($muralestagios->id_estagio > 0) ? $this->Html->link(h($muralestagios->instituicao), ['controller' => 'instituicaoestagios', 'action' => 'view', $muralestagios->id_estagio]) : '' ?>
+                                <td><?= h($muralestagios->instituicaoestagio_id) ?></td>
+                                <td><?= $muralestagios->hasValue('instituicaoestagio') ? $this->Html->link(h($muralestagios->instituicao), ['controller' => 'instituicaoestagios', 'action' => 'view', $muralestagios->instituicaoestagio_id]) : '' ?>
                                 </td>
                                 <td><?= h($muralestagios->convenio) ?></td>
                                 <td><?= h($muralestagios->vagas) ?></td>
@@ -133,7 +133,7 @@
                                 <td><?= h($muralestagios->requisitos) ?></td>
                                 <td><?= h($muralestagios->turmaestagio_id) ?></td>
                                 <td><?= h($muralestagios->horario) ?></td>
-                                <td><?= h($muralestagios->docente_id) ?></td>
+                                <td><?= h($muralestagios->professor_id) ?></td>
                                 <td><?= h($muralestagios->dataSelecao) ?></td>
                                 <td><?= h($muralestagios->dataInscricao) ?></td>
                                 <td><?= h($muralestagios->horarioSelecao) ?></td>

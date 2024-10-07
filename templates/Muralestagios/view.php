@@ -46,8 +46,8 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if ($this->getRequest()->getSession()->read('id_categoaria') == 1): ?>
-                            <td><?= $muralestagio->has('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio->id]) : '' ?>
+                        <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
+                            <td><?= $muralestagio->has('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $muralestagio->instituicaoestagio_id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td><?= $muralestagio->has('instituicaoestagio') ? $muralestagio->instituicao : '' ?></td>
@@ -274,7 +274,6 @@ $usuario = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
-                                <th><?= __('Timestamp') ?></th>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -290,7 +289,6 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                 <td><?= date('d-m-Y', strtotime(h($muralinscricoes->data))) ?></td>
                                 <td><?= h($muralinscricoes->periodo) ?></td>
                                 <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
-                                    <td><?= date('d-m-Y', strtotime($muralinscricoes->timestamp)) ?></td>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Muralinscricoes', 'action' => 'view', $muralinscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Muralinscricoes', 'action' => 'edit', $muralinscricoes->id]) ?>

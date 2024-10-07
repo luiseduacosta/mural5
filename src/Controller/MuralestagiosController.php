@@ -93,7 +93,7 @@ class MuralestagiosController extends AppController
 
             // pr($this->request->getData('instituicaoestagio_id'));
             $instituicao = $this->Muralestagios->Instituicaoestagios->find()
-                ->where(['id' => $this->request->getData('id_estagio')])
+                ->where(['id' => $this->request->getData('instituicaoestagio_id')])
                 ->select(['instituicao'])
                 ->first();
             // pr($instituicao);

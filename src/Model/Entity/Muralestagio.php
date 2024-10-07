@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property string|null $requisitos
  * @property int $turmaestagio_id
  * @property string|null $horario
- * @property int $docente_id
+ * @property int $professor_id
  * @property \Cake\I18n\FrozenDate|null $dataSelecao
  * @property \Cake\I18n\FrozenDate|null $dataInscricao
  * @property string|null $horarioSelecao

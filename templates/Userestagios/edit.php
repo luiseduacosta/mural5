@@ -32,7 +32,7 @@
                 echo $this->Form->control('registro');
                 echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => true]);
                 echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
-                echo $this->Form->control('docente_id', ['options' => $docentes, 'empty' => true]);
+                echo $this->Form->control('professor_id', ['options' => $docentes, 'empty' => true]);
                 echo $this->Form->control('timestamp');
                 ?>
             </fieldset>

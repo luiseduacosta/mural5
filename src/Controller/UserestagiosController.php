@@ -406,7 +406,7 @@ class UserestagiosController extends AppController
                             }
                         } else {
                             // echo "Supervisor não cadastrado";
-                            return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('registro')]]);
+                            return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
                         }
                         /** Busco se o supervisor está efetivamente cadastrado */
                     else:

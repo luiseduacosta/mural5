@@ -19,7 +19,7 @@
     <div class="container">
         <?= $this->Form->create($supervisor) ?>
         <fieldset>
-            <legend><?= __('Edit Supervisor') ?></legend>
+            <legend><?= __('Editar Supervisor(a)') ?></legend>
             <?php
             echo $this->Form->control('nome');
             echo $this->Form->control('cpf');

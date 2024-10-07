@@ -43,7 +43,7 @@ class MuralinscricoesTable extends Table
 
         $this->setTable('mural_inscricao');
         $this->setAlias('Muralinscricoes');
-        $this->setDisplayField('id_aluno');
+        $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Alunos', [
@@ -71,8 +71,8 @@ class MuralinscricoesTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->integer('id_aluno')
-            ->notEmptyString('id_aluno');
+            ->integer('registro')
+            ->notEmptyString('registro');
 
         $validator
             ->date('data')
@@ -84,8 +84,8 @@ class MuralinscricoesTable extends Table
                 ->notEmptyString('estudante_id');
         
         $validator
-                ->integer('id_instituicao')
-                ->notEmptyString('id_instituicao');
+                ->integer('muralestagio_id')
+                ->notEmptyString('muralestagio_id');
         
         $validator
                 ->date('data')
