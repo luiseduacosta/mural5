@@ -45,7 +45,14 @@ class SupervisoresController extends AppController {
             'contain' => ['Instituicaoestagios' => ['sort' => ['Instituicaoestagios.instituicao ASC']],
                 'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes' => ['sort' => ['Estudantes.nome ASC']], 'Professores']
             ]
-        ]); 
+        ]);
+
+        if (!isset($supervisor)) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+
         $this->set(compact('supervisor'));
     }
 

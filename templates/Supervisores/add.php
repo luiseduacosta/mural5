@@ -24,14 +24,14 @@
             echo $this->Form->control('telefone');
             echo $this->Form->control('codigo_cel');
             echo $this->Form->control('celular');
-            if ($email) {
+            if (isset($email)) {
                 echo $this->Form->control('email', ['value' => $email, 'readonly']);
             } else {
                 echo $this->Form->control('email', ['required']);
             }
             echo $this->Form->control('escola');
             echo $this->Form->control('ano_formatura');
-            if ($cress) {
+            if (isset($cress)) {
                 echo $this->Form->control('cress', ['value' => $cress, 'readonly']);
             } else {
                 echo $this->Form->control('cress', ['required']);

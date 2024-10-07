@@ -57,9 +57,14 @@ class MuralinscricoesController extends AppController
     public function view($id = null)
     {
         $muralinscricao = $this->Muralinscricoes->get($id, [
-            'contain' => ['Alunos', 'Estudantes', 'Muralestagios'],
+            'contain' => ['Estudantes', 'Muralestagios'],
         ]);
 
+        if (!isset($muralinscricao)) {
+            $this->Flash->error(__('Nao ha registros de inscricoes para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+                
         $this->set(compact('muralinscricao'));
     }
 

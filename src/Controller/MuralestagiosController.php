@@ -10,8 +10,7 @@ namespace App\Controller;
  * @property \App\Model\Table\MuralestagiosTable $Muralestagios
  * @method \App\Model\Entity\Muralestagio[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class MuralestagiosController extends AppController
-{
+class MuralestagiosController extends AppController {
 
     public function beforeFilter(\Cake\Event\EventInterface $event) {
         parent::beforeFilter($event);
@@ -25,8 +24,7 @@ class MuralestagiosController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index($id = NULL)
-    {
+    public function index($id = NULL) {
 
         $periodo = $this->getRequest()->getQuery('periodo');
         // pr($periodo);
@@ -65,12 +63,17 @@ class MuralestagiosController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
 
         $muralestagio = $this->Muralestagios->get($id, [
             'contain' => ['Instituicaoestagios' => ['Turmaestagios'], 'Professores', 'Muralinscricoes' => ['Estudantes']]
         ]);
+
+        if (!isset($muralestagio)) {
+            $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+        
         $this->set(compact('muralestagio'));
     }
 
@@ -79,13 +82,12 @@ class MuralestagiosController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
 
         if (empty($periodo)) {
             $configuracaotabela = $this->fetchTable('Configuracoes');
             $periodoconfiguracao = $configuracaotabela->find()
-                ->first();
+                    ->first();
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
         $muralestagio = $this->Muralestagios->newEmptyEntity();
@@ -93,9 +95,9 @@ class MuralestagiosController extends AppController
 
             // pr($this->request->getData('instituicaoestagio_id'));
             $instituicao = $this->Muralestagios->Instituicaoestagios->find()
-                ->where(['id' => $this->request->getData('instituicaoestagio_id')])
-                ->select(['instituicao'])
-                ->first();
+                    ->where(['id' => $this->request->getData('instituicaoestagio_id')])
+                    ->select(['instituicao'])
+                    ->first();
             // pr($instituicao);
             $dados = $this->request->getData();
             $dados['instituicao'] = $instituicao->instituicao;
@@ -109,7 +111,7 @@ class MuralestagiosController extends AppController
                 $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
         }
-        /** Envio para fazer o formulário de cadastramento do mural */        
+        /** Envio para fazer o formulário de cadastramento do mural */
         $instituicaoestagios = $this->Muralestagios->Instituicaoestagios->find('list');
         $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
         $professores = $this->Muralestagios->Professores->find('list');
@@ -123,8 +125,7 @@ class MuralestagiosController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
 
         $query = $this->Muralestagios->find('all', [
             'fields' => ['periodo'],
@@ -165,8 +166,7 @@ class MuralestagiosController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $muralestagio = $this->Muralestagios->get($id);
         if ($this->Muralestagios->delete($muralestagio)) {

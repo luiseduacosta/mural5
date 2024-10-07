@@ -35,6 +35,11 @@ class AreainstituicoesController extends AppController {
             'contain' => [],
         ]);
 
+        if (!isset($areainstituicao)) {
+            $this->Flash->error(__('Nao ha registros de area para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->set(compact('areainstituicao'));
     }
 

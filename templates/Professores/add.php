@@ -20,7 +20,7 @@
                     <?php
                     echo $this->Form->control('nome');
                     echo $this->Form->control('cpf', ['label' => ['text' => 'CPF']]);
-                    if ($siape) {
+                    if (isset($siape)) {
                         echo $this->Form->control('siape', ['value' => $siape, 'readonly']);
                     } else {
                         echo $this->Form->control('siape', ['required']);
@@ -32,7 +32,7 @@
                     echo $this->Form->control('telefone');
                     echo $this->Form->control('ddd_celular');
                     echo $this->Form->control('celular');
-                    if ($email) {
+                    if (isset($email)) {
                         echo $this->Form->control('email', ['value' => $email, 'readonly']);
                     } else {
                         echo $this->Form->control('email', ['required']);

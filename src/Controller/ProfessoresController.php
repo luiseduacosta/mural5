@@ -46,6 +46,12 @@ class ProfessoresController extends AppController {
             'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes', 'Instituicaoestagios', 'Supervisores', 'Professores']]
                 ]
         );
+
+        if (!isset($professor)) {
+            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->set(compact('professor'));
     }
 

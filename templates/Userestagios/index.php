@@ -35,9 +35,9 @@
                         <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
                         </td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $userestagio->id]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $userestagio->id]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Are you sure you want to delete # {0}?', $userestagio->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Are you sure you want to delete # {0}?', $userestagio->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
