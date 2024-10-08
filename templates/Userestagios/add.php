@@ -1,24 +1,20 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Userestagio $userestagio
- */
-?>
+<?php /** * @var \App\View\AppView $this * @var \App\Model\Entity\Userestagio $userestagio */ ?>
 
-<?= $this->element('templates') ?>
+    <?= $this->element('templates') ?>
 
-<div class="container">
-    <div class="row">
-        <?php
-        $user = $this->getRequest()->getAttribute('identity');
-        if (isset($user) && $user->categoria_id == 1):
+    <div class="container">
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <?php
+            $user = $this->getRequest()->getAttribute('identity');
+            if (isset($user) && $user->categoria_id == 1):
+                ?>
+                <?= $this->Html->link(__('Listar usuários do mural de estagios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+            <?php endif;
             ?>
-            <?= $this->Html->link(__('Listar usuários do mural de estagios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-        <?php endif;
-        ?>
-    </div>
-    <div class="column-responsive column-80">
-        <div class="userestagios form content">
+        </nav>
+
+        <div class="container">
             <?= $this->Form->create($userestagio) ?>
             <fieldset>
                 <legend><?= __('Cadastro de novo usuário') ?></legend>
@@ -37,4 +33,3 @@
             <?= $this->Form->end() ?>
         </div>
     </div>
-</div>

@@ -31,10 +31,10 @@ class Inscricao extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'registro' => true, // registro 
+        'registro' => true,
         'aluno_id' => true,
         'estudante_id' => true,
-        'muralestagio_id' => true, // id atual do mural de estagios
+        'muralestagio_id' => true,
         'data' => true,
         'periodo' => true,
         'timestamp' => true,

@@ -319,7 +319,7 @@
                             <?php foreach ($instituicaoestagio->visitas as $visitas): ?>
                                 <tr>
                                     <td><?= h($visitas->id) ?></td>
-                                    <td><?= h($visitas->estagio_id) ?></td>
+                                    <td><?= h($visitas->instituicaoestagio_id) ?></td>
                                     <td><?= date('d-m-Y', strtotime($visitas->data)) ?></td>
                                     <td><?= h($visitas->motivo) ?></td>
                                     <td><?= h($visitas->responsavel) ?></td>

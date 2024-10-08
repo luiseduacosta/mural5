@@ -4,9 +4,28 @@
  * @var \App\Model\Entity\Userestagio[]|\Cake\Collection\CollectionInterface $userestagios
  */
 ?>
+
 <div class="container">
-    <?= $this->Html->link(__('Novo usuário de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-    <h3><?= __('Usuário de estágios') ?></h3>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Usuários</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerUsuario">
+            <ul class="navbar-nav me-auto mt-lg-0">
+                <li class="nav-item active">
+                    <?= $this->Html->link(__('Novo usuário de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto">
+                <input class="form-control" type="search" placeholder="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>
