@@ -10,9 +10,9 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Areainstituicoes Model
+ * Areas Model
  *
- * @property \App\Model\Table\InstituicaoestagiosTable&\Cake\ORM\Association\HasMany $Instituicaoestagios
+ * @property \App\Model\Table\InstituicaoTable&\Cake\ORM\Association\HasMany $Instituicoes
  * 
  * @method \App\Model\Entity\Areainstituicao newEmptyEntity()
  * @method \App\Model\Entity\Areainstituicao newEntity(array $data, array $options = [])
@@ -28,7 +28,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class AreainstituicoesTable extends Table {
+class AreasTable extends Table {
 
     /**
      * Initialize method
@@ -39,13 +39,13 @@ class AreainstituicoesTable extends Table {
     public function initialize(array $config): void {
         parent::initialize($config);
 
-        $this->setTable('area_instituicoes');
-        $this->setAlias('Areainstituicoes');
+        $this->setTable('areas');
+        $this->setAlias('Areas');
         $this->setDisplayField('area');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Instituicaoestagios', [
-            'foreignKey' => 'areainstituicoes_id',
+        $this->hasMany('Instituicoes', [
+            'foreignKey' => 'area_id',
         ]);
     }
 

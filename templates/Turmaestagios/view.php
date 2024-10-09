@@ -80,7 +80,7 @@
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= h($estagiarios->tc) ?></td>
                                 <td><?= h($estagiarios->tc_solicitacao) ?></td>
-                                <td><?= $estagiarios->hasValue('instituicaoestagio') ? $this->Html->link(h($estagiarios->instituicaoestagio->instituicao), ['controller' => 'instituicaoestagios', 'action' => 'view', $estagiarios->instituicaoestagio_id]) : '' ?>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link(h($estagiarios->instituicao->instituicao), ['controller' => 'instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                 </td>
@@ -137,8 +137,8 @@
                         <?php foreach ($turmaestagio->muralestagios as $muralestagios): ?>
                             <tr>
                                 <td><?= h($muralestagios->id) ?></td>
-                                <td><?= h($muralestagios->instituicaoestagio_id) ?></td>
-                                <td><?= $muralestagios->hasValue('instituicaoestagio') ? $this->Html->link(h($muralestagios->instituicao), ['controller' => 'instituicaoestagios', 'action' => 'view', $muralestagios->instituicaoestagio_id]) : '' ?>
+                                <td><?= h($muralestagios->instituicao_id) ?></td>
+                                <td><?= $muralestagios->hasValue('instituicao') ? $this->Html->link(h($muralestagios->instituicao), ['controller' => 'instituicoes', 'action' => 'view', $muralestagios->instituicao_id]) : '' ?>
                                 </td>
                                 <td><?= h($muralestagios->convenio) ?></td>
                                 <td><?= h($muralestagios->vagas) ?></td>

@@ -36,7 +36,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
-    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Estudante <?= trim($estagiario->estudante->nome); ?>, a  instituição <?= $estagiario->instituicaoestagio->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de ESTÁGIO OBRIGATÓRIO. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Estudante <?= trim($estagiario->estudante->nome); ?>, a  instituição <?= $estagiario->instituicao->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de ESTÁGIO OBRIGATÓRIO. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
 </p>
 
 <p style="text-align:justify; font-size: 90%;">

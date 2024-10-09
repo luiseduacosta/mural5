@@ -63,7 +63,7 @@ if ($professora) {
             <tr>
                 <td><?= $estagiario->periodo ?></td>
                 <td><?= $estagiario->nivel ?></td>
-                <td><?= $estagiario->instituicaoestagio->instituicao ?></td>
+                <td><?= $estagiario->instituicao->instituicao ?></td>
                 <td><?= $supervisora ?></td>
                 <td><?= $professora ?></td>
             </tr>

@@ -21,7 +21,6 @@
             // alert(url + '/index/' + periodo);
             window.location = url + periodo;
         })
-
     })
 </script>
 <div class="container">
@@ -86,7 +85,7 @@
                 <?php foreach ($muralestagios as $muralestagio): ?>
                     <tr>
                         <td><?= $muralestagio->id ?></td>
-                        <td><?= $muralestagio->hasValue('instituicaoestagio') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?>
+                        <td><?= $muralestagio->hasValue('instituicao') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?>
                         </td>
                         <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areainstituicao[]|\Cake\Collection\CollectionInterface $areainstituicoes
+ * @var \App\Model\Entity\Areainstituicao[]|\Cake\Collection\CollectionInterface $areas
  */
 ?>
 <div class="container">
@@ -31,14 +31,14 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($areainstituicoes as $areainstituicao): ?>
+                <?php foreach ($areas as $area): ?>
                     <tr>
-                        <td><?= $areainstituicao->id ?></td>
-                        <td><?= h($areainstituicao->area) ?></td>
+                        <td><?= $area->id ?></td>
+                        <td><?= h($area->area) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $areainstituicao->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $areainstituicao->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $areainstituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $areainstituicao->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $area->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $area->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

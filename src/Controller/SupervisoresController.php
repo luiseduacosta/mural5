@@ -42,7 +42,7 @@ class SupervisoresController extends AppController {
             }
         }
         $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Instituicaoestagios' => ['sort' => ['Instituicaoestagios.instituicao ASC']],
+            'contain' => ['Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
                 'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes' => ['sort' => ['Estudantes.nome ASC']], 'Professores']
             ]
         ]);
@@ -147,8 +147,8 @@ class SupervisoresController extends AppController {
             $this->Flash->error(__('Registro supervisor não foi inserido. Tente novamente.'));
             return $this->redirect(['action' => 'add', '?' => ['cress' => $cress, 'email' => $email]]);
         }
-        $instituicaoestagios = $this->Supervisores->Instituicaoestagios->find('list');
-        $this->set(compact('supervisor', 'instituicaoestagios'));
+        $instituicoes = $this->Supervisores->Instituicoes->find('list');
+        $this->set(compact('supervisor', 'instituicoes'));
     }
 
     /**
@@ -160,7 +160,7 @@ class SupervisoresController extends AppController {
      */
     public function edit($id = null) {
         $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Instituicaoestagios'],
+            'contain' => ['Instituicoes'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supervisor = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
@@ -171,8 +171,8 @@ class SupervisoresController extends AppController {
             }
             $this->Flash->error(__('Registro supervisor(a) nao atualizado. Tente novamente.'));
         }
-        $instituicaoestagios = $this->Supervisores->Instituicaoestagios->find('list', ['limit' => 200]);
-        $this->set(compact('supervisor', 'instituicaoestagios'));
+        $instituicoes = $this->Supervisores->Instituicoes->find('list', ['limit' => 200]);
+        $this->set(compact('supervisor', 'instituicoes'));
     }
 
     /**

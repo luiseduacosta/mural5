@@ -16,7 +16,7 @@ class AreainstituicoesTableTest extends TestCase
      *
      * @var \App\Model\Table\AreainstituicoesTable
      */
-    protected $Areainstituicoes;
+    protected $Areas;
 
     /**
      * Fixtures
@@ -24,7 +24,7 @@ class AreainstituicoesTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Areainstituicoes',
+        'app.Areas',
     ];
 
     /**
@@ -35,8 +35,8 @@ class AreainstituicoesTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areainstituicoes') ? [] : ['className' => AreainstituicoesTable::class];
-        $this->Areainstituicoes = $this->getTableLocator()->get('Areainstituicoes', $config);
+        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreainstituicoesTable::class];
+        $this->Areas = $this->getTableLocator()->get('Areas', $config);
     }
 
     /**
@@ -46,7 +46,7 @@ class AreainstituicoesTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->Areainstituicoes);
+        unset($this->Areas);
 
         parent::tearDown();
     }

@@ -94,10 +94,10 @@
             <tr>
                 <th><?= __('Instituição') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
+                    <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->hasValue('instituicaoestagio') ? $estagiario->instituicaoestagio->instituicao : '' ?>
+                    <td><?= $estagiario->hasValue('instituicao') ? $estagiario->instituicao->instituicao : '' ?>
                     </td>
                 <?php endif; ?>
             </tr>

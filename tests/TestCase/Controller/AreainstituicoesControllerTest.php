@@ -22,7 +22,7 @@ class AreainstituicoesControllerTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Areainstituicoes',
+        'app.Areas',
     ];
 
     /**

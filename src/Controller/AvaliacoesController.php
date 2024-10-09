@@ -38,7 +38,7 @@ class AvaliacoesController extends AppController
             // die();
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiarios = $estagiariostabela->find()
-                ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Avaliacoes'])
+                ->contain(['Estudantes', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
                 ->where(['Estagiarios.registro' => $registro->registro])
                 ->all();
             // pr($estagiarios);
@@ -221,7 +221,7 @@ class AvaliacoesController extends AppController
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
-                ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios'])
+                ->contain(['Estudantes', 'Supervisores', 'Instituicoes'])
                 ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
                 ->all();
         }
@@ -239,7 +239,7 @@ class AvaliacoesController extends AppController
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
-                ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicaoestagios']])
+                ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicoes']])
                 ->where(['Avaliacoes.id' => $id]);
         }
         $avaliacao = $avaliacaoquery->first();

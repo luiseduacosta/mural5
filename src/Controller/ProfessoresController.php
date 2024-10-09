@@ -43,7 +43,7 @@ class ProfessoresController extends AppController {
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
         $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes', 'Instituicaoestagios', 'Supervisores', 'Professores']]
+            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Estudantes', 'Instituicoes', 'Supervisores', 'Professores']]
                 ]
         );
 

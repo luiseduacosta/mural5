@@ -72,8 +72,8 @@ if ($professor) {
     Nome do(a) Estudante: <?= $estagiario->estudante->nome ?><br>
     Supervisor(a) de Campo: <?= $supervisora ?> CRESS: <?= $cress ?><br />
     E-mail: <?= $email ?> Telefone: <?= $telefone ?> Celular: <?= '(' . $codigo_celular . ') ' . $celular ?><br />
-    Campo de Estágio: <?= $estagiario->instituicaoestagio->instituicao ?><br />
-    Endereço Institucional: <?= $estagiario->instituicaoestagio->endereco ?><br />
+    Campo de Estágio: <?= $estagiario->instituicao->instituicao ?><br />
+    Endereço Institucional: <?= $estagiario->instituicao->endereco ?><br />
     Período de realização do estágio: <?= $estagiario->periodo ?><br />
     Nível de Estágio: <?= $estagiario->nivel ?><br />
     Supervisor(a) Acadêmico(a): <?= $professor ?>

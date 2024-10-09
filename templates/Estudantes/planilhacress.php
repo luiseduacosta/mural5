@@ -48,10 +48,10 @@
             <?php // pr($c_cress); ?>
             <tr>
                 <td><?php echo isset($c_cress->estudante->nome) ? $this->Html->link($c_cress->estudante->nome, '/estudantes/view/' . $c_cress->estudante->id) : 'Sem informação'; ?></td>
-                <td><?php echo isset($c_cress->instituicaoestagio->instituicao) ? $this->Html->link($c_cress->instituicaoestagio->instituicao, '/instituicaoestagios/view/' . $c_cress->instituicaoestagio->id) : 'Sem informação'; ?></td>
-                <td><?php echo $c_cress->instituicaoestagio->endereco; ?></td>
-                <td><?php echo isset($c_cress->instituicaoestagio->cep) ? $c_cress->instituicaoestagio->cep : ''; ?></td>
-                <td><?php echo isset($c_cress->instituicaoestagio->bairro) ? $c_cress->instituicaoestagio->bairro : ''; ?></td>
+                <td><?php echo isset($c_cress->instituicao->instituicao) ? $this->Html->link($c_cress->instituicao->instituicao, '/instituicoes/view/' . $c_cress->instituicao->id) : 'Sem informação'; ?></td>
+                <td><?php echo $c_cress->instituicao->endereco; ?></td>
+                <td><?php echo isset($c_cress->instituicao->cep) ? $c_cress->instituicao->cep : ''; ?></td>
+                <td><?php echo isset($c_cress->instituicao->bairro) ? $c_cress->instituicao->bairro : ''; ?></td>
                 <td><?php echo isset($c_cress->supervisor->nome) ? $c_cress->supervisor->nome : ''; ?></td>
                 <td><?php echo isset($c_cress->supervisor->cress) ? $c_cress->supervisor->cress : ''; ?></td>
                 <td><?php echo isset($c_cress->professor->nome) ? $c_cress->professor->nome : ''; ?></td>

@@ -48,7 +48,7 @@
             echo $this->Form->control('nivel');
             echo $this->Form->control('tc');
             echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data TC']]);
-            echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
+            echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true]);
             echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
             echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a)'], 'options' => $professores, 'empty' => true]);
             echo $this->Form->control('periodo', ['label' => ['text' => 'Período']]);

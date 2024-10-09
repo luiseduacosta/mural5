@@ -18,7 +18,7 @@ use Cake\ORM\Entity;
  * @property string $nivel
  * @property int $tc
  * @property \Cake\I18n\FrozenDate|null $tc_solicitacao
- * @property int $instituicaoestagio_id
+ * @property int $instituicao_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
@@ -33,7 +33,7 @@ use Cake\ORM\Entity;
  * 
  * @property \App\Model\Entity\Aluno[] $alunos
  * @property \App\Model\Entity\Estudante[] $estudantes
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
+ * @property \App\Model\Entity\Instituicaoestagio[] $instituicoes
  * @property \App\Model\Entity\Supervisor[] $supervisores
  * @property \App\Model\Entity\Professor[] $professores
  * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
@@ -60,7 +60,7 @@ class Estagiario extends Entity {
         'nivel' => true,
         'tc' => true,
         'tc_solicitacao' => true,
-        'instituicaoestagio_id' => true,
+        'instituicao_id' => true,
         'supervisor_id' => true,
         'professor_id' => true,
         'periodo' => true,
@@ -74,7 +74,7 @@ class Estagiario extends Entity {
         'benebolsa' => true,
         'alunos' => true,
         'estudantes' => true,
-        'instituicaoestagios' => true,
+        'instituicoes' => true,
         'supervisores' => true,
         'professores' => true,
         'turmaestagios' => true,

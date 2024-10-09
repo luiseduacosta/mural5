@@ -20,7 +20,7 @@ if (isset($estudante_id)) {
 }
 
 if (isset($instituicao_id)) {
-    // echo "Instituicao" . "<br>";
+    // echo "Instituicoes" . "<br>";
     // pr($instituicao_id);
 } else {
     // echo "Sem instituicao." . "<br>";
@@ -34,7 +34,7 @@ if (isset($estudanteestagiario)) {
 } 
 if (isset($ultimoestagio)) {
     // echo "ulitmoestagio" . "<br>";
-    // echo $ultimoestagio->instituicaoestagio->id;
+    // echo $ultimoestagio->instituicao->id;
     // pr($ultimoestagio->hasValue('supervisor') ? 'Supervisor' : 'vazio');
 } else {
     // echo "Estudante sem último estágio" . "<br>";
@@ -52,9 +52,9 @@ if (isset($atualiza)) {
     // pr($atualiza);
 }
 
-if (isset($instituicaoestagios)) {
-    // echo 'instituicaoestagios' . '<br>';
-    // pr($instituicaoestagios);
+if (isset($instituicoes)) {
+    // echo 'instituicoes' . '<br>';
+    // pr($instituicoes);
 }
 
 if (isset($supervisoresdainstituicao)) {
@@ -72,7 +72,7 @@ if (isset($supervisoresdainstituicao)) {
 
         var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante_id]]); ?>";
         // alert(url);
-        $("#instituicaoestagio-id").change(function () {
+        $("#instituicao-id").change(function () {
             var instituicao = $(this).val();
             // alert(url + '&instituicao_id=' +instituicao);
             window.location = url + '&instituicao_id=' + instituicao;
@@ -131,11 +131,11 @@ $submit = [
                 echo $this->Form->control('tipo_de_estagio', ['label' => ['text' => 'Tipo de estágio'], 'options' => ['1' => 'Presencial', '2' => 'Remoto'], 'default' => '1']);
 
                 if (isset($instituicao_id)) {
-                    echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição1'], 'options' => $instituicaoestagios, 'value' => $instituicao_id, 'required']);
-                } elseif (isset($ultimoestagio) && $ultimoestagio->hasValue('instituicaoestagio')) {
-                    echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição2'], 'options' => $instituicaoestagios, 'empty' => [$ultimoestagio->instituicaoestagio->id => $ultimoestagio->instituicaoestagio->instituicao], 'required']);
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição1'], 'options' => $instituicoes, 'value' => $instituicao_id, 'required']);
+                } elseif (isset($ultimoestagio) && $ultimoestagio->hasValue('instituicao')) {
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição2'], 'options' => $instituicoes, 'empty' => [$ultimoestagio->instituicao->id => $ultimoestagio->instituicao->instituicao], 'required']);
                 } else {
-                    echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição3'], 'options' => $instituicaoestagios, 'empty' => ['Seleciona instituição de estágio'], 'required']);
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição3'], 'options' => $instituicoes, 'empty' => ['Seleciona instituição de estágio'], 'required']);
                 }
 
                 if (isset($ultimoestagio) && $ultimoestagio->hasValue('supervisor')):

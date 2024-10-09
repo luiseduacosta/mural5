@@ -9,7 +9,7 @@ use Cake\ORM\Entity;
  * Muralestagio Entity
  *
  * @property int $id
- * @property int|null $instituicaoestagio_id
+ * @property int|null $instituicao_id
  * @property string $instituicao
  * @property string $convenio
  * @property int $vagas
@@ -32,7 +32,7 @@ use Cake\ORM\Entity;
  * @property string $localInscricao
  * @property string|null $email
  *
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
  * @property \App\Model\Entity\Professor[] $professores
  * @property \App\Model\Entity\Inscricao[] $inscricoes
@@ -49,7 +49,7 @@ class Muralestagio extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'instituicaoestagio_id' => true,
+        'instituicao_id' => true,
         'instituicao' => true,
         'convenio' => true,
         'vagas' => true,
@@ -71,7 +71,7 @@ class Muralestagio extends Entity
         'datafax' => true,
         'localInscricao' => true,
         'email' => true,
-        'instituicaoestagios' => true,
+        'instituicoes' => true,
         'turmaestagios' => true,
         'professores' => true,
         'inscricoes' => true,

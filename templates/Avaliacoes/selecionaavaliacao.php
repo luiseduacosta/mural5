@@ -17,7 +17,7 @@
                     <th><?= $this->Paginator->sort('estagiario->estudante->nome', 'Estudante') ?></th> 
                     <th><?= $this->Paginator->sort('estagiario->periodo', 'Período') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nivel', 'Nível') ?></th>
-                    <th><?= $this->Paginator->sort('estagiario->instituicaoestagio->instituicao', 'Instituição') ?></th>
+                    <th><?= $this->Paginator->sort('estagiario->instituicao->instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
@@ -34,7 +34,7 @@
                         <td><?= $c_estagiario->hasValue('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
                         <td><?= $c_estagiario->periodo ?></td>
                         <td><?= $c_estagiario->nivel ?></td>
-                        <td><?= $c_estagiario->hasValue('instituicaoestagio') ? $c_estagiario->instituicaoestagio->instituicao : '' ?></td>                        
+                        <td><?= $c_estagiario->hasValue('instituicao') ? $c_estagiario->instituicao->instituicao : '' ?></td>                        
                         <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>

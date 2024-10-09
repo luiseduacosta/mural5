@@ -23,7 +23,7 @@ class VisitasControllerTest extends TestCase
      */
     protected $fixtures = [
         'app.Visitas',
-        'app.Instituicaoestagios',
+        'app.Instituicoes',
     ];
 
     /**

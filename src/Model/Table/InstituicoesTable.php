@@ -10,9 +10,9 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Instituicaoestagios Model
+ * Instituicoes Model
  *
- * @property \App\Model\Table\AreainstituicoesTable&\Cake\ORM\Association\BelongsTo $Areainstituicoes
+ * @property \App\Model\Table\AreainstituicoesTable&\Cake\ORM\Association\BelongsTo $Areas
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
@@ -33,7 +33,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class InstituicaoestagiosTable extends Table {
+class InstituicoesTable extends Table {
 
     /**
      * Initialize method
@@ -44,28 +44,28 @@ class InstituicaoestagiosTable extends Table {
     public function initialize(array $config): void {
         parent::initialize($config);
 
-        $this->setTable('estagio');
-        $this->setAlias('Instituicaoestagios');
+        $this->setTable('estagios');
+        $this->setAlias('Instituicoes');
         $this->setDisplayField('instituicao');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Areainstituicoes', [
-            'foreignKey' => 'areainstituicao_id',
+        $this->belongsTo('Areas', [
+            'foreignKey' => 'area_id',
         ]);
         $this->belongsTo('Turmaestagios', [
             'foreignKey' => 'turmaestagio_id',
         ]);
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'instituicaoestagio_id',
+            'foreignKey' => 'instituicao_id',
         ]);
         $this->hasMany('Muralestagios', [
-            'foreignKey' => 'instituicaoestagio_id',
+            'foreignKey' => 'instituicao_id',
         ]);
         $this->hasMany('Visitas', [
-            'foreignKey' => 'instituicaoestagio_id',
+            'foreignKey' => 'instituicao_id',
         ]);
         $this->belongsToMany('Supervisores', [
-            'foreignKey' => 'instituicaoestagio_id',
+            'foreignKey' => 'instituicao_id',
             'targetForeignKey' => 'supervisor_id',
             'joinTable' => 'inst_super',
         ]);
@@ -94,7 +94,7 @@ class InstituicaoestagiosTable extends Table {
                 ->notEmptyString('instituicao');
 
         $validator
-                ->allowEmptyString('instituciaoestagio_id');
+                ->allowEmptyString('institucao_id');
 
         $validator
                 ->allowEmptyString('turmaestagio_id');
@@ -201,7 +201,7 @@ class InstituicaoestagiosTable extends Table {
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
         
-        $rules->add($rules->existsIn(['areainstituicao_id'], 'Areainstituicoes'), ['errorField' => 'areainstituicao_id']);
+        $rules->add($rules->existsIn(['area_id'], 'Areas'), ['errorField' => 'area_id']);
         $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
 
         return $rules;

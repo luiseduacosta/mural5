@@ -18,7 +18,7 @@ class MuralestagiosFixture extends TestFixture
     // phpcs:disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'instituicaoestagio_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'instituicao_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'instituicao' => ['type' => 'string', 'length' => 100, 'null' => false, 'default' => '', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'convenio' => ['type' => 'char', 'length' => 1, 'null' => false, 'default' => '0', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'vagas' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
@@ -59,7 +59,7 @@ class MuralestagiosFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'instituicaoestagio_id' => 1,
+                'instituicao_id' => 1,
                 'instituicao' => 'Lorem ipsum dolor sit amet',
                 'convenio' => '',
                 'vagas' => 1,

@@ -49,7 +49,7 @@
                     <?php endif; ?>
                     <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
                     <th><?= $this->Paginator->sort('registro') ?></th>
-                    <th><?= $this->Paginator->sort('Instituicaoestagios.instituicao', 'Instituicao') ?></th>
+                    <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicoes') ?></th>
                     <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                     <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                     <th><?= $this->Paginator->sort('nivel', 'Nível') ?></th>
@@ -71,7 +71,7 @@
                         <td><?= $this->Html->link($estagiario['estudante'], ['controller' => 'Estudantes', 'action' => 'view', $estagiario['estudante_id']]) ?>
                         </td>
                         <td><?= $estagiario['registro'] ?></td>
-                        <td><?= $this->Html->link($estagiario['instituicao'], ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario['instituicao_id']]) ?>
+                        <td><?= $this->Html->link($estagiario['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $estagiario['instituicao_id']]) ?>
                         </td>
                         <td><?= $this->Html->link($estagiario['supervisora'], ['controller' => 'Supervisores', 'action' => 'view', $estagiario['supervisor_id']]) ?>
                         </td>

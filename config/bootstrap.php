@@ -227,7 +227,7 @@ ServerRequest::addDetector('tablet', function ($request) {
 
 Inflector::rules('irregular', ['supervisor' => 'supervisores']);
 Inflector::rules('irregular', ['muralinscricao' => 'muralinscricoes']);
-Inflector::rules('irregular', ['areainstituicao' => 'areainstituicoes']);
+Inflector::rules('irregular', ['area' => 'areainstituicoes']);
 Inflector::rules('irregular', ['professor' => 'professores']);
 Inflector::rules('irregular', ['avaliacao' => 'avaliacoes']);
 Inflector::rules('irregular', ['inscricao' => 'inscricoes']);

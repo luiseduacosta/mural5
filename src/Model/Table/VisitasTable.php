@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Visitas Model
  *
- * @property \App\Model\Table\InstituicaoestagiosTable&\Cake\ORM\Association\BelongsTo $Instituicaoestagios
+ * @property \App\Model\Table\InstituicaoTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  *
  * @method \App\Model\Entity\Visita newEmptyEntity()
  * @method \App\Model\Entity\Visita newEntity(array $data, array $options = [])
@@ -41,11 +41,11 @@ class VisitasTable extends Table
 
         $this->setTable('visitas');
         $this->setAlias('Visitas');
-        $this->setDisplayField('instituicaoestagio_id');
+        $this->setDisplayField('instituicao_id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Instituicaoestagios', [
-            'foreignKey' => 'instituicaoestagio_id',
+        $this->belongsTo('Instituicoes', [
+            'foreignKey' => 'instituicao_id',
             'joinType' => 'INNER',
         ]);
     }
@@ -101,7 +101,7 @@ class VisitasTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['instituicaoestagio_id'], 'Instituicaoestagios'), ['errorField' => 'instituicaoestagio_id']);
+        $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
 
         return $rules;
     }

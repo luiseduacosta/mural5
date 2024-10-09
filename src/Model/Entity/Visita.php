@@ -9,14 +9,14 @@ use Cake\ORM\Entity;
  * Visita Entity
  *
  * @property int $id
- * @property int $instituicaoestagio_id
+ * @property int $instituicao_id
  * @property \Cake\I18n\FrozenDate $data
  * @property string $motivo
  * @property string $responsavel
  * @property string|null $descricao
  * @property string $avaliacao
  *
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
+ * @property \App\Model\Entity\Instituicaoestagio[] $instituicoes
  */
 class Visita extends Entity
 {
@@ -30,12 +30,12 @@ class Visita extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'instituicaoestagio_id' => true,
+        'instituicao_id' => true,
         'data' => true,
         'motivo' => true,
         'responsavel' => true,
         'descricao' => true,
         'avaliacao' => true,
-        'instituicaoestagios' => true,
+        'instituicoes' => true,
     ];
 }

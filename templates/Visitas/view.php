@@ -24,7 +24,7 @@
     </nav>
 
     <div class="container">
-        <h3><?= h($visita->instituicaoestagios->instituicao) ?></h3>
+        <h3><?= h($visita->instituicoes->instituicao) ?></h3>
         <table>
             <tr>
                 <th><?= __('Id') ?></th>
@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <th><?= __('Instituição') ?></th>
-                <td><?= $visita->hasValue('instituicaoestagio') ? $this->Html->link($visita->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $visita->instituicaoestagio->id]) : '' ?>
+                <td><?= $visita->hasValue('instituicao') ? $this->Html->link($visita->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao->id]) : '' ?>
                 </td>
             </tr>
             <tr>

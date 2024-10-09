@@ -34,7 +34,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Userestagio[] $userestagios
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
+ * @property \App\Model\Entity\Instituicaoestagio[] $instituicoes
  */
 class Supervisor extends Entity
 {
@@ -72,6 +72,6 @@ class Supervisor extends Entity
         'observacoes' => true,
         'estagiarios' => true,
         'userestagios' => true,
-        'instituicaoestagios' => true,
+        'instituicoes' => true,
     ];
 }

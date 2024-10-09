@@ -60,7 +60,7 @@
                                         <td><?= h($estagiarios->nivel) ?></td>
                                         <td><?= h($estagiarios->tc) ?></td>
                                         <td><?= h($estagiarios->tc_solicitacao) ?></td>
-                                        <td><?= h($estagiarios->instituicaoestagio_id) ?></td>
+                                        <td><?= h($estagiarios->instituicao_id) ?></td>
                                         <td><?= h($estagiarios->supervisor_id) ?></td>
                                         <td><?= h($estagiarios->professor_id) ?></td>
                                         <td><?= h($estagiarios->periodo) ?></td>

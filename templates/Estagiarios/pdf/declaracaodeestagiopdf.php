@@ -53,7 +53,7 @@ e no RG nº <?= $estagiario->estudante->identidade; ?>
 expedido por <?= $estagiario->estudante->orgao; ?>, 
 matriculado(a) no Curso de Serviço Social da 
 Universidade Federal do Rio de Janeiro com o número <?= $estagiario->estudante->registro; ?>, 
-estagiou na instituição <b><?= $estagiario->instituicaoestagio->instituicao; ?></b>, 
+estagiou na instituição <b><?= $estagiario->instituicao->instituicao; ?></b>, 
 com a supervisão profissional do/a Assistente Social <b><?= $supervisora; ?></b> 
 registrada no CRESS <?= $regiao; ?>&ordf; região 
 com o número <?= $cress; ?>, 

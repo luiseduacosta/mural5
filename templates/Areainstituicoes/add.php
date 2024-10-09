@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areainstituicao $areainstituicao
+ * @var \App\Model\Entity\Areainstituicao $area
  */
 ?>
 <?= $this->element('templates') ?>
@@ -21,8 +21,8 @@
     </nav>
 
     <div class="container">
-        <div class="areainstituicoes form content">
-            <?= $this->Form->create($areainstituicao) ?>
+        <div class="areas form content">
+            <?= $this->Form->create($area) ?>
             <fieldset>
                 <legend><?= __('Nova área instituição') ?></legend>
                 <?php

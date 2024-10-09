@@ -43,12 +43,12 @@ class EstudantesController extends AppController {
         $registro = $this->getRequest()->getQuery('registro');
         if ($registro) {
             $estudante = $this->Estudantes->find()
-                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicoes', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
                     ->where(['registro' => $registro])
                     ->first();
         } else {
             $estudante = $this->Estudantes->find()
-                    ->contain(['Estagiarios' => ['Instituicaoestagios', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicoes', 'Estudantes', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
                     ->where(['id' => $id])
                     ->first();
         }
@@ -228,8 +228,8 @@ class EstudantesController extends AppController {
         // pr($periodos);
 
         $cress = $this->Estudantes->Estagiarios->find()
-                ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Professores'])
-                ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicaoestagios.id', 'Instituicaoestagios.instituicao', 'Instituicaoestagios.cep', 'Instituicaoestagios.endereco', 'Instituicaoestagios.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Professores.nome'])
+                ->contain(['Estudantes', 'Instituicoes', 'Supervisores', 'Professores'])
+                ->select(['Estagiarios.periodo', 'Estudantes.id', 'Estudantes.nome', 'Instituicoes.id', 'Instituicoes.instituicao', 'Instituicoes.cep', 'Instituicoes.endereco', 'Instituicoes.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Professores.nome'])
                 ->where(['Estagiarios.periodo' => $periodo])
                 ->order(['Estudantes.nome'])
                 ->all();
@@ -260,7 +260,7 @@ class EstudantesController extends AppController {
         }
 
         $seguro = $this->Estudantes->Estagiarios->find()
-                ->contain(['Estudantes', 'Instituicaoestagios'])
+                ->contain(['Estudantes', 'Instituicoes'])
                 ->where(['Estagiarios.periodo' => $periodo])
                 ->select([
                     'Estudantes.id',
@@ -270,7 +270,7 @@ class EstudantesController extends AppController {
                     'Estudantes.registro',
                     'Estagiarios.nivel',
                     'Estagiarios.periodo',
-                    'Instituicaoestagios.instituicao'
+                    'Instituicoes.instituicao'
                 ])
                 ->order(['Estagiarios.nivel'])
                 ->all();
@@ -394,7 +394,7 @@ class EstudantesController extends AppController {
             $t_seguro[$i]['periodo'] = $c_seguro->periodo;
             $t_seguro[$i]['inicio'] = $inicio;
             $t_seguro[$i]['final'] = $final;
-            $t_seguro[$i]['instituicao'] = $c_seguro->instituicaoestagio->instituicao;
+            $t_seguro[$i]['instituicao'] = $c_seguro->instituicao->instituicao;
             $criterio[$i] = $t_seguro[$i][$ordem];
 
             $i++;

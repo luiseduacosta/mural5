@@ -126,7 +126,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
                                 <td><?= h($inscricoes->estudante_id) ?></td>
-                                <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricoes->instituicaoestagio_id]) : '' ?>
+                                <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricoes->instituicao_id]) : '' ?>
                                 </td>
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
@@ -178,7 +178,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->tc) ?></td>
                                 <td><?= date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) ?></td>
-                                <td><?= $estagiarios->hasValue('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->instituicaoestagio_id]) : '' ?>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link($estagiarios->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                 </td>

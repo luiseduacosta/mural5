@@ -59,7 +59,7 @@ if ($professora) {
     <br />
 </h2>
 
-<p><span style="font-size: 100%; text-align: justify; font-weight: normal">Campo de estágio <?= $avaliacao->estagiario->instituicaoestagio->instituicao ?>. Supervisor(a) <?= $avaliacao->estagiario->supervisor->nome ?>, Cress <?= $avaliacao->estagiario->supervisor->cress ?>. Período de estágio <?= $avaliacao->estagiario->periodo ?>. Nível: <?= $avaliacao->estagiario->nivel ?>. Supervisão acadêmica: <?= $professora ?></span></p>
+<p><span style="font-size: 100%; text-align: justify; font-weight: normal">Campo de estágio <?= $avaliacao->estagiario->instituicao->instituicao ?>. Supervisor(a) <?= $avaliacao->estagiario->supervisor->nome ?>, Cress <?= $avaliacao->estagiario->supervisor->cress ?>. Período de estágio <?= $avaliacao->estagiario->periodo ?>. Nível: <?= $avaliacao->estagiario->nivel ?>. Supervisão acadêmica: <?= $professora ?></span></p>
 
 <div class="container">
     <div class="row">

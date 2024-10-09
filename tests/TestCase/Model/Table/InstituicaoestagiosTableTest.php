@@ -3,20 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\InstituicaoestagiosTable;
+use App\Model\Table\InstituicaoTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\InstituicaoestagiosTable Test Case
+ * App\Model\Table\InstituicaoTable Test Case
  */
-class InstituicaoestagiosTableTest extends TestCase
+class InstituicaoTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\InstituicaoestagiosTable
+     * @var \App\Model\Table\InstituicaoTable
      */
-    protected $Instituicaoestagios;
+    protected $Instituicoes;
 
     /**
      * Fixtures
@@ -24,8 +24,8 @@ class InstituicaoestagiosTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Instituicaoestagios',
-        'app.Areainstituicoes',
+        'app.Instituicoes',
+        'app.Areas',
         'app.Estagiarios',
         'app.Muralestagios',
         'app.Visitas',
@@ -40,8 +40,8 @@ class InstituicaoestagiosTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Instituicaoestagios') ? [] : ['className' => InstituicaoestagiosTable::class];
-        $this->Instituicaoestagios = $this->getTableLocator()->get('Instituicaoestagios', $config);
+        $config = $this->getTableLocator()->exists('Instituicoes') ? [] : ['className' => InstituicaoTable::class];
+        $this->Instituicoes = $this->getTableLocator()->get('Instituicoes', $config);
     }
 
     /**
@@ -51,7 +51,7 @@ class InstituicaoestagiosTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->Instituicaoestagios);
+        unset($this->Instituicoes);
 
         parent::tearDown();
     }

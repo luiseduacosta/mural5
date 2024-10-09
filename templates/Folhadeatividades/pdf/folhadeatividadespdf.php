@@ -32,9 +32,9 @@ if ($cress) {
     $cress = '_____';
 }
 
-$instituicao = isset($estagiario->instituicaoestagio->instituicao);
+$instituicao = isset($estagiario->instituicao->instituicao);
 if ($instituicao) {
-    $instituicao = $estagiario->instituicaoestagio->instituicao;
+    $instituicao = $estagiario->instituicao->instituicao;
 } else {
     $instituicao = '_______________';
 }

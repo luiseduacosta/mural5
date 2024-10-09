@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areainstituicao $areainstituicao
+ * @var \App\Model\Entity\Areainstituicao $area
  */
 ?>
 
@@ -19,8 +19,8 @@
                     <?=
                         $this->Form->postLink(
                             __('Excluir'),
-                            ['action' => 'delete', $areainstituicao->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $areainstituicao->id), 'class' => 'btn btn-danger float-end']
+                            ['action' => 'delete', $area->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']
                         )
                         ?>
                 </li>
@@ -32,7 +32,7 @@
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($areainstituicao) ?>
+        <?= $this->Form->create($area) ?>
         <fieldset>
             <legend><?= __('Editar área instituição') ?></legend>
             <?php

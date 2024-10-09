@@ -1,9 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Instituicaoestagio $instituicaoestagio
+ * @var \App\Model\Entity\Instituicaoestagio $instituicao
  */
-// pr($instituicaoestagio);
+// pr($instituicao);
 // die();
 ?>
 
@@ -25,12 +25,12 @@
     </nav>
 
     <div class="table-responsive">
-        <?= $this->Form->create($instituicaoestagio) ?>
+        <?= $this->Form->create($instituicao) ?>
         <fieldset>
             <legend><?= __('Nova instituição de estágio') ?></legend>
             <?php
             echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição']]);
-            echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areainstituicoes, 'empty' => true]);
+            echo $this->Form->control('area_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areas, 'empty' => true]);
             echo $this->Form->control('area', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('natureza', ['label' => ['text' => 'Natureza']]);
             echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ']]);

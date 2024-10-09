@@ -59,7 +59,7 @@
         <fieldset>
             <legend><?= __('Novo mural de estágio') ?></legend>
             <?php
-            echo $this->Form->control('instituicaoestagio_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicaoestagios, 'empty' => true]);
+            echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true]);
             echo $this->Form->control('instituicao', ['type' => 'hidden']);
             echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
             echo $this->Form->control('vagas');

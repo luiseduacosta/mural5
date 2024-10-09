@@ -242,10 +242,10 @@
                                 <td><?= h($estagiarios->periodo) ?></td>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                    <td><?= $estagiarios->hasValue('instituicaoestagio') ? $this->Html->link($estagiarios->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiarios->instituicaoestagio_id]) : '' ?>
+                                    <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link($estagiarios->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : '' ?>
+                                    <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
 

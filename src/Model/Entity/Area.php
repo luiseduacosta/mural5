@@ -11,9 +11,9 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $area
  * 
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicaoestagios
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
-class Areainstituicao extends Entity
+class Area extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -26,6 +26,6 @@ class Areainstituicao extends Entity
      */
     protected array $_accessible = [
         'area' => true,
-        'instituicaoestagios' => true
+        'instituicoes' => true
     ];
 }

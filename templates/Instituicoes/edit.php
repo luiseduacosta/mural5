@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Instituicaoestagio $instituicaoestagio
+ * @var \App\Model\Entity\Instituicaoestagio $instituicao
  */
 ?>
 
@@ -22,8 +22,8 @@
                     <?=
                         $this->Form->postLink(
                             __('Excluir'),
-                            ['action' => 'delete', $instituicaoestagio->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicaoestagio->id), 'class' => 'btn btn-danger float-end']
+                            ['action' => 'delete', $instituicao->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger float-end']
                         )
                         ?>
                 </li>
@@ -32,12 +32,12 @@
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($instituicaoestagio) ?>
+        <?= $this->Form->create($instituicao) ?>
         <fieldset>
             <legend><?= __('Editar instituição') ?></legend>
             <?php
             echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituiçõa']]);
-            echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área de instituições'], 'options' => $areainstituicoes, 'empty' => true]);
+            echo $this->Form->control('area_id', ['label' => ['text' => 'Área de instituições'], 'options' => $areas, 'empty' => true]);
             echo $this->Form->control('area', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('natureza');
             echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ']]);

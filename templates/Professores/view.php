@@ -243,7 +243,7 @@
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
                                 <td><?= h($estagiarios->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
-                                <td><?= $estagiarios->hasValue('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : "" ?>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?>
                                 </td>
@@ -308,7 +308,7 @@
 
                                 <td><?= h($estagiarios->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
-                                <td><?= $estagiarios->hasValue('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : "" ?>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : "" ?>
                                 </td>

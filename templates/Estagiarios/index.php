@@ -72,7 +72,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <th><?= $this->Paginator->sort('nivel') ?></th>
                         <th><?= $this->Paginator->sort('tc') ?></th>
                         <th><?= $this->Paginator->sort('tc_solicitacao') ?></th>
-                        <th><?= $this->Paginator->sort('Instituicaoestagios.instituicao', 'Instituicao') ?></th>
+                        <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicoes') ?></th>
                         <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
@@ -99,7 +99,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                             <td><?= $estagiario->tc ?></td>
                             <td><?= date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) ?></td>
 
-                            <td><?= $estagiario->hasValue('instituicaoestagio') ? $this->Html->link($estagiario->instituicaoestagio->instituicao, ['controller' => 'Instituicaoestagios', 'action' => 'view', $estagiario->instituicaoestagio->id]) : '' ?>
+                            <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                             </td>
 
                             <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
