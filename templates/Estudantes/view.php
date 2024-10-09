@@ -15,9 +15,19 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerAluno">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item active">
-                    <?= $this->Html->link(__('Editar Estudante'), ['action' => 'edit', $estudante->id], ['class' => 'btn btn-secondary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
+
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Declaraçao periodo'), ['controller' => 'estudantes', 'action' => 'certificadoperiodo', $estudante->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item active">
+                        <?= $this->Html->link(__('Editar Estudante'), ['action' => 'edit', $estudante->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                <?php endif; ?>
+
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir Estudante'), ['action' => 'delete', $estudante->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estudante->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
@@ -215,7 +225,7 @@
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
                             <th><?= __('Observações') ?></th>
-                                <th class="actions"><?= __('Ações') ?></th>
+                            <th class="actions"><?= __('Ações') ?></th>
                         </tr>
                         <?php foreach ($estudante->estagiarios as $estagiarios): ?>
                             <tr>

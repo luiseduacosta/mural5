@@ -5,17 +5,35 @@ $user = $this->getRequest()->getAttribute('identity');
  * @var \App\Model\Entity\Aluno $aluno
  */
 ?>
-<div class="row">
-    <div class="container">
-        <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-        <?= $this->Html->link(__('Editar Aluno'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end']) ?>
-        <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-        <?= $this->Form->postLink(__('Excluir Aluno'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger float-end']) ?>
-    </div>
-</div>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
 
-<div class="column-responsive column-80">
-    <div class="alunos view content">
+                    <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Editar Aluno'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+
+                    <?= $this->Form->postLink(__('Excluir Aluno'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger float-end']) ?>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
         <h3><?= h($aluno->nome) ?></h3>
         <table class="table table-striped table-hover table-responsive">
             <tr>
@@ -133,10 +151,6 @@ $user = $this->getRequest()->getAttribute('identity');
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Aluno') ?></th>
-                            <th><?= __('Aluno') ?></th>
-                            <th><?= __('Estudante') ?></th>
-                            <th><?= __('Estudante') ?></th>
                             <th><?= __('Estagiario') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
                             <th><?= __('Turno') ?></th>
@@ -151,16 +165,12 @@ $user = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
                             <th><?= __('Observações') ?></th>
-                            <th class="actions"><?= __('Actions') ?></th>
+                            <th class="actions"><?= __('Ações') ?></th>
                         </tr>
                         <?php foreach ($aluno->estagiarios as $estagiarios): ?>
                             <tr>
                                 <?php // pr($estagiarios); ?>
                                 <td><?= h($estagiarios->id) ?></td>
-                                <td><?= h($estagiarios->aluno->nome) ?></td>
-                                <td><?= h($estagiarios->aluno->registro) ?></td>
-                                <td><?= h($estagiarios->estudante->nome) ?></td>
-                                <td><?= h($estagiarios->estudante->registro) ?></td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
                                 <td><?= h($estagiarios->turno) ?></td>
@@ -174,14 +184,15 @@ $user = $this->getRequest()->getAttribute('identity');
                                 </td>
                                 <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('turmaestagio') ? h($estagiarios->turmaestagio->area) : '' ?></td>
+                                <td><?= $estagiarios->hasValue('turmaestagio') ? h($estagiarios->turmaestagio->area) : '' ?>
+                                </td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
-                                    <?= $this->Html->link(__('View'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Are you sure you want to delete # {0}?', $estagiarios->id)]) ?>
+                                    <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
+                                    <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                    <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Are you sure you want to delete # {0}?', $estagiarios->id)]) ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -190,5 +201,4 @@ $user = $this->getRequest()->getAttribute('identity');
             <?php endif; ?>
         </div>
     </div>
-</div>
 </div>

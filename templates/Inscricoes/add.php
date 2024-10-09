@@ -12,12 +12,22 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
 
 <?= $this->element('templates') ?>
 
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
         </div>
-    </aside>
+    </nav>
+
     <div class="container">
         <?= $this->Form->create($inscricaoentity, ['method' => 'post']) ?>
         <fieldset>
@@ -26,7 +36,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
             if (isset($categoria) && $categoria == 1):
                 echo $this->Form->control('estudante_id', ['label' => 'Estudante', 'options' => $estudantes, 'empty' => ['0' => 'Seleciona estudante']]);
                 echo $this->Form->control('registro', ['type' => 'hidden']);
-                echo $this->Form->control('muralestagio_id', ['label' => ['text'=> 'Mural de estágio'], 'options' => $muralestagios, 'value' => $muralestagio_id, 'empty' => ['0' => 'Seleciona instituição']]);
+                echo $this->Form->control('muralestagio_id', ['label' => ['text' => 'Mural de estágio'], 'options' => $muralestagios, 'value' => $muralestagio_id, 'empty' => ['0' => 'Seleciona instituição']]);
                 echo $this->Form->control('data', ['value' => date('d-m-Y'), 'readonly']);
                 echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo]);
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);

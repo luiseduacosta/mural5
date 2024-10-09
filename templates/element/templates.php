@@ -16,7 +16,7 @@
 <?php $this->Form->setTemplates(["submitContainer" => "<div class='form-group row'><div class='col-12'>{{content}}</div></div>"]); ?>
 <?php $this->Form->setTemplates(["inputSubmit" => "<input class = 'btn btn-success position-static' type = '{{type}}' {{attrs}}>"]); ?>
 <?php $this->Form->setTemplates(["dateWidget" => "{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}"]); ?>
-<?php $this->Form->setTemplates(["button" => "<div class='d-flex justify-content-center'><button type ='submit' class= 'btn btn-secondary' {{attrs}}>{{text}}</button></div>"]); ?>
+<?php $this->Form->setTemplates(["button" => "<div class='d-flex justify-content-center'><button type ='submit' class= 'btn btn-primary' {{attrs}}>{{text}}</button></div>"]); ?>
 
 <?php $this->Paginator->setTemplates(['nextActive' => '<li class="page-item"><a class="page-link" rel="next" href="{{url}}">{{text}}</a></li>']); ?>
 <?php $this->Paginator->setTemplates(['nextDisabled' => '<li class="page-item disabled"><a class="page-link" href="" onclick="return false;">{{text}}</a></li>']); ?>

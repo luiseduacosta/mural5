@@ -6,10 +6,26 @@
 // pr($estagiario);
 // die();
 ?>
-<div class="avaliacaoes index container">
+<div class="container">
+
     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 4 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
-        <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
     <?php endif; ?>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>

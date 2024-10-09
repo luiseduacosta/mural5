@@ -25,12 +25,26 @@
     })
 </script>
 <div class="container">
-    <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
-        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+
+    <?php if (!is_null($this->getRequest()->getAttribute('identity')) && ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1')): ?>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     <?php endif; ?>
 
     <?= $this->element('templates') ?>
+
     <div class="row justify-content-center">
         <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
@@ -60,7 +74,7 @@
                     <th><?= $this->Paginator->sort('beneficios') ?></th>
                     <th><?= $this->Paginator->sort('final_de_semana', 'Final de semana') ?></th>
                     <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
-                    <th><?= $this->Paginator->sort('dataInscricao', 'Inscrição') ?></th>
+                    <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
                     <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
                     <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>

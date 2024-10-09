@@ -6,20 +6,35 @@
 // pr($professor);
 ?>
 <div class="container">
-    <div class="row">
-        <aside class="column">
-            <div class="side-nav">
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
-                    <?= $this->Form->postLink(__('Excluir Professor'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $professor->id), 'class' => 'btn btn-danger float-end']) ?>
-                    <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                    <?= $this->Html->link(__('Novo Professor'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+
+    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(__('Excluir Professor'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $professor->id), 'class' => 'btn btn-danger float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo Professor'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
                 <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
-                    <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
-                <?php endif; ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
             </div>
-        </aside>
-    </div>
+        </nav>
+    <?php endif; ?>
 
     <div class="row">
         <ul class="nav nav-tabs">
@@ -178,11 +193,13 @@
                 </tr>
                 <tr>
                     <th><?= __('Data de ingresso') ?></th>
-                    <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?></td>
+                    <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?>
+                    </td>
                 </tr>
                 <tr>
                     <th><?= __('Data de egresso') ?></th>
-                    <td><?= $professor->dataegresso ? date('d-m-Y', strtotime(h($professor->dataegresso))) : ' ' ?></td>
+                    <td><?= $professor->dataegresso ? date('d-m-Y', strtotime(h($professor->dataegresso))) : ' ' ?>
+                    </td>
                 </tr>
             </table>
             <div class="text">
@@ -220,14 +237,16 @@
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
-                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?></td>
+                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?>
+                                </td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
                                 <td><?= h($estagiarios->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicaoestagio') ? $estagiarios->instituicaoestagio->instituicao : "" ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
+                                <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?>
+                                </td>
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
@@ -273,7 +292,8 @@
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
-                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?></td>
+                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?>
+                                </td>
                                 <td><?= h($estagiarios->registro) ?></td>
 
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>

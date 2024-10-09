@@ -16,29 +16,31 @@ use function Cake\I18n\__;
  * @property AvaliacoesTable $Avaliacoes
  * @method \App\Model\Entity\Avaliaco[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AvaliacoesController extends AppController {
+class AvaliacoesController extends AppController
+{
 
     /**
      * Index method. Mostra os estágios de um estudante estagiario.
      *
      * @return Response|null|void Renders view
      */
-    public function index($id = NULL) {
+    public function index($id = NULL)
+    {
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         // pr($estagiario_id);
         // die();
         if ($estagiario_id) {
             $registro = $this->Avaliacoes->Estagiarios->find()
-                    ->where(['Estagiarios.id' => $estagiario_id])
-                    ->first();
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();
             // pr($registro);
             // die();
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiarios = $estagiariostabela->find()
-                    ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Avaliacoes'])
-                    ->where(['Estagiarios.registro' => $registro->registro])
-                    ->all();
+                ->contain(['Estudantes', 'Instituicaoestagios', 'Supervisores', 'Avaliacoes'])
+                ->where(['Estagiarios.registro' => $registro->registro])
+                ->all();
             // pr($estagiarios);
             // die();
             $this->set('id', $id);
@@ -58,7 +60,8 @@ class AvaliacoesController extends AppController {
      *
      * @return Response|null|void Renders view
      */
-    public function supervisoravaliacao($id = NULL) {
+    public function supervisoravaliacao($id = NULL)
+    {
 
         /* O submenu_navegacao envia o cress */
         $cress = $this->getRequest()->getQuery('cress');
@@ -67,10 +70,10 @@ class AvaliacoesController extends AppController {
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $estagiario = $this->Avaliacoes->Estagiarios->find()
-                    ->contain(['Supervisores', 'Estudantes', 'Professores', 'Folhadeatividades'])
-                    ->where(['Supervisores.cress' => $cress])
-                    ->order(['periodo' => 'desc'])
-                    ->all();
+                ->contain(['Supervisores', 'Estudantes', 'Professores', 'Folhadeatividades'])
+                ->where(['Supervisores.cress' => $cress])
+                ->order(['periodo' => 'desc'])
+                ->all();
             // pr($estagiario);
             $this->set('estagiario', $estagiario);
         }
@@ -84,17 +87,18 @@ class AvaliacoesController extends AppController {
      * @return Response|null|void Renders view
      * @throws RecordNotFoundException When record not found.
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
 
         if ($id) {
             $avaliacao = $this->Avaliacoes->find()
-                    ->where(['Avaliacoes.id' => $id])
-                    ->first();
+                ->where(['Avaliacoes.id' => $id])
+                ->first();
         } else {
             $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
             $avaliacao = $this->Avaliacoes->find()
-                    ->where(['Avaliacoes.estagiario_id' => $estagiario_id])
-                    ->first();
+                ->where(['Avaliacoes.estagiario_id' => $estagiario_id])
+                ->first();
         }
         // pr($avaliacao);
         // die();
@@ -112,13 +116,22 @@ class AvaliacoesController extends AppController {
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($id = NULL) {
+    public function add($id = NULL)
+    {
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-
-        $avaliacaoexiste = $this->Avaliacoes->find()
+        if ($estagiario_id) {
+            $avaliacaoexiste = $this->Avaliacoes->find()
                 ->where(['estagiario_id' => $estagiario_id])
                 ->first();
+        } elseif ($id) {
+            $avaliacaoexiste = $this->Avaliacoes->find()
+                ->where(['id' => $id])
+                ->first();            
+        } else {
+            $this->Flash->error(__('Faltam parâmetros'));
+            return $this->redirect(['controller' => 'Estudantes', 'action' => 'index']);
+        }
 
         if ($avaliacaoexiste) {
             $this->Flash->error(__('Estagiário já foi avaliado'));
@@ -140,9 +153,9 @@ class AvaliacoesController extends AppController {
         }
 
         $estagiario = $this->Avaliacoes->Estagiarios->find()
-                ->contain(['Estudantes'])
-                ->where(['Estagiarios.id' => $estagiario_id])
-                ->first();
+            ->contain(['Estudantes'])
+            ->where(['Estagiarios.id' => $estagiario_id])
+            ->first();
         // pr($estagiario);
         $this->set(compact('avaliacao', 'estagiario'));
     }
@@ -154,7 +167,8 @@ class AvaliacoesController extends AppController {
      * @return Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws RecordNotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
 
         $avaliacao = $this->Avaliacoes->get($id, [
             'contain' => ['Estagiarios' => 'Estudantes'],
@@ -183,7 +197,8 @@ class AvaliacoesController extends AppController {
      * @return Response|null|void Redirects to index.
      * @throws RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         $this->request->allowMethod(['post', 'delete']);
         $avaliacao = $this->Avaliacoes->get($id);
         if ($this->Avaliacoes->delete($avaliacao)) {
@@ -195,7 +210,8 @@ class AvaliacoesController extends AppController {
         return $this->redirect(['action' => 'index']);
     }
 
-    public function selecionaavaliacao($id = NULL) {
+    public function selecionaavaliacao($id = NULL)
+    {
 
         /* No login foi capturado o id do estagiário */
         $id = $this->getRequest()->getSession()->read('estagiario_id');
@@ -205,15 +221,16 @@ class AvaliacoesController extends AppController {
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
-                    ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios'])
-                    ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
-                    ->all();
+                ->contain(['Estudantes', 'Supervisores', 'Instituicaoestagios'])
+                ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
+                ->all();
         }
 
         $this->set('estagiario', $this->paginate(estagiario));
     }
 
-    public function imprimeavaliacaopdf($id = NULL) {
+    public function imprimeavaliacaopdf($id = NULL)
+    {
 
         /* No login foi capturado o id do estagiário */
         $this->layout = false;
@@ -222,8 +239,8 @@ class AvaliacoesController extends AppController {
             return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
-                    ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicaoestagios']])
-                    ->where(['Avaliacoes.id' => $id]);
+                ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicaoestagios']])
+                ->where(['Avaliacoes.id' => $id]);
         }
         $avaliacao = $avaliacaoquery->first();
         // pr($avaliacao);
@@ -232,12 +249,12 @@ class AvaliacoesController extends AppController {
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption(
-                'pdfConfig',
-                [
-                    'orientation' => 'portrait',
-                    'download' => true, // This can be omitted if "filename" is specified.
-                    'filename' => 'avaliacao_discente_' . $id . '.pdf' //// This can be omitted if you want file name based on URL.
-                ]
+            'pdfConfig',
+            [
+                'orientation' => 'portrait',
+                'download' => true, // This can be omitted if "filename" is specified.
+                'filename' => 'avaliacao_discente_' . $id . '.pdf' //// This can be omitted if you want file name based on URL.
+            ]
         );
         $this->set('avaliacao', $avaliacao);
     }

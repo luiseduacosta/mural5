@@ -13,42 +13,55 @@
     $(document).ready(function () {
 
         ClassicEditor
-                .create(document.querySelector('#requisitos'), {
-                    // The language code is defined in the https://en.wikipedia.org/wiki/ISO_639-1 standard.
-                    language: 'pt'
-                })
-                .then(editor => {
-                    console.log(editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            .create(document.querySelector('#requisitos'), {
+                // The language code is defined in the https://en.wikipedia.org/wiki/ISO_639-1 standard.
+                language: 'pt'
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
         ClassicEditor
-                .create(document.querySelector('#outras'), {
-                    language: 'pt'
-                })
-                .then(editor => {
-                    console.log(editor);
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            .create(document.querySelector('#outras'), {
+                language: 'pt'
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     });
 </script>
 
+<?= $this->element('templates'); ?>
+
 <div class="container">
-    <div class="row">
-        <div class="container">
-            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-            <?=
-            $this->Form->postLink(
-                    __('Excluir'),
-                    ['action' => 'delete', $muralestagio->id],
-                    ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']
-            )
-            ?>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $muralestagio->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+            </ul>
         </div>
-    </div>
+    </nav>
 
     <div class="row">
         <div class="container">
@@ -69,7 +82,7 @@
                 echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
                 echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores]);
                 echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
-                echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Data da inscrição'], 'empty' => true]);
+                echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
                 echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);
                 echo $this->Form->control('localSelecao', ['label' => ['text' => 'Local da seleção']]);
                 echo $this->Form->control('formaSelecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras']]);

@@ -7,18 +7,31 @@ $usuario = $this->getRequest()->getAttribute('identity');
 ?>
 <?= $this->element('templates') ?>
 <div class='container'>
-    <div class="row">
-        <?php if ($usuario->get('categoria_id') == 1): ?>
-            <?= $this->Html->link(__('List Estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-            <?=
-                $this->Form->postLink(
-                    __('Excluir'),
-                    ['action' => 'delete', $estudante->id],
-                    ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $estudante->id), 'class' => 'btn btn-danger float-end']
-                )
-                ?>
-        <?php endif; ?>
-    </div>
+
+    <?php if ($usuario->get('categoria_id') == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar Estudantes'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $estudante->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $estudante->id), 'class' => 'btn btn-danger float-end']
+                        )
+                            ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
+
     <div class="container">
         <?= $this->Form->create($estudante) ?>
         <fieldset>

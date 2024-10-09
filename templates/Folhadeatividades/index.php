@@ -30,8 +30,25 @@ if ($professora) {
 ?>
 
 <div class="container">
-    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
-    <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', $id], ['class' => 'btn btn-primary float-end']) ?>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+
+                <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', $id], ['class' => 'btn btn-primary float-end']) ?>
+                <li class="nav-item">
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <h3 class="text-center"><?= __('Folha de atividades da(o) estagiária(o) ' . $estagiario->estudante->nome) ?></h3>
 
     <div class="table-responsive">
@@ -84,9 +101,9 @@ if ($professora) {
                     </tr>
                     <?php
                     list($hour, $minute, $second) = array_pad(explode(':', $folhadeatividade->horario), 3, null);
-                    $seconds += (int)$hour * 3600;
-                    $seconds += (int)$minute * 60;
-                    $seconds += (int)$second;
+                    $seconds += (int) $hour * 3600;
+                    $seconds += (int) $minute * 60;
+                    $seconds += (int) $second;
                     // pr($seconds);
                     ?>
                 <?php endforeach; ?>

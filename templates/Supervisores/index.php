@@ -9,9 +9,24 @@ $user = $this->getRequest()->getAttribute('identity');
 ?>
 <div class="container">
     <?php if ($user['categoria_id'] == 1): ?>
-        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-secondary float-end']) ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+
+                        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-secondary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
     <?php endif; ?>
     <h3><?= __('Supervisores') ?></h3>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>
