@@ -33,7 +33,6 @@ class Inscricao extends Entity
     protected array $_accessible = [
         'registro' => true,
         'aluno_id' => true,
-        'alunoestagiario_id' => true,
         'muralestagio_id' => true,
         'data' => true,
         'periodo' => true,

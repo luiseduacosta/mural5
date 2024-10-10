@@ -11,7 +11,6 @@ use Cake\Validation\Validator;
 /**
  * Inscricoes Model
  *
- * @property \App\Model\Table\AlunoestagiariosTable&\Cake\ORM\Association\BelongsTo $Alunoestagiarios
  * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
  *
@@ -46,9 +45,6 @@ class InscricoesTable extends Table
         $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Alunoestagiarios', [
-            'foreignKey' => 'alunoestagiario_id',
-        ]);
         $this->belongsTo('Alunos', [
             'foreignKey' => 'aluno_id',
         ]);
@@ -113,7 +109,6 @@ class InscricoesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['alunoestagiario_id'], 'Alunoestagiarios'), ['errorField' => 'alunoestagiario_id']);
         $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
         $rules->add($rules->existsIn(['muralestagio_id'], 'Muralestagios'), ['errorField' => 'muralestagio_id']);
 
