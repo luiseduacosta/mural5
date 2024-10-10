@@ -137,6 +137,7 @@ class EstagiariosController extends AppController {
      *
      */
     public function termodecompromisso($id = NULL) {
+
         $estudante_id = $this->getRequest()->getQuery('estudante_id');
         $instituicao_id = $this->getRequest()->getQuery('instituicao_id');
 
@@ -246,8 +247,16 @@ class EstagiariosController extends AppController {
             $this->set('nivel', $nivel);
             $this->set('periodo', $periodoatual);
 
-            /** Seleciona os supervisores da instituição */
-            if ($instituicao_id) {
+            /** Seleciona os supervisores da instituição. Primeiro precisa do instituicao_id */
+            if (!isset($instituicao_id)) {
+                if (isset($ultimoestagio)) {
+                    $instituicao_id = $ultimoestagio->instituicao->id;
+                    // echo $instituicao_id;
+                }
+            } else {
+                $this->set('supervisores', 'Sem dados');
+            }
+            if (isset($instituicao_id)) {
 
                 $supervisoresinstituicao = $this->selecionasupervisores($instituicao_id);
                 if (isset($supervisoresinstituicao)) {

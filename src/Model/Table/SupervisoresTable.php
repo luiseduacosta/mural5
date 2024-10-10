@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Supervisores Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Userestagios
+ * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Users
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
  *
  * @method \App\Model\Entity\Supervisor newEmptyEntity()
@@ -49,7 +49,7 @@ class SupervisoresTable extends Table {
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'supervisor_id',
         ]);
-        $this->hasMany('Userestagios', [
+        $this->hasMany('Users', [
             'foreignKey' => 'supervisor_id',
         ]);
         $this->belongsToMany('Instituicoes', [

@@ -1,59 +1,80 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\Userestagio $userestagio
  */
 ?>
-<div>
-    <div class="column-responsive column-80">
-        <div class="users view content">
-            <aside>
-                <div class="side-nav">
-                    <?= $this->Html->link(__('Editar User'), ['action' => 'edit', $user->id], ['class' => 'side-nav-item']) ?>
-                    <?= $this->Form->postLink(__('Deletar User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']) ?>
-                    <?= $this->Html->link(__('Listar Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-                    <?= $this->Html->link(__('Novo User'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-                </div>
-            </aside>
-            <h3><?= h($user->id) ?></h3>
-            <table>
-                <tr>
-                    <th><?= __('Email') ?></th>
-                    <td><?= h($user->email) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Password') ?></th>
-                    <td><?= h($user->password) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Categoria') ?></th>
-                    <td><?= h($user->categoria_id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Aluno') ?></th>
-                    <td><?= $user->hasValue('aluno') ? $this->Html->link($user->aluno->id, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Supervisor') ?></th>
-                    <td><?= $user->hasValue('supervisor') ? $this->Html->link($user->supervisor->id, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Professor') ?></th>
-                    <td><?= $user->hasValue('professor') ? $this->Html->link($user->professor->id, ['controller' => 'Professor', 'action' => 'view', $user->professor->id]) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $this->Number->format($user->id) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('registro') ?></th>
-                    <td><?= $this->Number->format($user->registro) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Timestamp') ?></th>
-                    <td><?= h($user->timestamp) ?></td>
-                </tr>
-            </table>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']) ?>
+                </li>
+            </ul>
         </div>
+    </nav>
+
+    <div class="container">
+        <h3><?= h($userestagio->email) ?></h3>
+        <table>
+            <tr>
+                <th><?= __('Id') ?></th>
+                <td><?= $userestagio->id ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Número') ?></th>
+                <td><?= $userestagio->registro ?></td>
+            </tr>
+            <tr>
+                <th><?= __('E-mail') ?></th>
+                <td><?= h($userestagio->email) ?></td>
+            </tr>
+            <!--  
+             <tr>
+                 <th><?= __('Password') ?></th>
+                 <td><?= h($userestagio->password) ?></td>
+             </tr>
+             //-->
+            <tr>
+                <th><?= __('Categoria') ?></th>
+                <td><?= h($userestagio->categoria) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Estudante') ?></th>
+                <td><?= $userestagio->hasValue('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
+                </td>
+            </tr>
+            <tr>
+                <th><?= __('Professor') ?></th>
+                <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                </td>
+            </tr>
+            <tr>
+                <th><?= __('Supervisor') ?></th>
+                <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                </td>
+            </tr>
+            <!--
+            <tr>
+                <th><?= __('Timestamp') ?></th>
+                <td><?= h($userestagio->timestamp) ?></td>
+            </tr>
+            //-->
+        </table>
     </div>
 </div>

@@ -92,12 +92,12 @@ class ProfessoresController extends AppController {
 
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
-            $usercadastrado = $this->Professores->Userestagios->find()
+            $usercadastrado = $this->Professores->Users->find()
                     ->where(['categoria_id' => 3, 'registro' => $siape])
                     ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
-                return $this->redirect('/userestagios/add');
+                return $this->redirect('/users/add');
             endif;
 
             $professorresultado = $this->Professores->patchEntity($professor, $this->request->getData());
@@ -108,7 +108,7 @@ class ProfessoresController extends AppController {
                  * Verifico se está preenchido o campo professor_id na tabela Users.
                  * Primeiro busco o usuário.
                  */
-                $userprofessor = $this->Professores->Userestagios->find()
+                $userprofessor = $this->Professores->Users->find()
                         ->where(['professor_id' => $professorresultado->id])
                         ->first();
 
@@ -117,24 +117,24 @@ class ProfessoresController extends AppController {
                  */
                 if (empty($userprofessor)) {
 
-                    $userestagio = $this->Professores->Userestagios->find()
+                    $userestagio = $this->Professores->Users->find()
                             ->where(['categoria_id' => 3, 'registro' => $professorresultado->siape])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $professorresultado->id;
-                    $userestagiostabela = $this->fetchTable('Userestagios');
+                    $userestagiostabela = $this->fetchTable('Users');
                     $user_entity = $userestagiostabela->get($userestagio->id);
                     /** Atualiza */
-                    $userestagioresultado = $this->Professores->Userestagios->patchEntity($user_entity, $userdata);
+                    $userestagioresultado = $this->Professores->Users->patchEntity($user_entity, $userdata);
                     // pr($userestagioresultado);
-                    if ($this->Professores->Userestagios->save($userestagioresultado)) {
+                    if ($this->Professores->Users->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do professor'));
                         return $this->redirect(['action' => 'view', $professorresultado->id]);
                     } else {
                         $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do professor'));
-                        // debug($userestagios->getErrors());
-                        return $this->redirect(['controller' => 'Userestagios', 'action' => 'logout']);
+                        // debug($users->getErrors());
+                        return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
                 return $this->redirect(['action' => 'view', $professorresultado->id]);

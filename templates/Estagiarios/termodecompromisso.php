@@ -20,7 +20,7 @@ if (isset($estudante_id)) {
 }
 
 if (isset($instituicao_id)) {
-    // echo "Instituicoes" . "<br>";
+    // echo "Instituicao_id" . "<br>";
     // pr($instituicao_id);
 } else {
     // echo "Sem instituicao." . "<br>";
@@ -35,7 +35,7 @@ if (isset($estudanteestagiario)) {
 if (isset($ultimoestagio)) {
     // echo "ulitmoestagio" . "<br>";
     // echo $ultimoestagio->instituicao->id;
-    // pr($ultimoestagio->hasValue('supervisor') ? 'Supervisor' : 'vazio');
+    // pr($ultimoestagio->hasValue('instituicao') ? $ultimoestagio->instituicao->id : 'vazio');
 } else {
     // echo "Estudante sem último estágio" . "<br>";
 }
@@ -61,7 +61,7 @@ if (isset($supervisoresdainstituicao)) {
     // echo 'supervisoresdainstituicao' . '<br>';
     // pr($supervisoresdainstituicao);
 } else {
-    echo "Sem supervisores da instituicao" . '<br>';
+    // echo "Sem supervisores da instituicao" . '<br>';
 }
 // pr($periodo);
 // die();
@@ -153,6 +153,7 @@ $submit = [
                 endif;
                 ?>
             </fieldset>
+
             <div class="d-flex justify-content-center">
                 <div class="btn-group" role="group" aria-label="Confirma">
                     <?php if (isset($ultimoestagio) && $ultimoestagio->id): ?>

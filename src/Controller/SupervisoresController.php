@@ -92,16 +92,16 @@ class SupervisoresController extends AppController {
         if ($this->request->is('post')) {
 
             /**
-             * Verifico se já é um usuário cadastrado no userestagios.
+             * Verifico se já é um usuário cadastrado no users.
              * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
              */
             $cress = $this->request->getData('cress');
-            $usercadastrado = $this->Supervisores->Userestagios->find()
+            $usercadastrado = $this->Supervisores->Users->find()
                     ->where(['categoria_id' => 4, 'registro' => $cress])
                     ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
-                return $this->redirect('/userestagios/add');
+                return $this->redirect('/users/add');
             endif;
 
             $supervisorresultado = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
@@ -112,7 +112,7 @@ class SupervisoresController extends AppController {
                  * Verifico se está preenchido o campo supervisor_id na tabela Users.
                  * Primeiro busco o usuário.
                  */
-                $usersupervisor = $this->Supervisores->Userestagios->find()
+                $usersupervisor = $this->Supervisores->Users->find()
                         ->where(['supervisor_id' => $supervisorresultado->id])
                         ->first();
 
@@ -121,25 +121,25 @@ class SupervisoresController extends AppController {
                  */
                 if (empty($usersupervisor)) {
 
-                    $userestagio = $this->Supervisores->Userestagios->find()
+                    $userestagio = $this->Supervisores->Users->find()
                             ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo supervisor_id */
                     $userdata['supervisor_id'] = $supervisorresultado->id;
 
-                    $userestagiostabela = $this->fetchTable('Userestagios');
+                    $userestagiostabela = $this->fetchTable('Users');
                     $user_entity = $userestagiostabela->get($userestagio->id);
                     /** Atualiza */
-                    $userestagioresultado = $this->Supervisores->Userestagios->patchEntity($user_entity, $userdata);
+                    $userestagioresultado = $this->Supervisores->Users->patchEntity($user_entity, $userdata);
 
-                    if ($this->Supervisores->Userestagios->save($userestagioresultado)) {
+                    if ($this->Supervisores->Users->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do supervisor'));
                         return $this->redirect(['action' => 'view', $supervisorresultado->id]);
                     } else {
                         $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do supervisor'));
-                        // debug($userestagios->getErrors());
-                        return $this->redirect(['controller' => 'Userestagios', 'action' => 'logout']);
+                        // debug($users->getErrors());
+                        return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
                 return $this->redirect(['action' => 'view', $supervisorresultado->id]);

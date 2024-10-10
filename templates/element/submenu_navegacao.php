@@ -56,7 +56,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                         role="button" aria-haspopup="true" aria-expanded="false">Administração</a>
                     <div class="dropdown-menu">
                         <?php echo $this->Html->link('Configuração', '/Configuracoes/view/1', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link('Usuários', '/Userestagios/index', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                        <?php echo $this->Html->link('Usuários', '/Users/index', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Planilha seguro', '/Estudantes/planilhaseguro/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Planilha CRESS', '/Estudantes/planilhacress/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Carga horária', '/Estudantes/cargahoraria/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
@@ -76,11 +76,11 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
 
             <?php if ($categoria) { ?>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Logout", ['controller' => 'Userestagios', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                    <?php echo $this->Html->link("Logout", ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
             <?php } else { ?>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Login", ['controller' => 'Userestagios', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                    <?php echo $this->Html->link("Login", ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
             <?php } ?>
 

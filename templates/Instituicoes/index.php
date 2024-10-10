@@ -83,7 +83,7 @@
                         <td class="actions">
                             <?= $this->Html->link(__('View'), ['action' => 'view', $instituicao->id]) ?>
                             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $instituicao->id]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $instituicao->id)]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicao->id)]) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

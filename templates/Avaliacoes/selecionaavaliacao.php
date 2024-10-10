@@ -42,7 +42,7 @@
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['action' => 'view', $c_estagiario->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $c_estagiario->id]) ?>
-                                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $c_estagiario->id], ['confirm' => __('Are you sure you want to delete # {0}?', $c_estagiario->id)]) ?>
+                                <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $c_estagiario->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $c_estagiario->id)]) ?>
                             </td>
                         <?php endif; ?>
                     </tr>

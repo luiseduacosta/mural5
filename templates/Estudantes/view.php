@@ -10,7 +10,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAluno"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerAluno">
@@ -52,16 +52,16 @@
     <ul class="nav nav-tabs id=" myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estudante-tab" href="#estudante"
-                data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
+               data-target="#estudante" role="tab" aria-controls="estudante" aria-selected="true">Dados do
                 estudante</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" href="#inscricoes" data-target="#inscricoes"
-                role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
+               role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" href="#estagios" data-target="#estagios"
-                role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
+               role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
         </li>
     </ul>
 
@@ -193,12 +193,12 @@
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricoes->id)]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricoes->id)]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php endif; ?>
                             </tr>
@@ -273,10 +273,10 @@
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
-                                    <?= $this->Html->link(__('View'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                    <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Are you sure you want to delete # {0}?', $estagiarios->id)]) ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
                                 </td>
                             </tr>

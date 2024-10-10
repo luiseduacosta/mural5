@@ -16,7 +16,7 @@
                     <?= $this->Html->link(__('Edita atividade'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir atividade'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Are you sure you want to delete # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir atividade'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar atividades'), ['action' => 'index', $folhadeatividade->estagiario_id], ['class' => 'btn btn-primary float-end']) ?>

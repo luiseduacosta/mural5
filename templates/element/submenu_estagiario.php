@@ -57,7 +57,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
             <li class="nav-item">
             </li>
             <li class="nav-item">
-                <?php echo $this->Html->link('Sair', ['controller' => 'Userestagios', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link('Sair', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
 
         </ul>

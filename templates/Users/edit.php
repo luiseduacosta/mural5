@@ -1,38 +1,54 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
+ * @var \App\Model\Entity\Userestagio $userestagio
  */
 ?>
-<div>
-    <div class="column-responsive column-80">
-        <div class="users form content">
-            <aside>
-                <div class="side-nav">
-                    <?= $this->Form->postLink(
-                        __('Deletar'),
-                        ['action' => 'delete', $user->id],
-                        ['confirm' => __('Are you sure you want to delete # {0}?', $user->id), 'class' => 'side-nav-item']
-                    ) ?>
-                    <?= $this->Html->link(__('Listar Users'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-                </div>
-            </aside>
-            <?= $this->Form->create($user) ?>
-            <fieldset>
-                <legend><?= __('Editando User') ?></legend>
-                <?php
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('password');
-                    echo $this->Form->control('categoria_id', ['options' => $categorias, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('registro');
-                    echo $this->Form->control('aluno_id', ['options' => $alunos, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('timestamp');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Editar')) ?>
-            <?= $this->Form->end() ?>
+
+<?= $this->element('templates') ?>
+
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $userestagio->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+            </ul>
         </div>
+    </nav>
+
+    <div class="container">
+        <?= $this->Form->create($userestagio) ?>
+        <fieldset>
+            <legend><?= __('Editar  usuário') ?></legend>
+            <?php
+            echo $this->Form->control('email');
+            echo $this->Form->control('password');
+            echo $this->Form->control('categoria_id');
+            echo $this->Form->control('registro');
+            echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => true]);
+            echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
+            echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true]);
+            echo $this->Form->control('timestamp');
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
     </div>
 </div>

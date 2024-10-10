@@ -14,7 +14,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
- * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Userestagios
+ * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Users
  *
  * @method \App\Model\Entity\Estudante newEmptyEntity()
  * @method \App\Model\Entity\Estudante newEntity(array $data, array $options = [])
@@ -49,7 +49,7 @@ class EstudantesTable extends Table {
         $this->hasMany('Inscricoes', [
             'foreignKey' => 'estudante_id',
         ]);
-        $this->hasMany('Userestagios', [
+        $this->hasMany('Users', [
             'foreignKey' => 'estudante_id',
         ]);
         $this->hasMany('Estagiarios', [

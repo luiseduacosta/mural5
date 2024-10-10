@@ -200,7 +200,7 @@ class InstituicoesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
-        
+
         $rules->add($rules->existsIn(['area_id'], 'Areas'), ['errorField' => 'area_id']);
         $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
 
