@@ -13,7 +13,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicoes
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
 class Turmaestagio extends Entity
 {

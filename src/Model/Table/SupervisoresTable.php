@@ -14,7 +14,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Userestagios
- * @property \App\Model\Table\InstituicaoTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
+ * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
  *
  * @method \App\Model\Entity\Supervisor newEmptyEntity()
  * @method \App\Model\Entity\Supervisor newEntity(array $data, array $options = [])

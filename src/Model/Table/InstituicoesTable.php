@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
 /**
  * Instituicoes Model
  *
- * @property \App\Model\Table\AreainstituicoesTable&\Cake\ORM\Association\BelongsTo $Areas
+ * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\BelongsTo $Areas
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios

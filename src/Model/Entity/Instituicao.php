@@ -31,14 +31,14 @@ use Cake\ORM\Entity;
  * @property string $avaliacao
  * @property string|null $observacoes
  *
- * @property \App\Model\Entity\Areainstituicao[] $areas
+ * @property \App\Model\Entity\Area[] $areas
  * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\Visita[] $visitas
  * @property \App\Model\Entity\Supervisor[] $supervisores
  */
-class Instituicaoestagio extends Entity
+class Instituicao extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

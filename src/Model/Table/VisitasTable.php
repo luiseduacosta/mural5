@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Visitas Model
  *
- * @property \App\Model\Table\InstituicaoTable&\Cake\ORM\Association\BelongsTo $Instituicoes
+ * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  *
  * @method \App\Model\Entity\Visita newEmptyEntity()
  * @method \App\Model\Entity\Visita newEntity(array $data, array $options = [])
