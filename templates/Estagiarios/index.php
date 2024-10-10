@@ -1,5 +1,4 @@
 <?php
-$usuario = $this->getRequest()->getAttribute('identity');
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
@@ -7,6 +6,8 @@ $usuario = $this->getRequest()->getAttribute('identity');
 // pr($estagiarios);
 // pr($periodo);
 ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -65,7 +66,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                 <thead>
                     <tr>
                         <th><?= $this->Paginator->sort('Estagiarios.id', 'Id') ?></th>
-                        <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
+                        <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                         <th><?= $this->Paginator->sort('registro') ?></th>
                         <th><?= $this->Paginator->sort('ajuste2020', 'Ajuste 2020') ?></th>
                         <th><?= $this->Paginator->sort('turno') ?></th>
@@ -90,7 +91,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <tr>
                             <?php // pr($estagiario); ?>
                             <td><?= $estagiario->id ?></td>
-                            <td><?= $estagiario->hasValue('estudante') ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->estudante_id]) : '' ?>
+                            <td><?= $estagiario->hasValue('aluno') ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno_id]) : '' ?>
                             </td>
                             <td><?= $estagiario->registro ?></td>
                             <td><?= h($estagiario->ajuste2020) == 0 ? 'Não' : 'Sim' ?></td>

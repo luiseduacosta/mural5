@@ -59,7 +59,7 @@
     </nav>
 
     <div class="container">
-        <h3><?= h($estagiario->estudante->nome) ?></h3>
+        <h3><?= h($estagiario->aluno->nome) ?></h3>
         <table class="table table-striped table-hover table-responsive">
             <tr>
             <tr>
@@ -71,12 +71,12 @@
                 <td><?= $estagiario->registro ?></td>
             </tr>
             <tr>
-                <th><?= __('Estudante') ?></th>
+                <th><?= __('Aluno') ?></th>
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                    <td><?= (isset($estagiario->estudante)) ? $this->Html->link($estagiario->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $estagiario->estudante->id]) : '' ?>
+                    <td><?= (isset($estagiario->aluno)) ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
                     </td>
                 <?php else: ?>
-                    <td><?= $estagiario->hasValue('estudante') ? $estagiario->estudante->nome : '' ?></td>
+                    <td><?= $estagiario->hasValue('aluno') ? $estagiario->aluno->nome : '' ?></td>
                 <?php endif; ?>
             </tr>
             <tr>

@@ -14,7 +14,7 @@ class ProfessoresTableTest extends TestCase
     /**
      * Test subject
      *
-     * @var \App\Model\Table\PprofessoresTable
+     * @var \App\Model\Table\ProfessoresTable
      */
     protected $Professores;
 

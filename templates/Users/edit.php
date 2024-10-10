@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Userestagio $userestagio
+ * @var \App\Model\Entity\User $user
  */
 ?>
 
@@ -42,7 +42,7 @@
             echo $this->Form->control('password');
             echo $this->Form->control('categoria_id');
             echo $this->Form->control('registro');
-            echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => true]);
+            echo $this->Form->control('aluno_id', ['options' => $alunos, 'empty' => true]);
             echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
             echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true]);
             echo $this->Form->control('timestamp');

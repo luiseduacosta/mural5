@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Instituicaoestagio $instituicao
+ * @var \App\Model\Entity\Instituicao $instituicao
  */
 // pr($instituicao);
 // pr($this->getRequest()->getAttribute('identity'));
@@ -207,7 +207,7 @@
                             <table class="table table-striped table-hover table-responsive">
                                 <tr>
                                     <th><?= __('Id') ?></th>
-                                    <th><?= __('Estudante') ?></th>
+                                    <th><?= __('Aluno') ?></th>
                                     <th><?= __('Registro') ?></th>
                                     <th><?= __('Supervisor') ?></th>
                                     <th><?= __('Professor') ?></th>
@@ -226,15 +226,15 @@
                                     <?php endif; ?>
                                 </tr>
                                 <?php foreach ($instituicao->estagiarios as $estagiarios): ?>
-                                    <?php // pr($estagiarios->estudante); ?>
+                                    <?php // pr($estagiarios->aluno); ?>
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
 
                                         <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                                            <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) : '' ?>
+                                            <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
-                                            <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : '' ?></td>
+                                            <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
                                         <?php endif; ?>
 
                                         <td><?= h($estagiarios->registro) ?></td>

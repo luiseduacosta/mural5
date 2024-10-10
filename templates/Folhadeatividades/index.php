@@ -49,7 +49,7 @@ if ($professora) {
         </div>
     </nav>
 
-    <h3 class="text-center"><?= __('Folha de atividades da(o) estagiária(o) ' . $estagiario->estudante->nome) ?></h3>
+    <h3 class="text-center"><?= __('Folha de atividades da(o) estagiária(o) ' . $estagiario->aluno->nome) ?></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">

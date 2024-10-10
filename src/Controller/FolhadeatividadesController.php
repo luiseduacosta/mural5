@@ -30,7 +30,7 @@ class FolhadeatividadesController extends AppController
         }
 
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
-            ->contain(['Estudantes', 'Supervisores', 'Instituicoes', 'Professores'])
+            ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
             ->where(['Estagiarios.id' => $id])->first();
         $folhadeatividades = $this->Folhadeatividades->find('all')->where(['estagiario_id' => $id]);
 
@@ -97,12 +97,12 @@ class FolhadeatividadesController extends AppController
                 );
                 $this->set('estagiario', $estagiario);
             } else {
-                $this->Flash->error(__('Estudante ainda sem estágio. Tente novamente'));
-                return $this->redirect(['controller' => 'estudantes', 'action' => 'view', '?' => ['registro' => $registro]]);
+                $this->Flash->error(__('Aluno ainda sem estágio. Tente novamente'));
+                return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $registro]]);
             }
         } else {
             $this->Flash->error(__('Sem número de registro. Tente novamente'));
-            return $this->redirect(['controller' => 'estudantes', 'action' => 'index']);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
         }
     }
 
@@ -117,12 +117,12 @@ class FolhadeatividadesController extends AppController
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         $estagiariostabela = $this->fetchTable('Estagiarios');
         $estagiario = $estagiariostabela->find()
-            ->contain(['Estudantes', 'Instituicoes', 'Supervisores'])
+            ->contain(['Alunos', 'Instituicoes', 'Supervisores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
 
         if (!$estagiario) {
-            $this->Flash->error(__('Estudante sem estágio cadastrado'));
+            $this->Flash->error(__('Aluno sem estágio cadastrado'));
             return redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
         }
 
@@ -165,8 +165,8 @@ class FolhadeatividadesController extends AppController
         }
         $estagiarioquery = $this->Folhadeatividades->find()
             ->where(['Folhadeatividades.id' => $id])
-            ->contain(['Estagiarios' => ['Estudantes']])
-            ->select(['Estagiarios.id', 'Estudantes.nome']);
+            ->contain(['Estagiarios' => ['Alunos']])
+            ->select(['Estagiarios.id', 'Alunos.nome']);
         // pr($estagiarioquery->first());
         $estagiario = $estagiarioquery->first();
         // pr($estagiario);
@@ -207,13 +207,13 @@ class FolhadeatividadesController extends AppController
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
-                ->contain(['Estudantes', 'Supervisores', 'Instituicoes'])
+                ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
                 ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
                 ->orderByDesc('nivel')
                 ->all()
                 ->last();
             $this->set('estagiario', $estagiario);
-            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $estagiario->estudante_id]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $estagiario->aluno_id]);
         }
         // pr($estagiarios);
         // die();
@@ -226,14 +226,14 @@ class FolhadeatividadesController extends AppController
         // pr($estagiario_id);
         $this->layout = false;
         $atividades = $this->Folhadeatividades->find()
-            ->contain(['Estagiarios' => ['Estudantes', 'Professores', 'Instituicoes', 'Supervisores']])
+            ->contain(['Estagiarios' => ['Alunos', 'Professores', 'Instituicoes', 'Supervisores']])
             ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
             ->all();
         // debug($atividades);
 // pr($atividades);
 
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
-            ->contain(['Estudantes', 'Professores', 'Instituicoes', 'Supervisores'])
+            ->contain(['Alunos', 'Professores', 'Instituicoes', 'Supervisores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
         // debug($estagiario);

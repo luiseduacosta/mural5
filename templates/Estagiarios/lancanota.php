@@ -32,7 +32,7 @@
             <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
         <?php else: ?>
-            <h1 style="text-align: center;">Estudantes estagiários professor(a):
+            <h1 style="text-align: center;">Alunos estagiários professor(a):
                 <?php // echo $estagiariosestudante->nome; ?></h1>
         <?php endif; ?>
     </div>
@@ -47,7 +47,7 @@
                     <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
-                    <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
+                    <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                     <th><?= $this->Paginator->sort('registro') ?></th>
                     <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicoes') ?></th>
                     <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
@@ -68,7 +68,7 @@
                         <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
                             <td><?= $estagiario->id ?></td>
                         <?php endif; ?>
-                        <td><?= $this->Html->link($estagiario['estudante'], ['controller' => 'Estudantes', 'action' => 'view', $estagiario['estudante_id']]) ?>
+                        <td><?= $this->Html->link($estagiario['aluno'], ['controller' => 'Alunos', 'action' => 'view', $estagiario['aluno_id']]) ?>
                         </td>
                         <td><?= $estagiario['registro'] ?></td>
                         <td><?= $this->Html->link($estagiario['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $estagiario['instituicao_id']]) ?>

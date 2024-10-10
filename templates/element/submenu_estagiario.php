@@ -22,10 +22,10 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
 
             <?php if ($categoria): ?>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Declaração de período", ['controller' => "Estudantes", 'action' => 'certificadoperiodo', $this->getRequest()->getAttribute('identity')['estudante_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                    <?php echo $this->Html->link("Declaração de período", ['controller' => "Alunos", 'action' => 'certificadoperiodo', $this->getRequest()->getAttribute('identity')['aluno_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Termo de compromisso", ['controller' => "Estagiarios", 'action' => 'termodecompromisso', '?' => ['estudante_id' => $this->getRequest()->getAttribute('identity')['estudante_id']]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                    <?php echo $this->Html->link("Termo de compromisso", ['controller' => "Estagiarios", 'action' => 'termodecompromisso', '?' => ['aluno_id' => $this->getRequest()->getAttribute('identity')['aluno_id']]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
                 <li class="nav-item">
                     <?php echo $this->Html->link("Declaraçao de estagio", ['controller' => "Estagiarios", 'action' => 'declaracaodeestagiopdf', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
@@ -51,7 +51,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Meus dados", ['controller' => "Estudantes", 'action' => 'view', $this->getRequest()->getAttribute('identity')['estudante_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Meus dados", ['controller' => "Alunos", 'action' => 'view', $this->getRequest()->getAttribute('identity')['aluno_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
 
             <li class="nav-item">

@@ -37,7 +37,7 @@ class InscricoesController extends AppController {
         $periodos = $periodototal->toArray();
 
         $query = $this->Inscricoes->find()
-                ->contain(['Estudantes', 'Muralestagios'])
+                ->contain(['Alunos', 'Muralestagios'])
                 ->where(['Inscricoes.periodo' => $periodo]);
 
         $inscricoes = $this->paginate($query);
@@ -55,7 +55,7 @@ class InscricoesController extends AppController {
     public function view($id = null) {
 
         $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Estudantes', 'Muralestagios'],
+            'contain' => ['Alunos', 'Muralestagios'],
         ]);
 
         if (!isset($inscricao)) {
@@ -84,29 +84,29 @@ class InscricoesController extends AppController {
         }
 
         /** Capturo o id do aluno se estiver cadastrado. */
-        $estudante_id = $this->Authentication->getIdentityData('estudante_id');
+        $aluno_id = $this->Authentication->getIdentityData('aluno_id');
 
         $inscricaoentity = $this->Inscricoes->newEmptyEntity();
 
         if ($this->request->is('post')) {
 
-            $estudantestabela = $this->fetchTable('Estudantes');
-            if (isset($estudante_id)) {
-                $estudante = $estudantestabela->find()
-                        ->where(['id' => $estudante_id])
+            $estudantestabela = $this->fetchTable('Alunos');
+            if (isset($aluno_id)) {
+                $aluno = $estudantestabela->find()
+                        ->where(['id' => $aluno_id])
                         ->first();
-            } elseif ($this->getRequest()->getData('estudante_id')) {
-                $estudante = $estudantestabela->find()
-                        ->where(['id' => $this->getRequest()->getData('estudante_id')])
+            } elseif ($this->getRequest()->getData('aluno_id')) {
+                $aluno = $estudantestabela->find()
+                        ->where(['id' => $this->getRequest()->getData('aluno_id')])
                         ->first();
             } else {
-                $this->Flash->error(__('Selecione estudante'));
+                $this->Flash->error(__('Selecione aluno'));
                 return $this->redirect(['controller' => 'Inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio_id]]);
             }
 
             $alunostabela = $this->fetchTable('Alunos');
             $aluno = $alunostabela->find()
-                    ->where(['registro' => $estudante->registro])
+                    ->where(['registro' => $aluno->registro])
                     ->first();
 
             /** Verifico o periodo do mural e comparo com o periodo da inscricao */
@@ -122,7 +122,7 @@ class InscricoesController extends AppController {
 
             /** Verifico se já fez inscrição para não duplicar */
             $inscricao = $this->Inscricoes->find()
-                    ->where(['Inscricoes.estudante_id' => $estudante->id, 'Inscricoes.muralestagio_id' => $muralestagio->id])
+                    ->where(['Inscricoes.aluno_id' => $aluno->id, 'Inscricoes.muralestagio_id' => $muralestagio->id])
                     ->first();
             // pr($inscricao->id);
             // die();
@@ -131,19 +131,19 @@ class InscricoesController extends AppController {
                 return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);
             }
 
-            /** Verifico se esté com o id do estudante */
-            if (empty($estudante_id)) {
+            /** Verifico se esté com o id do aluno */
+            if (empty($aluno_id)) {
                 
             }
 
             /** Preparo os dados para inseir na tabela */
-            $dados['registro'] = $estudante->registro;
+            $dados['registro'] = $aluno->registro;
             if ($aluno) {
                 $dados['aluno_id'] = $aluno->id;
             } else {
                 $dados['aluno_id'] = null;
             }
-            $dados['estudante_id'] = $estudante->id;
+            $dados['aluno_id'] = $aluno->id;
             $dados['muralestagio_id'] = $this->getRequest()->getData('muralestagio_id');
             $dados['data'] = date('Y-m-d');
             $dados['periodo'] = $this->getRequest()->getData('periodo');
@@ -157,8 +157,8 @@ class InscricoesController extends AppController {
             $this->Flash->error(__('Registro de inscricao nao foi inserido. Tente novamente.'));
         }
 
-        $estudantestabela = $this->fetchTable('Estudantes');
-        $estudantes = $estudantestabela->find('list');
+        $estudantestabela = $this->fetchTable('Alunos');
+        $alunos = $estudantestabela->find('list');
 
         /** Mostra a lista da ofertas de instituicoes de estagio organizadas por periodo */
         $muralestagiostabela = $this->fetchTable('Muralestagios');
@@ -169,10 +169,10 @@ class InscricoesController extends AppController {
         ];
         $muralestagios = $muralestagiostabela->find('list', $options)->all();
 
-        if (isset($estudante_id)) {
-            $this->set('estudante_id', $estudante_id);
+        if (isset($aluno_id)) {
+            $this->set('aluno_id', $aluno_id);
         }
-        $this->set(compact('muralestagio_id', 'inscricaoentity', 'estudantes', 'muralestagios', 'periodo'));
+        $this->set(compact('muralestagio_id', 'inscricaoentity', 'alunos', 'muralestagios', 'periodo'));
     }
 
     /**
@@ -185,7 +185,7 @@ class InscricoesController extends AppController {
     public function edit($id = null) {
 
         $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Estudantes'],
+            'contain' => ['Alunos'],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $inscricaoresultado = $this->Inscricoes->patchEntity($inscricao, $this->request->getData());
@@ -197,9 +197,8 @@ class InscricoesController extends AppController {
             $this->Flash->error(__('Registro de inscricao nao foi atualizado. Tente novamente.'));
         }
         $alunos = $this->Inscricoes->Alunos->find('list', ['limit' => 200]);
-        $estudantes = $this->Inscricoes->Estudantes->find('list', ['limit' => 200]);
         $muralestagios = $this->Inscricoes->Muralestagios->find('list', ['limit' => 200]);
-        $this->set(compact('inscricao', 'alunos', 'estudantes', 'muralestagios'));
+        $this->set(compact('inscricao', 'alunos', 'alunos', 'muralestagios'));
     }
 
     /**
@@ -211,8 +210,8 @@ class InscricoesController extends AppController {
      */
     public function delete($id = null) {
 
-        /** Para retornar para o registro do estudante */
-        $estudante = $this->Inscricoes->find()->where(['id' => $id])->select(['estudante_id'])->first();
+        /** Para retornar para o registro do aluno */
+        $aluno = $this->Inscricoes->find()->where(['id' => $id])->select(['aluno_id'])->first();
         $this->request->allowMethod(['post', 'delete']);
         $inscricao = $this->Inscricoes->get($id);
         if ($this->Inscricoes->delete($inscricao)) {
@@ -220,8 +219,7 @@ class InscricoesController extends AppController {
             return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
         } else {
             $this->Flash->error(__('Registro de inscricao nao foi excluido. Tente novamente.'));
-            return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $estudante->id]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $aluno->id]);
         }
-        return $this->redirect(['controller' => 'estudantes', 'action' => 'view', $estudante->id]);
     }
 }

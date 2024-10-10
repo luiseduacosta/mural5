@@ -59,7 +59,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('registro', 'Registro') ?></th>
-                    <th><?= $this->Paginator->sort('Estudantes.nome', 'Estudante') ?></th>
+                    <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                     <th><?= $this->Paginator->sort('Muralestagios.instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('data') ?></th>
                     <th><?= $this->Paginator->sort('periodo') ?></th>
@@ -72,7 +72,7 @@
                     <tr>
                         <td><?= $inscricao->id ?></td>
                         <td><?= $inscricao->registro ?></td>
-                        <td><?= $inscricao->has('estudante') ? $this->Html->link($inscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricao->estudante_id]) : '' ?>
+                        <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno_id]) : '' ?>
                         </td>
                         <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                         </td>

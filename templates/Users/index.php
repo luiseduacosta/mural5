@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Userestagio[]|\Cake\Collection\CollectionInterface $users
+ * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
 
@@ -34,7 +34,7 @@
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('categoria_id') ?></th>
                     <th><?= $this->Paginator->sort('registro') ?></th>
-                    <th><?= $this->Paginator->sort('estudante_id') ?></th>
+                    <th><?= $this->Paginator->sort('aluno_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
                     <th><?= $this->Paginator->sort('professor_id') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
@@ -47,7 +47,7 @@
                         <td><?= h($userestagio->email) ?></td>
                         <td><?= h($userestagio->categoria_id) ?></td>
                         <td><?= $userestagio->registro ?></td>
-                        <td><?= $userestagio->hasValue('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
+                        <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
                         </td>
                         <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
                         </td>

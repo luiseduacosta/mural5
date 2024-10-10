@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areainstituicao $area
+ * @var \App\Model\Entity\Area $area
  */
 ?>
 <div class="container">

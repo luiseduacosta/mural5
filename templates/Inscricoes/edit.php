@@ -38,7 +38,7 @@
             <legend><?= __('Editar Inscricao') ?></legend>
             <?php
             echo $this->Form->control('registro', ['value' => $inscricao->registro, 'readonly']);
-            echo $this->Form->control('estudante_id', ['options' => [$inscricao->estudante_id => $inscricao->estudante->nome], 'empty' => $inscricao->estudante->nome, 'readonly']);
+            echo $this->Form->control('aluno_id', ['options' => [$inscricao->aluno_id => $inscricao->aluno->nome], 'empty' => $inscricao->aluno->nome, 'readonly']);
             echo $this->Form->control('muralestagio_id', ['options' => $muralestagios]);
             echo $this->Form->control('data');
             echo $this->Form->control('periodo');

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliaco $avaliacao
+ * @var \App\Model\Entity\Avaliacao $avaliacao
  */
 // pr($avaliacao);
 
@@ -81,7 +81,7 @@ if ($professora) {
     </nav>
 
     <div class="container">
-        <h3><?= 'Avaliação da(o) estagiario(a) ' . $avaliacao->estagiario->estudante->nome ?></h3>
+        <h3><?= 'Avaliação da(o) estagiario(a) ' . $avaliacao->estagiario->aluno->nome ?></h3>
         <p><span style="font-size: 100%; text-align: justify; font-weight: normal">Campo de estágio
                 <?= $avaliacao->estagiario->instituicao->instituicao ?>. Supervisor(a) <?= $supervisora ?>,
                 Cress <?= $cress ?>. Período de estágio <?= $avaliacao->estagiario->periodo ?>. Nível:
@@ -93,7 +93,7 @@ if ($professora) {
             </tr>
             <tr>
                 <th><?= __('Estagiario') ?></th>
-                <td><?= $avaliacao->hasValue('estagiario') ? $this->Html->link($avaliacao->estagiario->estudante->nome, ['controller' => 'Estagiarios', 'action' => 'view', $avaliacao->estagiario->id]) : '' ?>
+                <td><?= $avaliacao->hasValue('estagiario') ? $this->Html->link($avaliacao->estagiario->aluno->nome, ['controller' => 'Estagiarios', 'action' => 'view', $avaliacao->estagiario->id]) : '' ?>
                 </td>
             </tr>
             <tr>

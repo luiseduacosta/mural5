@@ -66,9 +66,9 @@ class MuralestagiosController extends AppController {
     public function view($id = null) {
 
         $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes' => ['Turmaestagios'], 'Professores', 'Inscricoes' => ['Estudantes']]
+            'contain' => ['Instituicoes' => ['Turmaestagios'], 'Professores', 'Inscricoes' => ['Alunos']]
         ]);
-        
+
         if (!isset($muralestagio)) {
             $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
             return $this->redirect(['action' => 'index']);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Instituicaoestagio $instituicao
+ * @var \App\Model\Entity\Instituicao $instituicao
  */
 ?>
 

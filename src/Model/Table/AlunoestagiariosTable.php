@@ -10,27 +10,25 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Estudantes Model
+ * Alunoestagiarios Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
- * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Users
- *
- * @method \App\Model\Entity\Estudante newEmptyEntity()
- * @method \App\Model\Entity\Estudante newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Estudante[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Estudante get($primaryKey, $options = [])
- * @method \App\Model\Entity\Estudante findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Estudante patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Estudante[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Estudante|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Estudante saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Estudante[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Estudante[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Estudante[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Estudante[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * 
+ * @method \App\Model\Entity\Alunoestagiario newEmptyEntity()
+ * @method \App\Model\Entity\Alunoestagiario newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Alunoestagiario get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Alunoestagiario|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Alunoestagiario[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class EstudantesTable extends Table {
+class AlunoestagiariosTable extends Table {
 
     /**
      * Initialize method
@@ -41,20 +39,15 @@ class EstudantesTable extends Table {
     public function initialize(array $config): void {
         parent::initialize($config);
 
-        $this->setTable('alunosnovos');
-        $this->setAlias('Estudantes');
+        $this->setTable('alunoestagiarios');
+        $this->setAlias('Alunoestagiarios');
         $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Inscricoes', [
-            'foreignKey' => 'estudante_id',
-        ]);
-        $this->hasMany('Users', [
-            'foreignKey' => 'estudante_id',
-        ]);
         $this->hasMany('Estagiarios', [
-            'foreignKey' => 'estudante_id',
+            'foreignKey' => 'alunoestagiario_id',
         ]);
+
     }
 
     public function beforeFind($event, $query, $options, $primary) {
@@ -77,17 +70,7 @@ class EstudantesTable extends Table {
         $validator
                 ->scalar('nome')
                 ->maxLength('nome', 50)
-                ->notEmptyString('nome', 'Digite seu nome');
-
-        $validator
-                ->scalar('nomesocial')
-                ->maxLength('nomesocial', 50)
-                ->allowEmptyString('nomesocial');        
-        
-        $validator
-                ->scalar('ingresso')
-                ->maxLength('ingresso', 6)
-                ->notEmptyString('ingresso', 'Digite seu ano e semestre de ingresso no formato aaaa-n');
+                ->notEmptyString('nome');
 
         $validator
                 ->integer('registro')
@@ -95,7 +78,7 @@ class EstudantesTable extends Table {
                 ->add('registro', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-                ->allowEmptyString('codigo_telefone');
+                ->notEmptyString('codigo_telefone');
 
         $validator
                 ->scalar('telefone')
@@ -103,7 +86,7 @@ class EstudantesTable extends Table {
                 ->allowEmptyString('telefone');
 
         $validator
-                ->allowEmptyString('codigo_celular');
+                ->notEmptyString('codigo_celular');
 
         $validator
                 ->scalar('celular')
@@ -117,7 +100,7 @@ class EstudantesTable extends Table {
         $validator
                 ->scalar('cpf')
                 ->maxLength('cpf', 12)
-                ->notEmptyString('cpf', 'Digite seu CPF no formato ddddddddd-dd');
+                ->allowEmptyString('cpf');
 
         $validator
                 ->scalar('identidade')
@@ -169,10 +152,10 @@ class EstudantesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
-        
+
         $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
-        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
-        
+        $rules->add($rules->existsIn(['alunoestagiario_id'], 'Estagiarios'), ['errorField' => 'aluno_id']);
+
         return $rules;
     }
 

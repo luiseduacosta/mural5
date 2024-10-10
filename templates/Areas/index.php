@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Areainstituicao[]|\Cake\Collection\CollectionInterface $areas
+ * @var \App\Model\Entity\Area[]|\Cake\Collection\CollectionInterface $areas
  */
 ?>
 <div class="container">

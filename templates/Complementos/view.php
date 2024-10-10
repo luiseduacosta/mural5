@@ -48,7 +48,7 @@
                                     <th><?= __('Ch') ?></th>
                                     <th><?= __('Observacoes') ?></th>
                                     <th><?= __('Complemento') ?></th>
-                                    <th><?= __('Estudante') ?></th>
+                                    <th><?= __('Aluno') ?></th>
                                     <th><?= __('Ajuste2020') ?></th>
                                     <th class="actions"><?= __('Açoes') ?></th>
                                 </tr>
@@ -69,7 +69,7 @@
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td><?= h($estagiarios->complemento_id) ?></td>
-                                        <td><?= h($estagiarios->estudante_id) ?></td>
+                                        <td><?= h($estagiarios->aluno_id) ?></td>
                                         <td><?= h($estagiarios->ajuste2020) ?></td>
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>

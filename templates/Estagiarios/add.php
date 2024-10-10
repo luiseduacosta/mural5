@@ -27,14 +27,14 @@
         <fieldset>
             <legend><?= __('Novo estagiário') ?></legend>
             <?php
-            if (isset($estudante_id)) {
-                echo $this->Form->control('estudante_id', ['options' => $estudantes, 'value' => $estudante_id]);
+            if (isset($aluno_id)) {
+                echo $this->Form->control('aluno_id', ['options' => $alunos, 'value' => $aluno_id]);
                 echo $this->Form->control('registro', ['value' => $estudanteestagiarios->registro]);
                 echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Nao', '1' => 'Sim']]);
                 echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'A' => 'Ambos', 'I' => 'Indeterminado'], 'value' => $estudanteestagiarios->turno]);
                 echo $this->Form->control('nivel', ['label' => ['text' => 'Nivel de estagio'], 'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Extra-curricular'], 'value' => $estudantedeestagio->nivel]);
             } else {
-                echo $this->Form->control('estudante_id', ['options' => $estudantes, 'empty' => 'Seleciona']);
+                echo $this->Form->control('aluno_id', ['options' => $alunos, 'empty' => 'Seleciona']);
                 echo $this->Form->control('registro');
                 echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Nao', '1' => 'Sim']]);
                 echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'A' => 'Ambos', 'I' => 'Indeterminado']]);
@@ -44,7 +44,7 @@
             echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso'], 'options' => [0 => "Nao", 1 => "Sim"]]);
             echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data de solicitaçao do TC'], 'empty' => true, 'value' => new DateTime()]);
 
-            if (isset($estudante_id)) {
+            if (isset($aluno_id)) {
                 echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituicoes de estagio'], 'options' => $instituicoes, 'value' => $estudantedeestagio->instituicao_id]);
                 echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'value' => $estudantedeestagio->supervisor_id]);
                 echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a) de OTP'], 'options' => $professores, 'value' => $estudantedeestagio->professor_id]);

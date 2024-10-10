@@ -11,9 +11,9 @@ if (isset($periodo)) {
     // echo "Sem periodo." . "<br>";
 }
 
-if (isset($estudante_id)) {
-    // echo "estudante_id" . "<br>";
-    // pr($estudante_id);
+if (isset($aluno_id)) {
+    // echo "aluno_id" . "<br>";
+    // pr($aluno_id);
     // die();
 } else {
     // echo "Sem instituicao." . "<br>";
@@ -30,21 +30,21 @@ if (isset($estudanteestagiario)) {
     // echo "estudanteestagiario" . "<br>";
     // pr($estudanteestagiario);
 } else {
-    // echo "Estudante sem estágios." . "<br>";
+    // echo "Aluno sem estágios." . "<br>";
 } 
 if (isset($ultimoestagio)) {
     // echo "ulitmoestagio" . "<br>";
     // echo $ultimoestagio->instituicao->id;
     // pr($ultimoestagio->hasValue('instituicao') ? $ultimoestagio->instituicao->id : 'vazio');
 } else {
-    // echo "Estudante sem último estágio" . "<br>";
+    // echo "Aluno sem último estágio" . "<br>";
 }
 
 if (isset($estudante_semestagio)) {
     // echo "estudante_semestagio". "<br>";
     // pr($estudante_semestagio);
 } else {
-    // echo "Estudante estagiário." . "<br>";
+    // echo "Aluno estagiário." . "<br>";
 }
 
 if (isset($atualiza)) {
@@ -70,7 +70,7 @@ if (isset($supervisoresdainstituicao)) {
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['estudante_id' => $estudante_id]]); ?>";
+        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno_id]]); ?>";
         // alert(url);
         $("#instituicao-id").change(function () {
             var instituicao = $(this).val();
@@ -99,25 +99,25 @@ $submit = [
                 if (isset($atualiza) && $atualiza == 1) {
                     echo $this->Form->control('id', ['value' => $ultimoestagio->id, 'type' => 'hidden', 'readonly']);
                 }
-                // Estudante estagiário
+                // Aluno estagiário
                 if (isset($ultimoestagio) && $ultimoestagio):
                     echo "<fieldset>";
                     echo "<legend>Estagiário</legend>";
-                    echo $this->Form->control('registro', ['value' => $ultimoestagio->estudante->registro, 'readonly']);
-                    echo $this->Form->control('estudante_id', ['label' => ['text' => 'Estudante'], 'options' => [$ultimoestagio->estudante->id => $ultimoestagio->estudante->nome], 'empty' => false, 'readonly']);
+                    echo $this->Form->control('registro', ['value' => $ultimoestagio->aluno->registro, 'readonly']);
+                    echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$ultimoestagio->aluno->id => $ultimoestagio->aluno->nome], 'empty' => false, 'readonly']);
                     // echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$ultimoestagio->aluno->id => $ultimoestagio->aluno->nome], 'readonly']);
                     echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'value' => $ultimoestagio->ajuste2020]);
-                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $ultimoestagio->estudante->ingresso, 'readonly']);
-                    echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($ultimoestagio->estudante->turno, 0, 1)]);
+                    echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $ultimoestagio->aluno->ingresso, 'readonly']);
+                    echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($ultimoestagio->aluno->turno, 0, 1)]);
                     echo $this->Form->control('nivel', ['options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Extra curricular'], 'value' => $nivel, 'readonly']);
                     echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']);
                     echo "</fieldset>";
-                    // Estudante novo sem estágio
+                    // Aluno novo sem estágio
                 else:
                     echo "<fieldset>";
-                    echo "<legend>Estudante sem estágio</legend>";
+                    echo "<legend>Aluno sem estágio</legend>";
                     echo $this->Form->control('registro', ['value' => $estudante_semestagio->registro, 'readonly']);
-                    echo $this->Form->control('estudante_id', ['label' => ['text' => 'Estudante'], 'options' => [$estudante_semestagio->id => $estudante_semestagio->nome], 'empty' => false, 'readonly']);
+                    echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$estudante_semestagio->id => $estudante_semestagio->nome], 'empty' => false, 'readonly']);
                     // echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'value' => null, 'type' => 'hidden']);
                     echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'value' => $estudante_semestagio->ajuste2020]);
                     echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $estudante_semestagio->ingresso, 'readonly']);

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Userestagio $userestagio
+ * @var \App\Model\Entity\User $user
  */
 ?>
 <div class="container">
@@ -55,8 +55,8 @@
                 <td><?= h($userestagio->categoria) ?></td>
             </tr>
             <tr>
-                <th><?= __('Estudante') ?></th>
-                <td><?= $userestagio->hasValue('estudante') ? $this->Html->link($userestagio->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $userestagio->estudante->id]) : '' ?>
+                <th><?= __('Aluno') ?></th>
+                <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
                 </td>
             </tr>
             <tr>

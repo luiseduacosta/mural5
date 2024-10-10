@@ -81,7 +81,7 @@ if ($professora) {
 
 <div style="text-align:justify; font-size: 70%;">
     <p style="line-height:100%">
-        Nome do(a) estudante: <?= $estagiario->estudante->nome; ?> DRE: <?= $estagiario->estudante->registro; ?><br>
+        Nome do(a) aluno: <?= $estagiario->aluno->nome; ?> DRE: <?= $estagiario->aluno->registro; ?><br>
         Período de realização do estágio: <?= $estagiario->periodo; ?><br>
         Nível de estágio: <?= $estagiario->nivel; ?><br>
         Campo de estágio: <?= $estagiario->instituicao->instituicao; ?><br>
@@ -375,13 +375,13 @@ if ($professora) {
 <table class="auxiliar">
     <tr class="auxiliar">
         <td class="auxiliar"><span style="font-size: 100%; text-decoration: overline">Coordenação de Estágio</span></td>
-        <td class="auxiliar"><span style="font-size: 100%; text-decoration: overline"><?= $estagiario->estudante->nome; ?></span></td>
+        <td class="auxiliar"><span style="font-size: 100%; text-decoration: overline"><?= $estagiario->aluno->nome; ?></span></td>
         <td class="auxiliar"><span style="font-size: 100%; text-decoration: overline"><?= $estagiario->supervisor->nome; ?></span></td>
     </tr>
 
     <tr class="auxiliar">
         <td class="auxiliar"></td>
-        <td class="auxiliar"><span style="font-size: 100%">DRE: <?= $estagiario->estudante->registro; ?></span></td>
+        <td class="auxiliar"><span style="font-size: 100%">DRE: <?= $estagiario->aluno->registro; ?></span></td>
         <td class="auxiliar"><span style="font-size: 100%">CRESS 7ª Região: <?= $estagiario->supervisor->cress; ?></span></td>
     </tr>
 </table>

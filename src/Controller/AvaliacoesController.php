@@ -20,7 +20,7 @@ class AvaliacoesController extends AppController
 {
 
     /**
-     * Index method. Mostra os estágios de um estudante estagiario.
+     * Index method. Mostra os estágios de um aluno estagiario.
      *
      * @return Response|null|void Renders view
      */
@@ -38,7 +38,7 @@ class AvaliacoesController extends AppController
             // die();
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiarios = $estagiariostabela->find()
-                ->contain(['Estudantes', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
+                ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
                 ->where(['Estagiarios.registro' => $registro->registro])
                 ->all();
             // pr($estagiarios);
@@ -48,9 +48,9 @@ class AvaliacoesController extends AppController
         } else {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
             if ($this->getRequest()->getSession()->read('registro')) {
-                return $this->redirect(['controller' => 'estudantes', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
+                return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
             } else {
-                return $this->redirect('/estudantes/index');
+                return $this->redirect('/alunos/index');
             }
         }
     }
@@ -67,10 +67,10 @@ class AvaliacoesController extends AppController
         $cress = $this->getRequest()->getQuery('cress');
         if (is_null($cress)) {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
-            return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
+            return $this->redirect('/alunos/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $estagiario = $this->Avaliacoes->Estagiarios->find()
-                ->contain(['Supervisores', 'Estudantes', 'Professores', 'Folhadeatividades'])
+                ->contain(['Supervisores', 'Alunos', 'Professores', 'Folhadeatividades'])
                 ->where(['Supervisores.cress' => $cress])
                 ->order(['periodo' => 'desc'])
                 ->all();
@@ -106,7 +106,7 @@ class AvaliacoesController extends AppController
             $this->set(compact('avaliacao'));
         } else {
             /** Somente supervisor e administrador (?) podem avaliar. Portanto, redireciona para ver o estágio do estágiario */
-            $this->Flash->error(__('Estudante sem avaliaçao'));
+            $this->Flash->error(__('Aluno sem avaliaçao'));
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
         }
     }
@@ -130,7 +130,7 @@ class AvaliacoesController extends AppController
                 ->first();            
         } else {
             $this->Flash->error(__('Faltam parâmetros'));
-            return $this->redirect(['controller' => 'Estudantes', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
         if ($avaliacaoexiste) {
@@ -153,7 +153,7 @@ class AvaliacoesController extends AppController
         }
 
         $estagiario = $this->Avaliacoes->Estagiarios->find()
-            ->contain(['Estudantes'])
+            ->contain(['Alunos'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
         // pr($estagiario);
@@ -171,7 +171,7 @@ class AvaliacoesController extends AppController
     {
 
         $avaliacao = $this->Avaliacoes->get($id, [
-            'contain' => ['Estagiarios' => 'Estudantes'],
+            'contain' => ['Estagiarios' => 'Alunos'],
         ]);
         // pr($avaliacao->estagiario);
         $estagiario = $avaliacao->estagiario;
@@ -216,12 +216,12 @@ class AvaliacoesController extends AppController
         /* No login foi capturado o id do estagiário */
         $id = $this->getRequest()->getSession()->read('estagiario_id');
         if (is_null($id)) {
-            $this->Flash->error(__('Selecionar o estudante estagiário'));
-            return $this->redirect('/estudantes/index');
+            $this->Flash->error(__('Selecionar o aluno estagiário'));
+            return $this->redirect('/alunos/index');
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
-                ->contain(['Estudantes', 'Supervisores', 'Instituicoes'])
+                ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
                 ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
                 ->all();
         }
@@ -235,11 +235,11 @@ class AvaliacoesController extends AppController
         /* No login foi capturado o id do estagiário */
         $this->layout = false;
         if (is_null($id)) {
-            $this->Flash->error(__('Por favor selecionar a folha de avaliação do estágio do estudante'));
-            return $this->redirect('/estudantes/view?registro=' . $this->getRequest()->getSession()->read('registro'));
+            $this->Flash->error(__('Por favor selecionar a folha de avaliação do estágio do aluno'));
+            return $this->redirect('/alunos/view?registro=' . $this->getRequest()->getSession()->read('registro'));
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
-                ->contain(['Estagiarios' => ['Estudantes', 'Supervisores', 'Professores', 'Instituicoes']])
+                ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']])
                 ->where(['Avaliacoes.id' => $id]);
         }
         $avaliacao = $avaliacaoquery->first();

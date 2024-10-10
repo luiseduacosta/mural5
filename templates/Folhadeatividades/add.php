@@ -28,7 +28,7 @@
         <fieldset>
             <legend><?= __('Adiciona uma atividade') ?></legend>
             <?php
-            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->estudante->nome], 'readonly']);
+            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->aluno->nome], 'readonly']);
             echo $this->Form->control('dia');
             echo "<table>";
             echo "<tr>";

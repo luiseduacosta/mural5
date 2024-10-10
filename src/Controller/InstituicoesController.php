@@ -20,7 +20,7 @@ class InstituicoesController extends AppController {
     public function index() {
 
         $query = $this->Instituicoes->find('all')
-                ->contain(['Areas', 'Supervisores', 'Estagiarios' => ['Estudantes', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas']);
+                ->contain(['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas']);
 
         $instituicoes = $this->paginate($query);
 
@@ -36,7 +36,7 @@ class InstituicoesController extends AppController {
      */
     public function view($id = null) {
         $instituicao = $this->Instituicoes->get($id, [
-            'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Estudantes', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas'],
+            'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas'],
         ]);
 
         if (!isset($instituicao)) {

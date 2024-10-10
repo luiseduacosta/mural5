@@ -74,7 +74,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         case 1: // Administrador
                             echo $this->element('submenu_navegacao');
                             break;
-                        case 2: // Estudante
+                        case 2: // Aluno
                             if (!empty($this->getRequest()->getSession()->read('estagiario_id'))):
                                 echo $this->element('submenu_estagiario');
                             else:

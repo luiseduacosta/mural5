@@ -6,8 +6,8 @@
         <thead class='thead-light'>
             <tr>
                 <th>Id</th> 
-                <th><?php echo $this->Html->link("Registro", ['controller' => 'estudantes', 'action' => 'cargahoraria', '?' => ['ordem' => 'registro']]); ?></th>
-                <th><?php echo $this->Html->link("Semestres",['controller' => 'estudantes', 'action' => 'cargahoraria', '?' => ['ordem' => 'q_semestres']]); ?></th>
+                <th><?= $this->Html->link("Registro", ['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'registro']]); ?></th>
+                <th><?= $this->Html->link("Semestres",['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'q_semestres']]); ?></th>
                 <th>Nível</th>
                 <th>Período</th>
                 <th>CH 1</th>
@@ -20,7 +20,7 @@
                 <th>Nível</th>
                 <th>Período</th>
                 <th>CH 4</th>
-                <th><?php echo $this->Html->link("Total", ['controller' => 'estudantes', 'action' => 'cargahoraria', '?' => ['ordem' => 'ch_total']]); ?></th>
+                <th><?php echo $this->Html->link("Total", ['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'ch_total']]); ?></th>
             </tr>
         </thead>
 <?php $i = 1; ?>
@@ -32,7 +32,7 @@
             </td>
 
             <td>
-<?php // echo $this->Html->link($c_cargahorariatotal['registro'], '/estudantes/view/' . $c_cargahorariatotal['id']); ?>
+<?php // echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
             </td>
 
             <td>

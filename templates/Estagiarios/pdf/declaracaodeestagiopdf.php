@@ -47,12 +47,12 @@ Declaração de Estágio Curricular
 <br />
 <br />
 <p style="text-align:justify; line-height: 2.5;">
-Declaramos que o/a estudante <b><?= $estagiario->estudante->nome; ?></b> 
-inscrito(a) no CPF sob o nº <?= $estagiario->estudante->cpf; ?> 
-e no RG nº <?= $estagiario->estudante->identidade; ?> 
-expedido por <?= $estagiario->estudante->orgao; ?>, 
+Declaramos que o/a aluno <b><?= $estagiario->aluno->nome; ?></b> 
+inscrito(a) no CPF sob o nº <?= $estagiario->aluno->cpf; ?> 
+e no RG nº <?= $estagiario->aluno->identidade; ?> 
+expedido por <?= $estagiario->aluno->orgao; ?>, 
 matriculado(a) no Curso de Serviço Social da 
-Universidade Federal do Rio de Janeiro com o número <?= $estagiario->estudante->registro; ?>, 
+Universidade Federal do Rio de Janeiro com o número <?= $estagiario->aluno->registro; ?>, 
 estagiou na instituição <b><?= $estagiario->instituicao->instituicao; ?></b>, 
 com a supervisão profissional do/a Assistente Social <b><?= $supervisora; ?></b> 
 registrada no CRESS <?= $regiao; ?>&ordf; região 
@@ -74,13 +74,13 @@ nível <?= $estagiario->nivel; ?> do currículo da Escola de Serviço Social da 
 <table style="width:100%">
 <tr>
 <td style="text-decoration: overline;">Coordenação de Estágio</td>
-<td style="text-decoration: overline;"><?= $estagiario->estudante->nome ?></td>
+<td style="text-decoration: overline;"><?= $estagiario->aluno->nome ?></td>
 <td style="text-decoration: overline;"><?= $supervisora ?></td>
 </tr>
 
 <tr>
 <td>Escola de Serviço Social</td>
-<td>DRE: <?= $estagiario->estudante->registro; ?></td>
+<td>DRE: <?= $estagiario->aluno->registro; ?></td>
 <td>CRESS: <?= $cress; ?> da <?= $regiao; ?>&ordf; Região</td>
 </tr>
 

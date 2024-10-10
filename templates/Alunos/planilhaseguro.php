@@ -5,7 +5,7 @@
 
 <script>
 
-    var base_url = "<?= $this->Html->Url->build(['controller' => 'Estudantes', 'action' => 'planilhaseguro']); ?>";
+    var base_url = "<?= $this->Html->Url->build(['controller' => 'Alunos', 'action' => 'planilhaseguro']); ?>";
     /* alert(base_url); */
 
     $(document).ready(function () {
@@ -24,13 +24,13 @@
 <div class="container">
     <div class='table-responsive'>
 
-        <?php echo $this->Form->create(null, ['url' => 'index'], ['class' => 'form-inline']); ?>
-        <?php echo $this->Form->input('periodo', ['id' => 'periodo', 'type' => 'select', 'label' => ['style' => 'display:inline;'], 'options' => $periodos, 'selected' => $periodoselecionado, 'empty' => array($periodoselecionado => 'Período'), 'class' => 'form-control']); ?>
-        <?php echo $this->Form->end(); ?>
+        <?= $this->Form->create(null, ['url' => 'index'], ['class' => 'form-inline']); ?>
+        <?= $this->Form->input('periodo', ['id' => 'periodo', 'type' => 'select', 'label' => ['style' => 'display:inline;'], 'options' => $periodos, 'selected' => $periodoselecionado, 'empty' => array($periodoselecionado => 'Período'), 'class' => 'form-control']); ?>
+        <?= $this->Form->end(); ?>
 
         <table class='table table-striped table-hover table-responsive'>
             <thead class='thead-light'>
-            <caption style='caption-side: top'>Planilha para seguro de vida dos estudantes estagiários</caption>
+            <caption style='caption-side: top'>Planilha para seguro de vida dos alunos estagiários</caption>
             <tr>
                 <th>Nome</th>
                 <th>CPF</th>
@@ -50,7 +50,7 @@
                 <?php // die(); ?>
                 <tr>
                     <td>
-                        <?php echo $this->Html->link($cada_aluno['nome'], '/estudantes/view/' . $cada_aluno['id']); ?>
+                        <?php echo $this->Html->link($cada_aluno['nome'], '/alunos/view/' . $cada_aluno['id']); ?>
                     </td>
                     <td>
                         <?php echo $cada_aluno['cpf']; ?>

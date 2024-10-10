@@ -1,5 +1,4 @@
 <?php
-$usuario = $this->getRequest()->getAttribute('identity');
 // pr($usuario);
 // die();
 /**
@@ -9,6 +8,9 @@ $usuario = $this->getRequest()->getAttribute('identity');
 // pr($muralestagio->instituicoes->id);
 // die();
 ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
 
     <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
@@ -47,7 +49,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
-                       aria-controls="Estudantes inscritos" aria-selected="false">Estudantes inscritos</a>
+                       aria-controls="Alunos inscritos" aria-selected="false">Alunos inscritos</a>
                 </li>
             <?php endif; ?>
         </ul>
@@ -282,7 +284,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Registro') ?></th>
-                            <th><?= __('Estudante') ?></th>
+                            <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
@@ -295,7 +297,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricoes->estudante_id]) : $inscricoes->estudante->nome; ?>
+                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>

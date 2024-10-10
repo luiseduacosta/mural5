@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Estudantes
+ * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  *
@@ -46,8 +46,8 @@ class UsersTable extends Table
         $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Estudantes', [
-            'foreignKey' => 'estudante_id',
+        $this->belongsTo('Alunos', [
+            'foreignKey' => 'aluno_id',
         ]);        
         $this->belongsTo('Supervisores', [
             'foreignKey' => 'supervisor_id',
@@ -104,7 +104,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['estudante_id'], 'Estudantes'), ['errorField' => 'estudante_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
         $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
         $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 

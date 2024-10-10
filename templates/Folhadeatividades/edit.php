@@ -37,7 +37,7 @@
         <fieldset>
             <legend><?= __('Edita atividade') ?></legend>
             <?php
-            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->estagiario->id => $estagiario->estagiario->estudante->nome]]);
+            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->estagiario->id => $estagiario->estagiario->aluno->nome]]);
             echo $this->Form->control('dia');
             echo "<table>";
             echo "<tr>";

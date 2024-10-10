@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Instituicaoestagio[]|\Cake\Collection\CollectionInterface $instituicoes
+ * @var \App\Model\Entity\Instituicao[]|\Cake\Collection\CollectionInterface $instituicoes
  */
 // pr($instituicoes);
 // die();

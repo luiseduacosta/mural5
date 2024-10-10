@@ -39,7 +39,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
     </nav>
 
     <div class="container">
-        <h3><?= h($inscricao->estudante->nome) ?></h3>
+        <h3><?= h($inscricao->aluno->nome) ?></h3>
         <table class="table table-striped table-hover table-responsive">
             <tr>
                 <th><?= __('Id') ?></th>
@@ -50,8 +50,8 @@ $usuario = $this->getRequest()->getAttribute('identity');
                 <td><?= $inscricao->registro ?></td>
             </tr>
             <tr>
-                <th><?= __('Estudante') ?></th>
-                <td><?= $inscricao->has('estudante') ? $this->Html->link($inscricao->estudante->nome, ['controller' => 'Estudantes', 'action' => 'view', $inscricao->estudante->id]) : '' ?>
+                <th><?= __('Aluno') ?></th>
+                <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno->id]) : '' ?>
                 </td>
             </tr>
             <tr>

@@ -15,12 +15,12 @@ use Cake\ORM\Entity;
  * @property string|null $password
  * @property string $categoria_id
  * @property int $registro
- * @property int|null $estudante_id
+ * @property int|null $aluno_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property \Cake\I18n\FrozenTime $timestamp
  *
- * @property \App\Model\Entity\Estudante[] $estudantes
+ * @property \App\Model\Entity\Aluno[] $alunos
  * @property \App\Model\Entity\Supervisor[] $supervisores
  * @property \App\Model\Entity\Professor[] $professores
  */
@@ -40,11 +40,11 @@ class User extends Entity {
         'password' => true,
         'categoria_id' => true,
         'registro' => true,
-        'estudante_id' => true,
+        'aluno_id' => true,
         'supervisor_id' => true,
         'professor_id' => true,
         'timestamp' => true,
-        'estudantes' => true,
+        'alunos' => true,
         'supervisores' => true,
         'professores' => true,
     ];

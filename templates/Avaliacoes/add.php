@@ -51,13 +51,13 @@ if ($cress) {
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar avaliacoes'), ['action' => 'index/' . $estagiario->id . '/' . $estagiario->registro], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index/' . $estagiario->id . '/' . $estagiario->registro], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <h1>Formulário de avalição da(a) discente <?= $estagiario->estudante->nome ?></h1>
+    <h1>Formulário de avalição da(a) discente <?= $estagiario->aluno->nome ?></h1>
 
     <div class="container">
         <?= $this->Form->create($avaliacao) ?>
@@ -74,7 +74,7 @@ if ($cress) {
         <fieldset>
 
             <legend><?= __('Nova avaliação') ?></legend>
-            <?= $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->estudante->nome]]); ?>
+            <?= $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->aluno->nome]]); ?>
 
             <legend>
                 <?= __('1) ASSIDUIDADE: Desenvolveu as atividades propostas com frequência, ausentando-se apenas com conhecimento e acordado com o(a) supervisor(a) de campo e ou acadêmico(a), seja por motivo de saúde, seja por situações estabelecidas na Lei 11788/2008, entre outras:') ?>

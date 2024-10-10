@@ -13,11 +13,11 @@
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Declaração de período", ['controller' => "Estudantes", 'action' => 'certificadoperiodo', $this->getRequest()->getAttribute('identity')['estudante_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                <?php echo $this->Html->link("Declaração de período", ['controller' => "Alunos", 'action' => 'certificadoperiodo', $this->getRequest()->getAttribute('identity')['aluno_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Termo de compromisso", ['controller' => "Estagiarios", 'action' => 'termodecompromisso', '?' => ['estudante_id' => $this->getRequest()->getAttribute('identity')['estudante_id']]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                <?php echo $this->Html->link("Termo de compromisso", ['controller' => "Estagiarios", 'action' => 'termodecompromisso', '?' => ['aluno_id' => $this->getRequest()->getAttribute('identity')['aluno_id']]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
             </li>
 
             <li class = "nav-item">
@@ -29,7 +29,7 @@
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Meus dados", ['controller' => "Estudantes", 'action' => 'view', $this->getRequest()->getAttribute('identity')['estudante_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Meus dados", ['controller' => "Alunos", 'action' => 'view', $this->getRequest()->getAttribute('identity')['aluno_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
 
             <li class = "nav-item">

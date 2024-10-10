@@ -69,7 +69,7 @@ if ($professor) {
 </h2>
 
 <p style="line-height:100%; font-size: 90%">
-    Nome do(a) Estudante: <?= $estagiario->estudante->nome ?><br>
+    Nome do(a) Aluno: <?= $estagiario->aluno->nome ?><br>
     Supervisor(a) de Campo: <?= $supervisora ?> CRESS: <?= $cress ?><br />
     E-mail: <?= $email ?> Telefone: <?= $telefone ?> Celular: <?= '(' . $codigo_celular . ') ' . $celular ?><br />
     Campo de Estágio: <?= $estagiario->instituicao->instituicao ?><br />
@@ -445,7 +445,7 @@ if ($professor) {
 <table style="width: 100%">
     <tr>
         <td>Coordenação de Estágio e Extensão</td>
-        <td><?= $estagiario->estudante->nome ?> <br> (DRE: <?= $estagiario->estudante->registro ?>)</td>
+        <td><?= $estagiario->aluno->nome ?> <br> (DRE: <?= $estagiario->aluno->registro ?>)</td>
         <td><?= $supervisora ?><br> (CRESS <?= $regiao ?>ª Região: <?= $cress ?>)</td>
     </tr>
 </table>

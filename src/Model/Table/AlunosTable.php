@@ -14,7 +14,8 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
- * 
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
+ *
  * @method \App\Model\Entity\Aluno newEmptyEntity()
  * @method \App\Model\Entity\Aluno newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Aluno[] newEntities(array $data, array $options = [])
@@ -45,11 +46,13 @@ class AlunosTable extends Table {
         $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Estagiarios', [
+        $this->hasMany('Inscricoes', [
             'foreignKey' => 'aluno_id',
         ]);
-
-        $this->hasMany('Inscricoes', [
+        $this->hasMany('Users', [
+            'foreignKey' => 'aluno_id',
+        ]);
+        $this->hasMany('Estagiarios', [
             'foreignKey' => 'aluno_id',
         ]);
     }
@@ -74,7 +77,17 @@ class AlunosTable extends Table {
         $validator
                 ->scalar('nome')
                 ->maxLength('nome', 50)
-                ->notEmptyString('nome');
+                ->notEmptyString('nome', 'Digite seu nome');
+
+        $validator
+                ->scalar('nomesocial')
+                ->maxLength('nomesocial', 50)
+                ->allowEmptyString('nomesocial');        
+        
+        $validator
+                ->scalar('ingresso')
+                ->maxLength('ingresso', 6)
+                ->notEmptyString('ingresso', 'Digite seu ano e semestre de ingresso no formato aaaa-n');
 
         $validator
                 ->integer('registro')
@@ -82,7 +95,7 @@ class AlunosTable extends Table {
                 ->add('registro', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-                ->notEmptyString('codigo_telefone');
+                ->allowEmptyString('codigo_telefone');
 
         $validator
                 ->scalar('telefone')
@@ -90,7 +103,7 @@ class AlunosTable extends Table {
                 ->allowEmptyString('telefone');
 
         $validator
-                ->notEmptyString('codigo_celular');
+                ->allowEmptyString('codigo_celular');
 
         $validator
                 ->scalar('celular')
@@ -104,7 +117,7 @@ class AlunosTable extends Table {
         $validator
                 ->scalar('cpf')
                 ->maxLength('cpf', 12)
-                ->allowEmptyString('cpf');
+                ->notEmptyString('cpf', 'Digite seu CPF no formato ddddddddd-dd');
 
         $validator
                 ->scalar('identidade')
@@ -156,12 +169,10 @@ class AlunosTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
-
+        
         $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
-        $rules->add($rules->isUnique(['aluno_id']), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['aluno_id'], 'Estagiarios'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['aluno_id'], 'Inscricoes'), ['errorField' => 'aluno_id']);
-
+        $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+        
         return $rules;
     }
 

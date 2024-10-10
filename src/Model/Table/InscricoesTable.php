@@ -11,8 +11,8 @@ use Cake\Validation\Validator;
 /**
  * Inscricoes Model
  *
- * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
- * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Estudantes
+ * @property \App\Model\Table\AlunoestagiariosTable&\Cake\ORM\Association\BelongsTo $Alunoestagiarios
+ * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
  *
  * @method \App\Model\Entity\Inscricao newEmptyEntity()
@@ -46,11 +46,11 @@ class InscricoesTable extends Table
         $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Alunoestagiarios', [
+            'foreignKey' => 'alunoestagiario_id',
+        ]);
         $this->belongsTo('Alunos', [
             'foreignKey' => 'aluno_id',
-        ]);
-        $this->belongsTo('Estudantes', [
-            'foreignKey' => 'estudante_id',
         ]);
         $this->belongsTo('Muralestagios', [
             'foreignKey' => 'muralestagio_id',
@@ -80,8 +80,8 @@ class InscricoesTable extends Table
             ->notEmptyDate('data');
         
         $validator
-                ->integer('estudante_id')
-                ->notEmptyString('estudante_id');
+                ->integer('aluno_id')
+                ->notEmptyString('aluno_id');
         
         $validator
                 ->integer('muralestagio_id')
@@ -113,8 +113,8 @@ class InscricoesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
+        $rules->add($rules->existsIn(['alunoestagiario_id'], 'Alunoestagiarios'), ['errorField' => 'alunoestagiario_id']);
         $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['estudante_id'], 'Estudantes'), ['errorField' => 'estudante_id']);
         $rules->add($rules->existsIn(['muralestagio_id'], 'Muralestagios'), ['errorField' => 'muralestagio_id']);
 
         return $rules;

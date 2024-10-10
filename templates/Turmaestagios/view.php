@@ -48,7 +48,7 @@
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Aluno') ?></th>
-                            <th><?= __('Estudante') ?></th>
+                            <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Ajuste curricular 2020') ?></th>
                             <th><?= __('Turno') ?></th>
@@ -72,7 +72,7 @@
                                 <td><?= h($estagiarios->id) ?></td>
                                 <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                 </td>
-                                <td><?= $estagiarios->hasValue('estudante') ? $this->Html->link(h($estagiarios->estudante->nome), ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) : '' ?>
+                                <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>

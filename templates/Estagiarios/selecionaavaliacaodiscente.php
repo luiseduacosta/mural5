@@ -1,9 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
+ * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-// pr($estagiario->item->estudante);
+// pr($estagiario->item->aluno);
 // die();
 ?>
 <div class="container">
@@ -14,7 +14,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('estagiario.avaliacao.id', 'Imprime avaliação') ?></th>
-                    <th><?= $this->Paginator->sort('estagiario->estudante->nome', 'Estudante') ?></th>
+                    <th><?= $this->Paginator->sort('estagiario->aluno->nome', 'Aluno') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->periodo', 'Período') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nivel', 'Nível') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->instituicao->instituicao', 'Instituição') ?></th>
@@ -40,9 +40,9 @@
                         <td><?= $this->Html->link('Imprime avaliação discente', ['controller' => 'estagiarios', 'action' => 'avaliacaodiscentepdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
 
                         <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                            <td><?= $c_estagiario->hasValue('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
+                            <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
                         <?php else: ?>
-                            <td><?= $c_estagiario->hasValue('estudante') ? $c_estagiario->estudante->nome : '' ?></td>
+                            <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
                         <?php endif; ?>
 
                         <td><?= $c_estagiario->periodo ?></td>

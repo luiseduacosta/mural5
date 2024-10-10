@@ -7,14 +7,14 @@
 ?>
 <div class="container">
 
-    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-                <ul class="navbar-nav ms-auto mt-lg-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -27,14 +27,15 @@
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo Professor'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
-                <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
+                <?php endif; ?>
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
-                </ul>
-            </div>
-        </nav>
-    <?php endif; ?>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </nav>
 
     <div class="row">
         <ul class="nav nav-tabs">
@@ -219,7 +220,7 @@
                             <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
-                            <th><?= __('Estudante') ?></th>
+                            <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
                             <th><?= __('Turno') ?></th>
@@ -237,7 +238,7 @@
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
-                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?>
+                                <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
@@ -272,7 +273,7 @@
                             <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
-                            <th><?= __('Estudante') ?></th>
+                            <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Atividades') ?></th>
                             <th><?= __('Avaliação estágio') ?></th>
@@ -292,7 +293,7 @@
                                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
-                                <td><?= $estagiarios->hasValue('estudante') ? $estagiarios->estudante->nome : "" ?>
+                                <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
 
@@ -327,6 +328,5 @@
                 </div>
             <?php endif; ?>
         </div>
-
     </div>
 </div>

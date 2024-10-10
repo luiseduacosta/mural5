@@ -14,7 +14,7 @@
 <?php $this->Form->setTemplates(["textarea" => "<div class='col-8'><textarea class='form-control' name = '{{name}}' {{attrs}}>{{value}}</textarea></div>"]); ?>
 <?php $this->Form->setTemplates(["select" => "<div class='col-8'><select class='form-control' name='{{name}}' {{attrs}}>{{content}}</select></div>"]); ?>
 <?php $this->Form->setTemplates(["submitContainer" => "<div class='form-group row'><div class='col-12'>{{content}}</div></div>"]); ?>
-<?php $this->Form->setTemplates(["inputSubmit" => "<input class = 'btn btn-success position-static' type = '{{type}}' {{attrs}}>"]); ?>
+<?php $this->Form->setTemplates(["inputSubmit" => "<input class = 'mt-lg-0 btn btn-success position-static' type = '{{type}}' {{attrs}}>"]); ?>
 <?php $this->Form->setTemplates(["dateWidget" => "{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}"]); ?>
 <?php $this->Form->setTemplates(["button" => "<div class='d-flex justify-content-center'><button type ='submit' class= 'btn btn-primary' {{attrs}}>{{text}}</button></div>"]); ?>
 

@@ -10,8 +10,8 @@ use Cake\ORM\Entity;
  * Estagiario Entity
  *
  * @property int $id
- * @property int $aluno_id
- * @property int|null $estudante_id
+ * @property int $alunoestagiario_id
+ * @property int|null $aluno_id
  * @property int $registro
  * @property string $ajuste2020
  * @property string $turno
@@ -31,9 +31,9 @@ use Cake\ORM\Entity;
  * @property string|null $benealimentacao
  * @property string|null $benebolsa 
  * 
+ * @property \App\Model\Entity\Alunoestagiario[] $alunoestagiarios
  * @property \App\Model\Entity\Aluno[] $alunos
- * @property \App\Model\Entity\Estudante[] $estudantes
- * @property \App\Model\Entity\Instituicaoestagio[] $instituicoes
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  * @property \App\Model\Entity\Supervisor[] $supervisores
  * @property \App\Model\Entity\Professor[] $professores
  * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
@@ -52,8 +52,8 @@ class Estagiario extends Entity {
      * @var array
      */
     protected array $_accessible = [
+        'alunoestagiario_id' => true,
         'aluno_id' => true,
-        'estudante_id' => true,
         'registro' => true,
         'ajuste2020' => true,
         'turno' => true,
@@ -72,8 +72,8 @@ class Estagiario extends Entity {
         'benetransporte' => true,
         'benealimentacao' => true,
         'benebolsa' => true,
+        'alunoestagiarios' => true,
         'alunos' => true,
-        'estudantes' => true,
         'instituicoes' => true,
         'supervisores' => true,
         'professores' => true,

@@ -213,7 +213,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <table class="table table-striped table-hover table-responsive">
                                 <tr>
                                     <th><?= __('Id') ?></th>
-                                    <th><?= __('Estudante') ?></th>
+                                    <th><?= __('Aluno') ?></th>
                                     <th><?= __('Registro') ?></th>
                                     <th><?= __('Turno') ?></th>
                                     <th><?= __('Nivel') ?></th>
@@ -227,7 +227,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
-                                        <td><?= $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) ?>
+                                        <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
                                         </td>
                                         <td><?= h($estagiarios->registro) ?></td>
                                         <td><?= h($estagiarios->turno) ?></td>
@@ -257,7 +257,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <table class="table table-striped table-hover table-responsive">
                                 <tr>
                                     <th><?= __('Id') ?></th>
-                                    <th><?= __('Estudante') ?></th>
+                                    <th><?= __('Aluno') ?></th>
                                     <th><?= __('Registro') ?></th>
                                     <th><?= __('Turno') ?></th>
                                     <th><?= __('Nivel') ?></th>
@@ -271,7 +271,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
-                                        <td><?= $this->Html->link($estagiarios->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $estagiarios->estudante_id]) ?>
+                                        <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
                                         </td>
                                         <td><?= h($estagiarios->registro) ?></td>
                                         <td><?= h($estagiarios->turno) ?></td>
