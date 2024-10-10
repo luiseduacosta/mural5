@@ -9,7 +9,7 @@ namespace App\Controller;
 /**
  * Alunos Controller
  *
- * @property \App\Model\Table\EstudantesTable $Alunos
+ * @property \App\Model\Table\AlunosTable $Alunos
  * @method \App\Model\Entity\Aluno[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AlunosController extends AppController {

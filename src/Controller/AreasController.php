@@ -7,10 +7,10 @@ namespace App\Controller;
 /**
  * Areas Controller
  *
- * @property \App\Model\Table\AreainstituicoesTable $Areas
- * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\AreasTable $Areas
+ * @method \App\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class AreainstituicoesController extends AppController {
+class AreasController extends AppController {
 
     /**
      * Index method

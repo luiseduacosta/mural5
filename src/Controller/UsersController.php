@@ -7,7 +7,7 @@ namespace App\Controller;
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UserestagiosTable $Users
+ * @property \App\Model\Table\UsersTable $Users
  * @method \App\Model\Entity\Userestagio[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController {
