@@ -23,20 +23,81 @@ class FolhadeatividadesController extends AppController
      */
     public function index($id = NULL)
     {
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        if ($estagiario_id) {
+            $folhadeatividades = $this->Folhadeatividades->find('all')
+                ->where(['estagiario_id' => $estagiario_id]);
 
-        if (is_null($id)) {
-            $this->Flash->error(__('Selecione o estagiário e o período da folha de atividades'));
-            return $this->redirect('/estagiarios/index');
+            $estagiariotabela = $this->fetchTable('Estagiarios');
+            $estagiario = $estagiariotabela->find()
+                ->contain(['Alunos', 'Instituicoes'])
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();
         }
 
-        $estagiario = $this->Folhadeatividades->Estagiarios->find()
-            ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
-            ->where(['Estagiarios.id' => $id])->first();
-        $folhadeatividades = $this->Folhadeatividades->find('all')->where(['estagiario_id' => $id]);
+        if (empty($folhadeatividades)) {
+            $this->Flash->error(__('Selecione o estagiário e o período da folha de atividades'));
+            return $this->redirect(['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiario_id]]);
+        }
 
         $folhadeatividades = $this->paginate($folhadeatividades);
 
-        $this->set(compact('id', 'estagiario', 'folhadeatividades'));
+        $this->set(compact('estagiario', 'folhadeatividades'));
+    }
+
+    /**
+     * Add method
+     * @param string|null $id Estagiario.id
+     * $id = estagiario_id
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function add($id = NULL)
+    {
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+
+        if ($estagiario_id) {
+            $folhadeatividades = $this->Folhadeatividades->find('all')
+                ->contain(['Estagiarios' => ['Alunos', 'Instituicoes']])
+                ->where(['estagiario_id' => $estagiario_id])
+                ->limit(2);
+
+            $estagiariotabela = $this->fetchTable('Estagiarios');
+            $estagiario = $estagiariotabela->find()
+                ->contain(['Alunos', 'Instituicoes'])
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();
+        }
+
+        if (empty($folhadeatividades)) {
+            $this->Flash->error(__('Selecione o estagiário e o período da folha de atividades'));
+            return $this->redirect(['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiario_id]]);
+        }
+
+        $folhadeatividadeentity = $this->Folhadeatividades->newEmptyEntity();
+
+        if ($this->request->is('post')) {
+            // pr($this->request->getData());
+            $dados = $this->request->getData();
+            $dados['horario'] = null;
+            // pr($dados);
+            // die();
+            $folhadeatividaderesposta = $this->Folhadeatividades->patchEntity($folhadeatividadeentity, $dados);
+            // pr($folhadeatividaderesposta);
+            // die();
+            if ($this->Folhadeatividades->save($folhadeatividaderesposta)) {
+                $this->Flash->success(__('Atividades cadastrada!'));
+
+                return $this->redirect(['action' => 'view', $folhadeatividaderesposta->id]);
+            }
+            $this->Flash->error(__('Atividade não foi cadastrada. Tente mais uma vez.'));
+        } else {
+            // die('post');
+        }
+
+        $folhadeatividades = $this->paginate($folhadeatividades);
+
+        $this->set(compact('folhadeatividades', 'estagiario'));
     }
 
     /**
@@ -48,10 +109,9 @@ class FolhadeatividadesController extends AppController
      */
     public function view($id = null)
     {
-
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         if ($estagiario_id) {
-            $folhadeatividades = $this->Folhadeatividades->find()
+            $folhadeatividade = $this->Folhadeatividades->find()
                 ->where(['estagiario_id' => $estagiario_id])
                 ->first();
         } else {
@@ -59,10 +119,10 @@ class FolhadeatividadesController extends AppController
                 'contain' => ['Estagiarios'],
             ]);
         }
-        // pr($folhadeatividade);
-        // die();
-        if (!isset($folhadeatividade) && $estagiario_id) {
-            return $this->redirect(['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiario_id]]);
+
+        if (!isset($folhadeatividade)) {
+            $this->Flash->error(__('Sem atividades cadastradas'));
+            return $this->redirect(['controller' => 'estagiarios', 'action' => 'view', isset($estagiario_id) ? $estagiario_id : $id]);
         }
         $this->set(compact('folhadeatividade'));
     }
@@ -107,39 +167,45 @@ class FolhadeatividadesController extends AppController
     }
 
     /**
-     * Add method
+     * Exadd method
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($id = NULL)
+    public function exadd($id = NULL)
     {
 
+        /** Verifica se há estagiários */
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         $estagiariostabela = $this->fetchTable('Estagiarios');
         $estagiario = $estagiariostabela->find()
-            ->contain(['Alunos', 'Instituicoes', 'Supervisores'])
+            ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
 
         if (!$estagiario) {
             $this->Flash->error(__('Aluno sem estágio cadastrado'));
-            return redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
+            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
         }
 
+        $atividadesrealizadas = $this->Folhadeatividades->find()
+            ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']])
+            ->where(['estagiario_id' => $estagiario_id])
+            ->limit(1)
+            ->first();
+
         $folhadeatividade = $this->Folhadeatividades->newEmptyEntity();
+
         if ($this->request->is('post')) {
-            $folhadeatividade = $this->Folhadeatividades->patchEntity($folhadeatividade, $this->request->getData());
-            // pr($this->request->getData());
-            // die();
-            if ($this->Folhadeatividades->save($folhadeatividade)) {
+            $folhadeatividaderesposta = $this->Folhadeatividades->patchEntity($folhadeatividade, $this->request->getData());
+            if ($this->Folhadeatividades->save($folhadeatividaderesposta)) {
                 $this->Flash->success(__('Atividades cadastrada!'));
 
-                return $this->redirect(['action' => 'index', $id]);
+                return $this->redirect(['action' => 'view', $folhadeatividaderesposta->id]);
             }
             $this->Flash->error(__('Atividade não foi cadastrada. Tente mais uma vez.'));
         }
 
-        $this->set(compact('folhadeatividade', 'estagiario'));
+        $this->set(compact('folhadeatividade', 'atividadesrealizadas'));
     }
 
     /**
@@ -183,16 +249,20 @@ class FolhadeatividadesController extends AppController
      */
     public function delete($id = null)
     {
-
         $this->request->allowMethod(['post', 'delete']);
         $folhadeatividade = $this->Folhadeatividades->get($id);
+        $estagiariotabela = $this->fetchTable('Estagiarios');
+        $estagiario = $estagiariotabela->find()
+            ->where(['id' => $folhadeatividade->estagiario_id])
+            ->first();
+
         if ($this->Folhadeatividades->delete($folhadeatividade)) {
             $this->Flash->success(__('Registro de atividade excluido.'));
+            return $this->redirect(['controller' => 'estagiarios', 'action' => 'view', $estagiario->id]);
         } else {
             $this->Flash->error(__('Registro de atividade nao foi excluido. Tente novamente.'));
+            return $this->redirect(['controller' => 'folhadeatividades', 'action' => 'view', $id]);
         }
-
-        return $this->redirect(['action' => 'index']);
     }
 
     public function selecionafolhadeatividades($id = NULL)

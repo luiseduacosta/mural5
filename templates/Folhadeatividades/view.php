@@ -19,10 +19,10 @@
                     <?= $this->Form->postLink(__('Excluir atividade'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar atividades'), ['action' => 'index', $folhadeatividade->estagiario_id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar atividades'), ['action' => 'index', '?' => ['estagiario_id' => $folhadeatividade->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', $folhadeatividade->estagiario_id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>

@@ -39,11 +39,10 @@ if ($professora) {
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-
-                <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', $id], ['class' => 'btn btn-primary float-end']) ?>
                 <li class="nav-item">
+                    <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
@@ -108,7 +107,7 @@ if ($professora) {
                     ?>
                 <?php endforeach; ?>
                 <tr>
-                    <td colspan="5">Total de horas</td>
+                    <td colspan="4">Total de horas</td>
                     <td>
                         <?php
                         $hours = floor($seconds / 3600);
@@ -118,11 +117,11 @@ if ($professora) {
                         echo $hours . ":" . $minutes . ":" . $seconds;
                         ?>
                     </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <td></td>
-    </tr>
-    </tbody>
-    </table>
 </div>
 
 <?= $this->element('templates'); ?>

@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Estagiarios Model
  *
  * @property \App\Model\Table\AlunoestagiariosTable&\Cake\ORM\Association\BelongsTo $Alunoestagiarios
- * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
+ * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores

@@ -3,7 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
+// pr($folhadeatividades);
 // pr($estagiario);
+// die();
 ?>
 
 <?= $this->element('templates') ?>
@@ -17,44 +19,55 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Folha de atividades'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar atividades'), ['controller' => 'folhadeatividades', 'action' => 'view', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($folhadeatividade) ?>
+
+        <?php if (isset($folhadeatividades)): ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-responsive">
+                    <tr>
+                        <th>Data</th>
+                        <th>Início</th>
+                        <th>Final</th>
+                        <th>Horário</th>
+                        <th>Atividade</th>
+                    </tr>
+                    <?php foreach ($folhadeatividades as $folhadeatividade): ?>
+                        <?php // pr($folhadeatividade); ?>
+                        <tr>
+                            <?php // pr($folhadeatividade) ?>
+                            <td><?= $folhadeatividade->dia ?></td>
+                            <td><?= $folhadeatividade->inicio ?></td>
+                            <td><?= $folhadeatividade->final ?></td>
+                            <td><?= $folhadeatividade->horario ?></td>
+                            <td><?= $folhadeatividade->atividade ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+            </div>
+        <?php else: ?>
+            <?php echo 'Sem atividades' . '<br>' ?>
+        <?php endif; ?>
+
+        <?= $this->Form->create($folhadeatividade, ['type' => 'post']) ?>
         <fieldset>
             <legend><?= __('Adiciona uma atividade') ?></legend>
             <?php
-            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->aluno->nome], 'readonly']);
+            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->aluno->nome]], 'readonly');
             echo $this->Form->control('dia');
-            echo "<table>";
-            echo "<tr>";
-            echo "<td>";
-            echo "Horário de início";
-            echo "</td>";
-            echo "<td>";
-            echo $this->Form->control('inicio', ['label' => false]);
-            echo "</td>";
-            echo "</tr>";
-
-            echo "<tr>";
-            echo "<td>";
-            echo "Horário de finalização";
-            echo "</td>";
-            echo "<td>";
-            echo $this->Form->control('final', ['label' => false]);
-            echo "</td>";
-            echo "</tr>";
-            echo "</table>";
-
-            echo $this->Form->control('atividade');
-            echo $this->Form->control('horario', ['type' => 'hidden']);
+            echo $this->Form->control('inicio', ['label' => ['text' => 'Horário de início']]);
+            echo $this->Form->control('final', ['label' => ['text' => 'Horário de finalização']]);
+            echo $this->Form->control('atividade', ['label' => ['text' => 'Atividade realizada']]);
+            echo $this->Form->control('horario', ['type' => 'hidden', 'value' => null]);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>
         <?= $this->Form->end() ?>
+
     </div>
 </div>

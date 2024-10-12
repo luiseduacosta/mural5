@@ -72,16 +72,25 @@ class EstagiariosController extends AppController
             $this->cakeError('error404');
         }
 
-        $estagiario = $this->Estagiarios->get($id, [
-            'contain' => ['Alunos', 'Instituicoes', 'Supervisores', 'Professores', 'Turmaestagios']
-        ]);
+        //        $estagiario = $this->Estagiarios->get($id, [
+//            'contain' => ['Alunos', 'Instituicoes', 'Supervisores', 'Professores', 'Turmaestagios', 'Folhadeatividades', 'Avaliacoes']
+//        ]);
+
+        $estagiario = $this->Estagiarios->find()
+            ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores', 'Turmaestagios', 'Folhadeatividades', 'Avaliacoes'])
+            ->where(['Estagiarios.id' => $id])
+            ->first();
 
         if (!isset($estagiario)) {
             $this->Flash->error(__('Nao ha registros de estagiarios para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
 
-        $this->set(compact('estagiario'));
+        $folhadeatividades = $this->Estagiarios->Folhadeatividades->find()
+            ->where(['estagiario_id' => $id])
+            ->all();
+
+        $this->set(compact('estagiario', 'folhadeatividades'));
     }
 
     /**

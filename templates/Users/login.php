@@ -16,8 +16,10 @@
         <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-success']); ?>
         <?= $this->Form->end() ?>
         <div class="row">
-            <?= $this->Html->link("Cadastrar novo usuário", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
-            <?= $this->Html->link("Esqueceu a senha?", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+            <div class="col">
+                <?= $this->Html->link("Cadastrar novo usuário", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link("Esqueceu a senha?", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+            </div>
         </div>
     </div>
     <div class='col-lg-8 order-lg-2 order-1'>
@@ -25,7 +27,8 @@
             Prezadas(os) usuárias(os),
             <br />
             <br />
-            O Mural de Estágio tem a função de: permitir a consulta e inscrição em vagas de estágio; retirar o Termo de Compromisso, folha de atividades, avaliação do/a supervisor/a, declaração de estágio, dentre outros.
+            O Mural de Estágio tem a função de: permitir a consulta e inscrição em vagas de estágio; retirar o Termo de
+            Compromisso, folha de atividades, avaliação do/a supervisor/a, declaração de estágio, dentre outros.
             <br />
             <br />
             É a sua primeira vez por aqui? Faça o cadastro com dados completos. Não abrevie seu nome.
@@ -34,7 +37,8 @@
             Vai retirar o Termo de Compromisso? Preencha os dados da supervisão de campo e do/a professor de OTP.
             <br />
             <br />
-            Supervisores/as e professores também podem fazer o cadastro e contribuir para mantermos atualizados os dados das instituições, assim como seus dados profissionais, incluindo e-mail e telefone.
+            Supervisores/as e professores também podem fazer o cadastro e contribuir para mantermos atualizados os dados
+            das instituições, assim como seus dados profissionais, incluindo e-mail e telefone.
             <br />
             <br />
             Ficou alguma dúvida? Escreva um e-mail detalhado para: estagio@ess.ufrj.br . Estamos à disposição.
