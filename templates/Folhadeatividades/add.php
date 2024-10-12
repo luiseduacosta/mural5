@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar atividades'), ['controller' => 'folhadeatividades', 'action' => 'view', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
@@ -28,25 +28,34 @@
     <div class="container">
 
         <?php if (isset($folhadeatividades)): ?>
+            <h3>Últimas 5 atividades</h3>
             <div class="table-responsive">
                 <table class="table table-striped table-hover table-responsive">
                     <tr>
+                        <th>Id</th>
                         <th>Data</th>
                         <th>Início</th>
                         <th>Final</th>
                         <th>Horário</th>
                         <th>Atividade</th>
                     </tr>
+                    <?php /** Últimos 5 registros */ ?>
+                    <?php $i = 0 ?>
+                    <?php $total = count($folhadeatividades->toArray()); ?>
+                    <?php $ultimos = $total - 6; ?>
                     <?php foreach ($folhadeatividades as $folhadeatividade): ?>
-                        <?php // pr($folhadeatividade); ?>
                         <tr>
-                            <?php // pr($folhadeatividade) ?>
-                            <td><?= $folhadeatividade->dia ?></td>
-                            <td><?= $folhadeatividade->inicio ?></td>
-                            <td><?= $folhadeatividade->final ?></td>
-                            <td><?= $folhadeatividade->horario ?></td>
-                            <td><?= $folhadeatividade->atividade ?></td>
+                            <?php if ($i > $ultimos): ?>
+                                <?php // pr($folhadeatividade) ?>
+                                <td><?= $folhadeatividade->id ?></td>
+                                <td><?= $folhadeatividade->dia ?></td>
+                                <td><?= $folhadeatividade->inicio ?></td>
+                                <td><?= $folhadeatividade->final ?></td>
+                                <td><?= $folhadeatividade->horario ?></td>
+                                <td><?= $folhadeatividade->atividade ?></td>
+                            <?php endif; ?>
                         </tr>
+                        <?php $i++; ?>
                     <?php endforeach; ?>
                 </table>
             </div>

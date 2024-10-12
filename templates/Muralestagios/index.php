@@ -26,7 +26,6 @@
 <div class="container">
 
     <?php if (!is_null($this->getRequest()->getAttribute('identity')) && ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1')): ?>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,8 +49,8 @@
         <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
-                <label class='col-sm-1 col-form-label'>Período</label>
-                <div class='col-sm-2'>
+                <label class='col-sm-2 col-form-label'>Período</label>
+                <div class='col-sm-1'>
                     <?= $this->Form->control('periodo', ['id' => 'MuralestagioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
                 </div>
             </div>

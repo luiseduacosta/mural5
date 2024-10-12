@@ -26,6 +26,7 @@ class FolhadeatividadesController extends AppController
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         if ($estagiario_id) {
             $folhadeatividades = $this->Folhadeatividades->find('all')
+                ->order(['id'])
                 ->where(['estagiario_id' => $estagiario_id]);
 
             $estagiariotabela = $this->fetchTable('Estagiarios');
@@ -58,9 +59,9 @@ class FolhadeatividadesController extends AppController
 
         if ($estagiario_id) {
             $folhadeatividades = $this->Folhadeatividades->find('all')
+                ->order(['Folhadeatividades.id'])
                 ->contain(['Estagiarios' => ['Alunos', 'Instituicoes']])
-                ->where(['estagiario_id' => $estagiario_id])
-                ->limit(2);
+                ->where(['estagiario_id' => $estagiario_id]);
 
             $estagiariotabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariotabela->find()
@@ -95,9 +96,8 @@ class FolhadeatividadesController extends AppController
             // die('post');
         }
 
-        $folhadeatividades = $this->paginate($folhadeatividades);
-
-        $this->set(compact('folhadeatividades', 'estagiario'));
+        $this->set('folhadeatividades', $folhadeatividades);
+        $this->set('estagiario', $estagiario);
     }
 
     /**

@@ -13,10 +13,10 @@
             <?= $this->Form->control('email', ['required' => true, 'class' => 'form-control']) ?>
             <?= $this->Form->control('password', ['label' => ['text' => 'Senha'], 'required' => true, 'class' => 'form-control']) ?>
         </fieldset>
-        <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-success']); ?>
+        <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-success mt-2']); ?>
         <?= $this->Form->end() ?>
         <div class="row">
-            <div class="col">
+            <div class="col mt-2">
                 <?= $this->Html->link("Cadastrar novo usuário", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
                 <?= $this->Html->link("Esqueceu a senha?", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
             </div>
