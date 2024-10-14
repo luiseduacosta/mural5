@@ -12,21 +12,21 @@ use Cake\Validation\Validator;
 /**
  * Areas Model
  *
- * @property \App\Model\Table\InstituicaoTable&\Cake\ORM\Association\HasMany $Instituicoes
+ * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\HasMany $Instituicoes
  * 
- * @method \App\Model\Entity\Areainstituicao newEmptyEntity()
- * @method \App\Model\Entity\Areainstituicao newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Areainstituicao[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Areainstituicao get($primaryKey, $options = [])
- * @method \App\Model\Entity\Areainstituicao findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Areainstituicao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Areainstituicao[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Areainstituicao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Areainstituicao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Area newEmptyEntity()
+ * @method \App\Model\Entity\Area newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Area[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Area get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Area findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Area patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Area[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Area|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Area saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Area[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class AreasTable extends Table {
 

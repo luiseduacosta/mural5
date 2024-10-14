@@ -19,19 +19,19 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsToMany $Supervisores
  *
- * @method \App\Model\Entity\Instituicaoestagio newEmptyEntity()
- * @method \App\Model\Entity\Instituicaoestagio newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Instituicaoestagio get($primaryKey, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Instituicaoestagio|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicao newEmptyEntity()
+ * @method \App\Model\Entity\Instituicao newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicao[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicao get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Instituicao findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Instituicao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicao[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Instituicao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class InstituicoesTable extends Table {
 

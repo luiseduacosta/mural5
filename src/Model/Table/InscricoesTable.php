@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Inscricoes Model
  *
- * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
+ * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
  *
  * @method \App\Model\Entity\Inscricao newEmptyEntity()
