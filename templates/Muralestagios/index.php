@@ -49,8 +49,8 @@
         <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
-                <label class='col-sm-2 col-form-label'>Período</label>
-                <div class='col-sm-1'>
+                <label class='col-sm-1 col-form-label'>Período</label>
+                <div class='col-sm-2'>
                     <?= $this->Form->control('periodo', ['id' => 'MuralestagioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
                 </div>
             </div>
