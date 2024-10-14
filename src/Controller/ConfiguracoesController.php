@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 /**
- * Configuracao Controller
+ * Configuracoes Controller
  *
  * @property \App\Model\Table\ConfiguracoesTable $Configuracoes
  * @method \App\Model\Entity\Configuracao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])

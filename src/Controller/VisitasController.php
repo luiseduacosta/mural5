@@ -101,9 +101,10 @@ class VisitasController extends AppController {
         $this->request->allowMethod(['post', 'delete']);
         $visita = $this->Visitas->get($id);
         if ($this->Visitas->delete($visita)) {
-            $this->Flash->success(__('The visita has been deleted.'));
+            $this->Flash->success(__('Registro visita excluído.'));
         } else {
-            $this->Flash->error(__('The visita could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro visita não foi excluído. Tente novamente.'));
+            return $this->redirect(['action' => 'view', $id]);
         }
 
         return $this->redirect(['action' => 'index']);

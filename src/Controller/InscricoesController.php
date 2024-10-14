@@ -90,13 +90,13 @@ class InscricoesController extends AppController {
 
         if ($this->request->is('post')) {
 
-            $estudantestabela = $this->fetchTable('Alunos');
+            $alunostabela = $this->fetchTable('Alunos');
             if (isset($aluno_id)) {
-                $aluno = $estudantestabela->find()
+                $aluno = $alunostabela->find()
                         ->where(['id' => $aluno_id])
                         ->first();
             } elseif ($this->getRequest()->getData('aluno_id')) {
-                $aluno = $estudantestabela->find()
+                $aluno = $alunostabela->find()
                         ->where(['id' => $this->getRequest()->getData('aluno_id')])
                         ->first();
             } else {
@@ -157,8 +157,8 @@ class InscricoesController extends AppController {
             $this->Flash->error(__('Registro de inscricao nao foi inserido. Tente novamente.'));
         }
 
-        $estudantestabela = $this->fetchTable('Alunos');
-        $alunos = $estudantestabela->find('list');
+        $alunotabela = $this->fetchTable('Alunos');
+        $alunos = $alunotabela->find('list');
 
         /** Mostra a lista da ofertas de instituicoes de estagio organizadas por periodo */
         $muralestagiostabela = $this->fetchTable('Muralestagios');
