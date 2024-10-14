@@ -78,6 +78,7 @@
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                         <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
+                        <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>                        
                         <th><?= $this->Paginator->sort('nota') ?></th>
                         <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                         <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
@@ -112,6 +113,9 @@
                             <td><?= h($estagiario->periodo) ?></td>
 
                             <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
+                            </td>
+
+                            <td><?= $$estagiario->complemento_id ?>
                             </td>
 
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>

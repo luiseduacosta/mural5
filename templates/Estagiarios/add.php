@@ -55,6 +55,7 @@
             }
             echo $this->Form->control('periodo', ['value' => $periodo]);
             echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estagio'], 'options' => $turmaestagios, 'empty' => "Seleciona"]);
+            echo $this->Form->control('complemento_id', ['label' => ['text' => 'Tipo de estágio (Pandemia)'], 'options' => [1 => 'Remoto', 2 => 'Ple'], 'empty' => "Seleciona"]);
             echo $this->Form->control('nota');
             echo $this->Form->control('ch', ['label' => ['text' => 'Carga horaria']]);
             echo $this->Form->control('observacoes', ['label' => ['text' => 'Outras informacoes']]);

@@ -155,6 +155,12 @@
                     <th><?= __('Data TC') ?></th>
                     <td><?= $estagiario->tc_solicitacao ? $estagiario->tc_solicitacao : '' ?></td>
                 </tr>
+
+                <tr>
+                    <th><?= __('Tipo de estágio (Pandemia)') ?></th>
+                    <td><?= $estagiario->complemento_id ?></td>
+                </tr>
+
                 <tr>
                     <th><?= __('Nota') ?></th>
                     <?php if ($estagiario->nota): ?>
