@@ -32,13 +32,13 @@
                     <th><?= $this->Paginator->sort('instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('area', 'Área institucional') ?></th>
                     <th><?= $this->Paginator->sort('natureza', 'Natureza') ?></th>
-                    <th><?= $this->Paginator->sort('cnpj') ?></th>
+                    <th><?= $this->Paginator->sort('cnpj', 'CNPJ') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('url', 'URL') ?></th>
                     <th><?= $this->Paginator->sort('endereco', 'Endereço') ?></th>
                     <th><?= $this->Paginator->sort('bairro') ?></th>
                     <th><?= $this->Paginator->sort('municipio') ?></th>
-                    <th><?= $this->Paginator->sort('cep') ?></th>
+                    <th><?= $this->Paginator->sort('cep', 'CEP') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
                     <th><?= $this->Paginator->sort('fax') ?></th>
                     <th><?= $this->Paginator->sort('beneficio', 'Benefício') ?></th>

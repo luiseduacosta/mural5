@@ -115,7 +115,7 @@
                             <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
                             </td>
 
-                            <td><?= $$estagiario->complemento_id ?>
+                            <td><?= $estagiario->complemento_id ?>
                             </td>
 
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>

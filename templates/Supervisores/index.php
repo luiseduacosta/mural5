@@ -18,7 +18,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
 
-                        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-secondary float-end']) ?>
+                        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 </ul>
             </div>
