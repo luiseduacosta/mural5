@@ -26,7 +26,7 @@ class CategoriasController extends AppController
     /**
      * View method
      *
-     * @param string|null $id Categorias id.
+     * @param string|null $id Categoria id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -62,7 +62,7 @@ class CategoriasController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Turmaestagio id.
+     * @param string|null $id Categoria id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -86,7 +86,7 @@ class CategoriasController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id Turmaestagio id.
+     * @param string|null $id Categoria id.
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */

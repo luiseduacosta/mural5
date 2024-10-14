@@ -16,11 +16,11 @@ class AdministradoresController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    
+
     public function index()
     {
         $administradores = $this->paginate($this->Administradores);
-        
+
         $this->set(compact('administradores'));
     }
 
@@ -36,7 +36,7 @@ class AdministradoresController extends AppController
         $administrador = $this->Administradores->get($id, [
             'contain' => ['Users'],
         ]);
-        
+
         $this->set(compact('administrador'));
     }
 
@@ -51,17 +51,17 @@ class AdministradoresController extends AppController
         if ($this->request->is('post')) {
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
 
-            if (!$administrador->user_id) { 
+            if (!$administrador->user_id) {
                 $user = $this->Authentication->getIdentity();
-                $administrador->user_id = $user->get('id'); 
+                $administrador->user_id = $user->get('id');
             }
-            
+
             if ($this->Administradores->save($administrador)) {
-                $this->Flash->success(__('The administrador has been saved.'));
+                $this->Flash->success(__('Administrador inserido.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+            $this->Flash->error(__('Administrador não foi inserido. Tente novamente.'));
         }
         $this->set(compact('administrador'));
     }
@@ -79,11 +79,12 @@ class AdministradoresController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
             if ($this->Administradores->save($administrador)) {
-                $this->Flash->success(__('The administrador has been saved.'));
+                $this->Flash->success(__('Registro administrador atualizado.'));
 
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro administrador não foi atualizado. Tente novamente.'));
+            return $this->redirect(['action' => 'view', $id]);
         }
         $this->set(compact('administrador'));
     }
@@ -100,9 +101,10 @@ class AdministradoresController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $administrador = $this->Administradores->get($id);
         if ($this->Administradores->delete($administrador)) {
-            $this->Flash->success(__('The administrador has been deleted.'));
+            $this->Flash->success(__('Registro administrador foi excluído.'));
         } else {
-            $this->Flash->error(__('The administrador could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro administrador não foi excluído. Tente novamente.'));
+            return $this->redirect(['action' => 'view', $id]);
         }
 
         return $this->redirect(['action' => 'index']);
