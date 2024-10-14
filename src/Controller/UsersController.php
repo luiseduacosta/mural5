@@ -38,6 +38,7 @@ class UsersController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         $userestagio = $this->Users->get($id, [
             'contain' => ['Alunos', 'Supervisores', 'Professores'],
         ]);
@@ -56,6 +57,7 @@ class UsersController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
         $userestagio = $this->Users->newEmptyEntity();
         // pr($this->request->getData());
         // die();
@@ -85,8 +87,8 @@ class UsersController extends AppController {
                 /* Se está já cadastrado como aluno então capturo o id e aplico no usuer no campo aluno_id */
                 if ($estudantecadastrado) {
                     $dados['aluno_id'] = $estudantecadastrado->id;
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Usuário aluno inserido.'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -97,8 +99,8 @@ class UsersController extends AppController {
                         return $this->redirect(['controller' => 'alunos', 'action' => 'view', $estudantecadastrado->id]);
                     }
                 } else {
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Usuário inserido.'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -138,8 +140,8 @@ class UsersController extends AppController {
                     $dados['professor_id'] = $professorcadastrado->id;
                     // pr($dados);
                     // die();
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Professor cadastrado.'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -150,8 +152,8 @@ class UsersController extends AppController {
                         return $this->redirect(['controller' => 'professores', 'action' => 'view', $dados['professor_id']]);
                     }
                 } else {
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Professora(o) cadastrada(o).'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -191,8 +193,8 @@ class UsersController extends AppController {
                     $dados['supervisor_id'] = $supervisorcadastrado->id;
                     // pr($dados);
                     // die();
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Supervisor(a) cadastrado(a).'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -203,8 +205,8 @@ class UsersController extends AppController {
                         return $this->redirect(['controller' => 'supervisores', 'action' => 'view', $dados['supervisor_id']]);
                     }
                 } else {
-                    $userestagioresultado = $this->Users->patchEntity($userestagio, $dados);
-                    if ($this->Users->save($userestagioresultado)) {
+                    $userresultado = $this->Users->patchEntity($userestagio, $dados);
+                    if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Supervisora(o) cadastrada(o).'));
 
                         $this->getRequest()->getSession()->write('categoria', $this->request->getData('categoria_id'));
@@ -239,7 +241,7 @@ class UsersController extends AppController {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $userestagioresultado = $this->Users->patchEntity($userestagio, $this->request->getData());
             if ($this->Users->save($userestagioresultado)) {
-                $this->Flash->success(__('Userestagio atualizado.'));
+                $this->Flash->success(__('User atualizado.'));
 
                 return $this->redirect(['action' => 'view', $userestagioresultado->id]);
             }

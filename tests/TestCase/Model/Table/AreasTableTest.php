@@ -35,7 +35,7 @@ class AreasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreainstituicoesTable::class];
+        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreasTable::class];
         $this->Areas = $this->getTableLocator()->get('Areas', $config);
     }
 

@@ -226,7 +226,7 @@ class AvaliacoesController extends AppController
                 ->all();
         }
 
-        $this->set('estagiario', $this->paginate(estagiario));
+        $this->set('estagiario', $this->paginate($estagiario));
     }
 
     public function imprimeavaliacaopdf($id = NULL)
