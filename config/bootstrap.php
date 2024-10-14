@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,7 +15,6 @@ declare(strict_types=1);
  * @since         0.10.8
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-
 /*
  * Configure paths required to find CakePHP + general filepath constants
  */
@@ -48,7 +48,6 @@ use Cake\Utility\Inflector;
 /**
  * Load global functions.
  */
- 
 require CAKE . 'functions.php';
 
 /*
@@ -64,14 +63,14 @@ require CAKE . 'functions.php';
  * If you use .env files, be careful to not commit them to source control to avoid
  * security risks. See https://github.com/josegonzalez/php-dotenv#general-security-information
  * for more information for recommended practices.
-*/
- if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
-     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
-     $dotenv->parse()
-         ->putenv()
-         ->toEnv()
-         ->toServer();
- }
+ */
+if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
+    $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
+    $dotenv->parse()
+            ->putenv()
+            ->toEnv()
+            ->toServer();
+}
 
 /*
  * Read configuration file and inject configuration into various
@@ -143,7 +142,7 @@ if (PHP_SAPI === 'cli') {
  */
 $fullBaseUrl = Configure::read('App.fullBaseUrl');
 if (!$fullBaseUrl) {
-	/*
+    /*
      * When using proxies or load balancers, SSL/TLS connections might
      * get terminated before reaching the server. If you trust the proxy,
      * you can enable `$trustProxy` to rely on the `X-Forwarded-Proto`
@@ -215,6 +214,15 @@ ServerRequest::addDetector('tablet', function ($request) {
 // \Cake\Database\TypeFactory::build('timestamptimezone')
 //    ->useLocaleParser();
 
+/* https://discourse.cakephp.org/t/cakephp-locale-pt-br-and-dateformat/1002/14 */
+date_default_timezone_set('America/Sao_Paulo');
+setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+
+\Cake\I18n\Time::setToStringFormat('HH:mm:ss');
+\Cake\I18n\Date::setToStringFormat('dd-MM-yyyy');
+\Cake\I18n\FrozenTime::setToStringFormat('HH:mm:ss');
+\Cake\I18n\FrozenDate::setToStringFormat('dd-MM-yyyy');
+
 /*
  * Custom Inflector rules, can be set to correctly pluralize or singularize
  * table, model, controller names or whatever other string is passed to the
@@ -226,14 +234,34 @@ ServerRequest::addDetector('tablet', function ($request) {
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
 
 Inflector::rules('irregular', ['administrador' => 'administradores']);
-Inflector::rules('irregular', ['configuracao'  => 'configuracoes']);
-Inflector::rules('irregular', ['inscricao'     => 'inscricoes']);
-Inflector::rules('irregular', ['instituicao'   => 'instituicoes']);
-Inflector::rules('irregular', ['professor'     => 'professores']);
-Inflector::rules('irregular', ['supervisor'    => 'supervisores']);
+Inflector::rules('irregular', ['configuracao' => 'configuracoes']);
+Inflector::rules('irregular', ['inscricao' => 'inscricoes']);
+Inflector::rules('irregular', ['instituicao' => 'instituicoes']);
+Inflector::rules('irregular', ['professor' => 'professores']);
+Inflector::rules('irregular', ['supervisor' => 'supervisores']);
+Inflector::rules('irregular', ['avaliacao' => 'avaliacoes']);
 
 // set a custom date and time format
 // see https://book.cakephp.org/5/en/core-libraries/time.html#setting-the-default-locale-and-format-string
 // and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
 //\Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
 //\Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
+
+$this->addPlugin('CakePdf', ['bootstrap' => true, 'routes' => true]);
+
+Configure::write('CakePdf', [
+    'engine' => [
+        'className' => 'CakePdf.DomPdf',
+        'options' => [
+            'isRemoteEnabled' => true
+        ]
+    ],
+    'margin' => [
+        'bottom' => 10,
+        'left' => 10,
+        'right' => 10,
+        'top' => 10
+    ],
+    'orientation' => 'portrait',
+    'download' => true
+]);
