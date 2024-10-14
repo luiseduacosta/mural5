@@ -41,7 +41,6 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
     background: var(--color-main-bg);
-    font-size: 14px;
 }
 
 .top-nav-links,
@@ -55,17 +54,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--color-headings);
 }
 
-h1 {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 2em;
-}
-h2 {
-    font-size: 18px;
-}
-h3 {
-    font-size: 16px;
-}
 a {
     color: var(--color-links);
     transition: color 0.2s linear;
@@ -76,25 +64,6 @@ a:focus,
 a:active {
     color: var(--color-links-active);
     transition: color 0.2s ease-out;
-}
-
-body .navbar {
-    background: #2b6c9c;
-    position: fixed;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-.navbar a,
-.navbar a:hover,
-.navbar a:focus,
-.navbar a:active {
-    color: #fff;
-}
-
-.navbar .navbar-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 .side-nav a,
@@ -118,14 +87,8 @@ th a,
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
-table p {
-    margin: 0;
-}
 
 /* Main */
-#content {
-    margin-top: 5em;
-}
 .content {
     padding: 2rem;
     background: var(--color-white);
@@ -134,21 +97,15 @@ table p {
     box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1),
         0 3px 6px 0 rgba(0, 0, 0, 0.07);
 }
-.content h3,
-.content h4 {
-    margin: 1em 0;
-}
 .content form {
     margin: 0;
 }
 .actions a {
     font-weight: bold;
-    /* padding: 0 0.4rem; */
-    display: block;
+    padding: 0 0.4rem;
 }
-.table_wrap {
-    margin-right: 2em;
-    display: inline-block;
+.actions a:first-child {
+    padding-left: 0;
 }
 th {
     white-space: nowrap;
@@ -180,9 +137,6 @@ th {
 .side-nav-item {
     display: block;
     padding: 0.5rem 0;
-}
-.nav-item {
-    margin: 0;
 }
 
 /* View action */
@@ -225,9 +179,6 @@ th {
 }
 
 /* Forms */
-.form-inline label {
-    margin-right: 1em;
-}
 .input.radio,
 .input.checkbox,
 .input.multicheckbox {
@@ -269,8 +220,6 @@ input[type='datetime-local'] {
 }
 .paginator p {
     margin-bottom: 0;
-    text-align: center;
-    color: var(--color-lightgray);
 }
 .pagination {
     display: flex;
@@ -300,7 +249,9 @@ input[type='datetime-local'] {
     text-decoration: underline;
 }
 .pagination .disabled a {
-    display: none;
+    cursor: not-allowed;
+    color: var(--color-lightgray);
+    text-decoration: none;
 }
 .first a,
 .prev a,
@@ -353,31 +304,3 @@ input[type='datetime-local'] {
     content: " \2190";
 }
 
-/* Forms */
-.nav .button {
-    margin-right: 1em;
-}
-.content .form-inline .form-control {
-    min-width: 7em;
-}
-
-/* Error */
-.cake-error {
-    margin-top: 2em;
-}
-.cake-error:first-child {
-    margin-top: 6em;
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 1em;];]2;];
-}
-footer img {
-    margin-right: 4em;
-    max-height: 40px;
-}
-footer img[alt="CakePHP"] {
-    max-height: 25px;
-}

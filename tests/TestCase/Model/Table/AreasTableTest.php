@@ -7,7 +7,7 @@ use App\Model\Table\AreasTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\AreasTable Test Case
+ * App\Model\Table\AreainstituicoesTable Test Case
  */
 class AreasTableTest extends TestCase
 {
@@ -35,7 +35,7 @@ class AreasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreasTable::class];
+        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreainstituicoesTable::class];
         $this->Areas = $this->getTableLocator()->get('Areas', $config);
     }
 

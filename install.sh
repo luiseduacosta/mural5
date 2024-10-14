@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# sudo chmod +x install.sh
+# chmod +x install.sh
 
 # READ VARS
 
@@ -38,22 +38,21 @@ sudo mariadb -e "FLUSH PRIVILEGES;"
 sudo mariadb $database < $dump
 echo "mariadb database configured"
 
+# CLONE MURAL
+
+cd /var/www/html
+git clone "https://github.com/rafaelcastrocouto/mural4"
+echo "mural repository cloned"
+
+cd /var/www/html/mural4
+composer update
+echo "composer requirements installed"
+
 # SET USERS PERMISSIONS
 
 sudo chown -R www-data /var/www/html
 sudo usermod -a -G www-data $username
 sudo chmod -R a+w /var/www/html
-
-# CLONE MURAL
-
-cd /var/www/html
-git clone "https://github.com/rafaelcastrocouto/mural"
-echo "mural repository cloned"
-
-cd /var/www/html/mural
-sudo chmod -R a+w /var/www/html/mural
-composer update
-echo "composer requirements installed"
 
 # EDIT APACHE CONF PERMISSION
 
@@ -69,7 +68,7 @@ sudo nano /etc/apache2/apache2.conf
 
 # CREATE CONFIG .ENV
 
-sudo cp /var/www/html/mural/config/.env.example /var/www/html/mural/config/.env
+sudo cp /var/www/html/mural4/config/.env.example /var/www/html/mural4/config/.env
 echo "export SECURITY_SALT="12345678901234567890123456789012" <<<<<<<< CHANGE THIS"
 echo "export PASSWORD => "$password", <<<<<<<< CHANGE THIS"
 echo -e "enter to proceed to nano"
@@ -78,7 +77,7 @@ sudo nano /var/www/html/mural/config/.env
 
 # CREATE CONFIG app_local.php
 
-sudo cp /var/www/html/mural/config/app_local.example.php /var/www/html/mural/config/app_local.php
+sudo cp /var/www/html/mural4/config/app_local.example.php /var/www/html/mural4/config/app_local.php
 echo "'database' => '"$database"', <<<<<<<< CHANGE THIS"
 echo "'username' => '"$username"', <<<<<<<< CHANGE THIS"
 echo -e "enter to proceed to nano"
@@ -87,9 +86,6 @@ sudo nano /var/www/html/mural/config/app_local.php
 
 # CONFIG APACHE MOD REWRITE
 
-#sudo apt -y install software-properties-common apt-transport-https
-#sudo add-apt-repository ppa:ondrej/php -y
-#sudo apt -y install php8.1 libapache2-mod-php8.1
 sudo a2enmod rewrite
 echo "mod rewrite configured"
 sudo systemctl restart apache2
@@ -97,7 +93,7 @@ echo "systemctl apache server restarted"
 
 # CONFIG PHPMYADMIN
 
-sudo apt -y install phpmyadmin
+sudo apt install phpmyadmin
 sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
 sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 echo "phpmyadmin configured"

@@ -8,9 +8,9 @@ use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\InstituicoesController Test Case
+ * App\Controller\InstituicaoController Test Case
  *
- * @uses \App\Controller\InstituicoesController
+ * @uses \App\Controller\InstituicaoController
  */
 class InstituicoesControllerTest extends TestCase
 {
@@ -28,7 +28,7 @@ class InstituicoesControllerTest extends TestCase
         'app.Muralestagios',
         'app.Visitas',
         'app.Supervisores',
-        'app.InstituicoesSupervisores',
+        'app.InstituicaoSupervisores',
     ];
 
     /**

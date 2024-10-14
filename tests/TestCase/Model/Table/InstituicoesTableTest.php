@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\InstituicoesTable;
+use App\Model\Table\InstituicaoTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\InstituicoesTable Test Case
+ * App\Model\Table\InstituicaoTable Test Case
  */
 class InstituicoesTableTest extends TestCase
 {
@@ -40,7 +40,7 @@ class InstituicoesTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Instituicoes') ? [] : ['className' => InstituicoesTable::class];
+        $config = $this->getTableLocator()->exists('Instituicoes') ? [] : ['className' => InstituicaoTable::class];
         $this->Instituicoes = $this->getTableLocator()->get('Instituicoes', $config);
     }
 

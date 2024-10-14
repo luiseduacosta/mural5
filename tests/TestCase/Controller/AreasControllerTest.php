@@ -10,7 +10,7 @@ use Cake\TestSuite\TestCase;
 /**
  * App\Controller\AreasController Test Case
  *
- * @uses \App\Controller\AreasController
+ * @uses \App\Controller\TurmaestagiosController
  */
 class AreasControllerTest extends TestCase
 {
@@ -22,7 +22,9 @@ class AreasControllerTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'app.Areas',
+        'app.Turmaestagios',
+        'app.Estagiarios',
+        'app.Muralestagios',
     ];
 
     /**
