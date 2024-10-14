@@ -51,11 +51,11 @@ class AreasController extends AppController {
     public function add() {
         $area = $this->Areas->newEmptyEntity();
         if ($this->request->is('post')) {
-            $areainstituicaoresultado = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($areainstituicaoresultado)) {
+            $arearesultado = $this->Areas->patchEntity($area, $this->request->getData());
+            if ($this->Areas->save($arearesultado)) {
                 $this->Flash->success(__('Registro area inserido.'));
 
-                return $this->redirect(['action' => 'view', $areainstituicaoresultado->id]);
+                return $this->redirect(['action' => 'view', $arearesultado->id]);
             }
             $this->Flash->error(__('Registro area nao foi inserido. Tente novamente.'));
         }
@@ -74,11 +74,11 @@ class AreasController extends AppController {
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $areainstituicaoresultado = $this->Areas->patchEntity($area, $this->request->getData());
-            if ($this->Areas->save($areainstituicaoresultado)) {
+            $arearesultado = $this->Areas->patchEntity($area, $this->request->getData());
+            if ($this->Areas->save($arearesultado)) {
                 $this->Flash->success(__('Registro area atualizado.'));
 
-                return $this->redirect(['action' => 'view', $areainstituicaoresultado->id]);
+                return $this->redirect(['action' => 'view', $arearesultado->id]);
             }
             $this->Flash->error(__('Registro area nao foi atualziado. Tente novamente.'));
         }
@@ -94,8 +94,8 @@ class AreasController extends AppController {
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $areainstituicaoresultado = $this->Areas->get($id);
-        if ($this->Areas->delete($areainstituicaoresultado)) {
+        $arearesultado = $this->Areas->get($id);
+        if ($this->Areas->delete($arearesultado)) {
             $this->Flash->success(__('Registro area excluido.'));
         } else {
             $this->Flash->error(__('Registro area nao foi excluido. Tente novamente.'));

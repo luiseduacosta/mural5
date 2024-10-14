@@ -2,7 +2,7 @@
     "name": "cakephp/app",
     "description": "Mural de estágios com o Cakephp",
     "type": "project",
-    "homepage": "https://cakephp.org",
+    "homepage": "http://mural.ess.ufrj.br",
     "license": "MIT",
     "require": {
         "php": ">=8.1",
