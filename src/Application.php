@@ -43,7 +43,7 @@ use Psr\Http\Message\ServerRequestInterface;
   *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication 
+class Application extends BaseApplication
     implements AuthenticationServiceProviderInterface
 {
     /**
@@ -57,8 +57,6 @@ class Application extends BaseApplication
 
         // Call parent to load bootstrap from files.
         parent::bootstrap();
-
-        $this->addPlugin('Authentication');
 
         if (PHP_SAPI !== 'cli') {
             FactoryLocator::add(
@@ -104,8 +102,7 @@ class Application extends BaseApplication
             // // https://book.cakephp.org/5/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true])
-            
-    
+
         );
 
         return $middlewareQueue;
@@ -117,7 +114,7 @@ class Application extends BaseApplication
             'unauthenticatedRedirect' => Router::url('/users/login'),
             'queryParam' => 'redirect',
         ]);
-    
+
         // Load identifiers, ensure we check email and password fields
         $authenticationService->loadIdentifier('Authentication.Password', [
             'fields' => [
@@ -125,7 +122,7 @@ class Application extends BaseApplication
                 'password' => 'password',
             ],
         ]);
-    
+
         // Load the authenticators, you want session first
         $authenticationService->loadAuthenticator('Authentication.Session');
         // Configure form data check to pick email and password
@@ -136,16 +133,16 @@ class Application extends BaseApplication
             ],
             'loginUrl' => Router::url('/users/login'),
         ]);
-    
+
         return $authenticationService;
     }
 
     /**
      * Register application container services.
      *
-	 * @param \Cake\Core\ContainerInterface $container The Container to update.
+     * @param \Cake\Core\ContainerInterface $container The Container to update.
      * @return void
-	 * @link https://book.cakephp.org/5/en/development/dependency-injection.html#dependency-injection
+     * @link https://book.cakephp.org/5/en/development/dependency-injection.html#dependency-injection
      */
     public function services(ContainerInterface $container): void
     {
