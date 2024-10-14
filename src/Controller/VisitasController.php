@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -9,19 +10,18 @@ namespace App\Controller;
  * @property \App\Model\Table\VisitasTable $Visitas
  * @method \App\Model\Entity\Visita[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class VisitasController extends AppController
-{
+class VisitasController extends AppController {
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
-    {
+    public function index() {
         //$this->paginate = [
         //    'contain' => ['Instituicoes'],
         //];
-        $visitas = $this->paginate($this->Visitas->find()->contain(['Instituicoes']));
+        $visitas = $this->paginate($this->Visitas);
 
         $this->set(compact('visitas'));
     }
@@ -33,11 +33,15 @@ class VisitasController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
         $visita = $this->Visitas->get($id, [
             'contain' => ['Instituicoes'],
         ]);
+
+        if (!isset($visita)) {
+            $this->Flash->error(__('Nao ha registros de visitas para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         $this->set(compact('visita'));
     }
@@ -47,8 +51,7 @@ class VisitasController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
         $visita = $this->Visitas->newEmptyEntity();
         if ($this->request->is('post')) {
             $visita = $this->Visitas->patchEntity($visita, $this->request->getData());
@@ -70,8 +73,7 @@ class VisitasController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
         $visita = $this->Visitas->get($id, [
             'contain' => [],
         ]);
@@ -80,7 +82,7 @@ class VisitasController extends AppController
             if ($this->Visitas->save($visita)) {
                 $this->Flash->success(__('The visita has been saved.'));
 
-                return $this->redirect(['action' => 'view', $id]);
+                return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The visita could not be saved. Please, try again.'));
         }
@@ -95,8 +97,7 @@ class VisitasController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $visita = $this->Visitas->get($id);
         if ($this->Visitas->delete($visita)) {

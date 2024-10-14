@@ -4,28 +4,42 @@
  * @var \App\Model\Entity\Area $area
  */
 ?>
-<div>
-    <div class="column-responsive column-80">
-        <div class="areas form content">
-            <aside>
-                <div class="nav">
-                    <?= $this->Html->link(__('Listar Areas'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Form->postLink(
-                        __('Deletar'),
-                        ['action' => 'delete', $area->id],
-                        ['confirm' => __('Are you sure you want to delete {0}?', $area->area), 'class' => 'button']
-                    ) ?>
-                </div>
-            </aside>
-            <?= $this->Form->create($area) ?>
-            <fieldset>
-                <h3><?= __('Editando Area') ?></h3>
-                <?php
-                    echo $this->Form->control('area');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Editar')) ?>
-            <?= $this->Form->end() ?>
+
+<?= $this->element('templates') ?>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $area->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
         </div>
+    </nav>
+
+    <div class="container">
+        <?= $this->Form->create($area) ?>
+        <fieldset>
+            <legend><?= __('Editar área instituição') ?></legend>
+            <?php
+            echo $this->Form->control('area', ['label' => ['text' => 'Área']]);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
     </div>
 </div>

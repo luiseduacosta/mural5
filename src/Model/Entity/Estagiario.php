@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -9,9 +10,10 @@ use Cake\ORM\Entity;
  * Estagiario Entity
  *
  * @property int $id
- * @property int $aluno_id
+ * @property int $alunoestagiario_id
+ * @property int|null $aluno_id
  * @property int $registro
- * @property string $ajustecurricular2020
+ * @property string $ajuste2020
  * @property string $turno
  * @property string $nivel
  * @property int $tc
@@ -20,19 +22,26 @@ use Cake\ORM\Entity;
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
- * @property int|null $turma_estagio_id
+ * @property int|null $turmaestagio_id
  * @property string|null $nota
  * @property int|null $ch
  * @property string|null $observacoes
- *
- * @property \App\Model\Entity\Aluno $aluno
- * @property \App\Model\Entity\Instituicao $instituicao
- * @property \App\Model\Entity\Supervisor $supervisor
- * @property \App\Model\Entity\Professor $professor
- * @property \App\Model\Entity\Turmaestagio $turmaestagio
+ * @property string|null $complemento_id
+ * @property string|null $benetransporte
+ * @property string|null $benealimentacao
+ * @property string|null $benebolsa 
+ * 
+ * @property \App\Model\Entity\Alunoestagiario[] $alunoestagiarios
+ * @property \App\Model\Entity\Aluno[] $alunos
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
+ * @property \App\Model\Entity\Supervisor[] $supervisores
+ * @property \App\Model\Entity\Professor[] $professores
+ * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
+ * @property \App\Model\Entity\Avaliacao[] $avaliacoes
+ * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividades
  */
-class Estagiario extends Entity
-{
+class Estagiario extends Entity {
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -43,10 +52,10 @@ class Estagiario extends Entity
      * @var array
      */
     protected array $_accessible = [
+        'alunoestagiario_id' => true,
         'aluno_id' => true,
-        'alunonovo_id' => true,
         'registro' => true,
-        'ajustecurricular2020' => true,
+        'ajuste2020' => true,
         'turno' => true,
         'nivel' => true,
         'tc' => true,
@@ -55,10 +64,21 @@ class Estagiario extends Entity
         'supervisor_id' => true,
         'professor_id' => true,
         'periodo' => true,
-        'turma_estagio_id' => true,
+        'turmaestagio_id' => true,
         'nota' => true,
         'ch' => true,
         'observacoes' => true,
-        'complemento_id' => true
+        'complemento_id' => true,
+        'benetransporte' => true,
+        'benealimentacao' => true,
+        'benebolsa' => true,
+        'alunoestagiarios' => true,
+        'alunos' => true,
+        'instituicoes' => true,
+        'supervisores' => true,
+        'professores' => true,
+        'turmaestagios' => true,
+        'avaliacoes' => true,
+        'folhadeatividades' => true,
     ];
 }

@@ -14,10 +14,12 @@ use Cake\ORM\Entity;
  * @property int|null $siape
  * @property \Cake\I18n\FrozenDate|null $datanascimento
  * @property string|null $localnascimento
+ * @property string|null $sexo
  * @property string $ddd_telefone
  * @property string|null $telefone
  * @property string $ddd_celular
  * @property string|null $celular
+ * @property string|null $email
  * @property string|null $homepage
  * @property string|null $redesocial
  * @property string|null $curriculolattes
@@ -36,13 +38,15 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenDate|null $dataingresso
  * @property string|null $formaingresso
  * @property string|null $tipocargo
+ * @property string|null $categoria
  * @property string|null $regimetrabalho
  * @property string|null $departamento
  * @property \Cake\I18n\FrozenDate|null $dataegresso
  * @property string|null $motivoegresso
  * @property string|null $observacoes
- * @property int $user_id
  *
+ * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\User[] $users
  */
 class Professor extends Entity
@@ -62,10 +66,12 @@ class Professor extends Entity
         'siape' => true,
         'datanascimento' => true,
         'localnascimento' => true,
+        'sexo' => true,
         'ddd_telefone' => true,
         'telefone' => true,
         'ddd_celular' => true,
         'celular' => true,
+        'email' => true,
         'homepage' => true,
         'redesocial' => true,
         'curriculolattes' => true,
@@ -84,6 +90,7 @@ class Professor extends Entity
         'dataingresso' => true,
         'formaingresso' => true,
         'tipocargo' => true,
+        'categoria' => true,
         'regimetrabalho' => true,
         'departamento' => true,
         'dataegresso' => true,
@@ -91,6 +98,6 @@ class Professor extends Entity
         'observacoes' => true,
         'estagiarios' => true,
         'muralestagios' => true,
-        'user_id' => true
+        'users' => true,
     ];
 }

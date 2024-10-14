@@ -3,49 +3,85 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor[]|\Cake\Collection\CollectionInterface $supervisores
  */
+// pr($supervisores);
+$user = $this->getRequest()->getAttribute('identity');
+// pr($user['categoria_id']);
 ?>
-<div class="supervisores index content">
-    
-    <?= $this->Html->link(__('Novo Supervisor'), ['action' => 'add'], ['class' => 'button']) ?>
-    
-    <h3><?= __('Lista de Supervisores') ?></h3>
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-    </div>
-    <div>
-        <table>
+<div class="container">
+    <?php if ($user['categoria_id'] == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+
+                        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-secondary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    <?php endif; ?>
+    <h3><?= __('Supervisores') ?></h3>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <th class="actions"><?= __('Actions') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('nome') ?></th>
-                    <th><?= $this->Paginator->sort('cpf') ?></th>
+                    <th><?= $this->Paginator->sort('cress') ?></th>
+                    <th><?= $this->Paginator->sort('regiao') ?></th>
+                    <th><?= $this->Paginator->sort('codigo_tel', 'DDD') ?></th>
+                    <th><?= $this->Paginator->sort('telefone') ?></th>
+                    <th><?= $this->Paginator->sort('codigo_cel', 'DDD') ?></th>
+                    <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('escola') ?></th>
-                    <th><?= $this->Paginator->sort('ano_formatura') ?></th>
+                    <?php if ($user['categoria_id'] == 1): ?>
+                        <th class="actions"><?= __('Ações') ?></th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($supervisores as $supervisor): ?>
-                <tr>
-                    <td class="actions">
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>
-                        <?= $this->Form->postLink(__('Deletar'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Are you sure you want to delete {0}?', $supervisor->nome)]) ?>
-                    </td>
-                    <td><?= $this->Html->link($supervisor->id, ['action' => 'view', $supervisor->id]) ?></td>
-                    <td><?= $this->Html->link($supervisor->nome, ['action' => 'view', $supervisor->id]) ?></td>
-                    <td><?= h($supervisor->cpf) ?></td>
-                    <td><?= ($supervisor->user and $supervisor->user->email) ? $this->Text->autoLinkEmails($supervisor->user->email) : '' ?></td>
-                    <td><?= h($supervisor->escola) ?></td>
-                    <td><?= h($supervisor->ano_formatura) ?></td>
-                </tr>
+                    <tr>
+                        <td><?= $supervisor->id ?></td>
+                        <?php if ($user['categoria_id'] == 1): ?>
+                            <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
+                            </td>
+                        <?php else: ?>
+                            <td><?= $supervisor->nome ?></td>
+                        <?php endif; ?>
+                        <td><?= $supervisor->cress ?></td>
+                        <td><?= $supervisor->regiao ?></td>
+                        <td><?= h($supervisor->codigo_tel) ?></td>
+                        <td><?= h($supervisor->telefone) ?></td>
+                        <td><?= h($supervisor->codigo_cel) ?></td>
+                        <td><?= h($supervisor->celular) ?></td>
+                        <td><?= h($supervisor->email) ?></td>
+                        <?php if ($user['categoria_id'] == 1): ?>
+                            <td class="actions">
+                                <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $supervisor->id)]) ?>
+                            </td>
+                        <?php endif; ?>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-        <?= $this->element('paginator_count'); ?>
+
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

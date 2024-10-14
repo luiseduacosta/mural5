@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -12,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Inscricoes Model
  *
- * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
+ * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
  *
  * @method \App\Model\Entity\Inscricao newEmptyEntity()
@@ -29,15 +28,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class InscricoesTable extends Table {
-
+class InscricoesTable extends Table
+{
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void {
+    public function initialize(array $config): void
+    {
         parent::initialize($config);
 
         $this->setTable('inscricoes');
@@ -49,7 +49,8 @@ class InscricoesTable extends Table {
             'foreignKey' => 'aluno_id',
         ]);
         $this->belongsTo('Muralestagios', [
-            'foreignKey' => 'mural_estagio_id',
+            'foreignKey' => 'muralestagio_id',
+            'joinType' => 'INNER',
         ]);
     }
 
@@ -59,24 +60,28 @@ class InscricoesTable extends Table {
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator {
+    public function validationDefault(Validator $validator): Validator
+    {
         $validator
-                ->integer('id')
-                ->allowEmptyString('id', null, 'create');
+            ->integer('id')
+            ->allowEmptyString('id', null, 'create');
+
         $validator
-                ->integer('registro')
-                ->notEmptyString('registro');
+            ->integer('registro')
+            ->notEmptyString('registro');
+
+        $validator
+            ->date('data')
+            ->requirePresence('data', 'create')
+            ->notEmptyDate('data');
+        
         $validator
                 ->integer('aluno_id')
                 ->notEmptyString('aluno_id');
-
-        $validator
-                ->integer('alunonovo_id')
-                ->notEmptyString('alunonovo_id');
         
         $validator
-                ->integer('instituicao_id')
-                ->notEmptyString('instituicao_id');
+                ->integer('muralestagio_id')
+                ->notEmptyString('muralestagio_id');
         
         $validator
                 ->date('data')
@@ -84,13 +89,13 @@ class InscricoesTable extends Table {
                 ->notEmptyDate('data');
 
         $validator
-                ->scalar('periodo')
-                ->maxLength('periodo', 6)
-                ->notEmptyString('periodo');
+            ->scalar('periodo')
+            ->maxLength('periodo', 6)
+            ->notEmptyString('periodo');
 
         $validator
-                ->dateTime('timestamp')
-                ->notEmptyDateTime('timestamp');
+            ->dateTime('timestamp')
+            ->notEmptyDateTime('timestamp');
 
         return $validator;
     }
@@ -102,11 +107,11 @@ class InscricoesTable extends Table {
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules): RulesChecker {
-        $rules->add($rules->existsIn(['registro'], 'Alunos'), ['errorField' => 'registro']);
-        $rules->add($rules->existsIn(['instituicao_id'], 'Muralestagios'), ['errorField' => 'instituicao_id']);
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['muralestagio_id'], 'Muralestagios'), ['errorField' => 'muralestagio_id']);
 
         return $rules;
     }
-
 }

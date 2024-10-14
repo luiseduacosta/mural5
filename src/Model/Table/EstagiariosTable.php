@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,11 +12,14 @@ use Cake\Validation\Validator;
 /**
  * Estagiarios Model
  *
+ * @property \App\Model\Table\AlunoestagiariosTable&\Cake\ORM\Association\BelongsTo $Alunoestagiarios
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
+ * @property \App\Model\Table\AvaliacoesTable&\Cake\ORM\Association\HasOne $Avaliacoes
+ * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasOne $Folhadeatividades
  *
  * @method \App\Model\Entity\Estagiario newEmptyEntity()
  * @method \App\Model\Entity\Estagiario newEntity(array $data, array $options = [])
@@ -31,16 +35,15 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Estagiario[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Estagiario[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class EstagiariosTable extends Table
-{
+class EstagiariosTable extends Table {
+
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void
-    {
+    public function initialize(array $config): void {
         parent::initialize($config);
 
         $this->setTable('estagiarios');
@@ -48,11 +51,16 @@ class EstagiariosTable extends Table
         $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Alunoestagiarios', [
+            'foreignKey' => 'alunoestagiario_id',
+            'joinType' => 'INNER',
+        ]);
         $this->belongsTo('Alunos', [
             'foreignKey' => 'aluno_id',
         ]);
         $this->belongsTo('Instituicoes', [
             'foreignKey' => 'instituicao_id',
+            'joinType' => 'INNER',
         ]);
         $this->belongsTo('Supervisores', [
             'foreignKey' => 'supervisor_id',
@@ -61,7 +69,16 @@ class EstagiariosTable extends Table
             'foreignKey' => 'professor_id',
         ]);
         $this->belongsTo('Turmaestagios', [
-            'foreignKey' => 'turma_estagio_id',
+            'foreignKey' => 'turmaestagio_id',
+        ]);
+        $this->belongsTo('Complementos', [
+            'foreignKey' => 'complemento_id',
+        ]);
+        $this->hasOne('Avaliacoes', [
+            'foreignKey' => 'estagiario_id',
+        ]);
+        $this->hasOne('Folhadeatividades', [
+            'foreignKey' => 'estagiario_id',
         ]);
     }
 
@@ -71,54 +88,59 @@ class EstagiariosTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator
-    {
+    public function validationDefault(Validator $validator): Validator {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+                ->integer('id')
+                ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->integer('registro')
-            ->notEmptyString('registro');
+                ->integer('registro')
+                ->notEmptyString('registro');
 
         $validator
-            ->scalar('ajustecurricular2020')
-            ->maxLength('ajustecurricular2020', 1)
-            ->notEmptyString('ajustecurricular2020');
+                ->scalar('ajuste2020')
+                ->maxLength('ajuste2020', 1)
+                ->notEmptyString('ajuste2020');
 
         $validator
-            ->scalar('turno')
-            ->maxLength('turno', 1)
-            ->notEmptyString('turno');
+                ->scalar('turno')
+                ->maxLength('turno', 1)
+                ->allowEmptyString('turno');
 
         $validator
-            ->scalar('nivel')
-            ->maxLength('nivel', 1)
-            ->notEmptyString('nivel');
+                ->scalar('nivel')
+                ->maxLength('nivel', 1)
+                ->notEmptyString('nivel');
 
         $validator
-            ->notEmptyString('tc');
+                ->allowEmptyString('tc');
 
         $validator
-            ->date('tc_solicitacao')
-            ->allowEmptyDate('tc_solicitacao');
+                ->date('tc_solicitacao')
+                ->allowEmptyDate('tc_solicitacao');
 
         $validator
-            ->scalar('periodo')
-            ->maxLength('periodo', 6)
-            ->notEmptyString('periodo');
+                ->notEmptyString('instituicao_id', 'Selecione uma instituicao');
 
         $validator
-            ->decimal('nota')
-            ->allowEmptyString('nota');
+                ->allowEmptyString('supervisor_id');
 
         $validator
-            ->allowEmptyString('ch');
+                ->scalar('periodo')
+                ->maxLength('periodo', 6)
+                ->notEmptyString('periodo');
 
         $validator
-            ->scalar('observacoes')
-            ->maxLength('observacoes', 255)
-            ->allowEmptyString('observacoes');
+                ->decimal('nota')
+                ->allowEmptyString('nota');
+
+        $validator
+                ->allowEmptyString('ch');
+
+        $validator
+                ->scalar('observacoes')
+                ->maxLength('observacoes', 255)
+                ->allowEmptyString('observacoes');
 
         return $validator;
     }
@@ -130,8 +152,9 @@ class EstagiariosTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
+    public function buildRules(RulesChecker $rules): RulesChecker {
+        
+        $rules->add($rules->existsIn(['alunoestagiario_id'], 'Alunoestagiarios'), ['errorField' => 'alunoestagiario_id']);
         $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
         $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
         $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);

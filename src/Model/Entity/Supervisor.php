@@ -19,6 +19,7 @@ use Cake\ORM\Entity;
  * @property string $telefone
  * @property string $codigo_cel
  * @property string $celular
+ * @property string|null $email
  * @property string $escola
  * @property string $ano_formatura
  * @property int|null $cress
@@ -30,11 +31,10 @@ use Cake\ORM\Entity;
  * @property int|null $num_inscricao
  * @property string|null $curso_turma
  * @property string|null $observacoes
- * @property int $user_id
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\User[] $users
- * @property \App\Model\Entity\Instituicao[] $instituicao
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
 class Supervisor extends Entity
 {
@@ -58,6 +58,7 @@ class Supervisor extends Entity
         'telefone' => true,
         'codigo_cel' => true,
         'celular' => true,
+        'email' => true,
         'escola' => true,
         'ano_formatura' => true,
         'cress' => true,
@@ -69,6 +70,8 @@ class Supervisor extends Entity
         'num_inscricao' => true,
         'curso_turma' => true,
         'observacoes' => true,
-        'user_id' => true
+        'estagiarios' => true,
+        'users' => true,
+        'instituicoes' => true,
     ];
 }

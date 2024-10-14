@@ -11,24 +11,23 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
+ * @property \App\Model\Table\EstudantesTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
- * @property \App\Model\Table\AdministradoresTable&\Cake\ORM\Association\BelongsTo $Administradores
  *
- * @method \App\Model\Entity\User newEmptyEntity()
- * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\User[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Userestagio newEmptyEntity()
+ * @method \App\Model\Entity\Userestagio newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Userestagio[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Userestagio get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Userestagio findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Userestagio patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Userestagio[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Userestagio|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Userestagio saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Userestagio[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Userestagio[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Userestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Userestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class UsersTable extends Table
 {
@@ -47,22 +46,16 @@ class UsersTable extends Table
         $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->hasOne('Administradores', [
-            'foreignKey' => 'user_id',
+        $this->belongsTo('Alunos', [
+            'foreignKey' => 'aluno_id',
+        ]);        
+        $this->belongsTo('Supervisores', [
+            'foreignKey' => 'supervisor_id',
         ]);
-        $this->hasOne('Alunos', [
-            'foreignKey' => 'user_id',
-        ]);
-        $this->hasOne('Professores', [
-            'foreignKey' => 'user_id',
-        ]);
-        $this->hasOne('Supervisores', [
-            'foreignKey' => 'user_id',
+        $this->belongsTo('Professores', [
+            'foreignKey' => 'professor_id',
         ]);
         
-        $this->belongsTo('Categorias', [
-            'foreignKey' => 'categoria_id'
-        ]);
     }
 
     /**
@@ -79,19 +72,24 @@ class UsersTable extends Table
 
         $validator
             ->email('email')
-            ->allowEmptyString('email');
+            ->notEmptyString('email');
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 40)
-            ->allowEmptyString('password');
+            ->maxLength('password', 50)
+            ->notEmptyString('password');
 
         $validator
             ->scalar('categoria_id')
             ->notEmptyString('categoria_id');
 
         $validator
-            ->dateTime('timestamp')
+            ->integer('registro')
+            ->requirePresence('registro', 'create')
+            ->notEmptyString('registro');
+
+        $validator
+            /* ->dateTime('timestamp') */
             ->notEmptyDateTime('timestamp');
 
         return $validator;
@@ -106,9 +104,9 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        //$rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
-        //$rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
-        //$rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
+        $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 
         return $rules;
     }

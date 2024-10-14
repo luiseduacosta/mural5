@@ -4,44 +4,54 @@
  * @var \App\Model\Entity\Area[]|\Cake\Collection\CollectionInterface $areas
  */
 ?>
-<div class="areas index content">
-    <aside>
-		<div class="nav">
-            <?= $this->Html->link(__('Nova Area'), ['action' => 'add'], ['class' => 'button']) ?>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Nova área instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
         </div>
-	</aside>
-    
-    <h3><?= __('Lista de áreas') ?></h3>
-	
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-    </div>
-    <div class="table_wrap">
-        <table>
+    </nav>
+
+    <h3><?= __('Área instituicoes') ?></h3>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <th class="actions"><?= __('Actions') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('area') ?></th>
+                    <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($areas as $area): ?>
-                <tr>
-                    <td class="actions">
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $area->id]) ?>
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $area->id]) ?>
-                        <?= $this->Form->postLink(__('Deletar'), ['action' => 'delete', $area->id], ['confirm' => __('Are you sure you want to delete {0}?', $area->area)]) ?>
-                    </td>
-                    <td><?= $this->Html->link($area->id, ['action' => 'view', $area->id]) ?></td>
-                    <td><?= $this->Html->link($area->area, ['action' => 'view', $area->id]) ?></td>
-                </tr>
+                    <tr>
+                        <td><?= $area->id ?></td>
+                        <td><?= h($area->area) ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $area->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $area->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id)]) ?>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-        <?= $this->element('paginator_count'); ?>
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

@@ -4,46 +4,97 @@
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
 ?>
-<div>
-    <div class="column-responsive column-80">
-        <div class="muralestagios form content">
-            <aside>
-                <div class="nav">
-                    <?= $this->Html->link(__('Listar Muralestagios'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Form->postLink(
-                        __('Deletar'),
-                        ['action' => 'delete', $muralestagio->id],
-                        ['confirm' => __('Are you sure you want to delete # {0}?', $muralestagio->id), 'class' => 'button']
-                    ) ?>
-                </div>
-            </aside>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/translations/pt.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        ClassicEditor
+            .create(document.querySelector('#requisitos'), {
+                // The language code is defined in the https://en.wikipedia.org/wiki/ISO_639-1 standard.
+                language: 'pt'
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
+            .create(document.querySelector('#outras'), {
+                language: 'pt'
+            })
+            .then(editor => {
+                console.log(editor);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    });
+</script>
+
+<?= $this->element('templates'); ?>
+
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $muralestagio->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="container">
+            <?= $this->element('templates') ?>
             <?= $this->Form->create($muralestagio) ?>
             <fieldset>
-                <legend><?= __('Editando Muralestagio') ?></legend>
+                <legend><?= __('Editar Mural de estágio') ?></legend>
                 <?php
-                    echo $this->Form->control('instituicao');
-                    echo $this->Form->control('convenio');
-                    echo $this->Form->control('email');
-                    echo $this->Form->control('vagas');
-                    echo $this->Form->control('beneficios');
-                    echo $this->Form->control('fim_de_semana');
-                    echo $this->Form->control('cargaHoraria');
-                    echo $this->Form->control('requisitos');
-                    echo $this->Form->control('turmaestagio_id', ['options' => $turmaestagios, 'class' => 'form-control']);
-                    echo $this->Form->control('turno');
-                    echo $this->Form->control('professor_id', ['options' => $professores, 'class' => 'form-control']);
-                    echo $this->Form->control('dataSelecao', ['empty' => true]);
-                    echo $this->Form->control('dataInscricao', ['empty' => true]);
-                    echo $this->Form->control('horarioSelecao');
-                    echo $this->Form->control('localSelecao');
-                    echo $this->Form->control('formaSelecao');
-                    echo $this->Form->control('contato');
-                    echo $this->Form->control('periodo');
-                    echo $this->Form->control('localInscricao');
-                    echo $this->Form->control('outras');
+                echo $this->Form->control('instituicao_id', ['type' => 'hidden', 'label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly']);
+                echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição'], 'readonly']);
+                echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
+                echo $this->Form->control('vagas');
+                echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios']]);
+                echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
+                echo $this->Form->control('cargaHoraria', ['label' => ['text' => 'Carga horária']]);
+                echo $this->Form->control('requisitos');
+                echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Área de estágio'], 'options' => $turmaestagios]);
+                echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
+                echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores]);
+                echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
+                echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
+                echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);
+                echo $this->Form->control('localSelecao', ['label' => ['text' => 'Local da seleção']]);
+                echo $this->Form->control('formaSelecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras']]);
+                echo $this->Form->control('contato');
+                echo $this->Form->control('email');
+                echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'options' => $periodostotal]);
+                echo $this->Form->control('datafax', ['empty' => true]);
+                echo $this->Form->control('localInscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS']]);
+                echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Editar')) ?>
+            <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

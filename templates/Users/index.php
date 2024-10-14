@@ -4,69 +4,73 @@
  * @var \App\Model\Entity\User[]|\Cake\Collection\CollectionInterface $users
  */
 ?>
-<div class="users index content">
-	<aside>
-		<div class="nav">
-            <?= $this->Html->link(__('Novo usuário'), ['action' => 'add'], ['class' => 'button']) ?>
-		</div>
-	</aside>
-    
-    <h3><?= __('Lista de usuários') ?></h3>
-    
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-    </div>
-    <div class="table_wrap">
-        <table>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Usuários</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerUsuario">
+            <ul class="navbar-nav me-auto mt-lg-0">
+                <li class="nav-item active">
+                    <?= $this->Html->link(__('Novo usuário de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto">
+                <input class="form-control" type="search" placeholder="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <th class="actions"><?= __('Actions') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('categoria', 'Categorias') ?></th>
-                    <th><?= $this->Paginator->sort('Alunos.nome', 'Nome') ?></th>
-                    <th><?= $this->Paginator->sort('timestamp') ?></th>
+                    <th><?= $this->Paginator->sort('categoria_id') ?></th>
+                    <th><?= $this->Paginator->sort('registro') ?></th>
+                    <th><?= $this->Paginator->sort('aluno_id') ?></th>
+                    <th><?= $this->Paginator->sort('supervisor_id') ?></th>
+                    <th><?= $this->Paginator->sort('professor_id') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user): ?>
-                <tr>
-                    <td class="actions">
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $user->id]) ?>
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id]) ?>
-                        <?= $this->Form->postLink(__('Deletar'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?>
-                    </td>
-                    <td><?= $this->Html->link($user->id, ['action' => 'view', $user->id]) ?></td>
-                    <td><?= $user->email ? $this->Text->autoLinkEmails($user->email) : '' ?></td>
-                    <td><?= h($user->categoria->categoria) ?></td>
-                    <td>
-                    <?php
-                    switch ($user->categoria_id) {
-                        case 1: // Administrador
-                            echo $user->administrador ? $this->Html->link($user->administrador->nome, ['controller' => 'Administradores', 'action' => 'view', $user->administrador->id]) : $this->Html->link('Criar administrador', ['controller' => 'Administradores', 'action' => 'add']);
-                            break;
-                        case 2: // Aluno
-                            echo $user->aluno ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : $this->Html->link('Criar aluno', ['controller' => 'Alunos', 'action' => 'add', $user->id]);
-                            break;
-                        case 3: // Professor
-                            echo $user->professor ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : $this->Html->link('Criar professor', ['controller' => 'Professores', 'action' => 'add']);
-                            break;
-                        case 4: // Supervisor
-                            echo $user->supervisor ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : $this->Html->link('Criar supervisor', ['controller' => 'Supervisores', 'action' => 'add']);
-                            break;
-                        default:
-                            echo 'Categoria invalida';
-                    }
-                    ?>
-                    </td>
-                    <td><?= $user->timestamp ? h($user->timestamp) : '' ?></td>
-                </tr>
+                <?php foreach ($users as $userestagio): ?>
+                    <tr>
+                        <td><?= $userestagio->id ?></td>
+                        <td><?= h($userestagio->email) ?></td>
+                        <td><?= h($userestagio->categoria_id) ?></td>
+                        <td><?= $userestagio->registro ?></td>
+                        <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
+                        </td>
+                        <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                        </td>
+                        <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                        </td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id)]) ?>
+                        </td>
+                    </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-        <?= $this->element('paginator_count'); ?>
+
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

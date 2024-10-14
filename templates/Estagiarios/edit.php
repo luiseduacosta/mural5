@@ -4,42 +4,61 @@
  * @var \App\Model\Entity\Estagiario $estagiario
  */
 ?>
-<div>
-    <div class="column-responsive column-80">
-        <div class="estagiarios form content">
-            <aside>
-                <div class="nav">
-                    <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Form->postLink(
-                        __('Deletar'),
-                        ['action' => 'delete', $estagiario->id],
-                        ['confirm' => __('Are you sure you want to delete estagiario #{0}?', $estagiario->id), 'class' => 'button']
-                    ) ?>
-                </div>
-            </aside>
-            <?= $this->Form->create($estagiario) ?>
-            <fieldset>
-                <h3><?= __('Editando Estagiario') ?></h3>
-                <?php
-                    echo $this->Form->control('aluno_id', ['options' => $alunos, 'class' => 'form-control']);
-                    echo $this->Form->control('registro');
-                    echo $this->Form->control('ajustecurricular2020');
-                    echo $this->Form->control('turno');
-                    echo $this->Form->control('nivel');
-                    echo $this->Form->control('tc');
-                    echo $this->Form->control('tc_solicitacao', ['empty' => true]);
-                    echo $this->Form->control('instituicao_id', ['options' => $instituicoes, 'class' => 'form-control']);
-                    echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('periodo');
-                    echo $this->Form->control('turmaestagio_id', ['options' => $turmaestagios, 'empty' => true, 'class' => 'form-control']);
-                    echo $this->Form->control('nota');
-                    echo $this->Form->control('ch');
-                    echo $this->Form->control('observacoes');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Editar')) ?>
-            <?= $this->Form->end() ?>
+
+<script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('observacoes')
+</script>
+
+<?= $this->element('templates') ?>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $estagiario->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Listar Estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
         </div>
+    </nav>
+
+    <div class="container">
+        <?= $this->Form->create($estagiario) ?>
+        <fieldset>
+            <legend><?= __('Editar Estagiário') ?></legend>
+            <?php
+            echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => $alunos]);
+            echo $this->Form->control('registro');
+            echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
+            echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
+            echo $this->Form->control('nivel');
+            echo $this->Form->control('tc');
+            echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data TC']]);
+            echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true]);
+            echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
+            echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a)'], 'options' => $professores, 'empty' => true]);
+            echo $this->Form->control('periodo', ['label' => ['text' => 'Período']]);
+            echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
+            echo $this->Form->control('nota');
+            echo $this->Form->control('ch', ['label' => ['text' => 'Carga horária']]);
+            echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações'], 'name' => 'observacoes', 'class' => 'form-control']);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
     </div>
 </div>

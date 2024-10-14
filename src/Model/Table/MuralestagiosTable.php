@@ -31,7 +31,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Muralestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Muralestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
- 
 class MuralestagiosTable extends Table {
 
     /**
@@ -43,23 +42,23 @@ class MuralestagiosTable extends Table {
     public function initialize(array $config): void {
         parent::initialize($config);
 
-        $this->setTable('mural_estagios');
+        $this->setTable('mural_estagio');
         $this->setAlias('Muralestagios');
-        $this->setDisplayField('instituicao_id');
+        $this->setDisplayField('instituicao');
         $this->setPrimaryKey('id');
-            
-        //$this->hasMany('Inscricoes', [
-        //    'foreignKey' => ['mural_estagio_id'],
-        //]);
-            
+
         $this->belongsTo('Instituicoes', [
-            'foreignKey' => ['instituicao_id'],
+            'foreignKey' => 'instituicao_id',
+            'propertyName' => 'instituicoes',
         ]);
         $this->belongsTo('Turmaestagios', [
-            'foreignKey' => ['turma_estagio_id']
+            'foreignKey' => ['turmaestagio_id'],
         ]);
         $this->belongsTo('Professores', [
             'foreignKey' => ['professor_id'],
+        ]);
+        $this->hasMany('Inscricoes', [
+            'foreignKey' => ['muralestagio_id'],
         ]);
     }
 
@@ -81,9 +80,9 @@ class MuralestagiosTable extends Table {
                 ->allowEmptyString('id', null, 'create');
 
         $validator
-                ->scalar('instituicao_id')
-                ->maxLength('instituicao_id', 100)
-                ->notEmptyString('instituicao_id');
+                ->scalar('instituicao')
+                ->maxLength('instituicao', 100)
+                ->allowEmptyString('instituicao');
 
         $validator
                 ->scalar('convenio')
@@ -99,9 +98,9 @@ class MuralestagiosTable extends Table {
                 ->allowEmptyString('beneficios');
 
         $validator
-                ->scalar('fim_de_semana')
-                ->maxLength('fim_de_semana', 1)
-                ->allowEmptyString('fim_de_semana');
+                ->scalar('final_de_semana')
+                ->maxLength('final_de_semana', 1)
+                ->allowEmptyString('final_de_semana');
 
         $validator
                 ->allowEmptyString('cargaHoraria');
@@ -112,9 +111,9 @@ class MuralestagiosTable extends Table {
                 ->allowEmptyString('requisitos');
 
         $validator
-                ->scalar('turno')
-                ->maxLength('turno', 1)
-                ->allowEmptyString('turno');
+                ->scalar('horario')
+                ->maxLength('horario', 1)
+                ->allowEmptyString('horario');
 
         $validator
                 ->date('dataSelecao')
@@ -154,6 +153,10 @@ class MuralestagiosTable extends Table {
                 ->allowEmptyString('periodo');
 
         $validator
+                ->date('datafax')
+                ->allowEmptyDate('datafax');
+
+        $validator
                 ->scalar('localInscricao')
                 ->notEmptyString('localInscricao');
 
@@ -172,11 +175,11 @@ class MuralestagiosTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
+
         $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
-        $rules->add($rules->existsIn(['turma_estagio_id'], 'Turmaestagios'), ['errorField' => 'turma_estagio_id']);
+        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
         $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 
         return $rules;
     }
-
 }

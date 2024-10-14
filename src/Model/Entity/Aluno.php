@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property string|null $telefone
  * @property int $codigo_celular
  * @property string|null $celular
+ * @property string|null $email
  * @property string|null $cpf
  * @property string|null $identidade
  * @property string|null $orgao
@@ -24,9 +25,13 @@ use Cake\ORM\Entity;
  * @property string|null $municipio
  * @property string|null $bairro
  * @property string|null $observacoes
- * @property int $user_id
+ * @property string|null $ingresso
+ * @property string|null $nomesocial
+ * @property string|null $turno
  *
- * @property \App\Model\Entity\User[] $user
+ * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Inscricao[] $inscricoes
+ * @property \App\Model\Entity\User[] $users
  */
 class Aluno extends Entity
 {
@@ -46,6 +51,7 @@ class Aluno extends Entity
         'telefone' => true,
         'codigo_celular' => true,
         'celular' => true,
+        'email' => true,
         'cpf' => true,
         'identidade' => true,
         'orgao' => true,
@@ -55,7 +61,11 @@ class Aluno extends Entity
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
-        'user_id' => true
- 
+        'ingresso' => true,
+        'nomesocial' => true,
+        'turno' => true,
+        'estagiarios' => true,
+        'inscricoes' => true,
+        'users' => true,        
     ];
 }

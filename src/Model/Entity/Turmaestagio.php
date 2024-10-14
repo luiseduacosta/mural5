@@ -9,8 +9,11 @@ use Cake\ORM\Entity;
  * Turmaestagio Entity
  *
  * @property int $id
- * @property string $turma
+ * @property string $area
  *
+ * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Muralestagio[] $muralestagios
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
 class Turmaestagio extends Entity
 {
@@ -24,6 +27,9 @@ class Turmaestagio extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'turma' => true
+        'area' => true,
+        'estagiarios' => true,
+        'muralestagios' => true,
+        'instituicoes' => true,
     ];
 }

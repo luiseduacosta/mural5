@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -12,7 +13,7 @@ use Cake\Validation\Validator;
  * Supervisores Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\UserestagiosTable&\Cake\ORM\Association\HasMany $Users
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
  *
  * @method \App\Model\Entity\Supervisor newEmptyEntity()
@@ -29,16 +30,15 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class SupervisoresTable extends Table
-{
+class SupervisoresTable extends Table {
+
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void
-    {
+    public function initialize(array $config): void {
         parent::initialize($config);
 
         $this->setTable('supervisores');
@@ -49,19 +49,20 @@ class SupervisoresTable extends Table
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'supervisor_id',
         ]);
-        
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-        ]);
-        /*
-        $this->hasOne('Users', [
+        $this->hasMany('Users', [
             'foreignKey' => 'supervisor_id',
-        ]);  */   
+        ]);
         $this->belongsToMany('Instituicoes', [
             'foreignKey' => 'supervisor_id',
             'targetForeignKey' => 'instituicao_id',
             'joinTable' => 'inst_super',
         ]);
+    }
+
+    public function beforeFind($event, $query, $options, $primary) {
+
+        $query->order(['nome' => 'ASC']);
+        return $query;
     }
 
     /**
@@ -70,118 +71,122 @@ class SupervisoresTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator
-    {
+    public function validationDefault(Validator $validator): Validator {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+                ->integer('id')
+                ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('nome')
-            ->maxLength('nome', 70)
-            ->notEmptyString('nome');
+                ->scalar('nome')
+                ->maxLength('nome', 70)
+                ->notEmptyString('nome');
 
         $validator
-            ->scalar('cpf')
-            ->maxLength('cpf', 12)
-            ->notEmptyString('cpf');
+                ->scalar('cpf')
+                ->maxLength('cpf', 12)
+                ->allowEmptyString('cpf');
 
         $validator
-            ->scalar('endereco')
-            ->maxLength('endereco', 100)
-            ->requirePresence('endereco', 'create')
-            ->notEmptyString('endereco');
+                ->scalar('endereco')
+                ->maxLength('endereco', 100)
+                ->requirePresence('endereco', 'create')
+                ->allowEmptyString('endereco');
 
         $validator
-            ->scalar('bairro')
-            ->maxLength('bairro', 30)
-            ->requirePresence('bairro', 'create')
-            ->notEmptyString('bairro');
+                ->scalar('bairro')
+                ->maxLength('bairro', 30)
+                ->requirePresence('bairro', 'create')
+                ->allowEmptyString('bairro');
 
         $validator
-            ->scalar('municipio')
-            ->maxLength('municipio', 30)
-            ->requirePresence('municipio', 'create')
-            ->notEmptyString('municipio');
+                ->scalar('municipio')
+                ->maxLength('municipio', 30)
+                ->requirePresence('municipio', 'create')
+                ->allowEmptyString('municipio');
 
         $validator
-            ->scalar('cep')
-            ->maxLength('cep', 9)
-            ->requirePresence('cep', 'create')
-            ->notEmptyString('cep');
+                ->scalar('cep')
+                ->maxLength('cep', 9)
+                ->requirePresence('cep', 'create')
+                ->allowEmptyString('cep');
 
         $validator
-            ->scalar('codigo_tel')
-            ->maxLength('codigo_tel', 2)
-            ->notEmptyString('codigo_tel');
+                ->scalar('codigo_tel')
+                ->maxLength('codigo_tel', 2)
+                ->allowEmptyString('codigo_tel');
 
         $validator
-            ->scalar('telefone')
-            ->maxLength('telefone', 9)
-            ->notEmptyString('telefone');
+                ->scalar('telefone')
+                ->maxLength('telefone', 9)
+                ->allowEmptyString('telefone');
 
         $validator
-            ->scalar('codigo_cel')
-            ->maxLength('codigo_cel', 2)
-            ->notEmptyString('codigo_cel');
+                ->scalar('codigo_cel')
+                ->maxLength('codigo_cel', 2)
+                ->allowEmptyString('codigo_cel');
 
         $validator
-            ->scalar('celular')
-            ->maxLength('celular', 10)
-            ->notEmptyString('celular');
+                ->scalar('celular')
+                ->maxLength('celular', 10)
+                ->allowEmptyString('celular');
 
         $validator
-            ->scalar('escola')
-            ->maxLength('escola', 70)
-            ->requirePresence('escola', 'create')
-            ->notEmptyString('escola');
+                ->email('email')
+                ->allowEmptyString('email');
 
         $validator
-            ->scalar('ano_formatura')
-            ->maxLength('ano_formatura', 4)
-            ->requirePresence('ano_formatura', 'create')
-            ->notEmptyString('ano_formatura');
+                ->scalar('escola')
+                ->maxLength('escola', 70)
+                ->requirePresence('escola', 'create')
+                ->allowEmptyString('escola');
 
         $validator
-            ->integer('cress')
-            ->allowEmptyString('cress');
+                ->scalar('ano_formatura')
+                ->maxLength('ano_formatura', 4)
+                ->requirePresence('ano_formatura', 'create')
+                ->allowEmptyString('ano_formatura');
 
         $validator
-            ->notEmptyString('regiao');
+                ->integer('cress')
+                ->notEmptyString('cress');
 
         $validator
-            ->scalar('outros_estudos')
-            ->maxLength('outros_estudos', 100)
-            ->allowEmptyString('outros_estudos');
+                ->notEmptyString('regiao');
 
         $validator
-            ->scalar('area_curso')
-            ->maxLength('area_curso', 40)
-            ->allowEmptyString('area_curso');
+                ->scalar('outros_estudos')
+                ->maxLength('outros_estudos', 100)
+                ->allowEmptyString('outros_estudos');
 
         $validator
-            ->scalar('ano_curso')
-            ->maxLength('ano_curso', 4)
-            ->allowEmptyString('ano_curso');
+                ->scalar('area_curso')
+                ->maxLength('area_curso', 40)
+                ->allowEmptyString('area_curso');
 
         $validator
-            ->scalar('cargo')
-            ->maxLength('cargo', 25)
-            ->allowEmptyString('cargo');
+                ->scalar('ano_curso')
+                ->maxLength('ano_curso', 4)
+                ->allowEmptyString('ano_curso');
 
         $validator
-            ->integer('num_inscricao')
-            ->allowEmptyString('num_inscricao');
+                ->scalar('cargo')
+                ->maxLength('cargo', 25)
+                ->allowEmptyString('cargo');
 
         $validator
-            ->scalar('curso_turma')
-            ->maxLength('curso_turma', 1)
-            ->allowEmptyString('curso_turma');
+                ->integer('num_inscricao')
+                ->allowEmptyString('num_inscricao');
 
         $validator
-            ->scalar('observacoes')
-            ->allowEmptyString('observacoes');
+                ->scalar('curso_turma')
+                ->maxLength('curso_turma', 1)
+                ->allowEmptyString('curso_turma');
+
+        $validator
+                ->scalar('observacoes')
+                ->allowEmptyString('observacoes');
 
         return $validator;
     }
+
 }

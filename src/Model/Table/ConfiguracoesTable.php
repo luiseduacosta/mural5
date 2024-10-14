@@ -9,7 +9,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Configuracoes Model
+ * Configuracao Model
  *
  * @method \App\Model\Entity\Configuracao newEmptyEntity()
  * @method \App\Model\Entity\Configuracao newEntity(array $data, array $options = [])
@@ -39,9 +39,8 @@ class ConfiguracoesTable extends Table
 
         $this->setTable('configuracoes');
         $this->setAlias('Configuracoes');
-        $this->setDisplayField('instituicao');
+        $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-
     }
 
     /**
@@ -53,7 +52,44 @@ class ConfiguracoesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
+            ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->scalar('mural_periodo_atual')
+            ->maxLength('mural_periodo_atual', 6)
+            ->requirePresence('mural_periodo_atual', 'create')
+            ->notEmptyString('mural_periodo_atual');
+
+        $validator
+            ->requirePresence('curso_turma_atual', 'create')
+            ->notEmptyString('curso_turma_atual');
+
+        $validator
+            ->date('curso_abertura_inscricoes')
+            ->requirePresence('curso_abertura_inscricoes', 'create')
+            ->notEmptyDate('curso_abertura_inscricoes');
+
+        $validator
+            ->date('curso_encerramento_inscricoes')
+            ->requirePresence('curso_encerramento_inscricoes', 'create')
+            ->notEmptyDate('curso_encerramento_inscricoes');
+
+        $validator
+            ->scalar('termo_compromisso_periodo')
+            ->maxLength('termo_compromisso_periodo', 6)
+            ->requirePresence('termo_compromisso_periodo', 'create')
+            ->notEmptyString('termo_compromisso_periodo');
+
+        $validator
+            ->date('termo_compromisso_inicio')
+            ->requirePresence('termo_compromisso_inicio', 'create')
+            ->notEmptyDate('termo_compromisso_inicio');
+
+        $validator
+            ->date('termo_compromisso_final')
+            ->requirePresence('termo_compromisso_final', 'create')
+            ->notEmptyDate('termo_compromisso_final');
 
         return $validator;
     }

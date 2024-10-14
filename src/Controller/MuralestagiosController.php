@@ -11,14 +11,12 @@ namespace App\Controller;
  * @method \App\Model\Entity\Muralestagio[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class MuralestagiosController extends AppController {
-    /**
-     * beforeFilter method
-     */
-    public function beforeFilter(\Cake\Event\EventInterface $event)
-    {
+
+    public function beforeFilter(\Cake\Event\EventInterface $event) {
         parent::beforeFilter($event);
-    
-        $this->Authentication->allowUnauthenticated(['index', 'view']);
+        // Configure the login action to not require authentication, preventing
+        // the infinite redirect loop issue
+        $this->Authentication->addUnauthenticatedActions(['index', 'view']);
     }
 
     /**
@@ -26,37 +24,36 @@ class MuralestagiosController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index($periodo = NULL)
-    {
+    public function index($id = NULL) {
 
-        $contained = ['Instituicoes', 'Professores'];
-        
-        if (!$periodo) {
-            $configuracao = $this->fetchTable("Configuracoes")->find()->first();
-            $periodo = $configuracao['mural_periodo_atual'];
+        $periodo = $this->getRequest()->getQuery('periodo');
+        // pr($periodo);
+
+        if (empty($periodo)) {
+            $configuracaotabela = $this->fetchTable('Configuracoes');
+            $periodo_atual = $configuracaotabela->find()->select(['mural_periodo_atual'])->first();
+            $periodo = $periodo_atual->mural_periodo_atual;
         }
-        
+
         if ($periodo) {
-            $muralestagios = $this->Muralestagios->find('all', ['conditions' => ['Muralestagios.periodo' => $periodo] ])
-            ->contain($contained);
+            $muralestagios = $this->Muralestagios->find('all', [
+                'conditions' => ['Muralestagios.periodo' => $periodo],
+                'order' => ['dataInscricao' => 'DESC']
+            ]);
         } else {
-            $muralestagios = $this->Muralestagios->find('all')
-            ->contain($contained);
+            $muralestagios = $this->Muralestagios->find('all');
         }
         $this->set('muralestagios', $this->paginate($muralestagios));
 
-        $query = $this->Muralestagios->find('all', [
-            'fields' => ['periodo'],
-            'group' => ['periodo'],
-            'order' => ['periodo']
+        /** Obtenho todos os periódos em forma de lista */
+        $periodototal = $this->Muralestagios->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo'
         ]);
-        $periodos = $query->all()->toArray();
-        foreach ($query as $periodo) {
-            $periodostotal[$periodo->periodo] = $periodo->periodo;
-        }
-        $this->set('periodos', $periodostotal);
-        $this->set('periodo', $periodo);
+        $periodos = $periodototal->toArray();
 
+        $this->set('periodos', $periodos);
+        $this->set('periodo', $periodo);
     }
 
     /**
@@ -66,11 +63,17 @@ class MuralestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
-    {
+    public function view($id = null) {
+
         $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes', 'Turmaestagios', 'Professores'/*, 'Inscricoes' => ['Alunos']*/],
+            'contain' => ['Instituicoes' => ['Turmaestagios'], 'Professores', 'Inscricoes' => ['Alunos']]
         ]);
+
+        if (!isset($muralestagio)) {
+            $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $this->set(compact('muralestagio'));
     }
 
@@ -79,22 +82,40 @@ class MuralestagiosController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
-    {
+    public function add() {
+
+        if (empty($periodo)) {
+            $configuracaotabela = $this->fetchTable('Configuracoes');
+            $periodoconfiguracao = $configuracaotabela->find()
+                    ->first();
+            $periodo = $periodoconfiguracao->mural_periodo_atual;
+        }
         $muralestagio = $this->Muralestagios->newEmptyEntity();
         if ($this->request->is('post')) {
-            $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $this->request->getData());
-            if ($this->Muralestagios->save($muralestagio)) {
-                $this->Flash->success(__('The muralestagio has been saved.'));
 
+            // pr($this->request->getData('instituicao_id'));
+            $instituicao = $this->Muralestagios->Instituicoes->find()
+                    ->where(['id' => $this->request->getData('instituicao_id')])
+                    ->select(['instituicao'])
+                    ->first();
+            // pr($instituicao);
+            $dados = $this->request->getData();
+            $dados['instituicao'] = $instituicao->instituicao;
+            // pr($dados);
+            // die();
+            $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $dados);
+            if ($this->Muralestagios->save($muralestagio)) {
+                $this->Flash->success(__('Registo de novo mural de estágio feito.'));
                 return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
-            $this->Flash->error(__('The muralestagio could not be saved. Please, try again.'));
         }
-        $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['limit' => 200]);
-        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list', ['limit' => 200]);
-        $professores = $this->Muralestagios->Professores->find('list', ['limit' => 200]);
-        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores'));
+        /** Envio para fazer o formulário de cadastramento do mural */
+        $instituicoes = $this->Muralestagios->Instituicoes->find('list');
+        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
+        $professores = $this->Muralestagios->Professores->find('list');
+        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodo'));
     }
 
     /**
@@ -104,24 +125,38 @@ class MuralestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
-    {
+    public function edit($id = null) {
+
+        $query = $this->Muralestagios->find('all', [
+            'fields' => ['periodo'],
+            'group' => ['periodo'],
+            'order' => ['periodo']
+        ]);
+        $periodos = $query->all()->toArray();
+        foreach ($query as $c_periodo) {
+            $periodostotal[$c_periodo->periodo] = $c_periodo->periodo;
+        }
+
         $muralestagio = $this->Muralestagios->get($id, [
             'contain' => ['Instituicoes'],
         ]);
+        // pr($this->request->getData());
+        // die();
         if ($this->request->is(['patch', 'post', 'put'])) {
+            // pr($this->request->getData());
             $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $this->request->getData());
+            // pr($muralestagio);
+            // die();
             if ($this->Muralestagios->save($muralestagio)) {
-                $this->Flash->success(__('The muralestagio has been saved.'));
-
+                $this->Flash->success(__('Registro muralestagio atualizado.'));
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('The muralestagio could not be saved. Please, try again.'));
+            $this->Flash->error(__('No foi possível atualizar o registro. Tente novamente.'));
         }
         $instituicoes = $this->Muralestagios->Instituicoes->find('list');
-        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list', ['limit' => 200]);
-        $professores = $this->Muralestagios->Professores->find('list', ['limit' => 500]);
-        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores'));
+        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
+        $professores = $this->Muralestagios->Professores->find('list');
+        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodostotal'));
     }
 
     /**
@@ -131,17 +166,15 @@ class MuralestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
-    {
+    public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
         $muralestagio = $this->Muralestagios->get($id);
         if ($this->Muralestagios->delete($muralestagio)) {
-            $this->Flash->success(__('The muralestagio has been deleted.'));
+            $this->Flash->success(__('Registro muralestagio excluído.'));
         } else {
-            $this->Flash->error(__('The muralestagio could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro muralestagio não foi excluído. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);
     }
-
 }

@@ -23,16 +23,15 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
+use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+// autenticacao
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceInterface;
 use Authentication\AuthenticationServiceProviderInterface;
-use Authentication\Identifier\AbstractIdentifier;
-use Authentication\Identifier\IdentifierInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
-use Cake\Http\MiddlewareQueue;
 use Cake\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -44,7 +43,8 @@ use Psr\Http\Message\ServerRequestInterface;
   *
  * @extends \Cake\Http\BaseApplication<\App\Application>
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication 
+    implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -57,8 +57,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         // Call parent to load bootstrap from files.
         parent::bootstrap();
-
-        $this->addPlugin('Authentication');
 
         if (PHP_SAPI !== 'cli') {
             FactoryLocator::add(
@@ -97,17 +95,47 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // https://book.cakephp.org/5/en/controllers/middleware.html#body-parser-middleware
             ->add(new BodyParserMiddleware())
 
-            // AuthenticationMiddleware
-            // https://book.cakephp.org/authentication/
+            // Add the AuthenticationMiddleware. It should be after routing and body parser.
             ->add(new AuthenticationMiddleware($this))
-        
+
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // // https://book.cakephp.org/5/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
-                'httponly' => true,
-            ]));
+                'httponly' => true])
+            
+    
+        );
 
         return $middlewareQueue;
+    }
+
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $authenticationService = new AuthenticationService([
+            'unauthenticatedRedirect' => Router::url('/users/login'),
+            'queryParam' => 'redirect',
+        ]);
+    
+        // Load identifiers, ensure we check email and password fields
+        $authenticationService->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'email',
+                'password' => 'password',
+            ],
+        ]);
+    
+        // Load the authenticators, you want session first
+        $authenticationService->loadAuthenticator('Authentication.Session');
+        // Configure form data check to pick email and password
+        $authenticationService->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'email',
+                'password' => 'password',
+            ],
+            'loginUrl' => Router::url('/users/login'),
+        ]);
+    
+        return $authenticationService;
     }
 
     /**
@@ -121,49 +149,4 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
         // $this->addPlugin('DebugKit');
     }
-
-    /**
-     * Returns a service provider instance.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request Request
-     * @return \Authentication\AuthenticationServiceInterface
-     */
-    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-    {
-        $service = new AuthenticationService();
-    
-        // Define where users should be redirected to when they are not authenticated
-        $service->setConfig([
-            'unauthenticatedRedirect' => Router::url([
-                    'prefix' => false,
-                    'plugin' => null,
-                    'controller' => 'Users',
-                    'action' => 'login',
-            ]),
-            'queryParam' => 'redirect',
-        ]);
-    
-        $fields = [
-            AbstractIdentifier::CREDENTIAL_USERNAME => 'email',
-            AbstractIdentifier::CREDENTIAL_PASSWORD => 'password'
-        ];
-        // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => Router::url([
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
-            ]),
-        ]);
-    
-        // Load identifiers
-        $service->loadIdentifier('Authentication.Password', compact('fields'));
-    
-        return $service;
-    }
-
-    
 }

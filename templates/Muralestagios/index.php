@@ -3,107 +3,115 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
  */
-
-$categoria_id = $session->get('categoria_id');
-
+// pr($periodo);
+// pr($muralestagios);
 ?>
-
+<?php
+/*
+  var url = "<?= $this->Html->url(['controller' => 'Murals', 'action' => 'index/periodo:']); ?>";
+ */
+?>
 <script type="text/javascript">
-	$(document).ready(function () {
-        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios']); ?>";
-        var select = $("#muralestagioperiodo");
-		var pathname = location.pathname.split('/').filter(Boolean);
-		if (pathname[pathname.length - 2] == 'index') select.val(pathname[pathname.length - 1]);
-		select.on('change', function () {
-            var periodo = $(this).val();
-            window.location = url + '/index/' + periodo;
-        });
-    });
-</script>
+    $(document).ready(function () {
 
-<div class="muralestagios index content">
-	
-	<div class="row justify-content-center">
-	    <div class="col-auto">
-	        <?php if ($categoria_id == 1): ?>
-	            <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
-					<?= $this->Form->label('muralestagioperiodo', 'Período'); ?>
-					<?= $this->Form->input('periodo', [
-							'default'=> $periodo->periodo,
-							'id' => 'muralestagioperiodo', 
-							'type' => 'select', 
-							'options' => $periodos,
-							'class' => 'form-control'
-						]); 
-					?>
-	            <?= $this->Form->end(); ?>
-	        <?php else: ?>
-	            <h1 style="text-align: center;">Período: <?= '2005-1'; ?></h1>
-	        <?php endif; ?>
-	    </div>
-	</div>
-	
-	<aside>
-		<div class="nav">
-		    <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'button']) ?>
-		</div>
-	</aside>
-	
-	<h3><?= __('Mural de estágios') ?></h3>
-	
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
+        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index?periodo=']); ?>";
+        // alert(url);
+        $("#MuralestagioPeriodo").change(function () {
+            var periodo = $(this).val();
+            // alert(url + '/index/' + periodo);
+            window.location = url + periodo;
+        })
+    })
+</script>
+<div class="container">
+
+    <?php if (!is_null($this->getRequest()->getAttribute('identity')) && ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1')): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
+
+    <?= $this->element('templates') ?>
+
+    <div class="row justify-content-center">
+        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
+            <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
+        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+            <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
+            <div class="form-group row">
+                <label class='col-sm-2 col-form-label'>Período</label>
+                <div class='col-sm-1'>
+                    <?= $this->Form->control('periodo', ['id' => 'MuralestagioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
+                </div>
+            </div>
+            <?= $this->Form->end(); ?>
+        <?php endif; ?>
     </div>
-    <div class="table_wrap">
-        <table>
-            <thead>
+
+    <div class="row">
+        <h3><?= __('Mural de estagios') ?></h3>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
+            <thead class="thead-light">
                 <tr>
-                    <th class="actions"><?= __('Actions') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('Instituicao.instituicao', 'Instituição') ?></th>
+                    <th><?= $this->Paginator->sort('instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('vagas') ?></th>
-                    <th><?= $this->Paginator->sort('professor') ?></th>
                     <th><?= $this->Paginator->sort('beneficios') ?></th>
-                    <th><?= $this->Paginator->sort('fim_de_semana', 'Fim de semana') ?></th>
-                    <th><?= $this->Paginator->sort('cargaHoraria', 'Carga Horária') ?></th>
+                    <th><?= $this->Paginator->sort('final_de_semana', 'Final de semana') ?></th>
+                    <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
+                    <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
-                    <th><?= $this->Paginator->sort('dataInscricao', 'Inscrição') ?></th>
+                    <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
+                    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                        <th class="actions"><?= __('Ações') ?></th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($muralestagios as $muralestagio): ?>
                     <tr>
-                        <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>
-                            <?= $this->Form->postLink(__('Deletar'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Are you sure you want to delete muralestagio_{0}?', $muralestagio->id)]) ?>
+                        <td><?= $muralestagio->id ?></td>
+                        <td><?= $muralestagio->hasValue('instituicao') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?>
                         </td>
-                        <td><?= $this->Html->link($muralestagio->id, ['action' => 'view', $muralestagio->id]) ?></td>
-                        <td><?= $muralestagio->instituicao ? $this->Html->link($muralestagio->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicao->id]) : '' ?></td>
-                        <td><?= h($muralestagio->vagas) ?></td>
-						<td><?= $muralestagio->professor ? $this->Html->link($muralestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $muralestagio->professor->id]) : '' ?></td>
+                        <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>
-                        <td>
-							<?php
-							$fim_de_semana = '';
-							switch ( $muralestagio->fim_de_semana ) {
-								case 0: $fim_de_semana = 'Não';          break;
-								case 1: $fim_de_semana = 'Sim';          break;
-								case 2: $fim_de_semana = 'Parcialmente'; break;
-							}
-							echo $fim_de_semana;
-							?>
-						</td>
-                        <td><?= h($muralestagio->cargaHoraria) ?></td>
-                        <td><?= h($muralestagio->dataSelecao) ?></td>
-                        <td><?= h($muralestagio->dataInscricao) ?></td>
+                        <td><?= (h($muralestagio->final_de_semana) == 0) ? 'Não' : 'Sim' ?></td>
+                        <td><?= $muralestagio->cargaHoraria ?></td>
+                        <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
+                        <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
+                        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
+                        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                            <td class="actions">
+                                <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza quer quer excluir este registro # {0}?', $muralestagio->id)]) ?>
+                            </td>
+                        <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <?= $this->element('paginator'); ?>
-        <?= $this->element('paginator_count'); ?>
+    <?= $this->element('templates'); ?>
+    <div class="d-flex justify-content-center">
+        <div class="paginator">
+            <ul class="pagination">
+                <?= $this->element('paginator') ?>
+            </ul>
+        </div>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

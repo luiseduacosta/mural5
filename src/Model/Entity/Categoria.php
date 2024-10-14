@@ -11,8 +11,9 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $categoria
  *
+ * @property \App\Model\Entity\Categoria $categoria
  */
-class Visita extends Entity
+class Categoria extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -25,5 +26,6 @@ class Visita extends Entity
      */
     protected array $_accessible = [
         'categoria' => true,
+        'users' => true,
     ];
 }

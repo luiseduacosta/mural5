@@ -4,23 +4,33 @@
  * @var \App\Model\Entity\Turmaestagio $turmaestagio
  */
 ?>
-<div
-    <div class="column-responsive column-80">
-        <div class="turmaestagios form content">
-            <aside>
-                <div class="nav">
-                    <?= $this->Html->link(__('Listar Turma estagios'), ['action' => 'index'], ['class' => 'button']) ?>
-                </div>
-            </aside>
-            <?= $this->Form->create($turmaestagio) ?>
-            <fieldset>
-                <h3><?= __('Adicionando Turma estagio') ?></h3>
-                <?php
-                    echo $this->Form->control('turma');
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Adicionar')) ?>
-            <?= $this->Form->end() ?>
+<?= $this->element('templates') ?>
+<div class="container">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Listar turmas de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
         </div>
+    </nav>
+
+    <div class="container">
+        <?= $this->Form->create($turmaestagio) ?>
+        <fieldset>
+            <legend><?= __('Nova turma de estágio') ?></legend>
+            <?php
+            echo $this->Form->control('area', ['label' => ['text' => 'Turma']]);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
     </div>
 </div>

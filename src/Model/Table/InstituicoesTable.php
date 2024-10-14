@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -12,38 +13,38 @@ use Cake\Validation\Validator;
  * Instituicoes Model
  *
  * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\BelongsTo $Areas
+ * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsToMany $Supervisores
  *
- * @method \App\Model\Entity\Instituicao newEmptyEntity()
- * @method \App\Model\Entity\Instituicao newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Instituicao[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Instituicao get($primaryKey, $options = [])
- * @method \App\Model\Entity\Instituicao findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Instituicao patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Instituicao[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Instituicao|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Instituicao saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Instituicao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio newEmptyEntity()
+ * @method \App\Model\Entity\Instituicaoestagio newEntity(array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \App\Model\Entity\Instituicaoestagio[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class InstituicoesTable extends Table
-{
+class InstituicoesTable extends Table {
+
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void
-    {
+    public function initialize(array $config): void {
         parent::initialize($config);
 
-        $this->setTable('instituicoes');
+        $this->setTable('estagios');
         $this->setAlias('Instituicoes');
         $this->setDisplayField('instituicao');
         $this->setPrimaryKey('id');
@@ -51,9 +52,8 @@ class InstituicoesTable extends Table
         $this->belongsTo('Areas', [
             'foreignKey' => 'area_id',
         ]);
-        
-        $this->hasMany('Inscricoes', [
-            'foreignKey' => 'instituicao_id',
+        $this->belongsTo('Turmaestagios', [
+            'foreignKey' => 'turmaestagio_id',
         ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicao_id',
@@ -61,15 +61,20 @@ class InstituicoesTable extends Table
         $this->hasMany('Muralestagios', [
             'foreignKey' => 'instituicao_id',
         ]);
+        $this->hasMany('Visitas', [
+            'foreignKey' => 'instituicao_id',
+        ]);
         $this->belongsToMany('Supervisores', [
             'foreignKey' => 'instituicao_id',
             'targetForeignKey' => 'supervisor_id',
             'joinTable' => 'inst_super',
         ]);
-        $this->hasMany('Visitas', [
-            'foreignKey' => 'instituicao_id',
-        ]);
-        
+    }
+
+    public function beforeFind($event, $query, $options, $primary) {
+
+        $query->order(['instituicao' => 'ASC']);
+        return $query;
     }
 
     /**
@@ -78,93 +83,111 @@ class InstituicoesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator
-    {
+    public function validationDefault(Validator $validator): Validator {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+                ->integer('id')
+                ->allowEmptyString('id', null, 'create');
 
         $validator
-            ->scalar('instituicao')
-            ->maxLength('instituicao', 120)
-            ->notEmptyString('instituicao');
+                ->scalar('instituicao')
+                ->maxLength('instituicao', 120)
+                ->notEmptyString('instituicao');
 
         $validator
-            ->scalar('natureza')
-            ->maxLength('natureza', 50)
-            ->allowEmptyString('natureza');
+                ->allowEmptyString('institucao_id');
 
         $validator
-            ->scalar('cnpj')
-            ->maxLength('cnpj', 18)
-            ->allowEmptyString('cnpj');
+                ->allowEmptyString('turmaestagio_id');
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmptyString('email');
+                ->scalar('natureza')
+                ->maxLength('natureza', 50)
+                ->allowEmptyString('natureza');
 
         $validator
-            ->scalar('url')
-            ->maxLength('url', 100)
-            ->allowEmptyString('url');
+                ->scalar('cnpj')
+                ->maxLength('cnpj', 18)
+                ->requirePresence('cnpj', 'create')
+                ->notEmptyString('cnpj');
 
         $validator
-            ->scalar('endereco')
-            ->maxLength('endereco', 105)
-            ->allowEmptyString('endereco');
+                ->email('email')
+                ->allowEmptyString('email');
 
         $validator
-            ->scalar('bairro')
-            ->maxLength('bairro', 30)
-            ->allowEmptyString('bairro');
+                ->scalar('url')
+                ->maxLength('url', 100)
+                ->allowEmptyString('url');
 
         $validator
-            ->scalar('municipio')
-            ->maxLength('municipio', 30)
-            ->allowEmptyString('municipio');
+                ->scalar('endereco')
+                ->maxLength('endereco', 105)
+                ->notEmptyString('endereco');
 
         $validator
-            ->scalar('cep')
-            ->maxLength('cep', 9)
-            ->allowEmptyString('cep');
+                ->scalar('bairro')
+                ->maxLength('bairro', 30)
+                ->requirePresence('bairro', 'create')
+                ->notEmptyString('bairro');
 
         $validator
-            ->scalar('telefone')
-            ->maxLength('telefone', 50)
-            ->allowEmptyString('telefone');
+                ->scalar('municipio')
+                ->maxLength('municipio', 30)
+                ->requirePresence('municipio', 'create')
+                ->notEmptyString('municipio');
 
         $validator
-            ->scalar('beneficio')
-            ->maxLength('beneficio', 50);
+                ->scalar('cep')
+                ->maxLength('cep', 9)
+                ->notEmptyString('cep');
 
         $validator
-            ->scalar('fim_de_semana')
-            ->maxLength('fim_de_semana', 1);
+                ->scalar('telefone')
+                ->maxLength('telefone', 50)
+                ->notEmptyString('telefone');
 
         $validator
-            ->scalar('localInscricao');
+                ->scalar('fax')
+                ->maxLength('fax', 20)
+                ->allowEmptyString('fax');
 
         $validator
-            ->integer('convenio');
+                ->scalar('beneficio')
+                ->maxLength('beneficio', 50)
+                ->allowEmptyString('beneficio');
 
         $validator
-            ->date('expira')
-            ->allowEmptyDate('expira');
+                ->scalar('fim_de_semana')
+                ->maxLength('fim_de_semana', 1)
+                ->allowEmptyString('fim_de_semana');
 
         $validator
-            ->scalar('seguro')
-            ->maxLength('seguro', 1)
-            ->notEmptyString('seguro');
+                ->scalar('localInscricao')
+                ->notEmptyString('localInscricao');
 
         $validator
-            ->scalar('avaliacao')
-            ->notEmptyString('avaliacao');
+                ->integer('convenio')
+                ->requirePresence('convenio', 'create')
+                ->allowEmptyString('convenio');
 
         $validator
-            ->scalar('observacoes')
-            ->maxLength('observacoes', 255)
-            ->allowEmptyString('observacoes');
+                ->date('expira')
+                ->allowEmptyDate('expira');
+
+        $validator
+                ->scalar('seguro')
+                ->maxLength('seguro', 1)
+                ->requirePresence('seguro', 'create')
+                ->notEmptyString('seguro');
+
+        $validator
+                ->scalar('avaliacao')
+                ->notEmptyString('avaliacao');
+
+        $validator
+                ->scalar('observacoes')
+                ->maxLength('observacoes', 255)
+                ->allowEmptyString('observacoes');
 
         return $validator;
     }
@@ -176,9 +199,10 @@ class InstituicoesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
+    public function buildRules(RulesChecker $rules): RulesChecker {
+
         $rules->add($rules->existsIn(['area_id'], 'Areas'), ['errorField' => 'area_id']);
+        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
 
         return $rules;
     }

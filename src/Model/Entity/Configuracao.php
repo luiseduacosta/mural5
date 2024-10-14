@@ -17,9 +17,6 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenDate $termo_compromisso_inicio
  * @property \Cake\I18n\FrozenDate $termo_compromisso_final
  * @property string $periodo_calendario_academico
- * @property string $instituicao
- * @property string $descricao
- *
  */
 class Configuracao extends Entity
 {
@@ -40,8 +37,6 @@ class Configuracao extends Entity
         'termo_compromisso_periodo' => true,
         'termo_compromisso_inicio' => true,
         'termo_compromisso_final' => true,
-		'periodo_calendario_academico' => true,
-		'instituicao' => true,
-		'descricao' => true
+        'periodo_calendario_academico' => true,
     ];
 }
