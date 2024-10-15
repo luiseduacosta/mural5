@@ -54,11 +54,11 @@ class VisitasController extends AppController {
         if ($this->request->is('post')) {
             $visita = $this->Visitas->patchEntity($visita, $this->request->getData());
             if ($this->Visitas->save($visita)) {
-                $this->Flash->success(__('The visita has been saved.'));
+                $this->Flash->success(__('Registro de visita inserido.'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The visita could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro de visita não foi inserido. Tente novamente.'));
         }
         $instituicoes = $this->Visitas->Instituicoes->find('list', ['limit' => 200]);
         $this->set(compact('visita', 'instituicoes'));
@@ -78,13 +78,12 @@ class VisitasController extends AppController {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $visita = $this->Visitas->patchEntity($visita, $this->request->getData());
             if ($this->Visitas->save($visita)) {
-                $this->Flash->success(__('The visita has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('Registro de visita atualizado.'));
+                return $this->redirect(['action' => 'view', $visita->id]);
             }
-            $this->Flash->error(__('The visita could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro de  visita não foi atualizado. Tente novamente.'));
         }
-        $instituicoes = $this->Visitas->Instituicoes->find('list', ['limit' => 200]);
+        $instituicoes = $this->Visitas->Instituicoes->find('list');
         $this->set(compact('visita', 'instituicoes'));
     }
 
