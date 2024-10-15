@@ -38,28 +38,9 @@
             <legend><?= __('Edita atividade') ?></legend>
             <?php
             echo $this->Form->control('estagiario_id', ['options' => [$estagiario->estagiario->id => $estagiario->estagiario->aluno->nome]]);
-            echo $this->Form->control('dia');
-            echo "<table>";
-            echo "<tr>";
-            echo "<td>";
-            echo "Horário de início";
-            echo "</td>";
-            echo "<td>";
-            echo $this->Form->control('inicio', ['label' => False]);
-            echo "</td>";
-            echo "</tr>";
-
-            echo "<tr>";
-            echo "<td>";
-            echo "Horário de finalização";
-            echo "</td>";
-            echo "<td>";
-
-            echo $this->Form->control('final', ['label' => False]);
-            echo "</td>";
-            echo "</tr>";
-            echo "</table>";
-
+            echo $this->Form->control('dia', ['label' => ['text' => 'Dia']]);
+            echo $this->Form->control('inicio', ['label' => ['text' => 'Início']]);
+            echo $this->Form->control('final', ['label' => ['text' => 'Final']]);
             echo $this->Form->control('horario', ['type' => 'hidden', 'empty' => true]);
             echo $this->Form->control('atividade');
             ?>

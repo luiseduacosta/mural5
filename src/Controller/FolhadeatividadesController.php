@@ -26,12 +26,13 @@ class FolhadeatividadesController extends AppController
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         if ($estagiario_id) {
             $folhadeatividades = $this->Folhadeatividades->find('all')
-                ->order(['id'])
+                ->contain(['Estagiarios' => ['Supervisores', 'Professores']])
+                ->order(['Folhadeatividades.id'])
                 ->where(['estagiario_id' => $estagiario_id]);
 
             $estagiariotabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariotabela->find()
-                ->contain(['Alunos', 'Instituicoes'])
+                ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores'])
                 ->where(['Estagiarios.id' => $estagiario_id])
                 ->first();
         }

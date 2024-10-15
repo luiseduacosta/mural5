@@ -31,6 +31,13 @@
                     </li>
                 <?php endif; ?>
 
+                <!-- Professor pode lançar notas -->
+                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                <?php endif; ?>
+
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:115px; word-wrap:break-word; font-size:14px']) ?>

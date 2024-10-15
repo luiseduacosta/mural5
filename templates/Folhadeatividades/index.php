@@ -3,26 +3,23 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade[]|\Cake\Collection\CollectionInterface $folhadeatividades
  */
-// pr($estagiario);
+// pr($estagiario->supervisor);
 // pr($folhadeatividades);
 // die();
 
-$supervisora = isset($estagiario->supervisor->nome);
-if ($supervisora) {
+if (isset($estagiario->supervisor->nome)) {
     $supervisora = $estagiario->supervisor->nome;
 } else {
     $supervisora = '_______________';
 }
 
-$cress = isset($estagiario->supervisor->cress);
-if ($cress) {
+if (isset($estagiario->supervisor->cress)) {
     $cress = $estagiario->supervisor->cress;
 } else {
     $cress = '_______________';
 }
 
-$professora = isset($estagiario->professor->nome);
-if ($professora) {
+if (isset($estagiario->professor->nome)) {
     $professora = $estagiario->professor->nome;
 } else {
     $professora = '_______________';
@@ -133,4 +130,3 @@ if ($professora) {
     </div>
 </div>
 <?= $this->element('paginator_count') ?>
-</div>

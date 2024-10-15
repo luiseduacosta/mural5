@@ -28,11 +28,13 @@
                         <?= $this->Html->link(__('Novo Professor'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 <?php endif; ?>
+
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 <?php endif; ?>
+
             </ul>
         </div>
     </nav>
@@ -320,7 +322,7 @@
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
-                                    <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
+                                    <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                     <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
