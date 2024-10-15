@@ -102,7 +102,14 @@ class InstituicoesController extends AppController {
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $instituicao = $this->Instituicoes->get($id);
+        $instituicao = $this->Instituicoes->get($id, [
+            'contain' => ['Estagiarios']
+        ]);
+
+        if (sizeof($instituicao->estagiarios) > 0) {
+            $this->Flash->error(__('Instituição com estagiariós.'));
+            return $this->redirect(['action' => 'view', $id]);
+        }
         if ($this->Instituicoes->delete($instituicao)) {
             $this->Flash->success(__('Registro instituicao excluído.'));
         } else {

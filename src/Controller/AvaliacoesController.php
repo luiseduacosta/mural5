@@ -113,6 +113,7 @@ class AvaliacoesController extends AppController
 
     /**
      * Add method
+     * @param mixed $estagiario_id
      *
      * @return Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -135,21 +136,17 @@ class AvaliacoesController extends AppController
 
         if ($avaliacaoexiste) {
             $this->Flash->error(__('Estagiário já foi avaliado'));
-            // return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoexiste->id]);
+            return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoexiste->id]);
         }
-        // pr($this->request->getData());
-        // die();
         $avaliacao = $this->Avaliacoes->newEmptyEntity();
         if ($this->request->is('post')) {
             $avaliacaoresposta = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
-            // pr($avaliacao);
-            // die();
             if ($this->Avaliacoes->save($avaliacaoresposta)) {
                 $this->Flash->success(__('Avaliação registrada.'));
-
-                return $this->redirect(['controller' => 'avaliacoes', 'action' => 'index', $this->getRequest()->getData('estagiario_id')]);
+                return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoresposta->id]);
             }
             $this->Flash->error(__('Avaliaçãoo no foi registrada. Tente novamente.'));
+            return $this->redirect(['action' => 'add', $estagiario_id]);
         }
 
         $estagiario = $this->Avaliacoes->Estagiarios->find()
@@ -171,7 +168,7 @@ class AvaliacoesController extends AppController
     {
 
         $avaliacao = $this->Avaliacoes->get($id, [
-            'contain' => ['Estagiarios' => 'Alunos'],
+            'contain' => ['Estagiarios' => ['Alunos']],
         ]);
         // pr($avaliacao->estagiario);
         $estagiario = $avaliacao->estagiario;
@@ -180,13 +177,11 @@ class AvaliacoesController extends AppController
             $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
             if ($this->Avaliacoes->save($avaliacao)) {
                 $this->Flash->success(__('Avaliacao atualizada.'));
-
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $avaliacao->id]);
             }
             $this->Flash->error(__('Avaliaçao não foi atualizada. Tente novamente.'));
-            return $this->redirect(['action' => 'edit', $id]);
+            return $this->redirect(['action' => 'view', $id]);
         }
-        // $estagiarios = $this->Avaliacoes->Estagiarios->find('list', ['limit' => 200]);
         $this->set(compact('avaliacao', 'estagiario'));
     }
 
@@ -212,7 +207,6 @@ class AvaliacoesController extends AppController
 
     public function selecionaavaliacao($id = NULL)
     {
-
         /* No login foi capturado o id do estagiário */
         $id = $this->getRequest()->getSession()->read('estagiario_id');
         if (is_null($id)) {
@@ -243,8 +237,6 @@ class AvaliacoesController extends AppController
                 ->where(['Avaliacoes.id' => $id]);
         }
         $avaliacao = $avaliacaoquery->first();
-        // pr($avaliacao);
-        // die();
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');

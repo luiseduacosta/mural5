@@ -108,9 +108,9 @@ class AlunosController extends AppController {
                 return $this->redirect('/users/add');
             endif;
 
-            $estudanteresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
+            $alunoresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
 
-            if ($this->Alunos->save($estudanteresultado)) {
+            if ($this->Alunos->save($alunoresultado)) {
                 $this->Flash->success(__('Aluno cadastrado 1.'));
 
                 /**
@@ -118,7 +118,7 @@ class AlunosController extends AppController {
                  * Primeiro busco o usuário.
                  */
                 $userestagioestudante = $this->Alunos->Users->find()
-                        ->where(['aluno_id' => $estudanteresultado->id])
+                        ->where(['aluno_id' => $alunoresultado->id])
                         ->first();
 
                 /**
@@ -127,11 +127,11 @@ class AlunosController extends AppController {
                 if (empty($userestagioestudante)) {
 
                     $userestagio = $this->Alunos->Users->find()
-                            ->where(['categoria_id' => 2, 'registro' => $estudanteresultado->registro])
+                            ->where(['categoria_id' => 2, 'registro' => $alunoresultado->registro])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo aluno_id */
-                    $userdata['aluno_id'] = $estudanteresultado->id;
+                    $userdata['aluno_id'] = $alunoresultado->id;
 
                     $userestagiostabela = $this->fetchTable('Users');
                     $user_entity = $userestagiostabela->get($userestagio->id);
@@ -139,14 +139,14 @@ class AlunosController extends AppController {
                     $userestagioresultado = $this->Alunos->Users->patchEntity($user_entity, $userdata);
                     if ($this->Alunos->Users->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do aluno'));
-                        return $this->redirect(['action' => 'view', $estudanteresultado->id]);
+                        return $this->redirect(['action' => 'view', $alunoresultado->id]);
                     } else {
                         $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do aluno'));
                         // debug($users->getErrors());
                         return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $estudanteresultado->id]);
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $alunoresultado->id]);
             } else {
                 // debug($aluno)->getErrors();
                 $this->Flash->error(__('Não foi possível cadastrar o aluno. Tente novamente.'));
@@ -170,8 +170,8 @@ class AlunosController extends AppController {
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $estudanteresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
-            if ($this->Alunos->save($estudanteresultado)) {
+            $alunoresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
+            if ($this->Alunos->save($alunoresultado)) {
                 $this->Flash->success(__('Registo de aluno atualizado.'));
 
                 return $this->redirect(['action' => 'view', $id]);

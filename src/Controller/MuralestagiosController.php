@@ -27,7 +27,6 @@ class MuralestagiosController extends AppController {
     public function index($id = NULL) {
 
         $periodo = $this->getRequest()->getQuery('periodo');
-        // pr($periodo);
 
         if (empty($periodo)) {
             $configuracaotabela = $this->fetchTable('Configuracoes');
@@ -106,7 +105,7 @@ class MuralestagiosController extends AppController {
             $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $dados);
             if ($this->Muralestagios->save($muralestagio)) {
                 $this->Flash->success(__('Registo de novo mural de estágio feito.'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $muralestagio->id]);
             } else {
                 $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
@@ -168,7 +167,13 @@ class MuralestagiosController extends AppController {
      */
     public function delete($id = null) {
         $this->request->allowMethod(['post', 'delete']);
-        $muralestagio = $this->Muralestagios->get($id);
+        $muralestagio = $this->Muralestagios->get($id, [
+            'contain' => ['Inscricoes']
+        ]);
+        if (sizeof($muralestagio->inscricoes) > 0) {
+            $this->Flash->error(__('Mural de estágio com inscrições'));
+            return $this->redirect(['action' => 'view', $id]);
+        }
         if ($this->Muralestagios->delete($muralestagio)) {
             $this->Flash->success(__('Registro muralestagio excluído.'));
         } else {

@@ -72,10 +72,6 @@ class EstagiariosController extends AppController
             $this->cakeError('error404');
         }
 
-        //        $estagiario = $this->Estagiarios->get($id, [
-//            'contain' => ['Alunos', 'Instituicoes', 'Supervisores', 'Professores', 'Turmaestagios', 'Folhadeatividades', 'Avaliacoes']
-//        ]);
-
         $estagiario = $this->Estagiarios->find()
             ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores', 'Turmaestagios', 'Folhadeatividades', 'Avaliacoes'])
             ->where(['Estagiarios.id' => $id])
@@ -106,19 +102,23 @@ class EstagiariosController extends AppController
         /** Capturo o id do aluno se estiver cadastrado e envio para o formulario. */
         $aluno_id = $this->Authentication->getIdentityData('aluno_id');
         if ($aluno_id) {
-            $estudantetabela = $this->fetchTable('Alunos');
-            $estudanteestagiarios = $estudantetabela->find()
+            $alunotabela = $this->fetchTable('Alunos');
+            $alunoestagiarios = $alunotabela->find()
                 ->contain(['Estagiarios' => ['sort' => ['nivel' => 'desc']]])
                 ->where(['id' => $aluno_id])
                 ->first();
             // pr($estudanteestagiarios->estagiarios);
-            foreach ($estudanteestagiarios->estagiarios as $estudanteestagiario) {
-                $estudanteDeEstagio[] = $estudanteestagiario;
+            if (isset($alunoestagiarios)) {
+                foreach ($alunoestagiarios->estagiarios as $alunoestagiario) {
+                    $alunoDeEstagio[] = $alunoestagiario;
+                }
+            } else {
+                $alunoDeEstagio[] = 'Sem alunos';
             }
 
             $this->set('aluno_id', $aluno_id);
-            $this->set('estudanteestagiarios', $estudanteestagiarios);
-            $this->set('estudantedeestagio', $estudanteDeEstagio[0]);
+            $this->set('estudanteestagiarios', $alunoestagiarios);
+            $this->set('estudantedeestagio', $alunoDeEstagio[0]);
         }
 
         $estagiario = $this->Estagiarios->newEmptyEntity();
@@ -131,8 +131,7 @@ class EstagiariosController extends AppController
             $estagiario = $this->Estagiarios->patchEntity($estagiario, $this->request->getData());
             if ($this->Estagiarios->save($estagiario)) {
                 $this->Flash->success(__('Registro de estagiario inserido.'));
-
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $estagiario->id]);
             }
             $this->Flash->error(__('Registro de estagiário não foi inserido. Tente novamente.'));
         }
@@ -157,7 +156,7 @@ class EstagiariosController extends AppController
         $instituicao_id = $this->getRequest()->getQuery('instituicao_id');
 
         /** Vou utilizar a tabela alunos */
-        $estudantestabela = $this->fetchTable('Alunos');
+        $alunotabela = $this->fetchTable('Alunos');
 
         if ($this->getRequest()->is('post')) {
 
@@ -187,7 +186,7 @@ class EstagiariosController extends AppController
             } else {
                 $estagiario = $this->Estagiarios->newEmptyEntity();
                 /** Capturo o id do aluno para passar para o estagiario */
-                $aluno = $estudantestabela->find()
+                $aluno = $alunotabela->find()
                     ->contain([])
                     ->where(['Alunos.id' => $aluno_id])
                     ->first();
@@ -204,12 +203,14 @@ class EstagiariosController extends AppController
                 /** Gravo o cookie estagiario_id para que o menu superior fique com o submenu_aluno */
                 $this->getRequest()->getSession()->write('estagiario_id', $estagiarioresultado->id);
 
-                /** Insere os dados do aluno na tabela alunos */
+                /** Insere os dados do aluno na tabela alunoestagiarios.
+                 * Função obsoleta.
+                 */
                 $this->alunoinsere($aluno_id, $estagiarioresultado->id);
 
                 return $this->redirect(['action' => 'termodecompromisso', '?' => ['aluno_id' => $estagiarioresultado->aluno_id, 'instituicao_id' => $estagiarioresultado->instituicao_id]]);
             } else {
-                // debug($estagiarioresultado);
+
                 $this->Flash->error(__('Não foi possível inserir ou atualizar o estagiario. Tente mais uma vez.'));
             }
         } // Finaliza post
@@ -266,7 +267,7 @@ class EstagiariosController extends AppController
             } else {
                 /** Aluno sem estágio: nível 1 */
                 $nivel = 1;
-                $estudante_semestagio = $estudantestabela->find()
+                $estudante_semestagio = $alunotabela->find()
                     ->contain([])
                     ->where(['Alunos.id' => $aluno_id])
                     ->select(['id', 'registro', 'nome', 'turno', 'ingresso'])
@@ -300,7 +301,7 @@ class EstagiariosController extends AppController
             $this->set('aluno_id', $aluno_id);
             $this->set('instituicao_id', $instituicao_id);
 
-            $aluno = $estudantestabela->find()->where(['Alunos.id' => $aluno_id])->first();
+            $aluno = $alunotabela->find()->where(['Alunos.id' => $aluno_id])->first();
             $instituicoes = $this->Estagiarios->Instituicoes->find('list');
             $turmaestagios = $this->Estagiarios->Turmaestagios->find('list');
             $this->set(compact('instituicoes', 'turmaestagios', 'aluno'));
@@ -391,14 +392,13 @@ class EstagiariosController extends AppController
             }
         } else {
             echo 'Aluno não cadastrado: fazer uma inserção nova na tabela alunos e atualizar aluno_id na tabela estagiarios' . '<br>';
-            $estudantestabela = $this->fetchTable('Alunos');
-            $aluno = $estudantestabela->find()
+            $alunotabela = $this->fetchTable('Alunos');
+            $aluno = $alunotabela->find()
                 ->where(['Alunos.id' => $aluno_id])
                 ->first()
                 ->toArray();
             // pr($aluno);
             // die();
-            $alunostabela = $this->fetchTable('Alunos');
             $aluno_novo = $alunostabela->newEmptyEntity();
             $aluno_novo_resultado = $alunostabela->patchEntity($aluno_novo, $aluno);
             // pr($aluno_novo_resultado);
@@ -678,9 +678,10 @@ class EstagiariosController extends AppController
             $this->Flash->success(__('Estagiário excluído.'));
         } else {
             $this->Flash->error(__('Não foi possível excluir o estagiário'));
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $id]);
         }
 
-        return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $estagiario->registro]]);
+        return $this->redirect(['controller' => 'alunos', 'action' => 'view', $estagiario->aluno_id]);
     }
 
     public function lancanota($id = null)

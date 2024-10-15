@@ -18,9 +18,7 @@ class VisitasController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index() {
-        //$this->paginate = [
-        //    'contain' => ['Instituicoes'],
-        //];
+
         $visitas = $this->paginate($this->Visitas);
 
         $this->set(compact('visitas'));

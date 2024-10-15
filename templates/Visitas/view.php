@@ -24,7 +24,7 @@
     </nav>
 
     <div class="container">
-        <h3><?= h($visita->instituicoes->instituicao) ?></h3>
+        <h3><?= h($visita->instituicao->instituicao) ?></h3>
         <table>
             <tr>
                 <th><?= __('Id') ?></th>

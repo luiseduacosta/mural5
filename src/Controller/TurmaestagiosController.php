@@ -78,7 +78,6 @@ class TurmaestagiosController extends AppController {
             $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
             if ($this->Turmaestagios->save($turmaestagio)) {
                 $this->Flash->success(__('Turma de estagio atualizada.'));
-
                 return $this->redirect(['action' => 'view', $turmaestagio->id]);
             }
             $this->Flash->error(__('Turma de estágio não foi atualizada. Tente novamente.'));
@@ -98,7 +97,7 @@ class TurmaestagiosController extends AppController {
         $turmaestagio = $this->Turmaestagios->get($id, [
             'contain' => ['Estagiarios']
         ]);
-        if (sizeof($turmaestagio->estagiario) > 0) {
+        if (sizeof($turmaestagio->estagiarios) > 0) {
             $this->Flash->error(__("Não pode ser excluida porque têm estagiários associados."));
             return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'view', $id]);
         }
