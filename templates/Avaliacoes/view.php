@@ -83,6 +83,7 @@ if (isset($avaliacao->estagiario->professor->nome)) {
                 <?= $avaliacao->estagiario->instituicao->instituicao ?>. Supervisor(a) <?= $supervisora ?>,
                 Cress <?= $cress ?>. Período de estágio <?= $avaliacao->estagiario->periodo ?>. Nível:
                 <?= $avaliacao->estagiario->nivel ?>. Supervisão acadêmica: <?= $professora ?></span></p>
+
         <table class="table table-striped table-hover table-responsive">
             <tr>
                 <th><?= __('Id') ?></th>
