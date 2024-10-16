@@ -19,7 +19,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\AvaliacoesTable&\Cake\ORM\Association\HasOne $Avaliacoes
- * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasOne $Folhadeatividades
+ * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasMany $Folhadeatividades
  *
  * @method \App\Model\Entity\Estagiario newEmptyEntity()
  * @method \App\Model\Entity\Estagiario newEntity(array $data, array $options = [])
@@ -77,7 +77,7 @@ class EstagiariosTable extends Table {
         $this->hasOne('Avaliacoes', [
             'foreignKey' => 'estagiario_id',
         ]);
-        $this->hasOne('Folhadeatividades', [
+        $this->hasMany('Folhadeatividades', [
             'foreignKey' => 'estagiario_id',
         ]);
     }

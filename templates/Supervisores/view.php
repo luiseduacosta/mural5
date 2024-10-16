@@ -4,8 +4,6 @@
  * @var \App\Model\Entity\Supervisor $supervisor
  */
 $user = $this->getRequest()->getAttribute('identity');
-// pr($supervisor);
-// die();
 ?>
 <div class="container">
 
@@ -44,7 +42,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="tab" href="#supervisora" role="tab"
-                    aria-controls="supervisora" aria-selected="true">Supervisora</a>
+                    aria-controls="supervisora" aria-selected="true">Supervisor(a)</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
@@ -187,7 +185,8 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <?php foreach ($supervisor->instituicoes as $instituicoes): ?>
                                     <tr>
                                         <td><?= h($instituicoes->id) ?></td>
-                                        <td><?= h($instituicoes->instituicao) ?></td>
+                                        <td><?= $this->Html->link($instituicoes->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicoes->id]) ?>
+                                        </td>
                                         <td><?= h($instituicoes->cnpj) ?></td>
                                         <td><?= h($instituicoes->email) ?></td>
                                         <td><?= h($instituicoes->endereco) ?></td>
@@ -215,7 +214,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
                 <div id="estagiarios" class="tab-pane container fade">
                     <h4><?= __('Estagiarios') ?></h4>
-                    <?php if (!empty($supervisor->estagiarios)): ?>
+                    <?php if (isset($supervisor->estagiarios)): ?>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-responsive">
                                 <tr>
@@ -229,9 +228,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('Ch') ?></th>
                                     <th><?= __('Observacoes') ?></th>
-                                    <th class="actions"><?= __('Actions') ?></th>
+                                    <th class="actions"><?= __('Ações') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
+                                    <?php pr($supervisor->id) ?>
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
                                         <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
@@ -246,9 +246,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                            <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                            <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                            <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                                                <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
+                                            <?php endif; ?>
+                                            <?php if ($user->categoria_id == 1): ?>
+                                                <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                                <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -272,8 +276,8 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Periodo') ?></th>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('Carga horária') ?></th>
+                                    <th><?= __('Atividades') ?></th>
                                     <th><?= __('Avaliação') ?></th>
-                                    <th><?= __('Observacoes') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
                                     <tr>
@@ -288,11 +292,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->periodo) ?></td>
                                         <td><?= h($estagiarios->nota) ?></td>
                                         <td><?= h($estagiarios->ch) ?></td>
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
+                                        <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
+                                        <!-- Administradores e supervisores podem avaliar -->
+                                        <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php else: ?>
-                                            <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : " " ?>
+                                        <?php elseif ($user->categoria_id == 2 || $user->categoria_id == 3): ?>
+                                            <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>
                                         <td><?= h($estagiarios->observacoes) ?></td>
@@ -302,7 +308,6 @@ $user = $this->getRequest()->getAttribute('identity');
                         </div>
                     <?php endif; ?>
                 </div>
-
             </div>
         </div>
     </div>

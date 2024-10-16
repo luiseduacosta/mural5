@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
+$user = $this->getRequest()->getAttribute('identity');
 // pr($instituicao);
 // pr($this->getRequest()->getAttribute('identity'));
 // die();
@@ -10,17 +11,19 @@
 <div class="container">
     <div class="container">
 
-        <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-                    <ul class="navbar-nav ms-auto mt-lg-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary float-end']) ?>
                         </li>
+                    <?php endif; ?>
+                    <?php if ($user->categoria_id == 1): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                         </li>
@@ -30,10 +33,10 @@
                         <li class="nav-item">
                             <?= $this->Form->postLink(__('Excluir Instituição de estágio'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger float-end']) ?>
                         </li>
-                    </ul>
-                </div>
-            </nav>
-        <?php endif; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </nav>
 
         <div class="container">
             <ul class="nav nav-tabs">

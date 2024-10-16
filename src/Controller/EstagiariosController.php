@@ -82,11 +82,7 @@ class EstagiariosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $folhadeatividades = $this->Estagiarios->Folhadeatividades->find()
-            ->where(['estagiario_id' => $id])
-            ->all();
-
-        $this->set(compact('estagiario', 'folhadeatividades'));
+        $this->set(compact('estagiario'));
     }
 
     /**

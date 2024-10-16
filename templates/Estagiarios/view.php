@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
-// pr($estagiario);
-// die();
 ?>
 
 <div class='container'>
@@ -189,7 +187,7 @@
 
         <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel"
             aria-labelledby="folhadeatividade-tab">
-            <?php if ($estagiario->hasValue('folhadeatividade')): ?>
+            <?php if ($estagiario->hasValue('folhadeatividades')): ?>
                 <h3>Atividades</h3>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
@@ -204,7 +202,7 @@
                         </thead>
                         <tbody>
                             <?php $seconds = 0 ?>
-                            <?php foreach ($folhadeatividades as $atividade): ?>
+                            <?php foreach ($estagiario->folhadeatividades as $atividade): ?>
                                 <tr>
                                     <td><?= $atividade->dia ?></td>
                                     <td><?= $atividade->inicio ?></td>

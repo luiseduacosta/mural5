@@ -13,19 +13,7 @@
             </li>
             
             <li class="nav-item">
-                <?php echo $this->Html->link("Avaliaçao", ['controller' => "Avaliacoes", 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-            </li>
-
-            <li class="nav-item">
-                <?php echo $this->Html->link("Atividades", ['controller' => "Folhadeatividades", 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-            </li>
-
-            <li class="nav-item">
-                <?php echo $this->Html->link("Atividades on-line", ['controller' => 'Folhadeatividades', 'action' => 'selecionafolhadeatividades', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-            </li>
-
-            <li class="nav-item">
-                <?php echo $this->Html->link("Meus alunos", ['controller' => "Supervisores", 'action' => 'view', '?' => ['cress' => $this->getRequest()->getSession()->read('cress')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Meus estagiários", ['controller' => "Supervisores", 'action' => 'view', '?' => ['cress' => $this->getRequest()->getSession()->read('cress')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
             
             <li class="nav-item">

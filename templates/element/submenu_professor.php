@@ -21,7 +21,7 @@
             </li>
 
             <li class="nav-item">
-                <?php echo $this->Html->link("Meus estagiários", ['controller' => "Professores", 'action' => 'view', '?' => ['siape' => $this->getRequest()->getSession()->read('siape')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                <?php echo $this->Html->link("Meus alunos", ['controller' => "Professores", 'action' => 'view', '?' => ['siape' => $this->getRequest()->getSession()->read('siape')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
             <li class="nav-item">
                 <?php echo $this->Html->link('Sair', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>

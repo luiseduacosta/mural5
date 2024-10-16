@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor $supervisor
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <?= $this->element('templates') ?>
@@ -19,15 +20,17 @@
 
                     <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <li class="nav-item">
-                    <?=
-                        $this->Form->postLink(
-                            __('Excluir'),
-                            ['action' => 'delete', $supervisor->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']
-                        )
-                        ?>
-                </li>
+                <?php if ($user->categoria_id == 1): ?>
+                    <li class="nav-item">
+                        <?=
+                            $this->Form->postLink(
+                                __('Excluir'),
+                                ['action' => 'delete', $supervisor->id],
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']
+                            )
+                            ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
