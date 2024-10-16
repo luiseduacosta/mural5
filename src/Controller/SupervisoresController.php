@@ -43,7 +43,7 @@ class SupervisoresController extends AppController {
         }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
-                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores']
+                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Avaliacoes']
             ]
         ]);
 
@@ -167,7 +167,7 @@ class SupervisoresController extends AppController {
             if ($this->Supervisores->save($supervisor)) {
                 $this->Flash->success(__('Registro supervisor(a) atualizado.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'view', $supervisor->id]);
             }
             $this->Flash->error(__('Registro supervisor(a) nao atualizado. Tente novamente.'));
         }

@@ -252,7 +252,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <td><?= $this->Html->link($estagiario->avaliacao->id, ['controller' => 'Avaliacoes', 'action' => 'view', $estagiario->avaliacao->id]) ?>
+                            <td><?= $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $estagiario->avaliacao->id]) ?>
                             </td>
                         </tbody>
                     </table>

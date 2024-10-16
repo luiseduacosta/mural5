@@ -10,26 +10,26 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $estagiario_id
- * @property string $avaliacao1
- * @property string $avaliacao2
- * @property string $avaliacao3
- * @property string $avaliacao4
- * @property string $avaliacao5
- * @property string $avaliacao6
- * @property string $avaliacao7
- * @property string $avaliacao8
- * @property string $avaliacao9
- * @property string|null $avaliacao9_1
- * @property string $avaliacao10
- * @property string|null $avaliacao10_1
- * @property string $avaliacao11
- * @property string|null $avaliacao11_1
- * @property string $avaliacao12
- * @property string|null $avaliacao12_1
- * @property string $avaliacao13
- * @property string|null $avaliacao13_1
- * @property string $avaliacao14
- * @property string $observacoes
+ * @property string|null $avaliacao1
+ * @property string|null $avaliacao2
+ * @property string|null $avaliacao3
+ * @property string|null $avaliacao4
+ * @property string|null $avaliacao5
+ * @property string|null $avaliacao6
+ * @property string|null $avaliacao7
+ * @property string|null $avaliacao8
+ * @property string|null $avaliacao9
+ * @property string|null $avaliacao10
+ * @property string|null $avaliacao11
+ * @property string|null $avaliacao12
+ * @property string|null $avaliacao13
+ * @property string|null $avaliacao14
+ * @property string|null $avaliacao15
+ * @property string|null $avaliacao16
+ * @property string|null $avaliacao17
+ * @property string|null $avaliacao18
+ * @property string|null $avaliacao19
+ * @property string|null $observacoes
  * @property \Cake\I18n\FrozenTime $TIMESTAMP
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
@@ -56,16 +56,16 @@ class Avaliacao extends Entity
         'avaliacao7' => true,
         'avaliacao8' => true,
         'avaliacao9' => true,
-        'avaliacao9_1' => true,
         'avaliacao10' => true,
-        'avaliacao10-1' => true,        
         'avaliacao11' => true,
-        'avaliacao11_1' => true,        
-        'avaliacao12' => true,
-        'avaliacao12_1' => true,        
+        'avaliacao12' => true,        
         'avaliacao13' => true,
-        'avaliacao13_1' => true,
-        'avaliacao14' => true,
+        'avaliacao14' => true,        
+        'avaliacao15' => true,
+        'avaliacao16' => true,        
+        'avaliacao17' => true,
+        'avaliacao18' => true,
+        'avaliacao19' => true,
         'observacoes' => true,
         'TIMESTAMP' => true,
         'estagiarios' => true,

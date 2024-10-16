@@ -83,7 +83,7 @@ class InstituicoesController extends AppController {
             $instituicao = $this->Instituicoes->patchEntity($instituicao, $this->request->getData());
             if ($this->Instituicoes->save($instituicao)) {
                 $this->Flash->success(__('Registro instituicao inserido.'));
-                return $this->redirect(['action' => 'view', $this->Instituicoes->Id]);
+                return $this->redirect(['action' => 'view', $instituicao->id]);
             }
             $this->Flash->error(__('Registro instituicao não foi inserido. Tente novamente.'));
         }

@@ -17,6 +17,10 @@
 <?php $this->Form->setTemplates(["inputSubmit" => "<input class = 'mt-lg-0 btn btn-success position-static' type = '{{type}}' {{attrs}}>"]); ?>
 <?php $this->Form->setTemplates(["dateWidget" => "{{day}}{{month}}{{year}}{{hour}}{{minute}}{{second}}{{meridian}}"]); ?>
 <?php $this->Form->setTemplates(["button" => "<div class='d-flex justify-content-center'><button type ='submit' class= 'btn btn-primary mt-2' {{attrs}}>{{text}}</button></div>"]); ?>
+<?php $this->Form->setTemplates(['radioWrapper' => '<div class="form-check form-check-inline">{{label}}{{input}}</div>']); ?>
+<?php $this->Form->setTemplates(['nestingLabel' => '{{hidden}}<label class="form-check-label" style="font-weight: normal; font-size: 14px;" {{attrs}}>{{text}}</label>']); ?>
+<?php $this->Form->setTemplates(['radio' => '<input class="form-check-input" type="radio" name="{{name}}" value="{{value}}"{{attrs}}>']); ?>
+<?php $this->Form->setTemplates(['legend' => '<legend style = "font-weight: normal">{{text}}</legend>']); ?>
 
 <?php $this->Paginator->setTemplates(['nextActive' => '<li class="page-item"><a class="page-link" rel="next" href="{{url}}">{{text}}</a></li>']); ?>
 <?php $this->Paginator->setTemplates(['nextDisabled' => '<li class="page-item disabled"><a class="page-link" href="" onclick="return false;">{{text}}</a></li>']); ?>
