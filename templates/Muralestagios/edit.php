@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
+
 ?>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
@@ -68,19 +69,19 @@
             <?= $this->element('templates') ?>
             <?= $this->Form->create($muralestagio) ?>
             <fieldset>
-                <legend><?= __('Editar Mural de estágio') ?></legend>
+                <legend><?= __('Editar Mural') ?></legend>
                 <?php
-                echo $this->Form->control('instituicao_id', ['type' => 'hidden', 'label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly']);
-                echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição'], 'readonly']);
+                echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly']);
+                echo $this->Form->control('instituicao', ['type' => 'hidden', 'label' => ['text' => 'Instituição'], 'readonly']);
                 echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
                 echo $this->Form->control('vagas');
                 echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios']]);
                 echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
                 echo $this->Form->control('cargaHoraria', ['label' => ['text' => 'Carga horária']]);
                 echo $this->Form->control('requisitos');
-                echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Área de estágio'], 'options' => $turmaestagios]);
+                echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
                 echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
-                echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores]);
+                echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores, 'empty' => true]);
                 echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
                 echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
                 echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);

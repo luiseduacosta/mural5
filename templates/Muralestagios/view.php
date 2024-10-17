@@ -5,7 +5,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
-// pr($muralestagio->instituicoes->id);
+// pr($muralestagio->inscricoes);
 // die();
 ?>
 
@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
+                        <?php if ($usuario->categoria_id == 1): ?>
                             <td><?= $muralestagio->hasValue('instituicoes') ? $this->Html->link($muralestagio->instituicoes->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicoes->id]) : '' ?>
                             </td>
                         <?php else: ?>
@@ -109,7 +109,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Turma de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->turmaestagio->area, ['controller' => 'Areaestagios', 'action' => 'view', $muralestagio->turmaestagio->id]) : 'Sem dados' ?>
+                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $muralestagio->turmaestagio->id]) : 'Sem dados' ?>
                         </td>
                     </tr>
                     <tr>
@@ -248,14 +248,14 @@
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($usuario) && $usuario->categoria_id <> 1): ?>
+                    <?php elseif (isset($usuario) && $usuario->categoria_id == 2): ?>
                         <!--
-                        Para os outros usuários as inscrições dependem da data de encerramento
+                        Para os estudantes as inscrições dependem da data de encerramento
                         //-->
                         <?php
                         $timeZone = new DateTimeZone('America/Sao_Paulo');
                         $dataDeHoje = new DateTime(null, $timeZone);
-                        /** Sem data de encerramento. Coloco a data de hoje e deixo aberto */
+                        /** Se nao tem data de encerramento, coloco a data de hoje e deixo aberto */
                         if (empty($muralestagio->dataInscricao)) {
                             $dataEnerramentoDaInscricao = new DateTime(null, $timeZone);
                         } else {
@@ -313,7 +313,7 @@
                         <?php endforeach; ?>
                     </table>
                 <?php else: ?>
-                    <p>Sem inscrições</p>
+õ                    <p>Sem inscrições</p>
                 <?php endif; ?>
             </div>
         </div>

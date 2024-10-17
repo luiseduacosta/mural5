@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -34,8 +35,8 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  */
-class Avaliacao extends Entity
-{
+class Avaliacao extends Entity {
+
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -58,16 +59,16 @@ class Avaliacao extends Entity
         'avaliacao9' => true,
         'avaliacao10' => true,
         'avaliacao11' => true,
-        'avaliacao12' => true,        
+        'avaliacao12' => true,
         'avaliacao13' => true,
-        'avaliacao14' => true,        
+        'avaliacao14' => true,
         'avaliacao15' => true,
-        'avaliacao16' => true,        
+        'avaliacao16' => true,
         'avaliacao17' => true,
         'avaliacao18' => true,
         'avaliacao19' => true,
         'observacoes' => true,
-        'TIMESTAMP' => true,
+        'TIMESTAMP' => true,        
         'estagiarios' => true,
     ];
 }

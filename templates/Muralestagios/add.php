@@ -67,7 +67,7 @@
             echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
             echo $this->Form->control('cargaHoraria', ['label' => ['text' => 'Carga horária']]);
             echo $this->Form->control('requisitos');
-            echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Área de estágio'], 'options' => $turmaestagios, 'empty' => true]);
+            echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => [0 => 'Seleciona']]);
             echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
             echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor da OTP'], 'options' => $professores, 'empty' => [0 => 'Seleciona']]);
             echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);

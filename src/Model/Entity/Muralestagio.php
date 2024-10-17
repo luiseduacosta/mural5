@@ -17,9 +17,9 @@ use Cake\ORM\Entity;
  * @property string|null $final_de_semana
  * @property int|null $cargaHoraria
  * @property string|null $requisitos
- * @property int $turmaestagio_id
+ * @property int|null $turmaestagio_id
  * @property string|null $horario
- * @property int $professor_id
+ * @property int|null $professor_id
  * @property \Cake\I18n\FrozenDate|null $dataSelecao
  * @property \Cake\I18n\FrozenDate|null $dataInscricao
  * @property string|null $horarioSelecao

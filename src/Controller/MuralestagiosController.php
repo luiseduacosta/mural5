@@ -65,7 +65,7 @@ class MuralestagiosController extends AppController {
     public function view($id = null) {
 
         $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes' => ['Turmaestagios'], 'Professores', 'Inscricoes' => ['Alunos']]
+            'contain' => ['Instituicoes', 'Turmaestagios', 'Professores', 'Inscricoes' => ['Alunos']]
         ]);
 
         if (!isset($muralestagio)) {
@@ -131,16 +131,16 @@ class MuralestagiosController extends AppController {
             'group' => ['periodo'],
             'order' => ['periodo']
         ]);
+        
         $periodos = $query->all()->toArray();
         foreach ($query as $c_periodo) {
             $periodostotal[$c_periodo->periodo] = $c_periodo->periodo;
         }
 
         $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes'],
+            'contain' => ['Instituicoes', 'Turmaestagios'],
         ]);
-        // pr($this->request->getData());
-        // die();
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             // pr($this->request->getData());
             $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $this->request->getData());
@@ -150,11 +150,13 @@ class MuralestagiosController extends AppController {
                 $this->Flash->success(__('Registro muralestagio atualizado.'));
                 return $this->redirect(['action' => 'view', $id]);
             }
+            debug($muralestagio);
             $this->Flash->error(__('No foi possível atualizar o registro. Tente novamente.'));
         }
         $instituicoes = $this->Muralestagios->Instituicoes->find('list');
         $turmaestagios = $this->Muralestagios->Turmaestagios->find('list');
         $professores = $this->Muralestagios->Professores->find('list');
+
         $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodostotal'));
     }
 
