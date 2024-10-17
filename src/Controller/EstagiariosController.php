@@ -544,19 +544,24 @@ class EstagiariosController extends AppController
 
         $this->set('estagiario', $estagiario);
     }
-
+    /** Folha de atividades para ser preenchida manualmente */
     public function folhadeatividadespdf($id = NULL)
     {
-
         $this->layout = false;
-        if (is_null($id)) {
-            $this->Flash->error(__('Por favor selecionar o estágio do aluno'));
-            return $this->redirect('/alunos/view?registro=' . $this->getRequest()->getSession()->read('registro'));
-        } else {
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        if ($id) {
             $estagiario = $this->Estagiarios->find()
                 ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
                 ->where(['Estagiarios.id' => $id])
                 ->first();
+        } elseif ($estagiario_id) {
+            $estagiario = $this->Estagiarios->find()
+                ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
+                ->where(['Estagiarios.id' => $estagiario_id])
+                ->first();        
+        } else {
+            $this->Flash->error(__('Sem estagiários'));
+            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
         }
         // pr($estagiario);
         // die('estagioario');

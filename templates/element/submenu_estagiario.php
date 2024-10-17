@@ -35,7 +35,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                     <?php echo $this->Html->link("Preencher atividades", ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Imprime atividades", ['controller' => "Estagiarios", 'action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                    <?php echo $this->Html->link("Imprime folha de atividades", ['controller' => "Estagiarios", 'action' => 'folhadeatividadespdf', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
 
                 <li class="nav-item">

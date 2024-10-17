@@ -97,7 +97,7 @@ class FolhadeatividadesController extends AppController
             // die('post');
         }
 
-        $this->set('folhadeatividades', $folhadeatividades);
+        $this->set('folhadeatividade', $folhadeatividadeentity);
         $this->set('estagiario', $estagiario);
     }
 

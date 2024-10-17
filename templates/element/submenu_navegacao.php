@@ -29,7 +29,7 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <?php echo $this->Html->link("Declaração de período", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                         <?php echo $this->Html->link("Termo de compromisso", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-                        <?php echo $this->Html->link("Declaração de estágio", "/Aluno/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
+                        <?php echo $this->Html->link("Declaração de estágio", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link("Folha de atividades", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link("Folha de atividades on-line", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link("Folha de avaliação discente", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
