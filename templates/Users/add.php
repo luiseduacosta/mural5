@@ -30,7 +30,7 @@
     <?php endif; ?>
 
     <div class="container">
-        <?= $this->Form->create($userestagio) ?>
+        <?= $this->Form->create($user) ?>
         <fieldset>
             <legend><?= __('Cadastro de novo usuário') ?></legend>
             <?php

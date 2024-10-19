@@ -31,27 +31,17 @@ class AvaliacoesController extends AppController
         // pr($estagiario_id);
         // die();
         if ($estagiario_id) {
-            $registro = $this->Avaliacoes->Estagiarios->find()
-                ->where(['Estagiarios.id' => $estagiario_id])
-                ->first();
-            // pr($registro);
-            // die();
-            $estagiariostabela = $this->fetchTable('Estagiarios');
-            $estagiarios = $estagiariostabela->find('all')
+            $estagiario = $this->Avaliacoes->Estagiarios->find('all')
                 ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
-                ->where(['Estagiarios.registro' => $registro->registro]);
+                ->where(['Estagiarios.id' => $estagiario_id]);
 
             // pr($estagiarios);
             // die();
-            $this->set('id', $id);
-            $this->set('estagiario', $this->paginate($estagiarios));
+            $this->set('estagiario_id', $estagiario_id);
+            $this->set('estagiario', $this->paginate($estagiario));
         } else {
-            $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
-            if ($this->getRequest()->getSession()->read('registro')) {
-                return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
-            } else {
-                return $this->redirect('/alunos/index');
-            }
+            $this->Flash->error(__('Selecionar estagiário.'));
+            return $this->redirect('/alunos/index');
         }
     }
 

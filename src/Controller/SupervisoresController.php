@@ -10,14 +10,16 @@ namespace App\Controller;
  * @property \App\Model\Table\SupervisoresTable $Supervisores
  * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class SupervisoresController extends AppController {
+class SupervisoresController extends AppController
+{
 
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index() {
+    public function index()
+    {
         $supervisores = $this->paginate($this->Supervisores);
 
         $this->set(compact('supervisores'));
@@ -30,19 +32,21 @@ class SupervisoresController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
 
         if (is_null($id)) {
             $cress = $this->getRequest()->getQuery('cress');
             if ($cress) {
                 $query = $this->Supervisores->find()
-                        ->where(['cress' => $cress])
-                        ->first();
+                    ->where(['cress' => $cress])
+                    ->first();
                 $id = $query->id;
             }
         }
         $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
+            'contain' => [
+                'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
                 'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
             ]
         ]);
@@ -61,7 +65,8 @@ class SupervisoresController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add()
+    {
 
         /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
         $cress = $this->getRequest()->getQuery('cress');
@@ -78,8 +83,8 @@ class SupervisoresController extends AppController {
         /* Verifico se já está cadastrado */
         if ($cress) {
             $supervisorcadastrado = $this->Supervisores->find()
-                    ->where(['cress' => $cress])
-                    ->first();
+                ->where(['cress' => $cress])
+                ->first();
 
             if ($supervisorcadastrado):
                 $this->Flash->error(__('Supervisor(a) já cadastrado(a)'));
@@ -97,8 +102,8 @@ class SupervisoresController extends AppController {
              */
             $cress = $this->request->getData('cress');
             $usercadastrado = $this->Supervisores->Users->find()
-                    ->where(['categoria_id' => 4, 'registro' => $cress])
-                    ->first();
+                ->where(['categoria_id' => 4, 'registro' => $cress])
+                ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
                 return $this->redirect('/users/add');
@@ -113,8 +118,8 @@ class SupervisoresController extends AppController {
                  * Primeiro busco o usuário.
                  */
                 $usersupervisor = $this->Supervisores->Users->find()
-                        ->where(['supervisor_id' => $supervisorresultado->id])
-                        ->first();
+                    ->where(['supervisor_id' => $supervisorresultado->id])
+                    ->first();
 
                 /**
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do supervisor_id.
@@ -122,8 +127,8 @@ class SupervisoresController extends AppController {
                 if (empty($usersupervisor)) {
 
                     $userestagio = $this->Supervisores->Users->find()
-                            ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
-                            ->first();
+                        ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
+                        ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo supervisor_id */
                     $userdata['supervisor_id'] = $supervisorresultado->id;
@@ -158,7 +163,8 @@ class SupervisoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
@@ -182,7 +188,8 @@ class SupervisoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         $this->request->allowMethod(['post', 'delete']);
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']

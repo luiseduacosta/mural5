@@ -8,7 +8,7 @@ use Authentication\PasswordHasher\DefaultPasswordHasher; // Add this line
 use Cake\ORM\Entity;
 
 /**
- * Userestagio Entity
+ * User Entity
  *
  * @property int $id
  * @property string|null $email

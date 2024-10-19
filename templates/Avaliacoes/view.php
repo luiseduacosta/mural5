@@ -63,7 +63,7 @@ if (isset($avaliacao->estagiario->professor->nome)) {
                         <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $avaliacao->id), 'class' => 'btn btn-danger float-end']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $avaliacao->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Nova avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
