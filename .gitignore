@@ -6,6 +6,8 @@
 /tmp/*
 /vendor/*
 /tests/*
+composer.json
+composer.lock
 
 # OS generated files #
 ######################
