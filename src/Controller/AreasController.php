@@ -31,12 +31,13 @@ class AreasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         $area = $this->Areas->get($id, [
             'contain' => [],
         ]);
 
         if (!isset($area)) {
-            $this->Flash->error(__('Nao ha registros de area para esse numero!'));
+            $this->Flash->error(__('Nao ha registros de área para esse id!'));
             return $this->redirect(['action' => 'index']);
         }
 
@@ -49,15 +50,16 @@ class AreasController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
         $area = $this->Areas->newEmptyEntity();
         if ($this->request->is('post')) {
             $arearesultado = $this->Areas->patchEntity($area, $this->request->getData());
             if ($this->Areas->save($arearesultado)) {
-                $this->Flash->success(__('Registro area inserido.'));
+                $this->Flash->success(__('Registro área inserido.'));
 
                 return $this->redirect(['action' => 'view', $arearesultado->id]);
             }
-            $this->Flash->error(__('Registro area nao foi inserido. Tente novamente.'));
+            $this->Flash->error(__('Registro área nao foi inserido. Tente novamente.'));
         }
         $this->set(compact('area'));
     }
@@ -70,17 +72,18 @@ class AreasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
         $area = $this->Areas->get($id, [
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $arearesultado = $this->Areas->patchEntity($area, $this->request->getData());
             if ($this->Areas->save($arearesultado)) {
-                $this->Flash->success(__('Registro area atualizado.'));
+                $this->Flash->success(__('Registro área atualizado.'));
 
                 return $this->redirect(['action' => 'view', $arearesultado->id]);
             }
-            $this->Flash->error(__('Registro area nao foi atualziado. Tente novamente.'));
+            $this->Flash->error(__('Registro área nao foi atualziado. Tente novamente.'));
         }
         $this->set(compact('area'));
     }
@@ -93,12 +96,13 @@ class AreasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $arearesultado = $this->Areas->get($id);
         if ($this->Areas->delete($arearesultado)) {
-            $this->Flash->success(__('Registro area excluido.'));
+            $this->Flash->success(__('Registro área excluido.'));
         } else {
-            $this->Flash->error(__('Registro area nao foi excluido. Tente novamente.'));
+            $this->Flash->error(__('Registro área nao foi excluido. Tente novamente.'));
             return $this->redirect(['action' => 'view', $id]);
         }
 

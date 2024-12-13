@@ -13,7 +13,7 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
     <?php if ($categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -78,8 +78,10 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
                         <?php if ($categoria == '1'): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id]) ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id)]) ?>
+                                <?php if ($categoria == '1'): ?>
+                                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>
+                                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id)]) ?>
+                                <?php endif; ?>
                             </td>
                         <?php endif; ?>
                     </tr>
@@ -87,7 +89,7 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
             </tbody>
         </table>
     </div>
-    
+
     <?= $this->element('templates'); ?>
     <div class="d-flex justify-content-center">
         <div class="paginator">

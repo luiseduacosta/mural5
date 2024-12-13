@@ -7,8 +7,6 @@
 // pr($periodo);
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -23,30 +21,32 @@
     })
 </script>
 
-<?php
-// die();
-?>
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates') ?>
+
 <div class='container'>
 
-    <?php if ($usuario->categoria_id == 1): ?>
+    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo estagiário'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 </ul>
             </div>
         </nav>
-
     <?php endif; ?>
 
-    <?php if ($usuario->categoria_id == 1): ?>
+    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+
+        <h3><?= __('Estagiario(a)s') ?></h3>
+
         <?= $this->Form->create($estagiarios); ?>
         <div class="form-group row">
             <label class='col-sm-1 col-form-label'>Período</label>
@@ -56,11 +56,10 @@
         </div>
         <?= $this->Form->end(); ?>
     <?php else: ?>
-        <h1 style="text-align: center;">Estagiários da ESS/UFRJ. Período: <?= $periodo ?></h1>
+        <h3 style="text-align: center;">Estagiários da ESS/UFRJ. Período: <?= $periodo ?></h3>
     <?php endif; ?>
 
     <div class="container">
-        <h3><?= __('Estagiarios') ?></h3>
         <div class="table-responsive">
             <table class="table table-striped table-hover table-responsive">
                 <thead>
@@ -78,11 +77,11 @@
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                         <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
-                        <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>                        
+                        <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>
                         <th><?= $this->Paginator->sort('nota') ?></th>
                         <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                         <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
-                        <?php if ($usuario->categoria_id == 1): ?>
+                        <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                             <th class="actions"><?= __('Ações') ?></th>
                         <?php endif; ?>
                     </tr>
@@ -121,7 +120,7 @@
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>
                             <td><?= h($estagiario->observacoes) ?></td>
-                            <?php if ($usuario->categoria_id == 1): ?>
+                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
@@ -144,3 +143,4 @@
         </div>
         <?= $this->element('paginator_count') ?>
     </div>
+</div>

@@ -4,13 +4,17 @@
  * @var \App\Model\Entity\Aluno[]|\Cake\Collection\CollectionInterface $alunos
  */
 ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates') ?>
+
 <div class="container">
-    <h3><?= __('Alunos') ?></h3>
-    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+
+    <?php if (isset($usuario) && $usuario['categoria_id'] == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -21,6 +25,7 @@
                 </ul>
             </div>
         </nav>
+        <h3><?= __('Aluno(a)s') ?></h3>
         <div class="row justify-content-start">
             <div class="col-auto">
                 <?php $this->Form->setTemplates(["label" => "<label class='col-3 control-label'>{{text}}</label>"]); ?>

@@ -18,9 +18,17 @@ class AlunoestagiariosController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index() {
-        $alunoestagiarios = $this->paginate($this->Alunoestagiarios);
 
-        $this->set(compact('alunoestagiarios'));
+        /** Alunos não podem ver os dados dos outros alunos */
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
+
+            $alunoestagiarios = $this->paginate($this->Alunoestagiarios);
+
+            $this->set(compact('alunoestagiarios'));
+        } else {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $this->getRequest()->getAttribute('identity')['aluno_id']]);
+        }
     }
 
     /**
@@ -31,6 +39,7 @@ class AlunoestagiariosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         $alunoestagiario = $this->Alunoestagiarios->get($id, [
             'contain' => ['Estagiarios' => ['Instituicoes', 'Alunos', 'Professores', 'Supervisores']],
         ]);
@@ -95,8 +104,15 @@ class AlunoestagiariosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
-        $alunoestagiario = $this->Alunoestagiarios->get($id);
+        $alunoestagiario = $this->Alunoestagiarios->get($id, [
+            'contain' => ['Estagiarios']
+        ]);
+        if (sizeof($alunoestagiario->estagiarios) > 0) {
+            $this->Flash->error(__('Aluno estagiários tem estagiários associados.'));
+            return $this->redirect(['controller' => 'alunoestagiarios', 'action' => 'view', $id]);
+        }
         if ($this->Alunoestagiarios->delete($alunoestagiario)) {
             $this->Flash->success(__('Registro alunoestagiario excluido.'));
         } else {

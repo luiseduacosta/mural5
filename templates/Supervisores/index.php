@@ -4,28 +4,29 @@
  * @var \App\Model\Entity\Supervisor[]|\Cake\Collection\CollectionInterface $supervisores
  */
 // pr($supervisores);
-$user = $this->getRequest()->getAttribute('identity');
-// pr($user['categoria_id']);
 ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
-    <?php if ($user['categoria_id'] == 1): ?>
+
+    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-
-                        <?= $this->Html->link(__('Cadastra supervisora'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Nova supervisora'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 </ul>
             </div>
         </nav>
-
     <?php endif; ?>
-    <h3><?= __('Supervisores') ?></h3>
+
+    <h3><?= __('Supervisore(a)s') ?></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -40,7 +41,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('codigo_cel', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <?php if ($user['categoria_id'] == 1): ?>
+                    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -49,7 +50,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 <?php foreach ($supervisores as $supervisor): ?>
                     <tr>
                         <td><?= $supervisor->id ?></td>
-                        <?php if ($user['categoria_id'] == 1): ?>
+                        <?php if ($usuario['categoria_id'] == 1): ?>
                             <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
                             </td>
                         <?php else: ?>
@@ -62,7 +63,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= h($supervisor->codigo_cel) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
-                        <?php if ($user['categoria_id'] == 1): ?>
+                        <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>
@@ -76,6 +77,7 @@ $user = $this->getRequest()->getAttribute('identity');
     </div>
 
     <?= $this->element('templates'); ?>
+
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <ul class="pagination">

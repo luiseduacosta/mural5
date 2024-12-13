@@ -6,13 +6,18 @@
 // pr($estagiario);
 // die();
 ?>
+
+<?php
+$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+?>
+
 <div class="container">
 
-    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 4 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
+    <?php if ($categoria <> 2): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -39,7 +44,7 @@
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if ($categoria <> 2): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -79,14 +84,15 @@
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
-                            <?php if (isset($c_estagiario->avaliacao->id)): ?>
-                                <td class="actions">
-                                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>
+
+                        <?php if (isset($c_estagiario->avaliacao->id)): ?>
+                            <td class="actions">
+                                <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>
+                                <?php if ($categoria <> 2): ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_estagiario->avaliacao->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $c_estagiario->avaliacao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $c_estagiario->avaliacao->id)]) ?>
-                                </td>
-                            <?php endif; ?>
+                                <?php endif; ?>
+                            </td>
                         <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>

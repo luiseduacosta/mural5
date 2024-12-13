@@ -23,12 +23,15 @@
         })
     })
 </script>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
 
-    <?php if (!is_null($this->getRequest()->getAttribute('identity')) && ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1')): ?>
+    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -43,6 +46,11 @@
 
     <?= $this->element('templates') ?>
 
+    <div class="row">
+        <h3><?= __('Mural de estagios') ?></h3>
+    </div>
+
+
     <div class="row justify-content-center">
         <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
@@ -56,10 +64,6 @@
             </div>
             <?= $this->Form->end(); ?>
         <?php endif; ?>
-    </div>
-
-    <div class="row">
-        <h3><?= __('Mural de estagios') ?></h3>
     </div>
 
     <div class="table-responsive">

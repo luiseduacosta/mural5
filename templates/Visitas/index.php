@@ -4,22 +4,26 @@
  * @var \App\Model\Entity\Visita[]|\Cake\Collection\CollectionInterface $visitas
  */
 ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-
-                    <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
 
     <h3><?= __('Visitas instituicionais') ?></h3>
 
@@ -33,7 +37,7 @@
                     <th><?= $this->Paginator->sort('motivo') ?></th>
                     <th><?= $this->Paginator->sort('responsavel') ?></th>
                     <th><?= $this->Paginator->sort('avaliacao') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,8 +52,10 @@
                         <td><?= h($visita->avaliacao) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $visita->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $visita->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visita->id)]) ?>
+                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $visita->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visita->id)]) ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

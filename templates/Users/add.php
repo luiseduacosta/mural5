@@ -5,12 +5,14 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates') ?>
 
 <div class="container">
+
     <?php
-    if (isset($user) && $user->categoria_id == 1): ?>
+    if (isset($usuario) && $usuario->categoria_id == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -20,8 +22,7 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-
-                        <?= $this->Html->link(__('Listar usuários do mural de estagios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']); ?>
+                        <?= $this->Html->link(__('Listar usuário(a)s do mural de estagios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']); ?>
                     </li>
                 </ul>
             </div>
@@ -32,7 +33,7 @@
     <div class="container">
         <?= $this->Form->create($user) ?>
         <fieldset>
-            <legend><?= __('Cadastro de novo usuário') ?></legend>
+            <legend><?= __('Cadastro de novo usuário(a)') ?></legend>
             <?php
             echo $this->Form->control('email');
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
