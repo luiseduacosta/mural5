@@ -29,7 +29,7 @@
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar áreas das instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
@@ -38,7 +38,7 @@
     <div class="container">
         <?= $this->Form->create($area) ?>
         <fieldset>
-            <legend><?= __('Editar área instituição') ?></legend>
+            <legend><?= __('Editar área de instituição') ?></legend>
             <?php
             echo $this->Form->control('area', ['label' => ['text' => 'Área']]);
             ?>

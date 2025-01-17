@@ -61,48 +61,43 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
 
 <body>
 
-    <main class="main">
-        <div class="container">
-            <div class='row justify-content-center'>
-                <!--
-                    <div class='col-auto'>
-                    //-->
-                <?php
-                $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
-                if (isset($categoria) && (!empty($categoria))) {
-                    switch ($categoria) {
-                        case 1: // Administrador
-                            echo $this->element('submenu_navegacao');
-                            break;
-                        case 2: // Aluno
-                            if (!empty($this->getRequest()->getSession()->read('estagiario_id'))):
-                                echo $this->element('submenu_estagiario');
-                            else:
-                                echo $this->element('submenu_estudante');
-                            endif;
-                            break;
-                        case 3: // Professor
-                            echo $this->element('submenu_professor');
-                            break;
-                        case 4: // Supervisora
-                            echo $this->element('submenu_supervisor');
-                            break;
-                        default:
-                            echo $this->element('submenu_navegacao');
-                            // echo $this->element('menu_mural'); 
-                            break;
-                    }
-                } else {
-                    // echo $this->element('menu_mural');
-                    echo $this->element('submenu_navegacao');
+    <div class="container">
+        <div class='row justify-content-center'>
+            <?php
+            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+            if (isset($categoria) && (!empty($categoria))) {
+                switch ($categoria) {
+                    case 1: // Administrador
+                        echo $this->element('submenu_navegacao');
+                        break;
+                    case 2: // Aluno
+                        if (!empty($this->getRequest()->getSession()->read('estagiario_id'))):
+                            echo $this->element('submenu_estagiario');
+                        else:
+                            echo $this->element('submenu_estudante');
+                        endif;
+                        break;
+                    case 3: // Professor
+                        echo $this->element('submenu_professor');
+                        break;
+                    case 4: // Supervisora
+                        echo $this->element('submenu_supervisor');
+                        break;
+                    default:
+                        echo $this->element('submenu_navegacao');
+                        // echo $this->element('menu_mural'); 
+                        break;
                 }
-                ?>
+            } else {
+                // echo $this->element('menu_mural');
+                echo $this->element('submenu_navegacao');
+            }
+            ?>
 
-            </div>
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
         </div>
-    </main>
+        <?= $this->Flash->render() ?>
+        <?= $this->fetch('content') ?>
+    </div>
     <footer>
     </footer>
 </body>

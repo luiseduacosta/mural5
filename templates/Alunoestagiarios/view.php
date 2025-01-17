@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Alunoestagiario $alunoestagiario
  */
 ?>
-
+ 
 <?php $user = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
@@ -18,19 +18,19 @@
             <ul class="navbar-nav ms-auto mt-lg-0">
 
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Novo Alunoestagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Novo aluno(a) estagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
 
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar Alunoestagiario'), ['action' => 'edit', $alunoestagiario->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Editar aluno(a) estagiario(a)'), ['action' => 'edit', $alunoestagiario->id], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Alunoestagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar aluno(a)s estagiario(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir Alunoestagiario'), ['action' => 'delete', $alunoestagiario->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $alunoestagiario->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir aluno(a) estagiario(a)'), ['action' => 'delete', $alunoestagiario->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $alunoestagiario->id), 'class' => 'btn btn-danger float-end']) ?>
                 </li>
             </ul>
         </div>
@@ -56,7 +56,7 @@
                 <td><?= date('d-m-Y', strtotime(h($alunoestagiario->nascimento))) ?></td>
             </tr>
             <tr>
-                <th><?= __('Cpf') ?></th>
+                <th><?= __('CPF') ?></th>
                 <td><?= h($alunoestagiario->cpf) ?></td>
             </tr>
             <tr>
@@ -64,15 +64,15 @@
                 <td><?= h($alunoestagiario->identidade) ?></td>
             </tr>
             <tr>
-                <th><?= __('Orgao') ?></th>
+                <th><?= __('Orgão') ?></th>
                 <td><?= h($alunoestagiario->orgao) ?></td>
             </tr>
             <tr>
-                <th><?= __('Email') ?></th>
+                <th><?= __('E-mail') ?></th>
                 <td><?= h($alunoestagiario->email) ?></td>
             </tr>
             <tr>
-                <th><?= __('Codigo Telefone') ?></th>
+                <th><?= __('Código Telefone') ?></th>
                 <td><?= $this->Number->format($alunoestagiario->codigo_telefone) ?></td>
             </tr>
             <tr>
@@ -80,7 +80,7 @@
                 <td><?= h($alunoestagiario->telefone) ?></td>
             </tr>
             <tr>
-                <th><?= __('Codigo Celular') ?></th>
+                <th><?= __('Código Celular') ?></th>
                 <td><?= $this->Number->format($alunoestagiario->codigo_celular) ?></td>
             </tr>
             <tr>
@@ -88,15 +88,15 @@
                 <td><?= h($alunoestagiario->celular) ?></td>
             </tr>
             <tr>
-                <th><?= __('Cep') ?></th>
+                <th><?= __('CEP') ?></th>
                 <td><?= h($alunoestagiario->cep) ?></td>
             </tr>
             <tr>
-                <th><?= __('Endereco') ?></th>
+                <th><?= __('EndereÇo') ?></th>
                 <td><?= h($alunoestagiario->endereco) ?></td>
             </tr>
             <tr>
-                <th><?= __('Municipio') ?></th>
+                <th><?= __('Município') ?></th>
                 <td><?= h($alunoestagiario->municipio) ?></td>
             </tr>
             <tr>
@@ -116,7 +116,7 @@
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Estagiario') ?></th>
+                            <th><?= __('Estagiário(a)') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
                             <th><?= __('Turno') ?></th>
                             <th><?= __('Nivel') ?></th>
@@ -124,8 +124,8 @@
                             <th><?= __('Tc') ?></th>
                             <th><?= __('Tc Solicitação') ?></th>
                             <th><?= __('Instituição de estagio') ?></th>
-                            <th><?= __('Supervisor') ?></th>
-                            <th><?= __('Professor') ?></th>
+                            <th><?= __('Supervisor(a)') ?></th>
+                            <th><?= __('Professor(a)') ?></th>
                             <th><?= __('Àrea de estágio') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>

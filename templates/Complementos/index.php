@@ -4,9 +4,29 @@
  * @var \App\Model\Entity\Complemento[]|\Cake\Collection\CollectionInterface $complementos
  */
 ?>
-<div class="complementos index content container">
-    <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
+<div class="container">
+
+    <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerComplemento"
+                aria-controls="navbarTogglerComplemento" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerComplemento">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
+
     <h3><?= __('Complemento de estagiário') ?></h3>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>
@@ -31,6 +51,7 @@
             </tbody>
         </table>
     </div>
+
     <div class="d-flex justify-content-center">
         <?= $this->element('templates') ?>
         <div class="paginator">

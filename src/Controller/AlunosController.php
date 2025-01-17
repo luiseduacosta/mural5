@@ -524,6 +524,7 @@ class AlunosController extends AppController {
         $this->set('totalperiodos', $totalperiodos);
     }
 
+    
     public function certificadoperiodopdf($id = NULL) {
 
         $this->layout = false;

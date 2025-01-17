@@ -29,7 +29,7 @@
     <div class="container">
         <?= $this->Form->create($alunoestagiario) ?>
         <fieldset>
-            <legend><?= __('Novo alunoestagiario') ?></legend>
+            <legend><?= __('Novo(a) aluno(a) estagiario(a)') ?></legend>
             <?php
             echo $this->Form->control('nome');
             echo $this->Form->control('registro');

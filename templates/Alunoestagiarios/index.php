@@ -19,14 +19,14 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) alunoestagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo(a) aluno(a) estagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                 </ul>
             </div>
         </nav>
     <?php endif; ?>
 
-    <h3><?= __('Alunoestagiarios') ?></h3>
+    <h3><?= __('Aluno(a)s estagiario(a)s') ?></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">

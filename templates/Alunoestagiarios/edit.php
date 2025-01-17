@@ -18,7 +18,7 @@
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
 
-                    <?= $this->Html->link(__('Listar Alunoestagiario(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar aluno(a)s estagiario(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     <?=
                         $this->Form->postLink(
                             __('Excluir'),

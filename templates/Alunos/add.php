@@ -31,7 +31,7 @@
 
         <?= $this->Form->create($aluno, ['method' => 'post']) ?>
         <fieldset>
-            <legend><?= __('Cadastro de Aluno') ?></legend>
+            <legend><?= __('Cadastro de aluno(a)') ?></legend>
             <?php
             echo $this->Form->control('nome', ['required']);
             echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social']]);

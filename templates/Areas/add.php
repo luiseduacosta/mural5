@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Area $area
  */
 ?>
+
 <?= $this->element('templates') ?>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

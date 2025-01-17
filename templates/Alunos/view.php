@@ -148,7 +148,7 @@
                     <td><?= h($aluno->endereco) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Municipio') ?></th>
+                    <th><?= __('Município') ?></th>
                     <td><?= h($aluno->municipio) ?></td>
                 </tr>
                 <tr>
@@ -220,7 +220,7 @@
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Aluno') ?></th>
+                            <th><?= __('Aluno(a)') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Período') ?></th>

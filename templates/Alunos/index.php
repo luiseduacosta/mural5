@@ -47,17 +47,17 @@
                     <th><?= $this->Paginator->sort('nascimento') ?></th>
                     <th><?= $this->Paginator->sort('cpf', 'CPF') ?></th>
                     <th><?= $this->Paginator->sort('identidade') ?></th>
-                    <th><?= $this->Paginator->sort('orgao', 'Orgao') ?></th>
+                    <th><?= $this->Paginator->sort('orgao', 'Orgão') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('codigo_telefone') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
                     <th><?= $this->Paginator->sort('codigo_celular') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('cep') ?></th>
-                    <th><?= $this->Paginator->sort('endereco', 'Enderco') ?></th>
+                    <th><?= $this->Paginator->sort('endereco', 'Endereço') ?></th>
                     <th><?= $this->Paginator->sort('municipio') ?></th>
                     <th><?= $this->Paginator->sort('bairro') ?></th>
-                    <th><?= $this->Paginator->sort('observacoes', 'Observacoes') ?></th>
+                    <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>

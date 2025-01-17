@@ -20,13 +20,13 @@
                 </li>
                 <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar área instituição'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar área de instituição'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova área instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Nova área de instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir área instituição'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir área de instituição'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -37,7 +37,7 @@
         <h3><?= h($area->area) ?></h3>
         <table class="table table-striped table-hover table-responsive">
             <tr>
-                <th><?= __('Area') ?></th>
+                <th><?= __('Área') ?></th>
                 <td><?= h($area->area) ?></td>
             </tr>
             <tr>
