@@ -29,14 +29,14 @@ if (isset($estagiario->professor->nome)) {
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAtividades"
+            aria-controls="navbarTogglerAtividades" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarTogglerAtividades">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:2000px; word-wrap:break-word; font-size:14px']) ?>
+                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-warning float-end', 'style' => 'max-width:2000px; word-wrap:break-word; font-size:14px']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprime atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>

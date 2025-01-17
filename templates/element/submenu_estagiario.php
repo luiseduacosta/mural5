@@ -39,8 +39,12 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                 </li>
 
                 <li class="nav-item">
-                    <?php echo $this->Html->link("Avaliaçao", ['controller' => 'Estagiarios', 'action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                    <?php echo $this->Html->link("Folha de avaliaçao", ['controller' => 'Estagiarios', 'action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
+                <li class="nav-item">
+                    <?php echo $this->Html->link("Avaliaçao discente", ['controller' => 'Avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
+                </li>
+
             <?php endif; ?>
 
             <li class="nav-item">

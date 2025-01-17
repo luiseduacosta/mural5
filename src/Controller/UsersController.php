@@ -328,7 +328,10 @@ class UsersController extends AppController
                     endif;
                     /** Verifico se o aluno é estagiário e guardo no cookie. Serve para o menu superior selecionar o menu_estagiario. */
                     $estagiariotabela = $this->fetchTable('Estagiarios');
-                    $estagiario = $estagiariotabela->find()->where(['registro' => $this->Authentication->getIdentityData('registro')])->first();
+                    $estagiario = $estagiariotabela->find()
+                        ->where(['registro' => $this->Authentication->getIdentityData('registro')])
+                        ->orderDesc('nivel')
+                        ->first();
                     if ($estagiario) {
                         $this->getRequest()->getSession()->write('estagiario_id', $estagiario->id);
                     } else {

@@ -66,7 +66,7 @@
         </div>
     </nav>
 
-    <ul class="nav nav-tabs id=" myTab role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" href="#estagiario"
                 data-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
@@ -188,8 +188,7 @@
             </table>
         </div>
 
-        <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel"
-            aria-labelledby="folhadeatividade-tab">
+        <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel" aria-labelledby="folhadeatividade-tab">
             <?php if ($estagiario->hasValue('folhadeatividades')): ?>
                 <h3>Atividades</h3>
                 <div class="table-responsive">
