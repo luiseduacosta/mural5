@@ -8,13 +8,12 @@
 ?>
 
 <?php
-$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <div class="container">
 
-    <?php if ($categoria <> 2): ?>
-
+    <?php if (isset($user) && $user->categoria_id <> 2): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +43,8 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($categoria <> 2): ?>
-                        <th class="actions"><?= __('Ações') ?></th>
+                    <?php if (isset($user) && $user->categoria_id <> 2): ?>
+                        <th class="row"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -86,9 +85,9 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
 
 
                         <?php if (isset($c_estagiario->avaliacao->id)): ?>
-                            <td class="actions">
+                            <td class="row">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>
-                                <?php if ($categoria <> 2): ?>
+                                <?php if (isset($user) && $user->categoria <> 2): ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_estagiario->avaliacao->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $c_estagiario->avaliacao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $c_estagiario->avaliacao->id)]) ?>
                                 <?php endif; ?>

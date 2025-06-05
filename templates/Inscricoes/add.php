@@ -3,11 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-// pr($alunonovos);
-// pr($alunoestagios);
-// die();
-$categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
-// die();
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <?= $this->element('templates') ?>
@@ -22,7 +18,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                 </li>
             </ul>
         </div>
@@ -33,7 +29,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
         <fieldset>
             <legend><?= __('Inscrição para seleção de estágio') ?></legend>
             <?php
-            if (isset($categoria) && $categoria == 1):
+            if (isset($user) && $user->categoria_id == 1):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'empty' => ['0' => 'Seleciona aluno']]);
                 echo $this->Form->control('registro', ['type' => 'hidden']);
                 echo $this->Form->control('muralestagio_id', ['label' => ['text' => 'Mural de estágio'], 'options' => $muralestagios, 'value' => $muralestagio_id, 'empty' => ['0' => 'Seleciona instituição']]);
@@ -41,8 +37,8 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
                 echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo]);
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);
                 echo $this->Form->control('alunoestagiario_id', ['type' => 'hidden']);
-                // die(pr($categoria));
-            elseif (isset($categoria) && $categoria == 2):
+                // die(pr($user->categoria_id));
+            elseif (isset($user) && $user->categoria == 2):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'value' => $aluno_id, 'readonly']);
                 echo $this->Form->control('muralestagio_id', ['label' => 'Mural de estágio', 'options' => $muralestagios, 'value' => $muralestagio_id, 'readonly']);
                 echo $this->Form->control('data', ['type' => 'hidden', 'value' => date('Y-m-d'), 'readonly']);

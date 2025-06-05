@@ -32,6 +32,7 @@ class VisitasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         $visita = $this->Visitas->get($id, [
             'contain' => ['Instituicoes'],
         ]);
@@ -50,6 +51,7 @@ class VisitasController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
         $visita = $this->Visitas->newEmptyEntity();
         if ($this->request->is('post')) {
             $visita = $this->Visitas->patchEntity($visita, $this->request->getData());
@@ -60,7 +62,7 @@ class VisitasController extends AppController {
             }
             $this->Flash->error(__('Registro de visita não foi inserido. Tente novamente.'));
         }
-        $instituicoes = $this->Visitas->Instituicoes->find('list', ['limit' => 200]);
+        $instituicoes = $this->Visitas->Instituicoes->find('list');
         $this->set(compact('visita', 'instituicoes'));
     }
 
@@ -72,6 +74,7 @@ class VisitasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
         $visita = $this->Visitas->get($id, [
             'contain' => [],
         ]);
@@ -95,6 +98,7 @@ class VisitasController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
         $this->request->allowMethod(['post', 'delete']);
         $visita = $this->Visitas->get($id);
         if ($this->Visitas->delete($visita)) {

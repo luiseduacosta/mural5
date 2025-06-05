@@ -31,6 +31,7 @@ class TurmaestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         ini_set('memory_limit', '2048M');
         $turmaestagio = $this->Turmaestagios->get($id, [
             'contain' => ['Estagiarios' => ['Alunos', 'Professores', 'Supervisores', 'Instituicoes']],
@@ -50,6 +51,7 @@ class TurmaestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
         $turmaestagio = $this->Turmaestagios->newEmptyEntity();
         if ($this->request->is('post')) {
             $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
@@ -71,6 +73,7 @@ class TurmaestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
         $turmaestagio = $this->Turmaestagios->get($id, [
             'contain' => [],
         ]);
@@ -93,6 +96,7 @@ class TurmaestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+        
         $this->request->allowMethod(['post', 'delete']);
         $turmaestagio = $this->Turmaestagios->get($id, [
             'contain' => ['Estagiarios']

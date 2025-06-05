@@ -1,4 +1,11 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
+?>
+
+<?php
 
 //pr($cargahorariatotal); ?>
 <div class='table-responsive'>

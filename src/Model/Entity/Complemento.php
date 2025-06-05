@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string|null $periodo_especial
  *
- * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Estagiario[] $estagiario
  */
 class Complemento extends Entity
 {
@@ -27,6 +27,6 @@ class Complemento extends Entity
     protected array $_accessible = [
         'id' => true,
         'periodo_especial' => true,
-        'estagiarios' => true,
+        'estagiario' => true,
     ];
 }

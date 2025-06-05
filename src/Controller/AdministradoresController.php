@@ -98,6 +98,7 @@ class AdministradoresController extends AppController
      */
     public function delete($id = null)
     {
+        $this->viewBuilder()->setLayout(null);
         $this->request->allowMethod(['post', 'delete']);
         $administrador = $this->Administradores->get($id);
         if ($this->Administradores->delete($administrador)) {
@@ -106,7 +107,6 @@ class AdministradoresController extends AppController
             $this->Flash->error(__('Registro administrador não foi excluído. Tente novamente.'));
             return $this->redirect(['action' => 'view', $id]);
         }
-
         return $this->redirect(['action' => 'index']);
     }
 }

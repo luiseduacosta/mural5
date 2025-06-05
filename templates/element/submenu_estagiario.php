@@ -1,9 +1,12 @@
 <?php
-if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
-    $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
-} else {
-    $categoria = null;
-}
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Alunoestagiario $alunoestagiario
+ */
+?>
+
+<?php
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <nav class='navbar navbar-expand-lg navbar-light py-0 navbar-fixed-top' style="background-color: #2b6c9c;">
@@ -15,12 +18,10 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
 
     <div style='font-size: 90%' , class='collapse navbar-collapse' id='navbarPrincipal'>
         <ul class="navbar-nav mr-auto">
-
             <li class="nav-item active">
                 <?php echo $this->Html->link("Mural", ['controller' => 'Muralestagios', 'action' => 'index'], ['class' => 'nav-link', 'style' => 'color: white;']); ?>
             </li>
-
-            <?php if ($categoria): ?>
+            <?php if ($user): ?>
                 <li class="nav-item">
                     <?php echo $this->Html->link("Declaração de período", ['controller' => "Alunos", 'action' => 'certificadoperiodo', $this->getRequest()->getAttribute('identity')['aluno_id']], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
@@ -30,14 +31,12 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
                 <li class="nav-item">
                     <?php echo $this->Html->link("Declaraçao de estagio", ['controller' => "Estagiarios", 'action' => 'declaracaodeestagiopdf', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
-
                 <li class="nav-item">
                     <?php echo $this->Html->link("Preencher atividades", ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
                 <li class="nav-item">
                     <?php echo $this->Html->link("Imprime folha de atividades", ['controller' => "Estagiarios", 'action' => 'folhadeatividadespdf', $this->getRequest()->getSession()->read('estagiario_id')], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>
-
                 <li class="nav-item">
                     <?php echo $this->Html->link("Folha de avaliaçao", ['controller' => 'Estagiarios', 'action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $this->getRequest()->getSession()->read('estagiario_id')]], ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
                 </li>

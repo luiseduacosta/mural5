@@ -5,7 +5,9 @@
  */
 $usuario = $this->getRequest()->getAttribute('identity');
 ?>
+
 <?= $this->element('templates') ?>
+
 <div class='container'>
 
     <?php if ($usuario->get('categoria_id') == 1): ?>

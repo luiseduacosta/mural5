@@ -230,12 +230,11 @@ class FolhadeatividadesController extends AppController
             }
             $this->Flash->error(__('Não foi possível atualizar. Tente outra vez.'));
         }
-        $estagiarioquery = $this->Folhadeatividades->find()
+        $estagiario = $this->Folhadeatividades->find()
             ->where(['Folhadeatividades.id' => $id])
             ->contain(['Estagiarios' => ['Alunos']])
-            ->select(['Estagiarios.id', 'Alunos.nome']);
-        // pr($estagiarioquery->first());
-        $estagiario = $estagiarioquery->first();
+            ->select(['Estagiarios.id', 'Alunos.nome'])
+            ->first();
         // pr($estagiario);
         // die();
         $this->set(compact('folhadeatividade', 'estagiario'));
@@ -301,15 +300,15 @@ class FolhadeatividadesController extends AppController
             ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
             ->all();
         // debug($atividades);
-// pr($atividades);
+        // pr($atividades);
 
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
             ->contain(['Alunos', 'Professores', 'Instituicoes', 'Supervisores'])
             ->where(['Estagiarios.id' => $estagiario_id])
             ->first();
         // debug($estagiario);
-// pr($estagiario);
-// die();
+        // pr($estagiario);
+        // die();
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption(

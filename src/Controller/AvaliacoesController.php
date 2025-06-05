@@ -85,9 +85,9 @@ class AvaliacoesController extends AppController
                 ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Instituicoes']])
                 ->where(['Avaliacoes.id' => $id])
                 ->first();
-                if ($avaliacao) {
-                    $estagiario_id = $avaliacao['estagiario_id'];
-                }
+            if ($avaliacao) {
+                $estagiario_id = $avaliacao->estagiario_id;
+            }
         } else {
             $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
             $avaliacao = $this->Avaliacoes->find()
@@ -123,8 +123,11 @@ class AvaliacoesController extends AppController
             $avaliacaoexiste = $this->Avaliacoes->find()
                 ->where(['id' => $id])
                 ->first();
+            if ($avaliacaoexiste) {
+                $estagiario_id = $avaliacaoexiste->estagiario_id;
+            }
         } else {
-            $this->Flash->error(__('Faltam parâmetros'));
+            $this->Flash->error(__('Faltam parâmetros: id ou estagiario_id'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
@@ -143,7 +146,7 @@ class AvaliacoesController extends AppController
                 return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoresposta->id]);
             }
             $this->Flash->error(__('Avaliaçãoo no foi registrada. Tente novamente.'));
-            debug($avaliacaoresposta);
+            // debug($avaliacaoresposta);
             return $this->redirect(['action' => 'add', $estagiario_id]);
         }
 
