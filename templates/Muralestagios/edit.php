@@ -37,6 +37,8 @@
     });
 </script>
 
+<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates'); ?>
 
 <div class="container">
@@ -51,15 +53,17 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <li class="nav-item">
-                    <?=
-                        $this->Form->postLink(
-                            __('Excluir'),
-                            ['action' => 'delete', $muralestagio->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']
-                        )
-                        ?>
-                </li>
+                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                    <li class="nav-item">
+                        <?=
+                            $this->Form->postLink(
+                                __('Excluir'),
+                                ['action' => 'delete', $muralestagio->id],
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
+                            )
+                            ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

@@ -5,7 +5,9 @@
  */
 // pr($aluno);
 ?>
+
 <?= $this->element('templates') ?>
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

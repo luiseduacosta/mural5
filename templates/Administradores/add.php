@@ -4,7 +4,9 @@
  * @var \App\Model\Entity\Administrador $nome
  */
 ?>
+
 <div class="row">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdministrador"
             aria-controls="navbarTogglerAdministrador" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,6 +16,7 @@
                 <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </div>
     </nav>
+
     <?= $this->Form->create($administrador) ?>
     <fieldset>
         <h3><?= __('Adicionando Administrador') ?></h3>
@@ -27,4 +30,5 @@
     </fieldset>
     <?= $this->Form->button(__('Adicionar'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
+
 </div>

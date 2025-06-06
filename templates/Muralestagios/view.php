@@ -9,7 +9,7 @@
 // die();
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $user = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
 
@@ -23,17 +23,19 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
-                    <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']) ?>
-                    </li>
+                    <?php if (isset($user) && $user->categoria_id == 1): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+                        </li>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary me-1']) ?>
+                        </li>
+                        <li class="nav-item">
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>

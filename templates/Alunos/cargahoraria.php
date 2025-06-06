@@ -8,7 +8,7 @@
 <?php
 
 //pr($cargahorariatotal); ?>
-<div class='table-responsive'>
+<div>
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
             <tr>

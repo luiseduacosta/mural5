@@ -4,7 +4,11 @@
  * @var \App\Model\Entity\Administrador[]|\Cake\Collection\CollectionInterface $administradores
  */
 ?>
+
+<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="row">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdministrador"
             aria-controls="navbarTogglerAdministrador" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,9 +19,11 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'nav-link']) ?>
                 </li>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button']) ?>
-                </li>
+                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -27,9 +33,10 @@
     <div class="paginator">
         <?= $this->element('paginator'); ?>
     </div>
+
     <div class="table_wrap">
         <table class="table table-striped table-bordered table-hover">
-            <thead class="thead-dark">
+            <thead class="table-dark">
                 <tr>
                     <th class="row"><?= __('Actions') ?></th>
                     <th><?= $this->Paginator->sort('id') ?></th>
@@ -51,8 +58,10 @@
             </tbody>
         </table>
     </div>
+
     <div class="paginator">
         <?= $this->element('paginator'); ?>
         <?= $this->element('paginator_count'); ?>
     </div>
+    
 </div>

@@ -52,17 +52,22 @@ class TurmaestagiosController extends AppController {
      */
     public function add() {
 
-        $turmaestagio = $this->Turmaestagios->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
-            if ($this->Turmaestagios->save($turmaestagio)) {
-                $this->Flash->success(__('Turma de estagio inserida.'));
+        if ($his->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
+            $turmaestagio = $this->Turmaestagios->newEmptyEntity();
+            if ($this->request->is('post')) {
+                $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
+                if ($this->Turmaestagios->save($turmaestagio)) {
+                    $this->Flash->success(__('Turma de estagio inserida.'));
 
-                return $this->redirect(['action' => 'view', $turmaestagio->id]);
+                    return $this->redirect(['action' => 'view', $turmaestagio->id]);
+                }
+                $this->Flash->error(__('Não foi possível inserir a Turma de estagio. Tente novamente.'));
             }
-            $this->Flash->error(__('Não foi possível inserir a Turma de estagio. Tente novamente.'));
+            $this->set(compact('turmaestagio'));
+        } else {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'index']);
         }
-        $this->set(compact('turmaestagio'));
     }
 
     /**
@@ -74,18 +79,23 @@ class TurmaestagiosController extends AppController {
      */
     public function edit($id = null) {
 
-        $turmaestagio = $this->Turmaestagios->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
-            if ($this->Turmaestagios->save($turmaestagio)) {
-                $this->Flash->success(__('Turma de estagio atualizada.'));
-                return $this->redirect(['action' => 'view', $turmaestagio->id]);
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {            
+            $turmaestagio = $this->Turmaestagios->get($id, [
+                'contain' => [],
+            ]);
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
+                if ($this->Turmaestagios->save($turmaestagio)) {
+                    $this->Flash->success(__('Turma de estagio atualizada.'));
+                    return $this->redirect(['action' => 'view', $turmaestagio->id]);
+                }
+                $this->Flash->error(__('Turma de estágio não foi atualizada. Tente novamente.'));
             }
-            $this->Flash->error(__('Turma de estágio não foi atualizada. Tente novamente.'));
+            $this->set(compact('turmaestagio'));
+        } else {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'view', $id]);
         }
-        $this->set(compact('turmaestagio'));
     }
 
     /**
@@ -96,21 +106,25 @@ class TurmaestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
-        
-        $this->request->allowMethod(['post', 'delete']);
-        $turmaestagio = $this->Turmaestagios->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
-        if (sizeof($turmaestagio->estagiarios) > 0) {
-            $this->Flash->error(__("Não pode ser excluida porque têm estagiários associados."));
+
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
+            $this->request->allowMethod(['post', 'delete']);
+            $turmaestagio = $this->Turmaestagios->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+            if (sizeof($turmaestagio->estagiarios) > 0) {
+                $this->Flash->error(__("Não pode ser excluida porque têm estagiários associados."));
+                return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'view', $id]);
+            }
+            if ($this->Turmaestagios->delete($turmaestagio)) {
+                $this->Flash->success(__('Turma de estágio excluída.'));
+            } else {
+                $this->Flash->error(__('Turma de estágio não foi excluída. Tente novamente.'));
+            }
+            return $this->redirect(['action' => 'index']);
+        } else {
+            $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'view', $id]);
         }
-        if ($this->Turmaestagios->delete($turmaestagio)) {
-            $this->Flash->success(__('Turma de estágio excluída.'));
-        } else {
-            $this->Flash->error(__('Turma de estágio não foi excluída. Tente novamente.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

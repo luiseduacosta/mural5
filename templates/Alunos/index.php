@@ -5,13 +5,13 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $user = $this->getRequest()->getAttribute('identity'); ?>
 
 <?= $this->element('templates') ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == 1): ?>
+    <?php if (isset($user) && $user->categoria_id == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,9 @@
                 </ul>
             </div>
         </nav>
+        <?php endif; ?>
+
+    <?php if (isset($user) && $user->categoria_id == 1): ?>
         <h3><?= __('Aluno(a)s') ?></h3>
         <div class="row justify-content-start">
             <div class="col-auto">
@@ -82,10 +85,10 @@
                         <td><?= h($aluno->municipio) ?></td>
                         <td><?= h($aluno->bairro) ?></td>
                         <td><?= h($aluno->observacoes) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id)]) ?>
+                        <td>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id], ['class' => 'link-info']) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id], ['class' => 'link-warning']) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'link-danger']) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
