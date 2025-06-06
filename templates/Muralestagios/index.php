@@ -11,6 +11,7 @@
   var url = "<?= $this->Html->url(['controller' => 'Murals', 'action' => 'index/periodo:']); ?>";
  */
 ?>
+
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -31,7 +32,7 @@
     <?php if (isset($user) && $user->categoria_id == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -50,11 +51,8 @@
         <h3><?= __('Mural de estagios') ?></h3>
     </div>
 
-
     <div class="row justify-content-center">
-        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-            <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+        <?php if (isset($user) && $user->categoria_id == '1'): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -63,6 +61,8 @@
                 </div>
             </div>
             <?= $this->Form->end(); ?>
+        <?php else: ?>
+            <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
         <?php endif; ?>
     </div>
 
