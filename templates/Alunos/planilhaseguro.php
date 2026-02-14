@@ -1,9 +1,11 @@
-<?php // pr($t_seguro);       ?>
-<?php // pr($periodos);       ?>
-<?php // pr($periodoselecionado);       ?>
-<?php // die();       ?>
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
+?>
 
-<script>
+<script type="text/javascript">
 
     var base_url = "<?= $this->Html->Url->build(['controller' => 'Alunos', 'action' => 'planilhaseguro']); ?>";
     /* alert(base_url); */
@@ -23,17 +25,17 @@
 
 <div class="container">
 
-    <?= $this->Form->create(null, ['url' => 'index'], ['class' => 'form-inline']); ?>
-    <div class="form-group row">
-        <label class='col-sm-1 col-form-label'>Período</label>
+    <?= $this->Form->create(null, ['url' => 'index', 'class' => 'form-inline']); ?>
+    <div class="form-group row mt-2">
+        <label for="periodo" class='col-sm-1 col-form-label'>Período</label>
         <div class='col-sm-2'>
-            <?= $this->Form->input('periodo', ['id' => 'periodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodoselecionado => $periodoselecionado]], ['class' => 'form-control']); ?>
+            <?= $this->Form->input('periodo', ['name'=> 'periodo', 'id' => 'periodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodoselecionado => $periodoselecionado]], ['class' => 'form-control']); ?>
         </div>
     </div>
     <?= $this->Form->end(); ?>
 
     <table class='table table-striped table-hover table-responsive'>
-        <thead class='thead-light'>
+        <thead class='table-dark'>
             <caption style='caption-side: top'>Planilha para seguro de vida dos alunos estagiários</caption>
             <tr>
                 <th>Nome</th>

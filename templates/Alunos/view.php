@@ -33,19 +33,19 @@
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
 
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:170px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:170px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar Aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Listar Aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) Aluno(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Novo(a) Aluno(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item active">
-                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir Aluno(a)'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $aluno->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>

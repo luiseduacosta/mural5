@@ -265,6 +265,12 @@ class FolhadeatividadesController extends AppController
         }
     }
 
+    /**
+     * Selecionafolhadeatividades method
+     *
+     * @param string|null $id Estagiario.id
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
     public function selecionafolhadeatividades($id = NULL)
     {
 
@@ -289,6 +295,13 @@ class FolhadeatividadesController extends AppController
         // die();
     }
 
+    /**
+     * Folhadeatividadespdf method
+     *
+     * @param string|null $id Folhadeatividade id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function folhadeatividadespdf($id = NULL)
     {
 

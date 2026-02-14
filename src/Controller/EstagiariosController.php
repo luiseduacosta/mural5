@@ -426,6 +426,13 @@ class EstagiariosController extends AppController
         return;
     }
 
+    /**
+     * termodecompromissopdf method
+     *
+     * @param string|null $id Estagiario id. 
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function termodecompromissopdf($id = NULL)
     {
 
@@ -458,6 +465,8 @@ class EstagiariosController extends AppController
         $this->set('estagiario', $estagiario->first());
     }
 
+    /** Seleciona a declaração de estágio */
+
     public function selecionadeclaracaodeestagio($id = NULL)
     {
 
@@ -478,6 +487,7 @@ class EstagiariosController extends AppController
         $this->set('estagiario', $estagiario);
     }
 
+    /** Declaração de estágio para ser preenchida manualmente */
     public function declaracaodeestagiopdf($id = NULL)
     {
 
@@ -525,6 +535,7 @@ class EstagiariosController extends AppController
         $this->set('estagiario', $estagiarioquery);
     }
 
+    /** Folha de atividades */
     public function selecionafolhadeatividades($id = NULL)
     {
 
@@ -544,6 +555,7 @@ class EstagiariosController extends AppController
 
         $this->set('estagiario', $estagiario);
     }
+
     /** Folha de atividades para ser preenchida manualmente */
     public function folhadeatividadespdf($id = NULL)
     {
@@ -558,7 +570,7 @@ class EstagiariosController extends AppController
             $estagiario = $this->Estagiarios->find()
                 ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
                 ->where(['Estagiarios.id' => $estagiario_id])
-                ->first();        
+                ->first();
         } else {
             $this->Flash->error(__('Sem estagiários'));
             return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
@@ -579,6 +591,7 @@ class EstagiariosController extends AppController
         $this->set('estagiario', $estagiario);
     }
 
+    /** Seleciona a avaliação do discente */
     public function selecionaavaliacaodiscente($id = NULL)
     {
 
@@ -599,6 +612,7 @@ class EstagiariosController extends AppController
         $this->set('estagiario', $estagiario);
     }
 
+    /** Avaliação do discente para ser preenchida manualmente */
     public function avaliacaodiscentepdf($id = NULL)
     {
 
@@ -685,6 +699,13 @@ class EstagiariosController extends AppController
         return $this->redirect(['controller' => 'alunos', 'action' => 'view', $estagiario->aluno_id]);
     }
 
+    /**
+     * lancanota method
+     *
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function lancanota($id = null)
     {
 

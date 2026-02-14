@@ -206,6 +206,12 @@ class AvaliacoesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+/**
+     * Seleciona avaliacao method
+     *
+     * @param string|null $id Avaliaco id.
+     * @return Response|null|void Renders view
+     */
     public function selecionaavaliacao($id = NULL)
     {
         /* No login foi capturado o id do estagiário */
@@ -224,6 +230,12 @@ class AvaliacoesController extends AppController
         $this->set('estagiario', $this->paginate($estagiario));
     }
 
+    /**
+     * Imprime avaliacao pdf method
+     *
+     * @param string|null $id Avaliaco id.
+     * @return Response|null|void Renders view
+     */
     public function imprimeavaliacaopdf($id = NULL)
     {
 

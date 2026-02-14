@@ -40,12 +40,12 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
-    Art. 01. As atividades a serem desenvolvidas pelo (a) estagiário (a), deverão ser compatíveis com o curso de Serviço Social e norteadas pelos princípios preconizados na Política de Estágio (ABEPSS), tais como: a indissociabilidade entre as dimensões teórico-metodológica, ético-política e técnico-operativa; articulação entre Formação e Exercício Profissional; indissociabilidade entre estágio e supervisão acadêmica e de campo; articulação entre Universidade e Sociedade; unidade teoria e prática e articulação entre ensino, pesquisa e extensão.<br>
-    Art. 02. As atividades desenvolvidas no campo de estágio deverão ter compatibilidade com as previstas no termo de compromisso.<br>
-    Art. 03. O plano de atividades do estagiário, elaborado em acordo dos alunos, a parte concedente do estágio e a instituição de ensino, será incorporado ao termo de compromisso por meio de aditivos à medida que for avaliado, progressivamente, o desenho do aluno.<br>
-    Art. 04. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer do supervisor(a) de campo e do supervisor(a) acadêmico.<br>
+    Art. 01. As atividades a serem desenvolvidas pelo (a) estagiário (a), deverão ser compatíveis com o curso de Serviço Social e norteadas pelos princípios preconizados na Política de Estágio (ABEPSS), tais como: a indissociabilidade entre as dimensões teórico-metodológica, ético-política e técnico-operativa; articulação entre Formação e Exercício Profissional; indissociabilidade entre estágio e supervisão acadêmica e de campo; articulação entre Universidade e Sociedade; unidade teoria e prática e articulação entre ensino, pesquisa e extensão.
+    Art. 02. As atividades desenvolvidas no campo de estágio deverão ter compatibilidade com as previstas no termo de compromisso.
+    Art. 03. O plano de atividades do estagiário, elaborado em acordo dos alunos, a parte concedente do estágio e a instituição de ensino, será incorporado ao termo de compromisso por meio de aditivos à medida que for avaliado, progressivamente, o desenho do aluno.
+    Art. 04. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer do supervisor(a) de campo e do supervisor(a) acadêmico.
     Art. 05. Em caso de demissão do supervisor(a), ocorrência de férias ou licença deste profissional ao longo do período letivo, outro assistente social deverá ser imediatamente indicado para supervisão técnica do estagiário.
-</p>
+
 
 <h2 style="font-size: 120%; font-weight: bold;">Da ESS</h2>
 <p style="text-align:justify; font-size: 90%;">

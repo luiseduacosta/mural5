@@ -6,9 +6,10 @@
 ?>
 
 <?php
+//pr($cargahorariatotal); 
+?>
 
-//pr($cargahorariatotal); ?>
-<div>
+<div class="container">
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
             <tr>

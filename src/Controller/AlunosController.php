@@ -207,6 +207,12 @@ class AlunosController extends AppController {
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * Planilha de CRESS
+     *
+     * @param string|null $id Aluno id.
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function planilhacress($id = NULL) {
 
         $periodo = !is_null($this->getRequest()->getQuery('periodo')) ? $this->getRequest()->getQuery('periodo') : NULL;
@@ -242,6 +248,12 @@ class AlunosController extends AppController {
         // die();
     }
 
+    /**
+     * Planilha para seguro de vida dos alunos estagiários
+     *
+     * @param string|null $id Aluno id.
+     * @return \Cake\Http\Response|null|void Renders view
+     */
     public function planilhaseguro($id = NULL) {
 
         $periodo = $this->getRequest()->getQuery('periodo');
@@ -409,6 +421,12 @@ class AlunosController extends AppController {
         // die();
     }
 
+    /**
+     * Método para gerar o certificado de período do aluno.
+     * 
+     * @param int|null $id
+     * @return void
+     */
     public function certificadoperiodo($id = NULL) {
         /**
          * Autorização. Verifica se o aluno cadastrado no Users está acessando seu próprio registro.
@@ -458,8 +476,6 @@ class AlunosController extends AppController {
         /* Capturo o periodo do calendario academico atual */
         $configuracaotabela = $this->fetchTable('Configuracoes');
         $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
-        // pr($periodoacademicoatual);
-        // die();
         /**
          * Separo o periodo em duas partes: o ano e o indicador de primeiro ou segundo semestre.
          */
@@ -524,7 +540,12 @@ class AlunosController extends AppController {
         $this->set('totalperiodos', $totalperiodos);
     }
 
-    
+    /**
+     * Método para gerar o PDF do certificado de período do aluno.
+     * 
+     * @param int|null $id
+     * @return void
+     */    
     public function certificadoperiodopdf($id = NULL) {
 
         $this->layout = false;
@@ -539,10 +560,6 @@ class AlunosController extends AppController {
                     ->where(['Alunos.id' => $id])
                     ->first();
         }
-        // pr($id);
-        // pr($totalperiodos);
-        // pr($aluno);
-        // die('aluno');
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
@@ -559,6 +576,12 @@ class AlunosController extends AppController {
         $this->set('totalperiodos', $totalperiodos);
     }
 
+    /**
+     * Método para calcular a carga horária total dos alunos.
+     * 
+     * @param string|null $ordem
+     * @return void
+     */
     public function cargahoraria($ordem = null) {
         /** Aumenta a memória */
         ini_set('memory_limit', '2048M');
@@ -571,23 +594,21 @@ class AlunosController extends AppController {
         // pr($ordem);
         // die();
 
-        $alunos = $this->Alunos->find()->contain(['Estagiarios'])->limit(20)->toArray();
+        $alunos = $this->Alunos->find()->contain(['Estagiarios'])->toArray();
 
         $i = 0;
         foreach ($alunos as $aluno):
-            //pr($aluno['estagiarios']);
-            // pr(sizeof($aluno['estagiarios']));
-            // die();
-            $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'];
-            $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'];
-            $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']);
-            $carga_estagio = null;
+            // pr($aluno->estagiarios);
+            $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'] ?? null;
+            $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'] ?? null;
+            $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']) > 0 ? sizeof($aluno['estagiarios']) : null;
+            $carga_estagio['ch'] = null;
             $y = 0;
             foreach ($aluno['estagiarios'] as $estagiario):
                 // pr($estagiario);
                 // die();
                 if ($estagiario['nivel'] == 1):
-                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
+                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] != 0 ? $estagiario['ch'] : null;
                     $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
                     $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'];
                     $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];

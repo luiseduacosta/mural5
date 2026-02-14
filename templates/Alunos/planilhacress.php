@@ -1,18 +1,18 @@
 <?php
-// pr($cress);
-// pr($periodos);
-// pr($periodoselecionado);
-// die();
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
 ?>
 
-<script>
+<script type="text/javascript">
 
     $(document).ready(function () {
 
         var base_url = "<?= $this->Html->Url->build(['controller' => 'alunos', 'action' => 'planilhacress']); ?>";
         /* alert(base_url); */
 
-        $("#EstudantesPeriodo").change(function () {
+        $("#periodo").change(function () {
             var periodo = $(this).val();
             window.location = base_url + "?periodo=" + periodo;
         })
@@ -23,14 +23,15 @@
 <?= $this->element('templates') ?>
 
 <div class='container'>
-        <?= $this->Form->create(null, ['class' => 'form-inline']); ?>
-        <div class="form-group row">
-            <label class='col-sm-1 col-form-label'>Período</label>
-            <div class='col-sm-2'>
-                <?= $this->Form->input('periodo', ['type' => 'select', 'id' => 'EstudantesPeriodo', 'label' => ['text' => 'Período'], 'options' => $periodos, 'empty' => [$periodoselecionado => $periodoselecionado]], ['class' => 'form-control']); ?>
-            </div>
+
+    <?= $this->Form->create(null, ['class' => 'form-inline']); ?>
+    <div class="form-group row mt-2">
+        <label for="periodo" class='col-sm-1 col-form-label'>Período</label>
+        <div class='col-sm-2'>
+            <?= $this->Form->input('periodo', ['type' => 'select', 'name' => 'periodo', 'id' => 'periodo', 'label' => ['text' => 'Período'], 'options' => $periodos, 'empty' => [$periodoselecionado => $periodoselecionado]], ['class' => 'form-control']); ?>
         </div>
-        <?= $this->Form->end(); ?>
+    </div>
+    <?= $this->Form->end(); ?>
 
     <table class='table table-hover table-striped table-responsive'>
         <caption style='caption-side: top;'>Escola de Serviço Social da UFRJ. Planilha de estagiários para o CRESS 7ª
