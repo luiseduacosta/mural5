@@ -1,0 +1,2114 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2025-06-15 00:59-0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ./templates/Administradores/add.php:16
+#: ./templates/Administradores/edit.php:28
+#: ./templates/Administradores/index.php:20
+#: ./templates/Administradores/view.php:20
+msgid "Listar Administradores"
+msgstr ""
+
+#: ./templates/Administradores/add.php:22
+msgid "Adicionando Administrador"
+msgstr ""
+
+#: ./templates/Administradores/add.php:31
+msgid "Adicionar"
+msgstr ""
+
+#: ./templates/Administradores/edit.php:33
+#: ./templates/Administradores/view.php:66
+#: ./templates/Alunoestagiarios/edit.php:23
+#: ./templates/Alunoestagiarios/index.php:83
+#: ./templates/Alunoestagiarios/view.php:158
+#: ./templates/Alunos/edit.php:26
+#: ./templates/Alunos/index.php:91
+#: ./templates/Alunos/view.php:203
+#: ./templates/Alunos/view.php:208
+#: ./templates/Alunos/view.php:286
+#: ./templates/Areas/edit.php:24
+#: ./templates/Areas/index.php:47
+#: ./templates/Avaliacoes/index.php:92
+#: ./templates/Complementos/edit.php:14
+#: ./templates/Complementos/index.php:47
+#: ./templates/Complementos/view.php:77
+#: ./templates/Configuracoes/index.php:52
+#: ./templates/Estagiarios/edit.php:26
+#: ./templates/Estagiarios/index.php:127
+#: ./templates/Estagiarios/lancanota.php:98
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:60
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:56
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:61
+#: ./templates/Folhadeatividades/edit.php:22
+#: ./templates/Folhadeatividades/index.php:99
+#: ./templates/Inscricoes/edit.php:22
+#: ./templates/Inscricoes/index.php:95
+#: ./templates/Instituicoes/edit.php:24
+#: ./templates/Instituicoes/index.php:92
+#: ./templates/Instituicoes/view.php:278
+#: ./templates/Instituicoes/view.php:313
+#: ./templates/Instituicoes/view.php:353
+#: ./templates/Muralestagios/edit.php:60
+#: ./templates/Muralestagios/index.php:104
+#: ./templates/Muralestagios/view.php:32
+#: ./templates/Muralestagios/view.php:306
+#: ./templates/Professores/edit.php:22
+#: ./templates/Professores/index.php:114
+#: ./templates/Professores/view.php:261
+#: ./templates/Professores/view.php:328
+#: ./templates/Supervisores/edit.php:27
+#: ./templates/Supervisores/index.php:70
+#: ./templates/Supervisores/view.php:205
+#: ./templates/Supervisores/view.php:254
+#: ./templates/Turmaestagios/edit.php:23
+#: ./templates/Turmaestagios/index.php:48
+#: ./templates/Turmaestagios/view.php:120
+#: ./templates/Turmaestagios/view.php:190
+#: ./templates/Users/edit.php:26
+#: ./templates/Users/index.php:59
+#: ./templates/Users/view.php:26
+#: ./templates/Visitas/edit.php:21
+#: ./templates/Visitas/index.php:57
+msgid "Excluir"
+msgstr ""
+
+#: ./templates/Administradores/edit.php:35
+#: ./templates/Administradores/index.php:52
+#: ./templates/Administradores/view.php:30
+msgid "Are you sure you want to delete {0}?"
+msgstr ""
+
+#: ./templates/Administradores/edit.php:45
+msgid "Editando Administrador"
+msgstr ""
+
+#: ./templates/Administradores/edit.php:53
+#: ./templates/Administradores/index.php:51
+#: ./templates/Administradores/view.php:65
+#: ./templates/Alunoestagiarios/index.php:82
+#: ./templates/Alunoestagiarios/view.php:157
+#: ./templates/Alunos/index.php:90
+#: ./templates/Alunos/view.php:202
+#: ./templates/Alunos/view.php:285
+#: ./templates/Areas/index.php:46
+#: ./templates/Avaliacoes/index.php:91
+#: ./templates/Complementos/index.php:46
+#: ./templates/Complementos/view.php:76
+#: ./templates/Configuracoes/index.php:51
+#: ./templates/Estagiarios/index.php:126
+#: ./templates/Estagiarios/lancanota.php:97
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:59
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:55
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:60
+#: ./templates/Folhadeatividades/index.php:98
+#: ./templates/Inscricoes/index.php:94
+#: ./templates/Instituicoes/index.php:91
+#: ./templates/Instituicoes/view.php:277
+#: ./templates/Instituicoes/view.php:312
+#: ./templates/Instituicoes/view.php:352
+#: ./templates/Muralestagios/index.php:103
+#: ./templates/Muralestagios/view.php:29
+#: ./templates/Muralestagios/view.php:305
+#: ./templates/Professores/index.php:113
+#: ./templates/Professores/view.php:260
+#: ./templates/Professores/view.php:327
+#: ./templates/Supervisores/index.php:69
+#: ./templates/Supervisores/view.php:203
+#: ./templates/Supervisores/view.php:253
+#: ./templates/Turmaestagios/index.php:47
+#: ./templates/Turmaestagios/view.php:119
+#: ./templates/Turmaestagios/view.php:189
+#: ./templates/Users/index.php:58
+#: ./templates/Users/view.php:20
+#: ./templates/Visitas/index.php:56
+msgid "Editar"
+msgstr ""
+
+#: ./templates/Administradores/index.php:24
+#: ./templates/Administradores/view.php:24
+msgid "Novo Administrador"
+msgstr ""
+
+#: ./templates/Administradores/index.php:31
+msgid "Lista de Administradores"
+msgstr ""
+
+#: ./templates/Administradores/index.php:41
+#: ./templates/Complementos/index.php:36
+msgid "Actions"
+msgstr ""
+
+#: ./templates/Administradores/index.php:50
+#: ./templates/Administradores/view.php:63
+#: ./templates/Alunoestagiarios/index.php:80
+#: ./templates/Alunoestagiarios/view.php:156
+#: ./templates/Alunos/index.php:89
+#: ./templates/Alunos/view.php:201
+#: ./templates/Alunos/view.php:207
+#: ./templates/Alunos/view.php:283
+#: ./templates/Areas/index.php:44
+#: ./templates/Avaliacoes/index.php:89
+#: ./templates/Complementos/index.php:45
+#: ./templates/Complementos/view.php:75
+#: ./templates/Configuracoes/index.php:50
+#: ./templates/Estagiarios/index.php:125
+#: ./templates/Estagiarios/lancanota.php:95
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:58
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:54
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:59
+#: ./templates/Folhadeatividades/index.php:97
+#: ./templates/Inscricoes/index.php:92
+#: ./templates/Instituicoes/index.php:89
+#: ./templates/Instituicoes/view.php:276
+#: ./templates/Instituicoes/view.php:311
+#: ./templates/Instituicoes/view.php:351
+#: ./templates/Muralestagios/index.php:102
+#: ./templates/Muralestagios/view.php:304
+#: ./templates/Professores/index.php:111
+#: ./templates/Professores/view.php:258
+#: ./templates/Supervisores/index.php:68
+#: ./templates/Supervisores/view.php:202
+#: ./templates/Supervisores/view.php:250
+#: ./templates/Turmaestagios/index.php:45
+#: ./templates/Turmaestagios/view.php:118
+#: ./templates/Turmaestagios/view.php:188
+#: ./templates/Users/index.php:56
+#: ./templates/Visitas/index.php:54
+msgid "Ver"
+msgstr ""
+
+#: ./templates/Administradores/index.php:52
+msgid "Deletar"
+msgstr ""
+
+#: ./templates/Administradores/view.php:27
+msgid "Editar Administrador"
+msgstr ""
+
+#: ./templates/Administradores/view.php:30
+msgid "Excluir Administrador"
+msgstr ""
+
+#: ./templates/Administradores/view.php:40
+#: ./templates/Administradores/view.php:56
+#: ./templates/Alunoestagiarios/view.php:41
+#: ./templates/Alunoestagiarios/view.php:116
+#: ./templates/Alunos/view.php:81
+#: ./templates/Alunos/view.php:173
+#: ./templates/Alunos/view.php:224
+#: ./templates/Areas/view.php:44
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:75
+#: ./templates/Avaliacoes/view.php:89
+#: ./templates/Complementos/view.php:26
+#: ./templates/Complementos/view.php:36
+#: ./templates/Configuracoes/view.php:28
+#: ./templates/Estagiarios/view.php:93
+#: ./templates/Folhadeatividades/view.php:39
+#: ./templates/Inscricoes/view.php:45
+#: ./templates/Instituicoes/view.php:73
+#: ./templates/Instituicoes/view.php:173
+#: ./templates/Instituicoes/view.php:212
+#: ./templates/Instituicoes/view.php:294
+#: ./templates/Instituicoes/view.php:329
+#: ./templates/Muralestagios/view.php:62
+#: ./templates/Muralestagios/view.php:282
+#: ./templates/Professores/view.php:64
+#: ./templates/Professores/view.php:223
+#: ./templates/Professores/view.php:278
+#: ./templates/Supervisores/view.php:68
+#: ./templates/Supervisores/view.php:170
+#: ./templates/Supervisores/view.php:221
+#: ./templates/Supervisores/view.php:270
+#: ./templates/Turmaestagios/view.php:45
+#: ./templates/Turmaestagios/view.php:56
+#: ./templates/Turmaestagios/view.php:136
+#: ./templates/Users/view.php:36
+#: ./templates/Visitas/view.php:30
+msgid "Id"
+msgstr ""
+
+#: ./templates/Administradores/view.php:44
+#: ./templates/Alunoestagiarios/view.php:49
+#: ./templates/Alunos/view.php:89
+#: ./templates/Instituicoes/view.php:174
+#: ./templates/Professores/view.php:72
+#: ./templates/Supervisores/view.php:80
+msgid "Nome"
+msgstr ""
+
+#: ./templates/Administradores/view.php:51
+msgid "Related User"
+msgstr ""
+
+#: ./templates/Administradores/view.php:55
+#: ./templates/Alunoestagiarios/index.php:53
+#: ./templates/Alunoestagiarios/view.php:131
+#: ./templates/Alunos/index.php:64
+#: ./templates/Alunos/view.php:180
+#: ./templates/Alunos/view.php:182
+#: ./templates/Alunos/view.php:235
+#: ./templates/Areas/index.php:35
+#: ./templates/Avaliacoes/index.php:47
+#: ./templates/Avaliacoes/selecionaavaliacao.php:24
+#: ./templates/Avaliacoes/supervisoravaliacao.php:26
+#: ./templates/Configuracoes/index.php:38
+#: ./templates/Estagiarios/index.php:85
+#: ./templates/Estagiarios/lancanota.php:60
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:25
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:25
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:27
+#: ./templates/Folhadeatividades/index.php:83
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:26
+#: ./templates/Instituicoes/index.php:57
+#: ./templates/Instituicoes/view.php:178
+#: ./templates/Instituicoes/view.php:228
+#: ./templates/Instituicoes/view.php:299
+#: ./templates/Instituicoes/view.php:337
+#: ./templates/Muralestagios/index.php:83
+#: ./templates/Muralestagios/view.php:288
+#: ./templates/Professores/index.php:67
+#: ./templates/Professores/view.php:236
+#: ./templates/Professores/view.php:292
+#: ./templates/Supervisores/index.php:45
+#: ./templates/Supervisores/view.php:183
+#: ./templates/Supervisores/view.php:231
+#: ./templates/Turmaestagios/index.php:36
+#: ./templates/Turmaestagios/view.php:75
+#: ./templates/Turmaestagios/view.php:159
+#: ./templates/Users/index.php:39
+#: ./templates/Visitas/index.php:40
+msgid "Ações"
+msgstr ""
+
+#: ./templates/Administradores/view.php:57
+#: ./templates/Supervisores/view.php:104
+#: ./templates/Supervisores/view.php:173
+#: ./templates/Turmaestagios/view.php:158
+msgid "Email"
+msgstr ""
+
+#: ./templates/Administradores/view.php:58
+#: ./templates/Alunoestagiarios/view.php:45
+#: ./templates/Alunos/view.php:85
+#: ./templates/Alunos/view.php:174
+#: ./templates/Alunos/view.php:226
+#: ./templates/Complementos/view.php:37
+#: ./templates/Estagiarios/view.php:97
+#: ./templates/Inscricoes/view.php:49
+#: ./templates/Instituicoes/view.php:214
+#: ./templates/Muralestagios/view.php:283
+#: ./templates/Professores/view.php:226
+#: ./templates/Professores/view.php:281
+#: ./templates/Supervisores/view.php:223
+#: ./templates/Supervisores/view.php:272
+#: ./templates/Turmaestagios/view.php:58
+msgid "Registro"
+msgstr ""
+
+#: ./templates/Administradores/view.php:59
+#: ./templates/Alunos/view.php:176
+#: ./templates/Inscricoes/view.php:70
+#: ./templates/Instituicoes/view.php:331
+#: ./templates/Muralestagios/view.php:285
+#: ./templates/Visitas/view.php:51
+msgid "Data"
+msgstr ""
+
+#: ./templates/Administradores/view.php:66
+msgid "Are you sure you want to delete user_{0}?"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/add.php:19
+#: ./templates/Alunos/add.php:23
+msgid "Listar aluno(a)s"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/add.php:30
+#: ./templates/Alunoestagiarios/index.php:22
+msgid "Novo(a) aluno(a) estagiario(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/add.php:50
+#: ./templates/Alunoestagiarios/edit.php:58
+#: ./templates/Alunos/add.php:64
+#: ./templates/Alunos/edit.php:63
+#: ./templates/Areas/add.php:33
+#: ./templates/Areas/edit.php:46
+#: ./templates/Avaliacoes/add.php:197
+#: ./templates/Avaliacoes/edit.php:191
+#: ./templates/Complementos/add.php:24
+#: ./templates/Complementos/edit.php:31
+#: ./templates/Configuracoes/add.php:37
+#: ./templates/Configuracoes/edit.php:37
+#: ./templates/Estagiarios/add.php:64
+#: ./templates/Estagiarios/edit.php:62
+#: ./templates/Folhadeatividades/add.php:78
+#: ./templates/Folhadeatividades/edit.php:48
+#: ./templates/Inscricoes/add.php:51
+#: ./templates/Inscricoes/edit.php:48
+#: ./templates/Instituicoes/edit.php:63
+#: ./templates/Muralestagios/add.php:86
+#: ./templates/Muralestagios/edit.php:102
+#: ./templates/Professores/add.php:73
+#: ./templates/Professores/edit.php:78
+#: ./templates/Supervisores/add.php:64
+#: ./templates/Supervisores/edit.php:68
+#: ./templates/Turmaestagios/edit.php:46
+#: ./templates/Users/add.php:48
+#: ./templates/Users/edit.php:51
+#: ./templates/Visitas/add.php:39
+#: ./templates/Visitas/edit.php:47
+msgid "Submit"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/edit.php:20
+#: ./templates/Alunoestagiarios/view.php:27
+msgid "Listar aluno(a)s estagiario(a)s"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/edit.php:25
+#: ./templates/Alunos/view.php:51
+#: ./templates/Areas/edit.php:26
+#: ./templates/Areas/index.php:47
+#: ./templates/Areas/view.php:29
+#: ./templates/Avaliacoes/index.php:92
+#: ./templates/Complementos/view.php:12
+#: ./templates/Estagiarios/edit.php:28
+#: ./templates/Estagiarios/view.php:28
+#: ./templates/Inscricoes/edit.php:24
+#: ./templates/Inscricoes/index.php:95
+#: ./templates/Inscricoes/view.php:30
+#: ./templates/Inscricoes/view.php:34
+#: ./templates/Instituicoes/edit.php:26
+#: ./templates/Instituicoes/view.php:34
+#: ./templates/Instituicoes/view.php:278
+#: ./templates/Instituicoes/view.php:313
+#: ./templates/Instituicoes/view.php:353
+#: ./templates/Muralestagios/edit.php:62
+#: ./templates/Professores/view.php:22
+#: ./templates/Supervisores/edit.php:29
+#: ./templates/Supervisores/view.php:29
+#: ./templates/Turmaestagios/edit.php:25
+#: ./templates/Turmaestagios/index.php:48
+#: ./templates/Turmaestagios/view.php:27
+#: ./templates/Turmaestagios/view.php:120
+#: ./templates/Turmaestagios/view.php:190
+#: ./templates/Users/edit.php:28
+#: ./templates/Users/view.php:26
+#: ./templates/Visitas/edit.php:23
+#: ./templates/Visitas/index.php:57
+msgid "Tem certeza que quer excluir este registro # {0}?"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/edit.php:38
+msgid "Editar Alunoestagiario"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/index.php:29
+msgid "Aluno(a)s estagiario(a)s"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/index.php:83
+#: ./templates/Alunoestagiarios/view.php:31
+#: ./templates/Alunoestagiarios/view.php:158
+#: ./templates/Alunos/index.php:91
+#: ./templates/Alunos/view.php:203
+#: ./templates/Alunos/view.php:208
+#: ./templates/Alunos/view.php:286
+#: ./templates/Avaliacoes/selecionaavaliacao.php:45
+#: ./templates/Avaliacoes/supervisoravaliacao.php:67
+#: ./templates/Avaliacoes/view.php:63
+#: ./templates/Complementos/index.php:47
+#: ./templates/Complementos/view.php:77
+#: ./templates/Configuracoes/index.php:52
+#: ./templates/Estagiarios/index.php:127
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:60
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:56
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:61
+#: ./templates/Folhadeatividades/index.php:99
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:61
+#: ./templates/Folhadeatividades/view.php:19
+#: ./templates/Instituicoes/index.php:92
+#: ./templates/Instituicoes/view.php:196
+#: ./templates/Muralestagios/view.php:32
+#: ./templates/Muralestagios/view.php:306
+#: ./templates/Professores/index.php:114
+#: ./templates/Professores/view.php:261
+#: ./templates/Professores/view.php:328
+#: ./templates/Supervisores/index.php:70
+#: ./templates/Supervisores/view.php:205
+#: ./templates/Supervisores/view.php:254
+#: ./templates/Users/index.php:59
+msgid "Tem certeza que quer excluir o registro # {0}?"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:19
+msgid "Novo aluno(a) estagiario(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:23
+msgid "Editar aluno(a) estagiario(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:31
+msgid "Excluir aluno(a) estagiario(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:53
+msgid "Nascimento"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:57
+#: ./templates/Alunos/view.php:113
+msgid "CPF"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:61
+msgid "Identidade"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:65
+msgid "Orgão"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:69
+#: ./templates/Alunos/view.php:125
+#: ./templates/Instituicoes/view.php:94
+#: ./templates/Muralestagios/view.php:171
+#: ./templates/Professores/view.php:104
+#: ./templates/Users/view.php:44
+msgid "E-mail"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:73
+msgid "Código Telefone"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:77
+#: ./templates/Alunos/view.php:133
+#: ./templates/Instituicoes/view.php:102
+#: ./templates/Professores/view.php:92
+#: ./templates/Supervisores/view.php:112
+#: ./templates/Supervisores/view.php:178
+msgid "Telefone"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:81
+msgid "Código Celular"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:85
+#: ./templates/Alunos/view.php:141
+#: ./templates/Professores/view.php:100
+#: ./templates/Supervisores/view.php:120
+msgid "Celular"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:89
+#: ./templates/Alunos/view.php:145
+msgid "CEP"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:93
+msgid "EndereÇo"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:97
+#: ./templates/Alunos/view.php:153
+#: ./templates/Instituicoes/view.php:122
+msgid "Município"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:101
+#: ./templates/Alunos/view.php:157
+#: ./templates/Instituicoes/view.php:118
+#: ./templates/Supervisores/view.php:96
+#: ./templates/Supervisores/view.php:175
+msgid "Bairro"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:105
+#: ./templates/Alunoestagiarios/view.php:130
+#: ./templates/Alunos/view.php:161
+#: ./templates/Alunos/view.php:234
+#: ./templates/Estagiarios/view.php:191
+#: ./templates/Instituicoes/view.php:161
+#: ./templates/Instituicoes/view.php:176
+#: ./templates/Instituicoes/view.php:226
+#: ./templates/Professores/view.php:209
+#: ./templates/Professores/view.php:235
+#: ./templates/Professores/view.php:291
+#: ./templates/Supervisores/view.php:157
+msgid "Observações"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:111
+#: ./templates/Alunos/view.php:219
+msgid "Estágios cursados"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:117
+msgid "Estagiário(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:118
+#: ./templates/Estagiarios/view.php:110
+#: ./templates/Instituicoes/view.php:219
+#: ./templates/Professores/view.php:227
+#: ./templates/Turmaestagios/view.php:59
+msgid "Ajuste 2020"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:119
+#: ./templates/Alunos/view.php:104
+#: ./templates/Complementos/view.php:38
+#: ./templates/Estagiarios/view.php:114
+#: ./templates/Instituicoes/view.php:220
+#: ./templates/Professores/view.php:228
+#: ./templates/Professores/view.php:284
+#: ./templates/Supervisores/view.php:224
+#: ./templates/Supervisores/view.php:273
+#: ./templates/Turmaestagios/view.php:60
+msgid "Turno"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:120
+#: ./templates/Alunos/view.php:227
+#: ./templates/Complementos/view.php:39
+#: ./templates/Professores/view.php:229
+#: ./templates/Professores/view.php:285
+#: ./templates/Supervisores/view.php:225
+#: ./templates/Supervisores/view.php:274
+#: ./templates/Turmaestagios/view.php:61
+msgid "Nivel"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:121
+#: ./templates/Alunos/view.php:177
+#: ./templates/Alunos/view.php:228
+#: ./templates/Estagiarios/view.php:150
+#: ./templates/Inscricoes/view.php:66
+#: ./templates/Instituicoes/view.php:217
+#: ./templates/Muralestagios/view.php:175
+msgid "Período"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:122
+#: ./templates/Complementos/view.php:40
+#: ./templates/Instituicoes/view.php:221
+#: ./templates/Turmaestagios/view.php:62
+msgid "Tc"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:123
+#: ./templates/Instituicoes/view.php:222
+msgid "Tc Solicitação"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:124
+msgid "Instituição de estagio"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:125
+#: ./templates/Alunos/view.php:230
+#: ./templates/Estagiarios/view.php:132
+msgid "Supervisor(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:126
+#: ./templates/Alunos/view.php:231
+msgid "Professor(a)"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:127
+msgid "Àrea de estágio"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:128
+#: ./templates/Alunos/view.php:232
+#: ./templates/Complementos/view.php:47
+#: ./templates/Estagiarios/view.php:173
+#: ./templates/Instituicoes/view.php:224
+#: ./templates/Professores/view.php:233
+#: ./templates/Professores/view.php:289
+#: ./templates/Supervisores/view.php:228
+#: ./templates/Supervisores/view.php:277
+#: ./templates/Turmaestagios/view.php:70
+msgid "Nota"
+msgstr ""
+
+#: ./templates/Alunoestagiarios/view.php:129
+#: ./templates/Alunos/view.php:233
+#: ./templates/Instituicoes/view.php:225
+#: ./templates/Professores/view.php:234
+#: ./templates/Professores/view.php:290
+#: ./templates/Turmaestagios/view.php:71
+msgid "CH"
+msgstr ""
+
+#: ./templates/Alunos/add.php:33
+msgid "Cadastro de aluno(a)"
+msgstr ""
+
+#: ./templates/Alunos/certificadoperiodo.php:19
+msgid "Declaração de "
+msgstr ""
+
+#: ./templates/Alunos/certificadoperiodo.php:51
+msgid "Confirmar alteraçoes"
+msgstr ""
+
+#: ./templates/Alunos/edit.php:21
+#: ./templates/Alunos/view.php:42
+msgid "Listar Aluno(a)s"
+msgstr ""
+
+#: ./templates/Alunos/edit.php:28
+#: ./templates/Visitas/view.php:18
+msgid "Tem certeza que quer excluir este registro {0}?"
+msgstr ""
+
+#: ./templates/Alunos/edit.php:40
+msgid "Editar Aluno"
+msgstr ""
+
+#: ./templates/Alunos/index.php:23
+msgid "Novo(a) aluno(a"
+msgstr ""
+
+#: ./templates/Alunos/index.php:31
+msgid "Aluno(a)s"
+msgstr ""
+
+#: ./templates/Alunos/view.php:23
+#: ./templates/Alunos/view.php:36
+msgid "Declaração período"
+msgstr ""
+
+#: ./templates/Alunos/view.php:26
+#: ./templates/Alunos/view.php:39
+msgid "Termo compromisso"
+msgstr ""
+
+#: ./templates/Alunos/view.php:29
+#: ./templates/Alunos/view.php:48
+msgid "Editar Aluno(a)"
+msgstr ""
+
+#: ./templates/Alunos/view.php:45
+msgid "Novo(a) Aluno(a)"
+msgstr ""
+
+#: ./templates/Alunos/view.php:51
+msgid "Excluir Aluno(a)"
+msgstr ""
+
+#: ./templates/Alunos/view.php:94
+msgid "Nome social"
+msgstr ""
+
+#: ./templates/Alunos/view.php:99
+msgid "Ingresso"
+msgstr ""
+
+#: ./templates/Alunos/view.php:109
+msgid "Data de nascimento"
+msgstr ""
+
+#: ./templates/Alunos/view.php:117
+msgid "Carteira de identidade"
+msgstr ""
+
+#: ./templates/Alunos/view.php:121
+msgid "Orgão emissor"
+msgstr ""
+
+#: ./templates/Alunos/view.php:129
+#: ./templates/Alunos/view.php:137
+#: ./templates/Supervisores/view.php:108
+#: ./templates/Supervisores/view.php:116
+msgid "DDD"
+msgstr ""
+
+#: ./templates/Alunos/view.php:149
+#: ./templates/Instituicoes/view.php:114
+msgid "Endereço"
+msgstr ""
+
+#: ./templates/Alunos/view.php:168
+#: ./templates/Inscricoes/index.php:59
+#: ./templates/Muralestagios/view.php:278
+msgid "Inscrições para seleção de estágio"
+msgstr ""
+
+#: ./templates/Alunos/view.php:175
+msgid "Mural de estágio"
+msgstr ""
+
+#: ./templates/Alunos/view.php:179
+#: ./templates/Inscricoes/view.php:74
+#: ./templates/Users/view.php:74
+msgid "Timestamp"
+msgstr ""
+
+#: ./templates/Alunos/view.php:225
+msgid "Aluno(a)"
+msgstr ""
+
+#: ./templates/Alunos/view.php:229
+#: ./templates/Supervisores/view.php:165
+msgid "Instituição de estágio"
+msgstr ""
+
+#: ./templates/Areas/add.php:18
+#: ./templates/Areas/view.php:19
+msgid "Listar área instituições"
+msgstr ""
+
+#: ./templates/Areas/add.php:28
+#: ./templates/Areas/index.php:21
+msgid "Nova área instituição"
+msgstr ""
+
+#: ./templates/Areas/edit.php:32
+msgid "Listar áreas das instituições"
+msgstr ""
+
+#: ./templates/Areas/edit.php:41
+#: ./templates/Areas/view.php:23
+msgid "Editar área de instituição"
+msgstr ""
+
+#: ./templates/Areas/index.php:28
+msgid "Área instituicoes"
+msgstr ""
+
+#: ./templates/Areas/view.php:26
+msgid "Nova área de instituição"
+msgstr ""
+
+#: ./templates/Areas/view.php:29
+msgid "Excluir área de instituição"
+msgstr ""
+
+#: ./templates/Areas/view.php:40
+msgid "Área"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:51
+#: ./templates/Avaliacoes/edit.php:54
+#: ./templates/Avaliacoes/view.php:66
+msgid "Listar avaliações"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:76
+#: ./templates/Avaliacoes/view.php:69
+msgid "Nova avaliação"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:83
+#: ./templates/Avaliacoes/edit.php:82
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:84
+#: ./templates/Avaliacoes/view.php:98
+msgid "1) Sobre assiduidade: manteve a frequência, ausentando-se apenas com conhecimento da supervisão de campo e acadêmica, seja por motivo de saúde ou por situações estabelecidas na Lei 11788/2008, entre outras:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:89
+#: ./templates/Avaliacoes/edit.php:88
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:108
+#: ./templates/Avaliacoes/view.php:122
+msgid "2) Sobre pontualidade: cumpre o horário estabelecido no Plano de Estágio:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:95
+#: ./templates/Avaliacoes/edit.php:94
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:130
+#: ./templates/Avaliacoes/view.php:144
+msgid "3) Sobre compromisso: possui compromisso com as ações e estratégias previstas no Plano de Estágio:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:101
+#: ./templates/Avaliacoes/edit.php:100
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:153
+#: ./templates/Avaliacoes/view.php:167
+msgid "4) Na relação com usuários(as): compromisso ético-político no atendimento:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:107
+#: ./templates/Avaliacoes/edit.php:106
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:176
+#: ./templates/Avaliacoes/view.php:190
+msgid "5) Na relação com profissionais: integração e articulação à equipe de estágio, cooperação e habilidade para trabalhar em equipe multiprofissional:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:113
+#: ./templates/Avaliacoes/edit.php:112
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:199
+#: ./templates/Avaliacoes/view.php:213
+msgid "6) Sobre criticidade e iniciativa: possui capacidade crítica, interventiva, propositiva e investigativa no enfrentamento das diversas questões existentes no campo de estágio:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:119
+#: ./templates/Avaliacoes/edit.php:118
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:222
+#: ./templates/Avaliacoes/view.php:236
+msgid "7) Apreensão do referencial teórico-metodológico, ético-político e investigativo, e aplicação nas atividades inerentes ao campo e previstas no Plano de Estágio:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:125
+#: ./templates/Avaliacoes/edit.php:124
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:245
+#: ./templates/Avaliacoes/view.php:259
+msgid "8) Avaliação do desempenho na elaboração de relatórios, pesquisas, projetos de pesquisa e intervenção, etc:"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:131
+#: ./templates/Avaliacoes/edit.php:130
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:268
+#: ./templates/Avaliacoes/view.php:282
+msgid "9) O plano de estágio foi elaborado pela supervisão de campo, estudante e com apoio da supervisão acadêmica no início do semestre?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:137
+#: ./templates/Avaliacoes/edit.php:136
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:285
+#: ./templates/Avaliacoes/view.php:299
+msgid "10) As atividades previstas no Plano de Estágio em articulação com o nível de formação acadêmica foram efetuadas plenamente?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:143
+#: ./templates/Avaliacoes/edit.php:142
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:302
+#: ./templates/Avaliacoes/view.php:316
+msgid "11) O desempenho das atividades desenvolvidas pelo/a discente e o processo de supervisão foram afetados pelas condições de trabalho?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:151
+#: ./templates/Avaliacoes/edit.php:150
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:324
+#: ./templates/Avaliacoes/view.php:338
+msgid "1) Quanto à integração sala de aula/campo de estágio, houve alguma interlocução entre discente, docente e supervisão de campo?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:157
+#: ./templates/Avaliacoes/edit.php:156
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:341
+#: ./templates/Avaliacoes/view.php:355
+msgid "2) Quanto à integração Coordenação de estágio/campo de estágio: houve algum tipo de interlocução?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:163
+#: ./templates/Avaliacoes/edit.php:162
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:359
+#: ./templates/Avaliacoes/view.php:373
+msgid "3) Você tomou conhecimento do conteúdo da Disciplina de OTP?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:169
+#: ./templates/Avaliacoes/edit.php:168
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:377
+#: ./templates/Avaliacoes/view.php:391
+msgid "4) Você participou de alguma atividade promovida e/ou convocada por docente ou Coordenação de Estágio (reuniões, Fórum Local de Estágio, cursos, eventos, entre outros)?"
+msgstr ""
+
+#: ./templates/Avaliacoes/add.php:179
+#: ./templates/Avaliacoes/edit.php:178
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:403
+#: ./templates/Avaliacoes/view.php:417
+msgid "5) Há questões que você considera que devam ser mais enfatizadas na disciplina de OTP?"
+msgstr ""
+
+#: ./templates/Avaliacoes/edit.php:75
+#: ./templates/Avaliacoes/view.php:60
+msgid "Editar avaliação"
+msgstr ""
+
+#: ./templates/Avaliacoes/index.php:25
+msgid "Nova Avaliação"
+msgstr ""
+
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:79
+#: ./templates/Avaliacoes/view.php:93
+msgid "Estagiario"
+msgstr ""
+
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:397
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:423
+#: ./templates/Avaliacoes/view.php:411
+#: ./templates/Avaliacoes/view.php:437
+msgid "Caso positivo, por favor, informe qual:"
+msgstr ""
+
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:428
+#: ./templates/Avaliacoes/view.php:442
+msgid "De modo geral, como avalia a experiência do estágio neste semestre? Será possível a continuidade no próximo? Aproveite este espaço para deixar suas críticas, sugestões e/ou observações"
+msgstr ""
+
+#: ./templates/Avaliacoes/pdf/imprimeavaliacaopdf.php:434
+#: ./templates/Avaliacoes/view.php:448
+msgid "Sugestões e observações:"
+msgstr ""
+
+#: ./templates/Avaliacoes/selecionaavaliacao.php:10
+#: ./templates/Estagiarios/selecionaavaliacaodiscente.php:10
+#: ./templates/Estagiarios/selecionadeclaracaodeestagio.php:10
+#: ./templates/Estagiarios/selecionafolhadeatividades.php:10
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:11
+msgid "Estágios cursados pela(o) estudande "
+msgstr ""
+
+#: ./templates/Avaliacoes/selecionaavaliacao.php:43
+#: ./templates/Avaliacoes/supervisoravaliacao.php:65
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:59
+#: ./templates/Instituicoes/view.php:194
+#: ./vendor/cakephp/cakephp/src/View/Helper/PaginatorHelper.php:1178
+msgid "View"
+msgstr ""
+
+#: ./templates/Avaliacoes/selecionaavaliacao.php:44
+#: ./templates/Avaliacoes/supervisoravaliacao.php:66
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:60
+#: ./templates/Instituicoes/view.php:195
+msgid "Edit"
+msgstr ""
+
+#: ./templates/Avaliacoes/selecionaavaliacao.php:45
+#: ./templates/Avaliacoes/supervisoravaliacao.php:67
+#: ./templates/Folhadeatividades/selecionafolhadeatividades.php:61
+#: ./templates/Instituicoes/view.php:196
+msgid "Delete"
+msgstr ""
+
+#: ./templates/Avaliacoes/supervisoravaliacao.php:10
+#: ./templates/Supervisores/view.php:265
+msgid "Avaliações"
+msgstr ""
+
+#: ./templates/Avaliacoes/view.php:63
+msgid "Excluir avaliação"
+msgstr ""
+
+#: ./templates/Avaliacoes/view.php:74
+msgid "Imprimir avaliação"
+msgstr ""
+
+#: ./templates/Complementos/add.php:12
+msgid "Listar complemento"
+msgstr ""
+
+#: ./templates/Complementos/add.php:19
+#: ./templates/Complementos/index.php:21
+#: ./templates/Complementos/view.php:14
+msgid "Novo registro"
+msgstr ""
+
+#: ./templates/Complementos/edit.php:16
+msgid "Tem certeza que quer excluir # {0}?"
+msgstr ""
+
+#: ./templates/Complementos/edit.php:19
+msgid "Listar complemento do estágio"
+msgstr ""
+
+#: ./templates/Complementos/edit.php:26
+msgid "Editar complemento de estágio"
+msgstr ""
+
+#: ./templates/Complementos/index.php:28
+msgid "Complemento de estagiário"
+msgstr ""
+
+#: ./templates/Complementos/index.php:59
+#: ./templates/Configuracoes/index.php:63
+#: ./templates/Inscricoes/index.php:107
+msgid "first"
+msgstr ""
+
+#: ./templates/Complementos/index.php:60
+#: ./templates/Configuracoes/index.php:64
+#: ./templates/Inscricoes/index.php:108
+msgid "previous"
+msgstr ""
+
+#: ./templates/Complementos/index.php:62
+#: ./templates/Configuracoes/index.php:66
+#: ./templates/Inscricoes/index.php:110
+msgid "next"
+msgstr ""
+
+#: ./templates/Complementos/index.php:63
+#: ./templates/Configuracoes/index.php:67
+#: ./templates/Inscricoes/index.php:111
+msgid "last"
+msgstr ""
+
+#: ./templates/Complementos/index.php:68
+#: ./templates/Configuracoes/index.php:71
+#: ./templates/Inscricoes/index.php:117
+msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
+msgstr ""
+
+#: ./templates/Complementos/view.php:11
+msgid "Editar registro"
+msgstr ""
+
+#: ./templates/Complementos/view.php:12
+msgid "Excluir registro"
+msgstr ""
+
+#: ./templates/Complementos/view.php:13
+msgid "Listar registros"
+msgstr ""
+
+#: ./templates/Complementos/view.php:22
+msgid "Periodo Especial"
+msgstr ""
+
+#: ./templates/Complementos/view.php:31
+#: ./templates/Estagiarios/lancanota.php:42
+#: ./templates/Turmaestagios/view.php:51
+msgid "Estagiários"
+msgstr ""
+
+#: ./templates/Complementos/view.php:41
+#: ./templates/Turmaestagios/view.php:63
+msgid "Tc Solicitacao"
+msgstr ""
+
+#: ./templates/Complementos/view.php:42
+msgid "Instituicao de estagio"
+msgstr ""
+
+#: ./templates/Complementos/view.php:43
+#: ./templates/Instituicoes/view.php:215
+#: ./templates/Turmaestagios/view.php:65
+#: ./templates/Users/view.php:68
+msgid "Supervisor"
+msgstr ""
+
+#: ./templates/Complementos/view.php:44
+#: ./templates/Estagiarios/view.php:141
+#: ./templates/Instituicoes/view.php:216
+#: ./templates/Muralestagios/view.php:132
+#: ./templates/Supervisores/view.php:226
+#: ./templates/Supervisores/view.php:275
+#: ./templates/Turmaestagios/view.php:66
+#: ./templates/Turmaestagios/view.php:147
+#: ./templates/Users/view.php:63
+msgid "Professor"
+msgstr ""
+
+#: ./templates/Complementos/view.php:45
+#: ./templates/Instituicoes/view.php:297
+#: ./templates/Muralestagios/view.php:286
+#: ./templates/Professores/view.php:232
+#: ./templates/Professores/view.php:288
+#: ./templates/Supervisores/view.php:227
+#: ./templates/Supervisores/view.php:276
+#: ./templates/Turmaestagios/view.php:67
+#: ./templates/Turmaestagios/view.php:155
+msgid "Periodo"
+msgstr ""
+
+#: ./templates/Complementos/view.php:46
+#: ./templates/Turmaestagios/view.php:68
+msgid "Turma"
+msgstr ""
+
+#: ./templates/Complementos/view.php:48
+#: ./templates/Supervisores/view.php:229
+msgid "Ch"
+msgstr ""
+
+#: ./templates/Complementos/view.php:49
+#: ./templates/Supervisores/view.php:182
+#: ./templates/Supervisores/view.php:230
+#: ./templates/Turmaestagios/view.php:72
+msgid "Observacoes"
+msgstr ""
+
+#: ./templates/Complementos/view.php:50
+msgid "Complemento"
+msgstr ""
+
+#: ./templates/Complementos/view.php:51
+#: ./templates/Estagiarios/view.php:101
+#: ./templates/Inscricoes/view.php:53
+#: ./templates/Instituicoes/view.php:213
+#: ./templates/Muralestagios/view.php:284
+#: ./templates/Professores/view.php:225
+#: ./templates/Professores/view.php:280
+#: ./templates/Supervisores/view.php:222
+#: ./templates/Supervisores/view.php:271
+#: ./templates/Turmaestagios/view.php:57
+#: ./templates/Users/view.php:58
+msgid "Aluno"
+msgstr ""
+
+#: ./templates/Complementos/view.php:52
+msgid "Ajuste2020"
+msgstr ""
+
+#: ./templates/Complementos/view.php:53
+#: ./templates/Inscricoes/index.php:72
+msgid "Açoes"
+msgstr ""
+
+#: ./templates/Configuracoes/add.php:17
+msgid "Listar configuracao"
+msgstr ""
+
+#: ./templates/Configuracoes/add.php:26
+msgid "Configuração"
+msgstr ""
+
+#: ./templates/Configuracoes/edit.php:17
+msgid "Listar configuração"
+msgstr ""
+
+#: ./templates/Configuracoes/edit.php:26
+#: ./templates/Configuracoes/view.php:16
+msgid "Editar configurações"
+msgstr ""
+
+#: ./templates/Configuracoes/index.php:18
+msgid "Nova Configuração"
+msgstr ""
+
+#: ./templates/Configuracoes/index.php:24
+msgid "Configurações"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:32
+msgid "Período do mural de estágios"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:36
+msgid "Período do termo de compromisso"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:40
+msgid "Data de início do termo de compromisso"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:44
+msgid "Data de finalização do termo de compromisso"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:48
+msgid "Curso Turma Atual"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:52
+msgid "Curso Abertura Inscricoes"
+msgstr ""
+
+#: ./templates/Configuracoes/view.php:56
+msgid "Curso Encerramento Inscricoes"
+msgstr ""
+
+#: ./templates/Estagiarios/add.php:19
+msgid "Listar estagiários"
+msgstr ""
+
+#: ./templates/Estagiarios/add.php:28
+msgid "Novo estagiário"
+msgstr ""
+
+#: ./templates/Estagiarios/edit.php:33
+msgid "Listar Estagiários"
+msgstr ""
+
+#: ./templates/Estagiarios/edit.php:42
+msgid "Editar Estagiário"
+msgstr ""
+
+#: ./templates/Estagiarios/index.php:39
+msgid "Novo(a) estagiário(a)"
+msgstr ""
+
+#: ./templates/Estagiarios/index.php:48
+msgid "Estagiario(a)s"
+msgstr ""
+
+#: ./templates/Estagiarios/lancanota.php:98
+msgid "Tem certeza de excluir este registro # {0}?"
+msgstr ""
+
+#: ./templates/Estagiarios/termodecompromisso.php:97
+msgid "Solicitação de termo de compromisso"
+msgstr ""
+
+#: ./templates/Estagiarios/termodecompromisso.php:163
+msgid "Confirmar alteraçoes antes de imprimir"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:19
+msgid "Listar Estagiarios"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:22
+msgid "Inserir Estagiario"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:25
+#: ./templates/Estagiarios/view.php:35
+msgid "Editar Estagiario"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:28
+msgid "Excluir Estagiario"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:41
+msgid "Termo de compromisso"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:44
+msgid "Declaração de estágio"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:47
+msgid "Preenche Atividades"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:50
+msgid "Imprime Atividades"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:53
+#: ./templates/Folhadeatividades/index.php:45
+msgid "Imprime folha de atividades"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:56
+msgid "Imprime Avaliação"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:60
+msgid "Preencher Avaliação"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:118
+#: ./templates/Instituicoes/view.php:218
+msgid "Nível"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:122
+#: ./templates/Instituicoes/view.php:77
+#: ./templates/Instituicoes/view.php:330
+#: ./templates/Muralestagios/view.php:66
+#: ./templates/Professores/view.php:230
+#: ./templates/Professores/view.php:286
+#: ./templates/Turmaestagios/view.php:64
+#: ./templates/Visitas/view.php:34
+msgid "Instituição"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:154
+#: ./templates/Instituicoes/view.php:147
+#: ./templates/Instituicoes/view.php:223
+#: ./templates/Muralestagios/view.php:108
+#: ./templates/Turmaestagios/view.php:41
+msgid "Turma de estágio"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:159
+msgid "TC"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:163
+msgid "Data TC"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:168
+msgid "Tipo de estágio (Pandemia)"
+msgstr ""
+
+#: ./templates/Estagiarios/view.php:181
+#: ./templates/Muralestagios/view.php:199
+#: ./templates/Supervisores/view.php:278
+msgid "Carga horária"
+msgstr ""
+
+#: ./templates/Folhadeatividades/add.php:22
+#: ./templates/Folhadeatividades/view.php:22
+msgid "Listar atividades"
+msgstr ""
+
+#: ./templates/Folhadeatividades/add.php:68
+msgid "Adiciona uma atividade"
+msgstr ""
+
+#: ./templates/Folhadeatividades/edit.php:24
+msgid "Tem certeza que quer excluir esta atividade # {0}?"
+msgstr ""
+
+#: ./templates/Folhadeatividades/edit.php:29
+msgid "Lista de atividades"
+msgstr ""
+
+#: ./templates/Folhadeatividades/edit.php:38
+#: ./templates/Folhadeatividades/view.php:16
+msgid "Edita atividade"
+msgstr ""
+
+#: ./templates/Folhadeatividades/index.php:39
+#: ./templates/Folhadeatividades/view.php:25
+msgid "Nova atividade"
+msgstr ""
+
+#: ./templates/Folhadeatividades/index.php:42
+msgid "Imprime atividades"
+msgstr ""
+
+#: ./templates/Folhadeatividades/index.php:52
+msgid "Folha de atividades da(o) estagiária(o) "
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:19
+msgid "Excluir atividade"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:35
+msgid "Atividade"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:43
+msgid "Estagiário"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:47
+msgid "Día"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:51
+msgid "Início"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:55
+msgid "Final"
+msgstr ""
+
+#: ./templates/Folhadeatividades/view.php:59
+msgid "Horário"
+msgstr ""
+
+#: ./templates/Inscricoes/add.php:21
+#: ./templates/Inscricoes/edit.php:29
+#: ./templates/Muralestagios/edit.php:54
+#: ./templates/Muralestagios/view.php:22
+#: ./templates/Users/edit.php:21
+#: ./templates/Users/view.php:23
+msgid "Listar"
+msgstr ""
+
+#: ./templates/Inscricoes/add.php:30
+msgid "Inscrição para seleção de estágio"
+msgstr ""
+
+#: ./templates/Inscricoes/edit.php:38
+msgid "Editar Inscricao"
+msgstr ""
+
+#: ./templates/Inscricoes/index.php:52
+#: ./templates/Inscricoes/view.php:27
+msgid "Nova inscrição"
+msgstr ""
+
+#: ./templates/Inscricoes/view.php:21
+msgid "Editar inscrição"
+msgstr ""
+
+#: ./templates/Inscricoes/view.php:24
+msgid "Listar inscrições"
+msgstr ""
+
+#: ./templates/Inscricoes/view.php:30
+#: ./templates/Inscricoes/view.php:34
+msgid "Excluir inscrição"
+msgstr ""
+
+#: ./templates/Inscricoes/view.php:61
+msgid "Inscrição para estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/add.php:21
+#: ./templates/Instituicoes/view.php:28
+msgid "Listar instituições de estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/add.php:30
+msgid "Nova instituição de estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/add.php:56
+msgid "Confirma"
+msgstr ""
+
+#: ./templates/Instituicoes/edit.php:19
+msgid "Listar instituições"
+msgstr ""
+
+#: ./templates/Instituicoes/edit.php:37
+msgid "Editar instituição"
+msgstr ""
+
+#: ./templates/Instituicoes/index.php:23
+msgid "Nova instituição"
+msgstr ""
+
+#: ./templates/Instituicoes/index.php:30
+msgid "Instituições"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:23
+msgid "Editar Instituição de estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:31
+msgid "Nova Instituição de estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:34
+msgid "Excluir Instituição de estágio"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:81
+msgid "Área instituicao"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:86
+msgid "Natureza"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:90
+#: ./templates/Supervisores/view.php:172
+msgid "Cnpj"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:98
+msgid "Url"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:106
+msgid "Fax"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:110
+#: ./templates/Supervisores/view.php:88
+#: ./templates/Supervisores/view.php:177
+msgid "Cep"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:127
+#: ./templates/Turmaestagios/view.php:141
+msgid "Beneficios"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:131
+msgid "Fim de Semana"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:135
+msgid "Local de inscrição"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:139
+#: ./templates/Supervisores/view.php:181
+msgid "Seguro"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:143
+#: ./templates/Instituicoes/view.php:335
+#: ./templates/Supervisores/view.php:280
+#: ./templates/Visitas/view.php:47
+msgid "Avaliação"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:152
+msgid "Convênio"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:156
+#: ./templates/Supervisores/view.php:180
+msgid "Expira"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:168
+#: ./templates/element/menu_superior.php:5
+msgid "Supervisores"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:175
+#: ./templates/Supervisores/view.php:72
+msgid "Cress"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:207
+#: ./templates/Professores/view.php:217
+#: ./templates/Supervisores/view.php:216
+msgid "Estagiarios"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:289
+msgid "Ofertas de vagas no Mural de estágios"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:295
+msgid "Instituicoes"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:296
+#: ./templates/Muralestagios/view.php:195
+#: ./templates/Turmaestagios/view.php:140
+msgid "Vagas"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:324
+msgid "Visitas realizadas"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:332
+#: ./templates/Visitas/view.php:39
+msgid "Motivo"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:333
+#: ./templates/Visitas/view.php:43
+msgid "Responsável"
+msgstr ""
+
+#: ./templates/Instituicoes/view.php:334
+#: ./templates/Visitas/view.php:56
+msgid "Descrição"
+msgstr ""
+
+#: ./templates/Muralestagios/add.php:51
+msgid "Listar mural"
+msgstr ""
+
+#: ./templates/Muralestagios/add.php:60
+msgid "Novo mural de estágio"
+msgstr ""
+
+#: ./templates/Muralestagios/edit.php:76
+msgid "Editar Mural"
+msgstr ""
+
+#: ./templates/Muralestagios/index.php:41
+msgid "Novo mural"
+msgstr ""
+
+#: ./templates/Muralestagios/index.php:51
+msgid "Mural de estagios"
+msgstr ""
+
+#: ./templates/Muralestagios/index.php:104
+msgid "Tem certeza quer quer excluir este registro # {0}?"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:26
+#: ./templates/Users/view.php:17
+msgid "Novo"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:76
+msgid "Convênio com UFRJ"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:80
+msgid "Benefícios"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:84
+msgid "Final de Semana"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:104
+#: ./templates/Turmaestagios/view.php:144
+msgid "Requisitos"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:113
+msgid "Horário da OTP"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:137
+msgid "Horario da seleção"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:141
+msgid "Local da seleção"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:145
+msgid "Forma de seleção"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:167
+#: ./templates/Turmaestagios/view.php:153
+msgid "Contato"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:179
+msgid "Local da inscrição"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:203
+msgid "Data da seleção"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:208
+msgid "Encerramento das inscrições"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:213
+msgid "Data fax"
+msgstr ""
+
+#: ./templates/Muralestagios/view.php:219
+msgid "Outras informações"
+msgstr ""
+
+#: ./templates/Professores/add.php:17
+#: ./templates/Professores/edit.php:29
+msgid "Listar professores"
+msgstr ""
+
+#: ./templates/Professores/add.php:26
+msgid "Novo professor"
+msgstr ""
+
+#: ./templates/Professores/edit.php:24
+msgid "Tem certeza de excluir # {0}?"
+msgstr ""
+
+#: ./templates/Professores/edit.php:39
+msgid "Editar professor"
+msgstr ""
+
+#: ./templates/Professores/index.php:21
+msgid "Nova professora"
+msgstr ""
+
+#: ./templates/Professores/view.php:19
+#: ./templates/Professores/view.php:34
+msgid "Editar Professor"
+msgstr ""
+
+#: ./templates/Professores/view.php:22
+msgid "Excluir Professor"
+msgstr ""
+
+#: ./templates/Professores/view.php:25
+msgid "Listar Professores"
+msgstr ""
+
+#: ./templates/Professores/view.php:28
+msgid "Novo Professor"
+msgstr ""
+
+#: ./templates/Professores/view.php:68
+msgid "Siape"
+msgstr ""
+
+#: ./templates/Professores/view.php:76
+#: ./templates/Supervisores/view.php:84
+msgid "Cpf"
+msgstr ""
+
+#: ./templates/Professores/view.php:80
+msgid "Local nascimento"
+msgstr ""
+
+#: ./templates/Professores/view.php:84
+msgid "Sexo"
+msgstr ""
+
+#: ./templates/Professores/view.php:88
+msgid "Ddd Telefone"
+msgstr ""
+
+#: ./templates/Professores/view.php:96
+msgid "Ddd Celular"
+msgstr ""
+
+#: ./templates/Professores/view.php:108
+msgid "Home page"
+msgstr ""
+
+#: ./templates/Professores/view.php:112
+msgid "Rede social"
+msgstr ""
+
+#: ./templates/Professores/view.php:116
+msgid "Curriculo lattes"
+msgstr ""
+
+#: ./templates/Professores/view.php:120
+msgid "Curriculo sigma"
+msgstr ""
+
+#: ./templates/Professores/view.php:124
+msgid "Pesquisador dgp"
+msgstr ""
+
+#: ./templates/Professores/view.php:128
+msgid "Formacao profissional"
+msgstr ""
+
+#: ./templates/Professores/view.php:132
+msgid "Universidade de graduacao"
+msgstr ""
+
+#: ./templates/Professores/view.php:136
+msgid "Mestrado area"
+msgstr ""
+
+#: ./templates/Professores/view.php:140
+msgid "Mestrado universidade"
+msgstr ""
+
+#: ./templates/Professores/view.php:144
+msgid "Doutorado area"
+msgstr ""
+
+#: ./templates/Professores/view.php:148
+msgid "Doutorado universidade"
+msgstr ""
+
+#: ./templates/Professores/view.php:152
+msgid "Forma de ingresso"
+msgstr ""
+
+#: ./templates/Professores/view.php:156
+msgid "Tipo de cargo"
+msgstr ""
+
+#: ./templates/Professores/view.php:160
+#: ./templates/Users/view.php:54
+msgid "Categoria"
+msgstr ""
+
+#: ./templates/Professores/view.php:164
+msgid "Regime de trabalho"
+msgstr ""
+
+#: ./templates/Professores/view.php:168
+msgid "Departamento"
+msgstr ""
+
+#: ./templates/Professores/view.php:172
+msgid "Motivo egresso"
+msgstr ""
+
+#: ./templates/Professores/view.php:176
+msgid "Ano formação"
+msgstr ""
+
+#: ./templates/Professores/view.php:180
+msgid "Mestrado ano conclusão"
+msgstr ""
+
+#: ./templates/Professores/view.php:184
+msgid "Doutorado ano conclusão"
+msgstr ""
+
+#: ./templates/Professores/view.php:188
+msgid "Data nascimento"
+msgstr ""
+
+#: ./templates/Professores/view.php:193
+msgid "Atualização lattes"
+msgstr ""
+
+#: ./templates/Professores/view.php:198
+msgid "Data de ingresso"
+msgstr ""
+
+#: ./templates/Professores/view.php:203
+msgid "Data de egresso"
+msgstr ""
+
+#: ./templates/Professores/view.php:231
+#: ./templates/Professores/view.php:287
+msgid "Supervisora"
+msgstr ""
+
+#: ./templates/Professores/view.php:272
+#: ./templates/Professores/view.php:282
+#: ./templates/Professores/view.php:325
+#: ./templates/Supervisores/view.php:279
+msgid "Atividades"
+msgstr ""
+
+#: ./templates/Professores/view.php:283
+msgid "Avaliação estágio"
+msgstr ""
+
+#: ./templates/Supervisores/add.php:20
+#: ./templates/Supervisores/edit.php:21
+msgid "Listar supervisores"
+msgstr ""
+
+#: ./templates/Supervisores/add.php:29
+#: ./templates/Supervisores/index.php:22
+msgid "Nova supervisora"
+msgstr ""
+
+#: ./templates/Supervisores/edit.php:41
+msgid "Editar Supervisor(a)"
+msgstr ""
+
+#: ./templates/Supervisores/index.php:29
+msgid "Supervisore(a)s"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:20
+msgid "Listar supervisores(as)"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:23
+#: ./templates/Supervisores/view.php:34
+msgid "Editar supervisor(a)"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:26
+msgid "Cadastrar supervisor(a)"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:29
+msgid "Excluir supervisor(a)"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:76
+msgid "Regiao"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:92
+#: ./templates/Supervisores/view.php:174
+msgid "Endereco"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:100
+#: ./templates/Supervisores/view.php:176
+msgid "Municipio"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:124
+msgid "Escola"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:128
+msgid "Ano Formatura"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:132
+msgid "Outros Estudos"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:136
+msgid "Area Curso"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:140
+msgid "Ano Curso"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:144
+msgid "Cargo"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:148
+msgid "Curso Turma"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:152
+msgid "Num Inscricao"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:171
+#: ./templates/Turmaestagios/view.php:138
+msgid "Instituicao"
+msgstr ""
+
+#: ./templates/Supervisores/view.php:179
+#: ./templates/Turmaestagios/view.php:139
+msgid "Convenio"
+msgstr ""
+
+#: ./templates/Turmaestagios/add.php:19
+msgid "Listar turmas de estágios"
+msgstr ""
+
+#: ./templates/Turmaestagios/add.php:26
+#: ./templates/Turmaestagios/index.php:21
+#: ./templates/Turmaestagios/view.php:30
+msgid "Nova turma de estágio"
+msgstr ""
+
+#: ./templates/Turmaestagios/edit.php:31
+#: ./templates/Turmaestagios/view.php:20
+msgid "Listar turma de estágios"
+msgstr ""
+
+#: ./templates/Turmaestagios/edit.php:38
+#: ./templates/Turmaestagios/view.php:24
+msgid "Editar turma de estágio"
+msgstr ""
+
+#: ./templates/Turmaestagios/index.php:28
+msgid "Turmas de estágios"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:27
+msgid "Excluir turma de estágio"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:131
+msgid "Mural de estágios"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:137
+msgid "Instituicaoestagio Id"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:142
+msgid "Final De Semana"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:143
+msgid "CargaHoraria"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:145
+msgid "Turmaestagio Id"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:146
+msgid "Horario"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:148
+msgid "DataSelecao"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:149
+msgid "DataInscricao"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:150
+msgid "HorarioSelecao"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:151
+msgid "LocalSelecao"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:152
+msgid "FormaSelecao"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:154
+msgid "Outras"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:156
+msgid "Datafax"
+msgstr ""
+
+#: ./templates/Turmaestagios/view.php:157
+msgid "LocalInscricao"
+msgstr ""
+
+#: ./templates/Users/add.php:25
+msgid "Listar usuário(a)s do mural de estagios"
+msgstr ""
+
+#: ./templates/Users/add.php:36
+msgid "Cadastro de novo usuário(a)"
+msgstr ""
+
+#: ./templates/Users/edit.php:39
+msgid "Editar  usuário"
+msgstr ""
+
+#: ./templates/Users/index.php:21
+msgid "Novo(a) usuário(a)"
+msgstr ""
+
+#: ./templates/Users/login.php:12
+msgid "Digite seu usuário e senha"
+msgstr ""
+
+#: ./templates/Users/login.php:16
+msgid "Login"
+msgstr ""
+
+#: ./templates/Users/view.php:40
+msgid "Número"
+msgstr ""
+
+#: ./templates/Users/view.php:49
+msgid "Password"
+msgstr ""
+
+#: ./templates/Visitas/add.php:20
+#: ./templates/Visitas/edit.php:28
+#: ./templates/Visitas/view.php:19
+msgid "Listar visitas"
+msgstr ""
+
+#: ./templates/Visitas/add.php:29
+#: ./templates/Visitas/index.php:21
+#: ./templates/Visitas/view.php:20
+msgid "Nova visita"
+msgstr ""
+
+#: ./templates/Visitas/edit.php:37
+#: ./templates/Visitas/view.php:17
+msgid "Editar visita"
+msgstr ""
+
+#: ./templates/Visitas/index.php:28
+msgid "Visitas instituicionais"
+msgstr ""
+
+#: ./templates/Visitas/view.php:18
+msgid "Excluir visita"
+msgstr ""
+
+#: ./templates/element/menu_superior.php:3
+msgid "Alunos"
+msgstr ""
+
+#: ./templates/element/menu_superior.php:4
+msgid "Professores"
+msgstr ""
+
+#: ./templates/element/menu_superior.php:6
+msgid "Users"
+msgstr ""
+
+#: ./templates/element/paginator_count.php:1
+msgid "Página {{page}} de {{pages}}, mostrando {{current}} items de um total de {{count}}"
+msgstr ""
+
+#: ./templates/layout/error.php:40
+msgid "Back"
+msgstr ""
+
