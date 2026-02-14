@@ -282,72 +282,97 @@ class AlunosController extends AppController {
                     'Alunos.registro',
                     'Estagiarios.nivel',
                     'Estagiarios.periodo',
-                    'Instituicoes.instituicao'
+                    'Instituicoes.instituicao',
+                    'Estagiarios.ajuste2020'
                 ])
                 ->order(['Estagiarios.nivel'])
                 ->all();
 
         $i = 0;
+        // Calcula o inicio e o final do estagio para 4 periodos de 6 meses a partir do periodo selecionado
+        /*
+        One strategy is to calculate the start and them the end dates of the internship for 4 periods of 6 months or 3 periods of 6 months from the selected period.
+        If the semestre of the inicial period (nivel 1) is 1, then when ajuste 2020 is 0 then the end period is (ano + 1 e semestre = 2 or when ajuste2020 is 1 then the end period is ano + 1 e semestre = 1).
+        If the semestre of the inicial period (nivel 1) is 2, then when ajuste2020 is 0 then the end period is (ano + 2 e semestre = 1 or when ajuste2020 is 1 then the end period is ano + 1 e semestre = 2).
+        */
+
         foreach ($seguro as $c_seguro) {
             // pr($c_seguro);
+            $ajuste2020 = $c_seguro->ajuste2020;
+            // Determina o total de semestres baseado no 'ajuste2020'
+            $totalSemestres = ($ajuste2020 == 1) ? 3 : 4;
             // die();
             if ($c_seguro->nivel == 1) {
 
-                // Início
-                $inicio = $c_seguro->periodo;
-
-                // Final
+                // Início. Ex. 2024-1 -> 2024-1
                 $semestre = explode('-', $c_seguro->periodo);
                 $ano = $semestre[0];
                 $indicasemestre = $semestre[1];
+                $inicio = $ano . "-" . $indicasemestre;
 
+                // Final. + 2 ou 3 semestres Ex. 2024-1 -> (2025-1 ou 2025-2)
                 if ($indicasemestre == 1) {
-                    $novoano = $ano + 1;
-                    $novoindicasemestre = $indicasemestre + 1;
-                    $final = $novoano . "-" . $novoindicasemestre;
+                    $ano = $ano + 1;
+                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
+                    $final = $ano . "-" . $novosemestre;
+                // Ex. 2024-2 -> (2025-2 ou 2026-1)
                 } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 2;
-                    $final = $novoano . "-" . 1;
+                    $ano = ($ajuste2020 == 1) ? $ano + 1 : $ano + 2;
+                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
+                    $final = $ano . "-" . $novosemestre;
                 }
+
             } elseif ($c_seguro->nivel == 2) {
 
                 $semestre = explode('-', $c_seguro->periodo);
                 $ano = $semestre[0];
                 $indicasemestre = $semestre[1];
 
-                // Início
+                // Início. Ex. 2024-1 -> 2023-2
                 if ($indicasemestre == 1) {
-                    $novoano = $ano - 1;
-                    $inicio = $novoano . "-" . 2;
+                    $ano = $ano - 1;
+                    $inicio = $ano . "-" . 2;
+                    // Ex. 2024-2 -> 2024-1
                 } elseif ($indicasemestre == 2) {
-                    $inicio = $ano . "-" . "1";
+                    $inicio = $ano . "-" . 1;
                 }
 
-                // Final
+                // Final. + 1 ou 2 semestres. Ex. 2024-1 -> (2024-2 ou 2025-1)
                 if ($indicasemestre == 1) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . 1;
+                    $ano = ($ajuste2020 == 1) ? $ano : $ano + 1;
+                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
+                    $final = $ano . "-" . $novosemestre;
+                // Ex. 2024-2 -> (2025-1 ou 2025-2)
                 } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . "2";
+                    $ano = $ano + 1;
+                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
+                    $final = $ano . "-" . $novosemestre;
                 }
+
             } elseif ($c_seguro->nivel == 3) {
 
                 $semestre = explode('-', $c_seguro->periodo);
                 $ano = $semestre[0];
                 $indicasemestre = $semestre[1];
 
-                // Início
-                $novoano = $ano - 1;
-                $inicio = $novoano . "-" . $indicasemestre;
-
-                // Final
+                // Início. Ex. 2024-1 -> 2023-1
                 if ($indicasemestre == 1) {
-                    // $ano = $ano + 1;
-                    $final = $ano . "-" . 2;
+                    $ano = $ano - 1;
+                    $inicio = $ano . "-" . 1;
+                    // Ex. 2024-2 -> 2023-2
                 } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . 1;
+                    $ano = $ano - 1;
+                    $inicio = $ano . "-" . 2;
+                }
+
+                // Final. Último semestre ou + 1. Ex. 2024-1 -> (2024-1 ou 2024-2)
+                if ($indicasemestre == 1) {
+                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
+                    $final = $ano . "-" . $novosemestre;
+                // Ex. 2024-2 -> (2024-2 ou 2025-1)
+                } elseif ($indicasemestre == 2) {
+                    $ano = ($ajuste2020 == 1) ? $ano : $ano + 1;
+                    $final = $ano . "-" . 1;
                 }
             } elseif ($c_seguro->nivel == 4) {
 
@@ -355,32 +380,36 @@ class AlunosController extends AppController {
                 $ano = $semestre[0];
                 $indicasemestre = $semestre[1];
 
-                // Início
+                // Início. Ex. 2024-1 -> 2022-2
                 if ($indicasemestre == 1) {
                     $ano = $ano - 2;
                     $inicio = $ano . "-" . 2;
+                    // Ex. 2024-2 -> 2023-1
                 } elseif ($indicasemestre == 2) {
                     $ano = $ano - 1;
                     $inicio = $ano . "-" . 1;
                 }
 
-                // Final
+                // Final. Ex. 2024-1 -> 2024-1
                 $final = $c_seguro->periodo;
 
-                // Estagio não obrigatório. Conto como estágio 5
+                // Estagio não obrigatório. Conto como estágio 4 ou 5
             } elseif ($c_seguro->nivel == 9) {
 
                 $semestre = explode('-', $c_seguro->periodo);
                 $ano = $semestre[0];
                 $indicasemestre = $semestre[1];
 
-                // Início
+                // Início. Ex. 2024-1 -> 2022-2 ou 2022-1
                 if ($indicasemestre == 1) {
                     $ano = $ano - 2;
-                    $inicio = $ano . "-" . 1;
+                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
+                    $inicio = $ano . "-" . $novosemestre;
+                    // Ex. 2024-2 -> 2023-1 ou 2022-2
                 } elseif ($indicasemestre == 2) {
-                    $ano = $ano - 2;
-                    $inicio = $ano . "-" . 2;
+                    $ano = ($ajuste2020 == 1) ? $ano - 1 : $ano - 2;
+                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
+                    $inicio = $ano . "-" . $novosemestre;
                 }
 
                 // Final
@@ -552,7 +581,7 @@ class AlunosController extends AppController {
         $id = $this->getRequest()->getQuery('id');
         $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
 
-        if (is_null($id)) {
+        if ($id === null) {
             $this->cakeError('error404');
         } else {
             $aluno = $this->Alunos->find()
@@ -625,7 +654,7 @@ class AlunosController extends AppController {
             $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
             $criterio[$i] = $cargahorariatotal[$i][$ordem];
             $i++;
-            //            endif;
+            // endif;
         endforeach;
 
         array_multisort($criterio, SORT_ASC, $cargahorariatotal);
