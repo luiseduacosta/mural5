@@ -295,128 +295,98 @@ class AlunosController extends AppController {
         If the semestre of the inicial period (nivel 1) is 1, then when ajuste 2020 is 0 then the end period is (ano + 1 e semestre = 2 or when ajuste2020 is 1 then the end period is ano + 1 e semestre = 1).
         If the semestre of the inicial period (nivel 1) is 2, then when ajuste2020 is 0 then the end period is (ano + 2 e semestre = 1 or when ajuste2020 is 1 then the end period is ano + 1 e semestre = 2).
         */
-
+        $t_seguro = [];
+        $inicio = null;
+        $final = null;
         foreach ($seguro as $c_seguro) {
-            // pr($c_seguro);
             $ajuste2020 = $c_seguro->ajuste2020;
-            // Determina o total de semestres baseado no 'ajuste2020'
-            $totalSemestres = ($ajuste2020 == 1) ? 3 : 4;
-            // die();
-            if ($c_seguro->nivel == 1) {
-
-                // Início. Ex. 2024-1 -> 2024-1
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-                $inicio = $ano . "-" . $indicasemestre;
-
-                // Final. + 2 ou 3 semestres Ex. 2024-1 -> (2025-1 ou 2025-2)
-                if ($indicasemestre == 1) {
-                    $ano = $ano + 1;
-                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
-                    $final = $ano . "-" . $novosemestre;
-                // Ex. 2024-2 -> (2025-2 ou 2026-1)
-                } elseif ($indicasemestre == 2) {
-                    $ano = ($ajuste2020 == 1) ? $ano + 1 : $ano + 2;
-                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
-                    $final = $ano . "-" . $novosemestre;
-                }
-
-            } elseif ($c_seguro->nivel == 2) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início. Ex. 2024-1 -> 2023-2
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 1;
-                    $inicio = $ano . "-" . 2;
-                    // Ex. 2024-2 -> 2024-1
-                } elseif ($indicasemestre == 2) {
-                    $inicio = $ano . "-" . 1;
-                }
-
-                // Final. + 1 ou 2 semestres. Ex. 2024-1 -> (2024-2 ou 2025-1)
-                if ($indicasemestre == 1) {
-                    $ano = ($ajuste2020 == 1) ? $ano : $ano + 1;
-                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
-                    $final = $ano . "-" . $novosemestre;
-                // Ex. 2024-2 -> (2025-1 ou 2025-2)
-                } elseif ($indicasemestre == 2) {
-                    $ano = $ano + 1;
-                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
-                    $final = $ano . "-" . $novosemestre;
-                }
-
-            } elseif ($c_seguro->nivel == 3) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início. Ex. 2024-1 -> 2023-1
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 1;
-                    $inicio = $ano . "-" . 1;
-                    // Ex. 2024-2 -> 2023-2
-                } elseif ($indicasemestre == 2) {
-                    $ano = $ano - 1;
-                    $inicio = $ano . "-" . 2;
-                }
-
-                // Final. Último semestre ou + 1. Ex. 2024-1 -> (2024-1 ou 2024-2)
-                if ($indicasemestre == 1) {
-                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
-                    $final = $ano . "-" . $novosemestre;
-                // Ex. 2024-2 -> (2024-2 ou 2025-1)
-                } elseif ($indicasemestre == 2) {
-                    $ano = ($ajuste2020 == 1) ? $ano : $ano + 1;
-                    $final = $ano . "-" . 1;
-                }
-            } elseif ($c_seguro->nivel == 4) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início. Ex. 2024-1 -> 2022-2
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 2;
-                    $inicio = $ano . "-" . 2;
-                    // Ex. 2024-2 -> 2023-1
-                } elseif ($indicasemestre == 2) {
-                    $ano = $ano - 1;
-                    $inicio = $ano . "-" . 1;
-                }
-
-                // Final. Ex. 2024-1 -> 2024-1
-                $final = $c_seguro->periodo;
-
-                // Estagio não obrigatório. Conto como estágio 4 ou 5
-            } elseif ($c_seguro->nivel == 9) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início. Ex. 2024-1 -> 2022-2 ou 2022-1
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 2;
-                    $novosemestre = ($ajuste2020 == 1) ? 2 : 1;
-                    $inicio = $ano . "-" . $novosemestre;
-                    // Ex. 2024-2 -> 2023-1 ou 2022-2
-                } elseif ($indicasemestre == 2) {
-                    $ano = ($ajuste2020 == 1) ? $ano - 1 : $ano - 2;
-                    $novosemestre = ($ajuste2020 == 1) ? 1 : 2;
-                    $inicio = $ano . "-" . $novosemestre;
-                }
-
-                // Final
-                $final = $c_seguro->periodo;
-
-                // echo "Nível: " . $c_seguro['Estagiario']['nivel'] . " Período: " . $c_seguro['Estagiario']['periodo'] . " Início: " . $inicio . " Final: " . $final . '<br>';
+            // Calula o inicio do estágio
+            $semestre = explode('-', $c_seguro->periodo);
+            $ano = $semestre[0];
+            $semestre = $semestre[1];
+            switch ($c_seguro->nivel) {
+                case 1:
+                    $inicio = $ano . "-" . $semestre;
+                    break;
+                case 2: // retrocede 1 semestre
+                    // Ex. 2024-1 -> 2023-2
+                    if ($semestre == 1) {
+                        $ano = $ano - 1;
+                        $semestre = 2;
+                        // Ex. 2024-2 -> 2024-1
+                    } elseif ($semestre == 2) {
+                        $ano = $ano +0; // não altera
+                        $semestre = 1;
+                    }
+                    break;
+                case 3: // retrocede 2 semestres
+                    // Ex. 2024-1 -> 2023-1
+                    if ($semestre == 1) {
+                        $ano = $ano - 1;
+                        $semestre = 1;
+                        // Ex. 2024-2 -> 2023-2
+                    } elseif ($semestre == 2) {
+                        $ano = $ano - 1;
+                        $semestre = 2;
+                    }
+                    break;
+                case 4: // retrocede 3 semestres
+                    // Ex. 2010-1 -> 2008-2
+                    if ($semestre == 1) {
+                        $ano = $ano - 2;
+                        $semestre = 2;
+                        // Ex. 2010-2 -> 2009-1
+                    } elseif ($semestre == 2) {
+                        $ano = $ano - 1;
+                        $semestre = 1;
+                    }
+                    break;
+                case 9: // retrocede 4 ou 5 semestres em função do ajuste2020
+                    if ($ajuste2020 == 1) { // retrocede 4 semestres
+                        if ($semestre == 1) { // Ex. 2024-1 -> 2022-2
+                            $ano = $ano - 2;
+                            $semestre = 2;
+                        } elseif ($semestre == 2) { // Ex. 2024-2 -> 2023-1
+                            $ano = $ano - 1;
+                            $semestre = 1;
+                        } 
+                    } elseif ($ajuste2020 == 0) { // retrocede 5 semestres
+                        if ($semestre == 1) { // Ex. 2024-1 -> 2022-1
+                            $ano = $ano - 2;
+                            $semestre = 1;
+                        } elseif ($semestre == 2) { // Ex. 2024-2 -> 2022-2
+                            $ano = $ano - 2;
+                            $semestre = 2;
+                        }
+                    }
+                    break;
             }
+            $inicio = $ano . "-" . $semestre;
+            
+            // Calcula o final do estágio: $inicio + 2 ou 3 semestres dependendo do ajuste2020
+            // Números $ano e $semestre são os valores do inicio do estágio
+            switch ($ajuste2020 ) {
+                case 0: // 4 semestres
+                    // Ex. 2024-1 -> 2025-2
+                    if ($semestre == 1) {
+                        $final = ($ano + 1) . "-" . 2;
+                        // Ex. 2024-2 -> 2026-1
+                    } elseif ($semestre == 2) {
+                        $final = ($ano + 2) . "-" . 1;
+                    }
+                    break;
+                case 1: // 3 semestres
+                    // Ex. 2024-1 -> 2025-1
+                    if ($semestre == 1) {
+                        $final = ($ano + 1) . "-" . 1;
+                        // Ex. 2024-2 -> 2025-2
+                    } elseif ($semestre == 2) {
+                        $final = ($ano + 1) . "-" . 2;
+                    }
+                    break;
+            }
+
+            // echo "Nível: " . $c_seguro['Estagiario']['nivel'] . " Período: " . $c_seguro['Estagiario']['periodo'] . " Início: " . $inicio . " Final: " . $final . '<br>';
 
             $t_seguro[$i]['id'] = $c_seguro->aluno->id;
             $t_seguro[$i]['nome'] = $c_seguro->aluno->nome;
@@ -426,10 +396,8 @@ class AlunosController extends AppController {
             $t_seguro[$i]['registro'] = $c_seguro->aluno->registro;
             $t_seguro[$i]['curso'] = "UFRJ/Serviço Social";
             if ($c_seguro->nivel == 9):
-                // pr("Não");
                 $t_seguro[$i]['nivel'] = "Não obrigatório";
             else:
-                // pr($c_seguro['Estagiario']['nivel']);
                 $t_seguro[$i]['nivel'] = $c_seguro->nivel;
             endif;
             $t_seguro[$i]['periodo'] = $c_seguro->periodo;
@@ -440,6 +408,7 @@ class AlunosController extends AppController {
 
             $i++;
         }
+
         if (!empty($t_seguro)) {
             array_multisort($criterio, SORT_ASC, $t_seguro);
         }
@@ -582,7 +551,8 @@ class AlunosController extends AppController {
         $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
 
         if ($id === null) {
-            $this->cakeError('error404');
+            $this->Flash->error(__('Error: ID do aluno não informado'));
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', '?' => ['id' => $id]]);
         } else {
             $aluno = $this->Alunos->find()
                     ->contain([])
@@ -661,7 +631,6 @@ class AlunosController extends AppController {
         // pr($cargahorariatotal);
         // die();
         $this->set('cargahorariatotal', $cargahorariatotal);
-
         // die();
     }
 }
