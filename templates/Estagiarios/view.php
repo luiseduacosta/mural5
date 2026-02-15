@@ -9,7 +9,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -66,20 +66,20 @@
         </div>
     </nav>
 
-    <ul class="nav nav-tabs id=" myTab role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" href="#estagiario"
-                data-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
+               data-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" href="#folhadeatividade"
-                data-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
+               data-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
                 de
                 atividades</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" href="#avaliacao" data-target="#avaliacao"
-                role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
+               role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
         </li>
     </ul>
 
@@ -179,7 +179,13 @@
                 </tr>
                 <tr>
                     <th><?= __('Carga horária') ?></th>
-                    <td><?= $this->Number->format($estagiario->ch) ?></td>
+                    <td>
+                        <?php if (!empty($estagiario->ch)): ?>
+                            <?= $this->Number->format($estagiario->ch) ?>
+                        <?php else: ?>
+                            <?php echo 's/d' ?>
+                        <?php endif ?>
+                    </td>
                 </tr>
                 <tr>
                     <th><?= __('Observações') ?></th>
@@ -188,8 +194,7 @@
             </table>
         </div>
 
-        <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel"
-            aria-labelledby="folhadeatividade-tab">
+        <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel" aria-labelledby="folhadeatividade-tab">
             <?php if ($estagiario->hasValue('folhadeatividades')): ?>
                 <h3>Atividades</h3>
                 <div class="table-responsive">
@@ -253,8 +258,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <td><?= $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $estagiario->avaliacao->id]) ?>
-                            </td>
+                        <td><?= $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $estagiario->avaliacao->id]) ?>
+                        </td>
                         </tbody>
                     </table>
                 </div>

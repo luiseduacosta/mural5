@@ -57,7 +57,7 @@ class AvaliacoesController extends AppController
         $cress = $this->getRequest()->getQuery('cress');
         if (is_null($cress)) {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
-            return $this->redirect('/alunos/view?registro=' . $this->getRequest()->getSession()->read('registro'));
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
         } else {
             $estagiario = $this->Avaliacoes->Estagiarios->find()
                 ->contain(['Supervisores', 'Alunos', 'Professores', 'Folhadeatividades'])
@@ -85,6 +85,9 @@ class AvaliacoesController extends AppController
                 ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Instituicoes']])
                 ->where(['Avaliacoes.id' => $id])
                 ->first();
+            if ($avaliacao) {
+                $estagiario_id = $avaliacao->estagiario_id;
+            }
         } else {
             $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
             $avaliacao = $this->Avaliacoes->find()
@@ -92,13 +95,12 @@ class AvaliacoesController extends AppController
                 ->where(['Avaliacoes.estagiario_id' => $estagiario_id])
                 ->first();
         }
-        // pr($avaliacao);
-        // die();
+
         if ($avaliacao) {
             $this->set(compact('avaliacao'));
         } else {
             /** Somente supervisor e administrador (?) podem avaliar. Portanto, redireciona para ver o estágio do estágiario */
-            $this->Flash->error(__('Aluno sem avaliaçao'));
+            $this->Flash->error(__('Estagiário sem avaliaçao'));
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
         }
     }
@@ -121,8 +123,11 @@ class AvaliacoesController extends AppController
             $avaliacaoexiste = $this->Avaliacoes->find()
                 ->where(['id' => $id])
                 ->first();
+            if ($avaliacaoexiste) {
+                $estagiario_id = $avaliacaoexiste->estagiario_id;
+            }
         } else {
-            $this->Flash->error(__('Faltam parâmetros'));
+            $this->Flash->error(__('Faltam parâmetros: id ou estagiario_id'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
@@ -135,13 +140,13 @@ class AvaliacoesController extends AppController
 
         if ($this->request->is('post')) {
             $avaliacaoresposta = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
-            pr($avaliacaoresposta);
+            // pr($avaliacaoresposta);
             if ($this->Avaliacoes->save($avaliacaoresposta)) {
                 $this->Flash->success(__('Avaliação registrada.'));
                 return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoresposta->id]);
             }
             $this->Flash->error(__('Avaliaçãoo no foi registrada. Tente novamente.'));
-            debug($avaliacaoresposta);
+            // debug($avaliacaoresposta);
             return $this->redirect(['action' => 'add', $estagiario_id]);
         }
 
@@ -201,6 +206,12 @@ class AvaliacoesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+/**
+     * Seleciona avaliacao method
+     *
+     * @param string|null $id Avaliaco id.
+     * @return Response|null|void Renders view
+     */
     public function selecionaavaliacao($id = NULL)
     {
         /* No login foi capturado o id do estagiário */
@@ -219,6 +230,12 @@ class AvaliacoesController extends AppController
         $this->set('estagiario', $this->paginate($estagiario));
     }
 
+    /**
+     * Imprime avaliacao pdf method
+     *
+     * @param string|null $id Avaliaco id.
+     * @return Response|null|void Renders view
+     */
     public function imprimeavaliacaopdf($id = NULL)
     {
 

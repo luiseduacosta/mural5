@@ -3,14 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-// pr($registro);
-// pr($email);
-// die();
 ?>
 
+<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates') ?>
+
 <div class="container">
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
+    
+    <?php if (isset($user) && $user->categoria_id == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,16 +20,14 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                     </li>
                 </ul>
             </div>
         </nav>
-
     <?php endif; ?>
 
     <div class="container">
-
         <?= $this->Form->create($aluno, ['method' => 'post']) ?>
         <fieldset>
             <legend><?= __('Cadastro de aluno(a)') ?></legend>

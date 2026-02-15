@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova turma de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Nova turma de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
                     </li>
                 </ul>
             </div>
@@ -33,7 +33,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('area') ?></th>
-                    <th class="actions"><?= __('Ações') ?></th>
+                    <th><?= __('Ações') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,11 +41,11 @@
                     <tr>
                         <td><?= $turmaestagio->id ?></td>
                         <td><?= h($turmaestagio->area) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $turmaestagio->id]) ?>
+                        <td>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $turmaestagio->id], ['class' => 'link-info']) ?>
                             <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $turmaestagio->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id)]) ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $turmaestagio->id], ['class' => 'link-warning']) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id), 'class' => 'link-danger']) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

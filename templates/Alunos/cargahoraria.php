@@ -1,7 +1,15 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
+?>
 
-//pr($cargahorariatotal); ?>
-<div class='table-responsive'>
+<?php
+//pr($cargahorariatotal); 
+?>
+
+<div class="container">
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
             <tr>

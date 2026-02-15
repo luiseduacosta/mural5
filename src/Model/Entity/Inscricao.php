@@ -16,8 +16,8 @@ use Cake\ORM\Entity;
  * @property string $periodo
  * @property \Cake\I18n\FrozenTime $timestamp
  *
- * @property \App\Model\Entity\Aluno[] $alunos
- * @property \App\Model\Entity\Muralestagio[] $muralestagios
+ * @property \App\Model\Entity\Aluno[] $aluno
+ * @property \App\Model\Entity\Muralestagio[] $muralestagio
  */
 class Inscricao extends Entity
 {
@@ -37,7 +37,7 @@ class Inscricao extends Entity
         'data' => true,
         'periodo' => true,
         'timestamp' => true,
-        'alunos' => true,
-        'muralestagios' => true,
+        'aluno' => true,
+        'muralestagio' => true,
     ];
 }

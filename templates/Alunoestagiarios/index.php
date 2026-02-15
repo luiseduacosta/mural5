@@ -6,11 +6,11 @@
 ?>
 
 <?php
-$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <div class="container">
-    <?php if ($categoria == '1'): ?>
+    <?php if ($user->categoria_id == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,8 +49,8 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
                     <th><?= $this->Paginator->sort('municipio') ?></th>
                     <th><?= $this->Paginator->sort('bairro') ?></th>
                     <th><?= $this->Paginator->sort('observacoes') ?></th>
-                    <?php if ($categoria == '1'): ?>
-                        <th class="actions"><?= __('Ações') ?></th>
+                    <?php if ($user->categoria_id == '1'): ?>
+                        <th class="row"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -75,10 +75,10 @@ $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']
                         <td><?= h($aluno->municipio) ?></td>
                         <td><?= h($aluno->bairro) ?></td>
                         <td><?= h($aluno->observacoes) ?></td>
-                        <?php if ($categoria == '1'): ?>
-                            <td class="actions">
+                        <?php if ($user_categoria_id == '1'): ?>
+                            <td class="row">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id]) ?>
-                                <?php if ($categoria == '1'): ?>
+                                <?php if ($user_categoria_id == '1'): ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id)]) ?>
                                 <?php endif; ?>

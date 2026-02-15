@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Alunoestagiario $alunoestagiario
  */
-// pr($registro);
-// die();
 ?>
 
 <?php $user = $this->getRequest()->getAttribute('identity'); ?>
@@ -18,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                 </li>
             </ul>
         </div>

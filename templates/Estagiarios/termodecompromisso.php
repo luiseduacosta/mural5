@@ -131,24 +131,24 @@ $submit = [
                 echo $this->Form->control('tipo_de_estagio', ['label' => ['text' => 'Tipo de estágio'], 'options' => ['1' => 'Presencial', '2' => 'Remoto'], 'default' => '1']);
 
                 if (isset($instituicao_id)) {
-                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição1'], 'options' => $instituicoes, 'value' => $instituicao_id, 'required']);
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição1'], 'options' => $instituicoes, 'value' => $instituicao_id, 'required', 'empty' => 'Selecione instituição de estágio']);
                 } elseif (isset($ultimoestagio) && $ultimoestagio->hasValue('instituicao')) {
-                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição2'], 'options' => $instituicoes, 'empty' => [$ultimoestagio->instituicao->id => $ultimoestagio->instituicao->instituicao], 'required']);
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição2'], 'options' => $instituicoes, 'empty' => [$ultimoestagio->instituicao->id => $ultimoestagio->instituicao->instituicao], 'required', 'empty' => 'Selecione instituição de estágio']);
                 } else {
-                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição3'], 'options' => $instituicoes, 'empty' => ['Seleciona instituição de estágio'], 'required']);
+                    echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição3'], 'options' => $instituicoes, 'empty' => ['Selecione instituição de estágio'], 'required']);
                 }
 
                 if (isset($ultimoestagio) && $ultimoestagio->hasValue('supervisor')):
                     if (isset($supervisoresdainstituicao) && ($supervisoresdainstituicao)) {
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)1'], 'options' => $supervisoresdainstituicao, 'value' => $ultimoestagio->supervisor->id]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)1'], 'options' => $supervisoresdainstituicao, 'value' => $ultimoestagio->supervisor->id, 'empty' => 'Selecione supervisor(a)']);
                     } else {
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)2'], 'options' => ['Sem informação'], 'value' => $ultimoestagio->supervisor->id]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)2'], 'options' => ['Sem informação'], 'value' => $ultimoestagio->supervisor->id, 'empty' => 'Selecione supervisor(a)']);
                     }
                 else:
                     if (isset($supervisoresdainstituicao)):
                         echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)3'], 'options' => $supervisoresdainstituicao, 'empty' => "Selecione supervisor(a)"]);
                     else:
-                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)4'], 'options' => ['Sem informação'], 'empty' => ['0' => 'Sem informação']]);
+                        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)4'], 'options' => ['Sem informação'], 'empty' => ['0' => 'Sem informação'], 'empty' => 'Selecione supervisor(a)']);
                     endif;
                 endif;
                 ?>

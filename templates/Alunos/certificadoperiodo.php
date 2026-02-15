@@ -1,7 +1,8 @@
 <?php
-// pr($aluno);
-// pr($totalperiodos);
-// echo $aluno->nome;
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
 ?>
 
 <?php
@@ -22,10 +23,10 @@ $submit = [
         else:
             echo $this->Form->control('novoperiodo', ['label' => ['text' => 'Período de ingresso'], 'value' => $aluno->ingresso]);
         endif;
-        echo $this->Form->control('nome', ['readonly']);
+        echo $this->Form->control('nome', ['readonly' => true]);
         echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social']]);
-        echo $this->Form->control('registro', ['readonly']);
-        echo $this->Form->control('ingresso', ['readonly']);
+        echo $this->Form->control('registro', ['readonly' => true]);
+        echo $this->Form->control('ingresso', ['readonly' => true]);
         echo $this->Form->control('turno', ['options' => ['diurno' => 'Diurno', 'noturno' => 'Noturno']]);
         echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD']]);
         echo $this->Form->control('telefone');
