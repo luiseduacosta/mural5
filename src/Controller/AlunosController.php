@@ -39,6 +39,7 @@ class AlunosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         if ($id == null) {
             $this->Flash->error(__('Sem parâmetros para localizar o aluno!'));
             return $this->redirect(['action' => 'index']);
@@ -46,9 +47,11 @@ class AlunosController extends AppController {
 
         /** Autorização */
         // Students can only view their own record, admins/professors/supervisors can view any
-        if ($this->user->isStudent() && $id != $this->user->aluno_id) {
-            $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        if (!$this->user) {
+            if ($this->user->isStudent() && ($id != $this->user->aluno_id)) {
+                $this->Flash->error(__('Não autorizado!'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            }
         }
 
         try {
@@ -180,9 +183,11 @@ class AlunosController extends AppController {
 
         /** Autorização */
         // Only admin can edit any student, or students can edit their own record
-        if (!$this->user->isAdmin() && !($this->user->isStudent() && $id == $this->user->aluno_id)) {
-            $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
+        if (!$this->user->isAdmin()) {
+            if ($this->user->isStudent() && ($id != $this->user->aluno_id)) {
+                $this->Flash->error(__('Não autorizado!'));
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
+            }
         }
         
         if ($id == null) {

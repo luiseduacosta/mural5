@@ -25,7 +25,8 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
+        // Everybody that is logged in can access this function
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -64,16 +65,19 @@ class FolhadeatividadesController extends AppController
     public function add($id = NULL)
     {
 
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin pode adicionar para qualquer estagiário. Estudantes só podem adicionar para si mesmos. */
+        if (!$this->user->isAdmin()) {
             if ($this->user->isStudent()) {
-                $estagiario = $this->Estagiarios->find()
+                $estagiario = $this->fetchTable('Estagiarios')->find()
                     ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
+            } else {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
         }
 
@@ -114,9 +118,7 @@ class FolhadeatividadesController extends AppController
                 return $this->redirect(['action' => 'view', $folhadeatividaderesposta->id]);
             }
             $this->Flash->error(__('Atividade não foi cadastrada. Tente mais uma vez.'));
-        } else {
-            // die('post');
-        }
+        } 
 
         $this->set('folhadeatividade', $folhadeatividadeentity);
         $this->set('estagiario', $estagiario);
@@ -131,9 +133,8 @@ class FolhadeatividadesController extends AppController
      */
     public function view($id = null)
     {
-
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -167,7 +168,7 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -209,8 +210,8 @@ class FolhadeatividadesController extends AppController
     public function exadd($id = NULL)
     {
 
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin e estudantes */
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -258,19 +259,21 @@ class FolhadeatividadesController extends AppController
      */
     public function edit($id = null)
     {
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin pode editar qualquer registro. Estudantes só podem editar os próprios. */
+        if (!$this->user->isAdmin()) {
             if ($this->user->isStudent()) {
-                $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
+                $folhadeatividade = $this->Folhadeatividades->get($id);
+                $estagiario = $this->fetchTable('Estagiarios')->find()
+                    ->where(['id' => $folhadeatividade->estagiario_id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
+            } else {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         try {
@@ -311,20 +314,21 @@ class FolhadeatividadesController extends AppController
      */
     public function delete($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin pode editar qualquer registro. Estudantes só podem editar os próprios. */
+        if (!$this->user->isAdmin()) {
             if ($this->user->isStudent()) {
-                $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
+                $folhadeatividade = $this->Folhadeatividades->get($id);
+                $estagiario = $this->fetchTable('Estagiarios')->find()
+                    ->where(['id' => $folhadeatividade->estagiario_id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
+            } else {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->request->allowMethod(['post', 'delete']);
@@ -359,19 +363,21 @@ class FolhadeatividadesController extends AppController
     public function selecionafolhadeatividades($id = NULL)
     {
 
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin pode editar qualquer registro. Estudantes só podem editar os próprios. */
+        if (!$this->user->isAdmin()) {
             if ($this->user->isStudent()) {
-                $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
+                $folhadeatividade = $this->Folhadeatividades->get($id);
+                $estagiario = $this->fetchTable('Estagiarios')->find()
+                    ->where(['id' => $folhadeatividade->estagiario_id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
+            } else {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->layout = false;
@@ -384,7 +390,7 @@ class FolhadeatividadesController extends AppController
             $estagiario = $estagiariostabela->find()
                 ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
                 ->where(['Estagiarios.id' => $estagiario_id])
-                ->orderByDesc('nivel')
+                ->order(['nivel' => 'DESC'])
                 ->all()
                 ->last();
             $this->set('estagiario', $estagiario);
@@ -401,19 +407,21 @@ class FolhadeatividadesController extends AppController
      */
     public function folhadeatividadespdf($id = NULL)
     {
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas admin pode editar qualquer registro. Estudantes só podem editar os próprios. */
+        if (!$this->user->isAdmin()) {
             if ($this->user->isStudent()) {
-                $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
+                $folhadeatividade = $this->Folhadeatividades->get($id);
+                $estagiario = $this->fetchTable('Estagiarios')->find()
+                    ->where(['id' => $folhadeatividade->estagiario_id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
+            } else {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
