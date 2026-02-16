@@ -22,14 +22,12 @@ class AlunosController extends AppController {
     public function index($id = null) {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isAdmin()) {
+        if ($this->user->isAdmin() || $this->user->isProfessor() || $this->user->isSupervisor()) {
             $alunos = $this->paginate($this->Alunos);
             $this->set(compact('alunos'));
         } else {
             $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $user->aluno_id]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $this->user->aluno_id]);
         }
     }
 
@@ -42,12 +40,11 @@ class AlunosController extends AppController {
      */
     public function view($id = null) {
 
-        /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() && ($user->isStudent() && $id != $user->aluno_id)) {
-            $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        if (!$this->user->isAdmin() && (!$this->user->isStudent())) {
+            if ($this->user->isStudent() && $id != $this->user->aluno_id) {
+                $this->Flash->error(__('Não autorizado!'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            }
         }
 
         $aluno = $this->Alunos->find()
@@ -68,12 +65,11 @@ class AlunosController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($id = NULL) {
+    public function add($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        // Apenas admin e aluno podem adicionar
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -176,9 +172,7 @@ class AlunosController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() && $user->isStudent() && $id != $user->aluno_id) {
+        if (!$this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
@@ -208,9 +202,7 @@ class AlunosController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -241,9 +233,7 @@ class AlunosController extends AppController {
     public function planilhacress($id = NULL) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -285,9 +275,7 @@ class AlunosController extends AppController {
     public function planilhaseguro($id = NULL) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -466,9 +454,7 @@ class AlunosController extends AppController {
         /**
          * Autorização.
          */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isAdmin() || ($user->isStudent() && $id != $user->aluno_id)) {
+        if ($this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -548,17 +534,15 @@ class AlunosController extends AppController {
      */    
     public function certificadoperiodopdf($id = NULL) {
 
-        $this->layout = false;
-        $id = $this->getRequest()->getQuery('id');
-        $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
-
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isAdmin() || ($user->isStudent() && $id != $user->aluno_id)) {
+        if ($this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'certificadoperiodo', $id]);
         }
+
+        $this->layout = false;
+        $id = $this->getRequest()->getQuery('id');
+        $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
 
         if ($id === null) {
             $this->Flash->error(__('Error: ID do aluno não informado'));
@@ -593,9 +577,7 @@ class AlunosController extends AppController {
     public function cargahoraria($ordem = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isAdmin()) {
+        if ($this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

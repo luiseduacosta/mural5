@@ -19,10 +19,8 @@ class TurmaestagiosController extends AppController {
      */
     public function index() {
         /** Autorização: Alunos não podem ver a listagem geral */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isStudent()) {
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
+        if ($this->user->isStudent()) {
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $this->user->aluno_id]);
         }
         $turmaestagios = $this->paginate($this->Turmaestagios);
 
@@ -39,11 +37,9 @@ class TurmaestagiosController extends AppController {
     public function view($id = null) {
 
         /** Autorização: Alunos não podem ver detalhes de turmas não relacionadas a eles (ou simplesmente não podem ver detalhes de turmas) */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if ($user->isStudent()) {
+        if ($this->user->isStudent()) {
             $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $this->user->aluno_id]);
         }
 
         ini_set('memory_limit', '2048M');
@@ -66,7 +62,7 @@ class TurmaestagiosController extends AppController {
      */
     public function add() {
 
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
+        if ($this->user->isAdmin()) {
             $turmaestagio = $this->Turmaestagios->newEmptyEntity();
             if ($this->request->is('post')) {
                 $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
@@ -92,7 +88,7 @@ class TurmaestagiosController extends AppController {
      */
     public function edit($id = null) {
 
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {            
+        if ($this->user->isAdmin()) {            
             $turmaestagio = $this->Turmaestagios->get($id, [
                 'contain' => [],
             ]);
@@ -120,7 +116,7 @@ class TurmaestagiosController extends AppController {
      */
     public function delete($id = null) {
 
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
+        if ($this->user->isAdmin()) {
             $this->request->allowMethod(['post', 'delete']);
             $turmaestagio = $this->Turmaestagios->get($id, [
                 'contain' => ['Estagiarios']

@@ -25,9 +25,7 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent() || !$user->isProfessor() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -67,12 +65,10 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
@@ -137,9 +133,7 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent() || !$user->isProfessor() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -173,9 +167,7 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent() || !$user->isProfessor() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent() || !$this->user->isProfessor() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -218,9 +210,7 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -270,12 +260,10 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
@@ -320,12 +308,10 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
@@ -362,12 +348,10 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
@@ -407,12 +391,10 @@ class FolhadeatividadesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$estagiario) {
                     $this->Flash->error(__('Usuario nao autorizado.'));

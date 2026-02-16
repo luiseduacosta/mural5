@@ -21,10 +21,8 @@ class SupervisoresController extends AppController
     public function index()
     {
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Everybody that is logged in can access this page
-        if (!$user->isAdmin() || $user->isProfessor() || $user->isSupervisor() || $user->isStudent()) {
+        if (!$this->user->isAdmin() || $this->user->isProfessor() || $this->user->isSupervisor() || $this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -45,13 +43,11 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Everybody that is logged Admin, professor or supervisor can access this page
-        if (!$user->isAdmin() || $user->isProfessor() || $user->isSupervisor()) {
-            if ($user->isSupervisor()) {
+        if (!$this->user->isAdmin() || $this->user->isProfessor() || $this->user->isSupervisor()) {
+            if ($this->user->isSupervisor()) {
                 $supervisor = $this->Supervisores->get($id);
-                if ($user->id != $supervisor->user_id) {
+                if ($this->user->id != $supervisor->user_id) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
@@ -83,10 +79,8 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Everybody that is logged Admin, professor or supervisor can access this page
-        if (!$user->isAdmin() || $user->isSupervisor()) {
+        if (!$this->user->isAdmin() || $this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -190,13 +184,11 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Admin or supervisor can access this page
-        if (!$user->isAdmin() || $user->isSupervisor()) {
-            if ($user->isSupervisor()) {
+        if (!$this->user->isAdmin() || $this->user->isSupervisor()) {
+            if ($this->user->isSupervisor()) {
                 $supervisor = $this->Supervisores->get($id);
-                if ($user->id != $supervisor->user_id) {
+                if ($this->user->id != $supervisor->user_id) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 }
@@ -230,10 +222,8 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Admin or supervisor can access this page
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

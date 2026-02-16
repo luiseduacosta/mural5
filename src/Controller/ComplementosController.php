@@ -20,9 +20,7 @@ class ComplementosController extends AppController {
     public function index() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -42,9 +40,7 @@ class ComplementosController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -63,9 +59,7 @@ class ComplementosController extends AppController {
     public function add() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -93,9 +87,7 @@ class ComplementosController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -125,9 +117,7 @@ class ComplementosController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

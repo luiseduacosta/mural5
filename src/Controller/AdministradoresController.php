@@ -52,8 +52,7 @@ class AdministradoresController extends AppController
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
 
             if (!$administrador->user_id) {
-                $user = $this->Authentication->getIdentity();
-                $administrador->user_id = $user->get('id');
+                $administrador->user_id = $this->user->id;
             }
 
             if ($this->Administradores->save($administrador)) {

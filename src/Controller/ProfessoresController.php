@@ -20,10 +20,8 @@ class ProfessoresController extends AppController {
     public function index() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Everybody that is logged in can access this page
-        if (!$user->isAdmin() || $user->isStudent() || $user->isProfessor() || $user->isSupervisor()) {
+        if (!$this->user->isAdmin() || $this->user->isStudent() || $this->user->isProfessor() || $this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
         }
@@ -43,13 +41,11 @@ class ProfessoresController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Everybody that is logged in can access this page
-        if (!$user->isAdmin() || $user->isProfessor()) {
-            if ($user->isProfessor()) {
+        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
+            if ($this->user->isProfessor()) {
                 $professor = $this->Professores->get($id);
-                if ($user->id != $professor->id) {
+                if ($this->user->id != $professor->id) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
                 }
@@ -79,10 +75,8 @@ class ProfessoresController extends AppController {
     public function add() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Only admin or professor can access this page
-        if (!$user->isAdmin() || $user->isProfessor()) {
+        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
         }
@@ -179,13 +173,11 @@ class ProfessoresController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Only admin can access this page
-        if (!$user->isAdmin() || $user->isProfessor()) {
-            if ($user->isProfessor()) {
+        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
+            if ($this->user->isProfessor()) {
                 $professor = $this->Professores->get($id);
-                if ($user->id != $professor->id) {
+                if ($this->user->id != $professor->id) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
                     return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
                 }
@@ -217,10 +209,8 @@ class ProfessoresController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
         // Only admin can access this page
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
         }

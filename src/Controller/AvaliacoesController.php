@@ -28,9 +28,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -58,9 +56,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -92,9 +88,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -135,9 +129,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -197,9 +189,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -233,9 +223,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -261,9 +249,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -294,9 +280,7 @@ class AvaliacoesController extends AppController
     {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isSupervisor() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isSupervisor() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -305,7 +289,7 @@ class AvaliacoesController extends AppController
         $this->layout = false;
         if ($id == null) {
             $this->Flash->error(__('Por favor selecionar a folha de avaliação do estágio do aluno'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['id' => $this->getRequest()->getAttribute('identity')['aluno_id']]]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['id' => $this->user->aluno_id]]);
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
                 ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']])

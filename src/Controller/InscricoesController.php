@@ -20,9 +20,7 @@ class InscricoesController extends AppController {
     public function index() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -63,9 +61,7 @@ class InscricoesController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -91,9 +87,7 @@ class InscricoesController extends AppController {
     public function add() {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -208,9 +202,7 @@ class InscricoesController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin()) {
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -242,12 +234,10 @@ class InscricoesController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        $identity = $this->getRequest()->getAttribute('identity');
-        $user = $identity->getOriginalData();
-        if (!$user->isAdmin() || !$user->isStudent()) {
-            if ($user->isStudent()) {
+        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+            if ($this->user->isStudent()) {
                 $inscricao = $this->Inscricoes->find()
-                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
                     ->first();
                 if (!$inscricao) {
                     $this->Flash->error(__('Usuario nao autorizado.'));
