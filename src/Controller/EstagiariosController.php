@@ -242,20 +242,18 @@ class EstagiariosController extends AppController
             $configuracaotabela = $this->fetchTable('Configuracoes');
             $configuracoes = $configuracaotabela->find()->select(['mural_periodo_atual'])->first();
             $periodoatual = $configuracoes->mural_periodo_atual;
-            /** Verify the estagiarios periodo */
-            $estagiario = $estagiariotabela->find()->where(['aluno_id' => $dados['aluno_id']])->first();
-            // Periodoatual is the current period and $estagiario['periodo'] is the period from the form
-            if ($estagiario['periodo'] != $periodoatual) {
-                // Add a new record to estagiarios  
-                $estagiario = $estagiariotabela->newEmptyEntity();
-                $estagiario = $estagiariotabela->patchEntity($estagiario, $dados);
-                if ($estagiariotabela->save($estagiario)) {
-                    $this->Flash->success(__('Estágio inserido.'));
-                    return $this->redirect(['action' => 'view', $estagiario->id]);
-                }
-                $this->Flash->error(__('Estágio não foi inserido. Tente novamente.'));
-                return $this->redirect(['action' => 'view', $estagiario->id]);
-            } else {
+            
+            /** Check if there's an existing estagiario record for the current periodo */
+            $estagiario_existente = $estagiariotabela->find()
+                ->where([
+                    'aluno_id' => $dados['aluno_id'],
+                    'periodo' => $periodoatual
+                ])
+                ->order(['Estagiarios.nivel' => 'desc'])
+                ->first();
+            
+            // If there's an existing record for the current periodo and an id is provided, update it
+            if ($estagiario_existente && !empty($dados['id'])) {
                 // Update an existing record
                 $estagiario = $estagiariotabela->get($dados['id'], [
                     'contain' => [],
@@ -266,10 +264,18 @@ class EstagiariosController extends AppController
                     return $this->redirect(['action' => 'view', $estagiario->id]);
                 }
                 $this->Flash->error(__('Estágio não foi atualizado. Tente novamente.'));
-                return $this->redirect(['action' => 'view', $estagiario->id]);
+                return $this->redirect(['action' => 'termodecompromisso', '?' => ['aluno_id' => $dados['aluno_id']]]);
+            } else {
+                // Add a new record to estagiarios  
+                $estagiario = $estagiariotabela->newEmptyEntity();
+                $estagiario = $estagiariotabela->patchEntity($estagiario, $dados);
+                if ($estagiariotabela->save($estagiario)) {
+                    $this->Flash->success(__('Estágio inserido.'));
+                    return $this->redirect(['action' => 'view', $estagiario->id]);
+                }
+                $this->Flash->error(__('Estágio não foi inserido. Tente novamente.'));
+                return $this->redirect(['action' => 'termodecompromisso', '?' => ['aluno_id' => $dados['aluno_id']]]);
             }
-            $this->Flash->success(__('Estágio criado ou atualizado.'));
-            return $this->redirect(['action' => 'view', $estagiario->id]);
 
         } // Finaliza post
 
@@ -291,20 +297,26 @@ class EstagiariosController extends AppController
             ->first();
 
         /** Nivel do estagiario */
+        $atualiza = 0; // Default: insert new record
         if ($ultimoestagio) {
            $max_nivel = ($ultimoestagio->ajuste2020 == 1) ? 3 : 4;
             if ($ultimoestagio->periodo != $periodoatual) {
+                // Different periodo: create new record
                 $nivel = $ultimoestagio->nivel + 1;
                 if ($nivel > $max_nivel) {
                     $nivel = 9;
                 }
+                $atualiza = 0; // Insert
             } else {
+                // Same periodo: update existing record
                 $nivel = $ultimoestagio->nivel;
+                $atualiza = 1; // Update
             }
             $this->set('ultimoestagio', $ultimoestagio);
         } else {
             /** Aluno sem estágio: nível 1 */
             $nivel = 1;
+            $atualiza = 0; // Insert
             $alunotabela = $this->fetchTable('Alunos');
             $estudante_semestagio = $alunotabela->find()
                 ->contain([])
@@ -313,6 +325,8 @@ class EstagiariosController extends AppController
                 ->first();
             $this->set('estudante_semestagio', $estudante_semestagio);
         }
+        
+        $this->set('atualiza', $atualiza);
 
         $this->set('aluno_id', $aluno_id);
         $this->set('nivel', $nivel);
@@ -320,7 +334,7 @@ class EstagiariosController extends AppController
 
         /** Seleciona os supervisores da instituição. Primeiro precisa do instituicao_id */
         if (!isset($instituicao_id)) {
-            if (isset($ultimoestagio)) {
+            if (isset($ultimoestagio) && $ultimoestagio->hasValue('instituicao') && isset($ultimoestagio->instituicao->id)) {
                 $instituicao_id = $ultimoestagio->instituicao->id;
             }
         }
