@@ -15,6 +15,7 @@ declare(strict_types=1);
  */
 namespace App\View;
 
+use Cake\Event\EventInterface;
 use Cake\View\View;
 
 /**
@@ -37,5 +38,14 @@ class AppView extends View
      */
     public function initialize(): void
     {
+    }
+
+    public function beforeRender(EventInterface $event): void
+    {
+        $identity = $this->getRequest()->getAttribute('identity');
+        if ($identity) {
+            $user = $identity->getOriginalData();
+            $this->set('user', $user);
+        }
     }
 }

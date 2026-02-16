@@ -24,7 +24,7 @@ $submit = [
             <ul class="navbar-nav ms-auto mt-lg-0">
 <?php if($user->isAdmin()): ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary'])
+                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1'])
                     ?>
                 </li>
 <?php endif; ?>

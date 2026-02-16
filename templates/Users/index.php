@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -16,9 +14,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerUsuario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if($user->isAdmin()): ?>
+                    <?php if ($user->isAdmin()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Novo(a) usuário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Novo(a) usuário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -53,10 +51,10 @@
                         <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
                         </td>
                         <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
-                            <?php if($user->isAdmin()): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id], ['class' => 'btn btn-primary me-1']) ?>
+                            <?php if ($user->isAdmin()): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id], ['class' => 'btn btn-primary me-1']) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

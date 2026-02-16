@@ -8,30 +8,30 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerSupervisor"
+            aria-controls="navbarTogglerSupervisor" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarTogglerSupervisor">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if($user->isAdmin()): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if($user->isSupervisor()): ?>
+                <?php if ($user->isSupervisor()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -62,7 +62,7 @@
 
         <div class="tab-content">
 
-        <?php if($user->isAdmin() || isSupervisor()): ?>
+        <?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                 <div id="supervisora" class="tab-pane container active show">
                     <h3><?= h($supervisor->nome) ?></h3>
                     <table class="table table-striped table-hover table-responsive">
@@ -164,7 +164,7 @@
                 </div>
 <?php endif; ?>
 
-<?php if($user->isAdmin() || isSupervisor()): ?>
+<?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                 <div id="instituicao" class="tab-pane container fade">
                     <h4><?= __('Instituição de estágio') ?></h4>
                     <?php if (!empty($supervisor->instituicoes)): ?>
@@ -205,7 +205,7 @@
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Instituicoes', 'action' => 'view', $instituicoes->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Instituicoes', 'action' => 'edit', $instituicoes->id]) ?>
-                                            <?php if ($user->categoria_id == 1): ?>
+                                            <?php if ($user->isAdmin()): ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Instituicoes', 'action' => 'delete', $instituicoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicoes->id)]) ?>
                                             <?php endif; ?>
                                         </td>
@@ -217,7 +217,7 @@
                 </div>
 <?php endif; ?>
 
-<?php if($user->isAdmin() || isSupervisor()): ?>
+<?php if($user->isAdmin() || $user->isSupervisor()): ?>
                 <div id="estagiarios" class="tab-pane container fade">
                     <h4><?= __('Estagiarios') ?></h4>
                     <?php if (isset($supervisor->estagiarios)): ?>
@@ -252,10 +252,10 @@
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if ($user->categoria_id == 1 ||($user->categoria_id == 4): ?>
+                                            <?php if ($user->isAdmin() && $user->isSupervisor()): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
-                                            <?php if ($user->categoria_id == 1): ?>
+                                            <?php if ($user->isAdmin()): ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                             <?php endif; ?>
@@ -268,7 +268,7 @@
                 </div>
 <?php endif; ?>
 
-<?php if($user->isAdmin() || isSupervisor()): ?>
+<?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                 <div id="avaliacoes" class="tab-pane container fade">
                     <h4><?= __('Avaliações') ?></h4>
                     <?php if (!empty($supervisor->estagiarios)): ?>
@@ -302,10 +302,10 @@
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if ($user->categoria_id == 1 ||($user->categoria_id == 4): ?>
+                                        <?php if ($user->isAdmin() && $user->isSupervisor()): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif ($user->categoria_id == 2 ||($user->categoria_id == 3): ?>
+                                        <?php elseif ($user->isAdmin() && $user->isSupervisor()): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>

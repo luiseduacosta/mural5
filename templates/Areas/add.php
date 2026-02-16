@@ -15,9 +15,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin()): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -34,7 +34,7 @@
                 echo $this->Form->control('area', ['label' => ['text' => 'Área']]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary me-1']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

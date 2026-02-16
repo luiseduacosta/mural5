@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-// pr($aluno);
 ?>
 
 <?= $this->element('templates') ?>
@@ -20,17 +19,17 @@
 
                 <?php if ($user->isAdmin() || $user->isStudent()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item active">
-                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if($user->isAdmin()): ?>
+                <?php if ($user->isAdmin()): ?>
 
                     <li class="nav-item">
                         <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>

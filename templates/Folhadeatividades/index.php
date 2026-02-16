@@ -3,9 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade[]|\Cake\Collection\CollectionInterface $folhadeatividades
  */
-// pr($estagiario->supervisor);
-// pr($folhadeatividades);
-// die();
 
 if (isset($estagiario->supervisor->nome)) {
     $supervisora = $estagiario->supervisor->nome;
@@ -37,14 +34,14 @@ if (isset($estagiario->professor->nome)) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user->isAdmin() || $user->isStudent()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-warning float-end', 'style' => 'max-width:2000px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-warning me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Imprime atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>
+                    <?= $this->Html->link(__('Imprime atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Imprime folha de atividades'), ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>
+                    <?= $this->Html->link(__('Imprime folha de atividades'), ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                 </li>
 
             </ul>

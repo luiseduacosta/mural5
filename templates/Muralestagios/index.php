@@ -22,14 +22,14 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if ($user->isAdmin()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -68,8 +68,7 @@
                     <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
-                    <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                    <?php if ($user->isAdmin()): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -86,8 +85,7 @@
                         <td><?= $muralestagio->cargaHoraria ?></td>
                         <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
                         <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
-                        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

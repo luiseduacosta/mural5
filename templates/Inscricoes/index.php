@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao[]|\Cake\Collection\CollectionInterface $inscricoes
  */
-// pr($inscricoes);
-// pr($periodo);
 ?>
 
 <script type="text/javascript">
@@ -26,7 +24,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if($user->isAdmin()): ?>
+        <?php if ($user->isAdmin()): ?>
             <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -38,17 +36,17 @@
 
 <div class="container">
 
-    <?php if($user->isAdmin()): ?>
+    <?php if ($user->isAdmin()): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if ($user->isAdmin() || $user->isStudent()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -85,14 +83,14 @@
                         <?php endif; ?>
                         <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                         </td>
-                        <td><?= date('d-m-Y', strtotime(h($inscricao->data))) ?></td>
+                        <td><?= date('d-m-Y', strtotime($inscricao->data)) ?></td>
                         <td><?= h($inscricao->periodo) ?></td>
                         <td><?= h($inscricao->timestamp) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
                             <?php if ($user->isAdmin() || $user->isStudent()): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id)]) ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

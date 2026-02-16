@@ -24,7 +24,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if($user->isAdmin()): ?>
+        <?php if ($user->isAdmin()): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
             <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -91,7 +91,7 @@
                         <?php endif; ?>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario['id']]) ?>
-                            <?php if($user->isAdmin()): ?>
+                            <?php if ($user->isAdmin()): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario['id']]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario['id']], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario['id'])]) ?>
                             <?php endif; ?>

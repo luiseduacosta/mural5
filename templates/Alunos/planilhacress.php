@@ -24,7 +24,7 @@
 
 <div class='container'>
 
-    <?php if($user->isAdmin()): ?>
+    <?php if ($user->isAdmin()): ?>
     <?= $this->Form->create(null, ['class' => 'form-inline']); ?>
     <div class="form-group row mt-2">
         <label for="periodo" class='col-sm-1 col-form-label'>Período</label>

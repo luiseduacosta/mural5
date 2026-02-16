@@ -61,18 +61,19 @@ class InscricoesController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        // Only admin or student can view
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Alunos', 'Muralestagios'],
-        ]);
-
-        if (!isset($inscricao)) {
-            $this->Flash->error(__('Nao ha registros de inscricoes para esse numero!'));
-            return $this->redirect(['action' => 'index']);
+        try {
+            $inscricao = $this->Inscricoes->get($id, [
+                'contain' => ['Alunos', 'Muralestagios'],
+            ]);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Nao ha registros de inscricao para esse(a) aluno(a)!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->set(compact('inscricao'));
@@ -87,7 +88,8 @@ class InscricoesController extends AppController {
     public function add() {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        // Only admin or student can add
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

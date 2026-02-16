@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
+
 if (isset($periodo)) {
     // echo "periodo" . "<br>";
     // pr($periodo);

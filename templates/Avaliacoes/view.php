@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao $avaliacao
  */
-// pr($avaliacao);
 
 if (isset($avaliacao->estagiario->supervisor->nome)) {
     $supervisora = $avaliacao->estagiario->supervisor->nome;
@@ -55,23 +54,23 @@ if (isset($avaliacao->estagiario->professor->nome)) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin() || isSupervisor()): ?>
+                <?php if ($user->isAdmin() && $user->isSupervisor()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $avaliacao->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $avaliacao->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $avaliacao->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $avaliacao->estagiario_id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Nova avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
 
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Imprimir avaliação'), ['action' => 'imprimeavaliacaopdf/' . $avaliacao->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Imprimir avaliação'), ['action' => 'imprimeavaliacaopdf/' . $avaliacao->id], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
             </ul>
         </div>

@@ -14,7 +14,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-<?php if($user->isAdmin()): ?>
+<?php if ($user->isAdmin()): ?>
                 <li class="nav-item">
                         <?= $this->Html->link(__('Novo(a) aluno(a) estagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -58,7 +58,7 @@
                         <td><?= $aluno->registro ?></td>
                         <td><?= $this->Html->link($aluno->nome, ['controller' => 'Alunoestagiarios', 'action' => 'view', $aluno->id]) ?>
                         </td>
-                        <td><?= date('d-m-Y', strtotime(h($aluno->nascimento))) ?></td>
+                        <td><?= date('d-m-Y', strtotime($aluno->nascimento)) ?></td>
                         <td><?= h($aluno->cpf) ?></td>
                         <td><?= h($aluno->identidade) ?></td>
                         <td><?= h($aluno->orgao) ?></td>

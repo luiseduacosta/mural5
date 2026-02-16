@@ -5,30 +5,22 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerTurma"
+            aria-controls="navbarTogglerTurma" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarTogglerTurma">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin()): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
-                        <?=
-                            $this->Form->postLink(
-                                __('Excluir'),
-                                ['action' => 'delete', $turmaestagio->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id), 'class' => 'btn btn-danger me-1']
-                            )
-                            ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar turma de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                    <?= $this->Html->link(__('Listar turma de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
             </ul>
         </div>

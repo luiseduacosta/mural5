@@ -37,21 +37,19 @@
     });
 </script>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <?= $this->element('templates'); ?>
 
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
                 <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
@@ -59,7 +57,7 @@
                             $this->Form->postLink(
                                 __('Excluir'),
                                 ['action' => 'delete', $muralestagio->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger me-1']
                             )
                             ?>
                     </li>
@@ -99,7 +97,7 @@
                 echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

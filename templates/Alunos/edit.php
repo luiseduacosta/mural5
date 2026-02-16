@@ -24,7 +24,7 @@
                             <?= $this->Form->postLink(
                                 __('Excluir'),
                                 ['action' => 'delete', $aluno->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $aluno->id), 'class' => 'btn btn-danger']
+                                ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']
                             )
                                 ?>
                         </li>

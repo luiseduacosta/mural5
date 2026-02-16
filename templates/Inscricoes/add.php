@@ -11,14 +11,14 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user->isAdmin() || $user->isStudent()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -30,7 +30,7 @@
         <fieldset>
             <legend><?= __('Inscrição para seleção de estágio') ?></legend>
             <?php
-            if($user->isAdmin()):
+            if ($user->isAdmin()):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'empty' => ['0' => 'Seleciona aluno']]);
                 echo $this->Form->control('registro', ['type' => 'hidden']);
                 echo $this->Form->control('muralestagio_id', ['label' => ['text' => 'Mural de estágio'], 'options' => $muralestagios, 'value' => $muralestagio_id, 'empty' => ['0' => 'Seleciona instituição']]);
@@ -49,7 +49,7 @@
             endif;
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

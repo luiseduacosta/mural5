@@ -7,10 +7,6 @@
 // die();
 ?>
 
-<?php
-$user = $this->getRequest()->getAttribute('identity');
-?>
-
 <div class="container">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,7 +18,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if($user->isAdmin()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -81,7 +77,6 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
-
 
                         <?php if (isset($c_estagiario->avaliacao->id)): ?>
                             <td class="row">

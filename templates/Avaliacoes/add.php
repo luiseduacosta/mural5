@@ -4,9 +4,8 @@
  * @var \App\Model\Entity\Avaliacao $avaliacao
  * @var \Cake\Collection\CollectionInterface|string[] $estagiarios
  */
-// pr($estagiario);
-// die();
 ?>
+
 <?php
 $dia = strftime('%e', time());
 $mes = strftime('%B', time());
@@ -47,9 +46,9 @@ if (isset($estagiario->supervisor->cress)) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin()): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $estagiario->id, 'registro' => $estagiario->registro]], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $estagiario->id, 'registro' => $estagiario->registro]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
             </ul>

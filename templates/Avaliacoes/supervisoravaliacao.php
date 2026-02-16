@@ -28,16 +28,14 @@
             </thead>
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
-                    <?php // pr($c_estagiario); ?>
-                    <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                         <?php endif; ?>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
+                        <?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                             <td><?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : $this->Html->link('Fazer avaliação on-line', ['controller' => 'avaliacoes', 'action' => 'add', $c_estagiario->id], ['class' => 'btn btn-warning']) ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : 'Sem avaliação on-line' ?></td>
@@ -45,7 +43,7 @@
 
                         <td><?= $this->Html->link('Imprime avaliação discente', ['controller' => 'estagiarios', 'action' => 'avaliacaodiscentepdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>    
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
@@ -58,7 +56,7 @@
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <?php if (isset($c_estagiario->avaliacao->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('View'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>

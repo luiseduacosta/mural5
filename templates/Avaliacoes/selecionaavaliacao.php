@@ -7,7 +7,7 @@
 
 <div class="container">
 
-<h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
+    <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>

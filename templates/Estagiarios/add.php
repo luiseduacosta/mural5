@@ -4,20 +4,21 @@
  * @var \App\Model\Entity\Estagiario $estagiario
  */
 ?>
+
 <?= $this->element('templates') ?>
 
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin() || isProfessor()): ?>
+                <?php if ($user->isAdmin() || isProfessor()): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -63,7 +64,7 @@
             echo $this->Form->control('observacoes', ['label' => ['text' => 'Outras informacoes']]);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary me-1']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

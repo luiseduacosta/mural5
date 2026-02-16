@@ -9,22 +9,22 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <?php if ($user->isAdmin()): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Nova Instituição de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Nova Instituição de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
                         <li class="nav-item">
                             <?= $this->Form->postLink(__('Excluir Instituição de estágio'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger float-end']) ?>
@@ -167,14 +167,14 @@
                                     <th><?= __('Nome') ?></th>
                                     <th><?= __('Cress') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if($user->isAdmin()): ?>
+                                    <?php if ($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
                                 <?php foreach ($instituicao->supervisores as $supervisores): ?>
                                     <tr>
                                         <td><?= h($supervisores->id) ?></td>
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td><?= $this->Html->link($supervisores->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                             </td>
                                         <?php else: ?>
@@ -182,7 +182,7 @@
                                         <?php endif; ?>
                                         <td><?= h($supervisores->cress) ?></td>
                                         <td><?= h($supervisores->observacoes) ?></td>
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('View'), ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                                 <?php if ($user->isAdmin()): ?>
@@ -219,7 +219,7 @@
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if($user->isAdmin()): ?>
+                                    <?php if ($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -228,7 +228,7 @@
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
 
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -237,7 +237,7 @@
 
                                         <td><?= h($estagiarios->registro) ?></td>
 
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -245,7 +245,7 @@
                                             </td>
                                         <?php endif; ?>
 
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -255,11 +255,11 @@
                                         <td><?= h($estagiarios->periodo) ?></td>
                                         <td><?= h($estagiarios->nivel) ?></td>
 
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td><?= h($estagiarios->ajuste2020) ?></td>
                                             <td><?= h($estagiarios->turno) ?></td>
                                             <td><?= h($estagiarios->tc) ?></td>
-                                            <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
+                                            <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime($estagiarios->tc_solicitacao)) : '' ?>
                                             </td>
                                             <td><?= !is_null($estagiarios->nota) ? $this->Number->format($estagiarios->nota, ['places' => 2]) : 'Sem dados' ?>
                                             </td>
@@ -290,7 +290,7 @@
                                     <th><?= __('Instituicoes') ?></th>
                                     <th><?= __('Vagas') ?></th>
                                     <th><?= __('Periodo') ?></th>
-                                    <?php if($user->isAdmin()): ?>
+                                    <?php if ($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -301,7 +301,7 @@
                                         </td>
                                         <td><?= h($muralestagios->vagas) ?></td>
                                         <td><?= h($muralestagios->periodo) ?></td>
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>
                                                 <?php if ($user->isAdmin()): ?>
@@ -330,7 +330,7 @@
                                     <th><?= __('Responsável') ?></th>
                                     <th><?= __('Descrição') ?></th>
                                     <th><?= __('Avaliação') ?></th>
-                                    <?php if($user->isAdmin()): ?>
+                                    <?php if ($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -343,7 +343,7 @@
                                         <td><?= h($visitas->responsavel) ?></td>
                                         <td><?= h($visitas->descricao) ?></td>
                                         <td><?= h($visitas->avaliacao) ?></td>
-                                        <?php if($user->isAdmin()): ?>
+                                        <?php if ($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visitas->id]) ?>
                                                 <?php if ($user->isAdmin()): ?>

@@ -7,13 +7,13 @@
  
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAlunoestagiario"
+            aria-controls="navbarTogglerAlunoestagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarTogglerAlunoestagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-<?php if($user->isAdmin()): ?>
+<?php if ($user->isAdmin()): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Novo aluno(a) estagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
                 </li>
@@ -26,7 +26,7 @@
                     <?= $this->Html->link(__('Listar aluno(a)s estagiario(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                 </li>
                 
-<?php if($user->isAdmin()): ?>
+<?php if ($user->isAdmin()): ?>
                 <li class="nav-item">
                     <?= $this->Form->postLink(__('Excluir aluno(a) estagiario(a)'), ['action' => 'delete', $alunoestagiario->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $alunoestagiario->id), 'class' => 'btn btn-danger']) ?>
                 </li>
@@ -53,7 +53,7 @@
             </tr>
             <tr>
                 <th><?= __('Nascimento') ?></th>
-                <td><?= date('d-m-Y', strtotime(h($alunoestagiario->nascimento))) ?></td>
+                <td><?= date('d-m-Y', strtotime($alunoestagiario->nascimento)) ?></td>
             </tr>
             <tr>
                 <th><?= __('CPF') ?></th>
@@ -130,7 +130,7 @@
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
                             <th><?= __('Observações') ?></th>
-                            <?php if($user->isAdmin()): ?>
+                            <?php if ($user->isAdmin()): ?>
                             <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -144,7 +144,7 @@
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->tc) ?></td>
-                                <td><?= date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) ?></td>
+                                <td><?= date('d-m-Y', strtotime($estagiarios->tc_solicitacao)) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link($estagiarios->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiarios->instituicao->id]) : '' ?>
                                 </td>
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
@@ -156,7 +156,7 @@
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td><?= h($estagiarios->observacoes) ?></td>
-                                <?php if($user->isAdmin()): ?>
+                                <?php if ($user->isAdmin()): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
