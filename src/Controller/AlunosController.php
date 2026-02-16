@@ -69,7 +69,7 @@ class AlunosController extends AppController {
 
         /** Autorização */
         // Apenas admin e aluno podem adicionar
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

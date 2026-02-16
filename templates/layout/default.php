@@ -64,7 +64,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
     <div class="container">
         <div class='row justify-content-center'>
             <?php
-            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+            $categoria = $user ? $user->categoria_id : null;
             if (isset($categoria) && (!empty($categoria))) {
                 switch ($categoria) {
                     case 1: // Administrador

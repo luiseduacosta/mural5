@@ -72,7 +72,7 @@
                         <th><?= $this->Paginator->sort('nota') ?></th>
                         <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                         <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
-                        <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <th class="actions"><?= __('Ações') ?></th>
                         <?php endif; ?>
                     </tr>

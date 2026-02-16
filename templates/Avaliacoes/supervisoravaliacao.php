@@ -21,7 +21,7 @@
                     <th><?= $this->Paginator->sort('estagiario->nivel', 'Nível') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if ($user->isAdmin()): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>

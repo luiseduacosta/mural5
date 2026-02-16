@@ -19,20 +19,20 @@ class InscricoesController extends AppController {
      */
     public function index() {
 
-        /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        /** Autorização: Apenas administradores e estudantes podem ver inscrições */
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
-
+        
         $periodo = $this->getRequest()->getQuery('periodo');
-
+        
         if (empty($periodo)) {
             $configuracao = $this->fetchTable('Configuracoes');
             $configuracoes = $configuracao->find()->select(['mural_periodo_atual'])->first();
             $periodo = $configuracoes->mural_periodo_atual;
         }
-
+        
         /* Todos os periódos */
         $estagiariotabela = $this->fetchTable('Estagiarios');
         $periodototal = $estagiariotabela->find('list', [
@@ -41,7 +41,7 @@ class InscricoesController extends AppController {
             'order' => 'periodo'
         ]);
         $periodos = $periodototal->toArray();
-
+        
         $query = $this->Inscricoes->find()
                 ->contain(['Alunos', 'Muralestagios'])
                 ->where(['Inscricoes.periodo' => $periodo]);
@@ -236,7 +236,7 @@ class InscricoesController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || !$this->user->isStudent()) {
+        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             if ($this->user->isStudent()) {
                 $inscricao = $this->Inscricoes->find()
                     ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])

@@ -1,9 +1,5 @@
 <?php
-if (isset($this->getRequest()->getAttribute('identity')['categoria_id'])) {
-    $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
-} else {
-    $categoria = null;
-}
+$categoria = $user ? $user->categoria_id : null;
 ?>
 
 <nav class='navbar navbar-expand-lg navbar-light py-0 navbar-fixed-top' style="background-color: #2b6c9c;">
