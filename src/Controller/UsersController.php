@@ -275,15 +275,14 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
-            $user = $this->Authentication->getIdentity();
+            $identity = $this->Authentication->getIdentity();
+            $user = $identity->getOriginalData();
             if ($user->isAdmin()):
-                echo "Administrador";
                 $this->Flash->success(__('Bem-vindo administrador!'));
                 $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
                 return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
             elseif ($user->isStudent()):
-                echo "Aluno";
-                $this->Flash->success(__('Bem-vindo(a) aluno!'));
+                $this->Flash->success(__('Bem-vindo(a) aluno(a) ' . $user->nome . '!'));
                 $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
                 $this->getRequest()->getSession()->write('registro', $user->registro);
                 $this->getRequest()->getSession()->write('usuario', $user->email);

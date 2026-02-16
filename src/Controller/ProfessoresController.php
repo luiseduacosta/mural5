@@ -18,6 +18,16 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged in can access this page
+        if (!$user->isAdmin() || $user->isStudent() || $user->isProfessor() || $user->isSupervisor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+        }
+
         $professores = $this->paginate($this->Professores);
 
         $this->set(compact('professores'));
@@ -32,14 +42,20 @@ class ProfessoresController extends AppController {
      */
     public function view($id = null) {
 
-        if ($id == null) {
-            $siape = $this->getRequest()->getQuery('siape');
-            if (isset($siape)):
-                $idquery = $this->Professores->find()->where(['siape' => $siape]);
-                $id = $idquery->first();
-                $id = $id->id;
-            endif;
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged in can access this page
+        if (!$user->isAdmin() || $user->isProfessor()) {
+            if ($user->isProfessor()) {
+                $professor = $this->Professores->get($id);
+                if ($user->id != $professor->id) {
+                    $this->Flash->error(__('Usuario nao autorizado.'));
+                    return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+                }
+            }
         }
+
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
         $professor = $this->Professores->get($id, [
@@ -61,6 +77,15 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin or professor can access this page
+        if (!$user->isAdmin() || $user->isProfessor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+        }
 
         $siape = $this->getRequest()->getQuery('siape');
         $email = $this->getRequest()->getQuery('email');
@@ -153,6 +178,20 @@ class ProfessoresController extends AppController {
      */
     public function edit($id = null) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin() || $user->isProfessor()) {
+            if ($user->isProfessor()) {
+                $professor = $this->Professores->get($id);
+                if ($user->id != $professor->id) {
+                    $this->Flash->error(__('Usuario nao autorizado.'));
+                    return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+                }
+            }
+        }
+
         $professor = $this->Professores->get($id, [
             'contain' => [],
         ]);
@@ -176,6 +215,15 @@ class ProfessoresController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+        }
 
         $this->request->allowMethod(['post', 'delete']);
         $professor = $this->Professores->get($id, [

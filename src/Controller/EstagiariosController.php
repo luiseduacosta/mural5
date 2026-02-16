@@ -26,8 +26,10 @@ class EstagiariosController extends AppController
     public function index($id = NULL)
     {
         /** Autorização: Alunos não podem ver a listagem geral */
-        $user = $this->getRequest()->getAttribute('identity');
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
         if ($user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
         }
 
@@ -71,7 +73,8 @@ class EstagiariosController extends AppController
     public function view($id = null)
     {
         /** Autorização */
-        $user = $this->getRequest()->getAttribute('identity');
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
         if ($user->isStudent()) {
             // Check if this internship belongs to the logged-in student
             $estagiarioCheck = $this->Estagiarios->find()
@@ -81,9 +84,6 @@ class EstagiariosController extends AppController
                 $this->Flash->error(__('Não autorizado!'));
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
-        } elseif (!$user->isAdmin() && !$user->isProfessor() && !$user->isSupervisor()) {
-            $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         if ($id == null) {
@@ -113,6 +113,14 @@ class EstagiariosController extends AppController
      */
     public function add()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         /** Capturo o id do aluno se estiver cadastrado e envio para o formulario. */
         $aluno_id = $this->Authentication->getIdentityData('aluno_id');
@@ -168,6 +176,15 @@ class EstagiariosController extends AppController
      */
     public function termodecompromisso($id = NULL)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         /** Vou utilizar a tabela configurações */
         $configuracaotabela = $this->fetchTable('Configuracoes');
         $configuracoes = $configuracaotabela->find()->select(['mural_periodo_atual'])->first();
@@ -177,7 +194,8 @@ class EstagiariosController extends AppController
         $estagiariotabela = $this->fetchTable('Estagiarios');
 
         // Administrador pode inserir o termo de compromisso para qualquer aluno
-        $user = $this->getRequest()->getAttribute('identity');
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
         if ($user->isAdmin()) {
             $aluno_id = $this->getRequest()->getQuery('aluno_id');
         } else {
@@ -338,6 +356,15 @@ class EstagiariosController extends AppController
 
     private function selecionasupervisores($instituicao_id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $supervisoresinstituicao = null;
         if ($instituicao_id) {
 
@@ -361,6 +388,15 @@ class EstagiariosController extends AppController
 
     private function nivelestagio($periodoatual, $ultimoestagio)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         if ($periodoatual == $ultimoestagio->periodo) {
             $nivel = $ultimoestagio->nivel;
         } elseif ($periodoatual > $ultimoestagio->periodo) {
@@ -379,6 +415,15 @@ class EstagiariosController extends AppController
     // Function obsolete
     private function alunoinsere($aluno_id, $estagiario_id)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $estagiario = $this->Estagiarios->find()->where(['id' => $estagiario_id])->first();
         $alunostabela = $this->fetchTable('Alunoestagiarios');
         $alunoestagiario = $alunostabela->find()->where(['registro' => $estagiario->registro])->first();
@@ -429,6 +474,14 @@ class EstagiariosController extends AppController
     public function termodecompromissopdf($id = NULL)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->layout = false;
         if ($id == NULL) {
             $this->Flash->error(__('Nao ha registros de estagiarios para esse numero!'));
@@ -460,18 +513,27 @@ class EstagiariosController extends AppController
     public function selecionadeclaracaodeestagio($id = NULL)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $id = $this->getRequest()->getSession()->read('estagiario_id');
         if ($id == null) {
             $this->Flash->error(__('Selecionar o aluno estagiário'));
             return $this->redirect(['controller' => 'estagiarios', 'action' => 'index']);
         } else {
-            $user = $this->getRequest()->getAttribute('identity');
-            if ($user->isStudent()) {
+            $identity = $this->getRequest()->getAttribute('identity');
+            $user = $identity->getOriginalData();
+            if ($user->isAdmin() || $user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
                     ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
                     ->where(['Estagiarios.aluno_id' => $user->aluno_id])
                     ->first();
-            } else {
+            } elseif ($user->isAdmin() || $user->isStudent()) {
                 $estagiario = $this->Estagiarios->find()
                     ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
                     ->where(['Estagiarios.id' => $id])
@@ -485,6 +547,14 @@ class EstagiariosController extends AppController
     /** Declaração de estágio para ser preenchida manualmente */
     public function declaracaodeestagiopdf($id = NULL)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $estagiarioquery = $this->Estagiarios->find()
             ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
@@ -532,6 +602,14 @@ class EstagiariosController extends AppController
     public function selecionafolhadeatividades($id = NULL)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $id = $this->getRequest()->getSession()->read('estagiario_id');
         if (is_null($id)) {
             $this->Flash->error(__('Selecionar o aluno e o estágio'));
@@ -549,6 +627,15 @@ class EstagiariosController extends AppController
     /** Folha de atividades para ser preenchida manualmente */
     public function folhadeatividadespdf($id = NULL)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->layout = false;
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         if ($id) {
@@ -583,6 +670,14 @@ class EstagiariosController extends AppController
     public function selecionaavaliacaodiscente($id = NULL)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         /* No login foi capturado o id do estagiário */
         $id = $this->getRequest()->getSession()->read('estagiario_id');
         if (is_null($id)) {
@@ -601,6 +696,14 @@ class EstagiariosController extends AppController
     /** Avaliação do discente para ser preenchida manualmente */
     public function avaliacaodiscentepdf($id = NULL)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $this->layout = false;
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
@@ -638,6 +741,21 @@ class EstagiariosController extends AppController
     public function edit($id = null)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isStudent()) {
+            if ($user->isStudent()) {
+                $estagiario = $this->Estagiarios->find()
+                    ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                    ->first();
+                if (!$estagiario) {
+                    $this->Flash->error(__('Usuario nao autorizado.'));
+                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+                }
+            }
+        }
+
         if ($id == null) {
             $this->Flash->error(__('Por favor selecionar o estagiario'));
             return $this->redirect(['controller' => 'estagiarios', 'action' => 'index']);
@@ -673,6 +791,14 @@ class EstagiariosController extends AppController
     public function delete($id = null)
     {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $estagiario = $this->Estagiarios->get($id);
         if ($this->Estagiarios->delete($estagiario)) {
@@ -694,10 +820,12 @@ class EstagiariosController extends AppController
     public function lancanota($id = null)
     {
 
-        // Only admin and professor cant do this function
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 3) {
-            $this->Flash->error(__('Apenas professores podem lançar notas'));
-            return $this->redirect(['controller' => 'estagiarios', 'action' => 'index']);
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() || !$user->isProfessor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
         $siape = $this->getRequest()->getQuery('siape');
 

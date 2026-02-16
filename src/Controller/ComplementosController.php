@@ -18,6 +18,15 @@ class ComplementosController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $complementos = $this->paginate($this->Complementos);
 
         $this->set(compact('complementos'));
@@ -31,6 +40,15 @@ class ComplementosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $complemento = $this->Complementos->get($id, [
             'contain' => ['Estagiarios'],
         ]);
@@ -43,6 +61,15 @@ class ComplementosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $complemento = $this->Complementos->newEmptyEntity();
         if ($this->request->is('post')) {
             $complemento = $this->Complementos->patchEntity($complemento, $this->request->getData());
@@ -64,6 +91,15 @@ class ComplementosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $complemento = $this->Complementos->get($id, [
             'contain' => [],
         ]);
@@ -87,6 +123,15 @@ class ComplementosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $complemento = $this->Complementos->get($id);
         if ($this->Complementos->delete($complemento)) {

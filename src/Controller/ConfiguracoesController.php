@@ -18,6 +18,15 @@ class ConfiguracoesController extends AppController
      */
     public function index()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $configuracao = $this->paginate($this->Configuracoes);
 
         $this->set(compact('configuracao'));
@@ -32,6 +41,15 @@ class ConfiguracoesController extends AppController
      */
     public function view($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $configuracao = $this->Configuracoes->get($id, [
             'contain' => [],
         ]);
@@ -46,6 +64,15 @@ class ConfiguracoesController extends AppController
      */
     public function add()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $configuracao = $this->Configuracoes->newEmptyEntity();
         if ($this->request->is('post')) {
             $configuracao = $this->Configuracoes->patchEntity($configuracao, $this->request->getData());
@@ -68,6 +95,15 @@ class ConfiguracoesController extends AppController
      */
     public function edit($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $configuracao = $this->Configuracoes->get($id, [
             'contain' => [],
         ]);
@@ -92,6 +128,15 @@ class ConfiguracoesController extends AppController
      */
     public function delete($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $configuracao = $this->Configuracoes->get($id);
         if ($this->Configuracoes->delete($configuracao)) {

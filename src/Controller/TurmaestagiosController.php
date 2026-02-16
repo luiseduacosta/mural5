@@ -19,7 +19,8 @@ class TurmaestagiosController extends AppController {
      */
     public function index() {
         /** Autorização: Alunos não podem ver a listagem geral */
-        $user = $this->getRequest()->getAttribute('identity');
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
         if ($user->isStudent()) {
             return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
         }
@@ -38,7 +39,8 @@ class TurmaestagiosController extends AppController {
     public function view($id = null) {
 
         /** Autorização: Alunos não podem ver detalhes de turmas não relacionadas a eles (ou simplesmente não podem ver detalhes de turmas) */
-        $user = $this->getRequest()->getAttribute('identity');
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
         if ($user->isStudent()) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);

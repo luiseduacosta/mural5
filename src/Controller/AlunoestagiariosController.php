@@ -19,16 +19,17 @@ class AlunoestagiariosController extends AppController {
      */
     public function index() {
 
-        /** Alunos não podem ver os dados dos outros alunos */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
-
-            $alunoestagiarios = $this->paginate($this->Alunoestagiarios);
-
-            $this->set(compact('alunoestagiarios'));
-        } else {
-            $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $this->getRequest()->getAttribute('identity')['aluno_id']]);
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
+
+        $alunoestagiarios = $this->paginate($this->Alunoestagiarios);
+        $this->set(compact('alunoestagiarios'));
     }
 
     /**
@@ -39,6 +40,15 @@ class AlunoestagiariosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $alunoestagiario = $this->Alunoestagiarios->get($id, [
             'contain' => ['Estagiarios' => ['Instituicoes', 'Alunos', 'Professores', 'Supervisores']],
@@ -58,6 +68,15 @@ class AlunoestagiariosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $alunoestagiario = $this->Alunoestagiarios->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -80,6 +99,15 @@ class AlunoestagiariosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $alunoestagiario = $this->Alunoestagiarios->get($id, [
             'contain' => [],
@@ -104,6 +132,15 @@ class AlunoestagiariosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $this->request->allowMethod(['post', 'delete']);
         $alunoestagiario = $this->Alunoestagiarios->get($id, [

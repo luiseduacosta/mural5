@@ -20,6 +20,15 @@ class SupervisoresController extends AppController
      */
     public function index()
     {
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged in can access this page
+        if (!$user->isAdmin() || $user->isProfessor() || $user->isSupervisor() || $user->isStudent()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $supervisores = $this->paginate($this->Supervisores);
 
         $this->set(compact('supervisores'));
@@ -35,15 +44,20 @@ class SupervisoresController extends AppController
     public function view($id = null)
     {
 
-        if ($id == null) {
-            $cress = $this->getRequest()->getQuery('cress');
-            if ($cress) {
-                $query = $this->Supervisores->find()
-                    ->where(['cress' => $cress])
-                    ->first();
-                $id = $query->id;
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged Admin, professor or supervisor can access this page
+        if (!$user->isAdmin() || $user->isProfessor() || $user->isSupervisor()) {
+            if ($user->isSupervisor()) {
+                $supervisor = $this->Supervisores->get($id);
+                if ($user->id != $supervisor->user_id) {
+                    $this->Flash->error(__('Usuario nao autorizado.'));
+                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+                }
             }
         }
+
         $supervisor = $this->Supervisores->get($id, [
             'contain' => [
                 'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
@@ -67,6 +81,15 @@ class SupervisoresController extends AppController
      */
     public function add()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged Admin, professor or supervisor can access this page
+        if (!$user->isAdmin() || $user->isSupervisor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
         $cress = $this->getRequest()->getQuery('cress');
@@ -165,6 +188,21 @@ class SupervisoresController extends AppController
      */
     public function edit($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Admin or supervisor can access this page
+        if (!$user->isAdmin() || $user->isSupervisor()) {
+            if ($user->isSupervisor()) {
+                $supervisor = $this->Supervisores->get($id);
+                if ($user->id != $supervisor->user_id) {
+                    $this->Flash->error(__('Usuario nao autorizado.'));
+                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+                }
+            }
+        }
+
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
@@ -190,6 +228,16 @@ class SupervisoresController extends AppController
      */
     public function delete($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Admin or supervisor can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']

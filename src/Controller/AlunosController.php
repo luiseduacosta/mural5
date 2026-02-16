@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-// use CakePdf\View\PdfView
+use CakePdf\View\PdfView;
 
 /**
  * Alunos Controller
@@ -22,8 +22,9 @@ class AlunosController extends AppController {
     public function index($id = null) {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        $user = $this->getRequest()->getAttribute('identity');
-        if (!$user->isStudent()) {
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if ($user->isAdmin()) {
             $alunos = $this->paginate($this->Alunos);
             $this->set(compact('alunos'));
         } else {
@@ -40,9 +41,11 @@ class AlunosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         /** Autorização */
-        $user = $this->getRequest()->getAttribute('identity');
-        if ($user->isStudent() && $id != $user->aluno_id) {
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() && ($user->isStudent() && $id != $user->aluno_id)) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -66,6 +69,14 @@ class AlunosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add($id = NULL) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
         $registro = $this->getRequest()->getQuery('registro');
@@ -164,6 +175,14 @@ class AlunosController extends AppController {
      */
     public function edit($id = null) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin() && $user->isStudent() && $id != $user->aluno_id) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
+        }
+
         $aluno = $this->Alunos->get($id, [
             'contain' => [],
         ]);
@@ -187,6 +206,14 @@ class AlunosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $this->request->allowMethod(['post', 'delete']);
         $aluno = $this->Alunos->get($id, [
@@ -213,6 +240,14 @@ class AlunosController extends AppController {
      */
     public function planilhacress($id = NULL) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $periodo = $this->getRequest()->getQuery('periodo');
 
         $ordem = 'Alunos.nome';
@@ -228,7 +263,6 @@ class AlunosController extends AppController {
         if (empty($periodo)) {
             $periodo = end($periodos);
         }
-        // pr($periodos);
 
         $cress = $this->Alunos->Estagiarios->find()
                 ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores'])
@@ -237,12 +271,9 @@ class AlunosController extends AppController {
                 ->order(['Alunos.nome'])
                 ->all();
 
-        // pr($cress);
-        // die();
         $this->set('cress', $cress);
         $this->set('periodos', $periodos);
         $this->set('periodoselecionado', $periodo);
-        // die();
     }
 
     /**
@@ -252,6 +283,14 @@ class AlunosController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function planilhaseguro($id = NULL) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $periodo = $this->getRequest()->getQuery('periodo');
 
@@ -423,16 +462,13 @@ class AlunosController extends AppController {
      * @return void
      */
     public function certificadoperiodo($id = NULL) {
+
         /**
          * Autorização.
          */
-        $user = $this->getRequest()->getAttribute('identity');
-        if ($user->isStudent()) {
-            if ($id != $user->aluno_id) {
-                $this->Flash->error(__('Usuario nao autorizado.'));
-                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            }
-        } elseif (!$user->isAdmin()) {
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if ($user->isAdmin() || ($user->isStudent() && $id != $user->aluno_id)) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -516,15 +552,22 @@ class AlunosController extends AppController {
         $id = $this->getRequest()->getQuery('id');
         $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if ($user->isAdmin() || ($user->isStudent() && $id != $user->aluno_id)) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'certificadoperiodo', $id]);
+        }
+
         if ($id === null) {
             $this->Flash->error(__('Error: ID do aluno não informado'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', $id]);
-        } else {
-            $aluno = $this->Alunos->find()
-                    ->contain([])
-                    ->where(['Alunos.id' => $id])
-                    ->first();
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'certificadoperiodo', $id]);
         }
+        $aluno = $this->Alunos->find()
+                ->contain([])
+                ->where(['Alunos.id' => $id])
+                ->first();
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
@@ -548,6 +591,15 @@ class AlunosController extends AppController {
      * @return void
      */
     public function cargahoraria($ordem = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if ($user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         /** Aumenta a memória */
         ini_set('memory_limit', '2048M');
         $ordem = $this->getRequest()->getQuery('ordem');
@@ -556,22 +608,16 @@ class AlunosController extends AppController {
             $ordem = 'q_semestres';
         endif;
 
-        // pr($ordem);
-        // die();
-
         $alunos = $this->Alunos->find()->contain(['Estagiarios'])->toArray();
 
         $i = 0;
         foreach ($alunos as $aluno):
-            // pr($aluno->estagiarios);
             $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'] ?? null;
             $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'] ?? null;
             $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']) > 0 ? sizeof($aluno['estagiarios']) : null;
             $carga_estagio['ch'] = null;
             $y = 0;
             foreach ($aluno['estagiarios'] as $estagiario):
-                // pr($estagiario);
-                // die();
                 if ($estagiario['nivel'] == 1):
                     $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] != 0 ? $estagiario['ch'] : null;
                     $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
@@ -590,13 +636,9 @@ class AlunosController extends AppController {
             $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
             $criterio[$i] = $cargahorariatotal[$i][$ordem];
             $i++;
-            // endif;
         endforeach;
 
         array_multisort($criterio, SORT_ASC, $cargahorariatotal);
-        // pr($cargahorariatotal);
-        // die();
         $this->set('cargahorariatotal', $cargahorariatotal);
-        // die();
     }
 }

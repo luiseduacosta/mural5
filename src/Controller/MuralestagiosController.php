@@ -26,6 +26,11 @@ class MuralestagiosController extends AppController {
      */
     public function index($id = NULL) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody can access this page
+
         $periodo = $this->getRequest()->getQuery('periodo');
 
         if (empty($periodo)) {
@@ -64,6 +69,15 @@ class MuralestagiosController extends AppController {
      */
     public function view($id = null) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Everybody that is logged in can access this page
+        if (!$user->isAdmin() || $user->isStudent() || $user->isProfessor() || $user->isSupervisor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $muralestagio = $this->Muralestagios->get($id, [
             'contain' => ['Instituicoes', 'Professores', 'Inscricoes' => ['Alunos']]
         ]);
@@ -82,6 +96,17 @@ class MuralestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        $periodo = $this->getRequest()->getQuery('periodo');
 
         if (empty($periodo)) {
             $configuracaotabela = $this->fetchTable('Configuracoes');
@@ -121,6 +146,15 @@ class MuralestagiosController extends AppController {
      */
     public function edit($id = null) {
 
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $query = $this->Muralestagios->find('all', [
             'fields' => ['periodo'],
             'group' => ['periodo'],
@@ -159,6 +193,16 @@ class MuralestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null) {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        // Only admin can access this page
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $muralestagio = $this->Muralestagios->get($id, [
             'contain' => ['Inscricoes']

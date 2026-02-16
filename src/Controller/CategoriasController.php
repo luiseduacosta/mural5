@@ -18,6 +18,15 @@ class CategoriasController extends AppController
      */
     public function index()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $categorias = $this->paginate($this->Categorias);
 
         $this->set(compact('categorias'));
@@ -32,6 +41,15 @@ class CategoriasController extends AppController
      */
     public function view($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $categoria = $this->Categorias->get($id, [
             'contain' => [],
         ]);
@@ -46,6 +64,15 @@ class CategoriasController extends AppController
      */
     public function add()
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $categoria = $this->Categorias->newEmptyEntity();
         if ($this->request->is('post')) {
             $categoria = $this->Categorias->patchEntity($categoria, $this->request->getData());
@@ -68,6 +95,15 @@ class CategoriasController extends AppController
      */
     public function edit($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $categoria = $this->Categorias->get($id, [
             'contain' => [],
         ]);
@@ -92,6 +128,15 @@ class CategoriasController extends AppController
      */
     public function delete($id = null)
     {
+
+        /** Autorização */
+        $identity = $this->getRequest()->getAttribute('identity');
+        $user = $identity->getOriginalData();
+        if (!$user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
         $categoria = $this->Categorias->get($id);
         if ($this->Categorias->delete($categoria)) {
