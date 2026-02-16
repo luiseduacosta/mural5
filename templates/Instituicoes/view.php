@@ -4,11 +4,8 @@
  * @var \App\Model\Entity\Instituicao $instituicao
  */
 $user = $this->getRequest()->getAttribute('identity');
-// pr($instituicao);
-// pr($this->getRequest()->getAttribute('identity'));
-// die();
 ?>
-<div class="container">
+
     <div class="container">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -144,11 +141,6 @@ $user = $this->getRequest()->getAttribute('identity');
                             <td><?= h($instituicao->avaliacao) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Turma de estágio') ?></th>
-                            <td><?= $instituicao->hasValue('turmaestagio') ? $instituicao->turmaestagio->area : ''; ?>
-                            </td>
-                        </tr>
-                        <tr>
                             <th><?= __('Convênio') ?></th>
                             <td><?= ($instituicao->convenio == 0) ? 'Não' : 'Sim' ?></td>
                         </tr>
@@ -265,8 +257,6 @@ $user = $this->getRequest()->getAttribute('identity');
                                             <td><?= h($estagiarios->turno) ?></td>
                                             <td><?= h($estagiarios->tc) ?></td>
                                             <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
-                                            </td>
-                                            <td><?= $estagiarios->hasValue('turmaestagio') ? $estagiarios->turmaestagio->area : '' ?>
                                             </td>
                                             <td><?= !is_null($estagiarios->nota) ? $this->Number->format($estagiarios->nota, ['places' => 2]) : 'Sem dados' ?>
                                             </td>

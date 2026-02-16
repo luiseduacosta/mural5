@@ -22,7 +22,7 @@ class AlunosController extends AppController {
     public function index($id = null) {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] != 2) {
             $alunos = $this->paginate($this->Alunos);
             $this->set(compact('alunos'));
         } else {
@@ -40,20 +40,13 @@ class AlunosController extends AppController {
      */
     public function view($id = null) {
 
-        $registro = $this->getRequest()->getQuery('registro');
-        if ($registro) {
-            $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
-                    ->where(['registro' => $registro])
-                    ->first();
-        } else {
-            $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
-                    ->where(['id' => $id])
-                    ->first();
-        }
+        $aluno = $this->Alunos->find()
+            ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
+            ->where(['id' => $id])
+            ->first();
+
         if (!isset($aluno)) {
-            $this->Flash->error(__('Nao ha registros para esse numero!'));
+            $this->Flash->error(__('Nao ha registros para esse id!'));
             return $this->redirect(['action' => 'index']);
         }
 
@@ -100,7 +93,7 @@ class AlunosController extends AppController {
              * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
              */
             $registro = $this->request->getData('registro');
-            $usercadastrado = $this->Alunos->Users->find()
+            $usercadastrado = $this->fetchTable('Users')->find()
                     ->where(['categoria_id' => 2, 'registro' => $registro])
                     ->first();
             if (empty($usercadastrado)):
@@ -117,8 +110,8 @@ class AlunosController extends AppController {
                  * Verifico se está preenchido o campo aluno_id na tabela Users.
                  * Primeiro busco o usuário.
                  */
-                $userestagioestudante = $this->Alunos->Users->find()
-                        ->where(['aluno_id' => $alunoresultado->id])
+                $userestagioestudante = $this->fetchTable('Users')->find()
+                        ->where(['categoria_id' => 2, 'aluno_id' => $alunoresultado->id])
                         ->first();
 
                 /**
@@ -126,15 +119,13 @@ class AlunosController extends AppController {
                  */
                 if (empty($userestagioestudante)) {
 
-                    $userestagio = $this->Alunos->Users->find()
+                    $userestagio = $this->fetchTable('Users')->find()
                             ->where(['categoria_id' => 2, 'registro' => $alunoresultado->registro])
                             ->first();
-                    $userdata = $userestagio->toArray();
-                    /** Carrego o valor do campo aluno_id */
-                    $userdata['aluno_id'] = $alunoresultado->id;
 
-                    $userestagiostabela = $this->fetchTable('Users');
-                    $user_entity = $userestagiostabela->get($userestagio->id);
+                    $userdata = $userestagio->toArray();
+                    $userdata['aluno_id'] = $alunoresultado->id;        
+                    $user_entity = $this->fetchTable('Users')->get($userestagio->id);
                     /** Atualiza */
                     $userestagioresultado = $this->Alunos->Users->patchEntity($user_entity, $userdata);
                     if ($this->Alunos->Users->save($userestagioresultado)) {
@@ -210,14 +201,13 @@ class AlunosController extends AppController {
     /**
      * Planilha de CRESS
      *
-     * @param string|null $id Aluno id.
+     * @param string|null $id Aluno id, periodo, ordem.
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function planilhacress($id = NULL) {
 
-        $periodo = !is_null($this->getRequest()->getQuery('periodo')) ? $this->getRequest()->getQuery('periodo') : NULL;
-        // pr($periodo);
-        // die();
+        $periodo = $this->getRequest()->getQuery('periodo');
+
         $ordem = 'Alunos.nome';
 
         /* Todos os periódos */
@@ -431,33 +421,15 @@ class AlunosController extends AppController {
          */
         if ($this->getRequest()->getAttribute('identity')['categoria_id'] == '2') {
             $aluno_id = $this->getRequest()->getAttribute('identity')['aluno_id'];
-            if ($id == $aluno_id) {
-                /**
-                 * @var $option
-                 * Para consultar a tabela alunos com o id.
-                 */
-                $option = "id = $aluno_id";
+            if ($id != $aluno_id) {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
                 // echo "Aluno Id autorizado";
-            } else {
-                $estudante_registro = $this->getRequest()->getAttribute('identity')['registro'];
-                if ($estudante_registro == $this->getRequest()->getQuery('registro')) {
-                    /**
-                     * @var $option
-                     * Para consultar a tabela alunos com o registro
-                     */
-                    $option = "Alunos.registro  =  $estudante_registro";
-                    // echo "Aluno registro autorizado";
-                } else {
-                    // echo "Registros não coincidem" . "<br>";
-                    $this->Flash->error(__('1. Operação não autorizada.'));
-                    return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')['registro']]);
-                    // die('Aluno não autorizado.');
-                }
             }
         } elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1') {
             echo "Administrador autorizado";
         } else {
-            $this->Flash->error(__('2. Operação não autorizada.'));
+            $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             // die('Professores e Supervisores não autorizados');
         }
@@ -466,18 +438,18 @@ class AlunosController extends AppController {
          * Consulto a tabela alunos com o registro ou com o id
          */
         $aluno = $this->Alunos->find()
-                ->where([$option])
+                ->where(['id' => $id])
                 ->first();
         /**
          * Calculo a partir do ingresso em que periodo o aluno esté neste momento.
          */
         /* Capturo o periodo do calendario academico atual */
         $configuracaotabela = $this->fetchTable('Configuracoes');
-        $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
+        $configuracoes = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
         /**
          * Separo o periodo em duas partes: o ano e o indicador de primeiro ou segundo semestre.
          */
-        $periodo_atual = $periodoacademicoatual->periodo_calendario_academico;
+        $periodo_atual = $configuracoes->periodo_calendario_academico;
         /** Capturo o periodo inicial para o cálculo dos semetres.
          *  Inicialmente coincide com o campo de ingresso.
          *  Mas pode ser alterada para fazer coincider os semestres no casos dos alunos que trancaram.
@@ -522,18 +494,9 @@ class AlunosController extends AppController {
         /** Se o período inicial é maior que o período atual então informar que há um erro */
         if ($totalperiodos <= 0) {
             $this->Flash->error(__('Error: período inicial é maior que período atual'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', '?' => ['registro' => $this->getRequest()->getAttribute('identity')['registro']]]);
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', $id]);
         }
 
-        // pr($totalperiodos);
-        if (isset($this->getRequest()->getData()['novoperiodo'])) {
-            $aluno->periodonovo = $this->getRequest()->getData()['novoperiodo'];
-        } else {
-            $aluno->periodonovo = $aluno->ingresso;
-        }
-
-        // pr($aluno);
-        // die();
         $this->set('aluno', $aluno);
         $this->set('totalperiodos', $totalperiodos);
     }
@@ -552,7 +515,7 @@ class AlunosController extends AppController {
 
         if ($id === null) {
             $this->Flash->error(__('Error: ID do aluno não informado'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', '?' => ['id' => $id]]);
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', $id]);
         } else {
             $aluno = $this->Alunos->find()
                     ->contain([])

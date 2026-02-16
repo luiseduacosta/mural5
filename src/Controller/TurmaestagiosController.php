@@ -58,7 +58,6 @@ class TurmaestagiosController extends AppController {
                 $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
                 if ($this->Turmaestagios->save($turmaestagio)) {
                     $this->Flash->success(__('Turma de estagio inserida.'));
-
                     return $this->redirect(['action' => 'view', $turmaestagio->id]);
                 }
                 $this->Flash->error(__('Não foi possível inserir a Turma de estagio. Tente novamente.'));

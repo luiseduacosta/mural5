@@ -80,7 +80,7 @@
                         <td><?= h($instituicao->fim_de_semana) ?></td>
                         <td><?= h($instituicao->localInscricao) ?></td>
                         <td><?= $instituicao->convenio ?></td>
-                        <td><?= $instituicao->expira ? date('d-m-Y', strtotime(h($instituicao->expira))) : '' ?>
+                        <td><?= $instituicao->expira ? date('d-m-Y', strtotime($instituicao->expira)) : '' ?>
                         </td>
                         <td><?= h($instituicao->seguro) ?></td>
                         <td><?= h($instituicao->avaliacao) ?></td>

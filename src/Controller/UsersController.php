@@ -64,8 +64,7 @@ class UsersController extends AppController
     {
 
         $user = $this->Users->newEmptyEntity();
-        // pr($this->request->getData());
-        // die();
+
         if ($this->request->is('post')) {
 
             /** Aluno */
@@ -78,18 +77,17 @@ class UsersController extends AppController
                     ->where(['email' => $this->request->getData('email'), 'registro' => $this->request->getData('registro')])
                     ->first();
 
-                /* Se está cadastrado excluo para refazer a senha */
+                /* Se está cadastrado excluo para refazer nova senha */
                 if ($usercadastrado):
                     $this->Users->delete($usercadastrado->id);
                 endif;
 
-                /* Verifico se está cadatrado como aluno */
+                /* Verifico se está cadatrado na tabela alunos */
                 $estudantetabela = $this->fetchTable('Alunos');
                 $estudantecadastrado = $estudantetabela->find()
                     ->where(['registro' => $this->request->getData('registro')])
                     ->first();
-                // pr($estudantecadastrado);
-                // die();
+
                 /* Se está já cadastrado como aluno então capturo o id e aplico no usuer no campo aluno_id */
                 if ($estudantecadastrado) {
                     $dados['aluno_id'] = $estudantecadastrado->id;
@@ -117,7 +115,7 @@ class UsersController extends AppController
                         return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $this->request->getData('registro'), 'email' => $this->request->getData('email')]]);
                     }
                 }
-                $this->Flash->error(__('O usuário de estagio não foi cadastrado. Tente novamente.'));
+                $this->Flash->error(__('O usuário não foi cadastrado. Tente novamente.'));
                 return $this->redirect(['action' => 'login']);
             endif;
 
@@ -129,8 +127,7 @@ class UsersController extends AppController
                 $usercadastrado = $this->Users->find()
                     ->where(['email' => $this->request->getData('email')])
                     ->first();
-                // pr($usercadastrado);
-                // die();
+
                 /* Se está cadastrado excluo para refazer a senha */
                 if ($usercadastrado):
                     $this->Users->delete($usercadastrado->id);
@@ -141,12 +138,9 @@ class UsersController extends AppController
                 $professorcadastrado = $professortabela->find()
                     ->where(['siape' => $this->request->getData('registro')])
                     ->first();
-                // pr($professorcadastrado);
-                // die();
+
                 if ($professorcadastrado) {
                     $dados['professor_id'] = $professorcadastrado->id;
-                    // pr($dados);
-                    // die();
                     $userresultado = $this->Users->patchEntity($user, $dados);
                     if ($this->Users->save($userresultado)) {
                         $this->Flash->success(__('Professor cadastrado.'));
@@ -268,7 +262,7 @@ class UsersController extends AppController
             $this->Flash->error(__('Não foi possível excluir o usuário.'));
             return $this->redirect(['action' => 'view', $id]);
         }
-        // return $this->redirect(['action' => 'login']);
+        return $this->redirect(['action' => 'login']);
     }
 
     public function login()
@@ -342,6 +336,7 @@ class UsersController extends AppController
                 case 3:
                     echo "Professor";
                     $this->Flash->success(__('Bem-vindo(a) professor(a)!'));
+
                     $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
                     $this->getRequest()->getSession()->write('siape', $this->Authentication->getIdentityData('registro'));
                     $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
@@ -383,6 +378,7 @@ class UsersController extends AppController
                 case 4:
                     echo "Supervisor";
                     $this->Flash->success(__('Bem-vindo(a) supervisor(a)!'));
+
                     $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
                     $this->getRequest()->getSession()->write('cress', $this->Authentication->getIdentityData('registro'));
                     $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));

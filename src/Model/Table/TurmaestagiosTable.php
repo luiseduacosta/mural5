@@ -13,8 +13,6 @@ use Cake\Validation\Validator;
  * Turmaestagios Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
- * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\HasMany $Instituicoes
  * 
  * @method \App\Model\Entity\Turmaestagio newEmptyEntity()
  * @method \App\Model\Entity\Turmaestagio newEntity(array $data, array $options = [])

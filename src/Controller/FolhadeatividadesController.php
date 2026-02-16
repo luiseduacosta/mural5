@@ -81,9 +81,9 @@ class FolhadeatividadesController extends AppController
         if ($this->request->is('post')) {
             // pr($this->request->getData());
             $dados = $this->request->getData();
+            // Calculate horario: $dados->horario = $dados->final - $dados->inicio using DateTime
             $dados['horario'] = null;
-            // pr($dados);
-            // die();
+            $dados['horario'] = (new \DateTime($dados['final']))->diff(new \DateTime($dados['inicio']))->format('%H:%I:%S');
             $folhadeatividaderesposta = $this->Folhadeatividades->patchEntity($folhadeatividadeentity, $dados);
             // pr($folhadeatividaderesposta);
             // die();
@@ -222,10 +222,12 @@ class FolhadeatividadesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $folhadeatividade = $this->Folhadeatividades->patchEntity($folhadeatividade, $this->request->getData());
+            $dados = $this->request->getData();
+            $dados['horario'] = null;
+            $dados['horario'] = (new \DateTime($dados['final']))->diff(new \DateTime($dados['inicio']))->format('%H:%I:%S');
+            $folhadeatividade = $this->Folhadeatividades->patchEntity($folhadeatividade, $dados);
             if ($this->Folhadeatividades->save($folhadeatividade)) {
                 $this->Flash->success(__('Atividade atualizada.'));
-
                 return $this->redirect(['action' => 'view', $id]);
             }
             $this->Flash->error(__('Não foi possível atualizar. Tente outra vez.'));
@@ -235,8 +237,7 @@ class FolhadeatividadesController extends AppController
             ->contain(['Estagiarios' => ['Alunos']])
             ->select(['Estagiarios.id', 'Alunos.nome'])
             ->first();
-        // pr($estagiario);
-        // die();
+
         $this->set(compact('folhadeatividade', 'estagiario'));
     }
 
@@ -275,25 +276,23 @@ class FolhadeatividadesController extends AppController
     {
 
         /* No login foi capturado o id do estagiário */
-        $id = $this->getRequest()->getSession()->read('estagiario_id');
+        $estagiario_id = $this->getRequest()->getSession()->read('estagiario_id');
         $this->layout = false;
-        if (is_null($id)) {
+        if (!$estagiario_id) {
             $this->Flash->error(__('Selecione o estagiário e o período da folha de atividades'));
             return $this->redirect('/estagiarios/index');
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
                 ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
-                ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
+                ->where(['Estagiarios.id' => $estagiario_id])
                 ->orderByDesc('nivel')
                 ->all()
                 ->last();
             $this->set('estagiario', $estagiario);
             return $this->redirect(['controller' => 'alunos', 'action' => 'view', $estagiario->aluno_id]);
         }
-        // pr($estagiarios);
-        // die();
-    }
+     }
 
     /**
      * Folhadeatividadespdf method

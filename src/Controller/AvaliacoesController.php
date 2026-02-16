@@ -8,8 +8,8 @@ use App\Model\Table\AvaliacoesTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
-use function Cake\I18n\__;
-
+use Cake\I18n;
+    
 /**
  * Avaliacoes Controller
  *
@@ -28,15 +28,11 @@ class AvaliacoesController extends AppController
     {
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-        // pr($estagiario_id);
-        // die();
         if ($estagiario_id) {
             $estagiario = $this->Avaliacoes->Estagiarios->find('all')
                 ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
                 ->where(['Estagiarios.id' => $estagiario_id]);
 
-            // pr($estagiarios);
-            // die();
             $this->set('estagiario_id', $estagiario_id);
             $this->set('estagiario', $this->paginate($estagiario));
         } else {
@@ -55,16 +51,15 @@ class AvaliacoesController extends AppController
 
         /* O submenu_navegacao envia o cress */
         $cress = $this->getRequest()->getQuery('cress');
-        if (is_null($cress)) {
+        if ($cress == null) {
             $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['registro' => $this->getRequest()->getSession()->read('registro')]]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
         } else {
             $estagiario = $this->Avaliacoes->Estagiarios->find()
                 ->contain(['Supervisores', 'Alunos', 'Professores', 'Folhadeatividades'])
                 ->where(['Supervisores.cress' => $cress])
                 ->order(['periodo' => 'desc'])
                 ->all();
-            // pr($estagiario);
             $this->set('estagiario', $estagiario);
         }
     }
@@ -80,6 +75,7 @@ class AvaliacoesController extends AppController
     public function view($id = null)
     {
 
+        $estagiario_id = NULL;
         if ($id) {
             $avaliacao = $this->Avaliacoes->find()
                 ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Instituicoes']])
@@ -206,7 +202,7 @@ class AvaliacoesController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-/**
+    /**
      * Seleciona avaliacao method
      *
      * @param string|null $id Avaliaco id.
@@ -215,15 +211,15 @@ class AvaliacoesController extends AppController
     public function selecionaavaliacao($id = NULL)
     {
         /* No login foi capturado o id do estagiário */
-        $id = $this->getRequest()->getSession()->read('estagiario_id');
-        if (is_null($id)) {
+        $estagiario_id = $this->getRequest()->getSession()->read('estagiario_id');
+        if ($estagiario_id == null) {
             $this->Flash->error(__('Selecionar o aluno estagiário'));
             return $this->redirect('/alunos/index');
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()
                 ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
-                ->where(['Estagiarios.registro' => $this->getRequest()->getSession()->read('registro')])
+                ->where(['Estagiarios.registro' => $estagiario_id])
                 ->all();
         }
 
@@ -241,9 +237,9 @@ class AvaliacoesController extends AppController
 
         /* No login foi capturado o id do estagiário */
         $this->layout = false;
-        if (is_null($id)) {
+        if ($id == null) {
             $this->Flash->error(__('Por favor selecionar a folha de avaliação do estágio do aluno'));
-            return $this->redirect('/alunos/view?registro=' . $this->getRequest()->getSession()->read('registro'));
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['id' => $this->getRequest()->getAttribute('identity')['aluno_id']]]);
         } else {
             $avaliacaoquery = $this->Avaliacoes->find()
                 ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']])

@@ -13,7 +13,6 @@ use Cake\Validation\Validator;
  * Instituicoes Model
  *
  * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\BelongsTo $Areas
- * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
@@ -51,9 +50,6 @@ class InstituicoesTable extends Table {
 
         $this->belongsTo('Areas', [
             'foreignKey' => 'area_id',
-        ]);
-        $this->belongsTo('Turmaestagios', [
-            'foreignKey' => 'turmaestagio_id',
         ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicao_id',
@@ -95,9 +91,6 @@ class InstituicoesTable extends Table {
 
         $validator
                 ->allowEmptyString('institucao_id');
-
-        $validator
-                ->allowEmptyString('turmaestagio_id');
 
         $validator
                 ->scalar('natureza')
@@ -202,7 +195,6 @@ class InstituicoesTable extends Table {
     public function buildRules(RulesChecker $rules): RulesChecker {
 
         $rules->add($rules->existsIn(['area_id'], 'Areas'), ['errorField' => 'area_id']);
-        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
 
         return $rules;
     }

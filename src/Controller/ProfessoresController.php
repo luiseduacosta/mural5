@@ -32,7 +32,7 @@ class ProfessoresController extends AppController {
      */
     public function view($id = null) {
 
-        if (is_null($id)) {
+        if ($id == null) {
             $siape = $this->getRequest()->getQuery('siape');
             if (isset($siape)):
                 $idquery = $this->Professores->find()->where(['siape' => $siape]);
@@ -92,12 +92,12 @@ class ProfessoresController extends AppController {
 
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
-            $usercadastrado = $this->Professores->Users->find()
+            $usercadastrado = $this->fetchTable('Users')->find()
                     ->where(['categoria_id' => 3, 'registro' => $siape])
                     ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
-                return $this->redirect('/users/add');
+                return $this->redirect(['controller' => 'Users', 'action' => 'add', '?' => ['siape' => $siape]]);
             endif;
 
             $professorresultado = $this->Professores->patchEntity($professor, $this->request->getData());
@@ -108,27 +108,26 @@ class ProfessoresController extends AppController {
                  * Verifico se está preenchido o campo professor_id na tabela Users.
                  * Primeiro busco o usuário.
                  */
-                $userprofessor = $this->Professores->Users->find()
-                        ->where(['professor_id' => $professorresultado->id])
-                        ->first();
+                $userprofessor = $this->fetchTable('Users')->find()
+                    ->where(['professor_id' => $professorresultado->id])
+                    ->first();
 
                 /**
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
                  */
                 if (empty($userprofessor)) {
 
-                    $userestagio = $this->Professores->Users->find()
+                    $userestagio = $this->fetchTable('Users')->find()
                             ->where(['categoria_id' => 3, 'registro' => $professorresultado->siape])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $professorresultado->id;
-                    $userestagiostabela = $this->fetchTable('Users');
-                    $user_entity = $userestagiostabela->get($userestagio->id);
+                    $user_entity = $this->fetchTable('Users')->get($userestagio->id);
                     /** Atualiza */
                     $userestagioresultado = $this->Professores->Users->patchEntity($user_entity, $userdata);
                     // pr($userestagioresultado);
-                    if ($this->Professores->Users->save($userestagioresultado)) {
+                    if ($this->fetchTable('Users')->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do professor'));
                         return $this->redirect(['action' => 'view', $professorresultado->id]);
                     } else {
@@ -137,7 +136,7 @@ class ProfessoresController extends AppController {
                         return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
-                return $this->redirect(['action' => 'view', $professorresultado->id]);
+                return $this->redirect(['controller' => 'Professores', 'action' => 'view', $professorresultado->id]);
             }
             $this->Flash->error(__('Registro do(a) professor(a) não inserido. Tente novamente.'));
             return $this->redirect(['action' => 'add', '?' => ['siape' => $siape, 'email' => $email]]);

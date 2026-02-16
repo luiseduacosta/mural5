@@ -105,11 +105,6 @@
                         <td><?= $muralestagio->requisitos ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Turma de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $muralestagio->turmaestagio->id]) : 'Sem dados' ?>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><?= __('Horário da OTP') ?></th>
                         <td><?php
                         switch ($muralestagio->horario) {
@@ -211,7 +206,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Data fax') ?></th>
-                        <td><?= $muralestagio->datafax ? date('d-m-Y', strtotime(h($muralestagio->datafax))) : '' ?>
+                        <td><?= $muralestagio->datafax ? date('d-m-Y', strtotime($muralestagio->datafax)) : '' ?>
                         </td>
                     </tr>
                     <tr>
@@ -254,13 +249,13 @@
                         $dataDeHoje = new DateTime(null, $timeZone);
                         /** Se nao tem data de encerramento, coloco a data de hoje e deixo aberto */
                         if (empty($muralestagio->dataInscricao)) {
-                            $dataEnerramentoDaInscricao = new DateTime(null, $timeZone);
+                            $dataEncerramentoDaInscricao = new DateTime(null, $timeZone);
                         } else {
-                            $dataEnerramentoDaInscricao = DateTime::createFromFormat('d-m-Y', $muralestagio->dataInscricao, $timeZone);
+                            $dataEncerramentoDaInscricao = DateTime::createFromFormat('Y-m-d', $muralestagio->dataInscricao, $timeZone);
                         }
                         ?>
                         <tr>
-                            <?php if ($dataDeHoje <= $dataEnerramentoDaInscricao): ?>
+                            <?php if ($dataDeHoje <= $dataEncerramentoDaInscricao): ?>
                                 <td colspan=2 style="text-align: center">
                                     <?= $this->Html->link('Incricão', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => ['btn btn-sucess']]); ?>
                                 </td>
@@ -297,7 +292,7 @@
                                 <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
-                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                <td><?= date('d-m-Y', strtotime($inscricoes->data)) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
                                 <?php if (isset($user) && $user->categoria_id == 1): ?>
                                     <td>

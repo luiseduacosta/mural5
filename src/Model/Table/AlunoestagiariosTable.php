@@ -10,7 +10,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Alunoestagiarios Model
+ * Alunoestagiarios Model (obsoleto)
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * 

@@ -20,7 +20,7 @@ class InstituicoesController extends AppController {
     public function index() {
 
         $query = $this->Instituicoes->find('all')
-                ->contain(['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas']);
+                ->contain(['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas']);
 
         $instituicoes = $this->paginate($query);
 
@@ -35,8 +35,9 @@ class InstituicoesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
         $instituicao = $this->Instituicoes->get($id, [
-            'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas'],
+            'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
         ]);
 
         if (!isset($instituicao)) {
@@ -53,6 +54,7 @@ class InstituicoesController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add() {
+
         $instituicao = $this->Instituicoes->newEmptyEntity();
         if ($this->request->is('post')) {
             $instituicao = $this->Instituicoes->patchEntity($instituicao, $this->request->getData());
@@ -63,9 +65,8 @@ class InstituicoesController extends AppController {
             $this->Flash->error(__('Não foi possível inserir o registro instituicao. Tente novamente.'));
         }
         $areas = $this->Instituicoes->Areas->find('list');
-        $turmaestagios = $this->Instituicoes->Turmaestagios->find('list');
         $supervisores = $this->Instituicoes->Supervisores->find('list');
-        $this->set(compact('instituicao', 'areas', 'turmaestagios', 'supervisores'));
+        $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
     /**
@@ -76,6 +77,7 @@ class InstituicoesController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null) {
+
         $instituicao = $this->Instituicoes->get($id, [
             'contain' => ['Supervisores'],
         ]);
@@ -88,9 +90,8 @@ class InstituicoesController extends AppController {
             $this->Flash->error(__('Registro instituicao não foi inserido. Tente novamente.'));
         }
         $areas = $this->Instituicoes->Areas->find('list');
-        $turmaestagios = $this->Instituicoes->Turmaestagios->find('list');
         $supervisores = $this->Instituicoes->Supervisores->find('list');
-        $this->set(compact('instituicao', 'areas', 'supervisores', 'turmaestagios'));
+        $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
     /**

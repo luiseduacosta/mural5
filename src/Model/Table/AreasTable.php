@@ -10,7 +10,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Areas Model
+ * Areas Model (Areas das instituições de estágio)
  *
  * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\HasMany $Instituicoes
  * 

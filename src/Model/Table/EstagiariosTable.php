@@ -51,12 +51,12 @@ class EstagiariosTable extends Table {
         $this->setDisplayField('registro');
         $this->setPrimaryKey('id');
 
+        $this->belongsTo('Alunos', [
+            'foreignKey' => 'aluno_id',
+        ]);
         $this->belongsTo('Alunoestagiarios', [
             'foreignKey' => 'alunoestagiario_id',
             'joinType' => 'INNER',
-        ]);
-        $this->belongsTo('Alunos', [
-            'foreignKey' => 'aluno_id',
         ]);
         $this->belongsTo('Instituicoes', [
             'foreignKey' => 'instituicao_id',

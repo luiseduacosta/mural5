@@ -13,7 +13,6 @@ use Cake\Validation\Validator;
  * Muralestagios Model
  *
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
- * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
  *
@@ -50,9 +49,6 @@ class MuralestagiosTable extends Table {
         $this->belongsTo('Instituicoes', [
             'foreignKey' => 'instituicao_id',
             'propertyName' => 'instituicoes',
-        ]);
-        $this->belongsTo('Turmaestagios', [
-            'foreignKey' => ['turmaestagio_id'],
         ]);
         $this->belongsTo('Professores', [
             'foreignKey' => ['professor_id'],
@@ -177,7 +173,6 @@ class MuralestagiosTable extends Table {
     public function buildRules(RulesChecker $rules): RulesChecker {
 
         $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
-        $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
         $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 
         return $rules;

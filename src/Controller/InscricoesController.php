@@ -23,8 +23,8 @@ class InscricoesController extends AppController {
 
         if (empty($periodo)) {
             $configuracao = $this->fetchTable('Configuracoes');
-            $periodo_atual = $configuracao->find()->select(['mural_periodo_atual'])->first();
-            $periodo = $periodo_atual->mural_periodo_atual;
+            $configuracoes = $configuracao->find()->select(['mural_periodo_atual'])->first();
+            $periodo = $configuracoes->mural_periodo_atual;
         }
 
         /* Todos os periódos */
@@ -68,6 +68,7 @@ class InscricoesController extends AppController {
 
     /**
      * Add method
+     * @param string|null $muralestagio_id, $periodo.
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
@@ -78,9 +79,9 @@ class InscricoesController extends AppController {
 
         if (empty($periodo)) {
             $configuracaotabela = $this->fetchTable('Configuracoes');
-            $periodoconfiguracao = $configuracaotabela->find()
+            $configuracoes = $configuracaotabela->find()
                     ->first();
-            $periodo = $periodoconfiguracao->mural_periodo_atual;
+            $periodo = $configuracoes->mural_periodo_atual;
         }
 
         /** Capturo o id do aluno se estiver cadastrado. */
@@ -101,12 +102,12 @@ class InscricoesController extends AppController {
                         ->first();
             } else {
                 $this->Flash->error(__('Selecione aluno'));
-                return $this->redirect(['controller' => 'Inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio_id]]);
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
             }
 
             $alunostabela = $this->fetchTable('Alunos');
             $aluno = $alunostabela->find()
-                    ->where(['registro' => $aluno->registro])
+                    ->where(['id' => $aluno->id])
                     ->first();
 
             /** Verifico o periodo do mural e comparo com o periodo da inscricao */
@@ -124,8 +125,7 @@ class InscricoesController extends AppController {
             $inscricao = $this->Inscricoes->find()
                     ->where(['Inscricoes.aluno_id' => $aluno->id, 'Inscricoes.muralestagio_id' => $muralestagio->id])
                     ->first();
-            // pr($inscricao->id);
-            // die();
+
             if ($inscricao) {
                 $this->Flash->error(__("Inscrição já realizada"));
                 return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);
@@ -133,7 +133,8 @@ class InscricoesController extends AppController {
 
             /** Verifico se esté com o id do aluno */
             if (empty($aluno_id)) {
-                
+                $this->Flash->error(__('Selecione aluno'));
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
             }
 
             /** Preparo os dados para inseir na tabela */
@@ -141,9 +142,9 @@ class InscricoesController extends AppController {
             if ($aluno) {
                 $dados['aluno_id'] = $aluno->id;
             } else {
-                $dados['aluno_id'] = null;
+                $this->Flash->error(__('Aluno nao encontrado'));
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
             }
-            $dados['aluno_id'] = $aluno->id;
             $dados['muralestagio_id'] = $this->getRequest()->getData('muralestagio_id');
             $dados['data'] = date('Y-m-d');
             $dados['periodo'] = $this->getRequest()->getData('periodo');
@@ -153,10 +154,8 @@ class InscricoesController extends AppController {
                 $this->Flash->success(__('Registro de inscricao inserido.'));
                 return $this->redirect(['action' => 'view', $inscricaoresposta->id]);
             }
-            // debug($inscricao);
             $this->Flash->error(__('Registro de inscricao nao foi inserido. Tente novamente.'));
         }
-
         $alunotabela = $this->fetchTable('Alunos');
         $alunos = $alunotabela->find('list');
 

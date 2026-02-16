@@ -38,7 +38,6 @@
             <?php
             echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituiçõa']]);
             echo $this->Form->control('area_id', ['label' => ['text' => 'Área de instituições'], 'options' => $areas, 'empty' => true]);
-            echo $this->Form->control('area', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('natureza');
             echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ']]);
             echo $this->Form->control('email');
