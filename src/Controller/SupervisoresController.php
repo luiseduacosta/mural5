@@ -43,15 +43,25 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        // Everybody that is logged Admin, professor or supervisor can access this page
-        if (!$this->user->isAdmin() || $this->user->isProfessor() || $this->user->isSupervisor()) {
-            if ($this->user->isSupervisor()) {
-                $supervisor = $this->Supervisores->get($id);
-                if ($this->user->id != $supervisor->user_id) {
-                    $this->Flash->error(__('Usuario nao autorizado.'));
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                }
+        // Admin, professor, or supervisor can access this page
+        // Supervisors can only view their own record
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o supervisor!'));
+            return $this->redirect(['action' => 'index']);
+        }
+        
+        if ($this->user->isSupervisor()) {
+            // Supervisors can only view their own record
+            $supervisorCheck = $this->Supervisores->find()
+                ->where(['id' => $id])
+                ->first();
+            if (!$supervisorCheck || $this->user->supervisor_id != $supervisorCheck->id) {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
+        } elseif (!$this->user->isAdmin() && !$this->user->isProfessor()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         try {
@@ -61,12 +71,7 @@ class SupervisoresController extends AppController
                     'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
                 ]
             ]);
-        } catch (\Exception $e) {
-            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
-            return $this->redirect(['action' => 'index']);
-        }
-
-        if (!isset($supervisor)) {
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -83,8 +88,8 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        // Everybody that is logged Admin, professor or supervisor can access this page
-        if (!$this->user->isAdmin() || $this->user->isSupervisor()) {
+        // Only admin can add supervisors
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -109,7 +114,7 @@ class SupervisoresController extends AppController
 
             if ($supervisorcadastrado):
                 $this->Flash->error(__('Supervisor(a) já cadastrado(a)'));
-                return $this->redirect(['view' => $supervisorcadastrado->id]);
+                return $this->redirect(['action' => 'view', $supervisorcadastrado->id]);
             endif;
         }
 
@@ -126,7 +131,7 @@ class SupervisoresController extends AppController
                 ->where(['categoria_id' => 4, 'registro' => $cress])
                 ->first();
             if (empty($usercadastrado)):
-                $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
+                $this->Flash->error(__('Supervisor(a) não cadastrado(a) como usuário(a)'));
                 return $this->redirect(['controller' => 'Users', 'action' => 'add', '?' => ['cress' => $cress]]);
             endif;
 
@@ -146,10 +151,15 @@ class SupervisoresController extends AppController
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do supervisor_id.
                  */
                 if (empty($usersupervisor)) {
-
                     $userestagio = $this->fetchTable('Users')->find()
                         ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
                         ->first();
+                    
+                    if (!$userestagio) {
+                        $this->Flash->error(__('Usuário não encontrado para atualização.'));
+                        return $this->redirect(['action' => 'view', $supervisorresultado->id]);
+                    }
+                    
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo supervisor_id */
                     $userdata['supervisor_id'] = $supervisorresultado->id;
@@ -163,8 +173,7 @@ class SupervisoresController extends AppController
                         $this->Flash->success(__('Usuário atualizado com o id do supervisor'));
                         return $this->redirect(['action' => 'view', $supervisorresultado->id]);
                     } else {
-                        $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do supervisor'));
-                        // debug($users->getErrors());
+                        $this->Flash->error(__('Não foi possível atualizar a tabela Users com o id do supervisor'));
                         return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
@@ -188,15 +197,24 @@ class SupervisoresController extends AppController
     {
 
         /** Autorização */
-        // Admin or supervisor can access this page
-        if (!$this->user->isAdmin() || $this->user->isSupervisor()) {
-            if ($this->user->isSupervisor()) {
-                $supervisor = $this->Supervisores->get($id);
-                if ($this->user->id != $supervisor->user_id) {
-                    $this->Flash->error(__('Usuario nao autorizado.'));
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                }
+        // Admin can edit any supervisor, or supervisors can edit their own record
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o supervisor!'));
+            return $this->redirect(['action' => 'index']);
+        }
+        
+        if ($this->user->isSupervisor()) {
+            // Supervisors can only edit their own record
+            $supervisorCheck = $this->Supervisores->find()
+                ->where(['id' => $id])
+                ->first();
+            if (!$supervisorCheck || $this->user->supervisor_id != $supervisorCheck->id) {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             }
+        } elseif (!$this->user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         try {
@@ -249,15 +267,15 @@ class SupervisoresController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        if (sizeof($supervisor->estagiarios) > 0) {
-            $this->Flash->error(__('Supervisor(a) com estagiarios'));
+        if (!empty($supervisor->estagiarios) && count($supervisor->estagiarios) > 0) {
+            $this->Flash->error(__('Supervisor(a) com estagiários associados. Não é possível excluir.'));
             return $this->redirect(['controller' => 'supervisores', 'action' => 'view', $id]);
         }
 
         if ($this->Supervisores->delete($supervisor)) {
-            $this->Flash->success(__('The supervisor has been deleted.'));
+            $this->Flash->success(__('Registro de supervisor(a) excluído.'));
         } else {
-            $this->Flash->error(__('The supervisor could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro de supervisor(a) não foi excluído. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);

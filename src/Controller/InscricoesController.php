@@ -20,7 +20,7 @@ class InscricoesController extends AppController {
     public function index() {
 
         /** Autorização: Apenas administradores e estudantes podem ver inscrições */
-        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
+        if (!$this->user || (!$this->user->isAdmin() && !$this->user->isStudent())) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -30,7 +30,9 @@ class InscricoesController extends AppController {
         if (empty($periodo)) {
             $configuracao = $this->fetchTable('Configuracoes');
             $configuracoes = $configuracao->find()->select(['mural_periodo_atual'])->first();
-            $periodo = $configuracoes->mural_periodo_atual;
+            if ($configuracoes && isset($configuracoes->mural_periodo_atual)) {
+                $periodo = $configuracoes->mural_periodo_atual;
+            }
         }
         
         /* Todos os periódos */
@@ -43,9 +45,10 @@ class InscricoesController extends AppController {
         $periodos = $periodototal->toArray();
         
         $query = $this->Inscricoes->find()
-                ->contain(['Alunos', 'Muralestagios'])
-                ->where(['Inscricoes.periodo' => $periodo]);
-
+                ->contain(['Alunos', 'Muralestagios']);
+        if (!empty($periodo)) {
+            $query = $query->where(['Inscricoes.periodo' => $periodo]);
+        }
         $inscricoes = $this->paginate($query);
 
         $this->set(compact('inscricoes', 'periodos', 'periodo'));
@@ -62,8 +65,13 @@ class InscricoesController extends AppController {
 
         /** Autorização */
         // Only admin or student can view
-        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
+        if (!$this->user || (!$this->user->isAdmin() && !$this->user->isStudent())) {
             $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a inscrição!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
@@ -71,7 +79,7 @@ class InscricoesController extends AppController {
             $inscricao = $this->Inscricoes->get($id, [
                 'contain' => ['Alunos', 'Muralestagios'],
             ]);
-        } catch (RecordNotFoundException $e) {
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de inscricao para esse(a) aluno(a)!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -89,7 +97,7 @@ class InscricoesController extends AppController {
 
         /** Autorização */
         // Only admin or student can add
-        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
+        if (!$this->user || (!$this->user->isAdmin() && !$this->user->isStudent())) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -101,7 +109,9 @@ class InscricoesController extends AppController {
             $configuracaotabela = $this->fetchTable('Configuracoes');
             $configuracoes = $configuracaotabela->find()
                     ->first();
-            $periodo = $configuracoes->mural_periodo_atual;
+            if ($configuracoes && isset($configuracoes->mural_periodo_atual)) {
+                $periodo = $configuracoes->mural_periodo_atual;
+            }
         }
 
         /** Capturo o id do aluno se estiver cadastrado. */
@@ -112,6 +122,7 @@ class InscricoesController extends AppController {
         if ($this->request->is('post')) {
 
             $alunostabela = $this->fetchTable('Alunos');
+            $aluno = null;
             if (isset($aluno_id)) {
                 $aluno = $alunostabela->find()
                         ->where(['id' => $aluno_id])
@@ -120,15 +131,12 @@ class InscricoesController extends AppController {
                 $aluno = $alunostabela->find()
                         ->where(['id' => $this->getRequest()->getData('aluno_id')])
                         ->first();
-            } else {
+            }
+
+            if (!$aluno) {
                 $this->Flash->error(__('Selecione aluno'));
                 return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
             }
-
-            $alunostabela = $this->fetchTable('Alunos');
-            $aluno = $alunostabela->find()
-                    ->where(['id' => $aluno->id])
-                    ->first();
 
             /** Verifico o periodo do mural e comparo com o periodo da inscricao */
             $muralestagiotabela = $this->fetchTable('Muralestagios');
@@ -136,7 +144,12 @@ class InscricoesController extends AppController {
                     ->where(['id' => $this->getRequest()->getData('muralestagio_id')])
                     ->first();
 
-            if ($muralestagio->periodo <> $this->getRequest()->getData('periodo')) {
+            if (!$muralestagio) {
+                $this->Flash->error(__('Mural de estágio não encontrado.'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            }
+
+            if ($muralestagio->periodo != $this->getRequest()->getData('periodo')) {
                 $this->Flash->error(__('O periodo de inscricao nao coincide com o periodo do Mural.'));
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'view', $this->getRequest()->getData('muralestagio_id')]);
             }
@@ -151,20 +164,10 @@ class InscricoesController extends AppController {
                 return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);
             }
 
-            /** Verifico se esté com o id do aluno */
-            if (empty($aluno_id)) {
-                $this->Flash->error(__('Selecione aluno'));
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-            }
-
-            /** Preparo os dados para inseir na tabela */
+            /** Preparo os dados para inserir na tabela */
+            $dados = [];
             $dados['registro'] = $aluno->registro;
-            if ($aluno) {
-                $dados['aluno_id'] = $aluno->id;
-            } else {
-                $this->Flash->error(__('Aluno nao encontrado'));
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-            }
+            $dados['aluno_id'] = $aluno->id;
             $dados['muralestagio_id'] = $this->getRequest()->getData('muralestagio_id');
             $dados['data'] = date('Y-m-d');
             $dados['periodo'] = $this->getRequest()->getData('periodo');
@@ -204,14 +207,25 @@ class InscricoesController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Alunos'],
-        ]);
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a inscrição!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $inscricao = $this->Inscricoes->get($id, [
+                'contain' => ['Alunos'],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Nao ha registros de inscricao para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $inscricaoresultado = $this->Inscricoes->patchEntity($inscricao, $this->request->getData());
             if ($this->Inscricoes->save($inscricaoresultado)) {
@@ -223,7 +237,7 @@ class InscricoesController extends AppController {
         }
         $alunos = $this->Inscricoes->Alunos->find('list', ['limit' => 200]);
         $muralestagios = $this->Inscricoes->Muralestagios->find('list', ['limit' => 200]);
-        $this->set(compact('inscricao', 'alunos', 'alunos', 'muralestagios'));
+        $this->set(compact('inscricao', 'alunos', 'muralestagios'));
     }
 
     /**
@@ -236,30 +250,39 @@ class InscricoesController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isStudent()) {
-            if ($this->user->isStudent()) {
-                $inscricao = $this->Inscricoes->find()
-                    ->where(['id' => $id, 'aluno_id' => $this->user->aluno_id])
-                    ->first();
-                if (!$inscricao) {
-                    $this->Flash->error(__('Usuario nao autorizado.'));
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                }
-            }
+        if (!$this->user || (!$this->user->isAdmin() && !$this->user->isStudent())) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        /** Para retornar para o registro do aluno */
-        $aluno = $this->Inscricoes->find()->where(['id' => $id])->select(['aluno_id'])->first();
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a inscrição!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->request->allowMethod(['post', 'delete']);
-        $inscricao = $this->Inscricoes->get($id);
+
+        try {
+            $inscricao = $this->Inscricoes->get($id, ['contain' => []]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Nao ha registros de inscricao para esse numero!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        /** Students can only delete their own inscriptions */
+        if ($this->user->isStudent() && $inscricao->aluno_id != $this->user->aluno_id) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        $aluno_id = $inscricao->aluno_id;
+
         if ($this->Inscricoes->delete($inscricao)) {
             $this->Flash->success(__('Registro de inscricao excluido.'));
-            return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         } else {
             $this->Flash->error(__('Registro de inscricao nao foi excluido. Tente novamente.'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $aluno->id]);
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $aluno_id]);
         }
     }
 }

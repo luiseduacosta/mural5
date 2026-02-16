@@ -39,12 +39,16 @@ class AlunosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o aluno!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
-        if (!$this->user->isAdmin() && (!$this->user->isStudent())) {
-            if ($this->user->isStudent() && $id != $this->user->aluno_id) {
-                $this->Flash->error(__('Não autorizado!'));
-                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            }
+        /** Autorização */
+        // Students can only view their own record, admins/professors/supervisors can view any
+        if ($this->user->isStudent() && $id != $this->user->aluno_id) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         try {
@@ -57,7 +61,7 @@ class AlunosController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         
-        if (!isset($aluno)) {
+        if (!$aluno) {
             $this->Flash->error(__('Nao ha registros para esse id!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -99,7 +103,7 @@ class AlunosController extends AppController {
 
             if ($estudantecadastrado):
                 $this->Flash->error(__('Aluno já cadastrado'));
-                return $this->redirect(['view' => $estudantecadastrado->id]);
+                return $this->redirect(['action' => 'view', $estudantecadastrado->id]);
             endif;
         }
 
@@ -116,8 +120,8 @@ class AlunosController extends AppController {
                     ->where(['categoria_id' => 2, 'registro' => $registro])
                     ->first();
             if (empty($usercadastrado)):
-                $this->Flash->error(__('Aluno naõ cadastrado como usuário'));
-                return $this->redirect('/users/add');
+                $this->Flash->error(__('Aluno não cadastrado como usuário'));
+                return $this->redirect(['controller' => 'users', 'action' => 'add']);
             endif;
 
             $alunoresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
@@ -151,14 +155,12 @@ class AlunosController extends AppController {
                         $this->Flash->success(__('Usuário atualizado com o id do aluno'));
                         return $this->redirect(['action' => 'view', $alunoresultado->id]);
                     } else {
-                        $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do aluno'));
-                        // debug($users->getErrors());
+                        $this->Flash->error(__('Não foi possível atualizar a tabela Users com o id do aluno'));
                         return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
                 return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $alunoresultado->id]);
             } else {
-                // debug($aluno)->getErrors();
                 $this->Flash->error(__('Não foi possível cadastrar o aluno. Tente novamente.'));
                 return $this->redirect(['action' => 'add', '?' => ['registro' => $registro, 'email' => $email]]);
             }
@@ -177,9 +179,15 @@ class AlunosController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
+        // Only admin can edit any student, or students can edit their own record
+        if (!$this->user->isAdmin() && !($this->user->isStudent() && $id == $this->user->aluno_id)) {
             $this->Flash->error(__('Não autorizado!'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
+        }
+        
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o aluno!'));
+            return $this->redirect(['action' => 'index']);
         }
 
         try {
@@ -228,8 +236,8 @@ class AlunosController extends AppController {
             $this->Flash->error(__('Nao ha registros para esse id!'));
             return $this->redirect(['action' => 'index']);
         }
-        if (sizeof($aluno->estagiarios) > 0) {
-            $this->Flash->error(__('Aluno tem estagiários associados.'));
+        if (!empty($aluno->estagiarios) && count($aluno->estagiarios) > 0) {
+            $this->Flash->error(__('Aluno tem estagiários associados. Não é possível excluir.'));
             return $this->redirect(['controller' => 'alunos', 'action' => 'view', $id]);
         }
 
@@ -338,104 +346,120 @@ class AlunosController extends AppController {
         If the semestre of the inicial period (nivel 1) is 2, then when ajuste2020 is 0 then the end period is (ano + 2 e semestre = 1 or when ajuste2020 is 1 then the end period is ano + 1 e semestre = 2).
         */
         $t_seguro = [];
+        $criterio = [];
         $inicio = null;
         $final = null;
         foreach ($seguro as $c_seguro) {
             $ajuste2020 = $c_seguro->ajuste2020;
-            // Calula o inicio do estágio
-            $semestre = explode('-', $c_seguro->periodo);
-            $ano = $semestre[0];
-            $semestre = $semestre[1];
+            // Calcula o inicio do estágio
+            $periodo_parts = explode('-', $c_seguro->periodo);
+            $ano = (int)$periodo_parts[0];
+            $semestre_num = (int)$periodo_parts[1];
             switch ($c_seguro->nivel) {
                 case 1:
-                    $inicio = $ano . "-" . $semestre;
+                    $inicio_ano = $ano;
+                    $inicio_semestre = $semestre_num;
                     break;
                 case 2: // retrocede 1 semestre
                     // Ex. 2024-1 -> 2023-2
-                    if ($semestre == 1) {
-                        $ano = $ano - 1;
-                        $semestre = 2;
+                    if ($semestre_num == 1) {
+                        $inicio_ano = $ano - 1;
+                        $inicio_semestre = 2;
                         // Ex. 2024-2 -> 2024-1
-                    } elseif ($semestre == 2) {
-                        $ano = $ano +0; // não altera
-                        $semestre = 1;
+                    } else { // $semestre_num == 2
+                        $inicio_ano = $ano;
+                        $inicio_semestre = 1;
                     }
                     break;
                 case 3: // retrocede 2 semestres
                     // Ex. 2024-1 -> 2023-1
-                    if ($semestre == 1) {
-                        $ano = $ano - 1;
-                        $semestre = 1;
+                    if ($semestre_num == 1) {
+                        $inicio_ano = $ano - 1;
+                        $inicio_semestre = 1;
                         // Ex. 2024-2 -> 2023-2
-                    } elseif ($semestre == 2) {
-                        $ano = $ano - 1;
-                        $semestre = 2;
+                    } else { // $semestre_num == 2
+                        $inicio_ano = $ano - 1;
+                        $inicio_semestre = 2;
                     }
                     break;
                 case 4: // retrocede 3 semestres
                     // Ex. 2010-1 -> 2008-2
-                    if ($semestre == 1) {
-                        $ano = $ano - 2;
-                        $semestre = 2;
+                    if ($semestre_num == 1) {
+                        $inicio_ano = $ano - 2;
+                        $inicio_semestre = 2;
                         // Ex. 2010-2 -> 2009-1
-                    } elseif ($semestre == 2) {
-                        $ano = $ano - 1;
-                        $semestre = 1;
+                    } else { // $semestre_num == 2
+                        $inicio_ano = $ano - 1;
+                        $inicio_semestre = 1;
                     }
                     break;
                 case 9: // retrocede 4 ou 5 semestres em função do ajuste2020
                     if ($ajuste2020 == 1) { // retrocede 4 semestres
-                        if ($semestre == 1) { // Ex. 2024-1 -> 2022-2
-                            $ano = $ano - 2;
-                            $semestre = 2;
-                        } elseif ($semestre == 2) { // Ex. 2024-2 -> 2023-1
-                            $ano = $ano - 1;
-                            $semestre = 1;
+                        if ($semestre_num == 1) { // Ex. 2024-1 -> 2022-2
+                            $inicio_ano = $ano - 2;
+                            $inicio_semestre = 2;
+                        } else { // $semestre_num == 2, Ex. 2024-2 -> 2023-1
+                            $inicio_ano = $ano - 1;
+                            $inicio_semestre = 1;
                         } 
-                    } elseif ($ajuste2020 == 0) { // retrocede 5 semestres
-                        if ($semestre == 1) { // Ex. 2024-1 -> 2022-1
-                            $ano = $ano - 2;
-                            $semestre = 1;
-                        } elseif ($semestre == 2) { // Ex. 2024-2 -> 2022-2
-                            $ano = $ano - 2;
-                            $semestre = 2;
+                    } else { // $ajuste2020 == 0, retrocede 5 semestres
+                        if ($semestre_num == 1) { // Ex. 2024-1 -> 2022-1
+                            $inicio_ano = $ano - 2;
+                            $inicio_semestre = 1;
+                        } else { // $semestre_num == 2, Ex. 2024-2 -> 2022-2
+                            $inicio_ano = $ano - 2;
+                            $inicio_semestre = 2;
                         }
                     }
                     break;
+                default:
+                    $inicio_ano = $ano;
+                    $inicio_semestre = $semestre_num;
+                    break;
             }
-            $inicio = $ano . "-" . $semestre;
+            $inicio = $inicio_ano . "-" . $inicio_semestre;
             
             // Calcula o final do estágio: $inicio + 2 ou 3 semestres dependendo do ajuste2020
-            // Números $ano e $semestre são os valores do inicio do estágio
-            switch ($ajuste2020 ) {
+            // Números $inicio_ano e $inicio_semestre são os valores do inicio do estágio
+            switch ($ajuste2020) {
                 case 0: // 4 semestres
                     // Ex. 2024-1 -> 2025-2
-                    if ($semestre == 1) {
-                        $final = ($ano + 1) . "-" . 2;
+                    if ($inicio_semestre == 1) {
+                        $final = ($inicio_ano + 1) . "-" . 2;
                         // Ex. 2024-2 -> 2026-1
-                    } elseif ($semestre == 2) {
-                        $final = ($ano + 2) . "-" . 1;
+                    } else { // $inicio_semestre == 2
+                        $final = ($inicio_ano + 2) . "-" . 1;
                     }
                     break;
                 case 1: // 3 semestres
                     // Ex. 2024-1 -> 2025-1
-                    if ($semestre == 1) {
-                        $final = ($ano + 1) . "-" . 1;
+                    if ($inicio_semestre == 1) {
+                        $final = ($inicio_ano + 1) . "-" . 1;
                         // Ex. 2024-2 -> 2025-2
-                    } elseif ($semestre == 2) {
-                        $final = ($ano + 1) . "-" . 2;
+                    } else { // $inicio_semestre == 2
+                        $final = ($inicio_ano + 1) . "-" . 2;
                     }
+                    break;
+                default:
+                    $final = $inicio;
                     break;
             }
 
-            // echo "Nível: " . $c_seguro['Estagiario']['nivel'] . " Período: " . $c_seguro['Estagiario']['periodo'] . " Início: " . $inicio . " Final: " . $final . '<br>';
-
-            $t_seguro[$i]['id'] = $c_seguro->aluno->id;
-            $t_seguro[$i]['nome'] = $c_seguro->aluno->nome;
-            $t_seguro[$i]['cpf'] = $c_seguro->aluno->cpf;
-            $t_seguro[$i]['nascimento'] = $c_seguro->aluno->nascimento;
-            $t_seguro[$i]['sexo'] = "";
-            $t_seguro[$i]['registro'] = $c_seguro->aluno->registro;
+            if ($c_seguro->hasValue('aluno')) {
+                $t_seguro[$i]['id'] = $c_seguro->aluno->id;
+                $t_seguro[$i]['nome'] = $c_seguro->aluno->nome;
+                $t_seguro[$i]['cpf'] = $c_seguro->aluno->cpf;
+                $t_seguro[$i]['nascimento'] = $c_seguro->aluno->nascimento;
+                $t_seguro[$i]['sexo'] = "";
+                $t_seguro[$i]['registro'] = $c_seguro->aluno->registro;
+            } else {
+                $t_seguro[$i]['id'] = null;
+                $t_seguro[$i]['nome'] = null;
+                $t_seguro[$i]['cpf'] = null;
+                $t_seguro[$i]['nascimento'] = null;
+                $t_seguro[$i]['sexo'] = "";
+                $t_seguro[$i]['registro'] = null;
+            }
             $t_seguro[$i]['curso'] = "UFRJ/Serviço Social";
             if ($c_seguro->nivel == 9):
                 $t_seguro[$i]['nivel'] = "Não obrigatório";
@@ -445,20 +469,22 @@ class AlunosController extends AppController {
             $t_seguro[$i]['periodo'] = $c_seguro->periodo;
             $t_seguro[$i]['inicio'] = $inicio;
             $t_seguro[$i]['final'] = $final;
-            $t_seguro[$i]['instituicao'] = $c_seguro->instituicao->instituicao;
-            $criterio[$i] = $t_seguro[$i][$ordem];
+            if ($c_seguro->hasValue('instituicao')) {
+                $t_seguro[$i]['instituicao'] = $c_seguro->instituicao->instituicao;
+            } else {
+                $t_seguro[$i]['instituicao'] = null;
+            }
+            $criterio[$i] = isset($t_seguro[$i][$ordem]) ? $t_seguro[$i][$ordem] : null;
 
             $i++;
         }
 
-        if (!empty($t_seguro)) {
+        if (!empty($t_seguro) && !empty($criterio)) {
             array_multisort($criterio, SORT_ASC, $t_seguro);
         }
-        // pr($t_seguro);
         $this->set('t_seguro', $t_seguro);
         $this->set('periodos', $periodos);
         $this->set('periodoselecionado', $periodo);
-        // die();
     }
 
     /**
@@ -472,8 +498,14 @@ class AlunosController extends AppController {
         /**
          * Autorização.
          */
-        if ($this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
+        // Only admin can access any student, or students can access their own record
+        if (!$this->user->isAdmin() && !($this->user->isStudent() && $id == $this->user->aluno_id)) {
             $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+        
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o aluno!'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
@@ -489,6 +521,12 @@ class AlunosController extends AppController {
         /* Capturo o periodo do calendario academico atual */
         $configuracaotabela = $this->fetchTable('Configuracoes');
         $configuracoes = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
+        
+        if (!$configuracoes || !isset($configuracoes->periodo_calendario_academico)) {
+            $this->Flash->error(__('Configuração de período não encontrada.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+        
         /**
          * Separo o periodo em duas partes: o ano e o indicador de primeiro ou segundo semestre.
          */
@@ -506,37 +544,33 @@ class AlunosController extends AppController {
 
         $inicial = explode('-', $periodo_inicial);
         $atual = explode('-', $periodo_atual);
-        // echo $atual[0] . ' ' . $inicial[0] . '<br>';
 
         /**
          * Calculo o total de semestres
          */
         $semestres = (($atual[0] - $inicial[0]) + 1) * 2;
-        // pr($semestres);
+        $totalperiodos = 0;
 
         /** Se começa no semestre 1 e finaliza no 2 então são anos inteiros */
         if (($inicial[1] == 1) && ($atual[1] == 2)) {
             $totalperiodos = $semestres;
         }
-
         /** Se começa no semestre 1 e finaliza no 1 então perdeu um semestre (o segundo semestre atual) */
-        if (($inicial[1] == 1) && ($atual[1] == 1)) {
+        elseif (($inicial[1] == 1) && ($atual[1] == 1)) {
             $totalperiodos = $semestres - 1;
         }
-
         /** Se começa no semestre 2 e finaliza no 2 então perdeu um semestre (o primeiro semestre inicial) */
-        if (($inicial[1] == 2) && ($atual[1] == 2)) {
+        elseif (($inicial[1] == 2) && ($atual[1] == 2)) {
             $totalperiodos = $semestres - 1;
         }
-
         /** Se começa no semestre 2 e finaliza no semestre 1 então perdeu dois semestres (o primeiro do ano inicial e o segundo do ano atual) */
-        if (($inicial[1] == 2) && ($atual[1] == 1)) {
+        elseif (($inicial[1] == 2) && ($atual[1] == 1)) {
             $totalperiodos = $semestres - 2;
         }
 
         /** Se o período inicial é maior que o período atual então informar que há um erro */
         if ($totalperiodos <= 0) {
-            $this->Flash->error(__('Error: período inicial é maior que período atual'));
+            $this->Flash->error(__('Erro: período inicial é maior que período atual'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', $id]);
         }
 
@@ -553,9 +587,10 @@ class AlunosController extends AppController {
     public function certificadoperiodopdf($id = NULL) {
 
         /** Autorização */
-        if ($this->user->isAdmin() || ($this->user->isStudent() && $id != $this->user->aluno_id)) {
+        // Only admin can access any student, or students can access their own record
+        if (!$this->user->isAdmin() && !($this->user->isStudent() && $id == $this->user->aluno_id)) {
             $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'certificadoperiodo', $id]);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->layout = false;
@@ -595,7 +630,8 @@ class AlunosController extends AppController {
     public function cargahoraria($ordem = null) {
 
         /** Autorização */
-        if ($this->user->isAdmin()) {
+        // Only admin can access this page
+        if (!$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }

@@ -42,12 +42,16 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o usuário!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
-        $userestagio = $this->Users->get($id, [
-            'contain' => ['Alunos', 'Supervisores', 'Professores'],
-        ]);
-
-        if (!isset($userestagio)) {
+        try {
+            $userestagio = $this->Users->get($id, [
+                'contain' => ['Alunos', 'Supervisores', 'Professores'],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de usuario para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -79,7 +83,12 @@ class UsersController extends AppController
 
                 /* Se está cadastrado excluo para refazer nova senha */
                 if ($usercadastrado):
-                    $this->Users->delete($usercadastrado->id);
+                    try {
+                        $this->Users->delete($usercadastrado);
+                    } catch (\Exception $e) {
+                        $this->Flash->error(__('Erro ao excluir usuário existente. Tente novamente.'));
+                        return $this->redirect(['action' => 'add']);
+                    }
                 endif;
 
                 /* Verifico se está cadatrado na tabela alunos */
@@ -130,7 +139,12 @@ class UsersController extends AppController
 
                 /* Se está cadastrado excluo para refazer a senha */
                 if ($usercadastrado):
-                    $this->Users->delete($usercadastrado->id);
+                    try {
+                        $this->Users->delete($usercadastrado);
+                    } catch (\Exception $e) {
+                        $this->Flash->error(__('Erro ao excluir usuário existente. Tente novamente.'));
+                        return $this->redirect(['action' => 'add']);
+                    }
                 endif;
 
                 /* Verifico se está cadatrado como professor */
@@ -180,7 +194,12 @@ class UsersController extends AppController
 
                 /* Se está cadastrado excluo para refazer a senha */
                 if ($usercadastrado):
-                    $this->Users->delete($usercadastrado->id);
+                    try {
+                        $this->Users->delete($usercadastrado);
+                    } catch (\Exception $e) {
+                        $this->Flash->error(__('Erro ao excluir usuário existente. Tente novamente.'));
+                        return $this->redirect(['action' => 'add']);
+                    }
                 endif;
 
                 /* Verifico se está cadatrado como supervisor */
@@ -262,7 +281,6 @@ class UsersController extends AppController
             $this->Flash->error(__('Não foi possível excluir o usuário.'));
             return $this->redirect(['action' => 'view', $id]);
         }
-        return $this->redirect(['action' => 'login']);
     }
 
     /**
@@ -304,14 +322,12 @@ class UsersController extends AppController
                             return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
                         }
                     } else {
-                        return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $user->registro, 'email' => $user->email]]);
+                        return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 else:
                     $estudantetabela = $this->fetchTable('Alunos');
                     $aluno = $estudantetabela->find()->where(['id' => $this->user->aluno_id])->first();
-                    if (isset($aluno)) {
-                        echo 'Aluno cadastrado' . '<br>';
-                    } else {
+                    if (!$aluno) {
                         return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 endif;
@@ -328,7 +344,6 @@ class UsersController extends AppController
                 }
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             elseif ($this->user->isProfessor()):
-                echo "Professor";
                 $this->Flash->success(__('Bem-vindo(a) professor(a)!'));
 
                 $this->getRequest()->getSession()->write('categoria', $this->user->categoria_id);
@@ -349,20 +364,17 @@ class UsersController extends AppController
                             return $this->redirect('/muralestagios/index');
                         }
                     } else {
-                        return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $user->registro, 'email' => $user->email]]);
+                        return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 else:
                     $professortabela = $this->fetchTable('Professores');
                     $professor = $professortabela->find()->where(['id' => $this->user->professor_id])->first();
-                    if (isset($professor)) {
-                        echo 'Professor cadastrado' . '<br>';
-                    } else {
+                    if (!$professor) {
                         return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 endif;
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             elseif ($this->user->isSupervisor()):
-                echo "Supervisor";
                 $this->Flash->success(__('Bem-vindo(a) supervisor(a)!'));
 
                 $this->getRequest()->getSession()->write('categoria', $this->user->categoria_id);
@@ -383,22 +395,19 @@ class UsersController extends AppController
                             return $this->redirect('/muralestagios/index');
                         }
                     } else {
-                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $user->registro, 'email' => $user->email]]);
+                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 else:
                     $supervisortabela = $this->fetchTable('Supervisores');
                     $supervisor = $supervisortabela->find()->where(['id' => $this->user->supervisor_id])->first();
-                    if (isset($supervisor)) {
-                        echo 'Supervisor cadastrado' . '<br>';
-                    } else {
+                    if (!$supervisor) {
                         return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->user->registro, 'email' => $this->user->email]]);
                     }
                 endif;
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
             else:
-                echo "Sem categorizar";
                 $this->Flash->error(__('Usuário não categorizado em nenhum segmento'));
-                return $this->redirect('/users/logout');
+                return $this->redirect(['controller' => 'users', 'action' => 'logout']);
             endif;
             // return $this->redirect($redirect);
         }
@@ -440,86 +449,71 @@ class UsersController extends AppController
     public function preencher()
     {
 
-        $user = $this->Users->find('all');
-        foreach ($user as $c_user) {
-            // pr($c_user->categoria_id);
-            if ($c_user->categoria_id == 2) {
-                // pr($c_user->registro);
-                $professorestabela = $this->fetchTable('Alunos');
-                $aluno = $professorestabela->find()
+        if (!$this->isAdmin()) {
+            $this->Flash->error(__('User not authorized.'));
+            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+        }
+
+        $users = $this->Users->find('all');
+        foreach ($users as $user) {
+            if ($user->categoria_id == 2) {
+                $alunostabela = $this->fetchTable('Alunos');
+                $aluno = $alunostabela->find()
                     ->contain([])
-                    ->where(['alunos.registro' => $c_user->registro])
+                    ->where(['Alunos.registro' => $user->registro])
                     ->first();
-                // pr($aluno);
-                // pr($aluno->first()->registro);
-                $c_user->aluno_id = $aluno->id;
-                // pr($c_user->aluno_id);
-                // pr($c_user->id);
-                if ($this->Users->save($c_user)) {
-                    // echo "Atualizado!" . "</br>";
-                    $this->Flash->success(__('Usuario de estagio atualizado.'));
+                if ($aluno) {
+                    $user->aluno_id = $aluno->id;
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('Student user updated successfully.'));
+                    } else {
+                        $this->Flash->error(__('Error updating student user. Please try again.'));
+                    }
                 } else {
-                    // echo "Erro!" . "<br>";
-                    $this->Flash->error(__('Erro na atualizacao. Tente novamente.'));
+                    $this->Flash->warning(__('Student not found for registration: ' . $user->registro));
                 }
-                ;
-                // die();
             }
             // die('Alunos');
             // Professores
-            if ($c_user->categoria_id == 3) {
-                // pr($c_user->registro);
-                // die();
+            if ($user->categoria_id == 3) {
                 $professorestabela = $this->fetchTable('Professores');
                 $professor = $professorestabela->find()
                     ->contain([])
-                    ->where(['professores.siape' => $c_user->registro])
+                    ->where(['Professores.siape' => $user->registro])
                     ->first();
-                // pr($professor);
-                // pr($professor->first()->siape);
-                $c_user->professor_id = $professor->id;
-                // pr($c_user->professor_id);
-                // pr($c_user->id);
-                // die();
-                if ($this->Users->save($c_user)) {
-                    echo "Atualizado!" . "</br>";
-                    $this->Flash->success(__('The userestagio has been saved.'));
+                if ($professor) {
+                    $user->professor_id = $professor->id;
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('Professor user updated successfully.'));
+                    } else {
+                        $this->Flash->error(__('Error updating professor user. Please try again.'));
+                    }
                 } else {
-                    echo "Erro!" . "<br>";
-                    $this->Flash->error(__('The userestagio could not be saved. Please, try again.'));
+                    $this->Flash->warning(__('Professor not found for SIAPE: ' . $user->registro));
                 }
-                ;
-                // die('if professores');
             }
             // die('Professores');
             // Supervisores
-            if ($c_user->categoria_id == 4) {
-                // pr($c_user->registro);
-                // die();
+            if ($user->categoria_id == 4) {
                 $supervisorestabela = $this->fetchTable('Supervisores');
                 $supervisor = $supervisorestabela->find()
                     ->contain([])
-                    ->where(['supervisores.cress' => $c_user->registro])
+                    ->where(['Supervisores.cress' => $user->registro])
                     ->first();
-                // pr($professor);
-                // pr($professor->first()->siape);
-                $c_user->supervisor_id = $supervisor->id;
-                // pr($c_user->professor_id);
-                // pr($c_user->id);
-                // die();
-                if ($this->Users->save($c_user)) {
-                    echo "Atualizado!" . "</br>";
-                    $this->Flash->success(__('The userestagio has been saved.'));
+                if ($supervisor) {
+                    $user->supervisor_id = $supervisor->id;
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('Supervisor user updated.'));
+                    } else {
+                        $this->Flash->error(__('Error updating supervisor user. Please try again.'));
+                    }
                 } else {
-                    echo "Erro!" . "<br>";
-                    $this->Flash->error(__('The userestagio could not be saved. Please, try again.'));
+                    $this->Flash->warning(__('Supervisor not found for CRESS: ' . $user->registro));
                 }
-                ;
-                // die('if professores');
             }
-            // die('Professores');
         }
-        // pr($user);
-        die();
+        
+        $this->Flash->success(__('Processo de preenchimento concluído.'));
+        return $this->redirect(['action' => 'index']);
     }
 }

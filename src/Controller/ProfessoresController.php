@@ -23,7 +23,7 @@ class ProfessoresController extends AppController {
         // Everybody that is logged in can access this page
         if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $professores = $this->paginate($this->Professores);
@@ -41,15 +41,24 @@ class ProfessoresController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        // Everybody that is logged in can access this page
-        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
-            if ($this->user->isProfessor()) {
-                $professor = $this->Professores->get($id);
-                if ($this->user->id != $professor->id) {
-                    $this->Flash->error(__('Usuario nao autorizado.'));
-                    return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
-                }
+        // Admin can view any professor, professors can only view their own record
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o professor!'));
+            return $this->redirect(['action' => 'index']);
+        }
+        
+        if ($this->user->isProfessor()) {
+            // Professors can only view their own record
+            $professorCheck = $this->Professores->find()
+                ->where(['id' => $id])
+                ->first();
+            if (!$professorCheck || $this->user->professor_id != $professorCheck->id) {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
             }
+        } elseif (!$this->user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         /** Têm professores com muitos estagiários: aumentar a memória */
@@ -60,12 +69,7 @@ class ProfessoresController extends AppController {
                 'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
                     ]
             );
-        } catch (\Exception $e) {
-            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
-            return $this->redirect(['action' => 'index']);
-        }
-
-        if (!isset($professor)) {
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -82,9 +86,9 @@ class ProfessoresController extends AppController {
 
         /** Autorização */
         // Only admin or professor can access this page
-        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
+        if (!$this->user->isAdmin() && !$this->user->isProfessor()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $siape = $this->getRequest()->getQuery('siape');
@@ -107,7 +111,7 @@ class ProfessoresController extends AppController {
 
             if ($professorcadastrado):
                 $this->Flash->error(__('Professor já cadastrado'));
-                return $this->redirect(['view' => $professorcadastrado->id]);
+                return $this->redirect(['action' => 'view', $professorcadastrado->id]);
             endif;
         }
 
@@ -141,23 +145,26 @@ class ProfessoresController extends AppController {
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
                  */
                 if (empty($userprofessor)) {
-
                     $userestagio = $this->fetchTable('Users')->find()
                             ->where(['categoria_id' => 3, 'registro' => $professorresultado->siape])
                             ->first();
+                    
+                    if (!$userestagio) {
+                        $this->Flash->error(__('Usuário não encontrado para atualização.'));
+                        return $this->redirect(['action' => 'view', $professorresultado->id]);
+                    }
+                    
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $professorresultado->id;
                     $user_entity = $this->fetchTable('Users')->get($userestagio->id);
                     /** Atualiza */
                     $userestagioresultado = $this->Professores->Users->patchEntity($user_entity, $userdata);
-                    // pr($userestagioresultado);
                     if ($this->fetchTable('Users')->save($userestagioresultado)) {
                         $this->Flash->success(__('Usuário atualizado com o id do professor'));
                         return $this->redirect(['action' => 'view', $professorresultado->id]);
                     } else {
-                        $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do professor'));
-                        // debug($users->getErrors());
+                        $this->Flash->error(__('Não foi possível atualizar a tabela Users com o id do professor'));
                         return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
                     }
                 }
@@ -179,15 +186,24 @@ class ProfessoresController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        // Only admin can access this page
-        if (!$this->user->isAdmin() || $this->user->isProfessor()) {
-            if ($this->user->isProfessor()) {
-                $professor = $this->Professores->get($id);
-                if ($this->user->id != $professor->id) {
-                    $this->Flash->error(__('Usuario nao autorizado.'));
-                    return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
-                }
+        // Only admin can edit any professor, or professors can edit their own record
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar o professor!'));
+            return $this->redirect(['action' => 'index']);
+        }
+        
+        if ($this->user->isProfessor()) {
+            // Professors can only edit their own record
+            $professorCheck = $this->Professores->find()
+                ->where(['id' => $id])
+                ->first();
+            if (!$professorCheck || $this->user->professor_id != $professorCheck->id) {
+                $this->Flash->error(__('Usuario nao autorizado.'));
+                return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
             }
+        } elseif (!$this->user->isAdmin()) {
+            $this->Flash->error(__('Usuario nao autorizado.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         try {
@@ -206,7 +222,7 @@ class ProfessoresController extends AppController {
 
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('Registro do(a) professor(a) no foi atualizado. Tente novamente.'));
+            $this->Flash->error(__('Registro do(a) professor(a) não foi atualizado. Tente novamente.'));
         }
         $this->set(compact('professor'));
     }
@@ -238,8 +254,8 @@ class ProfessoresController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
 
-        if (sizeof($professor->estagiarios) > 0) {
-            $this->Flash->error(__('Professor(a) tem estagiários associados'));
+        if (!empty($professor->estagiarios) && count($professor->estagiarios) > 0) {
+            $this->Flash->error(__('Professor(a) tem estagiários associados. Não é possível excluir.'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'view', $id]);
         }
 

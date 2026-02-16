@@ -20,7 +20,7 @@ class InstituicoesController extends AppController {
     public function index() {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -43,16 +43,21 @@ class InstituicoesController extends AppController {
     public function view($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a instituição!'));
+            return $this->redirect(['action' => 'index']);
         }
 
         try {
             $instituicao = $this->Instituicoes->get($id, [
                 'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
             ]);
-        } catch (\Exception $e) {
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de instituicao de estagio para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -68,7 +73,7 @@ class InstituicoesController extends AppController {
     public function add() {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -97,16 +102,21 @@ class InstituicoesController extends AppController {
     public function edit($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a instituição!'));
+            return $this->redirect(['action' => 'index']);
         }
 
         try {
             $instituicao = $this->Instituicoes->get($id, [
                 'contain' => ['Supervisores'],
             ]);
-        } catch (\Exception $e) {
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de instituicao de estagio para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -114,10 +124,10 @@ class InstituicoesController extends AppController {
         if ($this->request->is(['patch', 'post', 'put'])) {
             $instituicao = $this->Instituicoes->patchEntity($instituicao, $this->request->getData());
             if ($this->Instituicoes->save($instituicao)) {
-                $this->Flash->success(__('Registro instituicao inserido.'));
+                $this->Flash->success(__('Registro instituição atualizado.'));
                 return $this->redirect(['action' => 'view', $instituicao->id]);
             }
-            $this->Flash->error(__('Registro instituicao não foi inserido. Tente novamente.'));
+            $this->Flash->error(__('Registro instituição não foi atualizado. Tente novamente.'));
         }
         $areas = $this->Instituicoes->Areas->find('list');
         $supervisores = $this->Instituicoes->Supervisores->find('list');
@@ -134,18 +144,29 @@ class InstituicoesController extends AppController {
     public function delete($id = null) {
 
         /** Autorização */
-        if (!$this->user->isAdmin()) {
+        if (!$this->user || !$this->user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $instituicao = $this->Instituicoes->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
 
-        if (sizeof($instituicao->estagiarios) > 0) {
-            $this->Flash->error(__('Instituição com estagiariós.'));
+        if ($id == null) {
+            $this->Flash->error(__('Sem parâmetros para localizar a instituição!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $instituicao = $this->Instituicoes->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Nao ha registros de instituicao de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        if (!empty($instituicao->estagiarios) && count($instituicao->estagiarios) > 0) {
+            $this->Flash->error(__('Instituição com estagiários associados. Não é possível excluir.'));
             return $this->redirect(['action' => 'view', $id]);
         }
         if ($this->Instituicoes->delete($instituicao)) {
