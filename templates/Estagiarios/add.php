@@ -16,7 +16,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user->isAdmin() || isProfessor()): ?>
+                <?php if ($user->isAdmin() || $user->isProfessor()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
