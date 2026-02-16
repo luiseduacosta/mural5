@@ -55,6 +55,7 @@
     </nav>
 
     <div class="container">
+        
         <?= $this->Form->create($muralestagio) ?>
         <fieldset>
             <legend><?= __('Novo mural de estágio') ?></legend>

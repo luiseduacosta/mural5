@@ -16,7 +16,6 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-
                     <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
@@ -24,7 +23,8 @@
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($supervisor) ?>
+
+    <?= $this->Form->create($supervisor) ?>
         <fieldset>
             <legend><?= __('Nova supervisora') ?></legend>
             <?php

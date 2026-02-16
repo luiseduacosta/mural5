@@ -5,11 +5,8 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,13 +14,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
+                    <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Nova professora'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-    <?php endif; ?>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -109,7 +107,7 @@
                         <td><?= h($professor->motivoegresso) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $professor->id]) ?>
-                            <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $professor->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $professor->id)]) ?>
                             <?php endif; ?>

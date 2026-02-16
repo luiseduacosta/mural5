@@ -17,18 +17,19 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <li class="nav-item">
-                    <?=
-                        $this->Form->postLink(
-                            __('Excluir'),
-                            ['action' => 'delete', $userestagio->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']
-                        )
-                        ?>
-                </li>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?=
+                            $this->Form->postLink(
+                                __('Excluir'),
+                                ['action' => 'delete', $userestagio->id],
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']
+                            )
+                            ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

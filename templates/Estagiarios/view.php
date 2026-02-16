@@ -14,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -30,13 +30,13 @@
                 <?php endif; ?>
 
                 <!-- Professor pode lançar notas -->
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3): ?>
+                <?php if($user->isProfessor()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
+                <?php if($user->isAdmin() || isProfessor()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -55,7 +55,7 @@
                     <li class="nav-item">
                         <?= $this->Html->link(__('Imprime Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
+                    <?php if($user->isAdmin() || isProfessor()): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
@@ -99,7 +99,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Aluno') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                         <td><?= (isset($estagiario->aluno)) ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -120,7 +120,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Instituição') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                         <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -130,7 +130,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Supervisor(a)') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                         <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -139,7 +139,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Professor') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                         <td><?= $estagiario->hasValue('professor') ? $this->Html->link($estagiario->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiario->professor->id]) : '' ?>
                         </td>
                     <?php else: ?>

@@ -20,7 +20,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
                     <?=
                         $this->Form->postLink(
                             __('Excluir'),
@@ -29,6 +30,7 @@
                         )
                         ?>
                 </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>

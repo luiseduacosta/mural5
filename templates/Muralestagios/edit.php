@@ -53,7 +53,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(
@@ -69,9 +69,10 @@
     </nav>
 
     <div class="row">
-        <div class="container">
-            <?= $this->element('templates') ?>
-            <?= $this->Form->create($muralestagio) ?>
+
+    <div class="container">
+
+    <?= $this->Form->create($muralestagio) ?>
             <fieldset>
                 <legend><?= __('Editar Mural') ?></legend>
                 <?php

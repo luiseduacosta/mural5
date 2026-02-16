@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerAluno">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
+                <?php if ($user->isAdmin() || $user->isStudent()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -30,7 +30,7 @@
                     </li>
                 <?php endif; ?>
 
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                <?php if($user->isAdmin()): ?>
 
                     <li class="nav-item">
                         <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
@@ -175,10 +175,10 @@
                             <th><?= __('Mural de estágio') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Período') ?></th>
-                            <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <th><?= __('Timestamp') ?></th>
                                 <th class="actions"><?= __('Ações') ?></th>
-                            <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
+                            <?php elseif ($user->isStudent()): ?>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -186,26 +186,26 @@
                             <tr>
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $inscricoes->muralestagio->id]) : '' ?>
                                     </td>
                                 <?php else: ?>
                                     <td><?= $inscricoes->hasValue('muralestagio') ? $inscricoes->muralestagio->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
-                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                <td><?= date('d-m-Y', strtotime($inscricoes->data)) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <td><?= h($inscricoes->timestamp) ?></td>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
                                     </td>
-                                <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2): ?>
+                                <?php elseif ($user->isStudent()): ?>
                                     <td class="actions">
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
+                                        <?= $this->Form->postLink(__('Cancelar'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer cancelar a inscrição # {0}?', $inscricoes->id)]) ?>
                                     </td>
                                 <?php endif; ?>
                             </tr>
@@ -281,7 +281,7 @@
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                    <?php if ($isAdmin): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>

@@ -3,11 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
-// pr($muralestagio->inscricoes);
-// die();
-?>
+?>  
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+<?= $this->element('templates'); ?>
 
 <div class="container">
 
@@ -21,7 +19,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -42,7 +40,7 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
                     aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
-            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+            <?php if($user->isAdmin()): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab" aria-controls="Alunos inscritos"
                         aria-selected="false">Alunos inscritos</a>
@@ -52,6 +50,7 @@
     </div>
 
     <div class="row">
+
         <div class="tab-content">
 
             <div id="instituicao" class="tab-pane active show">
@@ -64,7 +63,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if (isset($user) && $user->categoria_id == 1): ?>
+                        <?php if($user->isAdmin()): ?>
                             <td><?= $muralestagio->hasValue('instituicoes') ? $this->Html->link($muralestagio->instituicoes->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicoes->id]) : '' ?>
                             </td>
                         <?php else: ?>
@@ -234,30 +233,38 @@
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if (isset($user) && $user->categoria_id == '1'): ?>
+                    <?php if($user->isAdmin()): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($user) && $user->categoria_id == 2): ?>
+                    <?php elseif (isStudent()): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->
                         <?php
                         $timeZone = new DateTimeZone('America/Sao_Paulo');
-                        $dataDeHoje = new DateTime(null, $timeZone);
+                        $dataDeHoje = new DateTime('now', $timeZone);
                         /** Se nao tem data de encerramento, coloco a data de hoje e deixo aberto */
                         if (empty($muralestagio->dataInscricao)) {
-                            $dataEncerramentoDaInscricao = new DateTime(null, $timeZone);
+                            $dataEncerramentoDaInscricao = clone $dataDeHoje;
                         } else {
-                            $dataEncerramentoDaInscricao = DateTime::createFromFormat('Y-m-d', $muralestagio->dataInscricao, $timeZone);
+                            // If it's a string, create it. If it's already an object (FrozenDate), we handle comparison.
+                            // CakePHP dates usually have time at 00:00:00.
+                            if (is_string($muralestagio->dataInscricao)) {
+                                $dataEncerramentoDaInscricao = DateTime::createFromFormat('Y-m-d', $muralestagio->dataInscricao, $timeZone);
+                            } else {
+                                $dataEncerramentoDaInscricao = new DateTime($muralestagio->dataInscricao->format('Y-m-d'), $timeZone);
+                            }
+                            // Set to end of day to include the closing date
+                            $dataEncerramentoDaInscricao->setTime(23, 59, 59);
                         }
                         ?>
                         <tr>
                             <?php if ($dataDeHoje <= $dataEncerramentoDaInscricao): ?>
                                 <td colspan=2 style="text-align: center">
-                                    <?= $this->Html->link('Incricão', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => ['btn btn-sucess']]); ?>
+                                    <?= $this->Html->link('Incricão', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => ['btn btn-success']]); ?>
                                 </td>
                             <?php else: ?>
                                 <td colspan=2 style="text-align: center">
@@ -279,7 +286,7 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if (isset($user) && $user->categoria_id == 1): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <th><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -289,12 +296,12 @@
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
+                                <td><?=($user->isAdmin()) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
                                 <td><?= date('d-m-Y', strtotime($inscricoes->data)) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <td>
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id], ['class' => 'link-info']) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id], ['class' => 'link-warning']) ?>

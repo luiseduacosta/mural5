@@ -3,15 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao[]|\Cake\Collection\CollectionInterface $instituicoes
  */
-// pr($instituicoes);
-// die();
 ?>
-
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,13 +14,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Nova instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
+                    <?php if($user->isAdmin()): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Nova instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-    <?php endif; ?>
 
     <h3><?= __('Instituições') ?></h3>
 
@@ -87,7 +83,7 @@
                         <td><?= h($instituicao->observacoes) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $instituicao->id]) ?>
-                            <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $instituicao->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicao->id)]) ?>
                             <?php endif; ?>                            

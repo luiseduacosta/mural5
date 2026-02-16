@@ -45,8 +45,8 @@ if (isset($avaliacao->estagiario->professor->nome)) {
         text-align: right;
     }
 </style>
-<div class="container">
 
+<div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -55,7 +55,7 @@ if (isset($avaliacao->estagiario->professor->nome)) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($this->getRequest()->getSession()->read('categoria') == 1 || $this->getRequest()->getSession()->read('categoria') == 4): ?>
+                <?php if($user->isAdmin() || isSupervisor()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -78,7 +78,8 @@ if (isset($avaliacao->estagiario->professor->nome)) {
     </nav>
 
     <div class="container">
-        <h3><?= 'Avaliação da(o) estagiario(a) ' . $avaliacao->estagiario->aluno->nome ?></h3>
+
+    <h3><?= 'Avaliação da(o) estagiario(a) ' . $avaliacao->estagiario->aluno->nome ?></h3>
         <p><span style="font-size: 100%; text-align: justify; font-weight: normal">Campo de estágio
                 <?= $avaliacao->estagiario->instituicao->instituicao ?>. Supervisor(a) <?= $supervisora ?>,
                 Cress <?= $cress ?>. Período de estágio <?= $avaliacao->estagiario->periodo ?>. Nível:

@@ -35,9 +35,11 @@ if (isset($estagiario->professor->nome)) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerAtividades">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-warning float-end', 'style' => 'max-width:2000px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
+                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-warning float-end', 'style' => 'max-width:2000px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprime atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>
                 </li>
@@ -95,8 +97,10 @@ if (isset($estagiario->professor->nome)) {
                         <td><?= h($folhadeatividade->atividade) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $folhadeatividade->id]) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id)]) ?>
+                            <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id)]) ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php

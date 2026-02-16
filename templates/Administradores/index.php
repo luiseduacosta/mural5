@@ -19,7 +19,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'nav-link']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button']) ?>
                     </li>

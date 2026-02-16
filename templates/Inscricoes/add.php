@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <?= $this->element('templates') ?>
@@ -17,9 +16,11 @@ $user = $this->getRequest()->getAttribute('identity');
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-                </li>
+                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -29,7 +30,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <fieldset>
             <legend><?= __('Inscrição para seleção de estágio') ?></legend>
             <?php
-            if (isset($user) && $user->categoria_id == 1):
+            if($user->isAdmin()):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'empty' => ['0' => 'Seleciona aluno']]);
                 echo $this->Form->control('registro', ['type' => 'hidden']);
                 echo $this->Form->control('muralestagio_id', ['label' => ['text' => 'Mural de estágio'], 'options' => $muralestagios, 'value' => $muralestagio_id, 'empty' => ['0' => 'Seleciona instituição']]);
@@ -38,7 +39,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);
                 echo $this->Form->control('alunoestagiario_id', ['type' => 'hidden']);
                 // die(pr($user->categoria_id));
-            elseif (isset($user) && $user->categoria == 2):
+            elseif ($user->isStudent()):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'value' => $aluno_id, 'readonly']);
                 echo $this->Form->control('muralestagio_id', ['label' => 'Mural de estágio', 'options' => $muralestagios, 'value' => $muralestagio_id, 'readonly']);
                 echo $this->Form->control('data', ['type' => 'hidden', 'value' => date('Y-m-d'), 'readonly']);

@@ -22,12 +22,13 @@ class AlunosController extends AppController {
     public function index($id = null) {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] != 2) {
+        $user = $this->getRequest()->getAttribute('identity');
+        if (!$user->isStudent()) {
             $alunos = $this->paginate($this->Alunos);
             $this->set(compact('alunos'));
         } else {
             $this->Flash->error(__('Não autorizado!'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $this->getRequest()->getAttribute('identity')['aluno_id']]);
+            return $this->redirect(['controller' => 'alunos', 'action' => 'view', $user->aluno_id]);
         }
     }
 
@@ -39,6 +40,12 @@ class AlunosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+        /** Autorização */
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent() && $id != $user->aluno_id) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $aluno = $this->Alunos->find()
             ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
@@ -417,21 +424,17 @@ class AlunosController extends AppController {
      */
     public function certificadoperiodo($id = NULL) {
         /**
-         * Autorização. Verifica se o aluno cadastrado no Users está acessando seu próprio registro.
+         * Autorização.
          */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == '2') {
-            $aluno_id = $this->getRequest()->getAttribute('identity')['aluno_id'];
-            if ($id != $aluno_id) {
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent()) {
+            if ($id != $user->aluno_id) {
                 $this->Flash->error(__('Usuario nao autorizado.'));
                 return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                // echo "Aluno Id autorizado";
             }
-        } elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1') {
-            echo "Administrador autorizado";
-        } else {
+        } elseif (!$user->isAdmin()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            // die('Professores e Supervisores não autorizados');
         }
 
         /**

@@ -13,7 +13,6 @@ $user = $this->getRequest()->getAttribute('identity');
 
 <div class="container">
 
-    <?php if (isset($user) && $user->categoria_id <> 2): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,14 +20,14 @@ $user = $this->getRequest()->getAttribute('identity');
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
+                    <?php if($user->isAdmin()): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-
-    <?php endif; ?>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -43,7 +42,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if (isset($user) && $user->categoria_id <> 2): ?>
+                    <?php if($user->isAdmin()): ?>
                         <th class="row"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -53,14 +52,14 @@ $user = $this->getRequest()->getAttribute('identity');
                     <?php // pr($c_estagiario); ?>
                     <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if($user->isAdmin()): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                         <?php endif; ?>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1 || $this->getRequest()->getAttribute('identity')['categoria_id'] == 4): ?>
+                        <?php if ($user->isAdmin() || $user->isStudent()): ?>
                             <td><?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : $this->Html->link('Fazer avaliação', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $c_estagiario->id]], ['class' => 'btn btn-warning']) ?>
                             </td>
                         <?php else: ?>
@@ -68,7 +67,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             </td>
                         <?php endif; ?>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if($user->isAdmin()): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?>
                             </td>
                         <?php else: ?>
@@ -87,7 +86,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <?php if (isset($c_estagiario->avaliacao->id)): ?>
                             <td class="row">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>
-                                <?php if (isset($user) && $user->categoria <> 2): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_estagiario->avaliacao->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $c_estagiario->avaliacao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $c_estagiario->avaliacao->id)]) ?>
                                 <?php endif; ?>

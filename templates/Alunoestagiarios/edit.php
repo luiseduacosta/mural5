@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -18,13 +16,14 @@
                 <li class="nav-item">
 
                     <?= $this->Html->link(__('Listar aluno(a)s estagiario(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                    <?=
-                        $this->Form->postLink(
+                    <?php if($user->isAdmin()): ?>
+                        <?= $this->Form->postLink(
                             __('Excluir'),
                             ['action' => 'delete', $alunoestagiario->id],
                             ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $alunoestagiario->id), 'class' => 'btn btn-danger float-end']
                         )
                         ?>
+                    <?php endif; ?>
                 </li>
             </ul>
         </div>
@@ -33,7 +32,8 @@
     <?= $this->element('templates'); ?>
 
     <div class="container">
-        <?= $this->Form->create($alunoestagiario) ?>
+
+    <?= $this->Form->create($alunoestagiario) ?>
         <fieldset>
             <legend><?= __('Editar Alunoestagiario') ?></legend>
             <?php

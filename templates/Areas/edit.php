@@ -7,8 +7,6 @@
 
 <?= $this->element('templates') ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -17,7 +15,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+                <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?=
                         $this->Form->postLink(

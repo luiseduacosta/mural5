@@ -265,161 +265,143 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'login']);
     }
 
+    /**
+     * Login method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful login
+     */
     public function login()
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         if ($result->isValid()) {
-            switch ($this->Authentication->getIdentityData('categoria_id')):
-                case 1:
-                    echo "Administrador";
-                    $this->Flash->success(__('Bem-vindo administrador!'));
-                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
-                    return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
-                    break;
-                case 2:
-                    echo "Aluno";
-                    $this->Flash->success(__('Bem-vindo(a) aluno!'));
-                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
-                    $this->getRequest()->getSession()->write('registro', $this->Authentication->getIdentityData('registro'));
-                    $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
+            $user = $this->Authentication->getIdentity();
+            if ($user->isAdmin()):
+                echo "Administrador";
+                $this->Flash->success(__('Bem-vindo administrador!'));
+                $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
+                return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
+            elseif ($user->isStudent()):
+                echo "Aluno";
+                $this->Flash->success(__('Bem-vindo(a) aluno!'));
+                $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
+                $this->getRequest()->getSession()->write('registro', $user->registro);
+                $this->getRequest()->getSession()->write('usuario', $user->email);
 
-                    /** Se o campo aluno_id esta vazio então tem que preencher com o valor do id da tabela alunos */
-                    if (empty($this->Authentication->getIdentityData('aluno_id'))):
-                        /** Busca se o estaduante está cadastrado na tabela alunos */
-                        $estudantestabela = $this->fetchTable('Alunos');
-                        $estudantecadastrado = $estudantestabela->find()
-                            ->where(['registro' => $this->Authentication->getIdentityData('registro')])
-                            ->select(['id'])
-                            ->first();
-
-                        /** Se o aluno está cadastrado atualizo. Caso contrário vai para adicionar o aluno. */
-                        if ($estudantecadastrado) {
-                            /** Atualizo o aluno_id */
-                            $users = $this->Users->get($this->Authentication->getIdentityData('id'));
-                            $userestagiodata = $users->toArray();
-                            $userestagiodata['aluno_id'] = $estudantecadastrado->id;
-                            $userestagioresultado = $this->Users->patchEntity($users, $userestagiodata);
-                            if ($this->Users->save($userestagioresultado)) {
-                                /** Para debug */
-                                //return $this->redirect(['controller' => 'Users', 'action' => 'view', $userestagioresultado->id]);
-                                return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
-                            } else {
-                                // debug($userestagioresultado);
-                            }
-                        } else {
-                            return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
-                        }
-                        /** Busco se o aluno está efetivamente cadastrado */
-                    else:
-                        $estudantetabela = $this->fetchTable('Alunos');
-                        $aluno = $estudantetabela->find()->where(['id' => $this->Authentication->getIdentityData('aluno_id')])->first();
-                        if (isset($aluno)) {
-                            echo 'Aluno cadastrado' . '<br>';
-                        } else {
-                            return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
-                        }
-                    endif;
-                    /** Verifico se o aluno é estagiário e guardo no cookie. Serve para o menu superior selecionar o menu_estagiario. */
-                    $estagiariotabela = $this->fetchTable('Estagiarios');
-                    $estagiario = $estagiariotabela->find()
-                        ->where(['registro' => $this->Authentication->getIdentityData('registro')])
-                        ->orderDesc('nivel')
+                /** Se o campo aluno_id esta vazio então tem que preencher com o valor do id da tabela alunos */
+                if (empty($user->aluno_id)):
+                    /** Busca se o estaduante está cadastrado na tabela alunos */
+                    $estudantestabela = $this->fetchTable('Alunos');
+                    $estudantecadastrado = $estudantestabela->find()
+                        ->where(['registro' => $user->registro])
+                        ->select(['id'])
                         ->first();
-                    if ($estagiario) {
-                        $this->getRequest()->getSession()->write('estagiario_id', $estagiario->id);
+
+                    /** Se o aluno está cadastrado atualizo. Caso contrário vai para adicionar o aluno. */
+                    if ($estudantecadastrado) {
+                        /** Atualizo o aluno_id */
+                        $userEntity = $this->Users->get($user->id);
+                        $userEntity->aluno_id = $estudantecadastrado->id;
+                        if ($this->Users->save($userEntity)) {
+                            return $this->redirect(['controller' => 'muralestagios', 'action' => 'index']);
+                        }
                     } else {
-                        $this->getRequest()->getSession()->delete('estagiario_id');
+                        return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $user->registro, 'email' => $user->email]]);
                     }
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                    break;
-                case 3:
-                    echo "Professor";
-                    $this->Flash->success(__('Bem-vindo(a) professor(a)!'));
+                else:
+                    $estudantetabela = $this->fetchTable('Alunos');
+                    $aluno = $estudantetabela->find()->where(['id' => $user->aluno_id])->first();
+                    if (isset($aluno)) {
+                        echo 'Aluno cadastrado' . '<br>';
+                    } else {
+                        return $this->redirect(['controller' => 'alunos', 'action' => 'add', '?' => ['registro' => $user->registro, 'email' => $user->email]]);
+                    }
+                endif;
+                /** Verifico se o aluno é estagiário e guardo no cookie. Serve para o menu superior selecionar o menu_estagiario. */
+                $estagiariotabela = $this->fetchTable('Estagiarios');
+                $estagiario = $estagiariotabela->find()
+                    ->where(['aluno_id' => $user->aluno_id])
+                    ->orderDesc('nivel')
+                    ->first();
+                if ($estagiario) {
+                    $this->getRequest()->getSession()->write('estagiario_id', $estagiario->id);
+                } else {
+                    $this->getRequest()->getSession()->delete('estagiario_id');
+                }
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            elseif ($user->isProfessor()):
+                echo "Professor";
+                $this->Flash->success(__('Bem-vindo(a) professor(a)!'));
 
-                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
-                    $this->getRequest()->getSession()->write('siape', $this->Authentication->getIdentityData('registro'));
-                    $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
+                $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
+                $this->getRequest()->getSession()->write('siape', $user->registro);
+                $this->getRequest()->getSession()->write('usuario', $user->email);
 
-                    /** Verifica se o campo professor_id está preenchido com o valor do id do professor. */
-                    if (empty($this->Authentication->getIdentityData('professor_id'))):
-                        /** Busca se o professor está cadastrado na tabela professores */
-                        $professortabela = $this->fetchTable('Professores');
-                        $professorcadastrado = $professortabela->find()->where(['siape' => $this->Authentication->getIdentityData('registro')])
-                            ->select(['id'])
-                            ->first();
-                        if ($professorcadastrado) {
-                            $users = $this->Users->get($this->Authentication->getIdentityData('id'));
-                            $userestagiodata = $users->toArray();
-                            $userestagiodata['professor_id'] = $professorcadastrado->id;
-                            $users = $this->Users->patchEntity($users, $userestagiodata);
-                            if ($this->Users->save($users)) {
-                                // $this->Flash->success(__('Usuário atualizado!'));
-                                return $this->redirect('/muralestagios/index');
-                            }
-                        } else {
-                            return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
+                /** Verifica se o campo professor_id está preenchido com o valor do id do professor. */
+                if (empty($user->professor_id)):
+                    /** Busca se o professor está cadastrado na tabela professores */
+                    $professortabela = $this->fetchTable('Professores');
+                    $professorcadastrado = $professortabela->find()->where(['siape' => $user->registro])
+                        ->select(['id'])
+                        ->first();
+                    if ($professorcadastrado) {
+                        $userEntity = $this->Users->get($user->id);
+                        $userEntity->professor_id = $professorcadastrado->id;
+                        if ($this->Users->save($userEntity)) {
+                            return $this->redirect('/muralestagios/index');
                         }
-                        $this->Flash->success(__('Bem-vinda(o) professora(o)!'));
-                        return $this->redirect('/muralestagios/index');
-                        /** Busco se o professor está efetivamente cadastrado */
-                    else:
-                        // die('professor_id2');
-                        $professortabela = $this->fetchTable('Professores');
-                        $professor = $professortabela->find()->where(['id' => $this->Authentication->getIdentityData('professor_id')])->first();
-                        if (isset($professor)) {
-                            echo 'Professor cadastrado' . '<br>';
-                        } else {
-                            return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
-                        }
-                    endif;
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                    break;
-                case 4:
-                    echo "Supervisor";
-                    $this->Flash->success(__('Bem-vindo(a) supervisor(a)!'));
+                    } else {
+                        return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $user->registro, 'email' => $user->email]]);
+                    }
+                else:
+                    $professortabela = $this->fetchTable('Professores');
+                    $professor = $professortabela->find()->where(['id' => $user->professor_id])->first();
+                    if (isset($professor)) {
+                        echo 'Professor cadastrado' . '<br>';
+                    } else {
+                        return $this->redirect(['controller' => 'professores', 'action' => 'add', '?' => ['siape' => $user->registro, 'email' => $user->email]]);
+                    }
+                endif;
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            elseif ($user->isSupervisor()):
+                echo "Supervisor";
+                $this->Flash->success(__('Bem-vindo(a) supervisor(a)!'));
 
-                    $this->getRequest()->getSession()->write('categoria', $this->Authentication->getIdentityData('categoria_id'));
-                    $this->getRequest()->getSession()->write('cress', $this->Authentication->getIdentityData('registro'));
-                    $this->getRequest()->getSession()->write('usuario', $this->Authentication->getIdentityData('email'));
+                $this->getRequest()->getSession()->write('categoria', $user->categoria_id);
+                $this->getRequest()->getSession()->write('cress', $user->registro);
+                $this->getRequest()->getSession()->write('usuario', $user->email);
 
-                    /** Verifica se o campo supervisor_id está preenchido com o valor do id do supervisor. */
-                    if (empty($this->Authentication->getIdentityData('supervisor_id'))):
-                        /** Busca se o professor está cadastrado na tabela professores */
-                        $supervisortabela = $this->fetchTable('Supervisores');
-                        $supervisorcadastrado = $supervisortabela->find()->where(['cress' => $this->Authentication->getIdentityData('registro')])
-                            ->select(['id'])
-                            ->first();
-                        if ($supervisorcadastrado) {
-                            $users = $this->Users->get($this->Authentication->getIdentityData('id'));
-                            $userestagiodata = $users->toArray();
-                            $userestagiodata['supervisor_id'] = $supervisorcadastrado->id;
-                            $users = $this->Users->patchEntity($users, $userestagiodata);
-                            if ($this->Users->save($users)) {
-                                // $this->Flash->success(__('Usuário atualizado!'));
-                                return $this->redirect('/muralestagios/index');
-                            }
-                        } else {
-                            // echo "Supervisor não cadastrado";
-                            return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
+                /** Verifica se o campo supervisor_id está preenchido com o valor do id do supervisor. */
+                if (empty($user->supervisor_id)):
+                    /** Busca se o professor está cadastrado na tabela professores */
+                    $supervisortabela = $this->fetchTable('Supervisores');
+                    $supervisorcadastrado = $supervisortabela->find()->where(['cress' => $user->registro])
+                        ->select(['id'])
+                        ->first();
+                    if ($supervisorcadastrado) {
+                        $userEntity = $this->Users->get($user->id);
+                        $userEntity->supervisor_id = $supervisorcadastrado->id;
+                        if ($this->Users->save($userEntity)) {
+                            return $this->redirect('/muralestagios/index');
                         }
-                        /** Busco se o supervisor está efetivamente cadastrado */
-                    else:
-                        $supervisortabela = $this->fetchTable('Supervisores');
-                        $supervisor = $supervisortabela->find()->where(['id' => $this->Authentication->getIdentityData('supervisor_id')])->first();
-                        if (isset($supervisor)) {
-                            echo 'Supervisor cadastrado' . '<br>';
-                        } else {
-                            return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $this->Authentication->getIdentityData('registro'), 'email' => $this->Authentication->getIdentityData('email')]]);
-                        }
-                    endif;
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                    break;
-                default:
-                    echo "Sem categorizar";
-                    $this->Flash->error(__('Usuário não categorizado em nenhum segmento'));
-                    return $this->redirect('/users/logout');
-            endswitch;
+                    } else {
+                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $user->registro, 'email' => $user->email]]);
+                    }
+                else:
+                    $supervisortabela = $this->fetchTable('Supervisores');
+                    $supervisor = $supervisortabela->find()->where(['id' => $user->supervisor_id])->first();
+                    if (isset($supervisor)) {
+                        echo 'Supervisor cadastrado' . '<br>';
+                    } else {
+                        return $this->redirect(['controller' => 'supervisores', 'action' => 'add', '?' => ['cress' => $user->registro, 'email' => $user->email]]);
+                    }
+                endif;
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            else:
+                echo "Sem categorizar";
+                $this->Flash->error(__('Usuário não categorizado em nenhum segmento'));
+                return $this->redirect('/users/logout');
+            endif;
             // return $this->redirect($redirect);
         }
         // display error if user submitted and authentication failed
@@ -428,6 +410,11 @@ class UsersController extends AppController
         }
     }
 
+    /**
+     * Logout method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful logout
+     */
     public function logout()
     {
         $result = $this->Authentication->getResult();
@@ -447,11 +434,11 @@ class UsersController extends AppController
         }
     }
 
-    /*
+    /**
      * Preenche os ids da tabela users com os valores correspondentes
      *
+     * @return \Cake\Http\Response|null|void Redirects on successful preenchimento
      */
-
     public function preencher()
     {
 

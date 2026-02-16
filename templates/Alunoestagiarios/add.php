@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -15,9 +13,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-                </li>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
@@ -25,7 +25,8 @@
     <?= $this->element('templates'); ?>
 
     <div class="container">
-        <?= $this->Form->create($alunoestagiario) ?>
+
+    <?= $this->Form->create($alunoestagiario) ?>
         <fieldset>
             <legend><?= __('Novo(a) aluno(a) estagiario(a)') ?></legend>
             <?php

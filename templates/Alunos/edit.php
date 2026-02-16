@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <?= $this->element('templates') ?>
@@ -20,7 +19,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar Aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
-                    <?php if (isset($user) && $user->categoria_id == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                         <li class="nav-item">
                             <?= $this->Form->postLink(
                                 __('Excluir'),

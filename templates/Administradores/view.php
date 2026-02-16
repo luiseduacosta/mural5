@@ -19,7 +19,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'nav-link']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'nav-link']) ?>
                     </li>
@@ -61,7 +61,7 @@
                     <tr>
                         <td>
                             <?= $this->Html->link(__('Ver'), ['controller' => 'Users', 'action' => 'view', $administrador->user->id], ['class' => 'link-info']) ?>
-                            <?php if (isset($user) && $user->categoria_id == 1): ?>
+                            <?php if ($user->isAdmin()): ?>
                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Users', 'action' => 'edit', $administrador->user->id], ['class' => 'link-warning']) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Users', 'action' => 'delete', $administrador->user->id], ['confirm' => __('Are you sure you want to delete user_{0}?', $administrador->user->id), 'class' => 'link-danger']) ?>
                             <?php endif; ?>

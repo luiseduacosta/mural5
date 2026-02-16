@@ -5,7 +5,9 @@
  */
 ?>
 <?= $this->element('templates') ?>
+
 <div class="container">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,15 +15,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar configuracao'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar configuracao'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($configuracao) ?>
+
+    <?= $this->Form->create($configuracao) ?>
         <fieldset>
             <legend><?= __('Configuração') ?></legend>
             <?php

@@ -24,11 +24,9 @@
 <?php
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+        <?php if($user->isAdmin()): ?>
             <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -40,17 +38,19 @@
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+    <?php if($user->isAdmin()): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
+                    <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
@@ -90,7 +90,7 @@
                         <td><?= h($inscricao->timestamp) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
-                            <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+                            <?php if ($user->isAdmin() || $user->isStudent()): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id)]) ?>
                             <?php endif; ?>
@@ -100,6 +100,7 @@
             </tbody>
         </table>
     </div>
+
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <?= $this->element('templates') ?>

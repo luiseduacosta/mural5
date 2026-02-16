@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
-// pr($estagiario);
 ?>
 
 <?= $this->element('templates') ?>
@@ -16,15 +15,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?=
-                        $this->Form->postLink(
-                            __('Excluir'),
-                            ['action' => 'delete', $folhadeatividade->id],
-                            ['confirm' => __('Tem certeza que quer excluir esta atividade # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']
-                        )
-                        ?>
-                </li>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?=
+                            $this->Form->postLink(
+                                __('Excluir'),
+                                ['action' => 'delete', $folhadeatividade->id],
+                                ['confirm' => __('Tem certeza que quer excluir esta atividade # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']
+                            )
+                            ?>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-link">
                     <?= $this->Html->link(__('Lista de atividades'), ['action' => 'index', $estagiario->estagiario->id], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
@@ -33,7 +34,8 @@
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($folhadeatividade) ?>
+
+    <?= $this->Form->create($folhadeatividade) ?>
         <fieldset>
             <legend><?= __('Edita atividade') ?></legend>
             <?php

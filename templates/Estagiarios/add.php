@@ -3,9 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
-// pr($estudantedeestagio);
 ?>
 <?= $this->element('templates') ?>
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,9 +15,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
+                <?php if($user->isAdmin() || isProfessor()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

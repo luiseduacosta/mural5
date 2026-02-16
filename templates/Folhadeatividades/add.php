@@ -3,9 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
-// pr($folhadeatividades);
-// pr($estagiario);
-// die();
 ?>
 
 <?= $this->element('templates') ?>
@@ -46,7 +43,6 @@
                     <?php foreach ($folhadeatividades as $folhadeatividade): ?>
                         <tr>
                             <?php if ($i > $ultimos): ?>
-                                <?php // pr($folhadeatividade) ?>
                                 <td><?= $folhadeatividade->id ?></td>
                                 <td><?= $folhadeatividade->dia ?></td>
                                 <td><?= $folhadeatividade->inicio ?></td>

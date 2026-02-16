@@ -3,13 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-// pr($estagiario->item->aluno);
-// die();
 ?>
 <div class="container">
-    <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
+
+<h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-responsive">
+
+    <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
@@ -52,7 +52,7 @@
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if($user->isAdmin()): ?>
                             <?php if (isset($c_estagiario->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->id]) ?>

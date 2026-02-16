@@ -25,6 +25,11 @@ class EstagiariosController extends AppController
      */
     public function index($id = NULL)
     {
+        /** Autorização: Alunos não podem ver a listagem geral */
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent()) {
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
+        }
 
         $periodo = $this->getRequest()->getQuery('periodo');
 
@@ -65,6 +70,21 @@ class EstagiariosController extends AppController
      */
     public function view($id = null)
     {
+        /** Autorização */
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent()) {
+            // Check if this internship belongs to the logged-in student
+            $estagiarioCheck = $this->Estagiarios->find()
+                ->where(['id' => $id, 'aluno_id' => $user->aluno_id])
+                ->first();
+            if (!$estagiarioCheck) {
+                $this->Flash->error(__('Não autorizado!'));
+                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            }
+        } elseif (!$user->isAdmin() && !$user->isProfessor() && !$user->isSupervisor()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         if ($id == null) {
             $this->Flash->error(__('Nao ha registros de estagiarios para esse numero!'));
@@ -157,10 +177,11 @@ class EstagiariosController extends AppController
         $estagiariotabela = $this->fetchTable('Estagiarios');
 
         // Administrador pode inserir o termo de compromisso para qualquer aluno
-        if ($this->Authentication->getIdentityData('categoria_id') == '1') {
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isAdmin()) {
             $aluno_id = $this->getRequest()->getQuery('aluno_id');
         } else {
-            $aluno_id = $this->Authentication->getIdentityData('aluno_id');
+            $aluno_id = $user->aluno_id;
         }
 
         /** Sem aluno não tem como continuar */
@@ -445,13 +466,17 @@ class EstagiariosController extends AppController
             return $this->redirect(['controller' => 'estagiarios', 'action' => 'index']);
         } else {
             $user = $this->getRequest()->getAttribute('identity');
-            if ($user['categoria_id'] == 2) {
-                $registro = $user['registro'];
+            if ($user->isStudent()) {
+                $estagiario = $this->Estagiarios->find()
+                    ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
+                    ->where(['Estagiarios.aluno_id' => $user->aluno_id])
+                    ->first();
+            } else {
+                $estagiario = $this->Estagiarios->find()
+                    ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
+                    ->where(['Estagiarios.id' => $id])
+                    ->first();
             }
-            $estagiario = $this->Estagiarios->find()
-                ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
-                ->where(['Estagiarios.registro' => $registro])
-                ->first();
         }
 
         $this->set('estagiario', $estagiario);

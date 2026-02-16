@@ -3,10 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-// pr($estagiario);
-// die();
 ?>
 <div class="container">
+
     <h3><?= __('Avaliações') ?></h3>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">

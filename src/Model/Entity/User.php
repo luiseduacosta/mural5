@@ -64,4 +64,24 @@ class User extends Entity {
     protected array $_hidden = [
         'password',
     ];
+
+    public function isAdmin(): bool
+    {
+        return $this->categoria_id == '1';
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->categoria_id == '2';
+    }
+
+    public function isProfessor(): bool
+    {
+        return $this->categoria_id == '3';
+    }
+
+    public function isSupervisor(): bool
+    {
+        return $this->categoria_id == '4';
+    }
 }

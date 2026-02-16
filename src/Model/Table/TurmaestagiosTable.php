@@ -47,12 +47,6 @@ class TurmaestagiosTable extends Table {
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'turmaestagio_id',
         ]);
-        $this->hasMany('Muralestagios', [
-            'foreignKey' => 'turmaestagio_id',
-        ]);
-        $this->hasMany('Instituicoes', [
-            'foreignKey' => 'turmaestagio_id',
-        ]);
     }
 
     public function beforeFind($event, $query, $options, $primary) {

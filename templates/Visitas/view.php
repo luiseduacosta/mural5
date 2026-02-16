@@ -13,18 +13,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Editar visita'), ['action' => 'edit', $visita->id], ['class' => 'btn btn-primary float-end']) ?>
-                    <?= $this->Form->postLink(__('Excluir visita'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $visita->id), 'class' => 'btn btn-danger float-end']) ?>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar visita'), ['action' => 'edit', $visita->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir visita'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $visita->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?php endif; ?>
                     <?= $this->Html->link(__('Listar visitas'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                    <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
-        <h3><?= h($visita->instituicao->instituicao) ?></h3>
+
+    <h3><?= h($visita->instituicao->instituicao) ?></h3>
         <table>
             <tr>
                 <th><?= __('Id') ?></th>

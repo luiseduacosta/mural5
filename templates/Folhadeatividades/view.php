@@ -12,18 +12,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Edita atividade'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir atividade'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']) ?>
-                </li>
+                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Edita atividade'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(__('Excluir atividade'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger float-end']) ?>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar atividades'), ['action' => 'index', '?' => ['estagiario_id' => $folhadeatividade->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
+                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->estagiario_id]], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

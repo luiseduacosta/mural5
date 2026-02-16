@@ -47,9 +47,11 @@ if (isset($estagiario->supervisor->cress)) {
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $estagiario->id, 'registro' => $estagiario->registro]], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
+                <?php if($user->isAdmin()): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $estagiario->id, 'registro' => $estagiario->registro]], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

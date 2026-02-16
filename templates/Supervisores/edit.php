@@ -9,6 +9,7 @@ $user = $this->getRequest()->getAttribute('identity');
 <?= $this->element('templates') ?>
 
 <div class="container">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +21,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
                     <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if ($user->categoria_id == 1): ?>
+                    <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(
@@ -36,7 +37,8 @@ $user = $this->getRequest()->getAttribute('identity');
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($supervisor) ?>
+
+    <?= $this->Form->create($supervisor) ?>
         <fieldset>
             <legend><?= __('Editar Supervisor(a)') ?></legend>
             <?php

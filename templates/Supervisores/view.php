@@ -3,8 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor $supervisor
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +15,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if ($user->categoria_id == 1): ?>
+                <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -29,7 +29,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if ($user->categoria_id == 4): ?>
+                <?php if($user->isSupervisor()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -59,8 +59,10 @@ $user = $this->getRequest()->getAttribute('identity');
         </ul>
 
         <div class="container">
-            <div class="tab-content">
 
+        <div class="tab-content">
+
+        <?php if($user->isAdmin() || isSupervisor()): ?>
                 <div id="supervisora" class="tab-pane container active show">
                     <h3><?= h($supervisor->nome) ?></h3>
                     <table class="table table-striped table-hover table-responsive">
@@ -160,7 +162,9 @@ $user = $this->getRequest()->getAttribute('identity');
                         </blockquote>
                     </div>
                 </div>
+<?php endif; ?>
 
+<?php if($user->isAdmin() || isSupervisor()): ?>
                 <div id="instituicao" class="tab-pane container fade">
                     <h4><?= __('Instituição de estágio') ?></h4>
                     <?php if (!empty($supervisor->instituicoes)): ?>
@@ -211,7 +215,9 @@ $user = $this->getRequest()->getAttribute('identity');
                         </div>
                     <?php endif; ?>
                 </div>
+<?php endif; ?>
 
+<?php if($user->isAdmin() || isSupervisor()): ?>
                 <div id="estagiarios" class="tab-pane container fade">
                     <h4><?= __('Estagiarios') ?></h4>
                     <?php if (isset($supervisor->estagiarios)): ?>
@@ -246,7 +252,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                                            <?php if ($user->categoria_id == 1 ||($user->categoria_id == 4): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
                                             <?php if ($user->categoria_id == 1): ?>
@@ -260,7 +266,9 @@ $user = $this->getRequest()->getAttribute('identity');
                         </div>
                     <?php endif; ?>
                 </div>
+<?php endif; ?>
 
+<?php if($user->isAdmin() || isSupervisor()): ?>
                 <div id="avaliacoes" class="tab-pane container fade">
                     <h4><?= __('Avaliações') ?></h4>
                     <?php if (!empty($supervisor->estagiarios)): ?>
@@ -294,10 +302,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                                        <?php if ($user->categoria_id == 1 ||($user->categoria_id == 4): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif ($user->categoria_id == 2 || $user->categoria_id == 3): ?>
+                                        <?php elseif ($user->categoria_id == 2 ||($user->categoria_id == 3): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>
@@ -308,6 +316,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         </div>
                     <?php endif; ?>
                 </div>
+<?php endif; ?>
             </div>
         </div>
     </div>

@@ -5,13 +5,10 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <?= $this->element('templates') ?>
 
 <div class="container">
 
-    <?php if (isset($user) && $user->categoria_id == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,15 +16,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
+                    <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo(a) aluno(a'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-        <?php endif; ?>
 
-    <?php if (isset($user) && $user->categoria_id == 1): ?>
         <h3><?= __('Aluno(a)s') ?></h3>
         <div class="row justify-content-start">
             <div class="col-auto">
@@ -38,7 +35,6 @@
                 <?= $this->Form->end(); ?>
             </div>
         </div>
-    <?php endif; ?>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -87,8 +83,10 @@
                         <td><?= h($aluno->observacoes) ?></td>
                         <td>
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id], ['class' => 'link-info']) ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id], ['class' => 'link-warning']) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'link-danger']) ?>
+                            <?php if($user->isAdmin()): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id], ['class' => 'link-warning']) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'link-danger']) ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

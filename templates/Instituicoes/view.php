@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 
     <div class="container">
@@ -15,15 +14,15 @@ $user = $this->getRequest()->getAttribute('identity');
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                    <?php if ($user->isAdmin() || $user->isSupervisor()): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary float-end']) ?>
                         </li>
                     <?php endif; ?>
-                    <?php if ($user->categoria_id == 1): ?>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                        </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <?php if ($user->isAdmin()): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Nova Instituição de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                         </li>
@@ -36,7 +35,8 @@ $user = $this->getRequest()->getAttribute('identity');
         </nav>
 
         <div class="container">
-            <ul class="nav nav-tabs">
+
+        <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
                         aria-controls="instituicao" aria-selected="true">Instituição</a>
@@ -61,7 +61,8 @@ $user = $this->getRequest()->getAttribute('identity');
         </div>
 
         <div class="row">
-            <div class="tab-content">
+
+        <div class="tab-content">
 
                 <div id="instituicao" class="tab-pane container active show">
                     <h3><?= $instituicao->instituicao ?></h3>
@@ -166,14 +167,14 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Nome') ?></th>
                                     <th><?= __('Cress') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                    <?php if($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
                                 <?php foreach ($instituicao->supervisores as $supervisores): ?>
                                     <tr>
                                         <td><?= h($supervisores->id) ?></td>
-                                        <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td><?= $this->Html->link($supervisores->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                             </td>
                                         <?php else: ?>
@@ -181,11 +182,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <?php endif; ?>
                                         <td><?= h($supervisores->cress) ?></td>
                                         <td><?= h($supervisores->observacoes) ?></td>
-                                        <?php if (isset($this->getRequest()->getAttribute('identity')['categoria_id']) && $this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('View'), ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
-                                                <?= $this->Html->link(__('Edit'), ['controller' => 'Supervisores', 'action' => 'edit', $supervisores->id]) ?>
-                                                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Supervisores', 'action' => 'delete', $supervisores->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $supervisores->id)]) ?>
+                                                <?php if ($user->isAdmin()): ?>
+                                                    <?= $this->Html->link(__('Edit'), ['controller' => 'Supervisores', 'action' => 'edit', $supervisores->id]) ?>
+                                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Supervisores', 'action' => 'delete', $supervisores->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $supervisores->id)]) ?>
+                                                <?php endif; ?>
                                             </td>
                                         <?php endif; ?>
                                     </tr>
@@ -216,7 +219,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                    <?php if($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -225,7 +228,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
 
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -234,7 +237,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
                                         <td><?= h($estagiarios->registro) ?></td>
 
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -242,7 +245,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                             </td>
                                         <?php endif; ?>
 
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -252,7 +255,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->periodo) ?></td>
                                         <td><?= h($estagiarios->nivel) ?></td>
 
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td><?= h($estagiarios->ajuste2020) ?></td>
                                             <td><?= h($estagiarios->turno) ?></td>
                                             <td><?= h($estagiarios->tc) ?></td>
@@ -264,8 +267,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                             <td><?= h($estagiarios->observacoes) ?></td>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                                <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                                <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
+                                                <?php if ($user->isAdmin()): ?>
+                                                    <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                                    <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
+                                                <?php endif; ?>
                                             </td>
                                         <?php endif; ?>
                                     </tr>
@@ -285,7 +290,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Instituicoes') ?></th>
                                     <th><?= __('Vagas') ?></th>
                                     <th><?= __('Periodo') ?></th>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                    <?php if($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -296,11 +301,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                         </td>
                                         <td><?= h($muralestagios->vagas) ?></td>
                                         <td><?= h($muralestagios->periodo) ?></td>
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>
-                                                <?= $this->Html->link(__('Editar'), ['controller' => 'Muralestagios', 'action' => 'edit', $muralestagios->id]) ?>
-                                                <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Muralestagios', 'action' => 'delete', $muralestagios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagios->id)]) ?>
+                                                <?php if ($user->isAdmin()): ?>
+                                                    <?= $this->Html->link(__('Editar'), ['controller' => 'Muralestagios', 'action' => 'edit', $muralestagios->id]) ?>
+                                                    <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Muralestagios', 'action' => 'delete', $muralestagios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $muralestagios->id)]) ?>
+                                                <?php endif; ?>
                                             </td>
                                         <?php endif; ?>
                                     </tr>
@@ -323,7 +330,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Responsável') ?></th>
                                     <th><?= __('Descrição') ?></th>
                                     <th><?= __('Avaliação') ?></th>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                    <?php if($user->isAdmin()): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -336,11 +343,13 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($visitas->responsavel) ?></td>
                                         <td><?= h($visitas->descricao) ?></td>
                                         <td><?= h($visitas->avaliacao) ?></td>
-                                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                                        <?php if($user->isAdmin()): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visitas->id]) ?>
-                                                <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visitas->id]) ?>
-                                                <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Visitas', 'action' => 'delete', $visitas->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visitas->id)]) ?>
+                                                <?php if ($user->isAdmin()): ?>
+                                                    <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visitas->id]) ?>
+                                                    <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Visitas', 'action' => 'delete', $visitas->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visitas->id)]) ?>
+                                                <?php endif; ?>
                                             </td>
                                         <?php endif; ?>
                                     </tr>

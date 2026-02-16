@@ -5,12 +5,8 @@
  */
 ?>
 
-<?php
-$user = $this->getRequest()->getAttribute('identity');
-?>
-
 <div class="container">
-    <?php if ($user->categoria_id == '1'): ?>
+
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,13 +14,14 @@ $user = $this->getRequest()->getAttribute('identity');
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
+<?php if($user->isAdmin()): ?>
+                <li class="nav-item">
                         <?= $this->Html->link(__('Novo(a) aluno(a) estagiario(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
+<?php endif; ?>
                 </ul>
             </div>
         </nav>
-    <?php endif; ?>
 
     <h3><?= __('Aluno(a)s estagiario(a)s') ?></h3>
 
@@ -49,7 +46,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <th><?= $this->Paginator->sort('municipio') ?></th>
                     <th><?= $this->Paginator->sort('bairro') ?></th>
                     <th><?= $this->Paginator->sort('observacoes') ?></th>
-                    <?php if ($user->categoria_id == '1'): ?>
+                    <?php if($user->isAdmin()): ?>
                         <th class="row"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -75,10 +72,10 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= h($aluno->municipio) ?></td>
                         <td><?= h($aluno->bairro) ?></td>
                         <td><?= h($aluno->observacoes) ?></td>
-                        <?php if ($user_categoria_id == '1'): ?>
+                        <?php if($user->isAdmin()): ?>
                             <td class="row">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id]) ?>
-                                <?php if ($user_categoria_id == '1'): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id)]) ?>
                                 <?php endif; ?>

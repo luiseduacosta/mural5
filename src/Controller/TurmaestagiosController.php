@@ -18,6 +18,11 @@ class TurmaestagiosController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index() {
+        /** Autorização: Alunos não podem ver a listagem geral */
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent()) {
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
+        }
         $turmaestagios = $this->paginate($this->Turmaestagios);
 
         $this->set(compact('turmaestagios'));
@@ -31,6 +36,13 @@ class TurmaestagiosController extends AppController {
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null) {
+
+        /** Autorização: Alunos não podem ver detalhes de turmas não relacionadas a eles (ou simplesmente não podem ver detalhes de turmas) */
+        $user = $this->getRequest()->getAttribute('identity');
+        if ($user->isStudent()) {
+            $this->Flash->error(__('Não autorizado!'));
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $user->aluno_id]);
+        }
 
         ini_set('memory_limit', '2048M');
         $turmaestagio = $this->Turmaestagios->get($id, [
@@ -52,7 +64,7 @@ class TurmaestagiosController extends AppController {
      */
     public function add() {
 
-        if ($his->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1) {
             $turmaestagio = $this->Turmaestagios->newEmptyEntity();
             if ($this->request->is('post')) {
                 $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());

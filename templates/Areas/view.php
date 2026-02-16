@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -18,7 +16,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+                <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar área de instituição'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>

@@ -27,7 +27,7 @@ if ($session) {
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if ($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Form->postLink(
                             __('Excluir'),
@@ -44,7 +44,7 @@ if ($session) {
     <fieldset>
         <h3><?= __('Editando Administrador') ?></h3>
         <?php
-        if (isset($user) && $user->categoria_id == 1):
+        if ($user->isAdmin()):
             echo $this->Form->control('user_id', ['type' => 'number', 'class' => 'form-control']);
         endif;
         echo $this->Form->control('nome', ['class' => 'form-control']);

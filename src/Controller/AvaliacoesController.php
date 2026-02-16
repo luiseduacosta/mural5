@@ -123,7 +123,7 @@ class AvaliacoesController extends AppController
                 $estagiario_id = $avaliacaoexiste->estagiario_id;
             }
         } else {
-            $this->Flash->error(__('Faltam parâmetros: id ou estagiario_id'));
+            $this->Flash->error(__('Falta o estagiario_id'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
@@ -214,7 +214,7 @@ class AvaliacoesController extends AppController
         $estagiario_id = $this->getRequest()->getSession()->read('estagiario_id');
         if ($estagiario_id == null) {
             $this->Flash->error(__('Selecionar o aluno estagiário'));
-            return $this->redirect('/alunos/index');
+            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
         } else {
             $estagiariostabela = $this->fetchTable('Estagiarios');
             $estagiario = $estagiariostabela->find()

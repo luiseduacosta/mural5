@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
-
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,7 +17,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar turma de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
-                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                <?php if($user->isAdmin()): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar turma de estágio'), ['action' => 'edit', $turmaestagio->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -66,12 +64,12 @@
                             <th><?= __('Professor') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <th><?= __('Turma') ?></th>
-                            <?php if (isset($user) && $user->categoria_id == 1): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <th><?= __('Nota') ?></th>
                                 <th><?= __('CH') ?></th>
                                 <th><?= __('Observacoes') ?></th>
                             <?php endif; ?>
-                            <?php if (isset($user) && $user->categoria_id == 1): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <th><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -107,14 +105,14 @@
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= $estagiarios->hasValue('turmaestagio') ? $this->Html->link(h($estagiarios->turmaestagio->area), ['controller' => 'turmaestagios', 'action' => 'view', $estagiarios->turmaestagio_id]) : '' ?>
                                 </td>
-                                <?php if (isset($user) && $user->categoria_id == 1): ?>
+                                <?php if($user->isAdmin()): ?>
                                     <td><?= h($estagiarios->nota) ?></td>
                                     <td><?= h($estagiarios->ch) ?></td>
                                     <td><?= h($estagiarios->observacoes) ?></td>
                                 <?php endif; ?>
 
                                 <td>
-                                    <?php if (isset($user) && $user->categoria_id == 1): ?>
+                                    <?php if($user->isAdmin()): ?>
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id], ['class' => 'link-info']) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id], ['class' => 'link-warning']) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id), 'class' => 'link-danger']) ?>

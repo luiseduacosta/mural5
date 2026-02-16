@@ -7,7 +7,7 @@
 
 <?= $this->element('templates') ?>
 
-<div class="row">
+<div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"

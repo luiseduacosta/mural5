@@ -3,33 +3,23 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
  */
-// pr($periodo);
-// pr($muralestagios);
-?>
-<?php
-/*
-  var url = "<?= $this->Html->url(['controller' => 'Murals', 'action' => 'index/periodo:']); ?>";
- */
 ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
 
         var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index?periodo=']); ?>";
-        // alert(url);
         $("#MuralestagioPeriodo").change(function () {
             var periodo = $(this).val();
-            // alert(url + '/index/' + periodo);
             window.location = url + periodo;
         })
     })
 </script>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+<?= $this->element('templates') ?>
 
 <div class="container">
 
-    <?php if (isset($user) && $user->categoria_id == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,22 +27,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
+                    <?php if ($user->isAdmin()): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-    <?php endif; ?>
 
-    <?= $this->element('templates') ?>
 
     <div class="row">
         <h3><?= __('Mural de estagios') ?></h3>
     </div>
 
     <div class="row justify-content-center">
-        <?php if (isset($user) && $user->categoria_id == '1'): ?>
+        <?php if($user->isAdmin()): ?>
             <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -109,7 +99,9 @@
             </tbody>
         </table>
     </div>
+
     <?= $this->element('templates'); ?>
+
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <ul class="pagination">

@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-// pr($estagiarios);
-// pr($periodo);
 ?>
 
 <script type="text/javascript">
@@ -21,13 +19,10 @@
     })
 </script>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
 <?= $this->element('templates') ?>
 
 <div class='container'>
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,15 +30,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
+                    <?php if($user->isAdmin() || isProfessor()): ?>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </nav>
-    <?php endif; ?>
-
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
 
         <h3><?= __('Estagiario(a)s') ?></h3>
 
@@ -55,9 +49,6 @@
             </div>
         </div>
         <?= $this->Form->end(); ?>
-    <?php else: ?>
-        <h3 style="text-align: center;">Estagiários da ESS/UFRJ. Período: <?= $periodo ?></h3>
-    <?php endif; ?>
 
     <div class="container">
         <div class="table-responsive">
@@ -98,7 +89,7 @@
                             <td><?= h($estagiario->turno) ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
                             <td><?= $estagiario->tc ?></td>
-                            <td><?= date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) ?></td>
+                            <td><?= date('d-m-Y', strtotime($estagiario->tc_solicitacao)) ?></td>
 
                             <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                             </td>
@@ -120,7 +111,7 @@
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>
                             <td><?= h($estagiario->observacoes) ?></td>
-                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                            <?php if($user->isAdmin()): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>

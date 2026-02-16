@@ -3,11 +3,11 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-// pr($estagiario->item->aluno);
-// die();
 ?>
-<div class="avaliacaoes index container">
-    <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
+
+<div class="container">
+
+<h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>

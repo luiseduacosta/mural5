@@ -25,6 +25,7 @@
 
 <div class="container mt-2">
 
+    <?php if($user->isAdmin()): ?>
     <?= $this->Form->create(null, ['url' => 'index', 'class' => 'form-inline']); ?>
     <div class="form-group row mt-2">
         <label for="periodo" class='col-sm-1 col-form-label'>Período</label>
@@ -33,6 +34,7 @@
         </div>
     </div>
     <?= $this->Form->end(); ?>
+    <?php endif; ?>
     
     <table id="sortableTable" class='table table-striped table-hover table-responsive mt-2'>
         <caption style='caption-side: top;'>Escola de Serviço Social da UFRJ. Planilha de estagiários para o seguro.</caption>
