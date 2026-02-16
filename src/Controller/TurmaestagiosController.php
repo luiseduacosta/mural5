@@ -43,9 +43,15 @@ class TurmaestagiosController extends AppController {
         }
 
         ini_set('memory_limit', '2048M');
-        $turmaestagio = $this->Turmaestagios->get($id, [
-            'contain' => ['Estagiarios' => ['Alunos', 'Professores', 'Supervisores', 'Instituicoes']],
-        ]);
+
+        try {
+            $turmaestagio = $this->Turmaestagios->get($id, [
+                'contain' => ['Estagiarios' => ['Alunos', 'Professores', 'Supervisores', 'Instituicoes']],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de turmas de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($turmaestagio)) {
             $this->Flash->error(__('Nao ha registros de turmas de estagio para esse numero!'));
@@ -89,9 +95,16 @@ class TurmaestagiosController extends AppController {
     public function edit($id = null) {
 
         if ($this->user->isAdmin()) {            
-            $turmaestagio = $this->Turmaestagios->get($id, [
-                'contain' => [],
-            ]);
+
+            try {
+                $turmaestagio = $this->Turmaestagios->get($id, [
+                    'contain' => [],
+                ]);
+            } catch (\Exception $e) {
+                $this->Flash->error(__('Nao ha registros de turmas de estagio para esse numero!'));
+                return $this->redirect(['action' => 'index']);
+            }
+
             if ($this->request->is(['patch', 'post', 'put'])) {
                 $turmaestagio = $this->Turmaestagios->patchEntity($turmaestagio, $this->request->getData());
                 if ($this->Turmaestagios->save($turmaestagio)) {
@@ -118,13 +131,21 @@ class TurmaestagiosController extends AppController {
 
         if ($this->user->isAdmin()) {
             $this->request->allowMethod(['post', 'delete']);
-            $turmaestagio = $this->Turmaestagios->get($id, [
-                'contain' => ['Estagiarios']
-            ]);
+
+            try {
+                $turmaestagio = $this->Turmaestagios->get($id, [
+                    'contain' => ['Estagiarios']
+                ]);
+            } catch (\Exception $e) {
+                $this->Flash->error(__('Nao ha registros de turmas de estagio para esse numero!'));
+                return $this->redirect(['action' => 'index']);
+            }
+
             if (sizeof($turmaestagio->estagiarios) > 0) {
                 $this->Flash->error(__("Não pode ser excluida porque têm estagiários associados."));
                 return $this->redirect(['controller' => 'Turmaestagios', 'action' => 'view', $id]);
             }
+
             if ($this->Turmaestagios->delete($turmaestagio)) {
                 $this->Flash->success(__('Turma de estágio excluída.'));
             } else {

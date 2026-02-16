@@ -9,7 +9,7 @@ use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
 use Cake\I18n;
-    
+
 /**
  * Avaliacoes Controller
  *
@@ -194,12 +194,16 @@ class AvaliacoesController extends AppController
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $avaliacao = $this->Avaliacoes->get($id, [
-            'contain' => ['Estagiarios' => ['Alunos']],
-        ]);
-        // pr($avaliacao->estagiario);
+        try {
+            $avaliacao = $this->Avaliacoes->get($id, [
+                'contain' => ['Estagiarios' => ['Alunos']],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $estagiario = $avaliacao->estagiario;
-        // die();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
             if ($this->Avaliacoes->save($avaliacao)) {
@@ -229,7 +233,14 @@ class AvaliacoesController extends AppController
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $avaliacao = $this->Avaliacoes->get($id);
+
+        try {
+            $avaliacao = $this->Avaliacoes->get($id);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->Avaliacoes->delete($avaliacao)) {
             $this->Flash->success(__('Avaliacao excluida.'));
         } else {

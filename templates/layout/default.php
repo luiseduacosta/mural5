@@ -64,9 +64,8 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
     <div class="container">
         <div class='row justify-content-center'>
             <?php
-            $categoria = $user ? $user->categoria_id : null;
-            if (isset($categoria) && (!empty($categoria))) {
-                switch ($categoria) {
+            if (isset($user)) {
+                switch ($user->categoria_id) {
                     case 1: // Administrador
                         echo $this->element('submenu_navegacao');
                         break;
@@ -85,11 +84,9 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         break;
                     default:
                         echo $this->element('submenu_navegacao');
-                        // echo $this->element('menu_mural'); 
                         break;
                 }
             } else {
-                // echo $this->element('menu_mural');
                 echo $this->element('submenu_navegacao');
             }
             ?>

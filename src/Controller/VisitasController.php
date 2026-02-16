@@ -45,9 +45,14 @@ class VisitasController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $visita = $this->Visitas->get($id, [
-            'contain' => ['Instituicoes'],
-        ]);
+        try {
+            $visita = $this->Visitas->get($id, [
+                'contain' => ['Instituicoes'],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de visitas para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($visita)) {
             $this->Flash->error(__('Nao ha registros de visitas para esse numero!'));
@@ -99,9 +104,15 @@ class VisitasController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $visita = $this->Visitas->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $visita = $this->Visitas->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de visitas para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $visita = $this->Visitas->patchEntity($visita, $this->request->getData());
             if ($this->Visitas->save($visita)) {
@@ -130,7 +141,14 @@ class VisitasController extends AppController {
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $visita = $this->Visitas->get($id);
+
+        try {
+            $visita = $this->Visitas->get($id);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de visitas para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->Visitas->delete($visita)) {
             $this->Flash->success(__('Registro visita excluído.'));
         } else {

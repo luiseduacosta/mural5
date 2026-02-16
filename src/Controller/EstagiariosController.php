@@ -83,7 +83,7 @@ class EstagiariosController extends AppController
         }
 
         if ($id == null) {
-            $this->Flash->error(__('Nao ha registros de estagiarios para esse numero!'));
+            $this->Flash->error(__('Sem parâmetros para localizar o(a) aluno(a)!'));
             return $this->redirect(['action' => 'index']);
         }
 
@@ -109,7 +109,6 @@ class EstagiariosController extends AppController
      */
     public function add()
     {
-
         /** Autorização */
         if (!$this->user->isAdmin() && !$this->user->isStudent()) {
             $this->Flash->error(__('Usuario nao autorizado.'));
@@ -118,6 +117,7 @@ class EstagiariosController extends AppController
 
         /** Capturo o id do aluno se estiver cadastrado e envio para o formulario. */
         $aluno_id = $this->Authentication->getIdentityData('aluno_id');
+     
         if ($aluno_id) {
             $alunoestagiarios = $this->fetchTable('Alunos')->find()
                 ->contain(['Estagiarios' => ['sort' => ['nivel' => 'desc']]])

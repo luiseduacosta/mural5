@@ -21,7 +21,7 @@ class ProfessoresController extends AppController {
 
         /** Autorização */
         // Everybody that is logged in can access this page
-        if (!$this->user->isAdmin() || $this->user->isStudent() || $this->user->isProfessor() || $this->user->isSupervisor()) {
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'index']);
         }
@@ -54,10 +54,16 @@ class ProfessoresController extends AppController {
 
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-                ]
-        );
+
+        try {   
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
+                    ]
+            );
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($professor)) {
             $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
@@ -184,9 +190,15 @@ class ProfessoresController extends AppController {
             }
         }
 
-        $professor = $this->Professores->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $professor = $this->Professores->patchEntity($professor, $this->request->getData());
             if ($this->Professores->save($professor)) {
@@ -216,13 +228,21 @@ class ProfessoresController extends AppController {
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if (sizeof($professor->estagiarios) > 0) {
             $this->Flash->error(__('Professor(a) tem estagiários associados'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'view', $id]);
         }
+
         if ($this->Professores->delete($professor)) {
             $this->Flash->success(__('Registro professor(a) excluído.'));
         } else {

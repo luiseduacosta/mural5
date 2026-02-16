@@ -38,9 +38,14 @@ class AreasController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $area = $this->Areas->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $area = $this->Areas->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de area para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($area)) {
             $this->Flash->error(__('Nao ha registros de área para esse id!'));
@@ -91,9 +96,14 @@ class AreasController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $area = $this->Areas->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $area = $this->Areas->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de area para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $arearesultado = $this->Areas->patchEntity($area, $this->request->getData());
@@ -123,6 +133,7 @@ class AreasController extends AppController {
         }
 
         $this->request->allowMethod(['post', 'delete']);
+        
         $arearesultado = $this->Areas->get($id);
         if ($this->Areas->delete($arearesultado)) {
             $this->Flash->success(__('Registro área excluido.'));

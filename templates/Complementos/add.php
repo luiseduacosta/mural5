@@ -4,11 +4,10 @@
  * @var \App\Model\Entity\Complemento $complemento
  */
 ?>
+
 <?= $this->element('templates') ?>
 
 <div class="container">
-
-<div class="row">
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerComplemento"
@@ -35,4 +34,3 @@
         <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary me-1']) ?>
         <?= $this->Form->end() ?>
     </div>
-</div>

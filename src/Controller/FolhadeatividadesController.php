@@ -258,7 +258,6 @@ class FolhadeatividadesController extends AppController
      */
     public function edit($id = null)
     {
-
         /** Autorização */
         if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             if ($this->user->isStudent()) {
@@ -274,9 +273,15 @@ class FolhadeatividadesController extends AppController
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $folhadeatividade = $this->Folhadeatividades->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $folhadeatividade = $this->Folhadeatividades->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $dados = $this->request->getData();
             $dados['horario'] = null;
@@ -323,7 +328,14 @@ class FolhadeatividadesController extends AppController
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $folhadeatividade = $this->Folhadeatividades->get($id);
+
+        try {
+            $folhadeatividade = $this->Folhadeatividades->get($id);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros para esse id!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         $estagiariotabela = $this->fetchTable('Estagiarios');
         $estagiario = $estagiariotabela->find()
             ->where(['id' => $folhadeatividade->estagiario_id])
@@ -389,7 +401,6 @@ class FolhadeatividadesController extends AppController
      */
     public function folhadeatividadespdf($id = NULL)
     {
-
         /** Autorização */
         if (!$this->user->isAdmin() || !$this->user->isStudent()) {
             if ($this->user->isStudent()) {

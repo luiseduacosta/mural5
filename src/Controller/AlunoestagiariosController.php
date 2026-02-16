@@ -44,9 +44,14 @@ class AlunoestagiariosController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $alunoestagiario = $this->Alunoestagiarios->get($id, [
-            'contain' => ['Estagiarios' => ['Instituicoes', 'Alunos', 'Professores', 'Supervisores']],
-        ]);
+        try {
+            $alunoestagiario = $this->Alunoestagiarios->get($id, [
+                'contain' => ['Estagiarios' => ['Instituicoes', 'Alunos', 'Professores', 'Supervisores']],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de aluno para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($alunoestagiario)) {
             $this->Flash->error(__('Nao ha registros de aluno para esse numero!'));
@@ -97,9 +102,15 @@ class AlunoestagiariosController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $alunoestagiario = $this->Alunoestagiarios->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $alunoestagiario = $this->Alunoestagiarios->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de aluno para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $alunoestagiarioresultado = $this->Alunoestagiarios->patchEntity($alunoestagiario, $this->request->getData());
             if ($this->Alunoestagiarios->save($alunoestagiarioresultado)) {
@@ -128,9 +139,16 @@ class AlunoestagiariosController extends AppController {
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $alunoestagiario = $this->Alunoestagiarios->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+
+        try {
+            $alunoestagiario = $this->Alunoestagiarios->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de aluno para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if (sizeof($alunoestagiario->estagiarios) > 0) {
             $this->Flash->error(__('Aluno estagiários tem estagiários associados.'));
             return $this->redirect(['controller' => 'alunoestagiarios', 'action' => 'view', $id]);

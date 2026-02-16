@@ -14,8 +14,6 @@ class MuralestagiosController extends AppController {
 
     public function beforeFilter(\Cake\Event\EventInterface $event) {
         parent::beforeFilter($event);
-        // Configure the login action to not require authentication, preventing
-        // the infinite redirect loop issue
         $this->Authentication->addUnauthenticatedActions(['index', 'view']);
     }
 
@@ -69,14 +67,19 @@ class MuralestagiosController extends AppController {
 
         /** Autorização */
         // Everybody that is logged in can access this page
-        if (!$this->user->isAdmin() || $this->user->isStudent() || $this->user->isProfessor() || $this->user->isSupervisor()) {
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes', 'Professores', 'Inscricoes' => ['Alunos']]
-        ]);
+        try {
+            $muralestagio = $this->Muralestagios->get($id, [
+                'contain' => ['Instituicoes', 'Professores', 'Inscricoes' => ['Alunos']]
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($muralestagio)) {
             $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
@@ -158,9 +161,14 @@ class MuralestagiosController extends AppController {
             $periodostotal[$c_periodo->periodo] = $c_periodo->periodo;
         }
 
-        $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Instituicoes']
-        ]);
+        try {
+            $muralestagio = $this->Muralestagios->get($id, [
+                'contain' => ['Instituicoes']
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $this->request->getData());
@@ -194,9 +202,16 @@ class MuralestagiosController extends AppController {
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $muralestagio = $this->Muralestagios->get($id, [
-            'contain' => ['Inscricoes']
-        ]);
+
+        try {
+            $muralestagio = $this->Muralestagios->get($id, [
+                'contain' => ['Inscricoes']
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de mural de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if (sizeof($muralestagio->inscricoes) > 0) {
             $this->Flash->error(__('Mural de estágio com inscrições'));
             return $this->redirect(['action' => 'view', $id]);

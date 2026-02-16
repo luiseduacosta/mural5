@@ -22,7 +22,7 @@ class SupervisoresController extends AppController
     {
         /** Autorização */
         // Everybody that is logged in can access this page
-        if (!$this->user->isAdmin() || $this->user->isProfessor() || $this->user->isSupervisor() || $this->user->isStudent()) {
+        if (!$this->user) {
             $this->Flash->error(__('Usuario nao autorizado.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -54,18 +54,22 @@ class SupervisoresController extends AppController
             }
         }
 
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => [
-                'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
-                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
-            ]
-        ]);
+        try {
+            $supervisor = $this->Supervisores->get($id, [
+                'contain' => [
+                    'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
+                    'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
+                ]
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         if (!isset($supervisor)) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-
 
         $this->set(compact('supervisor'));
     }
@@ -195,9 +199,15 @@ class SupervisoresController extends AppController
             }
         }
 
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Instituicoes'],
-        ]);
+        try {
+            $supervisor = $this->Supervisores->get($id, [
+                'contain' => ['Instituicoes'],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supervisor = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
             if ($this->Supervisores->save($supervisor)) {
@@ -229,13 +239,21 @@ class SupervisoresController extends AppController
         }
 
         $this->request->allowMethod(['post', 'delete']);
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+
+        try {
+            $supervisor = $this->Supervisores->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if (sizeof($supervisor->estagiarios) > 0) {
             $this->Flash->error(__('Supervisor(a) com estagiarios'));
             return $this->redirect(['controller' => 'supervisores', 'action' => 'view', $id]);
         }
+
         if ($this->Supervisores->delete($supervisor)) {
             $this->Flash->success(__('The supervisor has been deleted.'));
         } else {

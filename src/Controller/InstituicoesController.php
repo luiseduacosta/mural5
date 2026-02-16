@@ -48,11 +48,11 @@ class InstituicoesController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $instituicao = $this->Instituicoes->get($id, [
-            'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
-        ]);
-
-        if (!isset($instituicao)) {
+        try {
+            $instituicao = $this->Instituicoes->get($id, [
+                'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
+            ]);
+        } catch (\Exception $e) {
             $this->Flash->error(__('Nao ha registros de instituicao de estagio para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
@@ -102,9 +102,15 @@ class InstituicoesController extends AppController {
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        $instituicao = $this->Instituicoes->get($id, [
-            'contain' => ['Supervisores'],
-        ]);
+        try {
+            $instituicao = $this->Instituicoes->get($id, [
+                'contain' => ['Supervisores'],
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->error(__('Nao ha registros de instituicao de estagio para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $instituicao = $this->Instituicoes->patchEntity($instituicao, $this->request->getData());
             if ($this->Instituicoes->save($instituicao)) {

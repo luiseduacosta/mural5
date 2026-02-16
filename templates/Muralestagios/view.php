@@ -233,13 +233,13 @@
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if($user->isAdmin()): ?>
+                    <?php if ($user->isAdmin()): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isStudent()): ?>
+                    <?php elseif ($user->isStudent()): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->
@@ -286,7 +286,7 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if($user->isAdmin()): ?>
+                            <?php if ($user->isAdmin()): ?>
                                 <th><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -301,7 +301,7 @@
 
                                 <td><?= date('d-m-Y', strtotime($inscricoes->data)) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if($user->isAdmin()): ?>
+                                <?php if ($user->isAdmin()): ?>
                                     <td>
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id], ['class' => 'link-info']) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id], ['class' => 'link-warning']) ?>
