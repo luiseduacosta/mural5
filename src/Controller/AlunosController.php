@@ -301,6 +301,7 @@ class AlunosController extends AppController {
      * Planilha para seguro de vida dos alunos estagiários
      *
      * @param string|null $id Aluno id.
+     * @param string|null $periodo
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function planilhaseguro($id = NULL) {

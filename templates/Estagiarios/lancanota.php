@@ -3,9 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-// pr($estagiarios);
-// pr($periodo);
-// die();
 ?>
 
 <script type="text/javascript">
@@ -16,7 +13,7 @@
         $("#Periodo").change(function () {
             var periodo = $(this).val();
             // alert(url + '/index/' + periodo);
-            window.location = url + '/index/' + periodo;
+            window.location = url + '?periodo=' + periodo;
         })
 
     })
@@ -63,15 +60,15 @@
                     <?php // pr($estagiario); ?>
                     <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>
+                        <?php if ($user->isAdmin()): ?>
                             <td><?= $estagiario->id ?></td>
                         <?php endif; ?>
-                        <td><?= $this->Html->link($estagiario['aluno'], ['controller' => 'Alunos', 'action' => 'view', $estagiario['aluno_id']]) ?>
+                        <td><?= $this->Html->link($estagiario['aluno']['nome'], ['controller' => 'Alunos', 'action' => 'view', $estagiario['aluno_id']]) ?>
                         </td>
                         <td><?= $estagiario['registro'] ?></td>
-                        <td><?= $this->Html->link($estagiario['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $estagiario['instituicao_id']]) ?>
+                        <td><?= $this->Html->link($estagiario['instituicao']['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $estagiario['instituicao_id']]) ?>
                         </td>
-                        <td><?= $this->Html->link($estagiario['supervisora'], ['controller' => 'Supervisores', 'action' => 'view', $estagiario['supervisor_id']]) ?>
+                        <td><?= $estagiario['supervisor'] ? $estagiario['supervisor']['nome'] : null ?>
                         </td>
                         <td><?= $estagiario['periodo'] ?></td>
                         <td><?= $estagiario['nivel'] ?></td>

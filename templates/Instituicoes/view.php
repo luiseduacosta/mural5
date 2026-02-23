@@ -73,7 +73,7 @@
                         </tr>
                         <tr>
                             <th><?= __('Instituição') ?></th>
-                            <td><?= $instituicao->instituicao ?></td>
+                            <td><?= $instituicao->instituicao ? $instituicao->instituicao : 'Sem dados' ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Área instituicao') ?></th>

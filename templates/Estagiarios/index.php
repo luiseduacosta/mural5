@@ -108,8 +108,8 @@
                             <td><?= $estagiario->complemento_id ?>
                             </td>
 
-                            <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
-                            <td><?= $this->Number->format($estagiario->ch) ?></td>
+                            <td><?= $estagiario->nota ? $this->Number->format($estagiario->nota, ['precision' => 2]) : '0.00' ?></td>
+                            <td><?= $estagiario->ch ? $this->Number->format($estagiario->ch) : '0' ?></td>
                             <td><?= h($estagiario->observacoes) ?></td>
                             <?php if ($user->isAdmin()): ?>
                                 <td class="actions">
