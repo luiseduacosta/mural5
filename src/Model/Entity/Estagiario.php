@@ -33,7 +33,6 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Avaliacao[] $avaliacao
  * @property \App\Model\Entity\Avaliacao[] $resposta
  * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividade
- * @property \App\Model\Entity\Tccestudante[] $tccestudante
  */
 class Estagiario extends Entity
 {
@@ -70,6 +69,5 @@ class Estagiario extends Entity
         "avaliacao" => true,
         "resposta" => true,
         "folhadeatividade" => true,
-        "tccestudante" => true,
     ];
 }

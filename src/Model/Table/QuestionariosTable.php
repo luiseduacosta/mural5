@@ -11,7 +11,7 @@ use Cake\Validation\Validator;
 /**
  * Questionarios Model
  *
- * @property \App\Model\Table\QuestionesTable&\Cake\ORM\Association\HasMany $Questiones
+ * @property \App\Model\Table\QuestoesTable&\Cake\ORM\Association\HasMany $Questoes
  *
  * @method \App\Model\Entity\Questionario newEmptyEntity()
  * @method \App\Model\Entity\Questionario newEntity(array $data, array $options = [])
