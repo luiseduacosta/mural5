@@ -42,7 +42,7 @@
                 <?php foreach ($visitas as $visita): ?>
                     <tr>
                         <td><?= $visita->id ?></td>
-                        <td><?= $visita->hasValue('instituicao') ? $this->Html->link($visita->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao->id]) : '' ?>
+                        <td><?= $visita->hasValue('instituicao') && is_object($visita->instituicao) ? $this->Html->link($visita->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao->id]) : '' ?>
                         </td>
                         <td><?= date('d-m-Y', strtotime($visita->data)) ?></td>
                         <td><?= h($visita->motivo) ?></td>
