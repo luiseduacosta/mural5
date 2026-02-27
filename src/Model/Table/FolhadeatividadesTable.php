@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -11,9 +10,9 @@ use Cake\Validation\Validator;
 
 /**
  * Folhadeatividades Model
- *
- * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\BelongsTo $Estagiarios
  * 
+ * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\BelongsTo $Estagiarios
+ *
  * @method \App\Model\Entity\Folhadeatividade newEmptyEntity()
  * @method \App\Model\Entity\Folhadeatividade newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Folhadeatividade[] newEntities(array $data, array $options = [])
@@ -40,6 +39,7 @@ class FolhadeatividadesTable extends Table {
         parent::initialize($config);
 
         $this->setTable('folhadeatividades');
+        $this->setAlias('Folhadeatividades');
         $this->setDisplayField('atividade');
         $this->setPrimaryKey('id');
 
@@ -50,7 +50,7 @@ class FolhadeatividadesTable extends Table {
 
     public function beforeFind($event, $query, $options, $primary) {
 
-        $query->order(['dia' => 'ASC']);
+        $query->order(['Folhadeatividades.dia' => 'ASC']);
         return $query;
     }
 
@@ -101,7 +101,6 @@ class FolhadeatividadesTable extends Table {
      * @return \Cake\ORM\RulesChecker
      */
     public function buildRules(RulesChecker $rules): RulesChecker {
-        
         $rules->add($rules->existsIn(['estagiario_id'], 'Estagiarios'), ['errorField' => 'estagiario_id']);
 
         return $rules;

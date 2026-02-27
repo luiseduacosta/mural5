@@ -13,6 +13,8 @@ use Cake\Validation\Validator;
  * Turmaestagios Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
+ * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
+ * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\HasMany $Instituicoes
  * 
  * @method \App\Model\Entity\Turmaestagio newEmptyEntity()
  * @method \App\Model\Entity\Turmaestagio newEntity(array $data, array $options = [])
@@ -47,11 +49,17 @@ class TurmaestagiosTable extends Table {
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'turmaestagio_id',
         ]);
+        $this->hasMany('Muralestagios', [
+            'foreignKey' => 'turmaestagio_id',
+        ]);
+        $this->hasMany('Instituicoes', [
+            'foreignKey' => 'turmaestagio_id',
+        ]);
     }
 
     public function beforeFind($event, $query, $options, $primary) {
 
-        $query->order(['area' => 'ASC']);
+        $query->order(['Turmaestagios.area' => 'ASC']);
         return $query;
     }
 

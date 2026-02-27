@@ -1,78 +1,120 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Table\AvaliacoesTable;
-use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\Datasource\ResultSetInterface;
-use Cake\Http\Response;
-use Cake\I18n;
+use Cake\I18n\DateTime;
+use Cake\I18n\I18n;
 
 /**
  * Avaliacoes Controller
  *
- * @property AvaliacoesTable $Avaliacoes
- * @method \App\Model\Entity\Avaliaco[]|ResultSetInterface paginate($object = null, array $settings = [])
+ * @property \App\Model\Table\AvaliacoesTable $Avaliacoes
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * 
+ * @method \App\Model\Entity\Avaliaco[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AvaliacoesController extends AppController
 {
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+        try {
+            $this->Authorization->authorize($this->Avaliacoes);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para visualizar as avaliações."));
+            return $this->redirect(["controller" => "Instituicoes", "action" => "index"]);
+        }
+        $avaliacoes = $this->Avaliacoes->find()->contain([
+            "Estagiarios" => ["Alunos", "Supervisores", "Instituicoes"],
+        ]);
+        $this->set("estagiarios", $this->paginate($avaliacoes));
+    }
 
     /**
-     * Index method. Mostra os estágios de um aluno estagiario.
+     * Avaliacoes method
      *
-     * @return Response|null|void Renders view
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function index($id = NULL)
+    public function avaliacoes($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor() && !$this->user->isStudent()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        try {
+            $this->Authorization->authorize($this->Avaliacoes);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para visualizar as avaliações."));
+            return $this->redirect(["controller" => "Instituicoes", "action" => "index"]);
         }
 
-        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-        if ($estagiario_id) {
-            $estagiario = $this->Avaliacoes->Estagiarios->find('all')
-                ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Avaliacoes'])
-                ->where(['Estagiarios.id' => $estagiario_id]);
 
-            $this->set('estagiario_id', $estagiario_id);
-            $this->set('estagiario', $this->paginate($estagiario));
-        } else {
-            $this->Flash->error(__('Selecionar estagiário.'));
-            return $this->redirect('/alunos/index');
-        }
+        /** O id enviado pelo submenu_navegacao corresponde ao estagiario_id */
+        $estagiario_id = $this->request->getQuery("estagiario_id");
+        if ($estagiario_id === null) {
+            $this->Flash->error(__("Selecionar estagiário"));
+            return $this->redirect(["controller" => "estagiarios", "action" => "index"]);
+        } 
+
+        /**  Captura os estágios do aluno */
+        $estagios = $this->fetchTable('Estagiarios')->find()
+            ->contain([
+                "Estudantes",
+                "Instituicoes",
+                "Supervisores",
+                "Avaliacoes",
+                ])
+            ->where(["Estagiarios.id" => $estagiario_id])
+            ->first();
+
+        $this->set("estagiario", $estagios);
+        $this->set("id", $estagiario_id);
     }
 
     /**
      * Supervisoravaliacao method
-     *
-     * @return Response|null|void Renders view
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function supervisoravaliacao($id = NULL)
+    public function supervisoravaliacao($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor() && !$this->user->isStudent()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
         /* O submenu_navegacao envia o cress */
-        $cress = $this->getRequest()->getQuery('cress');
-        if ($cress == null) {
-            $this->Flash->error(__('Selecionar estagiário, período e nível de estágio a ser avaliado'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
+        $this->Authorization->skipAuthorization();
+                
+        $cress = $cress ?? null;
+        $dre = $dre ?? null;
+
+        if (empty($cress)) {
+            $this->Flash->error(__("Selecionar supervisor(a)."));
+            if ($dre):
+                return $this->redirect([
+                    "controller" => "alunos",
+                    "action" => "view",
+                    $dre,
+                ]);
+            else:
+                return $this->redirect([
+                    "controller" => "alunos",
+                    "action" => "index",
+                ]);
+            endif;
         } else {
-            $estagiario = $this->Avaliacoes->Estagiarios->find()
-                ->contain(['Supervisores', 'Alunos', 'Professores', 'Folhadeatividades'])
-                ->where(['Supervisores.cress' => $cress])
-                ->order(['periodo' => 'desc'])
-                ->all();
-            $this->set('estagiario', $estagiario);
+            $estagiario = $this->fetchTable('Estagiarios')->find()
+                ->contain([
+                    "Supervisores",
+                    "Alunos",
+                    "Professores",
+                    "Folhadeatividades",
+                ])
+                ->where(["Supervisores.cress" => $cress])
+                ->order(["periodo" => "desc"])
+                ->first();
+            $this->set("estagiario", $estagiario);
         }
     }
 
@@ -80,244 +122,261 @@ class AvaliacoesController extends AppController
      * View method
      *
      * @param string|null $id Avaliaco id.
-     * @param mixed $estagiario_id
-     * @return Response|null|void Renders view
-     * @throws RecordNotFoundException When record not found.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor() && !$this->user->isStudent()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        try {
+            $avaliacao = $this->Avaliacoes->get($id, [
+                "contain" => [
+                    "Estagiarios" => [
+                        "Alunos",
+                        "Professores",
+                        "Instituicoes",
+                        "Supervisores",
+                    ],
+                ],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__("Registro não encontrado."));
+            return $this->redirect(["action" => "index"]);
         }
 
-        $estagiario_id = NULL;
-        if ($id) {
-            $avaliacao = $this->Avaliacoes->find()
-                ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Instituicoes']])
-                ->where(['Avaliacoes.id' => $id])
-                ->first();
-            if ($avaliacao) {
-                $estagiario_id = $avaliacao->estagiario_id;
-            }
-        } else {
-            $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-            $avaliacao = $this->Avaliacoes->find()
-                ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Instituicoes']])
-                ->where(['Avaliacoes.estagiario_id' => $estagiario_id])
-                ->first();
+        try {
+            $this->Authorization->authorize($avaliacao);
+        }
+        catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para visualizar esta avaliação."));
+            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
 
-        if ($avaliacao) {
-            $this->set(compact('avaliacao'));
-        } else {
-            /** Somente supervisor e administrador (?) podem avaliar. Portanto, redireciona para ver o estágio do estágiario */
-            $this->Flash->error(__('Estagiário sem avaliaçao'));
-            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'view', $estagiario_id]);
-        }
+        $this->set(compact("avaliacao"));
     }
 
     /**
      * Add method
-     * @param mixed $estagiario_id
      *
-     * @return Response|null|void Redirects on successful add, renders view otherwise.
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function add($id = NULL)
+    public function add($id = null)
     {
 
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        $estagiario_id = $this->request->getQuery("estagiario_id");
+        if ($estagiario_id == null) {
+            $this->Flash->error(__("Selecionar estagiário."));
+            return $this->redirect(["controller" => "estagiarios", "action" => "index"]);
         }
-
-        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-        if ($estagiario_id) {
-            $avaliacaoexiste = $this->Avaliacoes->find()
-                ->where(['estagiario_id' => $estagiario_id])
+        $avaliacaoestagiario = $this->Avaliacoes->find()
+                ->where(["estagiario_id" => $estagiario_id])
                 ->first();
-        } elseif ($id) {
-            $avaliacaoexiste = $this->Avaliacoes->find()
-                ->where(['id' => $id])
-                ->first();
-            if ($avaliacaoexiste) {
-                $estagiario_id = $avaliacaoexiste->estagiario_id;
-            }
-        } else {
-            $this->Flash->error(__('Falta o estagiario_id'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-        }
 
-        if ($avaliacaoexiste) {
-            $this->Flash->error(__('Estagiário já foi avaliado'));
-            return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoexiste->id]);
+        if (isset($avaliacaoestagiario) && !is_null($avaliacaoestagiario)) {
+            $this->Flash->error(__("Estagiário já foi avaliado"));
+            return $this->redirect([
+                "controller" => "avaliacoes",
+                "action" => "view",
+                $avaliacaoestagiario->id,
+            ]);
         }
-
+    
         $avaliacao = $this->Avaliacoes->newEmptyEntity();
-
-        if ($this->request->is('post')) {
-            $avaliacaoresposta = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
-            // pr($avaliacaoresposta);
-            if ($this->Avaliacoes->save($avaliacaoresposta)) {
-                $this->Flash->success(__('Avaliação registrada.'));
-                return $this->redirect(['controller' => 'avaliacoes', 'action' => 'view', $avaliacaoresposta->id]);
-            }
-            $this->Flash->error(__('Avaliaçãoo no foi registrada. Tente novamente.'));
-            // debug($avaliacaoresposta);
-            return $this->redirect(['action' => 'add', $estagiario_id]);
+        try {
+            $this->Authorization->authorize($avaliacao);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para adicionar esta avaliação."));
+            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
 
+        if ($this->request->is("post")) {
+            $avaliacao = $this->Avaliacoes->patchEntity(
+                $avaliacao,
+                $this->request->getData(),
+            );
+            if ($this->Avaliacoes->save($avaliacao)) {
+                $this->Flash->success(__("Avaliação registrada."));
+                return $this->redirect([
+                    "controller" => "avaliacoes",
+                    "action" => "index",
+                    $estagiario_id,
+                ]);
+            }
+            $this->Flash->error(
+                __("Avaliação não foi registrada. Tente novamente."),
+            );
+        }
         $estagiario = $this->Avaliacoes->Estagiarios->find()
-            ->contain(['Alunos'])
-            ->where(['Estagiarios.id' => $estagiario_id])
+            ->contain(["Alunos"])
+            ->where(["Estagiarios.id" => $estagiario_id])
             ->first();
-        // pr($estagiario);
-        $this->set(compact('avaliacao', 'estagiario'));
+
+        $this->set(compact("avaliacao", "estagiario"));
     }
 
     /**
      * Edit method
      *
      * @param string|null $id Avaliaco id.
-     * @return Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws RecordNotFoundException When record not found.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        try {
+            $avaliacao = $this->Avaliacoes->get($id, [
+                "contain" => [
+                    "Estagiarios" => [
+                        "Alunos",
+                        "Professores",
+                        "Instituicoes",
+                        "Supervisores",
+                    ],
+                ],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__("Registro não encontrado."));
+            return $this->redirect(["action" => "index"]);
         }
 
         try {
-            $avaliacao = $this->Avaliacoes->get($id, [
-                'contain' => ['Estagiarios' => ['Alunos']],
-            ]);
-        } catch (\Exception $e) {
-            $this->Flash->error(__('Nao ha registros para esse id!'));
-            return $this->redirect(['action' => 'index']);
+            $this->Authorization->authorize($avaliacao);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para editar esta avaliação."));
+            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
 
-        $estagiario = $avaliacao->estagiario;
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $avaliacao = $this->Avaliacoes->patchEntity($avaliacao, $this->request->getData());
+        if ($this->request->is(["patch", "post", "put"])) {
+            $avaliacao = $this->Avaliacoes->patchEntity(
+                $avaliacao,
+                $this->request->getData(),
+            );
             if ($this->Avaliacoes->save($avaliacao)) {
-                $this->Flash->success(__('Avaliacao atualizada.'));
-                return $this->redirect(['action' => 'view', $avaliacao->id]);
+                $this->Flash->success(__("Avaliação atualizada."));
+                return $this->redirect([
+                    "action" => "index",
+                    $avaliacao->estagiario_id,
+                ]);
             }
-            $this->Flash->error(__('Avaliaçao não foi atualizada. Tente novamente.'));
-            return $this->redirect(['action' => 'view', $id]);
+            $this->Flash->error(
+                __("Avaliação não atualizada. Tente novamente."),
+            );
         }
-        $this->set(compact('avaliacao', 'estagiario'));
+
+        $this->set(compact("avaliacao"));
     }
 
     /**
      * Delete method
      *
      * @param string|null $id Avaliaco id.
-     * @return Response|null|void Redirects to index.
-     * @throws RecordNotFoundException When record not found.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        $this->request->allowMethod(['post', 'delete']);
-
         try {
             $avaliacao = $this->Avaliacoes->get($id);
-        } catch (\Exception $e) {
-            $this->Flash->error(__('Nao ha registros para esse id!'));
-            return $this->redirect(['action' => 'index']);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__("Registro não encontrado."));
+            return $this->redirect(["action" => "index"]);
         }
 
-        if ($this->Avaliacoes->delete($avaliacao)) {
-            $this->Flash->success(__('Avaliacao excluida.'));
-        } else {
-            $this->Flash->error(__('Avaliacao nao foi excluida. Tente novamente.'));
+        try {
+            $this->Authorization->authorize($avaliacao);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para excluir esta avaliação."));
+            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
 
-        return $this->redirect(['action' => 'index']);
+        if ($this->request->is(["post", "delete"])) {
+            if ($this->Avaliacoes->delete($avaliacao)) {
+                $this->Flash->success(__("Avaliação excluída."));
+            } else {
+                $this->Flash->error(__("Avaliação não excluída."));
+            }
+            return $this->redirect(["action" => "index"]);
+        }
     }
 
     /**
-     * Seleciona avaliacao method
+     * Selecionaavaliacao method
      *
-     * @param string|null $id Avaliaco id.
-     * @return Response|null|void Renders view
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function selecionaavaliacao($id = NULL)
+    public function selecionaavaliacao($id = null)
     {
+        $this->Authorization->skipAuthorization();
 
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor() && !$this->user->isStudent()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        /* No login foi capturado o id do estagiário */
-        $estagiario_id = $this->getRequest()->getSession()->read('estagiario_id');
-        if ($estagiario_id == null) {
-            $this->Flash->error(__('Selecionar o aluno estagiário'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'index']);
-        } else {
-            $estagiariostabela = $this->fetchTable('Estagiarios');
-            $estagiario = $estagiariostabela->find()
-                ->contain(['Alunos', 'Supervisores', 'Instituicoes'])
-                ->where(['Estagiarios.registro' => $estagiario_id])
-                ->all();
-        }
-
-        $this->set('estagiario', $this->paginate($estagiario));
-    }
-
-    /**
-     * Imprime avaliacao pdf method
-     *
-     * @param string|null $id Avaliaco id.
-     * @return Response|null|void Renders view
-     */
-    public function imprimeavaliacaopdf($id = NULL)
-    {
-
-        /** Autorização */
-        if (!$this->user->isAdmin() && !$this->user->isSupervisor() && !$this->user->isStudent()) {
-            $this->Flash->error(__('Usuario nao autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        /* No login foi capturado o id do estagiário */
-        $this->layout = false;
         if ($id == null) {
-            $this->Flash->error(__('Por favor selecionar a folha de avaliação do estágio do aluno'));
-            return $this->redirect(['controller' => 'alunos', 'action' => 'view', '?' => ['id' => $this->user->aluno_id]]);
-        } else {
-            $avaliacaoquery = $this->Avaliacoes->find()
-                ->contain(['Estagiarios' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']])
-                ->where(['Avaliacoes.id' => $id]);
+            $this->Flash->error(__("Selecionar o estudante estagiário"));
+                return $this->redirect([
+                    "controller" => "estudantes",
+                    "action" => "index",
+            ]);
         }
-        $avaliacao = $avaliacaoquery->first();
+            
+        $estagiario = $this->Avaliacoes->Estagiarios->find()
+            ->contain(["Estudantes", "Supervisores", "instituicoes"])
+            ->where(["Estagiarios.id" => $id])
+            ->first();
+        
+        $this->set("estagiario", $estagiario);
 
+    }
+
+    /**
+     * Imprimeavaliacaopdf method
+     *
+     * @param string|null $id Avaliaco id.
+     * @return \Cake\Http\Response|null|void Renders view
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function imprimeavaliacaopdf($id = null)
+    {
+        $estagiario_id = $this->request->getQuery("estagiario_id");
+
+        $this->Authorization->skipAuthorization();
+
+        if ($estagiario_id === null) {
+            $this->Flash->error(__("Selecionar estagiário."));
+            return $this->redirect([
+                "controller" => "estagiarios",
+                "action" => "index",
+            ]);
+        }
+        
+        $avaliacao = $this->Avaliacoes->find()
+            ->contain([
+                "Estagiarios" => [
+                        "Alunos",
+                        "Supervisores",
+                        "Professores",
+                        "Instituicoes",
+                    ],
+                ])
+            ->where(["Estagiarios.id" => $estagiario_id])
+            ->first();
+
+        if ($avaliacao === null) {
+            $this->Flash->error(__("Avaliação não foi encontrada."));
+            return $this->redirect([
+                "controller" => "estagiarios",
+                "action" => "view",
+                $estagiario_id,
+            ]);
+        
         $this->viewBuilder()->enableAutoLayout(false);
-        $this->viewBuilder()->setClassName('CakePdf.Pdf');
-        $this->viewBuilder()->setOption(
-            'pdfConfig',
-            [
-                'orientation' => 'portrait',
-                'download' => true, // This can be omitted if "filename" is specified.
-                'filename' => 'avaliacao_discente_' . $id . '.pdf' //// This can be omitted if you want file name based on URL.
-            ]
-        );
-        $this->set('avaliacao', $avaliacao);
+        $this->viewBuilder()->setClassName("CakePdf.Pdf");
+        $this->viewBuilder()->setOption("pdfConfig", [
+            "orientation" => "portrait",
+            "download" => true,
+            "filename" => "avaliacao_discente_" . $id . ".pdf",
+        ]);
+        $this->set("avaliacao", $avaliacao);
+        }
     }
 }

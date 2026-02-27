@@ -5,29 +5,9 @@
  */
 ?>
 
-<?= $this->element('templates') ?>
+<?php echo $this->element('menu_mural') ?>
 
-<div class="container">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-<?php if($user->isAdmin()): ?>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1'])
-                    ?>
-                </li>
-<?php endif; ?>
-            </ul>
-        </div>
-    </nav>
-
-<?php if($user->isAdmin()): ?>
-
+<div class='container col-lg-8 shadow p-3 mb-5 bg-white rounded'>
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
             <tr>
@@ -61,7 +41,7 @@
                 </td>
 
                 <td>
-                    <?php // echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
+                    <?php echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
                 </td>
 
                 <td>
@@ -79,11 +59,13 @@
                         <td>
                             <?php echo $cada_cargahorariatotal['periodo']; ?>
                         </td>
+
                         <td>
                             <?php echo $cada_cargahorariatotal['ch']; ?>
                         </td>
 
                     <?php endif; ?>
+
                 <?php endforeach; ?>
 
                 <td>
@@ -97,4 +79,3 @@
         <?php endforeach; ?>
     </table>
 </div>
-<?php endif; ?>

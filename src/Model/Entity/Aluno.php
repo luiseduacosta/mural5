@@ -19,19 +19,17 @@ use Cake\ORM\Entity;
  * @property string|null $cpf
  * @property string|null $identidade
  * @property string|null $orgao
- * @property \Cake\I18n\FrozenDate|null $nascimento
+ * @property \Cake\I18n\Date|null $nascimento
+ * @property string|null $ingresso
+ * @property string|null $turno
  * @property string|null $endereco
  * @property string|null $cep
  * @property string|null $municipio
  * @property string|null $bairro
  * @property string|null $observacoes
- * @property string|null $ingresso
- * @property string|null $nomesocial
- * @property string|null $turno
  *
- * @property \App\Model\Entity\Estagiario[] $estagiario
- * @property \App\Model\Entity\Inscricao[] $inscricao
- * @property \App\Model\Entity\User[] $user
+ * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
  */
 class Aluno extends Entity
 {
@@ -56,16 +54,14 @@ class Aluno extends Entity
         'identidade' => true,
         'orgao' => true,
         'nascimento' => true,
+        'ingresso' => true,
+        'turno' => true,
         'endereco' => true,
         'cep' => true,
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
-        'ingresso' => true,
-        'nomesocial' => true,
-        'turno' => true,
-        'estagiario' => true,
-        'inscricao' => true,
-        'user' => true,        
+        'estagiarios' => true,
+        'muralinscricoes' => true,
     ];
 }

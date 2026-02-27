@@ -4,8 +4,9 @@
  * @var array $params
  * @var string $message
  */
+$class = 'badge bg-success';
 if (!isset($params['escape']) || $params['escape'] !== false) {
     $message = h($message);
 }
 ?>
-<div class="message success" onclick="this.classList.add('hidden')"><?= $message ?></div>
+<div class="<?= $class ?>" onclick="this.classList.add('hidden')"><?= $message ?></div>

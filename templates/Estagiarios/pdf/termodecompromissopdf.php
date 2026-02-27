@@ -1,10 +1,19 @@
 <?php
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
+/**
+ * Termo de Compromisso PDF
+ * 
+ * @var \App\Model\Entity\Estagiario $estagiario
+ * @var \App\Model\Entity\Configuracao $configuracao
  */
-$timeZone = new DateTimeZone('America/Sao_Paulo');
-$dataDeHoje = new DateTime(null, $timeZone);
+
+use Cake\I18n\DateTime;
+use Cake\I18n\I18n;
+
+I18n::setLocale('pt-BR');
+$hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
+
+$this->layout = 'pdf/default';
+$this->assign('title', 'Termo de Compromisso');
 ?>
 
 <style>
@@ -17,9 +26,14 @@ $dataDeHoje = new DateTime(null, $timeZone);
         text-align: center;
     }
 </style>
+
 <?php
-if ($estagiario->nivel === '9'):
+if ($estagiario->nivel == '9'):
+    $estagio = 'ESTÁGIO NÃO OBRIGATÓRIO';
     $nivel = ' <b>não obrigatório</b> ';
+else:
+    $estagio = 'ESTÁGIO OBRIGATÓRIO';
+    $nivel = ' <b>nível ' . $estagiario->nivel . '</b> ';
 endif;
 
 $supervisor = is_null($estagiario->supervisor) ? "____________________" : $estagiario->supervisor->nome;
@@ -36,16 +50,16 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
-    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Aluno <?= trim($estagiario->aluno->nome); ?>, a  instituição <?= $estagiario->instituicao->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de ESTÁGIO OBRIGATÓRIO. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
+    O presente TERMO DE COMPROMISSO DE ESTÁGIO que entre si assinam a Coordenação de Estágio da Escola de Serviço Social/UFRJ, o (a) Estudante <?= trim($estagiario->aluno->nome); ?>, a  instituição <?= $estagiario->instituicao->instituicao; ?> e o (a) Supervisor (a) de Campo <?= $supervisor; ?>, visa estabelecer condições gerais que regulam a realização de <?= $estagio ?>. Ficam estabelecidas entre as partes as seguintes condições básicas para a realização do estágio:
 </p>
 
 <p style="text-align:justify; font-size: 90%;">
-    Art. 01. As atividades a serem desenvolvidas pelo (a) estagiário (a), deverão ser compatíveis com o curso de Serviço Social e norteadas pelos princípios preconizados na Política de Estágio (ABEPSS), tais como: a indissociabilidade entre as dimensões teórico-metodológica, ético-política e técnico-operativa; articulação entre Formação e Exercício Profissional; indissociabilidade entre estágio e supervisão acadêmica e de campo; articulação entre Universidade e Sociedade; unidade teoria e prática e articulação entre ensino, pesquisa e extensão.
-    Art. 02. As atividades desenvolvidas no campo de estágio deverão ter compatibilidade com as previstas no termo de compromisso.
-    Art. 03. O plano de atividades do estagiário, elaborado em acordo dos alunos, a parte concedente do estágio e a instituição de ensino, será incorporado ao termo de compromisso por meio de aditivos à medida que for avaliado, progressivamente, o desenho do aluno.
-    Art. 04. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer do supervisor(a) de campo e do supervisor(a) acadêmico.
+    Art. 01. As atividades a serem desenvolvidas pelo (a) estagiário (a), deverão ser compatíveis com o curso de Serviço Social e norteadas pelos princípios preconizados na Política de Estágio (ABEPSS), tais como: a indissociabilidade entre as dimensões teórico-metodológica, ético-política e técnico-operativa; articulação entre Formação e Exercício Profissional; indissociabilidade entre estágio e supervisão acadêmica e de campo; articulação entre Universidade e Sociedade; unidade teoria e prática e articulação entre ensino, pesquisa e extensão.<br>
+    Art. 02. As atividades desenvolvidas no campo de estágio deverão ter compatibilidade com as previstas no termo de compromisso.<br>
+    Art. 03. O plano de atividades do estagiário, elaborado em acordo dos estudantes, a parte concedente do estágio e a instituição de ensino, será incorporado ao termo de compromisso por meio de aditivos à medida que for avaliado, progressivamente, o desenho do estudante.<br>
+    Art. 04. A quebra deste contrato, deverá ser precedida de apresentação de solicitação formal à Coordenação de Estágio, com no mínimo 1 mês de antes do término do período letivo em curso. Contendo parecer do supervisor(a) de campo e do supervisor(a) acadêmico.<br>
     Art. 05. Em caso de demissão do supervisor(a), ocorrência de férias ou licença deste profissional ao longo do período letivo, outro assistente social deverá ser imediatamente indicado para supervisão técnica do estagiário.
-
+</p>
 
 <h2 style="font-size: 120%; font-weight: bold;">Da ESS</h2>
 <p style="text-align:justify; font-size: 90%;">
@@ -66,7 +80,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 
 <h2 style="font-size: 120%; font-weight: bold;">DO(A) SUPERVISOR(A) DE CAMPO</h2>
 <p style="text-align:justify; font-size: 90%;">
-    Art. 12. É de responsabilidade do Assistente Social supervisor(a) o acompanhamento, orientação e avaliação do aluno no campo de estágio, em conformidade com o plano de estágio, elaborado em consonância com o projeto pedagógico e com programas institucionais vinculados aos campos de estágio; garantindo diálogo permanente com o (a) supervisor (a) acadêmico (a), no processo de supervisão.<br>
+    Art. 12. É de responsabilidade do Assistente Social supervisor(a) o acompanhamento, orientação e avaliação do estudante no campo de estágio, em conformidade com o plano de estágio, elaborado em consonância com o projeto pedagógico e com programas institucionais vinculados aos campos de estágio; garantindo diálogo permanente com o (a) supervisor (a) acadêmico (a), no processo de supervisão.<br>
     Art. 13. Ao  término de cada mês, o (a) supervisor(a) atestará à unidade de ensino, em formulário próprio, a carga horária cumprida pelo estagiário.<br>
     Art. 14. No final de cada período letivo, o (a) supervisor(a) encaminhará, ao professor(a) da disciplina de Orientação e Treinamento Profissional, avaliação do processo vivenciado pelo aluno durante o período, Instrumento este utilizado pelo professor(a) na avaliação final do aluno.
 </p>
@@ -82,7 +96,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 
 <h2 style="font-size: 120%; font-weight: bold;">DAS ORIENTAÇÕES GERAIS</h2>
 <p style="text-align:justify; font-size: 90%;">
-    Art. 20. O presente Termo de Compromisso terá validade de <?= strftime('%d de %B de %Y', strtotime($configuracao->termo_compromisso_inicio)); ?> a <?= strftime('%d de %B de %Y', strtotime($configuracao->termo_compromisso_final)); ?>, correspondente ao nível <?= $estagiario->nivel; ?> de Estágio. Sua interrupção antes do período previsto acarretará prejuízo para o aluno na sua avaliação acadêmica.<br>
+    Art. 20. O presente Termo de Compromisso terá validade de <?= $configuracao->termo_compromisso_inicio->i18nFormat("dd ' de' MMMM ' de ' yyyy"); ?> a <?= $configuracao->termo_compromisso_final->i18nFormat("dd ' de' MMMM ' de ' yyyy"); ?>, correspondente ao nível <?= $nivel; ?> de Estágio. Sua interrupção antes do período previsto acarretará prejuízo para o aluno na sua avaliação acadêmica.<br>
     Art. 21. Os casos omissos serão encaminhados à Coordenação de Estágio para serem dirimidos.
 </p>
 
@@ -90,7 +104,7 @@ $cress = is_null($estagiario->supervisor) ? "_____" : $estagiario->supervisor->c
 <br />
 <br />
 
-<p style="text-align:right; font-size: 90%;">Rio de Janeiro, <?= date_format($dataDeHoje, 'd-M-Y'); ?>.</p>
+<p style="text-align:right; font-size: 90%;">Rio de Janeiro, <?= $hoje->i18nFormat("dd ' de' MMMM ' de ' yyyy"); ?>.</p>
 
 <br />
 <br />

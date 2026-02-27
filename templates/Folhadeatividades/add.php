@@ -3,76 +3,45 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
+
+<?php echo $this->element('menu_mural') ?>
+
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAtividades"
+            aria-controls="navbarTogglerAtividades" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
+        <li class="nav-item">
+            <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+        </li>
+    </ul>
+</nav>
 
 <?= $this->element('templates') ?>
 
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="container">
-
-        <?php if (isset($folhadeatividades)): ?>
-            <h3>Últimas 5 atividades</h3>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-responsive">
-                    <tr>
-                        <th>Id</th>
-                        <th>Data</th>
-                        <th>Início</th>
-                        <th>Final</th>
-                        <th>Horário</th>
-                        <th>Atividade</th>
-                    </tr>
-                    <?php /** Últimos 5 registros */ ?>
-                    <?php $i = 0 ?>
-                    <?php $total = count($folhadeatividades->toArray()); ?>
-                    <?php $ultimos = $total - 6; ?>
-                    <?php foreach ($folhadeatividades as $folhadeatividade): ?>
-                        <tr>
-                            <?php if ($i > $ultimos): ?>
-                                <td><?= $folhadeatividade->id ?></td>
-                                <td><?= $folhadeatividade->dia ?></td>
-                                <td><?= $folhadeatividade->inicio ?></td>
-                                <td><?= $folhadeatividade->final ?></td>
-                                <td><?= $folhadeatividade->horario ?></td>
-                                <td><?= $folhadeatividade->atividade ?></td>
-                            <?php endif; ?>
-                        </tr>
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
-                </table>
-            </div>
-        <?php else: ?>
-            <?php echo 'Sem atividades' . '<br>' ?>
-        <?php endif; ?>
-
-        <?= $this->Form->create($folhadeatividade, ['type' => 'post']) ?>
+<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
+        <?= $this->Form->create($folhadeatividade) ?>
         <fieldset>
-            <legend><?= __('Adiciona uma atividade') ?></legend>
+            <legend><?= __('Adicionar atividade') ?></legend>
             <?php
-            echo $this->Form->control('estagiario_id', ['options' => [$estagiario->id => $estagiario->aluno->nome]], 'readonly');
-            echo $this->Form->control('dia');
-            echo $this->Form->control('inicio', ['label' => ['text' => 'Horário de início']]);
-            echo $this->Form->control('final', ['label' => ['text' => 'Horário de finalização']]);
-            echo $this->Form->control('atividade', ['label' => ['text' => 'Atividade realizada']]);
-            echo $this->Form->control('horario', ['type' => 'hidden', 'value' => null]);
+            echo $this->Form->control('estagiario_id', ['value' => $estagiario->id, 'options' => [$estagiario->id => $estagiario->aluno->nome], 'readonly' => true, 
+            'templates' => [
+                'label' => '<div class="col-sm-3"><label class="form-label">{{text}}</label></div>',
+                'select' => '<div class="col-sm-9"><select name="{{name}}" class="form-control" {{attrs}}>{{content}}</select></div>',
+                ]
+            ]);
+            echo $this->Form->control('dia', ['class' => 'form-control']);
+            echo $this->Form->control('inicio', ['label' => __('Horário de início'), 'class' => 'form-control']);
+            echo $this->Form->control('final', ['label' => __('Horário de finalização'), 'class' => 'form-control']);
+            echo $this->Form->control('atividade', ['class' => 'form-control']);
+            echo $this->Form->control('horario', ['type' => 'hidden']);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+        <div class="d-flex justify-content-center mt-3">
+            <?= $this->Form->button(__('Confirmar'), ['class' => 'btn btn-primary']) ?>
+        </div>
         <?= $this->Form->end() ?>
-
-    </div>
 </div>

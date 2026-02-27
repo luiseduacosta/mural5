@@ -11,7 +11,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $categoria
  *
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Categoria $categoria
  */
 class Categoria extends Entity
 {
@@ -26,6 +26,5 @@ class Categoria extends Entity
      */
     protected array $_accessible = [
         'categoria' => true,
-        'user' => true,
     ];
 }
