@@ -100,13 +100,13 @@ use Cake\ORM\TableRegistry;
 
                 <?php if (isset($user) && $user->categoria == '2'): ?>
                     <li class="nav-item">
-                        <?php echo $this->Html->link("Meus dados", "/Alunos/view/" . $user['aluno_id'], ['class' => 'nav-link']); ?>
+                        <?php echo $this->Html->link("Meus dados", "/Alunos/view/" . $user->aluno_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
                 <?php if (isset($user) && $user->categoria == '3'): ?>
                     <li class="nav-item">
-                        <?php echo $this->Html->link("Meus dados", "/Professores/view/" . $user['professor_id'], ['class' => 'nav-link']); ?>
+                        <?php echo $this->Html->link("Meus dados", "/Professores/view/" . $user->professor_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
@@ -123,11 +123,8 @@ use Cake\ORM\TableRegistry;
                 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                <li class="nav-item">
-                    <?php echo $this->Html->link('TCC', ['controller' => 'Monografias', 'action' => 'index'], ['class' => 'btn btn-info']); ?>
-                </li>      
-                <?php if (isset($user) && !empty($user)): ?>
-                    <?php if ($user->categoria == 2 && !empty($user->aluno_id)) {
+                <?php if (!empty($user)): ?>
+                    <?php if ($user->categoria == 2 && $user->aluno_id) {
                         $aluno = TableRegistry::getTableLocator()->get('Alunos')->find()->where(['Alunos.id' => $user->aluno_id])->first();
                         ?>
                         <li class='nav-item'>
@@ -138,7 +135,7 @@ use Cake\ORM\TableRegistry;
                     <li class='nav-item'><span class="btn btn-secondary"><?= 'Visitante' ?></span></li>
                 <?php endif; ?>
 
-                <?php if (isset($user)): ?>
+                <?php if (!empty($user)): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Sair', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'nav-link']); ?>
                     </li>

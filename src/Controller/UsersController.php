@@ -32,8 +32,8 @@ class UsersController extends AppController
         if ($result && $result->isValid()) {
             $user = $result->getData();
             $controlador = 'Users';
-            $acao = 'index';
-            $parametro = null;
+            $acao = 'view';
+            $parametro = $user->aluno_id ?? $user->professor_id ?? $user->supervisor_id ?? null;
 
             // Check category and ensure linkage
             switch ($user->categoria) {
@@ -54,7 +54,7 @@ class UsersController extends AppController
                             $userEntity = $this->Users->get($user->id);
                             $userEntity->aluno_id = $estudante->id;
                             $this->Users->save($userEntity);
-                            $parametro = $estudante->id;
+                            $parametro = $aluno->id;
                         }
                     } else {
                         $parametro = $aluno_id;

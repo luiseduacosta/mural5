@@ -903,6 +903,3 @@ class AlunosController extends AppController
         $this->set('periodoselecionado', $periodo);
     }
 }
-
-
-

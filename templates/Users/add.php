@@ -33,6 +33,7 @@
             ]
         ]);
         echo $this->Form->control('categoria', [
+            'required' => true,
             'label' => ['Categoria', 'class' => 'col-sm-2 form-label'],
             'options' => ['2' => 'estudante', '3' => 'professor(a)', '4' => 'supervisor(a)'],
             'templates' => [
@@ -40,16 +41,14 @@
                 'selectContainer' => '<div class="mb-1">{{content}}</div>'
             ],
             'empty' => '-- Selecione a categoria --',
-            'required' => true
         ]);
         echo $this->Form->control('numero', [
-            'label' => 'Número de DRE, CRESS ou SIAPE respectivamente',
-            'class' => 'col-sm-2 form-label',
-            'type' => 'number',
+            'label' => ['Número de DRE, CRESS ou SIAPE respectivamente', 'class' => 'col-sm-2 form-label'],
+            'type' => 'text',
             'required' => true,
             'templates' => [
                 'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-8">{{input}}</div></div>',
-                'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
+                'input' => '<input class="col-sm-2 form-control" type="{{type}}" name="{{name}}"{{attrs}}/>'
             ]
         ]);
         ?>

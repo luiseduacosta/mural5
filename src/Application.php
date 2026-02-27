@@ -123,10 +123,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
      */
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
     {
-        $service = new AuthenticationService();
-
-        // Define where users should be redirected to when they are not authenticated
-        $service->setConfig([
+        $service = new AuthenticationService([
             'unauthenticatedRedirect' => [
                 'prefix' => false,
                 'plugin' => null,
@@ -134,26 +131,28 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
                 'action' => 'login',
             ],
             'queryParam' => 'redirect',
-        ]);
-
-        $fields = [
-            PasswordIdentifier::CREDENTIAL_USERNAME => 'email',
-            PasswordIdentifier::CREDENTIAL_PASSWORD => 'password',
-        ];
-
-        // Load the authenticators. Session should be first.
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => $fields,
-            'loginUrl' => [
-                'prefix' => false,
-                'plugin' => null,
-                'controller' => 'Users',
-                'action' => 'login',
+            'identifiers' => [
+                'Authentication.Password' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password',
+                    ],
+                ],
             ],
-            'identifier' => [
-                'className' => 'Authentication.Password',
-                'fields' => $fields,
+            'authenticators' => [
+                'Authentication.Session',
+                'Authentication.Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password',
+                    ],
+                    'loginUrl' => [
+                        'prefix' => false,
+                        'plugin' => null,
+                        'controller' => 'Users',
+                        'action' => 'login',
+                    ],
+                ],
             ],
         ]);
 
@@ -176,15 +175,15 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     /**
      * Register application container services.
      *
-     * @param \Cake\Core\ContainerInterface $container The Container to update.
+     * @param \Cake\Core\ContainerInterface $container The container.
      * @return void
-     * @link https://book.cakephp.org/5/en/development/dependency-injection.html#dependency-injection
      */
     public function services(ContainerInterface $container): void
     {
-        // Allow your Tables to be dependency injected
-        //$container->delegate(new \Cake\ORM\Locator\TableContainer());
+        parent::services($container);
     }
+
+
 
     /**
      * Register custom event listeners here
