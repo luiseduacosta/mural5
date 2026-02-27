@@ -19,7 +19,11 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
  * @property \App\Model\Table\AvaliacoesTable&\Cake\ORM\Association\HasOne $Avaliacoes
+<<<<<<< HEAD
  * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasMany $Folhadeatividades
+=======
+ * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasOne $Folhadeatividades
+>>>>>>> master
  *
  * @method \App\Model\Entity\Estagiario newEmptyEntity()
  * @method \App\Model\Entity\Estagiario newEntity(array $data, array $options = [])

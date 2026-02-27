@@ -50,7 +50,6 @@
             </tbody>
         </table>
     </div>
-
     <div class="d-flex justify-content-center">
         <?= $this->element('templates') ?>
         <div class="paginator">

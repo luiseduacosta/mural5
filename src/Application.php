@@ -102,7 +102,6 @@ class Application extends BaseApplication
             // // https://book.cakephp.org/5/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             ->add(new CsrfProtectionMiddleware([
                 'httponly' => true])
-
         );
 
         return $middlewareQueue;
@@ -114,7 +113,6 @@ class Application extends BaseApplication
             'unauthenticatedRedirect' => Router::url('/users/login'),
             'queryParam' => 'redirect',
         ]);
-
         // Load identifiers, ensure we check email and password fields
         $authenticationService->loadIdentifier('Authentication.Password', [
             'fields' => [
@@ -122,7 +120,6 @@ class Application extends BaseApplication
                 'password' => 'password',
             ],
         ]);
-
         // Load the authenticators, you want session first
         $authenticationService->loadAuthenticator('Authentication.Session');
         // Configure form data check to pick email and password
@@ -133,7 +130,6 @@ class Application extends BaseApplication
             ],
             'loginUrl' => Router::url('/users/login'),
         ]);
-
         return $authenticationService;
     }
 

@@ -7,6 +7,7 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<<<<<<< HEAD
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerVisita"
             aria-controls="navbarTogglerVisita" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -20,14 +21,31 @@
                         <?= $this->Form->postLink(__('Excluir visita'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $visita->id), 'class' => 'btn btn-danger me-1']) ?>
                     <?php endif; ?>
                     <?= $this->Html->link(__('Listar visitas'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+=======
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Editar visita'), ['action' => 'edit', $visita->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir visita'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $visita->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Html->link(__('Listar visitas'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+>>>>>>> master
                 </li>
             </ul>
         </div>
     </nav>
 
     <div class="container">
+<<<<<<< HEAD
 
     <h3><?= h($visita->instituicao->instituicao) ?></h3>
+=======
+        <h3><?= h($visita->instituicoes->instituicao) ?></h3>
+>>>>>>> master
         <table>
             <tr>
                 <th><?= __('Id') ?></th>

@@ -46,8 +46,9 @@ class InscricoesController extends AppController {
         
         $query = $this->Inscricoes->find()
                 ->contain(['Alunos', 'Muralestagios']);
+
         if (!empty($periodo)) {
-            $query = $query->where(['Inscricoes.periodo' => $periodo]);
+            $query->where(['Inscricoes.periodo' => $periodo]);
         }
         $inscricoes = $this->paginate($query);
 
@@ -158,7 +159,6 @@ class InscricoesController extends AppController {
             $inscricao = $this->Inscricoes->find()
                     ->where(['Inscricoes.aluno_id' => $aluno->id, 'Inscricoes.muralestagio_id' => $muralestagio->id])
                     ->first();
-
             if ($inscricao) {
                 $this->Flash->error(__("Inscrição já realizada"));
                 return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);

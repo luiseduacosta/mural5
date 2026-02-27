@@ -6,6 +6,7 @@
 ?>
 
 <div class="container">
+<<<<<<< HEAD
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
@@ -22,6 +23,27 @@
                 </ul>
             </div>
         </nav>
+=======
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Usuários</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerUsuario">
+            <ul class="navbar-nav me-auto mt-lg-0">
+                <li class="nav-item active">
+                    <?= $this->Html->link(__('Novo usuário de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto">
+                <input class="form-control" type="search" placeholder="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+>>>>>>> master
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -51,11 +73,17 @@
                         <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
                         </td>
                         <td class="actions">
+<<<<<<< HEAD
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id], ['class' => 'btn btn-primary me-1']) ?>
                             <?php if ($user->isAdmin()): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id], ['class' => 'btn btn-primary me-1']) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                             <?php endif; ?>
+=======
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id)]) ?>
+>>>>>>> master
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -98,7 +98,6 @@
             </tbody>
         </table>
     </div>
-
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <?= $this->element('templates') ?>

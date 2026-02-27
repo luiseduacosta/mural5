@@ -42,13 +42,11 @@ if ($professora) {
         table-layout: fixed;
         width: 100%;
     }
-
     th {
         white-space: normal;
         text-align: justify;
         font-weight: normal;
     }
-
     td {
         text-align: right;
     }

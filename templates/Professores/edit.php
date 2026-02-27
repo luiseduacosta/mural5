@@ -4,7 +4,6 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
-
 <?= $this->element('templates') ?>
 
 <div class="container">

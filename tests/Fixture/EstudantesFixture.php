@@ -21,15 +21,9 @@ class AlunosFixture extends TestFixture
         'nome' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => '', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'registro' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'codigo_telefone' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '21', 'comment' => '', 'precision' => null],
-<<<<<<< HEAD
         'telefone' => ['type' => 'string', 'length' => 9, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'codigo_celular' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '21', 'comment' => '', 'precision' => null],
         'celular' => ['type' => 'string', 'length' => 10, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-=======
-        'telefone' => ['type' => 'string', 'length' => 9, 'null' => true, 'default' => '0', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-        'codigo_celular' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '21', 'comment' => '', 'precision' => null],
-        'celular' => ['type' => 'string', 'length' => 10, 'null' => true, 'default' => '0', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
->>>>>>> master
         'email' => ['type' => 'string', 'length' => 50, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'cpf' => ['type' => 'string', 'length' => 12, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
         'identidade' => ['type' => 'string', 'length' => 15, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
@@ -45,11 +39,7 @@ class AlunosFixture extends TestFixture
             'registro' => ['type' => 'unique', 'columns' => ['registro'], 'length' => []],
         ],
         '_options' => [
-<<<<<<< HEAD
             'engine' => 'InnoDB',
-=======
-            'engine' => 'MyISAM',
->>>>>>> master
             'collation' => 'latin1_general_ci'
         ],
     ];

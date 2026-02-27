@@ -10,6 +10,7 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<<<<<<< HEAD
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,6 +31,27 @@
                             ?>
                     </li>
                 <?php endif; ?>
+=======
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <li class="nav-item">
+                    <?=
+                        $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $userestagio->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']
+                        )
+                        ?>
+                </li>
+>>>>>>> master
             </ul>
         </div>
     </nav>
@@ -49,7 +71,11 @@
             echo $this->Form->control('timestamp');
             ?>
         </fieldset>
+<<<<<<< HEAD
         <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+=======
+        <?= $this->Form->button(__('Submit')) ?>
+>>>>>>> master
         <?= $this->Form->end() ?>
     </div>
 </div>
