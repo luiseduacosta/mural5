@@ -12,7 +12,7 @@ use Cake\I18n\Date;
  * Alunos Controller
  *
  * @property \App\Model\Table\AlunosTable $Alunos
- * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
+ * @property \CakeDC\Auth\Controller\Component\AuthorizationComponent $Authorization
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  * @property \Cake\ORM\Table $Estagiarios
  * @property \Cake\ORM\Table $Instituicoes
