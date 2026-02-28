@@ -78,6 +78,11 @@ class AlunosTable extends Table
                     ->notEmptyString('nome');
 
             $validator
+                    ->scalar('ingresso')
+                    ->maxLength('ingresso', 6)
+                    ->notEmptyString('ingresso');
+
+            $validator
                     ->integer('registro')
                     ->notEmptyString('registro');
 
@@ -104,7 +109,7 @@ class AlunosTable extends Table
             $validator
                     ->scalar('cpf')
                     ->maxLength('cpf', 15)
-                    ->allowEmptyString('cpf');
+                    ->notEmptyString('cpf');
 
             $validator
                     ->scalar('identidade')
@@ -118,7 +123,7 @@ class AlunosTable extends Table
 
             $validator
                     ->date('nascimento', ['ymd'])
-                    ->allowEmptyDate('nascimento');
+                    ->notEmptyDate('nascimento');
 
             $validator
                     ->scalar('endereco')

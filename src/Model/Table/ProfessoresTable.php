@@ -77,7 +77,7 @@ class ProfessoresTable extends Table
 
             $validator
                     ->integer('siape')
-                    ->allowEmptyString('siape');
+                    ->notEmptyString('siape');
 
             $validator
                     ->date('datanascimento')

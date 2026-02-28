@@ -145,7 +145,7 @@ class SupervisoresTable extends Table
 
             $validator
                     ->integer('cress')
-                    ->allowEmptyString('cress');
+                    ->notEmptyString('cress');
 
             $validator
                     ->allowEmptyString('regiao');
