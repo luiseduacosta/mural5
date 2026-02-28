@@ -239,6 +239,7 @@ Inflector::rules('irregular', ['instituicao' => 'instituicoes']);
 Inflector::rules('irregular', ['professor' => 'professores']);
 Inflector::rules('irregular', ['supervisor' => 'supervisores']);
 Inflector::rules('irregular', ['avaliacao' => 'avaliacoes']);
+Inflector::rules('irregular', ['questao' => 'questoes']);
 
 // set a custom date and time format
 // see https://book.cakephp.org/5/en/core-libraries/time.html#setting-the-default-locale-and-format-string
