@@ -173,7 +173,7 @@ class AvaliacoesController extends AppController
                 ->where(["estagiario_id" => $estagiario_id])
                 ->first();
 
-        if (isset($avaliacaoestagiario) && !is_null($avaliacaoestagiario)) {
+        if (!empty($avaliacaoestagiario)) {
             $this->Flash->error(__("Estagiário já foi avaliado"));
             return $this->redirect([
                 "controller" => "avaliacoes",

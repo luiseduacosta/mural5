@@ -71,9 +71,8 @@ class MuralestagiosController extends AppController
         $periodototal = $this->Muralestagios->find('list', [
             'keyField' => 'periodo',
             'valueField' => 'periodo',
-            // 'group' => 'periodo', // Group by deprecated/not needed if list unique? check logic
             'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']); // Distinct instead of group for list if needed
+        ])->distinct(['periodo']); 
 
         $periodos = $periodototal->toArray();
 
