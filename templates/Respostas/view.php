@@ -13,7 +13,7 @@ use Cake\I18n\Time;
 <div class="container mt-1">
 
     <nav class="nav navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#resposta"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#resposta"
             aria-controls="resposta" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -57,6 +57,6 @@ class InstituicaoPolicy
      */
     public function canView(?IdentityInterface $user, Instituicao $instituicao)
     {
-        return true;
+        return isset($user);
     }
 }

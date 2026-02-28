@@ -94,6 +94,9 @@ use Cake\ORM\TableRegistry;
                             <li class="nav-item">
                                 <?php echo $this->Html->link('Complemento período', '/Complementos/index', ['class' => 'dropdown-item']); ?>
                             </li>
+                            <li class="nav-item">
+                                <?php echo $this->Html->link('Categorias', '/Categorias/index', ['class' => 'dropdown-item']); ?>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>

@@ -21,25 +21,22 @@ class ProfessorPolicy
      */
     public function canAdd(?IdentityInterface $user, Professor $professor)
     {
-        return isset($user) && $user->getOriginalData()->isAdmin();
+        return isset($user) && $user->categoria == '1';
     }
 
     /**
      * Check if $user can update Professor
      *
      * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Professor $professor'
+     * @param \App\Model\Entity\Professor $professor
      * @return bool
      */
     public function canEdit(?IdentityInterface $user, Professor $professor)
     {
-        if (!isset($user)) {
-            return false;
-        }
-        if ($user->getOriginalData()->isProfessor()) {
+        if ($user->categoria == '3') {
             return $professor->id === $user->professor_id;
         }
-        return $user->getOriginalData()->isAdmin();
+        return $user->categoria == '1';
     }
 
     /**
@@ -51,7 +48,7 @@ class ProfessorPolicy
      */
     public function canDelete(?IdentityInterface $user, Professor $professor)
     {
-        return isset($user) && $user->getOriginalData()->isAdmin();
+        return isset($user) && $user->categoria == '1';
     }
 
     /**
@@ -66,9 +63,9 @@ class ProfessorPolicy
         if (!isset($user)) {
             return false;
         }
-        if ($user->getOriginalData()->isAdmin()) {
+        if ($user->categoria == '1') {
             return true;
-        } elseif ($user->getOriginalData()->isProfessor()) {
+        } elseif ($user->categoria == '3') {
             return $professor->id === $user->professor_id;
         }
         return true;

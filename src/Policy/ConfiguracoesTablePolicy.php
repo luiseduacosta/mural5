@@ -21,10 +21,6 @@ class ConfiguracoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, ConfiguracoesTable $configuracoes)
     {
-
-        if (isset($user->categoria) && $user->categoria == '1') {
-            return true;
-        }
-        return true;
+        return isset($user) && $user->categoria == '1';
     }
 }

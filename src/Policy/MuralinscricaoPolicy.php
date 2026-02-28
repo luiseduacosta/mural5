@@ -15,19 +15,19 @@ class MuralinscricaoPolicy
     /**
      * Check if $user can add Muralinscricao
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Muralinscricao $muralinscricao
      * @return bool
      */
     public function canAdd(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-        return isset($user->categoria) && $user->categoria == '1' || $user->categoria == '2';
+        return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
     /**
      * Check if $user can edit Muralinscricao
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Muralinscricao $muralinscricao
      * @return bool
      */
@@ -39,13 +39,12 @@ class MuralinscricaoPolicy
     /**
      * Check if $user can delete Muralinscricao
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Muralinscricao $muralinscricao
      * @return bool
      */
     public function canDelete(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-
         if (isset($user->categoria) && $user->categoria == '1') {
             return true;
         } elseif (isset($user->categoria) && $user->categoria == '2') {
@@ -57,7 +56,7 @@ class MuralinscricaoPolicy
     /**
      * Check if $user can view Muralinscricao
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Muralinscricao $muralinscricao
      * @return bool
      */

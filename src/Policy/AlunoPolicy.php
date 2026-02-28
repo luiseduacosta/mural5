@@ -11,7 +11,7 @@ use Authorization\IdentityInterface;
  * Aluno policy
  */
 
-class AlunoPolicy
+class AlunoPolicy   
 {
     /**
      * Check if $user can add Aluno
@@ -22,15 +22,7 @@ class AlunoPolicy
      */
     public function canAdd(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 2) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
     /**
@@ -42,15 +34,7 @@ class AlunoPolicy
      */
     public function canEdit(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 2) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
     /**
@@ -62,15 +46,7 @@ class AlunoPolicy
      */
     public function canView(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 2) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
     /**
@@ -82,33 +58,21 @@ class AlunoPolicy
      */
     public function canDelete(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && $user->categoria == '1';
     }
 
     public function canCargaHoraria(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && $user->categoria == '1';
     }
 
     public function canDeclaracaoperiodo(?IdentityInterface $user, Aluno $aluno)
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == 1) {
+        } elseif ($user->categoria == '1') {
             return true;
-        } elseif ($user->categoria == 2) {
+        } elseif ($user->categoria == '2') {
             return $this->isAuthor($user, $aluno);
         } else {
             return false;
@@ -119,9 +83,9 @@ class AlunoPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == 1) {
+        } elseif ($user->categoria == '1') {
             return true;
-        } elseif ($user->categoria == 2) {
+        } elseif ($user->categoria == '2') {
             return $this->isAuthor($user, $aluno);
         } else {
             return false;
@@ -132,9 +96,9 @@ class AlunoPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == 1) {
+        } elseif ($user->categoria == '1') {
             return true;
-        } elseif ($user->categoria == 2) {
+        } elseif ($user->categoria == '2') {
             return $this->isAuthor($user, $aluno);
         } else {
             return false;
@@ -145,7 +109,7 @@ class AlunoPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == 1) {
+        } elseif ($user->categoria == '1') {
             return true;
         } else {
             return false;

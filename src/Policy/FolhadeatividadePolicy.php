@@ -21,23 +21,26 @@ class FolhadeatividadePolicy
      */
     public function canAdd(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
-        return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
     /**
      * Check if $user can edit Folhadeatividade
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
     public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
+        if (!isset($user)) {
+            return false;
+        }
         if ($user->categoria == '1') {
             return true;
         } elseif ($user->categoria == '2') {
-            $estagiario = \Cake\ORM\TableRegistry::getTableLocator()->get('Estagiarios')->get($user->aluno_id);
-            return $folhadeatividade->estagiario_id == $estagiario->id;
+            // Check if the student owns this activity through their estagiario record
+            return isset($user->aluno_id) && $folhadeatividade->estagiario && $folhadeatividade->estagiario->aluno_id == $user->aluno_id;
         }
         return false;
     }
@@ -45,17 +48,20 @@ class FolhadeatividadePolicy
     /**
      * Check if $user can delete Folhadeatividade
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
     public function canDelete(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
+        if (!isset($user)) {
+            return false;
+        }
         if ($user->categoria == '1') {
             return true;
         } elseif ($user->categoria == '2') {
-            $estagiario = \Cake\ORM\TableRegistry::getTableLocator()->get('Estagiarios')->get($user->aluno_id);
-            return $folhadeatividade->estagiario_id == $estagiario->id;
+            // Check if the student owns this activity through their estagiario record
+            return isset($user->aluno_id) && $folhadeatividade->estagiario && $folhadeatividade->estagiario->aluno_id == $user->aluno_id;
         }
         return false;
     }
@@ -69,18 +75,18 @@ class FolhadeatividadePolicy
      */
     public function canView(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
-        return true;
+        return isset($user);
     }
 
     /**
      * Check if $user can folhadeatividades pdf
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
     public function canFolhaDeAtividadePdf(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
-        return isset($user->categoria) && $user->categoria == '1' || $user->categoria == '2';
+        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 }

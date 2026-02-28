@@ -21,7 +21,7 @@ class EstagiarioPolicy
          */
     public function canAdd(?IdentityInterface $user, Estagiario $estagiario)
     {
-            return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+            return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
         /**
@@ -46,7 +46,7 @@ class EstagiarioPolicy
          */
     public function canDelete(?IdentityInterface $user, Estagiario $estagiario)
     {
-            return isset($user->categoria) && $user->categoria == '1';
+            return isset($user) && $user->categoria == '1';
     }
 
         /**
@@ -70,6 +70,6 @@ class EstagiarioPolicy
          */
     public function canNovotermocompromisso(?IdentityInterface $user, Estagiario $estagiario)
     {
-            return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+            return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Authorization\Exception\ForbiddenException;
+
 /**
  * Administradores Controller
  *
@@ -17,9 +19,16 @@ class AdministradoresController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-
     public function index()
     {
+        try {
+            $this->Authorization->authorize($this->Administradores);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Não autorizado!'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $administradores = $this->paginate($this->Administradores);
 
         $this->set(compact('administradores'));
@@ -38,6 +47,14 @@ class AdministradoresController extends AppController
             'contain' => ['Users'],
         ]);
 
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Não autorizado!'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $this->set(compact('administrador'));
     }
 
@@ -49,6 +66,14 @@ class AdministradoresController extends AppController
     public function add()
     {
         $administrador = $this->Administradores->newEmptyEntity();
+
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Não autorizado!'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
         if ($this->request->is('post')) {
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
 
@@ -63,7 +88,8 @@ class AdministradoresController extends AppController
             }
             $this->Flash->error(__('Administrador não foi inserido. Tente novamente.'));
         }
-        $this->set(compact('administrador'));
+        $users = $this->Administradores->Users->find('list', ['limit' => 200]);
+        $this->set(compact('administrador', 'users'));
     }
 
     /**
@@ -76,6 +102,14 @@ class AdministradoresController extends AppController
     public function edit($id = null)
     {
         $administrador = $this->Administradores->get($id);
+
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Não autorizado!'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
             if ($this->Administradores->save($administrador)) {
@@ -86,7 +120,8 @@ class AdministradoresController extends AppController
             $this->Flash->error(__('Registro administrador não foi atualizado. Tente novamente.'));
             return $this->redirect(['action' => 'view', $id]);
         }
-        $this->set(compact('administrador'));
+        $users = $this->Administradores->Users->find('list', ['limit' => 200]);
+        $this->set(compact('administrador', 'users'));
     }
 
     /**
@@ -98,9 +133,16 @@ class AdministradoresController extends AppController
      */
     public function delete($id = null)
     {
-        $this->viewBuilder()->setLayout(null);
         $this->request->allowMethod(['post', 'delete']);
         $administrador = $this->Administradores->get($id);
+
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Não autorizado!'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
         if ($this->Administradores->delete($administrador)) {
             $this->Flash->success(__('Registro administrador foi excluído.'));
         } else {

@@ -19,7 +19,7 @@ class TurmaestagioPolicy
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Turmaestagio $areaestagio)
+    public function canAdd(?IdentityInterface $user, Turmaestagio $turmaestagio)
     {
         return isset($user) && $user->categoria == '1';
     }
@@ -43,7 +43,7 @@ class TurmaestagioPolicy
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Turmaestagio $areaestagio)
+    public function canDelete(?IdentityInterface $user, Turmaestagio $turmaestagio)
     {
         return isset($user) && $user->categoria == '1';
     }
@@ -55,7 +55,7 @@ class TurmaestagioPolicy
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Turmaestagio $areaestagio)
+    public function canView(?IdentityInterface $user, Turmaestagio $turmaestagio)
     {
         return isset($user);
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Entity\questionario;
+use App\Model\Entity\Questionario;
 use Authorization\IdentityInterface;
 
 /**
@@ -19,12 +19,9 @@ class QuestionarioPolicy
      * @param \App\Model\Entity\questionario $questionario
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, questionario $questionario)
+    public function canAdd(?IdentityInterface $user, Questionario $questionario)
     {
-        if (isset($user) && $user->categoria_id === '1') {
-            return true;
-        }
-        return false;
+        return $user->categoria === '1';
     }
 
     /**
@@ -34,12 +31,9 @@ class QuestionarioPolicy
      * @param \App\Model\Entity\questionario $questionario
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, questionario $questionario)
+    public function canEdit(?IdentityInterface $user, Questionario $questionario)
     {
-        if (isset($user) && $user->categoria_id === '1') {
-            return true;
-        }
-        return false;
+        return $user->categoria === '1';
     }
 
     /**
@@ -49,12 +43,9 @@ class QuestionarioPolicy
      * @param \App\Model\Entity\questionario $questionario
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, questionario $questionario)
+    public function canDelete(?IdentityInterface $user, Questionario $questionario)
     {
-        if (isset($user) && $user->categoria_id === '1') {
-            return true;
-        }
-        return false;
+        return $user->categoria === '1';
     }
 
     /**
@@ -64,7 +55,7 @@ class QuestionarioPolicy
      * @param \App\Model\Entity\questionario $questionario
      * @return bool
      */
-    public function canView(?IdentityInterface $user, questionario $questionario)
+    public function canView(?IdentityInterface $user, Questionario $questionario)
     {
         return isset($user);
     }

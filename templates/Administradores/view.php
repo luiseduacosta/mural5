@@ -5,12 +5,12 @@
  */
 ?>
 
-<?php $user = $this->getRequest()->getAttribute('identity'); ?>
+<?php echo $this->element('menu_mural'); ?>
 
 <div class="row">
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdministrador"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAdministrador"
             aria-controls="navbarTogglerAdministrador" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

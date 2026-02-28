@@ -21,6 +21,6 @@ class FolhadeatividadesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, FolhadeatividadesTable $folhadeatividades)
     {
-        return true;
+        return isset($user);
     }
 }

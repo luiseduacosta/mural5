@@ -149,6 +149,16 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Categorias dos usuários: administrador, professor, supervisor e aluno';
 
+--
+-- Dados para tabela `categorias`
+--
+
+INSERT INTO `categorias` (`id`, `categoria`) VALUES
+(1, 'Administrador'),
+(2, 'Aluno'),
+(3, 'Professor'),
+(4, 'Supervisor');
+
 -- --------------------------------------------------------
 
 --

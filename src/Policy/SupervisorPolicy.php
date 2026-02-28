@@ -21,10 +21,7 @@ class SupervisorPolicy
      */
     public function canAdd(?IdentityInterface $user, Supervisor $supervisor)
     {
-        if (!$user) {
-            return false;
-        }
-        return $user->getOriginalData()->isAdmin() || $user->getOriginalData()->isSupervisor();
+        return isset($user) && in_array($user->categoria, ['1', '2']);
     }
 
     /**
@@ -37,9 +34,9 @@ class SupervisorPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->getOriginalData()->isAdmin()) {
+        } elseif ($user->categoria == '1') {
             return true;
-        } elseif ($user->getOriginalData()->isSupervisor()) {
+        } elseif ($user->categoria == '4') {
             return $this->isAuthor($user, $supervisor);
         } else {
             return false;
@@ -55,10 +52,7 @@ class SupervisorPolicy
      */
     public function canDelete(?IdentityInterface $user, Supervisor $supervisor)
     {
-        if (!$user) {
-            return false;
-        }
-        return $user->getOriginalData()->isAdmin();
+        return $user->categoria == '1';
     }
 
     /**
@@ -72,9 +66,9 @@ class SupervisorPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->getOriginalData()->isAdmin()) {
+        } elseif ($user->categoria == '1') {
             return true;
-        } elseif ($user->getOriginalData()->isSupervisor()) {
+        } elseif ($user->categoria == '4') {
             return $this->isAuthor($user, $supervisor);
         } else {
             return false;
@@ -90,9 +84,6 @@ class SupervisorPolicy
      */
     protected function isAuthor(?IdentityInterface $user, Supervisor $supervisor)
     {
-        if (!$user) {
-            return false;
-        }
         return $supervisor->id === $user->supervisor_id;
     }
 }

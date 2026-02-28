@@ -21,6 +21,6 @@ class InstituicoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, InstituicoesTable $instituicoes)
     {
-        return true;
+        return isset($user);
     }
 }
