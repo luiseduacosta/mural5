@@ -24,11 +24,7 @@ class TurmaestagiosTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Turmaestagios',
-        'app.Estagiarios',
-        'app.Muralestagios',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method

@@ -22,7 +22,7 @@ class SupervisoresControllerTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Supervisores',
         'app.Estagiarios',
         'app.Users',

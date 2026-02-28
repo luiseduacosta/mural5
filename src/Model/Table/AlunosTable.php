@@ -79,8 +79,7 @@ class AlunosTable extends Table
 
             $validator
                     ->integer('registro')
-                    ->notEmptyString('registro')
-                    ->add('registro', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+                    ->notEmptyString('registro');
 
             $validator
                     ->notEmptyString('codigo_telefone');

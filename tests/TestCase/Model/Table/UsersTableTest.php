@@ -24,12 +24,7 @@ class UsersTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Users',
-        'app.Alunos',
-        'app.Supervisores',
-        'app.Professores',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method
@@ -62,7 +57,49 @@ class UsersTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validator = $this->Users->validationDefault(new \Cake\Validation\Validator());
+
+        // Test valid data passes validation
+        $errors = $validator->validate([
+            'email' => 'test@example.com',
+            'password' => 'test123',
+            'categoria' => '1',
+        ]);
+        $this->assertEmpty($errors);
+
+        // Test empty email fails
+        $errors = $validator->validate([
+            'email' => '',
+            'password' => 'test123',
+            'categoria' => '1',
+        ]);
+        $this->assertArrayHasKey('email', $errors);
+
+        // Test invalid email format
+        $errors = $validator->validate([
+            'email' => 'invalid-email',
+            'password' => 'test123',
+            'categoria' => '1',
+        ]);
+        $this->assertArrayHasKey('email', $errors);
+
+        // Test invalid categoria
+        $errors = $validator->validate([
+            'email' => 'test@example.com',
+            'password' => 'test123',
+            'categoria' => '5',
+        ]);
+        $this->assertArrayHasKey('categoria', $errors);
+
+        // Test valid categoria values
+        foreach (['1', '2', '3', '4'] as $cat) {
+            $errors = $validator->validate([
+                'email' => 'test@example.com',
+                'password' => 'test123',
+                'categoria' => $cat,
+            ]);
+            $this->assertArrayNotHasKey('categoria', $errors, "Categoria $cat should be valid");
+        }
     }
 
     /**
@@ -72,6 +109,21 @@ class UsersTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Users->buildRules(new \Cake\ORM\RulesChecker());
+
+        $this->assertInstanceOf(\Cake\ORM\RulesChecker::class, $rules);
+    }
+
+    /**
+     * Test initialize method
+     *
+     * @return void
+     */
+    public function testInitialize(): void
+    {
+        $this->assertSame('users', $this->Users->getTable());
+        $this->assertSame('Users', $this->Users->getAlias());
+        $this->assertSame('email', $this->Users->getDisplayField());
+        $this->assertSame('id', $this->Users->getPrimaryKey());
     }
 }

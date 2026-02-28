@@ -24,10 +24,7 @@ class VisitasTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Visitas',
-        'app.Instituicoes',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method

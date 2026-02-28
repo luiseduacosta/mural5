@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\AreasTable;
+use App\Model\Table\AreainstituicoesTable;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -15,7 +15,7 @@ class AreasTableTest extends TestCase
     /**
      * Test subject
      *
-     * @var \App\Model\Table\AreasTable
+     * @var \App\Model\Table\AreainstituicoesTable
      */
     protected $Areas;
 
@@ -24,9 +24,7 @@ class AreasTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Areas',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method
@@ -36,8 +34,8 @@ class AreasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreasTable::class];
-        $this->Areas = $this->getTableLocator()->get('Areas', $config);
+        $config = $this->getTableLocator()->exists('Areainstituicoes') ? [] : ['className' => AreainstituicoesTable::class];
+        $this->Areas = $this->getTableLocator()->get('Areainstituicoes', $config);
     }
 
     /**
@@ -59,6 +57,38 @@ class AreasTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validator = $this->Areas->validationDefault(new \Cake\Validation\Validator());
+
+        // Test valid data passes
+        $errors = $validator->validate([
+            'area' => 'Computer Science',
+        ]);
+        $this->assertEmpty($errors);
+
+        // Test empty area fails
+        $errors = $validator->validate([
+            'area' => '',
+        ]);
+        $this->assertArrayHasKey('area', $errors);
+
+        // Test area too long
+        $longArea = str_repeat('a', 91);
+        $errors = $validator->validate([
+            'area' => $longArea,
+        ]);
+        $this->assertArrayHasKey('area', $errors);
+    }
+
+    /**
+     * Test initialize method
+     *
+     * @return void
+     */
+    public function testInitialize(): void
+    {
+        $this->assertSame('area_instituicoes', $this->Areas->getTable());
+        $this->assertSame('Areainstituicoes', $this->Areas->getAlias());
+        $this->assertSame('area', $this->Areas->getDisplayField());
+        $this->assertSame('id', $this->Areas->getPrimaryKey());
     }
 }

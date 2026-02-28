@@ -24,10 +24,7 @@ class AlunosTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Alunos',
-        'app.Estagiarios',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method
@@ -60,7 +57,32 @@ class AlunosTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validator = $this->Alunos->validationDefault(new \Cake\Validation\Validator());
+
+        // Test valid data passes
+        $errors = $validator->validate([
+            'nome' => 'John Doe',
+            'registro' => 12345,
+            'codigo_telefone' => '021',
+            'codigo_celular' => '021',
+        ]);
+        $this->assertEmpty($errors);
+
+        // Test empty nome fails
+        $errors = $validator->validate([
+            'nome' => '',
+            'registro' => 12345,
+            'codigo_telefone' => '021',
+        ]);
+        $this->assertArrayHasKey('nome', $errors);
+
+        // Test empty registro fails
+        $errors = $validator->validate([
+            'nome' => 'John Doe',
+            'registro' => '',
+            'codigo_telefone' => '021',
+        ]);
+        $this->assertArrayHasKey('registro', $errors);
     }
 
     /**
@@ -70,6 +92,21 @@ class AlunosTableTest extends TestCase
      */
     public function testBuildRules(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rules = $this->Alunos->buildRules(new \Cake\ORM\RulesChecker());
+
+        $this->assertInstanceOf(\Cake\ORM\RulesChecker::class, $rules);
+    }
+
+    /**
+     * Test initialize method
+     *
+     * @return void
+     */
+    public function testInitialize(): void
+    {
+        $this->assertSame('alunos', $this->Alunos->getTable());
+        $this->assertSame('Alunos', $this->Alunos->getAlias());
+        $this->assertSame('nome', $this->Alunos->getDisplayField());
+        $this->assertSame('id', $this->Alunos->getPrimaryKey());
     }
 }
