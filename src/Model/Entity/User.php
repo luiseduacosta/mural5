@@ -25,8 +25,8 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Professor[] $professores
  *
  */
-class User extends Entity {
-
+class User extends Entity
+{
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -51,7 +51,8 @@ class User extends Entity {
     ];
 
     // Add this method
-    protected function _setPassword(string $password): ?string {
+    protected function _setPassword(string $password): ?string
+    {
         if (strlen($password) > 0) {
             return (new DefaultPasswordHasher())->hash($password);
         }
@@ -86,5 +87,4 @@ class User extends Entity {
     protected array $_hidden = [
         'password',
     ];
-
 }

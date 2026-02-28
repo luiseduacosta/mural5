@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Complemento policy
  */
-class ComplementoPolicy {
-
+class ComplementoPolicy
+{
     /**
      * Check if $user can add Complemento
      *
@@ -19,7 +19,8 @@ class ComplementoPolicy {
      * @param \App\Model\Entity\Complemento $complemento
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Complemento $complemento) {
+    public function canAdd(?IdentityInterface $user, Complemento $complemento)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -30,7 +31,8 @@ class ComplementoPolicy {
      * @param \App\Model\Entity\Complemento $complemento
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Complemento $complemento) {
+    public function canEdit(?IdentityInterface $user, Complemento $complemento)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -41,7 +43,8 @@ class ComplementoPolicy {
      * @param \App\Model\Entity\Complemento $complemento
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Complemento $complemento) {
+    public function canDelete(?IdentityInterface $user, Complemento $complemento)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -52,8 +55,8 @@ class ComplementoPolicy {
      * @param \App\Model\Entity\Complemento $complemento
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Complemento $complemento) {
+    public function canView(?IdentityInterface $user, Complemento $complemento)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
-
 }

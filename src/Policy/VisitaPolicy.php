@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Visita policy
  */
-class VisitaPolicy {
-
+class VisitaPolicy
+{
     /**
      * Check if $user can add Visita
      *
@@ -19,7 +19,8 @@ class VisitaPolicy {
      * @param \App\Model\Entity\Visita $visita
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Visita $visita) {
+    public function canAdd(?IdentityInterface $user, Visita $visita)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -30,7 +31,8 @@ class VisitaPolicy {
      * @param \App\Model\Entity\Visita $visita
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Visita $visita) {
+    public function canEdit(?IdentityInterface $user, Visita $visita)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -41,7 +43,8 @@ class VisitaPolicy {
      * @param \App\Model\Entity\Visita $visita
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Visita $visita) {
+    public function canDelete(?IdentityInterface $user, Visita $visita)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -52,8 +55,8 @@ class VisitaPolicy {
      * @param \App\Model\Entity\Visita $visita
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Visita $visita) {
+    public function canView(?IdentityInterface $user, Visita $visita)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
-
 }

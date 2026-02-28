@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Estagiario policy
  */
-class EstagiariomonografiaPolicy {
-
+class EstagiariomonografiaPolicy
+{
     /**
      * Check if $user can create Estagiariomonografia
      *
@@ -19,7 +19,8 @@ class EstagiariomonografiaPolicy {
      * @param \App\Model\Entity\Estagiariomonografia $estagiariomongrafia
      * @return bool
      */
-    public function canCreate(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia) {
+    public function canCreate(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -30,7 +31,8 @@ class EstagiariomonografiaPolicy {
      * @param \App\Model\Entity\Estagiariomonografia $estagiariomonografia
      * @return bool
      */
-    public function canUpdate(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia) {
+    public function canUpdate(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -41,7 +43,8 @@ class EstagiariomonografiaPolicy {
      * @param \App\Model\Entity\Estagiariomonografia $estagiariomonografia
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia) {
+    public function canDelete(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -52,8 +55,8 @@ class EstagiariomonografiaPolicy {
      * @param \App\Model\Entity\Estagiariomonografia $estagiariomonografia
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia) {
+    public function canView(?IdentityInterface $user, Estagiariomonografia $estagiariomonografia)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
-
 }

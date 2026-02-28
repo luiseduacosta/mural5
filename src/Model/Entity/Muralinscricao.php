@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -32,7 +33,7 @@ class Muralinscricao extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'registro' => true, // id_aluno -> registro 
+        'registro' => true, // id_aluno -> registro
         'aluno_id' => true, // alunonovo_id -> aluno_id
         'muralestagio_id' => true,
         'data' => true,

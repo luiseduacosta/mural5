@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -9,14 +10,15 @@ namespace App\Controller;
  * @property \App\Model\Table\CategoriasTable $Categorias
  * @method \App\Model\Entity\Categoria[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class CategoriasController extends AppController {
-
+class CategoriasController extends AppController
+{
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index() {
+    public function index()
+    {
         $this->Authorization->skipAuthorization();
         $categorias = $this->paginate($this->Categorias);
         $this->set(compact('categorias'));
@@ -29,9 +31,10 @@ class CategoriasController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
         $this->Authorization->skipAuthorization();
-        try {   
+        try {
             $categoria = $this->Categorias->get($id, [
                 'contain' => [],
             ]);
@@ -48,7 +51,8 @@ class CategoriasController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add()
+    {
         $categoria = $this->Categorias->newEmptyEntity();
         $this->Authorization->authorize($categoria);
         if ($this->request->is('post')) {
@@ -69,7 +73,8 @@ class CategoriasController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
         try {
             $categoria = $this->Categorias->get($id, [
                 'contain' => [],
@@ -79,7 +84,7 @@ class CategoriasController extends AppController {
             return $this->redirect(['action' => 'index']);
         }
         $this->Authorization->authorize($categoria);
-        
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $categoria = $this->Categorias->patchEntity($categoria, $this->request->getData());
             if ($this->Categorias->save($categoria)) {
@@ -98,7 +103,8 @@ class CategoriasController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
         $this->request->allowMethod(['post', 'delete']);
         try {
             $categoria = $this->Categorias->get($id);
@@ -113,7 +119,7 @@ class CategoriasController extends AppController {
         } else {
             $this->Flash->error(__('Registro categoria nao foi excluido. Tente novamente.'));
         }
-        
+
         return $this->redirect(['action' => 'index']);
     }
 }

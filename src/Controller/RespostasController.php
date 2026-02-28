@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -420,7 +421,7 @@ class RespostasController extends AppController
                 ]);
 
             $respostavazia = ['respostas' => $questoes, 'estagiario' => $estagiario];
-            }
+        }
 
         $this->viewBuilder()->enableAutoLayout(enable: false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');

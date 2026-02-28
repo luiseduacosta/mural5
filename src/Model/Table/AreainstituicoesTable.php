@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * Areainstituicoes Model
  *
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\HasMany $Instituicoes
- * 
+ *
  * @method \App\Model\Entity\Areainstituicao newEmptyEntity()
  * @method \App\Model\Entity\Areainstituicao newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Areainstituicao[] newEntities(array $data, array $options = [])
@@ -28,15 +28,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class AreainstituicoesTable extends Table {
-
+class AreainstituicoesTable extends Table
+{
     /**
      * Initialize method
      *
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config): void {
+    public function initialize(array $config): void
+    {
         parent::initialize($config);
 
         $this->setTable('area_instituicoes');
@@ -49,7 +50,8 @@ class AreainstituicoesTable extends Table {
         ]);
     }
 
-    public function beforeFind($event, $query, $options, $primary) {
+    public function beforeFind($event, $query, $options, $primary)
+    {
 
         $query->order(['Areainstituicoes.area' => 'ASC']);
         return $query;
@@ -61,7 +63,8 @@ class AreainstituicoesTable extends Table {
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator): Validator {
+    public function validationDefault(Validator $validator): Validator
+    {
         $validator
                 ->allowEmptyString('id', null, 'create');
 
@@ -72,5 +75,4 @@ class AreainstituicoesTable extends Table {
 
         return $validator;
     }
-
 }

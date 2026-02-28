@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Configuracao policy
  */
-class ConfiguracaoPolicy {
-
+class ConfiguracaoPolicy
+{
     /**
      * Check if $user can add Configuracao
      *
@@ -19,7 +19,8 @@ class ConfiguracaoPolicy {
      * @param \App\Model\Entity\Configuracao $configuracao
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Configuracao $configuracao) {
+    public function canAdd(?IdentityInterface $user, Configuracao $configuracao)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -30,7 +31,8 @@ class ConfiguracaoPolicy {
      * @param \App\Model\Entity\Configuracao $configuracao
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Configuracao $configuracao) {
+    public function canEdit(?IdentityInterface $user, Configuracao $configuracao)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -41,7 +43,8 @@ class ConfiguracaoPolicy {
      * @param \App\Model\Entity\Configuracao $configuracao
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Configuracao $configuracao) {
+    public function canDelete(?IdentityInterface $user, Configuracao $configuracao)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
 
@@ -52,8 +55,8 @@ class ConfiguracaoPolicy {
      * @param \App\Model\Entity\Configuracao $configuracao
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Configuracao $configuracao) {
+    public function canView(?IdentityInterface $user, Configuracao $configuracao)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
-
 }

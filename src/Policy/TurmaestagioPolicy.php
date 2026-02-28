@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Areaestagio policy
  */
-class TurmaestagioPolicy {
-
+class TurmaestagioPolicy
+{
     /**
      * Check if $user can add Turmaestagio
      *
@@ -19,7 +19,8 @@ class TurmaestagioPolicy {
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Turmaestagio $areaestagio) {       
+    public function canAdd(?IdentityInterface $user, Turmaestagio $areaestagio)
+    {
         return isset($user) && $user->categoria == '1';
     }
 
@@ -30,7 +31,8 @@ class TurmaestagioPolicy {
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Turmaestagio $turmaestagio) {
+    public function canEdit(?IdentityInterface $user, Turmaestagio $turmaestagio)
+    {
         return isset($user) && $user->categoria == '1';
     }
 
@@ -41,7 +43,8 @@ class TurmaestagioPolicy {
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Turmaestagio $areaestagio) {
+    public function canDelete(?IdentityInterface $user, Turmaestagio $areaestagio)
+    {
         return isset($user) && $user->categoria == '1';
     }
 
@@ -52,8 +55,8 @@ class TurmaestagioPolicy {
      * @param \App\Model\Entity\Turmaestagio $turmaestagio
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Turmaestagio $areaestagio) {
+    public function canView(?IdentityInterface $user, Turmaestagio $areaestagio)
+    {
         return isset($user);
     }
-
 }

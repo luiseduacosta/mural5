@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Muralestagios policy
  */
-class MuralestagiosTablePolicy {
-
+class MuralestagiosTablePolicy
+{
     /**
      * Check if $user can index Muralestagios
      *
@@ -19,8 +19,8 @@ class MuralestagiosTablePolicy {
      * @param \App\Model\Table\MuralestagiosTable $muralestagios
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, MuralestagiosTable $muralestagios) {
+    public function canIndex(?IdentityInterface $user, MuralestagiosTable $muralestagios)
+    {
         return true;
     }
-
 }

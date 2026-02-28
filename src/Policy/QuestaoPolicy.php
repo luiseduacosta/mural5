@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -7,18 +8,18 @@ use App\Model\Entity\questao;
 use Authorization\IdentityInterface;
 
 /**
- * questao policy
+ * Questao policy
  */
-class questaoPolicy
+class QuestaoPolicy
 {
     /**
-     * Check if $user can add questao
+     * Check if $user can add Questao
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questao $questao
+     * @param \App\Model\Entity\Questao $questao
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, questao $questao)
+    public function canAdd(?IdentityInterface $user, Questao $questao)
     {
         if (isset($user) && $user->categoria === '1') {
             return true;
@@ -27,13 +28,13 @@ class questaoPolicy
     }
 
     /**
-     * Check if $user can edit questao
+     * Check if $user can edit Questao
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questao $questao
+     * @param \App\Model\Entity\Questao $questao
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, questao $questao)
+    public function canEdit(?IdentityInterface $user, Questao $questao)
     {
         if (isset($user) && $user->categoria === '1') {
             return true;
@@ -42,13 +43,13 @@ class questaoPolicy
     }
 
     /**
-     * Check if $user can delete questao
+     * Check if $user can delete Questao
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questao $questao
+     * @param \App\Model\Entity\Questao $questao
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, questao $questao)
+    public function canDelete(?IdentityInterface $user, Questao $questao)
     {
         if (isset($user) && $user->categoria === '1') {
             return true;
@@ -57,13 +58,13 @@ class questaoPolicy
     }
 
     /**
-     * Check if $user can view questao
+     * Check if $user can view Questao
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questao $questao
+     * @param \App\Model\Entity\Questao $questao
      * @return bool
      */
-    public function canView(?IdentityInterface $user, questao $questao)
+    public function canView(?IdentityInterface $user, Questao $questao)
     {
         if (isset($user)) {
             return true;

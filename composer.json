@@ -55,7 +55,7 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs --colors -p",
+        "cs-check": "phpcs --colors -p -n",
         "cs-fix": "phpcbf --colors -p",
         "stan": "phpstan analyze",
         "test": "phpunit --colors=always"

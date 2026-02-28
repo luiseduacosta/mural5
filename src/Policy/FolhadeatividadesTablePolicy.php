@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Folhadeatividades policy
  */
-class FolhadeatividadesTablePolicy {
-
+class FolhadeatividadesTablePolicy
+{
     /**
      * Check if $user can index Folhadeatividades
      *
@@ -19,8 +19,8 @@ class FolhadeatividadesTablePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, FolhadeatividadesTable $folhadeatividades) {
+    public function canIndex(?IdentityInterface $user, FolhadeatividadesTable $folhadeatividades)
+    {
         return true;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -47,7 +48,7 @@ class AvaliacoesTable extends Table
         $this->belongsTo('Estagiarios', [
             'foreignKey' => 'estagiario_id',
             'joinType' => 'INNER',
-        ]);        
+        ]);
     }
 
     /**

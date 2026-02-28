@@ -5,17 +5,14 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use App\Model\Entity\Aluno;
-use App\Model\Entity\Monografia;
 use Authorization\IdentityInterface;
 
 /**
  * Aluno policy
  */
-use Cake\ORM\TableRegistry;
 
 class AlunoPolicy
 {
-
     /**
      * Check if $user can add Aluno
      *
@@ -158,11 +155,5 @@ class AlunoPolicy
     protected function isAuthor(?IdentityInterface $user, Aluno $aluno)
     {
         return $aluno->id === $user->aluno_id;
-    }
-
-    public function isAuthorMonografia(?IdentityInterface $user, Monografia $monografia)
-    {
-        $aluno = TableRegistry::getTableLocator()->get('Aluno')->get($monografia->aluno_id);
-        return $this->isAuthor($user, $aluno);
     }
 }

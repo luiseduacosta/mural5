@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Avaliacao policy
  */
-class AvaliacaoPolicy {
-
+class AvaliacaoPolicy
+{
     /**
      * Check if $user can add Avaliacao
      *
@@ -19,7 +19,8 @@ class AvaliacaoPolicy {
      * @param \App\Model\Entity\Avaliacao $avaliacao
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Avaliacao $avaliacao) {
+    public function canAdd(?IdentityInterface $user, Avaliacao $avaliacao)
+    {
         return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '4');
     }
 
@@ -30,7 +31,8 @@ class AvaliacaoPolicy {
      * @param \App\Model\Entity\Avaliacao $avaliacao
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Avaliacao $avaliacao) {
+    public function canEdit(?IdentityInterface $user, Avaliacao $avaliacao)
+    {
         return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '4');
     }
 
@@ -41,7 +43,8 @@ class AvaliacaoPolicy {
      * @param \App\Model\Entity\Avaliacao $avaliacao
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Avaliacao $avaliacao) {
+    public function canDelete(?IdentityInterface $user, Avaliacao $avaliacao)
+    {
         return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '4');
     }
 
@@ -52,8 +55,8 @@ class AvaliacaoPolicy {
      * @param \App\Model\Entity\Avaliacao $avaliacao
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Avaliacao $avaliacao) {
+    public function canView(?IdentityInterface $user, Avaliacao $avaliacao)
+    {
         return true;
     }
-
 }

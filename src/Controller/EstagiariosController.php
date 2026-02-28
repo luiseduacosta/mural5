@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -404,15 +405,14 @@ class EstagiariosController extends AppController
         }
 
         try {
-        $estagiario = $this->Estagiarios
+            $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
             ->order(['nivel' => 'desc'])
             ->first();
-        }
-        catch (RecordNotFoundException $e) {
+        } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
-            return $this->redirect(['controller'=> 'Muralestagios', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
         if (!$estagiario) {
             return $this->redirect([

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -67,7 +68,7 @@ class RespostaPolicy
      * @return bool
      */
     public function canView(?IdentityInterface $user, Resposta $resposta)
-    {   
+    {
         return isset($user);
     }
 }

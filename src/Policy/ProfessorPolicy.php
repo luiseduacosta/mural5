@@ -1,10 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
 
-use \Authorization\IdentityInterface;
-use \App\Model\Entity\Professor;
+use Authorization\IdentityInterface;
+use App\Model\Entity\Professor;
 
 /**
  * Professor policy
@@ -67,17 +68,14 @@ class ProfessorPolicy
         }
         if ($user->getOriginalData()->isAdmin()) {
             return true;
-        } else if ($user->getOriginalData()->isProfessor()) {
+        } elseif ($user->getOriginalData()->isProfessor()) {
             return $professor->id === $user->professor_id;
-        }        
+        }
         return true;
     }
-    
+
     protected function isAuthor(?IdentityInterface $user, Professor $professor)
     {
         return $professor->id === $user->professor_id;
     }
-
-
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -59,5 +60,4 @@ class UserPolicy
     {
         return isset($user) && $user->getOriginalData()->isAdmin();
     }
-
 }

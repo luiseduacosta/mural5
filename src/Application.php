@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Middleware\HostHeaderMiddleware;
@@ -53,7 +55,6 @@ use Authorization\Policy\OrmResolver;
  */
 class Application extends BaseApplication implements AuthenticationServiceProviderInterface, AuthorizationServiceProviderInterface
 {
-
     /**
      * Load all the application configuration and bootstrap logic.
      *
@@ -66,6 +67,9 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
         // By default, does not allow fallback classes.
         FactoryLocator::add('Table', (new TableLocator())->allowFallbackClass(false));
+
+        // Load CakePdf plugin
+        $this->addPlugin('CakePdf', ['bootstrap' => true, 'routes' => true]);
     }
 
     /**

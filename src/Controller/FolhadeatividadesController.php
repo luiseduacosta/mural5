@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -42,8 +43,8 @@ class FolhadeatividadesController extends AppController
         $estagiario = $this->Folhadeatividades->Estagiarios->find()
             ->contain(['Alunos', 'Supervisores', 'Instituicoes', 'Professores'])
             ->where(['Estagiarios.id' => $estagiario_id])
-            ->first(); 
-    
+            ->first();
+
         $query = $this->Folhadeatividades->find()
             ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
             ->contain(['Estagiarios' => ['Alunos']])
@@ -328,14 +329,13 @@ class FolhadeatividadesController extends AppController
                     'professor_nome' => 'professores.nome',
                 ])
                 ->first();
-            }
-        catch (RecordNotFoundException $e) {
+        } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Atividade do(a) estagiário(a) não localizada.'));
             return $this->redirect(['action' => 'index']);
         }
 
-pr($estagiario);
-die();
+        pr($estagiario);
+        die();
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
@@ -351,7 +351,8 @@ die();
         $this->set('estagiario', $estagiario);
     }
 
-    public function atividadesmanual($id = null) {
+    public function atividadesmanual($id = null)
+    {
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
         $this->Authorization->skipAuthorization();
@@ -377,8 +378,7 @@ die();
                     'professor_nome' => 'Professores.nome',
                 ])
                 ->first();
-            }
-        catch (RecordNotFoundException $e) {
+        } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário(a) não localizado(a).'));
             return $this->redirect(['action' => 'index']);
         }
@@ -395,5 +395,4 @@ die();
         );
         $this->set('estagiario', $estagiario);
     }
-
 }

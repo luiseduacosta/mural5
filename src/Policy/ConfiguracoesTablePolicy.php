@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -9,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Configuracoes policy
  */
-class ConfiguracoesTablePolicy {   
-    
+class ConfiguracoesTablePolicy
+{
     /**
      * Check if $user can index configuracoes
      *
@@ -18,8 +19,9 @@ class ConfiguracoesTablePolicy {
      * @param \App\Model\Table\ConfiguracoesTable $configuracoes
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, ConfiguracoesTable $configuracoes) {
-        
+    public function canIndex(?IdentityInterface $user, ConfiguracoesTable $configuracoes)
+    {
+
         if (isset($user->categoria) && $user->categoria == '1') {
             return true;
         }

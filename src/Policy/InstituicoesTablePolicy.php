@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Instituicoes policy
  */
-class InstituicoesTablePolicy {
-
+class InstituicoesTablePolicy
+{
     /**
      * Check if $user can index Instituicoes
      *
@@ -19,8 +19,8 @@ class InstituicoesTablePolicy {
      * @param \App\Model\Table\InstituicoesTable $instituicoes
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, InstituicoesTable $instituicoes) {
+    public function canIndex(?IdentityInterface $user, InstituicoesTable $instituicoes)
+    {
         return true;
     }
-
 }

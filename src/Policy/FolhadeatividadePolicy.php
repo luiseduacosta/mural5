@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Folhadeatividade policy
  */
-class FolhadeatividadePolicy {
-
+class FolhadeatividadePolicy
+{
     /**
      * Check if $user can add Folhadeatividade
      *
@@ -19,7 +19,8 @@ class FolhadeatividadePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canAdd(?IdentityInterface $user, Folhadeatividade $folhadeatividade) {
+    public function canAdd(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    {
         return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
     }
 
@@ -30,7 +31,8 @@ class FolhadeatividadePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade) {
+    public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    {
         if ($user->categoria == '1') {
             return true;
         } elseif ($user->categoria == '2') {
@@ -47,7 +49,8 @@ class FolhadeatividadePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Folhadeatividade $folhadeatividade) {
+    public function canDelete(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    {
         if ($user->categoria == '1') {
             return true;
         } elseif ($user->categoria == '2') {
@@ -64,7 +67,8 @@ class FolhadeatividadePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canView(?IdentityInterface $user, Folhadeatividade $folhadeatividade) {
+    public function canView(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    {
         return true;
     }
 
@@ -75,7 +79,8 @@ class FolhadeatividadePolicy {
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canFolhaDeAtividadePdf(?IdentityInterface $user, Folhadeatividade $folhadeatividade) {
+    public function canFolhaDeAtividadePdf(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    {
         return isset($user->categoria) && $user->categoria == '1' || $user->categoria == '2';
     }
 }

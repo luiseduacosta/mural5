@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -7,7 +8,7 @@ namespace App\Controller;
  * Areainstituicoes Controller
  *
  * @property \App\Model\Table\AreainstituicoesTable $Areainstituicoes
- * 
+ *
  * @method \App\Model\Entity\Areainstituicao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AreainstituicoesController extends AppController
@@ -138,7 +139,7 @@ class AreainstituicoesController extends AppController
             $this->Flash->error(__('Área de instituição não encontrada.'));
             return $this->redirect(['action' => 'index']);
         }
-        
+
         try {
             $this->Authorization->authorize($areainstituicao);
         } catch (\Authorization\Exception\ForbiddenException $e) {

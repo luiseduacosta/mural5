@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <ruleset name="App">
-    <config name="installed_paths" value="../../cakephp/cakephp-codesniffer"/>
-
-    <rule ref="CakePHP"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingNativeTypeHint">
-        <exclude-pattern>*/src/Controller/*</exclude-pattern>
+    <config name="colors" value="true"/>
+    <rule ref="PSR12">
+        <exclude name="PSR12.Files.FileHeader"/>
     </rule>
+    <exclude name="PSR1.Methods"/>
+    <exclude name="PSR2.Methods"/>
 
     <file>src/</file>
-    <file>tests/</file>
+    <exclude-pattern>src/Model/Entity/User.php</exclude-pattern>
 </ruleset>

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,7 +11,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $area
- * 
+ *
  * @property \App\Model\Entity\Areainstituicao[] $areainstituicao
  */
 class Areainstituicao extends Entity

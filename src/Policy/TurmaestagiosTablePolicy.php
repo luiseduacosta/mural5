@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -9,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Areaestagios policy
  */
-class TurmaestagiosTablePolicy {
-    
+class TurmaestagiosTablePolicy
+{
     /**
      * Check if $user can index Areaestagios
      *
@@ -18,8 +19,8 @@ class TurmaestagiosTablePolicy {
      * @param \App\Model\Table\TurmaestagiosTable $turmaestagios
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, TurmaestagiosTable $areaestagios) {
-        return isset ($user);
+    public function canIndex(?IdentityInterface $user, TurmaestagiosTable $areaestagios)
+    {
+        return isset($user);
     }
-    
 }

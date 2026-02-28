@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Alunos policy
  */
-class AlunosTablePolicy {
-
+class AlunosTablePolicy
+{
     /**
      * Check if $user can index Alunos
      *
@@ -19,9 +19,9 @@ class AlunosTablePolicy {
      * @param \App\Model\Table\AlunosTable $alunos
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, AlunosTable $alunos) {
-    
+    public function canIndex(?IdentityInterface $user, AlunosTable $alunos)
+    {
+
         return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
-
 }

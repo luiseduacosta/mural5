@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -11,7 +12,6 @@ use Authorization\IdentityInterface;
  */
 class ComplementosTablePolicy
 {
-
     /**
      * Check if $user can index Complementos
      *
@@ -19,8 +19,8 @@ class ComplementosTablePolicy
      * @param \App\Model\Table\ComplementosTable $complementos
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, ComplementosTable $complementos) {
+    public function canIndex(?IdentityInterface $user, ComplementosTable $complementos)
+    {
         return isset($user->categoria) && $user->categoria == '1';
     }
-    
 }

@@ -10,8 +10,8 @@ use Authorization\IdentityInterface;
 /**
  * Estagiarios policy
  */
-class EstagiariosTablePolicy {
-
+class EstagiariosTablePolicy
+{
     /**
      * Check if $user can index Estagiarios
      *
@@ -19,8 +19,8 @@ class EstagiariosTablePolicy {
      * @param \App\Model\Table\EstagiariosTable $estagiarios
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, EstagiariosTable $estagiarios) {
+    public function canIndex(?IdentityInterface $user, EstagiariosTable $estagiarios)
+    {
         return isset($user);
     }
-
 }

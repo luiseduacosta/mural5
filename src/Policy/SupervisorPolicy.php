@@ -12,7 +12,6 @@ use Authorization\IdentityInterface;
  */
 class SupervisorPolicy
 {
-
     /**
      * Check if $user can add Supervisor
      *

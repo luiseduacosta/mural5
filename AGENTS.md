@@ -30,23 +30,12 @@ templates/              # View templates (.ctp)
 ## Build / Lint / Test Commands
 
 ```bash
-# Run all tests
-composer test
-
-# Run a single test file
-vendor/bin/phpunit tests/TestCase/ApplicationTest.php
-
-# Run a specific test method
-vendor/bin/phpunit tests/TestCase/ApplicationTest.php --filter testBootstrap
-
-# Check code style
-composer cs-check
-
-# Auto-fix code style issues
-composer cs-fix
-
-# Full check (test + cs-check)
-composer check
+composer test                       # Run all tests
+vendor/bin/phpunit path/to/Test.php # Run single test file
+vendor/bin/phpunit --filter method  # Run specific test method
+composer cs-check                   # Check code style
+composer cs-fix                     # Auto-fix code style
+composer check                      # Full check (test + cs-check)
 ```
 
 ## Code Style Guidelines
@@ -67,6 +56,7 @@ composer check
 ### Code Examples
 
 ```php
+// Controller
 class AppController extends Controller
 {
     protected $user;
@@ -86,11 +76,8 @@ class AppController extends Controller
         $this->set('user', $this->user);
     }
 }
-```
 
-### Tables
-
-```php
+// Table
 class UsersTable extends Table
 {
     public function initialize(array $config): void
@@ -113,8 +100,7 @@ class UsersTable extends Table
 
 ### Imports
 
-- Use explicit `use` statements
-- Sort alphabetically within groups
+- Use explicit `use` statements; sort alphabetically
 
 ### Types
 
@@ -134,9 +120,8 @@ class UsersTable extends Table
 
 ## Testing
 
-- Place tests in `tests/TestCase/{Type}/` matching src structure
-- Name: `{ClassName}Test.php`
-- Fixtures in `tests/Fixture/`
+- Tests in `tests/TestCase/{Type}/` matching src structure
+- Name: `{ClassName}Test.php`; fixtures in `tests/Fixture/`
 
 ## Configuration
 
@@ -144,16 +129,58 @@ class UsersTable extends Table
 - Environment: `config/.env`
 - Routes: `config/routes.php`
 
-## Common Tasks
+## Authorization / Policies
 
-```bash
-# Bake controller
-bin/cake bake controller Users
+The project uses CakePHP Authorization plugin with these user categories:
 
-# Bake model
-bin/cake bake model Users
+| Categoria | Role |
+|-----------|------|
+| 1 | Administrador (Admin) |
+| 2 | Aluno (Student) |
+| 3 | Professor |
+| 4 | Supervisor |
 
-# Run migrations
-bin/cake migrations migrate
-bin/cake migrations rollback
+### Policy File Types
+
+- **`{Model}Policy.php`** - Entity policies (e.g., `UserPolicy.php`)
+- **`{Model}TablePolicy.php`** - Table policies for index (e.g., `UsersTablePolicy.php`)
+
+### Policy Methods
+
+- `canIndex()`, `canView()`, `canAdd()`, `canEdit()`, `canDelete()`
+- Custom: `canCargaHoraria()`, `canDeclaracaoperiodo()`, etc.
+
+### Policy Examples
+
+```php
+// Admin only
+public function canDelete(?IdentityInterface $user, User $resource)
+{
+    return isset($user) && $user->getOriginalData()->isAdmin();
+}
+
+// Category check
+public function canAdd(?IdentityInterface $user, Estagiario $estagiario)
+{
+    return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+}
+
+// Ownership check
+protected function isAuthor(?IdentityInterface $user, Aluno $aluno)
+{
+    return $aluno->id === $user->aluno_id;
+}
+```
+
+### Checking User Roles
+
+```php
+// Via categoria field
+$user->categoria == '1'  // Admin
+
+// Via entity methods
+$user->getOriginalData()->isAdmin();
+$user->getOriginalData()->isAluno();
+$user->getOriginalData()->isProfessor();
+$user->getOriginalData()->isSupervisor();
 ```

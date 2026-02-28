@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -12,7 +13,7 @@ use Cake\I18n\I18n;
  * @property \App\Model\Table\AvaliacoesTable $Avaliacoes
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
- * 
+ *
  * @method \App\Model\Entity\Avaliaco[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AvaliacoesController extends AppController
@@ -58,7 +59,7 @@ class AvaliacoesController extends AppController
         if ($estagiario_id === null) {
             $this->Flash->error(__("Selecionar estagiário"));
             return $this->redirect(["controller" => "estagiarios", "action" => "index"]);
-        } 
+        }
 
         /**  Captura os estágios do aluno */
         $estagios = $this->fetchTable('Estagiarios')->find()
@@ -85,19 +86,19 @@ class AvaliacoesController extends AppController
     {
         /* O submenu_navegacao envia o cress */
         $this->Authorization->skipAuthorization();
-                
+
         $cress = $cress ?? null;
         $dre = $dre ?? null;
 
         if (empty($cress)) {
             $this->Flash->error(__("Selecionar supervisor(a)."));
-            if ($dre):
+            if ($dre) :
                 return $this->redirect([
                     "controller" => "alunos",
                     "action" => "view",
                     $dre,
                 ]);
-            else:
+            else :
                 return $this->redirect([
                     "controller" => "alunos",
                     "action" => "index",
@@ -145,8 +146,7 @@ class AvaliacoesController extends AppController
 
         try {
             $this->Authorization->authorize($avaliacao);
-        }
-        catch (\Authorization\Exception\ForbiddenException $e) {
+        } catch (\Authorization\Exception\ForbiddenException $e) {
             $this->Flash->error(__("Acesso negado. Você não tem permissão para visualizar esta avaliação."));
             return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
@@ -181,7 +181,7 @@ class AvaliacoesController extends AppController
                 $avaliacaoestagiario->id,
             ]);
         }
-    
+
         $avaliacao = $this->Avaliacoes->newEmptyEntity();
         try {
             $this->Authorization->authorize($avaliacao);
@@ -316,16 +316,15 @@ class AvaliacoesController extends AppController
                 return $this->redirect([
                     "controller" => "estudantes",
                     "action" => "index",
-            ]);
+                ]);
         }
-            
+
         $estagiario = $this->Avaliacoes->Estagiarios->find()
             ->contain(["Estudantes", "Supervisores", "instituicoes"])
             ->where(["Estagiarios.id" => $id])
             ->first();
-        
-        $this->set("estagiario", $estagiario);
 
+        $this->set("estagiario", $estagiario);
     }
 
     /**
@@ -348,7 +347,7 @@ class AvaliacoesController extends AppController
                 "action" => "index",
             ]);
         }
-        
+
         $avaliacao = $this->Avaliacoes->find()
             ->contain([
                 "Estagiarios" => [
@@ -368,15 +367,15 @@ class AvaliacoesController extends AppController
                 "action" => "view",
                 $estagiario_id,
             ]);
-        
-        $this->viewBuilder()->enableAutoLayout(false);
-        $this->viewBuilder()->setClassName("CakePdf.Pdf");
-        $this->viewBuilder()->setOption("pdfConfig", [
+
+            $this->viewBuilder()->enableAutoLayout(false);
+            $this->viewBuilder()->setClassName("CakePdf.Pdf");
+            $this->viewBuilder()->setOption("pdfConfig", [
             "orientation" => "portrait",
             "download" => true,
             "filename" => "avaliacao_discente_" . $id . ".pdf",
-        ]);
-        $this->set("avaliacao", $avaliacao);
+            ]);
+            $this->set("avaliacao", $avaliacao);
         }
     }
 }

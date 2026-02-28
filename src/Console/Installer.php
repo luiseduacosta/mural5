@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Console;
 
 if (!defined('STDIN')) {
@@ -200,7 +202,7 @@ class Installer
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);
 
-		/** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line */
         $content = str_replace('__SALT__', $newKey, $content, $count);
 
         if ($count == 0) {
@@ -231,7 +233,7 @@ class Installer
     {
         $config = $dir . '/config/' . $file;
         $content = file_get_contents($config);
-		/** @phpstan-ignore-next-line */
+        /** @phpstan-ignore-next-line */
         $content = str_replace('__APP_NAME__', $appName, $content, $count);
 
         if ($count == 0) {

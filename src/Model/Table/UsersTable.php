@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -29,8 +30,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class UsersTable extends Table {
-
+class UsersTable extends Table
+{
     /**
      * Initialize method
      *
@@ -49,7 +50,7 @@ class UsersTable extends Table {
         $this->belongsTo('Alunos', [
             'foreignKey' => 'aluno_id',
         ]);
-        
+
         $this->belongsTo('Supervisores', [
             'foreignKey' => 'supervisor_id',
         ]);
@@ -93,15 +94,15 @@ class UsersTable extends Table {
         $validator
             ->integer('aluno_id')
             ->allowEmptyString('aluno_id');
-        
+
         $validator
             ->integer('supervisor_id')
             ->allowEmptyString('supervisor_id');
-        
+
         $validator
             ->integer('professor_id')
             ->allowEmptyString('professor_id');
-        
+
         $validator
             ->notEmptyDateTime('timestamp');
 

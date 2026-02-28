@@ -247,8 +247,6 @@ Inflector::rules('irregular', ['questao' => 'questoes']);
 //\Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
 //\Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
 
-$this->addPlugin('CakePdf', ['bootstrap' => true, 'routes' => true]);
-
 Configure::write('CakePdf', [
     'engine' => [
         'className' => 'CakePdf.DomPdf',

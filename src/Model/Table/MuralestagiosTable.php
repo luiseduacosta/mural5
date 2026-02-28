@@ -33,36 +33,35 @@ use Cake\Validation\Validator;
  */
 class MuralestagiosTable extends Table
 {
-
         /**
          * Initialize method
          *
          * @param array $config The configuration for the Table.
          * @return void
          */
-        public function initialize(array $config): void
-        {
-                parent::initialize($config);
+    public function initialize(array $config): void
+    {
+            parent::initialize($config);
 
-                $this->setTable('mural_estagio');
-                $this->setAlias('Muralestagios');
-                $this->setDisplayField('instituicao');
-                $this->setPrimaryKey('id');
+            $this->setTable('mural_estagio');
+            $this->setAlias('Muralestagios');
+            $this->setDisplayField('instituicao');
+            $this->setPrimaryKey('id');
 
-                $this->belongsTo('Instituicoes', [
-                        'propertyName' => 'instituicoes',
-                        'foreignKey' => ['instituicao_id'],
-                ]);
-                $this->belongsTo('Turmaestagios', [
-                        'foreignKey' => ['turmaestagio_id'],
-                ]);
-                $this->belongsTo('Professores', [
-                        'foreignKey' => ['professor_id'],
-                ]);
-                $this->hasMany('Muralinscricoes', [
-                        'foreignKey' => ['muralestagio_id'],
-                ]);
-        }
+            $this->belongsTo('Instituicoes', [
+                    'propertyName' => 'instituicoes',
+                    'foreignKey' => ['instituicao_id'],
+            ]);
+            $this->belongsTo('Turmaestagios', [
+                    'foreignKey' => ['turmaestagio_id'],
+            ]);
+            $this->belongsTo('Professores', [
+                    'foreignKey' => ['professor_id'],
+            ]);
+            $this->hasMany('Muralinscricoes', [
+                    'foreignKey' => ['muralestagio_id'],
+            ]);
+    }
 
         /**
          * Default validation rules.
@@ -70,99 +69,99 @@ class MuralestagiosTable extends Table
          * @param \Cake\Validation\Validator $validator Validator instance.
          * @return \Cake\Validation\Validator
          */
-        public function validationDefault(Validator $validator): Validator
-        {
-                $validator
-                        ->integer('id')
-                        ->allowEmptyString('id', null, 'create');
+    public function validationDefault(Validator $validator): Validator
+    {
+            $validator
+                    ->integer('id')
+                    ->allowEmptyString('id', null, 'create');
 
-                $validator
-                        ->scalar('instituicao')
-                        ->maxLength('instituicao', 100)
-                        ->notEmptyString('instituicao');
+            $validator
+                    ->scalar('instituicao')
+                    ->maxLength('instituicao', 100)
+                    ->notEmptyString('instituicao');
 
-                $validator
-                        ->scalar('convenio')
-                        ->maxLength('convenio', 1)
-                        ->notEmptyString('convenio');
+            $validator
+                    ->scalar('convenio')
+                    ->maxLength('convenio', 1)
+                    ->notEmptyString('convenio');
 
-                $validator
-                        ->notEmptyString('vagas');
+            $validator
+                    ->notEmptyString('vagas');
 
-                $validator
-                        ->scalar('beneficios')
-                        ->maxLength('beneficios', 50)
-                        ->allowEmptyString('beneficios');
+            $validator
+                    ->scalar('beneficios')
+                    ->maxLength('beneficios', 50)
+                    ->allowEmptyString('beneficios');
 
-                $validator
-                        ->scalar('final_de_semana')
-                        ->maxLength('final_de_semana', 1)
-                        ->allowEmptyString('final_de_semana');
+            $validator
+                    ->scalar('final_de_semana')
+                    ->maxLength('final_de_semana', 1)
+                    ->allowEmptyString('final_de_semana');
 
-                $validator
-                        ->allowEmptyString('cargaHoraria');
+            $validator
+                    ->allowEmptyString('cargaHoraria');
 
-                $validator
-                        ->scalar('requisitos')
-                        ->maxLength('requisitos', 255)
-                        ->allowEmptyString('requisitos');
+            $validator
+                    ->scalar('requisitos')
+                    ->maxLength('requisitos', 255)
+                    ->allowEmptyString('requisitos');
 
-                $validator
-                        ->scalar('horario')
-                        ->maxLength('horario', 1)
-                        ->allowEmptyString('horario');
+            $validator
+                    ->scalar('horario')
+                    ->maxLength('horario', 1)
+                    ->allowEmptyString('horario');
 
-                $validator
-                        ->date('dataSelecao')
-                        ->allowEmptyDate('dataSelecao');
+            $validator
+                    ->date('dataSelecao')
+                    ->allowEmptyDate('dataSelecao');
 
-                $validator
-                        ->date('dataInscricao')
-                        ->allowEmptyDate('dataInscricao');
+            $validator
+                    ->date('dataInscricao')
+                    ->allowEmptyDate('dataInscricao');
 
-                $validator
-                        ->scalar('horarioSelecao')
-                        ->maxLength('horarioSelecao', 5)
-                        ->allowEmptyString('horarioSelecao');
+            $validator
+                    ->scalar('horarioSelecao')
+                    ->maxLength('horarioSelecao', 5)
+                    ->allowEmptyString('horarioSelecao');
 
-                $validator
-                        ->scalar('localSelecao')
-                        ->maxLength('localSelecao', 70)
-                        ->allowEmptyString('localSelecao');
+            $validator
+                    ->scalar('localSelecao')
+                    ->maxLength('localSelecao', 70)
+                    ->allowEmptyString('localSelecao');
 
-                $validator
-                        ->scalar('formaSelecao')
-                        ->maxLength('formaSelecao', 1)
-                        ->allowEmptyString('formaSelecao');
+            $validator
+                    ->scalar('formaSelecao')
+                    ->maxLength('formaSelecao', 1)
+                    ->allowEmptyString('formaSelecao');
 
-                $validator
-                        ->scalar('contato')
-                        ->maxLength('contato', 70)
-                        ->allowEmptyString('contato');
+            $validator
+                    ->scalar('contato')
+                    ->maxLength('contato', 70)
+                    ->allowEmptyString('contato');
 
-                $validator
-                        ->scalar('outras')
-                        ->allowEmptyString('outras');
+            $validator
+                    ->scalar('outras')
+                    ->allowEmptyString('outras');
 
-                $validator
-                        ->scalar('periodo')
-                        ->maxLength('periodo', 6)
-                        ->notEmptyString('periodo');
-                /*
-                        $validator
-                                ->date('datafax')
-                                ->allowEmptyDate('datafax');
-                */
-                $validator
-                        ->scalar('localInscricao')
-                        ->notEmptyString('localInscricao');
+            $validator
+                    ->scalar('periodo')
+                    ->maxLength('periodo', 6)
+                    ->notEmptyString('periodo');
+            /*
+                    $validator
+                            ->date('datafax')
+                            ->allowEmptyDate('datafax');
+            */
+            $validator
+                    ->scalar('localInscricao')
+                    ->notEmptyString('localInscricao');
 
-                $validator
-                        ->email('email')
-                        ->allowEmptyString('email');
+            $validator
+                    ->email('email')
+                    ->allowEmptyString('email');
 
-                return $validator;
-        }
+            return $validator;
+    }
 
         /**
          * Returns a rules checker object that will be used for validating
@@ -171,14 +170,13 @@ class MuralestagiosTable extends Table
          * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
          * @return \Cake\ORM\RulesChecker
          */
-        public function buildRules(RulesChecker $rules): RulesChecker
-        {
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
 
-                $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
-                $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
-                $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
-                
-                return $rules;
-        }
+            $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
+            $rules->add($rules->existsIn(['turmaestagio_id'], 'Turmaestagios'), ['errorField' => 'turmaestagio_id']);
+            $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 
+            return $rules;
+    }
 }
