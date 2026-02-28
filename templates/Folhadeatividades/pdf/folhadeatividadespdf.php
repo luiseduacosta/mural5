@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliaco $avaliacao
+ * @var \App\Model\Entity\Avaliacao $avaliacao
  * @var \Cake\I18n\DateTime $hoje
  */
 

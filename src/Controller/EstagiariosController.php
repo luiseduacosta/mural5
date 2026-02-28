@@ -403,11 +403,23 @@ class EstagiariosController extends AppController
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
+        try {
         $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
             ->order(['nivel' => 'desc'])
             ->first();
+        }
+        catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Estagiário não encontrado.'));
+            return $this->redirect(['controller'=> 'Muralestagios', 'action' => 'index']);
+        }
+        if (!$estagiario) {
+            return $this->redirect([
+                'controller' => 'Muralestagios',
+                'action' => 'index'
+            ]);
+        }
 
         try {
             $this->Authorization->authorize($estagiario);

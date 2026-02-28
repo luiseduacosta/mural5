@@ -183,8 +183,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         parent::services($container);
     }
 
-
-
     /**
      * Register custom event listeners here
      *
