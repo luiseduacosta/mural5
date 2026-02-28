@@ -25,7 +25,10 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
             </li>
         <?php endif; ?>
         <li class='nav-link'>
-            <?= $this->Html->link(__('Imprime folha de atividades'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Imprime atividades preenchidas'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
+        </li>
+        <li class='nav-link'>
+            <?= $this->Html->link(__('Folha de atividades manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
         </li>
     </ul>
 </nav>
@@ -33,25 +36,35 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
 <h3 class="text-center"><?= __('Folha de atividades da(o) estagiária(o) ' . $estagiario->aluno->nome) ?></h3>
 
 <div class="table-responsive">
-    <table class="table table-responsive table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Período</th>
-                <th>Nível</th>
-                <th>Instituição</th>
-                <th>Supervisor</th>
-                <th>Professor(a)</th>
-            </tr>
-        </thead>
-        <tr>
-            <td><?= $estagiario->periodo ?></td>
-            <td><?= $estagiario->nivel ?></td>
-            <td><?= $estagiario->instituicao->instituicao ?></td>
-            <td><?= $supervisora ?></td>
-            <td><?= $professora ?></td>
-        </tr>
-    </table>
-</div>
+
+<dl class="row">
+
+    <div class='row'>
+    <dt class='col-sm-2'><?= __('Período') ?></dt>
+    <dd class='col-sm-9'><?= $estagiario->periodo ?>
+    </div>
+
+    <div class='row'>
+    <dt class='col-sm-2'><?=__("Nível") ?></dt>
+    <dd class='col-sm-9'><?= $estagiario->nivel ?>
+    </div>
+
+    <div class='row'>
+    <dt class='col-sm-2'><?= __("Instituição") ?></dt>
+    <dd class='col-sm-9'><?= $estagiario->instituicao->instituicao ?>
+    </div>
+
+    <div class='row'>
+    <dt class='col-sm-2'><?= __("Supervisor(a)") ?></dt>
+    <dd class='col-sm-9'><?= $supervisora ?? '____________________' ?>
+    </div>
+
+    <div class='row'>
+    <dt class='col-sm-2'><?= __("Professor(a)") ?></dt>
+    <dd class='col-sm-9'><?= $professora ?? '____________________' ?>
+    </div>
+
+</dl>
 
 <div class="table-responsive">
     <table class="table table-responsive table-striped table-hover">

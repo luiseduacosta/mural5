@@ -15,7 +15,10 @@ $user = $this->getRequest()->getAttribute('identity');
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+        </li>
+        <li class="nav-item">
+            <?= $this->Html->link(__('Imprime formulário manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
         </li>
     </ul>
 </nav>
