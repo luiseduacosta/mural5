@@ -351,7 +351,13 @@ class FolhadeatividadesController extends AppController
         $this->set('estagiario', $estagiario);
     }
 
-    public function atividadesmanual($id = null)
+    /**
+     * Atividadesmanualpdf method - Generates PDF for activities of an intern without relying on Folhadeatividade entity
+     *
+     * @param string|null $id Estagiário id (unused in sig, used via query)
+     * @return \Cake\Http\Response|null|void Renders PDF view
+     */
+    public function atividadesmanualpdf($id = null)
     {
 
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');

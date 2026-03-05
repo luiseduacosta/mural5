@@ -258,7 +258,7 @@ class EstagiariosController extends AppController
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -277,6 +277,9 @@ class EstagiariosController extends AppController
         }
 
         $aluno_id = $this->getRequest()->getQuery('aluno_id');
+        if ($aluno_id === null && isset($this->user) && $this->user->categoria == '2') {
+            $aluno_id = $this->user->aluno_id;
+        }
 
         if ($aluno_id) {
             $ultimo_estagio = $this->Estagiarios
@@ -327,15 +330,13 @@ class EstagiariosController extends AppController
                        $ultimo_estagio->id,
                     ]);
                 }
-
-                $this->set('nivel', $nivel);
             } else {
                 $this->Flash->success(__('O aluno não é estagiário'));
-                $this->set('nivel', 1);
             }
+            $this->set('nivel', $nivel ?? '1');
 
-            $aluno = $this->fetchTable('Alunos')
-                ->get($aluno_id);
+            $aluno = $this->fetchTable('Alunos')->get($aluno_id);
+
             $this->set('aluno', $aluno);
         } else {
             if (isset($this->user) && $this->user->categoria == '2') {
@@ -400,7 +401,6 @@ class EstagiariosController extends AppController
 
         if ($aluno_id === null) {
             $this->Flash->error(__('Selecionar o aluno para o termo de compromisso'));
-
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
@@ -412,29 +412,27 @@ class EstagiariosController extends AppController
             ->first();
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-        if (!$estagiario) {
-            return $this->redirect([
-                'controller' => 'Muralestagios',
-                'action' => 'index'
-            ]);
+            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'add', '?' => ['aluno_id' => $aluno_id]]);
         }
 
+        if ($estagiario === null) {
+            $this->Flash->error(__('Estagiário não encontrado.'));
+            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
+        }
+        
         try {
             $this->Authorization->authorize($estagiario);
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
         }
 
         if ($estagiario) {
-            $config = $this->fetchTable('Configuracoes')
+            $configuracoes = $this->fetchTable('Configuracoes')
                 ->find()
                 ->select('mural_periodo_atual')
                 ->first();
-            $periodoatual = $config->mural_periodo_atual;
+            $periodoatual = $configuracoes->mural_periodo_atual;
 
             if ($estagiario->periodo == $periodoatual) {
                 return $this->redirect([
