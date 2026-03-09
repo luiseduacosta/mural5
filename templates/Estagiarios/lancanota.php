@@ -3,6 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
+
+declare(strict_types=1);
 $user = $this->getRequest()->getAttribute('identity');
 ?>
 
@@ -14,7 +16,8 @@ $user = $this->getRequest()->getAttribute('identity');
         $("#Periodo").change(function () {
             var periodo = $(this).val();
             // alert(url + '/index/' + periodo);
-            window.location = url + '/index/' + periodo;
+            var professor_id = "<?= $professor->id; ?>";
+            window.location = url + '?periodo=' + periodo + '&professor_id=' + professor_id;
         })
 
     })
@@ -22,16 +25,19 @@ $user = $this->getRequest()->getAttribute('identity');
 
 <?php echo $this->element('menu_mural'); ?>
 
+<div class="container col-lg-12 shadow p-3 mb-5 bg-white rounded">
+    <?= $this->Html->link('Imprimir PDF', ['controller' => 'estagiarios', 'action' => 'lancanotapdf', '?' => ['periodo' => $periodo, 'professor_id' => $professor->id]], ['class' => 'btn btn-secondary mb-3']) ?>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-auto">
         <?php if (isset($user) && $user->categoria == '1'): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
-            <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
+            <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo =>$periodo]], ['class' => 'form-control']); ?>
+            <?php echo $this->Form->input('professor_id', ['type' => 'hidden', 'value' => $professor->id]); ?>
             <?= $this->Form->end(); ?>
         <?php else: ?>
-            <h1 style="text-align: center;">Estudantes estagiários professor(a):
-                <?php // echo $estagiariosestudante->nome; ?>
-            </h1>
+            <h1 style="text-align: center;">Estudantes estagiários professor(a): <?= $professor->nome; ?></h1>
         <?php endif; ?>
     </div>
 </div>
@@ -46,7 +52,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 <?php endif; ?>
                 <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                 <th><?= $this->Paginator->sort('registro', 'DRE') ?></th>
-                <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicao') ?></th>
+                <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituição') ?></th>
                 <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                 <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                 <th><?= $this->Paginator->sort('nivel', 'Nível') ?></th>
@@ -63,34 +69,44 @@ $user = $this->getRequest()->getAttribute('identity');
                     <?php if (isset($user) && $user->categoria == '1'): ?>
                         <td><?= $estagiario->id ?></td>
                     <?php endif; ?>
-                    <td><?= $this->Html->link($estagiario['aluno'], ['controller' => 'Alunos', 'action' => 'view', $estagiario['aluno_id']]) ?>
+                    <td><?= $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) ?>
                     </td>
-                    <td><?= $estagiario['registro'] ?></td>
-                    <td><?= $this->Html->link($estagiario['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $estagiario['instituicao_id']]) ?>
+                    <td><?= $estagiario->registro ?></td>
+                    <td>
+                        <?php if (isset($estagiario->instituicao)): ?> 
+                            <?= $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) ?>
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
                     </td>
-                    <td><?= $this->Html->link($estagiario['supervisor'], ['controller' => 'Supervisores', 'action' => 'view', $estagiario['supervisor_id']]) ?>
+                    <td>
+                        <?php if (isset($estagiario->supervisor)): ?>
+                            <?= $this->Html->link($estagiario->supervisor->nome ?? 'N/A', ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) ?>
+                        <?php else: ?>
+                            N/A
+                        <?php endif; ?>
                     </td>
-                    <td><?= $estagiario['periodo'] ?></td>
-                    <td><?= $estagiario['nivel'] ?></td>
-                    <td><?= $this->Number->format($estagiario['nota'], ['precision' => 2]) ?></td>
-                    <td><?= $this->Number->format($estagiario['ch']) ?></td>
-                    <?php if (isset($estagiario['folha_id'])): ?>
-                        <td><?= $this->Html->link('Folha de atividades', ['controller' => 'Folhadeatividades', 'action' => 'index', $estagiario['id']]) ?>
+                    <td><?= $estagiario->periodo ?></td>
+                    <td><?= $estagiario->nivel ?></td>
+                    <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
+                    <td><?= $this->Number->format($estagiario->ch) ?></td>
+                    <?php if (isset($estagiario->folhadeatividades_id)): ?>
+                        <td><?= $this->Html->link('Folha de atividades', ['controller' => 'Folhadeatividades', 'action' => 'index', $estagiario->id]) ?>
                         </td>
                     <?php else: ?>
                         <td></td>
                     <?php endif; ?>
-                    <?php if (isset($estagiario['avaliacao_id'])): ?>
-                        <td><?= $this->Html->link('Ver avaliação', ['controller' => 'avaliacoes', 'action' => 'view', $estagiario['avaliacao_id']]) ?>
+                    <?php if (isset($estagiario->avaliacao_id)): ?>
+                        <td><?= $this->Html->link('Ver avaliação', ['controller' => 'avaliacoes', 'action' => 'view', $estagiario->avaliacao_id]) ?>
                         </td>
                     <?php else: ?>
                         <td></td>
                     <?php endif; ?>
                     <td>
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario['id']]) ?>
+                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                         <?php if (isset($user) && $user->categoria == '1'): ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario['id']]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario['id']], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario['id'])]) ?>
+                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
+                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario->id)]) ?>
                         <?php endif; ?>
                     </td>
                 </tr>

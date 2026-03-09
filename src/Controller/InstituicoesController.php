@@ -230,11 +230,13 @@ class InstituicoesController extends AppController
 
         $instituicao_id = $this->request->getData('id');
         try {
-            $supervisores = $this->Instituicoes->Supervisores->find('list', [
+            $supervisores = $this->fetchTable('Supervisores')->find('list', [
                 'keyField' => 'id',
                 'valueField' => 'nome',
             ])
-            ->where(['instituicao_id' => $instituicao_id])
+            ->matching('Instituicoes', function ($q) use ($instituicao_id) {
+                return $q->where(['Instituicoes.id' => $instituicao_id]);
+            })
             ->order(['nome' => 'ASC'])
             ->toArray();
 

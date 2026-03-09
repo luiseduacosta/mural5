@@ -72,4 +72,16 @@ class EstagiarioPolicy
     {
             return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
     }
+
+        /**
+         * Check if $user can create Lançar nota
+         *
+         * @param \Authorization\IdentityInterface|null $user The user.
+         * @param \App\Model\Entity\Estagiario $estagiario
+         * @return bool
+         */
+    public function canLancanota(?IdentityInterface $user, Estagiario $estagiario)
+    {
+            return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+    }
 }

@@ -737,4 +737,148 @@ class EstagiariosController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * lancanota method
+     *
+     * @param string|null $id Estagiario id.
+     * @return \Cake\Http\Response|null|void Renders view otherwise.
+     */
+    public function lancanota($id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        $user = $this->Authentication->getIdentity();
+
+        $professor_id = $this->request->getQuery("professor_id");
+
+        if ($professor_id === null) {
+            $this->Flash->error(
+                __(
+                    "Sem parâmetro para localizar os estagiários do(a) professor(a).",
+                ),
+            );
+            return $this->redirect(["action" => "index"]);
+        }
+
+        if ($professor_id && $user && $user->categoria == '3') {
+            if ($professor_id != $user->professor_id) {
+                $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+                return $this->redirect(['action' => 'index']);
+            }
+        }
+        
+        $professor = $this->fetchTable('Professores')
+            ->find()
+            ->select(["id", "nome"])
+            ->where(["id" => $professor_id])
+            ->first();
+
+        $periodos = $this->Estagiarios->find('list', [
+                'keyField' => 'periodo',
+                'valueField' => 'periodo'
+            ])
+            ->contain(['Professores'])
+            ->where(['Professores.id' => $professor_id])
+            ->order(["periodo" => "desc"])
+            ->toArray();
+ 
+        $periodo = $this->request->getQuery("periodo");
+
+        if (empty($periodo)) {
+            $periodo = end($periodos); // Get the most recent period if not specified
+        }
+
+        $estagiarios = $this->Estagiarios->find()
+            ->contain([
+                    "Alunos" => [
+                        "fields" => ["id", "nome"],
+                        "sort" => ["nome"],
+                    ],
+                    "Professores" => ["fields" => ["id", "nome", "siape"]],
+                    "Supervisores" => ["fields" => ["id", "nome", "cress"]],
+                    "Instituicoes" => ["fields" => ["id", "instituicao"]],
+                    "Folhadeatividades" => ["fields" => ["id", "estagiario_id"]],
+                    "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
+            ])
+            ->where(["Estagiarios.professor_id" => $professor_id, "Estagiarios.periodo" => $periodo]);
+
+        $this->Authorization->skipAuthorization();
+
+        $this->set("periodos", $periodos);
+        $this->set("periodo", $periodo ?? end($periodos)->periodo);
+        $this->set("professor", $professor);
+        $this->set("estagiarios", $this->paginate($estagiarios));
+    }
+
+    /**
+     * Lancanotapdf method - PDF export of lancanota
+     *
+     * @return \Cake\Http\Response|null|void
+     */
+    public function lancanotapdf()
+    {
+        $this->Authorization->authorize($this->Estagiarios, 'lancanota');
+
+        $user_session = $this->request->getAttribute('identity');
+        $user_data = $user_session->getOriginalData();
+
+        if ($user_data['categoria'] == '3') {
+            $professor_id = $user_data['professor_id'];
+        } else {
+            $professor_id = (int)$this->request->getQuery("professor_id");
+        }
+
+        if (empty($professor_id)) {
+            $this->Flash->error(
+                __(
+                    "Sem parâmetro para localizar os estagiários do(a) professor(a).",
+                ),
+            );
+            return $this->redirect(["action" => "index"]);
+        }
+
+        $professor = $this->fetchTable('Professores')
+            ->find()
+            ->select(["id", "nome"])
+            ->where(["id" => $professor_id])
+            ->first();
+
+        if (!$professor) {
+            $this->Flash->error(__("Professor não encontrado."));
+            return $this->redirect(["action" => "index"]);
+        }
+
+        $periodo = $this->request->getQuery("periodo");
+
+        $estagiariosQuery = $this->Estagiarios->find()
+            ->contain([
+                "Alunos" => [
+                    "fields" => ["id", "nome"],
+                ],
+                "Professores" => ["fields" => ["id", "nome", "siape"]],
+                "Supervisores" => ["fields" => ["id", "nome"]],
+                "Instituicoes" => ["fields" => ["id", "instituicao"]],
+                "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
+            ])
+            ->where(["Estagiarios.professor_id" => $professor_id])
+            ->order(["Alunos.nome" => "ASC"]);
+
+        if ($periodo) {
+            $estagiariosQuery->where(["Estagiarios.periodo" => $periodo]);
+        }
+
+        $estagiarios = $estagiariosQuery->all();
+
+        $this->viewBuilder()->setLayout('default');
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+        $this->viewBuilder()->setOption('pdfConfig', [
+            'orientation' => 'portrait',
+        ]);
+
+        $this->set("periodo", $periodo);
+        $this->set("professor", $professor);
+        $this->set("estagiarios", $estagiarios);
+    }
+
 }

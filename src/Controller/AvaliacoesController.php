@@ -54,7 +54,7 @@ class AvaliacoesController extends AppController
         }
 
 
-        /** O id enviado pelo submenu_navegacao corresponde ao estagiario_id */
+        /** O id enviado pelo menu_mural corresponde ao estagiario_id */
         $estagiario_id = $this->request->getQuery("estagiario_id");
         if ($estagiario_id === null) {
             $this->Flash->error(__("Selecionar estagiário"));
@@ -84,7 +84,7 @@ class AvaliacoesController extends AppController
      */
     public function supervisoravaliacao($id = null)
     {
-        /* O submenu_navegacao envia o cress */
+        /* O menu_mural envia o cress */
         $this->Authorization->skipAuthorization();
 
         $cress = $cress ?? null;

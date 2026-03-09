@@ -4,15 +4,17 @@
  * @var \App\Model\Entity\Avaliacao $avaliacao
  * @var \Cake\Collection\CollectionInterface|string[] $estagiarios
  */
-$user = $this->getRequest()->getAttribute('identity');
-// pr($estagiario);
-// die();
 ?>
 
 <?php
-$dia = strftime('%e', time());
-$mes = strftime('%B', time());
-$ano = strftime('%Y', time());
+use Cake\I18n\I18n;
+use Cake\I18n\DateTime;
+
+I18n::setLocale('pt-BR');
+$hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
+
+$this->setLayout('default');
+$this->assign('title', 'Avaliação do Estagiário');
 
 $supervisora = isset($estagiario->supervisor->nome);
 if ($supervisora) {
