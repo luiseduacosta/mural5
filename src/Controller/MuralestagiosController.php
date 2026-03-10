@@ -283,4 +283,34 @@ class MuralestagiosController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Imprimir PDF com as inscrições para seleção do estagiário
+     *
+     * @param string|null $id Muralestagio id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function imprimepdf($id = null)
+    {
+        $muralestagio = $this->Muralestagios->find()
+            ->contain(['Inscricoes' => ['Alunos']])
+            ->where(['Muralestagios.id' => $id])
+            ->first();
+
+        try {
+            $this->Authorization->authorize($muralestagio);
+        } catch (ForbiddenException $error) {
+            $this->Flash->error('Authorization error: ' . $error->getMessage());
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
+        $this->viewBuilder()->setLayout('default');
+        $this->viewBuilder()->setClassName("CakePdf.Pdf");
+        $this->viewBuilder()->setOption("pdfConfig", [
+            "orientation" => "portrait",
+        ]);
+
+        $this->set(compact('muralestagio'));
+    }
 }

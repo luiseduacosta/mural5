@@ -21,7 +21,7 @@ class SupervisorPolicy
      */
     public function canAdd(?IdentityInterface $user, Supervisor $supervisor)
     {
-        return isset($user) && in_array($user->categoria, ['1', '2']);
+        return isset($user) && in_array($user->categoria, ['1', '4']);
     }
 
     /**

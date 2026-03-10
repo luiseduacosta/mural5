@@ -57,6 +57,18 @@ class MuralestagioPolicy
      */
     public function canView(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user->categoria);
+    }
+    
+    /**
+     * Check if $user can imprimepdf Muralestagio
+     *
+     * @param \Authorization\IdentityInterface $user The user.
+     * @param \App\Model\Entity\Muralestagio $muralestagio
+     * @return bool
+     */
+    public function canImprimepdf(?IdentityInterface $user, Muralestagio $muralestagio)
+    {
+        return isset($user->categoria) && ($user->categoria == '1');
     }
 }

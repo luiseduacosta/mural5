@@ -31,19 +31,27 @@ class FolhadeatividadePolicy
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
      * @return bool
      */
-    public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade): bool
     {
+        // Not logged in = no access
         if (!isset($user)) {
             return false;
         }
-        if ($user->categoria == '1') {
+        
+        // Admin can edit anything
+        if ($user->categoria === '1') {
             return true;
-        } elseif ($user->categoria == '2') {
-            // Check if the student owns this activity through their estagiario record
-            return isset($user->aluno_id) && $folhadeatividade->estagiario && $folhadeatividade->estagiario->aluno_id == $user->aluno_id;
         }
+        
+        // Students can only edit their own activity sheets
+        if ($user->categoria === '2') {
+            return isset($user->aluno_id) 
+                && $folhadeatividade->estagiario 
+                && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
+        }
+        
         return false;
-    }
+}
 
     /**
      * Check if $user can delete Folhadeatividade
@@ -54,15 +62,23 @@ class FolhadeatividadePolicy
      */
     public function canDelete(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
+        // Not logged in = no access
         if (!isset($user)) {
             return false;
         }
-        if ($user->categoria == '1') {
+        
+        // Admin can delete anything
+        if ($user->categoria === '1') {
             return true;
-        } elseif ($user->categoria == '2') {
-            // Check if the student owns this activity through their estagiario record
-            return isset($user->aluno_id) && $folhadeatividade->estagiario && $folhadeatividade->estagiario->aluno_id == $user->aluno_id;
         }
+        
+        // Students can only delete their own activity sheets
+        if ($user->categoria === '2') {
+            return isset($user->aluno_id) 
+                && $folhadeatividade->estagiario 
+                && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
+        }
+        
         return false;
     }
 

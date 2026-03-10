@@ -13,7 +13,7 @@ use Cake\I18n\Date;
  * Alunos Controller
  *
  * @property \App\Model\Table\AlunosTable $Alunos
- * @property \CakeDC\Auth\Controller\Component\AuthorizationComponent $Authorization
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  * @property \Cake\ORM\Table $Estagiarios
  * @property \Cake\ORM\Table $Instituicoes
@@ -401,72 +401,6 @@ class AlunosController extends AppController
             }
             $this->set('cargahorariatotal', $cargahorariatotal);
         }
-    }
-
-    /**
-     * Gera a declaração de período do aluno.
-     *
-     * @param string|null $id
-     * @return void
-     */
-    public function declaracaoperiodo(?string $id = null)
-    {
-        $this->Authorization->skipAuthorization();
-
-        if ($id == null) {
-            $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
-
-            return $this->redirect(['action' => 'index']);
-        }
-
-        $aluno = $this->Alunos
-            ->find()
-            ->where(['Alunos.id' => $id])
-            ->first();
-
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        if ($this->request->is(['post', 'put'])) {
-            $data = $this->request->getData();
-            $periodoacademicoatual = $this->fetchTable('Configuracoes')
-                ->find()
-                ->select(['periodo_calendario_academico'])
-                ->first();
-
-            $periodo_atual = $periodoacademicoatual->periodo_calendario_academico;
-            $novoperiodo = $data['novoperiodo'] ?? null;
-            $periodo_inicial = $novoperiodo ?? $aluno->ingresso;
-
-            $inicial = explode('-', $periodo_inicial);
-            $atual = explode('-', $periodo_atual);
-
-            $semestres = ($atual[0] - $inicial[0] + 1) * 2;
-
-            $totalperiodos = 0;
-            if (count($inicial) < 2) {
-                $this->Flash->error(__('Período de ingresso incompleto: falta indicar se for no 1° ou 2° semestre'));
-                $totalperiodos = $semestres;
-            } elseif ($inicial[1] == 1 && $atual[1] == 2) {
-                $totalperiodos = $semestres;
-            } elseif ($inicial[1] == 1 && $atual[1] == 1) {
-                $totalperiodos = $semestres - 1;
-            } elseif ($inicial[1] == 2 && $atual[1] == 2) {
-                $totalperiodos = $semestres - 1;
-            } elseif ($inicial[1] == 2 && $atual[1] == 1) {
-                $totalperiodos = $semestres - 2;
-            }
-
-            if ($totalperiodos <= 0) {
-                $this->Flash->error(__('Error: período inicial é maior que período atual'));
-            }
-        }
-        $this->set('aluno', $aluno);
     }
 
     /**

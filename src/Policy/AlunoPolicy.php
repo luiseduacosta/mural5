@@ -34,7 +34,7 @@ class AlunoPolicy
      */
     public function canEdit(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
     }
 
     /**
@@ -46,7 +46,7 @@ class AlunoPolicy
      */
     public function canView(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
     }
 
     /**
@@ -68,52 +68,22 @@ class AlunoPolicy
 
     public function canDeclaracaoperiodo(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == '1') {
-            return true;
-        } elseif ($user->categoria == '2') {
-            return $this->isAuthor($user, $aluno);
-        } else {
-            return false;
-        }
-    }
-
-    public function canCertificadoperiodo(?IdentityInterface $user, Aluno $aluno)
+        return ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
+    } 
+ 
+   public function canCertificadoperiodo(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == '1') {
-            return true;
-        } elseif ($user->categoria == '2') {
-            return $this->isAuthor($user, $aluno);
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
     }
 
     public function canCertificadoperiodopdf(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == '1') {
-            return true;
-        } elseif ($user->categoria == '2') {
-            return $this->isAuthor($user, $aluno);
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
     }
 
     public function canPlanilhaCress(?IdentityInterface $user, Aluno $aluno)
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == '1') {
-            return true;
-        } else {
-            return false;
-        }
+        return isset($user) && ($user->categoria == '1');
     }
 
     protected function isAuthor(?IdentityInterface $user, Aluno $aluno)

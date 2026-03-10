@@ -21,6 +21,6 @@ class AreainstituicoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, AreainstituicoesTable $areainstituicoes)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user) && $user->categoria == '1';
     }
 }

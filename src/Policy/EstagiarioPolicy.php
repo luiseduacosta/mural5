@@ -82,6 +82,6 @@ class EstagiarioPolicy
          */
     public function canLancanota(?IdentityInterface $user, Estagiario $estagiario)
     {
-            return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+            return isset($user) && ($user->categoria == '1' || $user->categoria == '3');
     }
 }

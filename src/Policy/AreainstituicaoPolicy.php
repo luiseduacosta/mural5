@@ -21,7 +21,7 @@ class AreainstituicaoPolicy
      */
     public function canAdd(?IdentityInterface $user, Areainstituicao $areainstituicao)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user) && $user->categoria == '1';
     }
 
     /**
@@ -33,7 +33,7 @@ class AreainstituicaoPolicy
      */
     public function canEdit(?IdentityInterface $user, Areainstituicao $areainstituicao)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user) && $user->categoria == '1';
     }
 
     /**
@@ -45,7 +45,7 @@ class AreainstituicaoPolicy
      */
     public function canDelete(?IdentityInterface $user, Areainstituicao $areainstituicao)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user) && $user->categoria == '1';
     }
 
     /**
@@ -57,6 +57,6 @@ class AreainstituicaoPolicy
      */
     public function canView(?IdentityInterface $user, Areainstituicao $areainstituicao)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user) && $user->categoria == '1';
     }
 }
