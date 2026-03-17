@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento $complemento
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -22,7 +22,6 @@ $user = $this->getRequest()->getAttribute('identity');
                     ['confirm' => __('Tem certeza que quer excluir # {0}?', $complemento->id), 'class' => 'btn btn-danger']
                 )
                 ?>
-<<<<<<< HEAD
                 <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
             </div>
         </aside>
@@ -31,9 +30,11 @@ $user = $this->getRequest()->getAttribute('identity');
                 <?= $this->Form->create($complemento) ?>
                 <fieldset>
                     <legend><?= __('Editar complemento de estágio') ?></legend>
-                    <?php
-                    echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
-                    ?>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php
+                        echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
+                        ?>
+                    <?php endif; ?>
                 </fieldset>
                 <?= $this->Form->button(__('Submit')) ?>
                 <?= $this->Form->end() ?>
@@ -41,23 +42,3 @@ $user = $this->getRequest()->getAttribute('identity');
         </div>
     </div>
 </div>
-=======
-        </li>
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-        </li>
-    </ul>
-</nav>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <?= $this->Form->create($complemento) ?>
-    <fieldset>
-        <legend><?= __('Editar complemento de estágio') ?></legend>
-        <?php
-        echo $this->Form->control('periodo_especial');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
-    <?= $this->Form->end() ?>
-</div>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd

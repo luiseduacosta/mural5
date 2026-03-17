@@ -3,8 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralinscricao[]|\Cake\Collection\CollectionInterface $muralinscricoes
  */
-$user = $this->getRequest()->getAttribute('identity');
-// pr($muralinscricoes);
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <script type="text/javascript">
@@ -29,7 +28,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="row">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <?= $this->Form->create($muralinscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'MuralinscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -72,7 +71,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <td><?= h($muralinscricao->timestamp) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralinscricao->id]) ?>
-                        <?php if (isset($user) && $user->categoria == '1'): ?>
+                        <?php if (isset($categoria) && $categoria == '1'): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralinscricao->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id)]) ?>
                         <?php endif; ?>

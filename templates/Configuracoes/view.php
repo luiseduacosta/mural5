@@ -3,9 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao $configuracao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
-<<<<<<< HEAD
 <?= $this->element('templates') ?>
 
 <?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
@@ -24,8 +23,6 @@ $user = $this->getRequest()->getAttribute('identity');
             </ul>
         </div>
     </nav>
-=======
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 
 <?= $this->element('menu_mural') ?>
 

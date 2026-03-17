@@ -4,10 +4,10 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
-
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 <div class="container">
 
-    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">

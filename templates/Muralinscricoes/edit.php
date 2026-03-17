@@ -3,8 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralinscricao $muralinscricao
  */
-$user = $this->getRequest()->getAttribute('identity');
-// pr($muralinscricao);
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -15,7 +14,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerMural">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger me-1']) ?>
             </li>

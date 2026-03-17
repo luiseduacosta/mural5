@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Areainstituicao $areainstituicao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -14,7 +14,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAreainstituicoes">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if ($categoria == 1): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar área instituição'), ['controller' => 'Areainstituicoes', 'action' => 'edit', $areainstituicao->id], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -69,4 +69,3 @@ if (!empty($areainstituicao->instituicoes)):
 endif; 
 ?>
 </div>
-

@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento $complemento
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -21,7 +21,6 @@ $user = $this->getRequest()->getAttribute('identity');
 </nav>
 
 <?= $this->element('templates') ?>
-<<<<<<< HEAD
 <div class="container">
     <div class="row">
         <aside class="column">
@@ -43,17 +42,4 @@ $user = $this->getRequest()->getAttribute('identity');
             </div>
         </div>
     </div>
-=======
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <?= $this->Form->create($complemento) ?>
-    <fieldset>
-        <legend><?= __('Novo registro') ?></legend>
-        <?php
-        echo $this->Form->control('periodo_especial');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
-    <?= $this->Form->end() ?>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 </div>

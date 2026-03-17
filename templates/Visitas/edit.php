@@ -3,10 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita $visita
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 <?= $this->element('templates') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
@@ -15,7 +14,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerVisitas">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
             <?=
             $this->Form->postLink(

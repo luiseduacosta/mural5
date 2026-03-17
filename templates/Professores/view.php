@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -13,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -28,7 +29,7 @@
                     </li>
                 <?php endif; ?>
 
-                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 3): ?>
+                <?php if (isset($categoria) && $categoria == 3): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -222,7 +223,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
@@ -240,7 +241,7 @@
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
@@ -259,7 +260,7 @@
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
@@ -277,7 +278,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
@@ -297,14 +298,14 @@
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <?php // pr($estagiarios->folhadeatividade) ?>
                             <tr>
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
 
-                                <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1 || $this->getRequest()->getAttribute('identity')['categoria'] == 2): ?>
+                                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
                                     <td><?= $estagiarios->hasValue('folhadeatividade') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', $estagiarios->id]) : $this->Html->link('Cadastrar atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                     </td>
                                 <?php else: ?>
@@ -326,7 +327,7 @@
                                 <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
-                                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
@@ -437,4 +438,3 @@ function cancelEdit(row) {
 }
 
 </script>    
-

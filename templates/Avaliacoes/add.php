@@ -6,6 +6,8 @@
  */
 ?>
 
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
+
 <?php
 use Cake\I18n\I18n;
 use Cake\I18n\DateTime;

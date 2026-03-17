@@ -5,11 +5,11 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+    <?php if (isset($categoria) && $categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,7 +84,7 @@
                         <td><?= h($instituicao->observacoes) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $instituicao->id]) ?>
-                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                            <?php if (isset($categoria) && $categoria == '1'): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $instituicao->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicao->id)]) ?>
                             <?php endif; ?>                            

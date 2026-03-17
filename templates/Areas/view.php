@@ -5,7 +5,7 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -18,7 +18,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
+                <?php if ($categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar área de instituição'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>

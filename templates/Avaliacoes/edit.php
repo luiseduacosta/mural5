@@ -4,15 +4,14 @@
  * @var \App\Model\Entity\Avaliacao $avaliacao
  * @var \Cake\Collection\CollectionInterface|string[] $estagiarios
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 $estagiario = $avaliacao->estagiario;
-// pr($estagiario);
-// die();
 ?>
 <?php
-$dia = strftime('%e', time());
-$mes = strftime('%B', time());
-$ano = strftime('%Y', time());
+$hoje = new \DateTime();
+$dia = strftime('%e', $hoje->getTimestamp());
+$mes = strftime('%B', $hoje->getTimestamp());
+$ano = strftime('%Y', $hoje->getTimestamp());
 
 $supervisora = isset($estagiario->supervisor->nome) ? $estagiario->supervisor->nome : "____________________";
 $regiao = isset($estagiario->supervisor->regiao) ? $estagiario->supervisor->regiao : '__';

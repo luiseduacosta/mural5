@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralinscricao $muralinscricao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -20,7 +20,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <li class="nav-item">
             <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
         </li>
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -30,7 +30,7 @@ $user = $this->getRequest()->getAttribute('identity');
             <li class="nav-item">
                 <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger me-1']) ?>
             </li>
-        <?php elseif (isset($user) && $user->categoria == '2'): ?>
+        <?php elseif (isset($categoria) && $categoria == '2'): ?>
             <li class="nav-item">
                 <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger me-1']) ?>
             </li>

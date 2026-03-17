@@ -4,92 +4,16 @@
  * @var \App\Model\Entity\Estagiario $estagiario
  */
 ?>
-<<<<<<< HEAD
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace('observacoes')
-=======
-
-<!-- Get mask -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-
-<script type="text/javascript">
-    function getaluno(id) {
-        $.ajax({
-            url: '<?= $this->Url->build(['controller' => 'Alunos', 'action' => 'getaluno']) ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                id: id,
-                _csrfToken: '<?= $this->request->getAttribute('csrfToken') ?>'
-            },
-            success: function (response) {
-                if (response && Object.keys(response).length > 0) {
-                    $('#registro').val(response.registro);
-                    $('#turno').val(response.turno);
-                    $('#nivel').val(response.nivel);
-                    $('#tc').val(response.tc);
-                    $('#ajuste2020').val(response.ajuste2020);
-                    $('#tc_solicitacao').val(response.tc_solicitacao);
-                    $('#instituicao-id').val(response.instituicao_id);
-                    $('#supervisor-id').val(response.supervisor_id);
-                } else {
-                    $('#registro').val('');
-                    $('#turno').val('');
-                    $('#nivel').val('');
-                    $('#tc').val('');
-                    $('#ajuste2020').val('');
-                    $('#tc_solicitacao').val('');
-                    $('#instituicao-id').val('');
-                    $('#supervisor-id').val('');
-                    alert('Nenhum aluno encontrado');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Ajax error:', error);
-            }
-        });
-    }
-
-    function getsupervisores(id) {
-        $.ajax({
-            url: '<?= $this->Url->build(['controller' => 'Instituicoes', 'action' => 'buscasupervisores']) ?>',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                id: id,
-                _csrfToken: '<?= $this->request->getAttribute('csrfToken') ?>'
-            },
-            success: function (response) {
-                let options = '<option value="">Selecione o supervisor</option>';
-                if (response && Object.keys(response).length > 0) {
-                    $.each(response, function (key, value) {
-                        options += '<option value="' + key + '">' + value + '</option>';
-                    });
-                } else {
-                    options = '<option value="">Nenhum supervisor encontrado</option>';
-                }
-                $('#supervisor-id').html(options);
-            },
-            error: function (xhr, status, error) {
-                console.error('Ajax error:', error);
-                $('#supervisor-id').html('<option value="">Erro ao carregar supervisores</option>');
-            }
-        });
-    }
-    $(document).ready(function () {
-        $('#nota').mask('00.0');
-        $('#ch').mask('000');
-    });
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 </script>
 
 <?= $this->element('menu_mural'); ?>
 
 <?= $this->element('templates') ?>
 
-<<<<<<< HEAD
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -99,16 +23,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-=======
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <?php if (isset($user) && $user->categoria == '1'): ?>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
                 <li class="nav-item">
                     <?=
                         $this->Form->postLink(
@@ -118,7 +32,6 @@
                         )
                         ?>
                 </li>
-<<<<<<< HEAD
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
@@ -151,10 +64,6 @@
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>
         <?= $this->Form->end() ?>
-=======
-            <?php endif; ?>
-        </ul>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
     </div>
 </nav>
 
@@ -246,7 +155,7 @@ $niveis = [
                 'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
             ]
         ]);
-        if (isset($user) && $user->categoria == '1') {
+        if (isset($categoria) && $categoria == '1') {
             echo $this->Form->control('nota', ['label' => 'Nota', 'type' => 'number', 'step' => '0.01', 'placeholder' => '00.00']);
             echo $this->Form->control('ch', ['label' => 'Carga horária', 'type' => 'number', 'placeholder' => '000']);
             echo $this->Form->control('observacoes', ['type' => 'textarea', 'rows' => '3', 'cols' => '40', 'label' => 'Observações']);

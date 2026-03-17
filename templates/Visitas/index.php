@@ -3,12 +3,12 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita[]|\Cake\Collection\CollectionInterface $visitas
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+    <?php if (isset($categoria) && $categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= h($visita->avaliacao) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $visita->id]) ?>
-                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                            <?php if (isset($categoria) && $categoria == '1'): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $visita->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visita->id)]) ?>
                             <?php endif; ?>

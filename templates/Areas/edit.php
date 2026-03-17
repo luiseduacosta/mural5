@@ -7,7 +7,7 @@
 
 <?= $this->element('templates') ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,8 +17,8 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
-                    <li class="nav-item">
+                <?php if ($categoria == 1): ?>
+                        <li class="nav-item">
                         <?=
                         $this->Form->postLink(
                                 __('Excluir'),

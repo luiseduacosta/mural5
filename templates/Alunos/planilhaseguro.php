@@ -17,6 +17,8 @@
 
 <?= $this->element('templates') ?>
 
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
+
 <div class="container">
 
     <?= $this->Form->create(null, ['url' => 'index', 'class' => 'form-inline']); ?>

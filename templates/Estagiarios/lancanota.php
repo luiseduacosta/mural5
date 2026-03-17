@@ -3,22 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-<<<<<<< HEAD
-=======
-
-declare(strict_types=1);
-$user = $this->getRequest()->getAttribute('identity');
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
 
         var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'lancanota']); ?>";
-        // alert(url);
         $("#Periodo").change(function () {
             var periodo = $(this).val();
-            // alert(url + '/index/' + periodo);
             var professor_id = "<?= $professor->id; ?>";
             window.location = url + '?periodo=' + periodo + '&professor_id=' + professor_id;
         })
@@ -26,15 +18,6 @@ $user = $this->getRequest()->getAttribute('identity');
     })
 </script>
 
-<<<<<<< HEAD
-=======
-<?php echo $this->element('menu_mural'); ?>
-
-<div class="container col-lg-12 shadow p-3 mb-5 bg-white rounded">
-    <?= $this->Html->link('Imprimir PDF', ['controller' => 'estagiarios', 'action' => 'lancanotapdf', '?' => ['periodo' => $periodo, 'professor_id' => $professor->id]], ['class' => 'btn btn-secondary mb-3']) ?>
-</div>
-
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 <div class="row justify-content-center">
     <div class="col-auto">
         <?php if (isset($user) && $user->categoria == '1'): ?>

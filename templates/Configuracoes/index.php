@@ -3,10 +3,9 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao[]|\Cake\Collection\CollectionInterface $configuracao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<<<<<<< HEAD
 <?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
@@ -23,9 +22,6 @@ $user = $this->getRequest()->getAttribute('identity');
             </ul>
         </div>
     </nav>
-=======
-<?php echo $this->element('menu_mural') ?>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
     <ul class="navbar-nav collapse navbar-collapse">
@@ -41,7 +37,9 @@ $user = $this->getRequest()->getAttribute('identity');
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-dark">
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
+                <?php if (isset($categoria) && $categoria == 1): ?>
+                    <th><?= $this->Paginator->sort('id') ?></th>
+                <?php endif; ?>
                 <th><?= $this->Paginator->sort('mural_periodo_atual', 'Período do mural') ?></th>
                 <th><?= $this->Paginator->sort('termo_compromisso_periodo', 'Período do termo de compromisso') ?></th>
                 <th><?= $this->Paginator->sort('termo_compromisso_inicio', 'Data de início do termo de compromisso') ?>

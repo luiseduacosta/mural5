@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <div class="avaliacaoes index container">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>

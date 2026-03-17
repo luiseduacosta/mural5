@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -18,6 +18,7 @@ $user = $this->getRequest()->getAttribute('identity');
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
         <li class="nav-item">
+            <?php if (isset($categoria) && $categoria == 1): ?>
             <?=
                 $this->Form->postLink(
                     __('Excluir'),

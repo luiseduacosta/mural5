@@ -3,12 +3,22 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
+$categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
 ?>
+
+<script>
+    $(document).ready(function () {
+        $('#telefone').mask('(00) 0000-0000');
+        $('#celular').mask('(00) 00000-0000');
+        $('#cpf').mask('000.000.000-00');
+        $('#cep').mask('00000-000');
+    });
+</script>
 
 <?= $this->element('templates') ?>
 
 <div class="container">
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria') == '1'): ?>
+    <?php if ($categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">

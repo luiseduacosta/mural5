@@ -3,10 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita $visita
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <?= $this->element('templates') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">

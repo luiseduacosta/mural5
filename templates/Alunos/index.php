@@ -5,13 +5,13 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 <?= $this->element('templates') ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
             </div>
             <?= $this->Form->end() ?>
         <?php endif; ?>
-        <?php if (isset($user) && ($user->categoria == "1" || $user->categoria == "2")): ?>
+        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
             <li class="nav-item">
                 <?= $this->Html->link(
                     __("Inscrição para mural"),
@@ -118,8 +118,8 @@
                                 "Observações",
                             ) ?></th>
                             <?php if (
-                                isset($user) &&
-                                $user->categoria == "1"
+                                isset($categoria) &&
+                                $categoria == 1
                             ): ?>
                                 <th><?= __("Ações") ?></th>
                             <?php endif; ?>
@@ -157,8 +157,8 @@
                                         $aluno->id,
                                     ], ["class" => "btn btn-primary btn-sm btn-block mb-1"]) ?>
                                     <?php if (
-                                        isset($user) &&
-                                        $user->categoria == "1"
+                                        isset($categoria) &&
+                                        $categoria == 1
                                     ): ?>
                                         <?= $this->Html->link(__("Editar"), [
                                             "controller" => "Alunos",
@@ -265,8 +265,8 @@
                                             $aluno->id,
                                         ], ["class" => "btn btn-primary btn-sm btn-block mb-1"]) ?>
                                         <?php if (
-                                            isset($user) &&
-                                            $user->categoria == "1"
+                                            isset($categoria) &&
+                                            $categoria == 1
                                         ): ?>
                                             <?= $this->Html->link(
                                                 __("Editar"),
@@ -369,8 +369,8 @@
                                             $aluno->id,
                                         ], ["class" => "btn btn-primary btn-sm btn-block mb-1"]) ?>
                                         <?php if (
-                                            isset($user) &&
-                                            $user->categoria == "1"
+                                            isset($categoria) &&
+                                            $categoria == 1
                                         ): ?>
                                             <?= $this->Html->link(
                                                 __("Editar"),

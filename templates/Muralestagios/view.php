@@ -1,17 +1,15 @@
 <?php
-// pr($usuario);
-// die();
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -44,7 +42,7 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
                    aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
-            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+            <?php if (isset($categoria) && $categoria == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
                        aria-controls="Alunos inscritos" aria-selected="false">Alunos inscritos</a>
@@ -246,7 +244,7 @@
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($usuario) && $usuario->categoria == 2): ?>
+                    <?php elseif (isset($categoria) && $categoria == 2): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->
@@ -300,7 +298,7 @@
 
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td class="actions">
                                           <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
