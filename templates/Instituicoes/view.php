@@ -274,6 +274,8 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
                                             </td>
+                                        <?php if (null !== $categoria && $categoria == '1'): ?>
+                                            <td><?= h($estagiarios->observacoes) ?></td>
                                         <?php endif; ?>
                                     </tr>
                                 <?php endforeach; ?>

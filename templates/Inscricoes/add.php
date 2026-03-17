@@ -17,7 +17,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user->isAdmin() || $user->isStudent() || (isset($categoria == 1) && $categoria == 2)): ?>
+                <?php if ($user->isAdmin() || $user->isStudent() || (null !== $categoria && $categoria == 2)): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>

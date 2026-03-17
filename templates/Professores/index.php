@@ -83,7 +83,7 @@
                         </td>
                         <td><?= h($professor->cpf) ?></td>
                         <td><?= $professor->siape ?></td>
-                        <td><?= $professor->datanascimento ? date('d-m-Y', strtotime(h($professor->datanascimento))) : '' ?>
+                        <td><?= $professor->datanascimento ? $professor->datanascimento->format('d-m-Y') : '' ?>
                         </td>
                         <td><?= h($professor->localnascimento) ?></td>
                         <td><?= h($professor->sexo) ?></td>
@@ -107,21 +107,20 @@
                         <td><?= h($professor->doutoradoarea) ?></td>
                         <td><?= h($professor->doutoradouniversidade) ?></td>
                         <td><?= $professor->doutoradoanoconclusao ?></td>
-                        <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?></td>
+                        <td><?= $professor->dataingresso ? $professor->dataingresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->formaingresso) ?></td>
                         <td><?= h($professor->tipocargo) ?></td>
                         <td><?= h($professor->categoria) ?></td>
                         <td><?= h($professor->regimetrabalho) ?></td>
                         <td><?= h($professor->departamento) ?></td>
-                        <td><?= $professor->dataegresso ? date('d-m-Y', strtotime(h($professor->dataegresso))) : '' ?></td>
+                        <td><?= $professor->dataegresso ? $professor->dataegresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->motivoegresso) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $professor->id]) ?>
                             <?php if (isset($categoria) && $categoria == 1): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $professor->id]) ?>
-                                <?php if (isset($categoria) && $categoria == 1): ?>
-                                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $professor->id)]) ?>
-                                <?php endif; ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $professor->id)]) ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>

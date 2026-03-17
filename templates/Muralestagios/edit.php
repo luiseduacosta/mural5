@@ -66,6 +66,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
     </div>
     <?= $this->Form->end() ?>
 </div>
+<?php endif; ?>
 
 <script type="module">
     import {
