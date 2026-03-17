@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string $categoria
  *
  * @property \App\Model\Entity\Categoria $categoria
+ * @property \App\Model\Entity\Users[] $users
  */
 class Categoria extends Entity
 {
@@ -27,5 +28,6 @@ class Categoria extends Entity
      */
     protected array $_accessible = [
         'categoria' => true,
+        'users' => true,
     ];
 }

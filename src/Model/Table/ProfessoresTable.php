@@ -11,8 +11,7 @@ use Cake\Validation\Validator;
  * Professor Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasOne $Users
  *
  * @method \App\Model\Entity\Professor get($primaryKey, $options = [])
  * @method \App\Model\Entity\Professor newEntity($data = null, array $options = [])
@@ -44,11 +43,7 @@ class ProfessoresTable extends Table
                     'foreignKey' => 'professor_id',
             ]);
 
-            $this->hasMany('Muralestagios', [
-                    'foreignKey' => 'professor_id',
-            ]);
-
-            $this->hasMany('Users', [
+            $this->hasOne('Users', [
                     'foreignKey' => 'professor_id',
             ]);
     }

@@ -4,16 +4,6 @@
  * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
  */
 ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index']); ?>";
-        $("#MuralestagioPeriodo").change(function () {
-            var periodo = $(this).val();
-            window.location = url + '/index?periodo=' + periodo;
-        })
-    })
-</script>
 
 <?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
@@ -41,16 +31,23 @@
         <h3><?= __('Mural de estagios') ?></h3>
     </div>
 
-
     <div class="row justify-content-center">
         <?php if (!isset($categoria)): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
         <?php elseif (isset($categoria) && $categoria == 1): ?>
-            <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
+            <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
                 <div class='col-sm-2'>
-                    <?= $this->Form->control('periodo', ['id' => 'MuralestagioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
+                    <?= $this->Form->control('periodo', [
+                        'id' => 'MuralestagioPeriodo', 
+                    'type' => 'select', 
+                    'label' => false, 
+                    'options' => $periodos, 
+                    'empty' => [$periodo => $periodo], 
+                    'class' => 'form-control',
+                    'onchange' => 'this.form.submit();'
+                    ]); ?>
                 </div>
             </div>
             <?= $this->Form->end(); ?>

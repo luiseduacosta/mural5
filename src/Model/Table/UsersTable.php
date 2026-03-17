@@ -55,7 +55,9 @@ class UsersTable extends Table
         $this->belongsTo('Professores', [
             'foreignKey' => 'professor_id',
         ]);
-        
+        $this->hasOne('Categorias', [
+            'foreignKey' => 'categoria',
+        ]);
     }
 
     /**

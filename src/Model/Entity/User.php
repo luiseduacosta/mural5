@@ -20,9 +20,10 @@ use Cake\ORM\Entity;
  * @property int|null $professor_id
  * @property \Cake\I18n\FrozenTime $timestamp
  *
- * @property \App\Model\Entity\Aluno[] $alunos
- * @property \App\Model\Entity\Supervisor[] $supervisores
- * @property \App\Model\Entity\Professor[] $professores
+ * @property \App\Model\Entity\Aluno $aluno
+ * @property \App\Model\Entity\Supervisor $supervisor
+ * @property \App\Model\Entity\Professor $professor
+ * @property \App\Model\Entity\Categoria $categoria
  */
 class User extends Entity {
 
@@ -44,9 +45,10 @@ class User extends Entity {
         'supervisor_id' => true,
         'professor_id' => true,
         'timestamp' => true,
-        'alunos' => true,
-        'supervisores' => true,
-        'professores' => true,
+        'aluno' => true,
+        'supervisor' => true,
+        'professor' => true,
+        'categoria' => true,
     ];
 
     // Add this method

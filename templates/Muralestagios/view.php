@@ -19,16 +19,16 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                 </ul>
             </div>
@@ -64,8 +64,8 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if ($usuario->categoria == 1): ?>
-                            <td><?= $muralestagio->hasValue('instituicoes') ? $this->Html->link($muralestagio->instituicoes->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicoes->id]) : '' ?>
+                        <?php if ($categoria == 1): ?>
+                            <td><?= $muralestagio->instituicao ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicao_id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td><?= $muralestagio->hasValue('instituicoes') ? $muralestagio->instituicoes->instituicao : '' ?></td>
@@ -104,11 +104,6 @@
                         <td><?= $muralestagio->requisitos ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Turma de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $muralestagio->turmaestagio->id]) : 'Sem dados' ?>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><?= __('Horário da OTP') ?></th>
                         <td><?php
                             switch ($muralestagio->horario) {
@@ -126,11 +121,6 @@
                                     break;
                             }
                             ?></td>
-                    </tr>
-                    <tr>
-                        <th><?= __('Professor') ?></th>
-                            <td><?= $muralestagio->hasValue('professor') ? $this->Html->link($muralestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $muralestagio->professor->id]) : 'Sem dados' ?>
-                            </td>
                     </tr>
                     <tr>
                         <th><?= __('Horario da seleção') ?></th>
@@ -309,7 +299,7 @@
                         <?php endforeach; ?>
                     </table>
                 <?php else: ?>
-õ                    <p>Sem inscrições</p>
+                    <p>Sem inscrições</p>
                 <?php endif; ?>
             </div>
         </div>

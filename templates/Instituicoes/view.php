@@ -19,18 +19,18 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Editar Instituição de estágio'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
                     <?php if (isset($categoria) && $categoria == '1'): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Listar instituições de estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Nova Instituição de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                            <?= $this->Html->link(__('Nova Instituição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                         <li class="nav-item">
-                            <?= $this->Form->postLink(__('Excluir Instituição de estágio'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger float-end']) ?>
+                            <?= $this->Form->postLink(__('Excluir Instituição'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
@@ -147,7 +147,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                 </tr>
                 <tr>
                     <th><?= __('Convênio') ?></th>
-                    <td><?= ($instituicao->convenio == 0) ? 'Não' : 'Sim' ?></td>
+                    <td><?= $instituicao->convenio ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Expira') ?></th>

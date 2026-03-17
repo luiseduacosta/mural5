@@ -44,14 +44,14 @@ class InstituicoesTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('estagio');
+        $this->setTable('instituicoes');
         $this->setAlias('Instituicoes');
         $this->setDisplayField('instituicao');
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Areainstituicoes', [
             'className' => 'Areainstituicoes',
-            'foreignKey' => 'areainstituicoes_id',
+            'foreignKey' => 'area_id',
         ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicao_id',
@@ -192,7 +192,7 @@ class InstituicoesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['areainstituicoes_id'], 'Areainstituicoes'), ['errorField' => 'areainstituicoes_id']);
+        $rules->add($rules->existsIn(['area_id'], 'Areainstituicoes'), ['errorField' => 'area_id']);
 
         return $rules;
     }

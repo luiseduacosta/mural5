@@ -33,9 +33,7 @@ use Cake\ORM\Entity;
  * @property string $localInscricao
  * @property string|null $email
  *
- * @property \App\Model\Entity\Instituicao[] $instituicoes
- * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
- * @property \App\Model\Entity\Professor[] $professores
+ * @property \App\Model\Entity\Instituicao $instituicao_tabela
  * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
  */
 class Muralestagio extends Entity
@@ -72,9 +70,7 @@ class Muralestagio extends Entity
         'datafax' => true,
         'localInscricao' => true,
         'email' => true,
-        'instituicoes' => true, // corrigir a tabela ou corrigir o nome do campo
-        'turmaestagios' => true,
-        'professores' => true,
+        'instituicao_tabela' => true,
         'muralinscricoes' => true,
     ];
 }

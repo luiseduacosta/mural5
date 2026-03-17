@@ -55,7 +55,7 @@ class AlunosTable extends Table
                     'foreignKey' => 'aluno_id',
             ]);
 
-            $this->hasMany('Users', [
+            $this->hasOne('Users', [
                     'foreignKey' => 'aluno_id',
             ]);
     }

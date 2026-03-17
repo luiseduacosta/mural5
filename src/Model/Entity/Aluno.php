@@ -31,6 +31,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
+ * @property \App\Model\Entity\User $user
  */
 class Aluno extends Entity
 {
@@ -64,5 +65,6 @@ class Aluno extends Entity
         'observacoes' => true,
         'estagiarios' => true,
         'muralinscricoes' => true,
+        'user' => true,
     ];
 }

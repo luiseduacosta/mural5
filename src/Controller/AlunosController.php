@@ -41,12 +41,12 @@ class AlunosController extends AppController {
         $registro = $this->getRequest()->getQuery('registro');
         if ($registro) {
             $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
                     ->where(['registro' => $registro])
                     ->first();
         } else {
             $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Inscricoes' => ['Muralestagios']])
+                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
                     ->where(['id' => $id])
                     ->first();
         }
@@ -54,7 +54,8 @@ class AlunosController extends AppController {
             $this->Flash->error(__('Nao ha registros para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-
+        $this->Authorization->authorize($aluno);
+        
         $this->set(compact('aluno'));
     }
 

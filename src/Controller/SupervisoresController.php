@@ -20,6 +20,8 @@ class SupervisoresController extends AppController
      */
     public function index()
     {
+        $this->Authorization->authorize($this->Supervisores);
+
         $supervisores = $this->paginate($this->Supervisores);
 
         $this->set(compact('supervisores'));
@@ -35,8 +37,12 @@ class SupervisoresController extends AppController
     public function view($id = null)
     {
 
-        if (is_null($id)) {
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == 4) {
             $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
+        if (empty($id)) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
         }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => [
@@ -49,7 +55,8 @@ class SupervisoresController extends AppController
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-
+        $this->Authorization->authorize($supervisor);
+        
         $this->set(compact('supervisor'));
     }
 

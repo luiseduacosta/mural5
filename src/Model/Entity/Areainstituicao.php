@@ -12,7 +12,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $area
  *
- * @property \App\Model\Entity\Areainstituicao[] $areainstituicao
+ * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
 class Areainstituicao extends Entity
 {
@@ -27,6 +27,6 @@ class Areainstituicao extends Entity
      */
     protected array $_accessible = [
         'area' => true,
-        'areainstituicao' => true
+        'instituicoes' => true,
     ];
 }
