@@ -66,24 +66,24 @@
         </div>
     </nav>
 
-    <ul class="nav nav-tabs id=" myTab role="tablist">
-        <li class="nav-item">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
             <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" href="#estagiario"
-                data-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
+                data-bs-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" href="#folhadeatividade"
-                data-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
+                data-bs-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
                 de
                 atividades</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" href="#avaliacao" data-target="#avaliacao"
+            <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" href="#avaliacao" data-bs-target="#avaliacao"
                 role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
         </li>
     </ul>
 
-    <div class="tab-content" id="meuTabContent">
+    <div class="tab-content">
 
         <div id="estagiario" class="tab-pane fade show active" role="tabpanel" aria-labelledby="estagiario-tab">
             <h3><?= h($estagiario->aluno->nome) ?></h3>
@@ -112,7 +112,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Turno') ?></th>
-                    <td><?= h($estagiario->turno) ?></td>
+                    <td><?= h($estagiario->aluno->turno) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Nível') ?></th>
@@ -156,19 +156,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><?= __('TC') ?></th>
-                    <td><?= $this->Number->format($estagiario->tc) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Data TC') ?></th>
+                    <th><?= __('Data solicitação do TC') ?></th>
                     <td><?= $estagiario->tc_solicitacao ? $estagiario->tc_solicitacao : '' ?></td>
                 </tr>
-
+                <tr>
+                    <th><?= __('TC assinado') ?></th>
+                    <td><?= $estagiario->tc == '1' ? 'Sim' : 'Não' ?></td>
+                </tr>
                 <tr>
                     <th><?= __('Tipo de estágio (Pandemia)') ?></th>
                     <td><?= $estagiario->complemento_id ?></td>
                 </tr>
-
                 <tr>
                     <th><?= __('Nota') ?></th>
                     <?php if ($estagiario->nota): ?>

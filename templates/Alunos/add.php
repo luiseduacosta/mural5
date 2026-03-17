@@ -3,12 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-// pr($registro);
-// pr($email);
-// die();
 ?>
 
 <?= $this->element('templates') ?>
+
 <div class="container">
     <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">

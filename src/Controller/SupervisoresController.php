@@ -36,13 +36,7 @@ class SupervisoresController extends AppController
     {
 
         if (is_null($id)) {
-            $cress = $this->getRequest()->getQuery('cress');
-            if ($cress) {
-                $query = $this->Supervisores->find()
-                    ->where(['cress' => $cress])
-                    ->first();
-                $id = $query->id;
-            }
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
         }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => [
@@ -56,7 +50,6 @@ class SupervisoresController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-
         $this->set(compact('supervisor'));
     }
 
@@ -68,9 +61,10 @@ class SupervisoresController extends AppController
     public function add()
     {
 
-        /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
-        $cress = $this->getRequest()->getQuery('cress');
-        $email = $this->getRequest()->getQuery('email');
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == 4) {
+            $cress = $this->getRequest()->getAttribute('identity')['registro'];
+            $email = $this->getRequest()->getAttribute('identity')['email'];
+        }
 
         /** Envio para o formulário */
         if ($cress) {
@@ -127,7 +121,7 @@ class SupervisoresController extends AppController
                 if (empty($usersupervisor)) {
 
                     $userestagio = $this->Supervisores->Users->find()
-                        ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
+                        ->where(['categoria' => 4, 'registro' => $supervisorresultado->cress])
                         ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo supervisor_id */
@@ -165,6 +159,9 @@ class SupervisoresController extends AppController
      */
     public function edit($id = null)
     {
+        if (is_null($id)) {
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
@@ -190,6 +187,9 @@ class SupervisoresController extends AppController
      */
     public function delete($id = null)
     {
+        if (is_null($id)) {
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
         $this->request->allowMethod(['post', 'delete']);
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']

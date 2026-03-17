@@ -33,12 +33,7 @@ class ProfessoresController extends AppController {
     public function view($id = null) {
 
         if (is_null($id)) {
-            $siape = $this->getRequest()->getQuery('siape');
-            if (isset($siape)):
-                $idquery = $this->Professores->find()->where(['siape' => $siape]);
-                $id = $idquery->first();
-                $id = $id->id;
-            endif;
+            $id = $this->getRequest()->getAttribute('identity')['professor_id'];
         }
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
@@ -62,8 +57,10 @@ class ProfessoresController extends AppController {
      */
     public function add() {
 
-        $siape = $this->getRequest()->getQuery('siape');
-        $email = $this->getRequest()->getQuery('email');
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 3) {
+            $siape = $this->getRequest()->getAttribute('identity')['registro'];
+            $email = $this->getRequest()->getAttribute('identity')['email'];
+        }
 
         /** Para o formulário */
         if ($siape):

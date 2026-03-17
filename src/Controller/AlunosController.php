@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-// use CakePdf\View\PdfView
-
 /**
  * Alunos Controller
  *
@@ -67,9 +65,10 @@ class AlunosController extends AppController {
      */
     public function add($id = NULL) {
 
-        /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
-        $registro = $this->getRequest()->getQuery('registro');
-        $email = $this->getRequest()->getQuery('email');
+        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2) {
+            $registro = $this->getRequest()->getAttribute('identity')['registro'];
+            $email = $this->getRequest()->getAttribute('identity')['email'];
+        }
 
         /** Envio para o formulário */
         if ($registro) {
@@ -101,7 +100,7 @@ class AlunosController extends AppController {
              */
             $registro = $this->request->getData('registro');
             $usercadastrado = $this->Alunos->Users->find()
-                    ->where(['categoria_id' => 2, 'registro' => $registro])
+                    ->where(['categoria' => 2, 'registro' => $registro])
                     ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Aluno naõ cadastrado como usuário'));
@@ -127,7 +126,7 @@ class AlunosController extends AppController {
                 if (empty($userestagioestudante)) {
 
                     $userestagio = $this->Alunos->Users->find()
-                            ->where(['categoria_id' => 2, 'registro' => $alunoresultado->registro])
+                            ->where(['categoria' => 2, 'registro' => $alunoresultado->registro])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo aluno_id */

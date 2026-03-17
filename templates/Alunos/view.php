@@ -54,7 +54,7 @@
         </div>
     </nav>
 
-    <ul class="nav nav-tabs id=" myTab" role="tablist">
+    <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" id="aluno-tab" href="#aluno" data-target="#aluno" role="tab"
                 aria-controls="aluno" aria-selected="true">Dados do

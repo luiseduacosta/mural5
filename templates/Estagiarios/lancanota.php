@@ -3,9 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-// pr($estagiarios);
-// pr($periodo);
-// die();
 ?>
 
 <script type="text/javascript">
@@ -22,9 +19,6 @@
     })
 </script>
 
-<?php
-// die();
-?>
 <div class="row justify-content-center">
     <div class="col-auto">
         <?php if ($this->getRequest()->getSession()->read('categoria') == 1): ?>

@@ -69,12 +69,21 @@
                     <td><?= $professor->siape ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('CRESS') ?></th>
+                    <td><?= $professor->cress ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Nome') ?></th>
                     <td><?= h($professor->nome) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Cpf') ?></th>
+                    <th><?= __('CPF') ?></th>
                     <td><?= h($professor->cpf) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Data nascimento') ?></th>
+                    <td><?= $professor->datanascimento ? date('d-m-Y', strtotime(h($professor->datanascimento))) : '' ?>
+                    </td>
                 </tr>
                 <tr>
                     <th><?= __('Local nascimento') ?></th>
@@ -117,6 +126,11 @@
                     <td><?= h($professor->curriculolattes) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Atualização lattes') ?></th>
+                    <td><?= $professor->atualizacaolattes ? date('d-m-Y', strtotime(h($professor->atualizacaolattes))) : '' ?>
+                    </td>
+                </tr>
+                <tr>
                     <th><?= __('Curriculo sigma') ?></th>
                     <td><?= h($professor->curriculosigma) ?></td>
                 </tr>
@@ -133,7 +147,7 @@
                     <td><?= h($professor->universidadedegraduacao) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Mestrado area') ?></th>
+                    <th><?= __('Mestrado área') ?></th>
                     <td><?= h($professor->mestradoarea) ?></td>
                 </tr>
                 <tr>
@@ -141,12 +155,17 @@
                     <td><?= h($professor->mestradouniversidade) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Doutorado area') ?></th>
+                    <th><?= __('Doutorado área') ?></th>
                     <td><?= h($professor->doutoradoarea) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Doutorado universidade') ?></th>
                     <td><?= h($professor->doutoradouniversidade) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Data de ingresso') ?></th>
+                    <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?>
+                    </td>
                 </tr>
                 <tr>
                     <th><?= __('Forma de ingresso') ?></th>
@@ -183,21 +202,6 @@
                 <tr>
                     <th><?= __('Doutorado ano conclusão') ?></th>
                     <td><?= $professor->doutoradoanoconclusao ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Data nascimento') ?></th>
-                    <td><?= $professor->datanascimento ? date('d-m-Y', strtotime(h($professor->datanascimento))) : '' ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th><?= __('Atualização lattes') ?></th>
-                    <td><?= $professor->atualizacaolattes ? date('d-m-Y', strtotime(h($professor->atualizacaolattes))) : '' ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th><?= __('Data de ingresso') ?></th>
-                    <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?>
-                    </td>
                 </tr>
                 <tr>
                     <th><?= __('Data de egresso') ?></th>
