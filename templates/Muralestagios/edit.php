@@ -18,7 +18,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
         <li class="nav-item">
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if (null !== $categoria && $categoria == 1): ?>
             <?=
                 $this->Form->postLink(
                     __('Excluir'),
