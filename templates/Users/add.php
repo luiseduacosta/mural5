@@ -5,7 +5,7 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?= $this->element('menu_mural') ?>
 
 <?= $this->element('templates') ?>
 

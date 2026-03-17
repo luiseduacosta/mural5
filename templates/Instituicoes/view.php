@@ -37,131 +37,129 @@ $user = $this->getRequest()->getAttribute('identity');
             </div>
         </nav>
 
-        <div class="container">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
-                        aria-controls="instituicao" aria-selected="true">Instituição</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#supervisores" role="tab"
-                        aria-controls="supervisores" aria-selected="false">Supervisores</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
-                        aria-selected="false">Estagiários</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#muraldeestagio" role="tab"
-                        aria-controls="muraldeestagio" aria-selected="false">Mural de estágio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#visitas" role="tab" aria-controls="visitas"
-                        aria-selected="false">Visitas</a>
-                </li>
-            </ul>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
+                aria-selected="true">Instituição</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#supervisores" role="tab" aria-controls="supervisores"
+                aria-selected="false">Supervisores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+                aria-selected="false">Estagiários</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#muraldeestagio" role="tab" aria-controls="muraldeestagio"
+                aria-selected="false">Mural de estágio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#visitas" role="tab" aria-controls="visitas"
+                aria-selected="false">Visitas</a>
+        </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="tab-content">
+        <div id="instituicao" class="tab-pane container active show">
+            <h3><?= $instituicao->instituicao ?></h3>
+            <table class="table table-responsive table-hover table-striped">
+                <tr>
+                    <th><?= __('Id') ?></th>
+                    <td><?= $instituicao->id ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Instituição') ?></th>
+                    <td><?= $instituicao->instituicao ? h($instituicao->instituicao) : 's/d' ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Área instituicao') ?></th>
+                    <td><?= $instituicao->hasvalue('areainstituicao') ? $this->Html->link($instituicao->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicao->areainstituicao->id]) : 's/d' ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Natureza') ?></th>
+                    <td><?= h($instituicao->natureza) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('CNPJ') ?></th>
+                    <td><?= h($instituicao->cnpj) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('E-mail') ?></th>
+                    <td><?= h($instituicao->email) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Endereço do site') ?></th>
+                    <td><?= h($instituicao->url) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Telefone') ?></th>
+                    <td><?= h($instituicao->telefone) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Fax') ?></th>
+                    <td><?= h($instituicao->fax) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('CEP') ?></th>
+                    <td><?= h($instituicao->cep) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Endereço') ?></th>
+                    <td><?= h($instituicao->endereco) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Bairro') ?></th>
+                    <td><?= h($instituicao->bairro) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Município') ?></th>
+                    <td><?= h($instituicao->municipio) ?></td>
+                </tr>
+
+                <tr>
+                    <th><?= __('Beneficios') ?></th>
+                    <td><?= h($instituicao->beneficio) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Fim de Semana') ?></th>
+                    <td><?= ($instituicao->fim_de_semana == 0) ? 'Não' : 'Sim'; ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Local de inscrição') ?></th>
+                    <td><?= h($instituicao->localInscricao) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Seguro') ?></th>
+                    <td><?= ($instituicao->seguro == 0) ? 'Não' : 'Sim'; ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Avaliação') ?></th>
+                    <td><?= h($instituicao->avaliacao) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Área') ?></th>
+                    <td><?= $instituicao->area ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Convênio') ?></th>
+                    <td><?= ($instituicao->convenio == 0) ? 'Não' : 'Sim' ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Expira') ?></th>
+                    <td><?= ($instituicao->expira) ? date('d-m-Y', strtotime($instituicao->expira)) : 'Sem informação' ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Observações') ?></th>
+                    <td><?= h($instituicao->observacoes) ?></td>
+                </tr>
+            </table>
         </div>
-
-        <div class="row">
-            <div class="tab-content">
-
-                <div id="instituicao" class="tab-pane container active show">
-                    <h3><?= $instituicao->instituicao ?></h3>
-                    <table class="table table-striped table-hover table-responsive">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <td><?= $instituicao->id ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Instituição') ?></th>
-                            <td><?= $instituicao->instituicao ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Área instituicao') ?></th>
-                            <td><?= $instituicao->hasValue('area') ? $this->Html->link($instituicao->area->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->area->id]) : 'Sem dados' ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Natureza') ?></th>
-                            <td><?= h($instituicao->natureza) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Cnpj') ?></th>
-                            <td><?= h($instituicao->cnpj) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('E-mail') ?></th>
-                            <td><?= h($instituicao->email) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Url') ?></th>
-                            <td><?= h($instituicao->url) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Telefone') ?></th>
-                            <td><?= h($instituicao->telefone) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Fax') ?></th>
-                            <td><?= h($instituicao->fax) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Cep') ?></th>
-                            <td><?= h($instituicao->cep) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Endereço') ?></th>
-                            <td><?= h($instituicao->endereco) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Bairro') ?></th>
-                            <td><?= h($instituicao->bairro) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Município') ?></th>
-                            <td><?= h($instituicao->municipio) ?></td>
-                        </tr>
-
-                        <tr>
-                            <th><?= __('Beneficios') ?></th>
-                            <td><?= h($instituicao->beneficio) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Fim de Semana') ?></th>
-                            <td><?= ($instituicao->fim_de_semana == 0) ? 'Não' : 'Sim'; ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Local de inscrição') ?></th>
-                            <td><?= h($instituicao->localInscricao) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Seguro') ?></th>
-                            <td><?= ($instituicao->seguro == 0) ? 'Não' : 'Sim'; ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Avaliação') ?></th>
-                            <td><?= h($instituicao->avaliacao) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Turma de estágio') ?></th>
-                            <td><?= $instituicao->hasValue('turmaestagio') ? $instituicao->turmaestagio->area : ''; ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Convênio') ?></th>
-                            <td><?= ($instituicao->convenio == 0) ? 'Não' : 'Sim' ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Expira') ?></th>
-                            <td><?= $instituicao->expira ? date('d-m-Y', strtotime($instituicao->expira)) : 'Sem informação' ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Observações') ?></th>
-                            <td><?= h($instituicao->observacoes) ?></td>
-                        </tr>
-                    </table>
-                </div>
 
                 <div id="supervisores" class="tab-pane container fade">
                     <h3><?= __('Supervisores') ?></h3>
@@ -239,7 +237,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                             <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
                                         <?php endif; ?>
 
-                                        <td><?= h($estagiarios->registro) ?></td>
+                                <td><?= h($estagiarios->registro) ?></td>
 
                                         <?php if ($user->categoria == 1): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
@@ -256,8 +254,8 @@ $user = $this->getRequest()->getAttribute('identity');
                                             <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : '' ?></td>
                                         <?php endif; ?>
 
-                                        <td><?= h($estagiarios->periodo) ?></td>
-                                        <td><?= h($estagiarios->nivel) ?></td>
+                                <td><?= h($estagiarios->periodo) ?></td>
+                                <td><?= h($estagiarios->nivel) ?></td>
 
                                         <?php if ($user->categoria == 1): ?>
                                             <td><?= h($estagiarios->ajuste2020) ?></td>

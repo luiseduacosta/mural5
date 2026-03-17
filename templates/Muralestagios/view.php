@@ -246,7 +246,7 @@
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($usuario) && $usuario->categoria_id == 2): ?>
+                    <?php elseif (isset($usuario) && $usuario->categoria == 2): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->

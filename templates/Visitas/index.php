@@ -3,9 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita[]|\Cake\Collection\CollectionInterface $visitas
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
-
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
 
@@ -25,7 +24,7 @@
         </nav>
     <?php endif; ?>
 
-    <h3><?= __('Visitas instituicionais') ?></h3>
+<h3><?= __('Visitas instituicionais') ?></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -63,13 +62,15 @@
         </table>
     </div>
 
-    <?= $this->element('templates'); ?>
-    <div class="d-flex justify-content-center">
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+<div class="d-flex justify-content-center">
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
+            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('próximo') . ' >') ?>
+            <?= $this->Paginator->last(__('último') . ' >>') ?>
+    </ul>
+        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do total em {{count}}.')) ?></p>
     </div>
-    <?= $this->element('paginator_count') ?>
 </div>

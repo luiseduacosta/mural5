@@ -1,20 +1,21 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\InscricoesTable;
+use App\Model\Table\MuralinscricoesTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\InscricoesTable Test Case
+ * App\Model\Table\MuralinscricoesTable Test Case
  */
 class InscricoesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\InscricoesTable
+     * @var \App\Model\Table\MuralinscricoesTable
      */
     protected $Inscricoes;
 
@@ -23,11 +24,7 @@ class InscricoesTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Inscricoes',
-        'app.Alunos',
-        'app.Muralestagios',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method

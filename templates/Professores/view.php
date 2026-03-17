@@ -11,49 +11,49 @@
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir Professor'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $professor->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir Professor(a)'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $professor->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo Professor'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo(a) Professor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
 
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 3): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
-
             </ul>
         </div>
     </nav>
+</div>
 
-    <div class="row">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#professor" role="tab" aria-controls="professor"
-                    aria-selected="true">Professor(a)</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
-                    aria-selected="false">Estagiários</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#notas" role="tab" aria-controls="estagiarios"
-                    aria-selected="false">Atividades de estágio</a>
-            </li>
-        </ul>
-    </div>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#professor" role="tab" aria-controls="professor"
+                aria-selected="true">Professor(a)</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+                aria-selected="false">Estagiários</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#notas" role="tab" aria-controls="estagiarios"
+                aria-selected="false">Avaliação</a>
+        </li>
+    </ul>
+</div>
 
     <div class="tab-content">
         <div id="professor" class="tab-pane container active show">
@@ -339,3 +339,102 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tableBody = document.querySelector('#table-estagiarios tbody');
+    if (!tableBody) return;
+
+    tableBody.addEventListener('click', (event) => {
+        const target = event.target;
+        const row = target.closest('tr');
+        if (!row) return;
+
+        if (target.classList.contains('btn-edit')) {
+            makeRowEditable(row);
+        } else if (target.classList.contains('btn-save')) {
+            saveRow(row);
+        } else if (target.classList.contains('btn-cancel')) {
+            cancelEdit(row);
+        }
+    });
+});
+
+function makeRowEditable(row) {
+    row.classList.add('editing');
+    const cells = row.querySelectorAll('.editable-field');
+    cells.forEach(cell => {
+        const text = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
+        cell.innerHTML = `<input class="form-control form-control-sm" type="text" value="${text}">`;
+    });
+
+    // Toggle buttons
+    row.querySelector('.btn-edit').style.display = 'none';
+    row.querySelector('.btn-save').style.display = 'inline-block';
+    row.querySelector('.btn-cancel').style.display = 'inline-block';
+
+}
+
+function saveRow(row) {
+    const cells = row.querySelectorAll('.editable-field');
+    const data = {
+        id: row.dataset.id
+    };
+    cells.forEach(cell => {
+        const input = cell.querySelector('input');
+        const fieldName = cell.dataset.field;
+        let value = input.value.trim();
+        cell.textContent = value;
+        data[fieldName] = value;
+    });
+ 
+    $.ajax({
+        url: '<?= $this->Url->build(['controller' => 'Estagiarios', 'action' => 'edit']) ?>',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        headers: {
+            'X-CSRF-Token': '<?= $this->request->getAttribute('csrfToken') ?>',
+            'Accept': 'application/json'
+        },
+        data: $.param(data),
+        success: function(response) {
+            console.log('Success:', response);
+            if (response.status === 'success') {
+                // Add a brief success indicator
+                const saveBtn = row.querySelector('.btn-save');
+                saveBtn.textContent = 'Salvo!';
+                saveBtn.classList.remove('btn-primary');
+                saveBtn.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    row.classList.remove('editing');
+                    row.querySelector('.btn-edit').style.display = 'inline-block';
+                    saveBtn.style.display = 'none';
+                    saveBtn.textContent = 'Salvar';
+                    saveBtn.classList.remove('btn-success');
+                    saveBtn.classList.add('btn-primary');
+                    row.querySelector('.btn-cancel').style.display = 'none';
+                }, 1000);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error details:', xhr.responseText);
+            // console.error('Error:', error);
+            alert('Erro ao salvar as alterações. Verifique o console para mais detalhes.');
+            // Revert state if needed or keep editable
+        }
+    });
+}
+
+function cancelEdit(row) {
+    row.classList.remove('editing');
+    const cells = row.querySelectorAll('.editable-field');
+    cells.forEach(cell => {
+        cell.textContent = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
+    });
+}
+
+</script>    
+

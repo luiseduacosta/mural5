@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -19,19 +20,17 @@ use Cake\ORM\Entity;
  * @property string|null $cpf
  * @property string|null $identidade
  * @property string|null $orgao
- * @property \Cake\I18n\FrozenDate|null $nascimento
+ * @property \Cake\I18n\Date|null $nascimento
+ * @property string|null $ingresso
+ * @property string|null $turno
  * @property string|null $endereco
  * @property string|null $cep
  * @property string|null $municipio
  * @property string|null $bairro
  * @property string|null $observacoes
- * @property string|null $ingresso
- * @property string|null $nomesocial
- * @property string|null $turno
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
- * @property \App\Model\Entity\Inscricao[] $inscricoes
- * @property \App\Model\Entity\User[] $users
+ * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
  */
 class Aluno extends Entity
 {
@@ -56,16 +55,14 @@ class Aluno extends Entity
         'identidade' => true,
         'orgao' => true,
         'nascimento' => true,
+        'ingresso' => true,
+        'turno' => true,
         'endereco' => true,
         'cep' => true,
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
-        'ingresso' => true,
-        'nomesocial' => true,
-        'turno' => true,
         'estagiarios' => true,
-        'inscricoes' => true,
-        'users' => true,        
+        'muralinscricoes' => true,
     ];
 }

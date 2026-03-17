@@ -3,10 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Administrador $nome
  */
-$categoria_id = 0;
+$categoria = 0;
 
 if ($session) {
-    $categoria_id = $session->get('categoria_id');
+    $categoria = $session->get('categoria');
 }
 ?>
 <div>
@@ -26,7 +26,7 @@ if ($session) {
             <fieldset>
                 <h3><?= __('Editando Administrador') ?></h3>
                 <?php
-                    if ($categoria_id == 1):
+                    if ($categoria == 1):
                        echo $this->Form->control('user_id', ['type' => 'number']); 
                     endif;
                     echo $this->Form->control('nome');

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -40,9 +41,7 @@ class ComplementosTable extends Table
         parent::initialize($config);
 
         $this->setTable('complementos');
-        $this->setDisplayField('periodo_especial');
-        $this->setPrimaryKey('id');
-
+        $this->setAlias('Complementos');
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'complemento_id',
         ]);

@@ -80,8 +80,8 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
-            ->scalar('categoria_id')
-            ->notEmptyString('categoria_id');
+            ->scalar('categoria')
+            ->notEmptyString('categoria');
 
         $validator
             ->integer('registro')

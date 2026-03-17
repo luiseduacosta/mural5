@@ -29,39 +29,10 @@
                 </li>
             </ul>
         </div>
-    </nav>
 
-    <div class="table-responsive">
-        <h3><?= h($folhadeatividade->atividade) ?></h3>
-        <table class="table table-striped table-hover table-responsive">
-            <tr>
-                <th><?= __('Atividade') ?></th>
-                <td><?= h($folhadeatividade->atividade) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Id') ?></th>
-                <td><?= $folhadeatividade->id ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Estagiário') ?></th>
-                <td><?= $folhadeatividade->estagiario_id ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Día') ?></th>
-                <td><?= h($folhadeatividade->dia) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Início') ?></th>
-                <td><?= h($folhadeatividade->inicio) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Final') ?></th>
-                <td><?= h($folhadeatividade->final) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Horário') ?></th>
-                <td><?= h($folhadeatividade->horario) ?></td>
-            </tr>
-        </table>
-    </div>
+        <div class='row'>
+            <dt class="col-sm-3"><?= __('Atividade') ?></dt>
+            <dd class="col-sm-9"><?= h($folhadeatividade->atividade) ?></dd>
+        </div>
+    </dl>
 </div>

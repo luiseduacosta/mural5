@@ -8,20 +8,43 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'index?periodo=']); ?>";
+        var url = "<?= $this->Html->Url->build(['controller' => 'estagiarios', 'action' => 'index']); ?>";
         // alert(url);
         $("#EstagiarioPeriodo").change(function () {
             var periodo = $(this).val();
-            // alert(url + '/index/' + periodo);
-            window.location = url + periodo;
+            // alert(url + '/index?periodo=');
+            window.location = url + '/index?periodo=' + periodo;
+        })
+
+        $("#EstagiarioNivel").change(function () {
+            var nivel = $(this).val();
+            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&nivel=' + nivel;
+        })
+
+        $("#EstagiarioInstituicao").change(function () {
+            var instituicao = $(this).val();
+            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&instituicao=' + instituicao;
+        })
+
+        $("#EstagiarioSupervisor").change(function () {
+            var supervisor = $(this).val();
+            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&supervisor=' + supervisor;
+        })
+
+        $("#EstagiarioProfessor").change(function () {
+            var professor = $(this).val();
+            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&professor=' + professor;
+        })
+
+        $("#EstagiarioTurmaestagio").change(function () {
+            var turmaestagio = $(this).val();
+            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&turmaestagio=' + turmaestagio;
         })
 
     })
 </script>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
-
-<?= $this->element('templates') ?>
+<?php echo $this->element('menu_mural') ?>
 
 <div class='container'>
 
@@ -45,16 +68,56 @@
 
         <h3><?= __('Estagiario(a)s') ?></h3>
 
+    <div class="col-sm-1">
         <?= $this->Form->create($estagiarios); ?>
         <div class="form-group row">
-            <label class='col-sm-1 col-form-label'>Período</label>
-            <div class='col-sm-2'>
-                <?= $this->Form->control('periodo', ['id' => 'EstagiarioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
+            <?= $this->Form->control('periodo', ['id' => 'EstagiarioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
+        </div>
+    </div>
+
+    <?php $niveis = ['1' => '1º', '2' => '2º', '3' => '3º', '4' => '4º', '9' => 'Não curricular']; ?>
+
+    <div class="col-sm-1">
+        <?= $this->Form->create($estagiarios); ?>
+        <div class="form-group row">
+            <?= $this->Form->control('nivel', ['id' => 'EstagiarioNivel', 'type' => 'select', 'label' => false, 'options' => $niveis, 'empty' => 'Nível', 'class' => 'form-control']); ?>
+        </div>
+    </div>
+
+    <?php if (!empty($instituicoes)): ?>
+        <div class="col-sm-2">
+            <?= $this->Form->create($estagiarios); ?>
+            <div class="form-group row">
+                <?= $this->Form->control('instituicao_id', ['id' => 'EstagiarioInstituicao', 'type' => 'select', 'label' => false, 'options' => $instituicoes, 'empty' => 'Instituição', 'class' => 'form-control']); ?>
             </div>
         </div>
-        <?= $this->Form->end(); ?>
-    <?php else: ?>
-        <h3 style="text-align: center;">Estagiários da ESS/UFRJ. Período: <?= $periodo ?></h3>
+    <?php endif; ?>
+
+    <?php if (!empty($supervisores)): ?>
+        <div class="col-sm-2">
+            <?= $this->Form->create($estagiarios); ?>
+            <div class="form-group row">
+                <?= $this->Form->control('supervisor_id', ['id' => 'EstagiarioSupervisor', 'type' => 'select', 'label' => false, 'options' => $supervisores, 'empty' => 'Supervisor(a)', 'class' => 'form-control']); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($professores)): ?>
+        <div class="col-sm-2">
+            <?= $this->Form->create($estagiarios); ?>
+            <div class="form-group row">
+                <?= $this->Form->control('professor_id', ['id' => 'EstagiarioProfessor', 'type' => 'select', 'label' => false, 'options' => $professores, 'empty' => 'Professor(a)', 'class' => 'form-control']); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($turmaestagios)): ?>
+        <div class="col-sm-1">
+            <?= $this->Form->create($estagiarios); ?>
+            <div class="form-group row">
+                <?= $this->Form->control('turmaestagio_id', ['id' => 'EstagiarioTurmaestagio', 'type' => 'select', 'label' => false, 'options' => $turmaestagios, 'empty' => 'Turma', 'class' => 'form-control']); ?>
+            </div>
+        </div>
     <?php endif; ?>
 
     <div class="container">
@@ -115,6 +178,10 @@
                             </td>
 
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
+                        <?php else: ?>
+                            <td>Sem nota</td>
+                        <?php endif; ?>
+                        <?php if (isset($estagiario->ch)): ?>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>
                             <td><?= h($estagiario->observacoes) ?></td>
                             <?php if (isset($usuario) && $usuario->categoria == 1): ?>
@@ -130,14 +197,6 @@
             </table>
         </div>
 
-        <?= $this->element('templates'); ?>
-        <div class="d-flex justify-content-center">
-            <div class="paginator">
-                <ul class="pagination">
-                    <?= $this->element('paginator') ?>
-                </ul>
-            </div>
-        </div>
-        <?= $this->element('paginator_count') ?>
-    </div>
+    <?= $this->element('paginator') ?>
+
 </div>

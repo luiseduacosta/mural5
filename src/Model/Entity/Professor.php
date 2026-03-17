@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Model\Entity;
 
@@ -12,7 +11,9 @@ use Cake\ORM\Entity;
  * @property string $nome
  * @property string|null $cpf
  * @property int|null $siape
- * @property \Cake\I18n\FrozenDate|null $datanascimento
+ * @property int|null $rg
+ * @property string|null $orgaoexpedidor
+ * @property \Cake\I18n\Date|null $datanascimento
  * @property string|null $localnascimento
  * @property string|null $sexo
  * @property string $ddd_telefone
@@ -22,8 +23,14 @@ use Cake\ORM\Entity;
  * @property string|null $email
  * @property string|null $homepage
  * @property string|null $redesocial
+ * @property string|null $endereco
+ * @property string|null $bairro
+ * @property string|null $cep
+ * @property string|null $cidade
+ * @property string|null $estado
+ * @property string|null $pais
  * @property string|null $curriculolattes
- * @property \Cake\I18n\FrozenDate|null $atualizacaolattes
+ * @property \Cake\I18n\Date|null $atualizacaolattes
  * @property string|null $curriculosigma
  * @property string|null $pesquisadordgp
  * @property string|null $formacaoprofissional
@@ -35,13 +42,13 @@ use Cake\ORM\Entity;
  * @property string|null $doutoradoarea
  * @property string|null $doutoradouniversidade
  * @property int|null $doutoradoanoconclusao
- * @property \Cake\I18n\FrozenDate|null $dataingresso
+ * @property \Cake\I18n\Date|null $dataingresso
  * @property string|null $formaingresso
  * @property string|null $tipocargo
  * @property string|null $categoria
  * @property string|null $regimetrabalho
  * @property string|null $departamento
- * @property \Cake\I18n\FrozenDate|null $dataegresso
+ * @property \Cake\I18n\Date|null $dataegresso
  * @property string|null $motivoegresso
  * @property string|null $observacoes
  *
@@ -61,9 +68,12 @@ class Professor extends Entity
      * @var array
      */
     protected array $_accessible = [
+        'id' => false,
         'nome' => true,
         'cpf' => true,
         'siape' => true,
+        'rg' => true,
+        'orgaoexpedidor' => true,
         'datanascimento' => true,
         'localnascimento' => true,
         'sexo' => true,
@@ -74,6 +84,12 @@ class Professor extends Entity
         'email' => true,
         'homepage' => true,
         'redesocial' => true,
+        'endereco' => true,
+        'bairro' => true,
+        'cep' => true,
+        'cidade' => true,
+        'estado' => true,
+        'pais' => true,
         'curriculolattes' => true,
         'atualizacaolattes' => true,
         'curriculosigma' => true,

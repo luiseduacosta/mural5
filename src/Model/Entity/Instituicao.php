@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -6,12 +7,12 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Instituicaoestagio Entity
+ * Instituicao Entity
  *
  * @property int $id
  * @property string $instituicao
- * @property int|null $area_id
- * @property int|null $turmaestagio_id
+ * @property int|null $areainstituicoes_id
+ * @property string|null $area
  * @property string|null $natureza
  * @property string $cnpj
  * @property string $email
@@ -26,17 +27,16 @@ use Cake\ORM\Entity;
  * @property string|null $fim_de_semana
  * @property string $localInscricao
  * @property int $convenio
- * @property \Cake\I18n\FrozenDate|null $expira
+ * @property \Cake\I18n\Date|null $expira
  * @property string $seguro
  * @property string $avaliacao
  * @property string|null $observacoes
  *
- * @property \App\Model\Entity\Area[] $areas
- * @property \App\Model\Entity\Turmaestagio[] $turmaestagios
+ * @property \App\Model\Entity\Areainstituicao[] $areainstituicoes
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
- * @property \App\Model\Entity\Visita[] $visitas
  * @property \App\Model\Entity\Supervisor[] $supervisores
+ * @property \App\Model\Entity\Visita[] $visitas
  */
 class Instituicao extends Entity
 {
@@ -51,8 +51,8 @@ class Instituicao extends Entity
      */
     protected array $_accessible = [
         'instituicao' => true,
-        'area_id' => true,
-        'turmaestagio_id' => true,
+        'areainstituicoes_id' => true,
+        'area' => true,
         'natureza' => true,
         'cnpj' => true,
         'email' => true,
@@ -71,11 +71,10 @@ class Instituicao extends Entity
         'seguro' => true,
         'avaliacao' => true,
         'observacoes' => true,
-        'areas' => true,
-        'turmaestagios' => true,
+        'areainstituicoes' => true,
         'estagiarios' => true,
         'muralestagios' => true,
-        'visitas' => true,
         'supervisores' => true,
+        'visitas' => true,
     ];
 }

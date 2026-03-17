@@ -20,7 +20,7 @@ class AlunosController extends AppController {
     public function index($id = null) {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
+        if ($this->getRequest()->getAttribute('identity')['categoria'] <> 2) {
             $alunos = $this->paginate($this->Alunos);
             $this->set(compact('alunos'));
         } else {
@@ -65,7 +65,7 @@ class AlunosController extends AppController {
      */
     public function add($id = NULL) {
 
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 2) {
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == 2) {
             $registro = $this->getRequest()->getAttribute('identity')['registro'];
             $email = $this->getRequest()->getAttribute('identity')['email'];
         }
@@ -373,7 +373,6 @@ class AlunosController extends AppController {
                 // Final
                 $final = $c_seguro->periodo;
 
-                // echo "Nível: " . $c_seguro['Estagiario']['nivel'] . " Período: " . $c_seguro['Estagiario']['periodo'] . " Início: " . $inicio . " Final: " . $final . '<br>';
             }
 
             $t_seguro[$i]['id'] = $c_seguro->aluno->id;
@@ -384,10 +383,8 @@ class AlunosController extends AppController {
             $t_seguro[$i]['registro'] = $c_seguro->aluno->registro;
             $t_seguro[$i]['curso'] = "UFRJ/Serviço Social";
             if ($c_seguro->nivel == 9):
-                // pr("Não");
                 $t_seguro[$i]['nivel'] = "Não obrigatório";
             else:
-                // pr($c_seguro['Estagiario']['nivel']);
                 $t_seguro[$i]['nivel'] = $c_seguro->nivel;
             endif;
             $t_seguro[$i]['periodo'] = $c_seguro->periodo;
@@ -401,18 +398,16 @@ class AlunosController extends AppController {
         if (!empty($t_seguro)) {
             array_multisort($criterio, SORT_ASC, $t_seguro);
         }
-        // pr($t_seguro);
         $this->set('t_seguro', $t_seguro);
         $this->set('periodos', $periodos);
         $this->set('periodoselecionado', $periodo);
-        // die();
     }
 
     public function certificadoperiodo($id = NULL) {
         /**
          * Autorização. Verifica se o aluno cadastrado no Users está acessando seu próprio registro.
          */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] == '2') {
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == '2') {
             $aluno_id = $this->getRequest()->getAttribute('identity')['aluno_id'];
             if ($id == $aluno_id) {
                 /**
@@ -437,7 +432,7 @@ class AlunosController extends AppController {
                     // die('Aluno não autorizado.');
                 }
             }
-        } elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1') {
+        } elseif ($this->getRequest()->getAttribute('identity')['categoria'] == '1') {
             echo "Administrador autorizado";
         } else {
             $this->Flash->error(__('2. Operação não autorizada.'));
@@ -457,8 +452,6 @@ class AlunosController extends AppController {
         /* Capturo o periodo do calendario academico atual */
         $configuracaotabela = $this->fetchTable('Configuracoes');
         $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
-        // pr($periodoacademicoatual);
-        // die();
         /**
          * Separo o periodo em duas partes: o ano e o indicador de primeiro ou segundo semestre.
          */
@@ -538,10 +531,6 @@ class AlunosController extends AppController {
                     ->where(['Alunos.id' => $id])
                     ->first();
         }
-        // pr($id);
-        // pr($totalperiodos);
-        // pr($aluno);
-        // die('aluno');
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
@@ -567,24 +556,16 @@ class AlunosController extends AppController {
             $ordem = 'q_semestres';
         endif;
 
-        // pr($ordem);
-        // die();
-
         $alunos = $this->Alunos->find()->contain(['Estagiarios'])->limit(20)->toArray();
 
         $i = 0;
         foreach ($alunos as $aluno):
-            //pr($aluno['estagiarios']);
-            // pr(sizeof($aluno['estagiarios']));
-            // die();
             $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'];
             $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'];
             $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']);
             $carga_estagio = null;
             $y = 0;
             foreach ($aluno['estagiarios'] as $estagiario):
-                // pr($estagiario);
-                // die();
                 if ($estagiario['nivel'] == 1):
                     $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
                     $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
@@ -603,14 +584,9 @@ class AlunosController extends AppController {
             $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
             $criterio[$i] = $cargahorariatotal[$i][$ordem];
             $i++;
-            //            endif;
         endforeach;
 
         array_multisort($criterio, SORT_ASC, $cargahorariatotal);
-        // pr($cargahorariatotal);
-        // die();
         $this->set('cargahorariatotal', $cargahorariatotal);
-
-        // die();
     }
 }

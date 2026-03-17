@@ -38,28 +38,24 @@ $user = $this->getRequest()->getAttribute('identity');
         </div>
     </nav>
 
-    <div class="container">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#supervisora" role="tab"
-                    aria-controls="supervisora" aria-selected="true">Supervisor(a)</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
-                    aria-selected="false">Instituição</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
-                    aria-selected="false">Estagiários</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#avaliacoes" role="tab" aria-controls="avaliacoes"
-                    aria-selected="false">Avaliações</a>
-            </li>
-        </ul>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#supervisora" role="tab" aria-controls="supervisora"
+                aria-selected="true">Supervisora</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
+                aria-selected="false">Instituição</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+                aria-selected="false">Estagiários</a>
+        </li>
+    </ul>
+</div>
 
-        <div class="container">
-            <div class="tab-content">
+<div class="tab-content container">
 
                 <div id="supervisora" class="tab-pane container active show">
                     <h3><?= h($supervisor->nome) ?></h3>

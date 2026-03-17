@@ -32,33 +32,117 @@ $usuario = $this->getRequest()->getAttribute('identity');
         </nav>
     <?php endif; ?>
 
-    <div class="container">
-        <?= $this->Form->create($aluno) ?>
-        <fieldset>
-            <legend><?= __('Editar Aluno') ?></legend>
-            <?php
-            echo $this->Form->control('nome');
-            echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social']]);
-            echo $this->Form->control('registro');
-            echo $this->Form->control('ingresso');
-            echo $this->Form->control('turno', ['options' => ['diurno' => 'Diurno', 'noturno' => 'Noturno']]);
-            echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD']]);
-            echo $this->Form->control('telefone');
-            echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD']]);
-            echo $this->Form->control('celular');
-            echo $this->Form->control('email');
-            echo $this->Form->control('cpf');
-            echo $this->Form->control('identidade', ['label' => ['text' => 'Carteira de identidade'], 'required']);
-            echo $this->Form->control('orgao', ['label' => ['text' => 'Orgão emissor'], 'required']);
-            echo $this->Form->control('nascimento', ['empty' => true]);
-            echo $this->Form->control('endereco', ['label' => ['text' => 'Endereço']]);
-            echo $this->Form->control('cep', ['label' => ['text' => 'CEP'], 'pattern' => '\d{5}-\d{3}', 'placeholder' => '_____-___']);
-            echo $this->Form->control('municipio', ['label' => ['text' => 'Município']]);
-            echo $this->Form->control('bairro');
-            echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações']]);
-            ?>
-        </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
-        <?= $this->Form->end() ?>
+<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
+    <?= $this->Form->create($aluno) ?>
+    <fieldset class="border p-2">
+        <legend><?= __("Editar aluno(a)") ?></legend>
+        <?php
+        echo $this->Form->control("id", [
+            "type" => "hidden",
+        ]);
+        echo $this->Form->control("nome", [
+            "label" => "Nome",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("nomesocial", [
+            "label" => "Nome social",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("registro", [
+            "label" => "Registro",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("ingresso", [
+            'placeholder' => 'Ano e período de ingresso: ex: 2023-1',
+            "label" => "Ingresso",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("turno", [
+            'placeholder' => 'diurno, noturno ou outro',
+            'options' => [
+                'diurno' => 'Diurno',
+                'noturno' => 'Noturno',
+                'outro' => 'Outro',
+            ],
+            "label" => "Turno",
+            "class" => "form-control",
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+            ],
+
+        ]);
+        echo $this->Form->control("nascimento", [
+            'value' => $aluno->nascimento ? $aluno->nascimento->i18nFormat('dd-MM-yyyy') : '',
+            'placeholder' => 'dd-MM-yyyy',
+            'type' => 'text',
+            'pattern' => '\d{2}-\d{2}-\d{4}',
+            'title' => 'Formato: dd-MM-yyyy',
+            "label" => "Data de nascimento",
+            "empty" => true,
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("cpf", [
+            'placeholder' => 'Número do CPF: ex: 000.000.000-00',
+            "label" => "CPF",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("identidade", [
+            "label" => "RG",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("orgao", [
+            "label" => "Orgão emissor",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("email", [
+            "label" => "E-mail",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("codigo_telefone", [
+            "label" => "DDD",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("telefone", [
+            "label" => "Telefone",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("codigo_celular", [
+            "label" => "DDD",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("celular", [
+            "label" => "Celular",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("cep", [
+            "label" => "CEP",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("endereco", [
+            "label" => "Endereço",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("municipio", [
+            "label" => "Município",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("bairro", [
+            "label" => "Bairro",
+            "class" => "form-control",
+        ]);
+        echo $this->Form->control("observacoes", [
+            "label" => "Observações",
+            "class" => "form-control",
+        ]);
+        ?>
+    </fieldset>
+    <div class="d-flex justify-content-center">
+        <?= $this->Form->button(
+            __("Confirmar alterações"),
+            ["class" => "btn btn-primary"],
+        ) ?>
     </div>
+    <?= $this->Form->end() ?>
 </div>

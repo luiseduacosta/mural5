@@ -4,8 +4,8 @@
  * @var \App\Model\Entity\Aluno $aluno
  */
 ?>
-<?= $this->element('templates') ?>
-<div class="container">
+
+<?php echo $this->element('menu_mural') ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAluno"
@@ -17,41 +17,49 @@
 
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 2): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Listar Alunos'), ['controller' => 'Alunos', 'action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
-                    </li>
-                    <li class="nav-item active">
-                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                 <?php endif; ?>
 
                 <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
 
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Declaração período'), ['controller' => 'alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:170px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Adicionar estágio'), ['controller' => 'Estagiarios', 'action' => 'add', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar Aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Novo Aluno'), ['controller' => 'Alunos', 'action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) Aluno(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
-                    </li>
-                    <li class="nav-item active">
-                        <?= $this->Html->link(__('Editar Aluno(a)'), ['action' => 'edit', $aluno->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Aluno'), ['controller' => 'Alunos', 'action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir Aluno(a)'), ['action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $aluno->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Form->postLink(__('Excluir Aluno'), ['controller' => 'Alunos', 'action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
-
+                </ul>
+            <?php endif ?>
+            <?php if (isset($user) && $user->categoria == '2'): ?>
+                <?php if ($user->aluno_id == $aluno->id): ?>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Editar Aluno'), ['controller' => 'Alunos', 'action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
+                        </li>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
+                        </li>
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
+                        </li>
+                    </ul>
                 <?php endif; ?>
-            </ul>
-        </div>
-    </nav>
+            <?php endif ?>
+    </div>
+</nav>
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -69,96 +77,96 @@
         </li>
     </ul>
 
-    <div class="tab-content" id="meuTabContent">
+    <div class="row">
 
-        <div id="aluno" class="tab-pane fade show active" role="tabpanel" aria-labelledby="aluno-tab">
-            <h3><?= h($aluno->nome) ?></h3>
-            <table class="table table-striped table-hover table-responsive">
-                <tr>
-                    <th><?= __('Id') ?></th>
-                    <td><?= $aluno->id ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Registro') ?></th>
-                    <td><?= $aluno->registro ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Nome') ?></th>
-                    <td><?= h($aluno->nome) ?></td>
-                </tr>
-
-                <tr>
-                    <th><?= __('Nome social') ?></th>
-                    <td><?= h($aluno->nomesocial) ?></td>
-                </tr>
-
-                <tr>
-                    <th><?= __('Ingresso') ?></th>
-                    <td><?= h($aluno->ingresso) ?></td>
-                </tr>
-
-                <tr>
-                    <th><?= __('Turno') ?></th>
-                    <td><?= h($aluno->turno) ?></td>
-                </tr>
-
-                <tr>
-                    <th><?= __('Data de nascimento') ?></th>
-                    <td><?= $aluno->nascimento ? date('d-m-Y', strtotime($aluno->nascimento)) : '' ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('CPF') ?></th>
-                    <td><?= h($aluno->cpf) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Carteira de identidade') ?></th>
-                    <td><?= h($aluno->identidade) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Orgão emissor') ?></th>
-                    <td><?= h($aluno->orgao) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('E-mail') ?></th>
-                    <td><?= h($aluno->email) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('DDD') ?></th>
-                    <td><?= $aluno->codigo_telefone ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Telefone') ?></th>
-                    <td><?= h($aluno->telefone) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('DDD') ?></th>
-                    <td><?= $aluno->codigo_celular ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Celular') ?></th>
-                    <td><?= h($aluno->celular) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('CEP') ?></th>
-                    <td><?= h($aluno->cep) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Endereço') ?></th>
-                    <td><?= h($aluno->endereco) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Município') ?></th>
-                    <td><?= h($aluno->municipio) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Bairro') ?></th>
-                    <td><?= h($aluno->bairro) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Observações') ?></th>
-                    <td><?= h($aluno->observacoes) ?></td>
-                </tr>
-            </table>
+        <div class="tab-content">
+            <div id="aluno" class="tab-pane container active show">
+                <h3><?= h($aluno->nome) ?></h3>
+                <table class="table table-hover table-responsive table-striped">
+                    <tr>
+                        <th><?= __('Id') ?></th>
+                        <td><?= $aluno->id ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Registro') ?></th>
+                        <td><?= $aluno->registro ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Nome') ?></th>
+                        <td><?= h($aluno->nome) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Nome social') ?></th>
+                        <td><?= h($aluno->nomesocial) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Ingresso') ?></th>
+                        <td><?= h($aluno->ingresso) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= __('Turno') ?></th>
+                        <td><?= h($aluno->turno) ?></td>
+                    </tr>
+                    <?php if (isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $aluno->id == $user->aluno_id))): ?>
+                        <tr>
+                            <th><?= __('Data de nascimento') ?></th>
+                            <td><?= $aluno->nascimento ? $aluno->nascimento->i18nFormat('dd-MM-yyyy') : '' ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('CPF') ?></th>
+                            <td><?= h($aluno->cpf) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('RG') ?></th>
+                            <td><?= h($aluno->identidade) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Orgão') ?></th>
+                            <td><?= h($aluno->orgao) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('E-mail') ?></th>
+                            <td><?= h($aluno->email) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('DDD') ?></th>
+                            <td><?= $this->Number->format($aluno->codigo_telefone) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Telefone') ?></th>
+                            <td><?= h($aluno->telefone) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('DDD') ?></th>
+                            <td><?= $this->Number->format($aluno->codigo_celular) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Celular') ?></th>
+                            <td><?= h($aluno->celular) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('CEP') ?></th>
+                            <td><?= h($aluno->cep) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Endereço') ?></th>
+                            <td><?= h($aluno->endereco) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Município') ?></th>
+                            <td><?= h($aluno->municipio) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Bairro') ?></th>
+                            <td><?= h($aluno->bairro) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Observações') ?></th>
+                            <td><?= h($aluno->observacoes) ?></td>
+                        </tr>
+                    <?php endif ?>
+                </table>
+            </div>
         </div>
 
         <div id="inscricoes" class="tab-pane" role="tabpanel" aria-labelledby="inscricoes-tab">
@@ -208,29 +216,38 @@
                             </tr>
                         <?php endforeach; ?>
                     </table>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <div id="estagios" class="tab-pane" role="tabpanel" aria-labelledby="estagios-tab">
-            <h4><?= __('Estágios cursados') ?></h4>
-            <?php if (!empty($aluno->estagiarios)): ?>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover table-responsive">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Aluno(a)') ?></th>
-                            <th><?= __('Registro') ?></th>
-                            <th><?= __('Nivel') ?></th>
-                            <th><?= __('Período') ?></th>
-                            <th><?= __('Instituição de estágio') ?></th>
-                            <th><?= __('Supervisor(a)') ?></th>
-                            <th><?= __('Professor(a)') ?></th>
-                            <th><?= __('Nota') ?></th>
-                            <th><?= __('CH') ?></th>
-                            <th><?= __('Observações') ?></th>
-                            <th class="actions"><?= __('Ações') ?></th>
-                        </tr>
+        <div class="tab-content">
+            <div id="estagios" class="tab-pane container fade">
+                <h4><?= __('Estágios cursados') ?></h4>
+                <?php if (!empty($aluno->estagiarios)): ?>
+                    <table class="table table-hover table-responsive table-striped">
+                        <thead class="table-dark">
+                            <tr>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Aluno') ?></th>
+                                <th><?= __('Estagiario') ?></th>
+                                <th><?= __('Ajuste 2020') ?></th>
+                                <th><?= __('Turno') ?></th>
+                                <th><?= __('Nível') ?></th>
+                                <th><?= __('Período') ?></th>
+                                <th><?= __('Tc') ?></th>
+                                <th><?= __('Tc Solicitação') ?></th>
+                                <th><?= __('Instituição de estágio') ?></th>
+                                <th><?= __('Supervisor') ?></th>
+                                <th><?= __('Docente') ?></th>
+                                <th><?= __('Turma de estágio') ?></th>
+                                <?php if (isset($user) && $user->categoria == '1'): ?>
+                                    <th><?= __('Nota') ?></th>
+                                    <th><?= __('CH') ?></th>
+                                    <th><?= __('Observações') ?></th>
+                                    <th><?= __('Ações') ?></th>
+                                <?php endif ?>
+                            </tr>
+                        </thead>
                         <?php foreach ($aluno->estagiarios as $estagiarios): ?>
                             <tr>
                                 <?php // pr($estagiarios); ?>
@@ -242,6 +259,8 @@
                                     <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->registro) ?></td>
+                                <td><?= h($estagiarios->ajuste2020) ?></td>
+                                <td><?= h($estagiarios->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= h($estagiarios->periodo) ?></td>
 
@@ -286,10 +305,8 @@
                             </tr>
                         <?php endforeach; ?>
                     </table>
-                </div>
-            <?php else: ?>
-                <p>Sem estágio</p>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

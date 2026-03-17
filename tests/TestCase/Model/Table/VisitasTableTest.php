@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -23,10 +24,7 @@ class VisitasTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
-        'app.Visitas',
-        'app.Instituicoes',
-    ];
+    protected array $fixtures = [];
 
     /**
      * setUp method

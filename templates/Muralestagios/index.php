@@ -7,13 +7,14 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index?periodo=']); ?>";
+        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index']); ?>";
         // alert(url);
         $("#MuralestagioPeriodo").change(function () {
             var periodo = $(this).val();
             // alert(url + '/index/' + periodo);
-            window.location = url + periodo;
+            window.location = url + '/index?periodo=' + periodo;
         })
+
     })
 </script>
 
@@ -110,5 +111,4 @@
             </ul>
         </div>
     </div>
-    <?= $this->element('paginator_count') ?>
 </div>

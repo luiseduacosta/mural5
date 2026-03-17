@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -26,6 +27,5 @@ class Categoria extends Entity
      */
     protected array $_accessible = [
         'categoria' => true,
-        'users' => true,
     ];
 }

@@ -1,7 +1,13 @@
 <?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\Aluno $aluno
+ */
+?>
 
-//pr($cargahorariatotal); ?>
-<div class='table-responsive'>
+<?php echo $this->element('menu_mural') ?>
+
+<div class='container col-lg-8 shadow p-3 mb-5 bg-white rounded'>
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
             <tr>
@@ -35,7 +41,7 @@
                 </td>
 
                 <td>
-                    <?php // echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
+                    <?php echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
                 </td>
 
                 <td>
@@ -53,11 +59,13 @@
                         <td>
                             <?php echo $cada_cargahorariatotal['periodo']; ?>
                         </td>
+
                         <td>
                             <?php echo $cada_cargahorariatotal['ch']; ?>
                         </td>
 
                     <?php endif; ?>
+
                 <?php endforeach; ?>
 
                 <td>

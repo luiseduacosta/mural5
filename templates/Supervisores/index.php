@@ -75,12 +75,16 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-center">
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+<div class="d-flex justify-content-center">
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
+            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('próximo') . ' >') ?>
+            <?= $this->Paginator->last(__('último') . ' >>') ?>
+        </ul>
+        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) de um total de {{count}}.')) ?>
+        </p>
     </div>
-    <?= $this->element('paginator_count') ?>
 </div>

@@ -1,11 +1,12 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Estagiario $estagiario
+ * @var \App\Model\Entity\Estagiario $estagiarios
+ * @var \App\Model\Entity\Aluno $alunos
  */
 ?>
 
-<div class='container'>
+<?= $this->element("menu_mural"); ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -186,79 +187,131 @@
             </table>
         </div>
 
-        <div id="folhadeatividade" class="tab-pane fade show active" role="tabpanel"
-            aria-labelledby="folhadeatividade-tab">
-            <?php if ($estagiario->hasValue('folhadeatividades')): ?>
-                <h3>Atividades</h3>
-                <div class="table-responsive">
+        <div class="tab-content">
+            <div id="atividades" class="tab-pane container">
+                <?php if (empty($estagiario->folhadeatividades)): ?>
+                    <div class="alert-warning" role="alert">
+                        <h4 class="alert-heading">Atenção!</h4>
+                        <p>Este estagiário ainda não possui atividades cadastradas.</p>
+                        <hr>
+                        <p class="mb-0">Clique no botão
+                            <?= $this->Html->link(
+                                "Preencher Atividades",
+                                ['controller' => 'folhadeatividades', 'action' => 'atividade', '?' => ['estagiario_id' => $estagiario->id]],
+                                ['class' => 'btn btn-sm btn-primary me-1']
+                            ) ?>
+                            para adicionar atividades.
+                        </p>
+                    </div>
+                <?php else: ?>
                     <table class="table table-striped table-hover table-responsive">
-                        <thead>
+                        <tr>
+                            <th><?= __("Id") ?></th>
+                            <th><?= __("Dia") ?></th>
+                            <th><?= __("Início") ?></th>
+                            <th><?= __("Final") ?></th>
+                            <th><?= __("Atividade") ?></th>
+                            <th><?= __("Horário") ?></th>
+                        </tr>
+                        <?php foreach (
+                            $estagiario->folhadeatividades
+                            as $folhadeatividade
+                        ): ?>
                             <tr>
-                                <th>Dia</th>
-                                <th>Início</th>
-                                <th>Final</th>
-                                <th>Horário</th>
-                                <th>Atividade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $seconds = 0 ?>
-                            <?php foreach ($estagiario->folhadeatividades as $atividade): ?>
-                                <tr>
-                                    <td><?= $atividade->dia ?></td>
-                                    <td><?= $atividade->inicio ?></td>
-                                    <td><?= $atividade->final ?></td>
-                                    <td><?= $atividade->horario ?></td>
-                                    <td><?= $atividade->atividade ?></td>
-                                    <?php
-                                    list($hour, $minute, $second) = array_pad(explode(':', $atividade->horario), 3, null);
-                                    $seconds += (int) $hour * 3600;
-                                    $seconds += (int) $minute * 60;
-                                    $seconds += (int) $second;
-                                    // pr($seconds);
-                                    ?>
-                                </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td><?= h($folhadeatividade->id) ?></td>
                                 <td>
-                                    <?php
-                                    $hours = floor($seconds / 3600);
-                                    $seconds -= $hours * 3600;
-                                    $minutes = floor($seconds / 60);
-                                    $seconds -= $minutes * 60;
-                                    echo $hours . ":" . $minutes . ":" . $seconds;
-                                    ?>
+                                    <?=
+                                        $this->Time->format($folhadeatividade->dia, "d-MM-Y")
+                                        ?>
                                 </td>
-                                <td></td>
+                                <td>
+                                    <?=
+                                        $this->Time->format(
+                                            $folhadeatividade->inicio,
+                                            "HH:mm"
+                                        )
+                                        ?>
+                                </td>
+                                <td>
+                                    <?=
+                                        $this->Time->format(
+                                            $folhadeatividade->final,
+                                            "HH:mm"
+                                        )
+                                        ?>
+                                </td>
+                                <td class="text">
+                                    <?= $this->Text->autoParagraph(
+                                        h($folhadeatividade->atividade),
+                                    ) ?>
+                                </td>
+                                <td><?= h($folhadeatividade->horario) ?></td>
                             </tr>
-                        </tbody>
+                        <?php endforeach; ?>
                     </table>
-                </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <div id="avaliacao" class="tab-pane fade show active" role="tabpanel" aria-labelledby="avaliacao-tab">
-            <?php if ($estagiario->hasValue('avaliacao')): ?>
-                <h3>Avaliações</h3>
-                <div class="table-responsive">
+        <div class="tab-content">
+            <div id="avaliacao" class="tab-pane container">
+                <?php if (empty($estagiario->resposta)): ?>
+                    <div class="alert-warning" role="alert">
+                        <h4 class="alert-heading">Atenção!</h4>
+                        <p>Este estagiário ainda não possui avaliação.</p>
+                        <hr>
+                        <?php if (isset($user->categoria)): ?>
+                            <p class="mb-0">Clique no botão para
+                                <?= $this->Html->link(
+                                    "imprimir",
+                                    ['controller' => 'respostas', 'action' => 'imprimeresposta', '?' => ['estagiario_id' => $estagiario->id]],
+                                    ['class' => 'btn btn-sm btn-info me-1']
+                                ) ?>
+                                uma folha de avaliação.
+                            </p>
+                        <?php endif; ?>
+                    </div>
+                <?php else: ?>
                     <table class="table table-striped table-hover table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <td><?= $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $estagiario->avaliacao->id]) ?>
+                        <tr>
+                            <td colspan="3">
+                                <strong><?= __("Avaliação") ?></strong>
                             </td>
-                        </tbody>
-                    </table>
+                        </tr>
+                        <?php $avaliacoes = json_decode($estagiario->resposta->response, true); ?>
+                        <?php foreach ($avaliacoes as $avaliacao): ?>
+                            <?php if (is_string($avaliacao)) { ?>
+                                <tr>
+                                    <td colspan="3"><?php // h($avaliacao) ?></td>
+                                </tr>
+                            <?php } elseif (is_array($avaliacao)) { ?>
+                                <tr>
+                                    <td><?= h($avaliacao['pergunta']) ?></td>
+                                    <td><?= h($avaliacao['valor']) ?></td>
+                                    <td><?= h($avaliacao['texto_valor']) ?></td>
+                                </tr>
+                            <?php } ?>
+                        <?php endforeach; ?>
+                        </table>
+                        <div class="row">
+                            <div class="col-6">
+                                <?= __("Criado: ") ?>
+                                <?= $this->Time->format(
+                                    $estagiario->resposta->created,
+                                    "d-MM-Y HH:mm",
+                                ) ?>
+                            </div>
+                            <div class="col-6 text-end">
+                                <?= __("Modificado: ") ?>
+                                <?= $this->Time->format(
+                                    $estagiario->resposta->modified,
+                                    "d-MM-Y HH:mm",
+                                ) ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
-
     </div>
-
 </div>

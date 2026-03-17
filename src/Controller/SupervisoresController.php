@@ -96,7 +96,7 @@ class SupervisoresController extends AppController
              */
             $cress = $this->request->getData('cress');
             $usercadastrado = $this->Supervisores->Users->find()
-                ->where(['categoria_id' => 4, 'registro' => $cress])
+                ->where(['categoria' => 4, 'registro' => $cress])
                 ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));

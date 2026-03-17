@@ -1,10 +1,14 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
+ * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacoes
+ * @var \App\Model\Entity\Estagiario $estagiario
  */
 ?>
-<div class="container">
+
+<?php echo $this->element('menu_mural'); ?>
+
+<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -35,7 +39,8 @@
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                         <?php endif; ?>
 
-                        <td><?= $this->Html->link('Imprime avaliação discente', ['controller' => 'estagiarios', 'action' => 'avaliacaodiscentepdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
+                    <td><?= $this->Html->link('Imprime avaliação discente', ['controller' => 'estagiarios', 'action' => 'avaliacaodiscentepdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?>
+                    </td>
 
                         <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
@@ -43,12 +48,12 @@
                             <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
                         <?php endif; ?>
 
-                        <td><?= $c_estagiario->periodo ?></td>
-                        <td><?= $c_estagiario->nivel ?></td>
-                        <td><?= $c_estagiario->hasValue('instituicao') ? $c_estagiario->instituicao->instituicao : '' ?></td>
-                        <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
-                        <td><?= $c_estagiario->ch ?></td>
-                        <td><?= $c_estagiario->nota ?></td>
+                    <td><?= $c_estagiario->periodo ?></td>
+                    <td><?= $c_estagiario->nivel ?></td>
+                    <td><?= $c_estagiario->hasValue('instituicao') ? $c_estagiario->instituicao->instituicao : '' ?></td>
+                    <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
+                    <td><?= $c_estagiario->ch ?></td>
+                    <td><?= $c_estagiario->nota ?></td>
 
                         <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                             <?php if (isset($c_estagiario->id)): ?>

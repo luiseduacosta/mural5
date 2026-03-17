@@ -70,7 +70,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
             if (isset($categoria) && (!empty($categoria))) {
                 switch ($categoria) {
                     case 1: // Administrador
-                        echo $this->element('submenu_navegacao');
+                        echo $this->element('menu_mural');
                         break;
                     case 2: // Aluno
                         echo $this->element('submenu_aluno');

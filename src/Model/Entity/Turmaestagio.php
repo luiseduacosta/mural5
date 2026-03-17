@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,8 +13,6 @@ use Cake\ORM\Entity;
  * @property string $area
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
- * @property \App\Model\Entity\Muralestagio[] $muralestagios
- * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
 class Turmaestagio extends Entity
 {
@@ -29,7 +28,5 @@ class Turmaestagio extends Entity
     protected array $_accessible = [
         'area' => true,
         'estagiarios' => true,
-        'muralestagios' => true,
-        'instituicoes' => true,
     ];
 }
