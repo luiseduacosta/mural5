@@ -9,7 +9,7 @@
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+    <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
                         <td><?= h($area->area) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $area->id]) ?>
-                            <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+                            <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $area->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id)]) ?>
                             <?php endif; ?>

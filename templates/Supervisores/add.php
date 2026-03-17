@@ -4,9 +4,6 @@
  * @var \App\Model\Entity\Supervisor $supervisor
  */
 ?>
-
-<?= $this->element('templates') ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"

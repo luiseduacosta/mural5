@@ -8,7 +8,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
 <?= $this->element('templates') ?>
 <div class='container'>
 
-    <?php if ($usuario->get('categoria_id') == 1): ?>
+    <?php if ($usuario->get('categoria') == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">

@@ -1,10 +1,3 @@
-<?php
-// pr($cress);
-// pr($periodos);
-// pr($periodoselecionado);
-// die();
-?>
-
 <script>
 
     $(document).ready(function () {
@@ -48,7 +41,6 @@
             </tr>
         </thead>
         <?php foreach ($cress as $c_cress): ?>
-            <?php // pr($c_cress); ?>
             <tr>
                 <td><?php echo isset($c_cress->aluno->nome) ? $this->Html->link($c_cress->aluno->nome, '/alunos/view/' . $c_cress->aluno->id) : 'Sem informação'; ?>
                 </td>

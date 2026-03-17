@@ -6,8 +6,6 @@
 $user = $this->getRequest()->getAttribute('identity');
 ?>
 
-<?= $this->element('templates') ?>
-
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -20,7 +18,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
                     <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if ($user->categoria_id == 1): ?>
+                <?php if ($user->categoria == 1): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(

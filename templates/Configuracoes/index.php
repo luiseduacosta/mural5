@@ -6,6 +6,8 @@
 ?>
 <?= $this->element('templates') ?>
 
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"

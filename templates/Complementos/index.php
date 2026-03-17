@@ -9,7 +9,7 @@
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerComplemento"
                 aria-controls="navbarTogglerComplemento" aria-expanded="false" aria-label="Toggle navigation">

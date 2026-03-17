@@ -71,11 +71,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         echo $this->element('submenu_navegacao');
                         break;
                     case 2: // Aluno
-                        if (!empty($this->getRequest()->getSession()->read('estagiario_id'))):
-                            echo $this->element('submenu_estagiario');
-                        else:
-                            echo $this->element('submenu_estudante');
-                        endif;
+                        echo $this->element('submenu_aluno');
                         break;
                     case 3: // Professor
                         echo $this->element('submenu_professor');
@@ -85,11 +81,9 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         break;
                     default:
                         echo $this->element('submenu_navegacao');
-                        // echo $this->element('menu_mural'); 
                         break;
                 }
             } else {
-                // echo $this->element('menu_mural');
                 echo $this->element('submenu_navegacao');
             }
             ?>

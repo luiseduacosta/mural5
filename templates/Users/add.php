@@ -12,7 +12,7 @@
 <div class="container">
 
     <?php
-    if (isset($usuario) && $usuario->categoria_id == 1): ?>
+    if (isset($usuario) && $usuario->categoria == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -37,7 +37,7 @@
             <?php
             echo $this->Form->control('email');
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
-            echo $this->Form->control('categoria_id', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
+            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
             echo $this->Form->control('registro', ['label' => ['text' => 'DRE, Siape ou Cress']]);
             echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
             echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);

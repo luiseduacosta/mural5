@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao $avaliacao
  */
-// pr($avaliacao);
 
 if (isset($avaliacao->estagiario->supervisor->nome)) {
     $supervisora = $avaliacao->estagiario->supervisor->nome;

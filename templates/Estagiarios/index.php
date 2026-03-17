@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-// pr($estagiarios);
-// pr($periodo);
 ?>
 
 <script type="text/javascript">
@@ -27,7 +25,7 @@
 
 <div class='container'>
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+    <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +41,7 @@
         </nav>
     <?php endif; ?>
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+    <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
 
         <h3><?= __('Estagiario(a)s') ?></h3>
 
@@ -70,8 +68,8 @@
                         <th><?= $this->Paginator->sort('ajuste2020', 'Ajuste 2020') ?></th>
                         <th><?= $this->Paginator->sort('turno') ?></th>
                         <th><?= $this->Paginator->sort('nivel') ?></th>
-                        <th><?= $this->Paginator->sort('tc') ?></th>
-                        <th><?= $this->Paginator->sort('tc_solicitacao') ?></th>
+                        <th><?= $this->Paginator->sort('tc', 'Termo de compromisso') ?></th>
+                        <th><?= $this->Paginator->sort('tc_solicitacao', 'Data TC') ?></th>
                         <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicoes') ?></th>
                         <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
@@ -81,7 +79,7 @@
                         <th><?= $this->Paginator->sort('nota') ?></th>
                         <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                         <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
-                        <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                        <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                             <th class="actions"><?= __('Ações') ?></th>
                         <?php endif; ?>
                     </tr>
@@ -89,7 +87,6 @@
                 <tbody>
                     <?php foreach ($estagiarios as $estagiario): ?>
                         <tr>
-                            <?php // pr($estagiario); ?>
                             <td><?= $estagiario->id ?></td>
                             <td><?= $estagiario->hasValue('aluno') ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno_id]) : '' ?>
                             </td>
@@ -98,7 +95,7 @@
                             <td><?= h($estagiario->turno) ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
                             <td><?= $estagiario->tc ?></td>
-                            <td><?= date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) ?></td>
+                            <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?></td>
 
                             <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                             </td>
@@ -120,7 +117,7 @@
                             <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
                             <td><?= $this->Number->format($estagiario->ch) ?></td>
                             <td><?= h($estagiario->observacoes) ?></td>
-                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>

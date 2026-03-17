@@ -40,12 +40,12 @@
             <?php
             echo $this->Form->control('email');
             echo $this->Form->control('password');
-            echo $this->Form->control('categoria_id');
+            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
             echo $this->Form->control('registro');
-            echo $this->Form->control('aluno_id', ['options' => $alunos, 'empty' => true]);
-            echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
-            echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true]);
-            echo $this->Form->control('timestamp');
+            echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
+            echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
+            echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
+            echo $this->Form->control('timestamp', ['type' => 'hidden', date('Y-m-d')]);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>

@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-// pr($inscricao);
 ?>
 
 <?= $this->element('templates') ?>

@@ -15,7 +15,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if ($user->categoria_id == 1): ?>
+                <?php if ($user->categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -29,7 +29,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if ($user->categoria_id == 4): ?>
+                <?php if ($user->categoria == 4): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -81,15 +81,15 @@ $user = $this->getRequest()->getAttribute('identity');
                             <td><?= h($supervisor->nome) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Cpf') ?></th>
+                            <th><?= __('CPF') ?></th>
                             <td><?= h($supervisor->cpf) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Cep') ?></th>
+                            <th><?= __('CEP') ?></th>
                             <td><?= h($supervisor->cep) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Endereco') ?></th>
+                            <th><?= __('Endereço') ?></th>
                             <td><?= h($supervisor->endereco) ?></td>
                         </tr>
                         <tr>
@@ -97,7 +97,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <td><?= h($supervisor->bairro) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Municipio') ?></th>
+                            <th><?= __('Município') ?></th>
                             <td><?= h($supervisor->municipio) ?></td>
                         </tr>
                         <tr>
@@ -133,7 +133,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <td><?= h($supervisor->outros_estudos) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Area Curso') ?></th>
+                            <th><?= __('Área Curso') ?></th>
                             <td><?= h($supervisor->area_curso) ?></td>
                         </tr>
                         <tr>
@@ -149,7 +149,7 @@ $user = $this->getRequest()->getAttribute('identity');
                             <td><?= h($supervisor->curso_turma) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Num Inscricao') ?></th>
+                            <th><?= __('Nº Inscrição') ?></th>
                             <td><?= $supervisor->num_inscricao ?></td>
                         </tr>
                     </table>
@@ -168,18 +168,18 @@ $user = $this->getRequest()->getAttribute('identity');
                             <table class="table table-striped table-hover table-responsive">
                                 <tr>
                                     <th><?= __('Id') ?></th>
-                                    <th><?= __('Instituicao') ?></th>
-                                    <th><?= __('Cnpj') ?></th>
+                                    <th><?= __('Instituição') ?></th>
+                                    <th><?= __('CNPJ') ?></th>
                                     <th><?= __('Email') ?></th>
-                                    <th><?= __('Endereco') ?></th>
+                                    <th><?= __('Endereço') ?></th>
                                     <th><?= __('Bairro') ?></th>
-                                    <th><?= __('Municipio') ?></th>
-                                    <th><?= __('Cep') ?></th>
+                                    <th><?= __('Município') ?></th>
+                                    <th><?= __('CEP') ?></th>
                                     <th><?= __('Telefone') ?></th>
-                                    <th><?= __('Convenio') ?></th>
+                                    <th><?= __('Convênio') ?></th>
                                     <th><?= __('Expira') ?></th>
                                     <th><?= __('Seguro') ?></th>
-                                    <th><?= __('Observacoes') ?></th>
+                                    <th><?= __('Observações') ?></th>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->instituicoes as $instituicoes): ?>
@@ -201,7 +201,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Instituicoes', 'action' => 'view', $instituicoes->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Instituicoes', 'action' => 'edit', $instituicoes->id]) ?>
-                                            <?php if ($user->categoria_id == 1): ?>
+                                            <?php if ($user->categoria == 1): ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Instituicoes', 'action' => 'delete', $instituicoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicoes->id)]) ?>
                                             <?php endif; ?>
                                         </td>
@@ -213,7 +213,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 </div>
 
                 <div id="estagiarios" class="tab-pane container fade">
-                    <h4><?= __('Estagiarios') ?></h4>
+                    <h4><?= __('Estagiários') ?></h4>
                     <?php if (isset($supervisor->estagiarios)): ?>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover table-responsive">
@@ -222,16 +222,15 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Aluno') ?></th>
                                     <th><?= __('Registro') ?></th>
                                     <th><?= __('Turno') ?></th>
-                                    <th><?= __('Nivel') ?></th>
+                                    <th><?= __('Nível') ?></th>
                                     <th><?= __('Professor') ?></th>
-                                    <th><?= __('Periodo') ?></th>
+                                    <th><?= __('Período') ?></th>
                                     <th><?= __('Nota') ?></th>
-                                    <th><?= __('Ch') ?></th>
-                                    <th><?= __('Observacoes') ?></th>
+                                    <th><?= __('CH') ?></th>
+                                    <th><?= __('Observações') ?></th>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
-                                    <?php pr($supervisor->id) ?>
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
                                         <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
@@ -246,10 +245,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                                            <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
-                                            <?php if ($user->categoria_id == 1): ?>
+                                            <?php if ($user->categoria == 1): ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                             <?php endif; ?>
@@ -271,11 +270,11 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <th><?= __('Aluno') ?></th>
                                     <th><?= __('Registro') ?></th>
                                     <th><?= __('Turno') ?></th>
-                                    <th><?= __('Nivel') ?></th>
+                                    <th><?= __('Nível') ?></th>
                                     <th><?= __('Professor') ?></th>
-                                    <th><?= __('Periodo') ?></th>
+                                    <th><?= __('Período') ?></th>
                                     <th><?= __('Nota') ?></th>
-                                    <th><?= __('Carga horária') ?></th>
+                                    <th><?= __('CH') ?></th>
                                     <th><?= __('Atividades') ?></th>
                                     <th><?= __('Avaliação') ?></th>
                                 </tr>
@@ -294,10 +293,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if ($user->categoria_id == 1 || $user->categoria_id == 4): ?>
+                                        <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif ($user->categoria_id == 2 || $user->categoria_id == 3): ?>
+                                        <?php elseif ($user->categoria == 2 || $user->categoria == 3): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>

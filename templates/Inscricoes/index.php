@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao[]|\Cake\Collection\CollectionInterface $inscricoes
  */
-// pr($inscricoes);
-// pr($periodo);
 ?>
 
 <script type="text/javascript">
@@ -20,9 +18,6 @@
 
     })
 </script>
-
-<?php
-?>
 
 <?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 

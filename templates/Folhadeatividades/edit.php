@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
-// pr($estagiario);
 ?>
 
 <?= $this->element('templates') ?>

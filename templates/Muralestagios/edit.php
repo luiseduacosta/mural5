@@ -72,7 +72,6 @@
                 <legend><?= __('Editar Mural') ?></legend>
                 <?php
                 echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly']);
-                echo $this->Form->control('instituicao', ['type' => 'hidden', 'label' => ['text' => 'Instituição'], 'readonly']);
                 echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
                 echo $this->Form->control('vagas');
                 echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios']]);

@@ -4,13 +4,14 @@
  * @var \App\Model\Entity\Estagiario $estagiario
  */
 ?>
-
 <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
 <script>
     CKEDITOR.replace('observacoes')
 </script>
 
 <?= $this->element('templates') ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -46,7 +47,7 @@
             echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
             echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
             echo $this->Form->control('nivel');
-            echo $this->Form->control('tc');
+            echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso assinado'], 'options' => [0 => "Nao", 1 => "Sim"]]);
             echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data TC']]);
             echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true]);
             echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);

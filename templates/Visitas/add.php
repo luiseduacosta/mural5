@@ -5,6 +5,7 @@
  */
 ?>
 
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 <?= $this->element('templates') ?>
 
 <div class="row">

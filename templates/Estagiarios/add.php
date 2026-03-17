@@ -3,9 +3,11 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
-// pr($estudantedeestagio);
 ?>
 <?= $this->element('templates') ?>
+
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

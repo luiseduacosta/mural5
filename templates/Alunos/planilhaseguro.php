@@ -1,8 +1,3 @@
-<?php // pr($t_seguro);       ?>
-<?php // pr($periodos);       ?>
-<?php // pr($periodoselecionado);       ?>
-<?php // die();       ?>
-
 <script>
 
     var base_url = "<?= $this->Html->Url->build(['controller' => 'Alunos', 'action' => 'planilhaseguro']); ?>";
@@ -50,8 +45,6 @@
             </tr>
         </thead>
         <?php foreach ($t_seguro as $cada_aluno): ?>
-            <?php // pr($cada_aluno);  ?>
-            <?php // die(); ?>
             <tr>
                 <td>
                     <?php echo $this->Html->link($cada_aluno['nome'], '/alunos/view/' . $cada_aluno['id']); ?>

@@ -3,11 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-// pr($alunonovos);
-// pr($alunoestagios);
-// die();
-$categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
-// die();
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?= $this->element('templates') ?>
@@ -41,7 +37,6 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria_id'];
                 echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo]);
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);
                 echo $this->Form->control('alunoestagiario_id', ['type' => 'hidden']);
-                // die(pr($categoria));
             elseif (isset($categoria) && $categoria == 2):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'value' => $aluno_id, 'readonly']);
                 echo $this->Form->control('muralestagio_id', ['label' => 'Mural de estágio', 'options' => $muralestagios, 'value' => $muralestagio_id, 'readonly']);

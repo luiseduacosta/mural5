@@ -3,9 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade[]|\Cake\Collection\CollectionInterface $folhadeatividades
  */
-// pr($estagiario->supervisor);
-// pr($folhadeatividades);
-// die();
 
 if (isset($estagiario->supervisor->nome)) {
     $supervisora = $estagiario->supervisor->nome;

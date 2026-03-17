@@ -25,13 +25,13 @@
         <fieldset>
             <legend><?= __('Configuração') ?></legend>
             <?php
-            echo $this->Form->control('mural_periodo_atual');
-            echo $this->Form->control('termo_compromisso_periodo');
-            echo $this->Form->control('termo_compromisso_inicio');
-            echo $this->Form->control('termo_compromisso_final');
-            echo $this->Form->control('curso_turma_atual');
-            echo $this->Form->control('curso_abertura_inscricoes');
-            echo $this->Form->control('curso_encerramento_inscricoes');
+            echo $this->Form->control('mural_periodo_atual', ['label' => 'Período atual do mural']);
+            echo $this->Form->control('termo_compromisso_periodo', ['label' => 'Período do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_inicio', ['label' => 'Início do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_final', ['label' => 'Fim do termo de compromisso']);
+            echo $this->Form->control('curso_turma_atual', ['label' => 'Turma atual do curso']);
+            echo $this->Form->control('curso_abertura_inscricoes', ['label' => 'Abertura das inscrições do curso']);
+            echo $this->Form->control('curso_encerramento_inscricoes', ['label' => 'Encerramento das inscrições do curso']);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>

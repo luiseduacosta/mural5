@@ -6,6 +6,8 @@
 ?>
 <div class="container">
 
+    <?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,4 +79,4 @@
             //-->
         </table>
     </div>
-</div>
+</div>  

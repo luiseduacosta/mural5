@@ -18,7 +18,7 @@
                 <fieldset>
                     <legend><?= __('Novo registro') ?></legend>
                     <?php
-                    echo $this->Form->control('periodo_especial');
+                    echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
                     ?>
                 </fieldset>
                 <?= $this->Form->button(__('Submit')) ?>
