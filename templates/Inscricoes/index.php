@@ -19,10 +19,7 @@
     })
 </script>
 
-<?php
-?>
-
-<?php echo $this->element('menu_mural'); ?>
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="row justify-content-center">
     <div class="col-auto">

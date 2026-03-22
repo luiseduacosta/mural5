@@ -84,21 +84,6 @@ class EstagiariosTable extends Table
             "order" => ["Folhadeatividades.dia" => "ASC"],
         ]);
 
-        $this->belongsTo("Tccestudantes", [
-            "className" => "Tccestudantes",
-            "foreignKey" => false,
-            "conditions" => ["Estagiarios.registro = Tccestudantes.registro"],
-            "joinType" => "LEFT",
-        ]);
-    }
-
-    public function beforeFind($event, $query, $options, $primary)
-    {
-        $query->order([
-            "Estagiarios.registro" => "ASC",
-            "Estagiarios.nivel" => "ASC",
-        ]);
-        return $query;
     }
 
     /**
@@ -179,7 +164,6 @@ class EstagiariosTable extends Table
         $rules->add($rules->existsIn(["turmaestagio_id"], "Turmaestagios"));
         $rules->add($rules->existsIn(["supervisor_id"], "Supervisores"));
         $rules->add($rules->existsIn(["instituicao_id"], "Instituicoes"));
-        $rules->add($rules->existsIn(["tccaluno_id"], "Tccestudantes"));
 
         return $rules;
     }

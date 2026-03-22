@@ -13,8 +13,6 @@ use Cake\Validation\Validator;
  * Muralestagios Model
  *
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
- * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmaestagios
- * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
  * @property \App\Model\Table\MuralinscricoesTable&\Cake\ORM\Association\HasMany $Muralinscricoes
  *
  * @method \App\Model\Entity\Muralestagio newEmptyEntity()
@@ -49,14 +47,8 @@ class MuralestagiosTable extends Table
             $this->setPrimaryKey('id');
 
             $this->belongsTo('Instituicoes', [
-                    'propertyName' => 'instituicoes',
+                    'propertyName' => 'instituicao_tabela',
                     'foreignKey' => ['instituicao_id'],
-            ]);
-            $this->belongsTo('Turmaestagios', [
-                    'foreignKey' => ['turmaestagio_id'],
-            ]);
-            $this->belongsTo('Professores', [
-                    'foreignKey' => ['professor_id'],
             ]);
             $this->hasMany('Muralinscricoes', [
                     'foreignKey' => ['muralestagio_id'],

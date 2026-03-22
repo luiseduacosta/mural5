@@ -6,33 +6,21 @@
 $user = $this->getRequest()->getAttribute('identity');
 ?>
 
-<?= $this->element('menu_mural') ?>
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <ul class="navbar-nav collapse navbar-collapse">
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar configurações'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
-        </li>
-    </ul>
-</nav>
-
-<?= $this->element('templates') ?>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <?= $this->Form->create($configuracao) ?>
-    <fieldset>
-        <legend><?= __('Editar configurações') ?></legend>
-        <?php
-        echo $this->Form->control('mural_periodo_atual', ['label' => ['text' => 'Período do mural de estágios']]);
-        echo $this->Form->control('termo_compromisso_periodo', ['label' => ['text' => 'Período do termo de compromisso']]);
-        echo $this->Form->control('termo_compromisso_inicio', ['label' => ['text' => 'Data de início do termo de compromisso']]);
-        echo $this->Form->control('termo_compromisso_final', ['label' => ['text' => 'Data de finalização do termo de compromisso']]);
-        echo $this->Form->control('periodo_calendario_academico');
-        echo $this->Form->control('curso_turma_atual');
-        echo $this->Form->control('curso_abertura_inscricoes');
-        echo $this->Form->control('curso_encerramento_inscricoes');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Salvar'), ['class' => 'btn btn-primary']) ?>
-    <?= $this->Form->end() ?>
+    <div class="container">
+        <?= $this->Form->create($configuracao) ?>
+        <fieldset>
+            <legend><?= __('Editar configurações') ?></legend>
+            <?php
+            echo $this->Form->control('mural_periodo_atual', ['label' => 'Período do mural de estágios']);
+            echo $this->Form->control('termo_compromisso_periodo', ['label' => 'Período do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_inicio', ['label' => 'Data de início do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_final', ['label' => 'Data de finalização do termo de compromisso']);
+            echo $this->Form->control('curso_turma_atual', ['label' => 'Turma atual do curso']);
+            echo $this->Form->control('curso_abertura_inscricoes', ['label' => 'Abertura das inscrições do curso']);
+            echo $this->Form->control('curso_encerramento_inscricoes', ['label' => 'Encerramento das inscrições do curso']);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
+    </div>
 </div>

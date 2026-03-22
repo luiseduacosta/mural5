@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Areainstituicao $areainstituicao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
 ?>
 
 <?php echo $this->element('menu_mural') ?>

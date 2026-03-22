@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-// pr($inscricao);
 ?>
 
 <?php echo $this->element('menu_mural'); ?>
@@ -17,7 +16,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                <?php if ($user->isAdmin() || $user->isStudent() || (isset($categoria) && $categoria == 2)): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(

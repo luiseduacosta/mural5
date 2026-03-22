@@ -3,10 +3,25 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao[]|\Cake\Collection\CollectionInterface $configuracao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<?php echo $this->element('menu_mural') ?>
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Nova Configuração'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
     <ul class="navbar-nav collapse navbar-collapse">
@@ -22,7 +37,9 @@ $user = $this->getRequest()->getAttribute('identity');
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-dark">
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
+                <?php if (isset($categoria) && $categoria == 1): ?>
+                    <th><?= $this->Paginator->sort('id') ?></th>
+                <?php endif; ?>
                 <th><?= $this->Paginator->sort('mural_periodo_atual', 'Período do mural') ?></th>
                 <th><?= $this->Paginator->sort('termo_compromisso_periodo', 'Período do termo de compromisso') ?></th>
                 <th><?= $this->Paginator->sort('termo_compromisso_inicio', 'Data de início do termo de compromisso') ?>

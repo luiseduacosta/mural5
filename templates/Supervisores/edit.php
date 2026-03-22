@@ -5,6 +5,34 @@
  */
 ?>
 
+<<<<<<< HEAD
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <ul class="navbar-nav ms-auto mt-lg-0">
+                <li class="nav-item">
+
+                    <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                </li>
+                <?php if ($user->categoria == 1): ?>
+                    <li class="nav-item">
+                        <?=
+                            $this->Form->postLink(
+                                __('Excluir'),
+                                ['action' => 'delete', $supervisor->id],
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']
+                            )
+                            ?>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </nav>
+=======
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
@@ -55,6 +83,7 @@
 </script>
 
 <?php echo $this->element("menu_mural"); ?>
+>>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerSupervisores"

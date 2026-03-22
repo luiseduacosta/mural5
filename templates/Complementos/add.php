@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento $complemento
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -21,15 +21,25 @@ $user = $this->getRequest()->getAttribute('identity');
 </nav>
 
 <?= $this->element('templates') ?>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <?= $this->Form->create($complemento) ?>
-    <fieldset>
-        <legend><?= __('Novo registro') ?></legend>
-        <?php
-        echo $this->Form->control('periodo_especial');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
-    <?= $this->Form->end() ?>
+<div class="container">
+    <div class="row">
+        <aside class="column">
+            <div class="side-nav">
+                <?= $this->Html->link(__('Listar complemento'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+            </div>
+        </aside>
+        <div class="column-responsive column-80">
+            <div class="complementos form content">
+                <?= $this->Form->create($complemento) ?>
+                <fieldset>
+                    <legend><?= __('Novo registro') ?></legend>
+                    <?php
+                    echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
+                    ?>
+                </fieldset>
+                <?= $this->Form->button(__('Submit')) ?>
+                <?= $this->Form->end() ?>
+            </div>
+        </div>
+    </div>
 </div>

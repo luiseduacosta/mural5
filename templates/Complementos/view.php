@@ -3,8 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento $complemento
  */
-$user = $this->getRequest()->getAttribute('identity');
-// pr($complemento->estagiarios);
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -18,7 +17,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <li class="nav-item">
             <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
-        <?php if (isset($user) && ($user->categoria == '1')): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary']) ?>
             </li>
@@ -90,7 +89,7 @@ $user = $this->getRequest()->getAttribute('identity');
                     <td><?= h($estagiarios->ajuste2020) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                        <?php if (isset($usser) && ($user->categoria == '1')): ?>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $estagiarios->id)]) ?>
                         <?php endif; ?>

@@ -45,13 +45,21 @@ class MuralestagiosController extends AppController
 
             return $this->redirect(['action' => 'index']);
         }
-        $periodo = $this->request->getQuery('periodo');
+
+        $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');
 
         if (($periodo == null) || empty($periodo)) {
-            $configuracaotable = $this->fetchTable('Configuracoes');
-            $periodoconfiguracao = $configuracaotable->find()->first();
+            $periodoconfiguracao = $this->fetchTable('Configuracoes')->find()->first();
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
+        /** Todos os períodos */
+        $periodototal = $this->Muralestagios->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo',
+            'sort' => ['periodo' => 'DESC'],
+        ])->distinct(['periodo']); 
+
+        $periodos = $periodototal->toArray();
 
         $query = $this->Muralestagios->find()
             ->contain(['Instituicoes']);
@@ -62,19 +70,7 @@ class MuralestagiosController extends AppController
             ]);
         } else {
             $this->Flash->error(__('Selecionar período.'));
-            // return $this->redirect(['action' => 'index']); // Prevent infinite loop if no config
         }
-
-        $query->order(['Muralestagios.dataInscricao' => 'DESC']);
-
-        /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']); 
-
-        $periodos = $periodototal->toArray();
 
         if ($query->count() == 0) {
              // Warning managed in view or just flash
@@ -82,7 +78,15 @@ class MuralestagiosController extends AppController
         }
 
         $muralestagios = $this->paginate($query, [
-            'sortableFields' => ['instituicao', 'vagas', 'beneficios', 'final_de_semana', 'cargaHoraria', 'dataInscricao', 'dataSelecao'],
+            'sortableFields' => [
+                'instituicao', 
+                'vagas', 
+                'beneficios', 
+                'final_de_semana', 
+                'cargaHoraria', 
+                'dataInscricao', 
+                'dataSelecao'],
+            'order' => ['dataInscricao' => 'DESC'],
         ]);
 
         $this->set(compact('muralestagios', 'periodo', 'periodos'));
@@ -99,7 +103,7 @@ class MuralestagiosController extends AppController
     {
         try {
             $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes', 'Turmaestagios', 'Professores', 'Muralinscricoes' => ['Alunos', 'Muralestagios']],
+                'contain' => ['Instituicoes', 'Muralinscricoes' => ['Alunos', 'Muralestagios']],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));

@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\DateTime|null $horario
  * @property string $atividade
  *
- * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Estagiario $estagiario
  */
 class Folhadeatividade extends Entity
 {
@@ -37,6 +37,6 @@ class Folhadeatividade extends Entity
         'final' => true,
         'horario' => true,
         'atividade' => true,
-        'estagiarios' => true,
+        'estagiario' => true,
     ];
 }

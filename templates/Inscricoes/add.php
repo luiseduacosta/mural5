@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural'); ?>
@@ -16,7 +17,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                <?php if ($user->isAdmin() || $user->isStudent() || (null !== $categoria && $categoria == 2)): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -38,8 +39,7 @@
                 echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo]);
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);
                 echo $this->Form->control('alunoestagiario_id', ['type' => 'hidden']);
-                // die(pr($user->categoria_id));
-            elseif ($user->isStudent()):
+            elseif (isset($categoria) && $categoria == 2):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'value' => $aluno_id, 'readonly']);
                 echo $this->Form->control('muralestagio_id', ['label' => 'Mural de estágio', 'options' => $muralestagios, 'value' => $muralestagio_id, 'readonly']);
                 echo $this->Form->control('data', ['type' => 'hidden', 'value' => date('Y-m-d'), 'readonly']);

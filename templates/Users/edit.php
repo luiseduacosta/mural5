@@ -30,19 +30,22 @@
     </ul>
 </nav>
 
-<?= $this->element('templates') ?>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-
-    <?= $this->Form->create($user) ?>
-    <fieldset class="border p-2">
-        <legend><?= __('Editar usuário') ?></legend>
-        <?php
-        echo $this->Form->control('email');
-        echo $this->Form->control('password', ['type' => 'hidden']);
-        echo $this->Form->control('categoria', ['options' => ['1' => 'Outro(a)s', '2' => 'estudante', '3' => 'professor', '4' => 'supervisor']]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
-    <?= $this->Form->end() ?>
+    <div class="container">
+        <?= $this->Form->create($userestagio) ?>
+        <fieldset>
+            <legend><?= __('Editar  usuário') ?></legend>
+            <?php
+            echo $this->Form->control('email');
+            echo $this->Form->control('password');
+            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
+            echo $this->Form->control('registro');
+            echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
+            echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
+            echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
+            echo $this->Form->control('timestamp', ['type' => 'hidden', date('Y-m-d')]);
+            ?>
+        </fieldset>
+        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->end() ?>
+    </div>
 </div>

@@ -32,7 +32,7 @@ use Cake\ORM\Entity;
  * @property string $avaliacao
  * @property string|null $observacoes
  *
- * @property \App\Model\Entity\Areainstituicao[] $areainstituicoes
+ * @property \App\Model\Entity\Areainstituicao $areainstituicao
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
  * @property \App\Model\Entity\Supervisor[] $supervisores
@@ -71,7 +71,7 @@ class Instituicao extends Entity
         'seguro' => true,
         'avaliacao' => true,
         'observacoes' => true,
-        'areainstituicoes' => true,
+        'areainstituicao' => true,
         'estagiarios' => true,
         'muralestagios' => true,
         'supervisores' => true,

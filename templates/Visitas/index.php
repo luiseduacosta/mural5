@@ -3,59 +3,64 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita[]|\Cake\Collection\CollectionInterface $visitas
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php echo $this->element('menu_mural') ?>
+<div class="container">
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerVisitas"
-        aria-controls="navbarTogglerVisitas" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerVisitas">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
+    <?php if (isset($categoria) && $categoria == '1'): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova visita'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
 
 <h3><?= __('Visitas instituicionais') ?></h3>
 
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <table class="table table-striped table-hover table-responsive">
-        <thead class="table-dark">
-            <tr>
-                <th><?= $this->Paginator->sort('id', 'ID') ?></th>
-                <th><?= $this->Paginator->sort('instituicao_id', 'Instituição') ?></th>
-                <th><?= $this->Paginator->sort('data', 'Data') ?></th>
-                <th><?= $this->Paginator->sort('motivo', 'Motivo') ?></th>
-                <th><?= $this->Paginator->sort('responsavel', 'Responsável') ?></th>
-                <th><?= $this->Paginator->sort('avaliacao', 'Avaliação') ?></th>
-                <th><?= __('Ações') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($visitas as $visita): ?>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
                 <tr>
-                    <td><?= $visita->id ?></td>
-                    <td><?= $visita->has('instituicao') ? $this->Html->link($visita->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao->id]) : '' ?></td>
-                    <td><?= $visita->data->i18nFormat('dd-MM-yyyy') ?></td>
-                    <td><?= h($visita->motivo) ?></td>
-                    <td><?= h($visita->responsavel) ?></td>
-                    <td><?= h($visita->avaliacao) ?></td>
-                    <td class="d-grid">
-                        <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visita->id], ['class' => 'btn btn-primary btn-sm btn-block mb-1']) ?>
-                        <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visita->id], ['class' => 'btn btn-primary btn-sm btn-block mb-1']) ?>
-                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Visitas', 'action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $visita->id), 'class' => 'btn btn-danger btn-sm btn-block mb-1']) ?>
-                    </td>
+                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('instituicao_id') ?></th>
+                    <th><?= $this->Paginator->sort('data') ?></th>
+                    <th><?= $this->Paginator->sort('motivo') ?></th>
+                    <th><?= $this->Paginator->sort('responsavel') ?></th>
+                    <th><?= $this->Paginator->sort('avaliacao') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                <?php foreach ($visitas as $visita): ?>
+                    <tr>
+                        <td><?= $visita->id ?></td>
+                        <td><?= $visita->hasValue('instituicao') ? $this->Html->link($visita->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao->id]) : '' ?>
+                        </td>
+                        <td><?= date('d-m-Y', strtotime(h($visita->data))) ?></td>
+                        <td><?= h($visita->motivo) ?></td>
+                        <td><?= h($visita->responsavel) ?></td>
+                        <td><?= h($visita->avaliacao) ?></td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $visita->id]) ?>
+                            <?php if (isset($categoria) && $categoria == '1'): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $visita->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visita->id)]) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
 <div class="d-flex justify-content-center">
     <div class="paginator">

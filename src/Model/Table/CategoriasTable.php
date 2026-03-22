@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -46,7 +45,7 @@ class CategoriasTable extends Table
         $this->setPrimaryKey('id');
 
         $this->hasMany('Users', [
-            'foreignKey' => 'id_categoria',
+            'foreignKey' => 'categoria',
         ]);
     }
 

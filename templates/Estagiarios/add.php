@@ -5,11 +5,7 @@
  * @var \App\Model\Entity\Aluno $aluno
  * @var \Cake\I18n\DateTime $now
  */
-$now = new \Cake\I18n\DateTime();
 ?>
-
-<!-- Get mask -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
     function getaluno(id) {
@@ -77,6 +73,8 @@ $now = new \Cake\I18n\DateTime();
     }
 </script>
 
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
+
 <?php echo $this->element('menu_mural'); ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
@@ -85,7 +83,7 @@ $now = new \Cake\I18n\DateTime();
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerEstagiarioAdd">
-        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-start']) ?>
             </li>
@@ -94,6 +92,8 @@ $now = new \Cake\I18n\DateTime();
 </nav>
 
 <?= $this->element('templates') ?>
+
+<div class="container">
 
 <div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <?= $this->Form->create($estagiario) ?>

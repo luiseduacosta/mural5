@@ -2,15 +2,13 @@
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
- * @var \App\Model\Entity\User $user
  */
+$categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
 ?>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-
 <script>
     $(document).ready(function () {
-
+        $('#telefone').mask('(00) 0000-0000');
+        $('#celular').mask('(00) 00000-0000');
         $('#cpf').mask('000.000.000-00');
 
         if ($('#codigo-telefone').val() == null) {
@@ -61,52 +59,33 @@
         $('#novoperiodo').val($('#ingresso').val());
         $('#novoperiodo').mask('0000-0');
     });
-
-    function buscarEndereco(cep) {
-        $.ajax({
-            url: "https://viacep.com.br/ws/" + cep + "/json/",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                $('#endereco').val(data.logradouro);
-                $('#bairro').val(data.bairro);
-                $('#municipio').val(data.localidade);
-            }
-        });
-    }
 </script>
+<?= $this->element('templates') ?>
+<div class='container'>
 
-<?php echo $this->element("menu_mural"); ?>
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAlunosEdit"
-        aria-controls="navbarTogglerAlunosEdit" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAlunosEdit">
-        <?php if (isset($user->categoria) && $user->categoria == "1"): ?>
-            <?= $this->Html->link(
-                __("Listar Alunos"),
-                ["action" => "index"],
-                ["class" => "btn btn-primary me-1"],
-            ) ?>
-            <?= $this->Form->postLink(
-                __("Excluir"),
-                ["action" => "delete", $aluno->id],
-                [
-                    "confirm" => __(
-                        "Tem certeza que deseja excluir este registo # {0}?",
-                        $aluno->id,
-                    ),
-                    "class" => "btn btn-danger me-1",
-                ],
-            ) ?>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
-
-<?= $this->element("templates") ?>
+    <?php if ($categoria == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar Aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(
+                            __('Excluir'),
+                            ['action' => 'delete', $aluno->id],
+                            ['confirm' => __('Tem certeza que quer excluir este registro {0}?', $aluno->id), 'class' => 'btn btn-danger float-end']
+                        )
+                            ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
 
 <div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <?= $this->Form->create($aluno) ?>

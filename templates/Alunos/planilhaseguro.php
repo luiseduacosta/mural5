@@ -1,22 +1,3 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Aluno[]|\Cake\Collection\CollectionInterface $t_seguro
- * @var \App\Model\Entity\Aluno[]|\Cake\Collection\CollectionInterface $periodos
- * @var string $periodoselecionado
- */
-?>
-
-<?= $this->element('menu_mural') ?>
-
-<?php
-$user = $this->request->getAttribute('identity');
-if ($user && $user->categoria == 1): ?>
-    <div class="container mt-2">
-        <button id="btn-report-md" class="btn btn-info btn-sm"><i class="fas fa-download"></i> Baixar Documentação</button>
-    </div>
-<?php endif; ?>
-
 <script>
     var base_url = "<?= $this->Html->Url->build(['controller' => 'Alunos', 'action' => 'planilhaseguro']); ?>";
 
@@ -35,6 +16,8 @@ if ($user && $user->categoria == 1): ?>
 </style>
 
 <?= $this->element('templates') ?>
+
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 

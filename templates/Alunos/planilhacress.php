@@ -1,22 +1,3 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Aluno $aluno
- */
-?>
-
-<?= $this->element('menu_mural') ?>
-
-<?php
-$user = $this->request->getAttribute('identity');
-if ($user && $user->categoria == 1): ?>
-    <div class="container mt-2">
-        <button id="btn-report-md" class="btn btn-info btn-sm">
-            <i class="fas fa-download"></i>Baixar Relatório (Markdown)
-        </button>
-    </div>
-<?php endif; ?>
-
 <script>
     var base_url = "<?= $this->Html->Url->build(['controller' => 'alunos', 'action' => 'planilhacress']); ?>";
 
@@ -63,7 +44,6 @@ if ($user && $user->categoria == 1): ?>
         </thead>
         <tbody>
         <?php foreach ($cress as $c_cress): ?>
-            <?php // pr($c_cress); ?>
             <tr>
                 <td><?php echo isset($c_cress->aluno->nome) ? $this->Html->link($c_cress->aluno->nome, '/alunos/view/' . $c_cress->aluno->id) : 'Sem informação'; ?>
                 </td>

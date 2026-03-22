@@ -5,64 +5,73 @@
  */
 ?>
 
-<?= $this->element('menu_mural') ?>
+<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerUseresIndex"
-            aria-controls="navbarTogglerUsersIndex" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerUsersIndex">
-        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Novo usuário'), ['action' => 'add'], ['class' => 'btn btn-primary float-start']) ?>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
+<div class="container">
 
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <h3><?= __('Usuários') ?></h3>
-    <table class="table table-striped table-hover table-responsitive">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('email') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('categoria') ?></th>
-                <th scope="col"><?= __('Ações') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($users as $user): ?>
+    <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerUsuario"
+                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerUsuario">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo(a) usuário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
                 <tr>
-                    <td><?= $this->Number->format($user->id) ?></td>
-                    <td><?= h($user->email) ?></td>
-                    <td><?= h($user->categoria) ?></td>
-                    <td>
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $user->id]) ?>
-                        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
-                            <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id]) ?>
-                            <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $user->id)]) ?>
-                        <?php endif; ?>
-                    </td>
+                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('email') ?></th>
+                    <th><?= $this->Paginator->sort('categoria') ?></th>
+                    <th><?= $this->Paginator->sort('registro') ?></th>
+                    <th><?= $this->Paginator->sort('aluno_id') ?></th>
+                    <th><?= $this->Paginator->sort('supervisor_id') ?></th>
+                    <th><?= $this->Paginator->sort('professor_id') ?></th>
+                    <th class="actions"><?= __('Ações') ?></th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($users as $userestagio): ?>
+                    <tr>
+                        <td><?= $userestagio->id ?></td>
+                        <td><?= h($userestagio->email) ?></td>
+                        <td><?= h($userestagio->categoria) ?></td>
+                        <td><?= $userestagio->registro ?></td>
+                        <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
+                        </td>
+                        <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                        </td>
+                        <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                        </td>
+                        <td class="actions">
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
+                            <?php if (isset($usuario) && $usuario['categoria'] == '1'): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id)]) ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-    <?= $this->element('templates') ?>
-
+    <?= $this->element('templates'); ?>
     <div class="d-flex justify-content-center">
         <div class="paginator">
             <ul class="pagination">
-                <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
-                <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('próximo') . ' >') ?>
-                <?= $this->Paginator->last(__('último') . ' >>') ?>
+                <?= $this->element('paginator') ?>
             </ul>
-            <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do {{count}} total')) ?>
-            </p>
         </div>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

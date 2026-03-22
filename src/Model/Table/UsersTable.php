@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -10,7 +9,7 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Userestagios Model
+ * Users Model
  *
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
@@ -49,13 +48,15 @@ class UsersTable extends Table
 
         $this->belongsTo('Alunos', [
             'foreignKey' => 'aluno_id',
-        ]);
-
+        ]);        
         $this->belongsTo('Supervisores', [
             'foreignKey' => 'supervisor_id',
         ]);
         $this->belongsTo('Professores', [
             'foreignKey' => 'professor_id',
+        ]);
+        $this->hasOne('Categorias', [
+            'foreignKey' => 'categoria',
         ]);
     }
 
@@ -73,37 +74,24 @@ class UsersTable extends Table
 
         $validator
             ->email('email')
-            ->requirePresence('email', 'create')
             ->notEmptyString('email');
 
         $validator
             ->scalar('password')
-            ->requirePresence('password', 'create')
-            ->maxLength('password', 255)
+            ->maxLength('password', 50)
             ->notEmptyString('password');
 
         $validator
-            ->numeric('categoria')
-            ->notEmptyString('categoria', 'A categoria é obrigatória.')
-            ->inList('categoria', ['1', '2', '3', '4'], 'Categoria inválida.');
+            ->scalar('categoria')
+            ->notEmptyString('categoria');
 
         $validator
-            ->numeric('numero')
-            ->allowEmptyString('numero');
+            ->integer('registro')
+            ->requirePresence('registro', 'create')
+            ->notEmptyString('registro');
 
         $validator
-            ->integer('aluno_id')
-            ->allowEmptyString('aluno_id');
-
-        $validator
-            ->integer('supervisor_id')
-            ->allowEmptyString('supervisor_id');
-
-        $validator
-            ->integer('professor_id')
-            ->allowEmptyString('professor_id');
-
-        $validator
+            /* ->dateTime('timestamp') */
             ->notEmptyDateTime('timestamp');
 
         return $validator;
@@ -118,9 +106,9 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-    //  $rules->add($rules->existsIn(['aluno_id'], 'Estudantes'), ['errorField' => 'aluno_id']);
-    //  $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
-    //  $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
+        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
+        $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
+        $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
 
         return $rules;
     }

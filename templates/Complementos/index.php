@@ -3,22 +3,28 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento[]|\Cake\Collection\CollectionInterface $complementos
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <?php echo $this->element('menu_mural') ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <li class="nav-item">
-            <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
-        </li>
-    </ul>
-</nav>
+<div class="container">
+
+    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerComplemento"
+                aria-controls="navbarTogglerComplemento" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerComplemento">
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    <?php endif; ?>
 
 <div class="container col-lg-12 shadow p-3 mb-5 bg-white rounded">
     <h3><?= __('Complemento de estagiário') ?></h3>

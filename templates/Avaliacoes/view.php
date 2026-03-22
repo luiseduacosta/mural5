@@ -3,8 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao $avaliacao
  */
-$user = $this->getRequest()->getAttribute('identity');
-// pr($avaliacao);
 
 $supervisora = isset($avaliacao->estagiario['supervisor']['nome']) ? $avaliacao->estagiario['supervisor']['nome'] : "____________________";
 $regiao = isset($avaliacao->estagiario['supervisor']['regiao']) ? $avaliacao->estagiario['supervisor']['regiao'] : '__';

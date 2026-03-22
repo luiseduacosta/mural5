@@ -3,17 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
-
-<!-- jQuery Mask -->
-<script>
-    $(document).ready(function(){
-        $('#cnpj').mask('00.000.000/0000-00');
-        $('#telefone').mask('(00) 00000-0000');
-        $('#cep').mask('00000-000');
-    });
-</script>
 
 <?= $this->element('menu_mural') ?>
 

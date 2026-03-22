@@ -11,6 +11,7 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @var \App\View\AppView $this
  */
 $cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
 ?>
@@ -20,50 +21,61 @@ $cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
 <head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
+    <?= $this->Html->meta('icon') ?>
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
 
-    <!-- Bootstrap 5.3.5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- JQuery 3.7.0 -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-
-    <!-- Include stylesheet ckeditor -->
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.css" />
-    <!-- Include the ckeditor library -->
-    <script type="importmap">
-        {
-            "imports": {
-                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.2.0/ckeditor5.js",
-                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.2.0/"
-            }
-        }
-    </script>
-
     <?= $this->fetch('script') ?>
 </head>
 
 <body>
 
-    <main class="container">
+    <div class="container">
+        <div class='row justify-content-center'>
+            <?php
+            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')['categoria'] : null;
+            if (isset($categoria) && (!empty($categoria))) {
+                switch ($categoria) {
+                    case 1: // Administrador
+                        echo $this->element('submenu_navegacao');
+                        break;
+                    case 2: // Aluno
+                        echo $this->element('submenu_aluno');
+                        break;
+                    case 3: // Professor
+                        echo $this->element('submenu_professor');
+                        break;
+                    case 4: // Supervisora
+                        echo $this->element('submenu_supervisor');
+                        break;
+                    default:
+                        echo $this->element('submenu_navegacao');
+                        break;
+                }
+            } else {
+                echo $this->element('submenu_navegacao');
+            }
+            ?>
+
+        </div>
         <?= $this->Flash->render() ?>
         <?= $this->fetch('content') ?>
-    </main>
-
+    </div>
     <footer>
     </footer>
 </body>

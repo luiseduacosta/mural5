@@ -50,13 +50,6 @@ class FolhadeatividadesTable extends Table
         ]);
     }
 
-    public function beforeFind($event, $query, $options, $primary)
-    {
-
-        $query->order(['Folhadeatividades.dia' => 'ASC']);
-        return $query;
-    }
-
     /**
      * Default validation rules.
      *

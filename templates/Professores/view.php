@@ -3,24 +3,18 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Professor $professor
  */
-use Cake\I18n\Date;
 ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
+<div class="container">
 
-<?= $this->element('templates') ?>
-<?= $this->element('menu_mural') ?>
-
-<div class="d-flex justify-content-start">
-    <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerProfessor"
-            aria-controls="navbarTogglerProfessor" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($user) && $user->categoria == '1'): ?>
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Professor(a)'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary me-1']) ?>
-                    </li>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -35,10 +29,7 @@ use Cake\I18n\Date;
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($user) && $user->categoria == '3'): ?>
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Professor'), ['action' => 'edit', $professor->id], ['class' => 'btn btn-primary me-1']) ?>
-                    </li>
+                <?php if (isset($categoria) && $categoria == 3): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -65,318 +56,288 @@ use Cake\I18n\Date;
     </ul>
 </div>
 
-<div class="tab-content">
-
-    <div id="professor" class="tab-pane container active show">
-
-        <h3><?= h($professor->nome) ?></h3>
-
-        <h4><?= __('Dados pessoais do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Id') ?></dt>
-            <dd class="col-sm-9"><?= $professor->id ?></dd>
-
-            <dt class="col-sm-3"><?= __('Nome') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->nome) ?></dd>
-
-            <dt class="col-sm-3"><?= __('CPF') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->cpf) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Local nascimento') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->localnascimento) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Sexo') ?></dt>
-            <dd class="col-sm-9">
-                <?php
-                switch ($professor->sexo) {
-                    case '0':
-                        echo 'Feminino';
-                        break;
-                    case '1':
-                        echo 'Masculino';
-                        break;
-                    case '2':
-                        echo 'Não informado';
-                        break;
-                    }
-                ?>
-            </dd>
-            <dt class="col-sm-3"><?= __('Data nascimento') ?></dt>
-            <dd class="col-sm-9">
-                <?= $professor->datanascimento ? $professor->datanascimento->i18nFormat('dd-MM-yyyy') : 's/d' ?>
-            </dd>
-        </dl>
-
-        <h4><?= __('Dados funcionais do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Siape') ?></dt>
-            <dd class="col-sm-9"><?= $professor->siape ?></dd>
-
-            <dt class="col-sm-3"><?= __('Forma de ingresso') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->formaingresso) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Data de ingresso') ?></dt>
-            <dd class="col-sm-9">
-                <?= $professor->dataingresso ? $professor->dataingresso->i18nFormat('dd-MM-yyyy') : ' ' ?>
-            </dd>
-
-            <dt class="col-sm-3"><?= __('Tipo de cargo') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->tipocargo) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Categoria') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->categoria) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Regime de trabalho') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->regimetrabalho) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Departamento') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->departamento) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Data de egresso') ?></dt>
-            <dd class="col-sm-9">
-                <?= $professor->dataegresso ? $professor->dataegresso->i18nFormat('dd-MM-yyyy') : ' ' ?>
-            </dd>
-
-            <dt class="col-sm-3"><?= __('Motivo egresso') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->motivoegresso) ?></dd>
-        </dl>
-
-        <h4><?= __('Dados de contato do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Ddd Telefone') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->ddd_telefone) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Telefone') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->telefone) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Ddd Celular') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->ddd_celular) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Celular') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->celular) ?></dd>
-
-            <dt class="col-sm-3"><?= __('E-mail') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->email) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Home page') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->homepage) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Rede social') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->redesocial) ?></dd>
-        </dl>
-
-        <h4><?= __('Endereço do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Endereço') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->endereco) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Bairro') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->bairro) ?></dd>
-
-            <dt class="col-sm-3"><?= __('CEP') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->cep) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Cidade') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->cidade) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Estado') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->estado) ?></dd>
-
-            <dt class="col-sm-3"><?= __('País') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->pais) ?></dd>
-        </dl>
-
-        <h4><?= __('Dados acadêmicos do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Curriculo lattes') ?></dt>
-            <dd class="col-sm-9"><?= $professor->curriculolattes ? $this->Html->link($professor->curriculolattes, 'https://lattes.cnpq.br/'. $professor->curriculolattes, ['target' => '_blank', 'full' => true]) : '' ?></dd>
-
-            <dt class="col-sm-3"><?= __('Atualização lattes') ?></dt>
-            <dd class="col-sm-9">
-                <?= $professor->atualizacaolattes ? $professor->atualizacaolattes->i18nFormat('dd-MM-yyyy') : ' ' ?>
-            </dd>
-
-            <dt class="col-sm-3"><?= __('Curriculo sigma') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->curriculosigma) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Pesquisador dgp') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->pesquisadordgp) ?></dd>
-        </dl>
-
-        <h4><?= __('Dados da formação do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Formacao profissional') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->formacaoprofissional) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Universidade de graduacao') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->universidadedegraduacao) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Ano formação') ?></dt>
-            <dd class="col-sm-9"><?= $professor->anoformacao ?></dd>
-        </dl>
-
-        <h4><?= __('Dados de posgraduação do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Mestrado area') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->mestradoarea) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Mestrado universidade') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->mestradouniversidade) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Mestrado ano conclusão') ?></dt>
-            <dd class="col-sm-9"><?= $professor->mestradoanoconclusao ?></dd>
-
-            <dt class="col-sm-3"><?= __('Doutorado area') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->doutoradoarea) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Doutorado universidade') ?></dt>
-            <dd class="col-sm-9"><?= h($professor->doutoradouniversidade) ?></dd>
-
-            <dt class="col-sm-3"><?= __('Doutorado ano conclusão') ?></dt>
-            <dd class="col-sm-9"><?= $professor->doutoradoanoconclusao ?></dd>
-        </dl>
-
-        <h4><?= __('Outras informações do(a) Professor(a)') ?></h4>
-
-        <dl class="row">
-            <dt class="col-sm-3"><?= __('Observações') ?></dt>
-            <dd class="col-sm-9"><?= $this->Text->autoParagraph(h($professor->observacoes)); ?>
-            </dd>
-        </dl>
-
-    </div>
-
-    <div id="estagiarios" class="tab-pane container fade">
-        <h4><?= __('Estagiarios') ?></h4>
-        <?php if (!empty($professor->estagiarios)): ?>
+    <div class="tab-content">
+        <div id="professor" class="tab-pane container active show">
+            <h3><?= h($professor->nome) ?></h3>
             <table class="table table-striped table-hover table-responsive">
                 <tr>
-                    <?php if (isset($user) && $user->categoria == '1'): ?>
-                        <th><?= __('Id') ?></th>
-                    <?php endif; ?>
-                    <th><?= __('Aluno') ?></th>
-                    <th><?= __('Registro') ?></th>
-                    <th><?= __('Ajuste 2020') ?></th>
-                    <th><?= __('Turno') ?></th>
-                    <th><?= __('Nivel') ?></th>
-                    <th><?= __('Instituição') ?></th>
-                    <th><?= __('Supervisora') ?></th>
-                    <th><?= __('Periodo') ?></th>
-                    <?php if (isset($user) && $user->categoria == '1'): ?>
-                        <th><?= __('Nota') ?></th>
-                        <th><?= __('CH') ?></th>
-                        <th><?= __('Observações') ?></th>
-                        <th><?= __('Ações') ?></th>
-                    <?php endif; ?>
+                    <th><?= __('Id') ?></th>
+                    <td><?= $professor->id ?></td>
                 </tr>
-                <?php foreach ($professor->estagiarios as $estagiarios): ?>
-                    <?php // pr($estagiarios->aluno) ?>
-                    <tr>
-                        <?php if (isset($user) && $user->categoria == '1'): ?>
-                            <td><?= h($estagiarios->id) ?></td>
-                        <?php endif; ?>
-                        <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
-                        </td>
-                        <td><?= h($estagiarios->registro) ?></td>
-                        <td><?= h($estagiarios->ajuste2020) ?></td>
-                        <td><?= h($estagiarios->turno) ?></td>
-                        <td><?= h($estagiarios->nivel) ?></td>
-                        <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : ' ' ?>
-                        </td>
-                        <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : ' ' ?>
-                        </td>
-                        <td><?= h($estagiarios->periodo) ?></td>
-                        <?php if (isset($user) && $user->categoria == '1'): ?>
-                            <td><?= h($estagiarios->nota) ?></td>
-                            <td><?= h($estagiarios->ch) ?></td>
-                            <td><?= h($estagiarios->observacoes) ?></td>
-                            <td>
-                                <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
-                            </td>
-                        <?php endif; ?>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-        <?php endif; ?>
-    </div>
-
-    <div id="notas" class="tab-pane container fade">
-        <h4><?= __('Avaliação') ?></h4>
-        <?php if (!empty($professor->estagiarios)): ?>
-            <table class="table table-striped table-hover table-responsive" id="table-estagiarios">
-                <thead>
                 <tr>
-                    <?php if (isset($user) && $user->categoria == '1'): ?>
-                        <th><?= __('Id') ?></th>
-                    <?php endif; ?>
-                    <th><?= __('Aluno') ?></th>
-                    <th><?= __('Registro') ?></th>
-                    <th><?= __('Atividades') ?></th>
-                    <th><?= __('Avaliação estágio') ?></th>
-                    <th><?= __('Turno') ?></th>
-                    <th><?= __('Nivel') ?></th>
-                    <th><?= __('Instituição') ?></th>
-                    <th><?= __('Supervisora') ?></th>
-                    <th><?= __('Periodo') ?></th>
-                    <?php if (isset($user) && ($user->categoria == '1' || $user->categoria == '3')): ?>
-                        <th><?= __('Nota') ?></th>
-                        <th><?= __('CH') ?></th>
-                        <th><?= __('Ações') ?></th>
-                    <?php endif; ?>
+                    <th><?= __('Siape') ?></th>
+                    <td><?= $professor->siape ?></td>
                 </tr>
-                </thead>
-                <tbody id="table-estagiarios-body">
-                <?php foreach ($professor->estagiarios as $estagiarios): ?>
-                    <?php // pr($estagiarios->folhadeatividade) ?>
-                    <tr data-id="<?= h($estagiarios->id) ?>">
-                        <?php if (isset($user) && $user->categoria == '1'): ?>
-                            <td><?= h($estagiarios->id) ?></td>
-                        <?php endif; ?>
-                        <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno->id]) : "Sem dados" ?>
-                        </td>
-                        <td><?= h($estagiarios->registro) ?></td>
-                        <?php if (isset($user) && ($user->categoria == '1' || $user->categoria == '3')): ?>
-                            <td><?= $estagiarios->hasValue('folhadeatividades') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem atividades cadastradas" ?>
-                            </td>
-                            <td><?= $estagiarios->hasValue('resposta') ? $this->Html->link('Respostas de avaliação', ['controller' => 'respostas', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem avaliações cadastradas' ?>
-                            </td>
-                        <?php else: ?>
-                            <td><?= $estagiarios->hasValue('folhadeatividades') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem atividades cadastradas" ?>
-                            </td>
-                            <td><?= $estagiarios->hasValue('resposta') ? $this->Html->link('Respostas de avaliação', ['controller' => 'respostas', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem avaliações cadastradas' ?>
-                            </td>
-                        <?php endif; ?>
-                        <td><?= h($estagiarios->turno) ?></td>
-                        <td><?= h($estagiarios->nivel) ?></td>
-                        <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
-                        </td>
-                        <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : "" ?>
-                        </td>
-                        <td><?= h($estagiarios->periodo) ?></td>
-                        <?php if (isset($user) && ($user->categoria == '1' || $user->categoria == '3')): ?>
-                            <td class="editable-field" width="100px" data-field="nota"><?= h($estagiarios->nota) ?></td>
-                            <td class="editable-field" width="100px" data-field="ch"><?= h($estagiarios->ch) ?></td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-warning btn-edit"><?= __('Editar') ?></button>
-                                <button type="button" class="btn btn-sm btn-primary btn-save" style="display:none">Salvar</button>
-                                <button type="button" class="btn btn-sm btn-secondary btn-cancel" style="display:none">Cancelar</button>
-                            </td>
-                        <?php endif; ?>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php endif; ?>
+                <tr>
+                    <th><?= __('CRESS') ?></th>
+                    <td><?= $professor->cress ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Nome') ?></th>
+                    <td><?= h($professor->nome) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('CPF') ?></th>
+                    <td><?= h($professor->cpf) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Data nascimento') ?></th>
+                    <td><?= $professor->datanascimento ? date('d-m-Y', strtotime(h($professor->datanascimento))) : '' ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Local nascimento') ?></th>
+                    <td><?= h($professor->localnascimento) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Sexo') ?></th>
+                    <td><?= h($professor->sexo) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Ddd Telefone') ?></th>
+                    <td><?= h($professor->ddd_telefone) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Telefone') ?></th>
+                    <td><?= h($professor->telefone) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Ddd Celular') ?></th>
+                    <td><?= h($professor->ddd_celular) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Celular') ?></th>
+                    <td><?= h($professor->celular) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('E-mail') ?></th>
+                    <td><?= h($professor->email) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Home page') ?></th>
+                    <td><?= h($professor->homepage) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Rede social') ?></th>
+                    <td><?= h($professor->redesocial) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Curriculo lattes') ?></th>
+                    <td><?= h($professor->curriculolattes) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Atualização lattes') ?></th>
+                    <td><?= $professor->atualizacaolattes ? date('d-m-Y', strtotime(h($professor->atualizacaolattes))) : '' ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Curriculo sigma') ?></th>
+                    <td><?= h($professor->curriculosigma) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Pesquisador dgp') ?></th>
+                    <td><?= h($professor->pesquisadordgp) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Formacao profissional') ?></th>
+                    <td><?= h($professor->formacaoprofissional) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Universidade de graduacao') ?></th>
+                    <td><?= h($professor->universidadedegraduacao) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Mestrado área') ?></th>
+                    <td><?= h($professor->mestradoarea) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Mestrado universidade') ?></th>
+                    <td><?= h($professor->mestradouniversidade) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Doutorado área') ?></th>
+                    <td><?= h($professor->doutoradoarea) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Doutorado universidade') ?></th>
+                    <td><?= h($professor->doutoradouniversidade) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Data de ingresso') ?></th>
+                    <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?= __('Forma de ingresso') ?></th>
+                    <td><?= h($professor->formaingresso) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Tipo de cargo') ?></th>
+                    <td><?= h($professor->tipocargo) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Categoria') ?></th>
+                    <td><?= h($professor->categoria) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Regime de trabalho') ?></th>
+                    <td><?= h($professor->regimetrabalho) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Departamento') ?></th>
+                    <td><?= h($professor->departamento) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Motivo egresso') ?></th>
+                    <td><?= h($professor->motivoegresso) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Ano formação') ?></th>
+                    <td><?= $professor->anoformacao ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Mestrado ano conclusão') ?></th>
+                    <td><?= $professor->mestradoanoconclusao ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Doutorado ano conclusão') ?></th>
+                    <td><?= $professor->doutoradoanoconclusao ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Data de egresso') ?></th>
+                    <td><?= $professor->dataegresso ? date('d-m-Y', strtotime(h($professor->dataegresso))) : ' ' ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="text">
+                <strong><?= __('Observações') ?></strong>
+                <blockquote>
+                    <?= $this->Text->autoParagraph(h($professor->observacoes)); ?>
+                </blockquote>
+            </div>
+        </div>
 
+        <div id="estagiarios" class="tab-pane container fade">
+            <h4><?= __('Estagiários') ?></h4>
+            <?php if (!empty($professor->estagiarios)): ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-responsive">
+                        <tr>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
+                                <th><?= __('Id') ?></th>
+                            <?php endif; ?>
+                            <th><?= __('Aluno') ?></th>
+                            <th><?= __('Registro') ?></th>
+                            <th><?= __('Ajuste 2020') ?></th>
+                            <th><?= __('Turno') ?></th>
+                            <th><?= __('Nivel') ?></th>
+                            <th><?= __('Instituição') ?></th>
+                            <th><?= __('Supervisora') ?></th>
+                            <th><?= __('Periodo') ?></th>
+                            <th><?= __('Nota') ?></th>
+                            <th><?= __('CH') ?></th>
+                            <th><?= __('Observações') ?></th>
+                            <th class="actions"><?= __('Ações') ?></th>
+                        </tr>
+                        <?php foreach ($professor->estagiarios as $estagiarios): ?>
+                            <tr>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <td><?= h($estagiarios->id) ?></td>
+                                <?php endif; ?>
+                                <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
+                                </td>
+                                <td><?= h($estagiarios->registro) ?></td>
+                                <td><?= h($estagiarios->ajuste2020) ?></td>
+                                <td><?= h($estagiarios->turno) ?></td>
+                                <td><?= h($estagiarios->nivel) ?></td>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
+                                </td>
+                                <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?>
+                                </td>
+                                <td><?= h($estagiarios->periodo) ?></td>
+                                <td><?= h($estagiarios->nota) ?></td>
+                                <td><?= h($estagiarios->ch) ?></td>
+                                <td><?= h($estagiarios->observacoes) ?></td>
+                                <td class="actions">
+                                    <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <div id="notas" class="tab-pane container fade">
+            <h4><?= __('Atividades') ?></h4>
+            <?php if (!empty($professor->estagiarios)): ?>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-responsive">
+                        <tr>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
+                                <th><?= __('Id') ?></th>
+                            <?php endif; ?>
+                            <th><?= __('Aluno') ?></th>
+                            <th><?= __('Registro') ?></th>
+                            <th><?= __('Atividades') ?></th>
+                            <th><?= __('Avaliação estágio') ?></th>
+                            <th><?= __('Turno') ?></th>
+                            <th><?= __('Nivel') ?></th>
+                            <th><?= __('Instituição') ?></th>
+                            <th><?= __('Supervisora') ?></th>
+                            <th><?= __('Periodo') ?></th>
+                            <th><?= __('Nota') ?></th>
+                            <th><?= __('CH') ?></th>
+                            <th><?= __('Observações') ?></th>
+                            <th class="actions"><?= __('Ações') ?></th>
+                        </tr>
+                        <?php foreach ($professor->estagiarios as $estagiarios): ?>
+                            <?php // pr($estagiarios->folhadeatividade) ?>
+                            <tr>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <td><?= h($estagiarios->id) ?></td>
+                                <?php endif; ?>
+                                <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
+                                </td>
+                                <td><?= h($estagiarios->registro) ?></td>
+
+                                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
+                                    <td><?= $estagiarios->hasValue('folhadeatividade') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', $estagiarios->id]) : $this->Html->link('Cadastrar atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
+                                    </td>
+                                <?php else: ?>
+                                    <td><?= $estagiarios->hasValue('folhadeatividade') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', $estagiarios->id]) : "Sem atividades cadastradas" ?>
+                                    </td>
+                                <?php endif; ?>
+                                <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliacao de estágio', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem avaliações cadastradas' ?>
+                                </td>
+
+                                <td><?= h($estagiarios->turno) ?></td>
+                                <td><?= h($estagiarios->nivel) ?></td>
+                                <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
+                                </td>
+                                <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : "" ?>
+                                </td>
+                                <td><?= h($estagiarios->periodo) ?></td>
+                                <td><?= h($estagiarios->nota) ?></td>
+                                <td><?= h($estagiarios->ch) ?></td>
+                                <td><?= h($estagiarios->observacoes) ?></td>
+                                <td class="actions">
+                                    <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 
@@ -477,4 +438,3 @@ function cancelEdit(row) {
 }
 
 </script>    
-

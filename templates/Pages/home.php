@@ -66,7 +66,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
     <div class="container">
         <div class='row justify-content-center'>
             <?php
-            $categoria = $this->getRequest()->getSession()->read('categoria');
+            $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
             if (isset($categoria) && (!empty($categoria))) {
                 switch ($categoria) {
                     case 1: // Administrador
@@ -82,12 +82,11 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         echo $this->element('submenu_supervisor');
                         break;
                     default:
-                        // echo $this->element('menu_mural');
+                        echo $this->element('submenu_navegacao');
                         break;
                 }
             } else {
-                // echo $this->element('menu_mural');
-                echo $this->element('menu_mural');
+                echo $this->element('submenu_navegacao');
             }
             ?>
 

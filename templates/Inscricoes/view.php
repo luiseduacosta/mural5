@@ -3,9 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
+$usuario = $this->getRequest()->getAttribute('identity');
 ?>
 
-<?php echo $this->element('menu_mural'); ?>
+<?= $this->element('templates') ?>
 
 <div class="container">
 
@@ -17,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
 
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if($user->isAdmin()): ?>
+                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -30,7 +31,7 @@
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                <?php elseif ($user->isStudent()): ?>
+                <?php elseif (isset($usuario) && $usuario->categoria == 2): ?>
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -52,7 +53,7 @@
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <?php if ($user->isAdmin()): ?>
+                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                     <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno->id]) : '' ?></td>
                 <?php else: ?>
                     <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>

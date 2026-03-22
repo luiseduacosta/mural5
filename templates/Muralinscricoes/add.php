@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralinscricao $muralinscricao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <?php echo $this->element('menu_mural') ?>
@@ -25,9 +25,9 @@ $user = $this->getRequest()->getAttribute('identity');
     <fieldset>
         <legend><?= __('Inscrição para seleção de estágio') ?></legend>
         <?php
-        if (isset($user->categoria) && $user->categoria == 1):
+        if (isset($categoria) && $categoria == '1'):
             echo $this->Form->control('aluno_id', [
-                'label' => 'Aluno(a)',
+                'label' => ['text' => 'Aluno(a)', 'class' => 'col-sm-2 form-label'],
                 'options' => $alunos,
                 'empty' => 'Selecione o aluno',
                 'templates' => [
@@ -54,6 +54,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 'empty' => 'Selecione o estágio',
                 'templates' => [
                     'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
                     'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
                 ]
             ]);
@@ -77,7 +78,7 @@ $user = $this->getRequest()->getAttribute('identity');
                 ]
             ]);
             echo $this->Form->control('timestamp', ['type' => 'hidden', 'value' => date('Y-m-d H:i:s'), 'readonly' => true]);
-        elseif (isset($user) && $user->categoria == 2):
+        elseif (isset($categoria) && $categoria == '2'):
             echo $this->Form->control('aluno_id', [
                 'label' => 'Aluno(a)',
                 'options' => [$alunos[$user->aluno_id]],
@@ -116,7 +117,7 @@ $user = $this->getRequest()->getAttribute('identity');
             ]);
             echo $this->Form->control('periodo', [
                 'type' => 'hidden',
-                'label' => 'Período',
+                'label' => ['text' => 'Período', 'class' => 'col-sm-2 form-label'],
                 'value' => null, // será definido pela escolha do mural no controller
                 'readonly' => false,
                 'templates' => [

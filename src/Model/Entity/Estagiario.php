@@ -26,14 +26,14 @@ use Cake\ORM\Entity;
  * @property string $ajuste2020
  * @property string|null $observacoes
  *
- * @property \App\Model\Entity\Aluno[] $aluno
- * @property \App\Model\Entity\Professor[] $professor
- * @property \App\Model\Entity\Turmaestagio[] $turmaestagio
- * @property \App\Model\Entity\Supervisor[] $supervisor
- * @property \App\Model\Entity\Instituicao[] $instituicao
- * @property \App\Model\Entity\Avaliacao[] $avaliacao
- * @property \App\Model\Entity\Avaliacao[] $resposta
- * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividade
+ * @property \App\Model\Entity\Aluno $aluno
+ * @property \App\Model\Entity\Professor $professor
+ * @property \App\Model\Entity\Turmaestagio $turmaestagio
+ * @property \App\Model\Entity\Supervisor $supervisor
+ * @property \App\Model\Entity\Instituicao $instituicao
+ * @property \App\Model\Entity\Avaliacao $avaliacao
+ * @property \App\Model\Entity\Resposta $resposta
+ * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividades
  */
 class Estagiario extends Entity
 {
@@ -69,6 +69,6 @@ class Estagiario extends Entity
         "instituicao" => true,
         "avaliacao" => true,
         "resposta" => true,
-        "folhadeatividade" => true,
+        "folhadeatividades" => true,
     ];
 }

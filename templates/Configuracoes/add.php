@@ -3,7 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao $configuracao
  */
-$user = $this->getRequest()->getAttribute('identity');
+$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 <?php echo $this->element('menu_mural') ?>
 
@@ -20,14 +20,13 @@ $user = $this->getRequest()->getAttribute('identity');
         <fieldset>
             <legend><?= __('Configuração') ?></legend>
             <?php
-            echo $this->Form->control('mural_periodo_atual');
-            echo $this->Form->control('termo_compromisso_periodo');
-            echo $this->Form->control('termo_compromisso_inicio');
-            echo $this->Form->control('termo_compromisso_final');
-            echo $this->Form->control('periodo_calendario_academico');
-            echo $this->Form->control('curso_turma_atual');
-            echo $this->Form->control('curso_abertura_inscricoes');
-            echo $this->Form->control('curso_encerramento_inscricoes');
+            echo $this->Form->control('mural_periodo_atual', ['label' => 'Período atual do mural']);
+            echo $this->Form->control('termo_compromisso_periodo', ['label' => 'Período do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_inicio', ['label' => 'Início do termo de compromisso']);
+            echo $this->Form->control('termo_compromisso_final', ['label' => 'Fim do termo de compromisso']);
+            echo $this->Form->control('curso_turma_atual', ['label' => 'Turma atual do curso']);
+            echo $this->Form->control('curso_abertura_inscricoes', ['label' => 'Abertura das inscrições do curso']);
+            echo $this->Form->control('curso_encerramento_inscricoes', ['label' => 'Encerramento das inscrições do curso']);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Salvar'), ['class' => 'btn btn-primary']) ?>
