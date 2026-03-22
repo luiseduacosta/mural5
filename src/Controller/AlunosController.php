@@ -113,6 +113,12 @@ class AlunosController extends AppController
             ->where(['Alunos.id' => $id])
             ->first();
 
+        if (empty($aluno)) {
+            $this->Flash->error(__('Aluno não encontrado.'));
+
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         try {
             $this->Authorization->authorize($aluno);
         } catch (ForbiddenException $e) {
@@ -684,7 +690,7 @@ class AlunosController extends AppController
                     'Instituicoes.instituicao',
                     'Estagiarios.ajuste2020',
                 ])
-                ->order(['Estagiarios.nivel'])
+                ->orderBy(['Estagiarios.nivel'])
                 ->all();
 
         $i = 0;

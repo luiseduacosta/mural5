@@ -73,13 +73,7 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         echo $this->element('menu_mural');
                         break;
                     case 2: // Aluno
-                        // pr($this->getRequest()->getSession()->read('estagiario_id'));
-                        // die();
-                        if ($this->getRequest()->getSession()->read('estagiario_id') == '1'):
-                            echo $this->element('submenu_aluno');
-                        else:
-                            echo $this->element('submenu_estudante');
-                        endif;
+                        echo $this->element('submenu_aluno');
                         break;
                     case 3: // Professor
                         echo $this->element('submenu_professor');

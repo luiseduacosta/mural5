@@ -12,7 +12,7 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-$cakeDescription = 'Mural e TCC da Escola de Serviço Social da UFRJ';
+$cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
 ?>
 <!DOCTYPE html>
 <html>

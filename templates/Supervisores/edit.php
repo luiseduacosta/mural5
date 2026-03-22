@@ -9,9 +9,47 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+
         $('#cpf').mask('000.000.000-00');
-        $('#telefone').mask('(00) 0000-0000');
-        $('#celular').mask('(00) 00000-0000');
+
+        if ($('#ddd_telefone').val() === '' ) {
+            codigo = '21';
+        } else {
+            codigo = $('#ddd_telefone').val();
+        }
+        if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
+            $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
+        }
+        var telMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-0000';
+        };
+        var telOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(telMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#telefone').mask(telMaskBehavior, telOptions);
+
+                if ($('#ddd_celular').val() === '' ) {
+            codigo = '21';
+        } else {
+            codigo = $('#ddd_celular').val();
+        }
+        if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
+            $('#celular').val('(' + codigo + ') ' + $('#celular').val());
+        }
+        var celMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-0000';
+        };
+        var celOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(celMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#celular').mask(celMaskBehavior, celOptions);
+
         $('#cep').mask('00000-000');
     });
 </script>

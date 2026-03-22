@@ -20,11 +20,18 @@
         }
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
-        } else if ($('#telefone').val().length == 15) {
-            $('#telefone').mask('(00) 00000-0000');
-        } else {
-            $('#telefone').mask('(00) 0000-0000');
         }
+        var telMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
+        };
+        var telOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(telMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#telefone').mask(telMaskBehavior, telOptions);
+
         if ($('#codigo-celular').val() == null) {
             codigo = '21';
         } else {
@@ -32,11 +39,18 @@
         }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
-        } else if ($('#celular').val().length == 15) {
-            $('#celular').mask('(00) 00000-0000');
-        } else {
-            $('#celular').mask('(00) 0000-0000');
-        }
+        } 
+        var celMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
+        };
+        var celOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(celMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#celular').mask(celMaskBehavior, celOptions);
+
         $('#nascimento').mask('00-00-0000', { placeholder: "dd-MM-yyyy" });
         $('#cep').mask('00000-000', {
             onComplete: function(cep, e, masks) {
