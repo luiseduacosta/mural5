@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Cake\Http\Exception\ForbiddenException;
+
 /**
  * Alunos Controller
  *
@@ -38,22 +40,8 @@ class AlunosController extends AppController {
      */
     public function view($id = null) {
 
-        $registro = $this->getRequest()->getQuery('registro');
-        if ($registro) {
-            $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
-                    ->where(['registro' => $registro])
-                    ->first();
-        } else {
-            $aluno = $this->Alunos->find()
-                    ->contain(['Estagiarios' => ['Instituicoes', 'Alunos', 'Supervisores', 'Professores', 'Turmaestagios'], 'Muralinscricoes' => ['Muralestagios']])
-                    ->where(['id' => $id])
-                    ->first();
-        }
-<<<<<<< HEAD
-
         if ($id === null) {
-            $this->Flash->error(__('Aluno não encontrado.'));
+            $this->Flash->error(__('Identificador de aluno(a) não encontrado.'));
 
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
@@ -98,10 +86,6 @@ class AlunosController extends AppController {
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso não autorizado.'));
 
-=======
-        if (!isset($aluno)) {
-            $this->Flash->error(__('Nao ha registros para esse numero!'));
->>>>>>> 2f9e0924ed05b0e5e7c9f5933495ae0c6c51894e
             return $this->redirect(['action' => 'index']);
         }
         $this->Authorization->authorize($aluno);
