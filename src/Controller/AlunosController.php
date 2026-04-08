@@ -265,7 +265,7 @@ class AlunosController extends AppController {
                 ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores'])
                 ->select(['Estagiarios.periodo', 'Alunos.id', 'Alunos.nome', 'Instituicoes.id', 'Instituicoes.instituicao', 'Instituicoes.cep', 'Instituicoes.endereco', 'Instituicoes.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Professores.nome'])
                 ->where(['Estagiarios.periodo' => $periodo])
-                ->order(['Alunos.nome'])
+                ->orderBy(['Alunos.nome' => 'ASC'])
                 ->all();
 
         // pr($cress);
