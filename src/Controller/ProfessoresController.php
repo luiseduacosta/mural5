@@ -19,6 +19,13 @@ class ProfessoresController extends AppController
      */
     public function index()
     {
+        try {
+            $this->Authorization->authorize($this->Professores);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         $professores = $this->paginate($this->Professores);
 
         $this->set(compact('professores'));
@@ -39,13 +46,20 @@ class ProfessoresController extends AppController
         }
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-                ]);
-
-        if (!isset($professor)) {
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
+                    ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
             return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
         $this->set(compact('professor'));
@@ -58,6 +72,15 @@ class ProfessoresController extends AppController
      */
     public function add()
     {
+
+        $professor = $this->Professores->newEmptyEntity();
+
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         if ($this->getRequest()->getAttribute('identity')['categoria'] == 3) {
             $siape = $this->getRequest()->getAttribute('identity')['registro'];
@@ -84,8 +107,6 @@ class ProfessoresController extends AppController
                 return $this->redirect(['view' => $professorcadastrado->id]);
             endif;
         }
-
-        $professor = $this->Professores->newEmptyEntity();
 
         if ($this->request->is('post')) {
 
@@ -153,9 +174,22 @@ class ProfessoresController extends AppController
     public function edit($id = null)
     {
 
-        $professor = $this->Professores->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Professor não encontrado.'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $professor = $this->Professores->patchEntity($professor, $this->request->getData());
             if ($this->Professores->save($professor)) {
@@ -179,9 +213,23 @@ class ProfessoresController extends AppController
     {
 
         $this->request->allowMethod(['post', 'delete']);
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Professor não encontrado.'));
+            return $this->redirect(['action' => 'index']);
+        }
+
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
+
         if (sizeof($professor->estagiarios) > 0) {
             $this->Flash->error(__('Professor(a) tem estagiários associados'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'view', $id]);

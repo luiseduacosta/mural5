@@ -47,7 +47,6 @@
             echo $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => $alunos]);
             echo $this->Form->control('registro');
             echo $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-            echo $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
             echo $this->Form->control('nivel');
             echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso assinado'], 'options' => [0 => "Nao", 1 => "Sim"]]);
             echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data TC']]);
@@ -55,7 +54,6 @@
             echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true]);
             echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a)'], 'options' => $professores, 'empty' => true]);
             echo $this->Form->control('periodo', ['label' => ['text' => 'Período']]);
-            echo $this->Form->control('turmaestagio_id', ['label' => ['text' => 'Turma de estágio'], 'options' => $turmaestagios, 'empty' => true]);
             echo $this->Form->control('complemento_id', ['label' => ['text' => 'Tipo de estágio (Pandemia)'], 'options' => [1 => 'Remoto', 2 => 'Ple'], 'empty' => "Seleciona"]);
             echo $this->Form->control('nota');
             echo $this->Form->control('ch', ['label' => ['text' => 'Carga horária']]);

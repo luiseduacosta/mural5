@@ -37,7 +37,6 @@ class EstagiariosController extends AppController
         $instituicao = $this->getRequest()->getQuery('instituicao');
         $supervisor = $this->getRequest()->getQuery('supervisor');
         $professor = $this->getRequest()->getQuery('professor');
-        $turmaestagio = $this->getRequest()->getQuery('turmaestagio');
         $nivel = $this->getRequest()->getQuery('nivel');
         $periodo = $this->getRequest()->getQuery('periodo');
 
@@ -56,15 +55,14 @@ class EstagiariosController extends AppController
             'Alunos',
             'Professores',
             'Supervisores',
-            'Instituicoes',
-            'Turmaestagios',
+            'Instituicoes'
         ]);
 
         if ($periodo) {
             $query->where(['Estagiarios.periodo' => $periodo]);
         }
 
-        $query->order(['Alunos.nome' => 'ASC']);
+        $query->orderBy(['Alunos.nome' => 'ASC']);
 
         if ($nivel) {
             $query->where([
@@ -86,17 +84,11 @@ class EstagiariosController extends AppController
                 'Professores.id' => $professor,
             ]);
         }
-        if ($turmaestagio) {
-            $query->where([
-                'Turmaestagios.id' => $turmaestagio,
-            ]);
-        }
         $config =  [ // Removed $this->paginate assignment to local var as array
             'sortableFields' => [
                 'id',
                 'Alunos.nome',
                 'registro',
-                'turno',
                 'nivel',
                 'Instituicoes.instituicao',
                 'Supervisores.nome',
@@ -112,7 +104,7 @@ class EstagiariosController extends AppController
         $periodototal = $this->Estagiarios->find('list', [
             'keyField' => 'periodo',
             'valueField' => 'periodo',
-        ])->order(['periodo' => 'asc']);
+        ])->orderBy(['periodo' => 'asc']);
 
         $periodos = $periodototal->toArray();
 
@@ -121,8 +113,7 @@ class EstagiariosController extends AppController
             ->contain([
                 'Instituicoes',
                 'Supervisores',
-                'Professores',
-                'Turmaestagios',
+                'Professores'
             ])
             ->where(['Estagiarios.periodo' => $periodo]);
 
@@ -131,7 +122,6 @@ class EstagiariosController extends AppController
         $listainstituicoes = [];
         $listasupervisores = [];
         $listaprofessores = [];
-        $listaturmaestagios = [];
 
         foreach ($instituicoesQuery as $estagio) {
             if ($estagio->instituicao) {
@@ -143,15 +133,11 @@ class EstagiariosController extends AppController
             if ($estagio->professor) {
                 $listaprofessores[$estagio->professor->id] = $estagio->professor->nome;
             }
-            if ($estagio->turmaestagio) {
-                $listaturmaestagios[$estagio->turmaestagio->id] = $estagio->turmaestagio->area;
-            }
         }
 
         asort($listainstituicoes);
         asort($listasupervisores);
         asort($listaprofessores);
-        asort($listaturmaestagios);
 
         if (!empty($listainstituicoes)) {
             $this->set('instituicoes', $listainstituicoes);
@@ -161,9 +147,6 @@ class EstagiariosController extends AppController
         }
         if (!empty($listaprofessores)) {
             $this->set('professores', $listaprofessores);
-        }
-        if (!empty($listaturmaestagios)) {
-            $this->set('turmaestagios', $listaturmaestagios);
         }
 
         $this->set(compact('estagiarios', 'periodo', 'periodos'));
@@ -185,7 +168,6 @@ class EstagiariosController extends AppController
                     'Instituicoes',
                     'Supervisores',
                     'Professores',
-                    'Turmaestagios',
                     'Respostas',
                     'Folhadeatividades' => [
                         'sort' => ['dia' => 'desc'],
@@ -285,7 +267,7 @@ class EstagiariosController extends AppController
             $ultimo_estagio = $this->Estagiarios
                 ->find()
                 ->where(['aluno_id' => $aluno_id])
-                ->order(['nivel' => 'desc'])
+                ->orderBy(['nivel' => 'desc'])
                 ->first();
 
             if ($ultimo_estagio) {
@@ -366,7 +348,6 @@ class EstagiariosController extends AppController
         $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'asc']]);
         $supervisores = $this->fetchTable('Supervisores')->find('list', ['order' => ['nome' => 'asc']]);
         $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'asc']]);
-        $turmaestagios = $this->fetchTable('Turmaestagios')->find('list', ['order' => ['area' => 'asc']]);
 
         $this->set(
             compact(
@@ -374,8 +355,7 @@ class EstagiariosController extends AppController
                 'ultimo_estagio',
                 'instituicoes',
                 'supervisores',
-                'professores',
-                'turmaestagios',
+                'professores'
             ),
         );
     }
@@ -408,7 +388,7 @@ class EstagiariosController extends AppController
             $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
-            ->order(['nivel' => 'desc'])
+            ->orderBy(['nivel' => 'desc'])
             ->first();
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
@@ -689,7 +669,6 @@ class EstagiariosController extends AppController
         $alunos = $this->fetchTable('Alunos')->find('list', ['order' => ['nome' => 'asc']]);
         $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'asc']]);
         $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'asc']]);
-        $turmaestagios = $this->fetchTable('Turmaestagios')->find('list', ['order' => ['area' => 'asc']]);
 
         $this->set(
             compact(
@@ -697,8 +676,7 @@ class EstagiariosController extends AppController
                 'alunos',
                 'instituicoes',
                 'professores',
-                'turmaestagios',
-                'supervisores',
+                'supervisores'
             ),
         );
     }
@@ -862,7 +840,7 @@ class EstagiariosController extends AppController
                 "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
             ])
             ->where(["Estagiarios.professor_id" => $professor_id])
-            ->order(["Alunos.nome" => "ASC"]);
+            ->orderBy(["Alunos.nome" => "ASC"]);
 
         if ($periodo) {
             $estagiariosQuery->where(["Estagiarios.periodo" => $periodo]);

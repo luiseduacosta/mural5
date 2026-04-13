@@ -75,6 +75,7 @@ final class ProfessorPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Professor $professorData): bool
     {
-        return $userSession->id === $professorData->user_id;
+        $userData = $userSession->getOriginalData();
+        return !empty($userData['professor_id']) && (int)$userData['professor_id'] === (int)$professorData->id;
     }
 }

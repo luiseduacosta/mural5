@@ -32,9 +32,9 @@ class InstituicoesController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $query = $this->Instituicoes->find()->contain(['Areainstituicoes']);
+        $query = $this->Instituicoes->find()->contain(['Areas']);
 
-        $query->order(['Instituicoes.instituicao' => 'ASC']);
+        $query->orderBy(['Instituicoes.instituicao' => 'ASC']);
 
         $instituicoes = $this->paginate($query);
         $this->set(compact('instituicoes'));

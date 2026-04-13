@@ -85,7 +85,6 @@ $Confirma = [
                     <?= $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'options' => [$ultimoestagio->aluno->id => $ultimoestagio->aluno->nome], 'readonly']); ?>
                     <?= $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]); ?>
                     <?= $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $ultimoestagio->estudante->ingresso]); ?>
-                    <?= $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($ultimoestagio->estudante->turno, 0, 1)]); ?>
                     <?= $this->Form->control('nivel', ['value' => $ultimoestagio->nivel]); ?>
                     <?= $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']); ?>
                     </fieldset>
@@ -97,7 +96,6 @@ $Confirma = [
                     <?= $this->Form->control('aluno_id', ['label' => ['text' => 'Aluno'], 'value' => null, 'type' => 'hidden']); ?>
                     <?= $this->Form->control('ajuste2020', ['label' => ['text' => 'Ajuste 2020'], 'options' => ['0' => 'Não', '1' => 'Sim']]); ?>
                     <?= $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso'], 'value' => $estudante_semestagio->ingresso]); ?>
-                    <?= $this->Form->control('turno', ['options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Sem informação'], 'value' => substr($estudante_semestagio->turno, 0, 1)]); ?>
                     <?= $this->Form->control('nivel', ['value' => 1, 'readonly']); ?>
                     <?= $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']); ?>
                     </fieldset>

@@ -61,7 +61,7 @@
                         <td><?= $instituicao->id ?></td>
                         <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
                         </td>
-                        <td><?= $instituicao->hasValue('area_id') ? $this->Html->link($instituicao->areas->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->areas->id]) : '' ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?> <?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
+                        <td><?= $instituicao->hasValue('areas') ? $this->Html->link($instituicao->areas->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->areas->id]) : '' ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?> <?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
                            </td>
                         <td><?= h($instituicao->natureza) ?></td>
                         <td><?= h($instituicao->cnpj) ?></td>

@@ -37,11 +37,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
             window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&professor=' + professor;
         })
 
-        $("#EstagiarioTurmaestagio").change(function () {
-            var turmaestagio = $(this).val();
-            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&turmaestagio=' + turmaestagio;
-        })
-
     })
 </script>
 
@@ -108,13 +103,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($turmaestagios)): ?>
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <?= $this->Form->control('turmaestagio_id', ['id' => 'EstagiarioTurmaestagio', 'type' => 'select', 'label' => false, 'options' => $turmaestagios, 'empty' => 'Turma', 'class' => 'form-control']); ?>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
 
     <?php endif; ?>
@@ -128,7 +116,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                         <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                         <th><?= $this->Paginator->sort('registro') ?></th>
                         <th><?= $this->Paginator->sort('ajuste2020', 'Ajuste 2020') ?></th>
-                        <th><?= $this->Paginator->sort('turno') ?></th>
                         <th><?= $this->Paginator->sort('nivel') ?></th>
                         <th><?= $this->Paginator->sort('tc', 'Termo de compromisso') ?></th>
                         <th><?= $this->Paginator->sort('tc_solicitacao', 'Data TC') ?></th>
@@ -136,7 +123,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                         <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
-                        <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
                         <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>
                         <?php if (isset($categoria) && $categoria == 1): ?>
                             <th><?= $this->Paginator->sort('nota') ?></th>
@@ -156,7 +142,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                             </td>
                             <td><?= $estagiario->registro ?></td>
                             <td><?= h($estagiario->ajuste2020) == 0 ? 'Não' : 'Sim' ?></td>
-                            <td><?= h($estagiario->turno) ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
                             <td><?= $estagiario->tc ?></td>
                             <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?></td>
@@ -172,8 +157,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 
                             <td><?= h($estagiario->periodo) ?></td>
 
-                            <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
-                            </td>
                             <td><?= $estagiario->complemento_id ?>
                             </td>
                         <?php if (isset($categoria) && $categoria == 1): ?>

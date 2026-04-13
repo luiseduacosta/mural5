@@ -75,7 +75,6 @@ $user = $this->getRequest()->getAttribute('identity');
         <?php
         echo $this->Form->control('aluno_id', ['options' => [$aluno_id => $nomealuno], 'required' => true, 'readonly' => true]);
         echo $this->Form->control('registro', ['label' => 'Registro', 'required' => true, 'readonly' => true]);
-        echo $this->Form->control('turno', ['hidden' => true, 'label' => false]);
         if ($nivel == '9'):
             echo $this->Form->control('nivel', ['label' => false, 'value' => $nivel, 'hidden' => true, 'readonly' => true]);
         else:
@@ -93,7 +92,6 @@ $user = $this->getRequest()->getAttribute('identity');
             echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'required' => false, 'empty' => "Seleciona supervisor"]);
         }
         echo $this->Form->control('professor_id', ['options' => $professores, 'required' => false, 'empty' => true]);
-        echo $this->Form->control('turmaestagio_id', ['label' => 'Turma', 'options' => $turmaestagios, 'required' => false, 'empty' => true]);
         echo $this->Form->control('nota', ['hidden' => true, 'label' => false]);
         echo $this->Form->control('ch', ['hidden' => true, 'label' => false]);
         echo $this->Form->control('observacoes', ['label' => 'Observações', 'type' => 'textarea', 'rows' => 5, 'cols' => 40, 'default' => '', 'required' => false]);

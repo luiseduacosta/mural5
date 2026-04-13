@@ -154,11 +154,6 @@
                     <td><?= h($estagiario->periodo) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Turma de estágio') ?></th>
-                    <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
-                    </td>
-                </tr>
-                <tr>
                     <th><?= __('Data solicitação do TC') ?></th>
                     <td><?= $estagiario->tc_solicitacao ? $estagiario->tc_solicitacao : '' ?></td>
                 </tr>

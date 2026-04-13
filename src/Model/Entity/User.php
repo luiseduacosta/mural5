@@ -6,9 +6,6 @@ namespace App\Model\Entity;
 use ArrayAccess;
 use Authentication\IdentityInterface as AuthenticationIdentity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
-use Authorization\AuthorizationService;
-use Authorization\IdentityInterface as AuthorizationIdentity;
-use Authorization\Policy\ResultInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 
@@ -31,13 +28,8 @@ use Cake\ORM\TableRegistry;
  * @property \App\Model\Entity\Professor $professor
  * @property \App\Model\Entity\Administrador $administrador
  */
-class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
+class User extends Entity implements AuthenticationIdentity
 {
-    /**
-     * Authorization service instance
-     */
-    protected ?AuthorizationService $authorization = null;
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -194,40 +186,5 @@ class User extends Entity implements AuthorizationIdentity, AuthenticationIdenti
         return $this;
     }
 
-    /**
-     * Authorization\IdentityInterface method
-     */
-    public function can(string $action, mixed $resource): bool
-    {
-        return $this->authorization->can($this, $action, $resource);
-    }
 
-    /**
-     * Authorization\IdentityInterface method
-     */
-    public function canResult(string $action, mixed $resource): ResultInterface
-    {
-        return $this->authorization->canResult($this, $action, $resource);
-    }
-
-    /**
-     * Authorization\IdentityInterface method
-     */
-    public function applyScope(string $action, mixed $resource, mixed ...$optionalArgs): mixed
-    {
-        return $this->authorization->applyScope($this, $action, $resource, ...$optionalArgs);
-    }
-
-    /**
-     * Setter to be used by the middleware.
-     *
-     * @param \Authorization\AuthorizationService $service The authorization service.
-     * @return self
-     */
-    public function setAuthorization(AuthorizationService $service): self
-    {
-        $this->authorization = $service;
-
-        return $this;
-    }
 }

@@ -36,12 +36,4 @@ final class ProfessoresTablePolicy implements BeforePolicyInterface
     {
         return new Result(true);
     }
-
-    /**
-     * @return \Authorization\Policy\Result
-     */
-    public function canAdd(): Result
-    {
-        return new Result(false, 'Erro: professores add policy not authorized');
-    }
 }

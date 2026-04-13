@@ -136,17 +136,6 @@
                 'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
             ]
         ]);
-        echo $this->Form->control('turno', [
-            'label' => 'Turno',
-            'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indefinido'],
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-            ],
-            'id' => 'turno',
-            'value' => isset($aluno) ? $aluno->turno : ''
-        ]);
         echo $this->Form->control('nivel', [
             'label' => 'Nível',
             'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Não curricular'],
@@ -241,17 +230,6 @@
                 'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
             ],
             'readonly' => true
-        ]);
-        echo $this->Form->control('turmaestagio_id', [
-            'label' => 'Turma de estágio',
-            'options' => $turmaestagios,
-            'value' => isset($ultimo_estagio) ? $ultimo_estagio->turmaestagio_id : '',
-            'empty' => true,
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
-            ]
         ]);
         if (isset($user) && $user->categoria == '1') {
             echo $this->Form->control('nota', [
