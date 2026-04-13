@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -11,8 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $instituicao
- * @property int|null $areainstituicoes_id
- * @property string|null $area
+ * @property int|null $area_id
  * @property string|null $natureza
  * @property string $cnpj
  * @property string $email
@@ -22,21 +20,21 @@ use Cake\ORM\Entity;
  * @property string $municipio
  * @property string $cep
  * @property string $telefone
- * @property string $fax
- * @property string|null $beneficio
+ * @property string|null $fax
+ * @property string|null $beneficios
  * @property string|null $fim_de_semana
  * @property string $localInscricao
  * @property int $convenio
- * @property \Cake\I18n\Date|null $expira
+ * @property \Cake\I18n\FrozenDate|null $expira
  * @property string $seguro
  * @property string $avaliacao
  * @property string|null $observacoes
  *
- * @property \App\Model\Entity\Areainstituicao $areainstituicao
+ * @property \App\Model\Entity\Area $area
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Muralestagio[] $muralestagios
- * @property \App\Model\Entity\Supervisor[] $supervisores
  * @property \App\Model\Entity\Visita[] $visitas
+ * @property \App\Model\Entity\Supervisor[] $supervisores
  */
 class Instituicao extends Entity
 {
@@ -51,8 +49,7 @@ class Instituicao extends Entity
      */
     protected array $_accessible = [
         'instituicao' => true,
-        'areainstituicoes_id' => true,
-        'area' => true,
+        'area_id' => true,
         'natureza' => true,
         'cnpj' => true,
         'email' => true,
@@ -63,7 +60,7 @@ class Instituicao extends Entity
         'cep' => true,
         'telefone' => true,
         'fax' => true,
-        'beneficio' => true,
+        'beneficios' => true,
         'fim_de_semana' => true,
         'localInscricao' => true,
         'convenio' => true,
@@ -71,10 +68,10 @@ class Instituicao extends Entity
         'seguro' => true,
         'avaliacao' => true,
         'observacoes' => true,
-        'areainstituicao' => true,
+        'area' => true,
         'estagiarios' => true,
         'muralestagios' => true,
-        'supervisores' => true,
         'visitas' => true,
+        'supervisores' => true,
     ];
 }

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,9 +9,9 @@ use Cake\ORM\Entity;
  * Complemento Entity
  *
  * @property int $id
- * @property string|null $periodo_especial
+ * @property string $periodo_especial
  *
- * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\User[] $user_id
  */
 class Complemento extends Entity
 {
@@ -26,8 +25,7 @@ class Complemento extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'id' => true,
         'periodo_especial' => true,
-        'estagiarios' => true,
+        'complemento_id' => true,
     ];
 }

@@ -27,7 +27,7 @@
         <legend><?= __('Nova instituição') ?></legend>
         <?php
         echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição'], 'required' => true, 'class' => 'form-control']);
-        echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areainstituicoes, 'empty' => true, 'class' => 'form-control']);
+        echo $this->Form->control('areas_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areas, 'empty' => true, 'class' => 'form-control']);
         echo $this->Form->control('natureza', ['label' => ['text' => 'Natureza'], 'class' => 'form-control']);
         echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ'], 'placeholder' => '00.000.000/0000-00', 'id' => 'cnpj', 'keypress()', 'required' => true, 'class' => 'form-control']);
         echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'class' => 'form-control']);

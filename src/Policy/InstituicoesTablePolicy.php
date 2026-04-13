@@ -1,26 +1,47 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\InstituicoesTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Instituicoes policy
- */
-class InstituicoesTablePolicy
+final class InstituicoesTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Instituicoes
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Table\InstituicoesTable $instituicoes
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, InstituicoesTable $instituicoes)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (!empty($user_data['administrador_id'])) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canIndex(): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(): Result
+    {
+        return new Result(true);
     }
 }

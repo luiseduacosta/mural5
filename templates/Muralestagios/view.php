@@ -124,16 +124,16 @@
                     </tr>
                     <tr>
                         <th><?= __('Horario da seleção') ?></th>
-                        <td><?= h($muralestagio->horarioSelecao) ?></td>
+                        <td><?= h($muralestagio->horario_selecao) ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Local da seleção') ?></th>
-                        <td><?= h($muralestagio->localSelecao) ?></td>
+                        <td><?= h($muralestagio->local_selecao) ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Forma de seleção') ?></th>
                         <td><?php
-                            switch ($muralestagio->formaSelecao) {
+                            switch ($muralestagio->forma_selecao) {
                                 case '0':
                                     echo 'Entrevista';
                                     break;
@@ -167,7 +167,7 @@
                     <tr>
                         <th><?= __('Local da inscrição') ?></th>
                         <td><?php
-                            switch ($muralestagio->localInscricao) {
+                            switch ($muralestagio->local_inscricao) {
                                 case '0':
                                     echo 'Somente no mural da Coordenação de Estágio/ESS';
                                     break;
@@ -186,16 +186,16 @@
                     </tr>
                     <tr>
                         <th><?= __('Carga horária') ?></th>
-                        <td><?= $this->Number->format($muralestagio->cargaHoraria) ?></td>
+                        <td><?= $this->Number->format($muralestagio->carga_horaria) ?></td>
                     </tr>
                     <tr>
                         <th><?= __('Data da seleção') ?></th>
-                        <td><?= $muralestagio->dataSelecao ? date('d-m-Y', strtotime($muralestagio->dataSelecao)) : '' ?>
+                        <td><?= $muralestagio->data_selecao ? date('d-m-Y', strtotime($muralestagio->data_selecao)) : '' ?>
                         </td>
                     </tr>
                     <tr>
                         <th><?= __('Encerramento das inscrições') ?></th>
-                        <td><?= $muralestagio->dataInscricao ? date('d-m-Y', strtotime($muralestagio->dataInscricao)) : '' ?>
+                        <td><?= $muralestagio->data_inscricao ? date('d-m-Y', strtotime($muralestagio->data_inscricao)) : '' ?>
                         </td>
                     </tr>
                     <tr>
@@ -242,10 +242,10 @@
                         $timeZone = new DateTimeZone('America/Sao_Paulo');
                         $dataDeHoje = new DateTime(null, $timeZone);
                         /** Se nao tem data de encerramento, coloco a data de hoje e deixo aberto */
-                        if (empty($muralestagio->dataInscricao)) {
+                        if (empty($muralestagio->data_inscricao)) {
                             $dataEnerramentoDaInscricao = new DateTime(null, $timeZone);
                         } else {
-                            $dataEnerramentoDaInscricao = DateTime::createFromFormat('d-m-Y', $muralestagio->dataInscricao, $timeZone);
+                            $dataEnerramentoDaInscricao = DateTime::createFromFormat('d-m-Y', $muralestagio->data_inscricao, $timeZone);
                         }
                         ?>
                         <tr>

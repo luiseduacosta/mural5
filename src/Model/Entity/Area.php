@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -7,14 +6,14 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Areainstituicao Entity
+ * Area Entity
  *
  * @property int $id
  * @property string $area
  *
  * @property \App\Model\Entity\Instituicao[] $instituicoes
  */
-class Areainstituicao extends Entity
+class Area extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

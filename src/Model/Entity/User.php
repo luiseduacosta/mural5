@@ -1,11 +1,16 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Authentication\PasswordHasher\DefaultPasswordHasher; // Add this line
+use ArrayAccess;
+use Authentication\IdentityInterface as AuthenticationIdentity;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Authorization\AuthorizationService;
+use Authorization\IdentityInterface as AuthorizationIdentity;
+use Authorization\Policy\ResultInterface;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * User Entity
@@ -14,18 +19,24 @@ use Cake\ORM\Entity;
  * @property string|null $email
  * @property string|null $password
  * @property string $categoria
- * @property int $registro
+ * @property int|null $numero
  * @property int|null $aluno_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
- * @property \Cake\I18n\FrozenTime $timestamp
+ * @property \Cake\I18n\FrozenTime $created
+ * @property \Cake\I18n\FrozenTime $modified
  *
  * @property \App\Model\Entity\Aluno $aluno
  * @property \App\Model\Entity\Supervisor $supervisor
  * @property \App\Model\Entity\Professor $professor
- * @property \App\Model\Entity\Categoria $categoria
+ * @property \App\Model\Entity\Administrador $administrador
  */
-class User extends Entity {
+class User extends Entity implements AuthorizationIdentity, AuthenticationIdentity
+{
+    /**
+     * Authorization service instance
+     */
+    protected ?AuthorizationService $authorization = null;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -40,30 +51,183 @@ class User extends Entity {
         'email' => true,
         'password' => true,
         'categoria' => true,
-        'registro' => true,
+        'numero' => true,
         'aluno_id' => true,
         'supervisor_id' => true,
         'professor_id' => true,
-        'timestamp' => true,
+        'created' => true,
+        'modified' => true,
         'aluno' => true,
         'supervisor' => true,
         'professor' => true,
-        'categoria' => true,
+        'administrador' => true,
     ];
-
-    // Add this method
-    protected function _setPassword(string $password): ?string {
-        if (strlen($password) > 0) {
-            return (new DefaultPasswordHasher())->hash($password);
-        }
-    }
 
     /**
      * Fields that are excluded from JSON versions of the entity.
      *
      * @var array
      */
-    protected array $_hidden = [
-        'password',
-    ];
+    protected array $_hidden = ['password'];
+
+    // Automatically hash passwords when they are changed.
+
+    /**
+     * Set password hook - automatically hashes the password.
+     *
+     * @param string $password The plain text password.
+     * @return string The hashed password.
+     */
+    protected function _setPassword(string $password): string
+    {
+        $hasher = new DefaultPasswordHasher();
+
+        return $hasher->hash($password);
+    }
+
+    /**
+     * Flag to prevent multiple database queries when fetching original data.
+     */
+    protected bool $_originalDataLoaded = false;
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getIdentifier(): array|string|int|null
+    {
+        return $this->id;
+    }
+
+    /**
+     * Authentication\IdentityInterface method
+     */
+    public function getOriginalData(): ArrayAccess|array
+    {
+        if ($this->_originalDataLoaded) {
+            return $this;
+        }
+
+        $this->_originalDataLoaded = true;
+
+        if (!isset($this->aluno_id)) {
+            $this->aluno_id = null;
+        }
+        if (!isset($this->professor_id)) {
+            $this->professor_id = null;
+        }
+        if (!isset($this->supervisor_id)) {
+            $this->supervisor_id = null;
+        }
+        if (!isset($this->administrador_id)) {
+            $this->administrador_id = null;
+        }
+
+        if (empty($this->aluno_id)) {
+            $alunos = TableRegistry::getTableLocator()->get('Alunos');
+            $aluno = $alunos->find()
+                ->where(['Alunos.user_id' => $this->id])
+                ->first();
+
+            if (empty($aluno) && !empty($this->email)) {
+                $aluno = $alunos->find()
+                    ->where(['Alunos.email' => $this->email])
+                    ->first();
+            }
+
+            if (!empty($aluno)) {
+                $this->aluno_id = $aluno->id;
+            }
+        }
+
+        if (empty($this->professor_id)) {
+            $professores = TableRegistry::getTableLocator()->get('Professores');
+            $professor = $professores->find()
+                ->where(['Professores.user_id' => $this->id])
+                ->first();
+
+            if (empty($professor) && !empty($this->email)) {
+                $professor = $professores->find()
+                    ->where(['Professores.email' => $this->email])
+                    ->first();
+            }
+
+            if (!empty($professor)) {
+                $this->professor_id = $professor->id;
+            }
+        }
+
+        if (empty($this->supervisor_id)) {
+            $supervisores = TableRegistry::getTableLocator()->get('Supervisores');
+            $supervisor = $supervisores->find()
+                ->where(['Supervisores.user_id' => $this->id])
+                ->first();
+
+            if (empty($supervisor) && !empty($this->email)) {
+                $supervisor = $supervisores->find()
+                    ->where(['Supervisores.email' => $this->email])
+                    ->first();
+            }
+
+            if (!empty($supervisor)) {
+                $this->supervisor_id = $supervisor->id;
+            }
+        }
+
+        if (
+            empty($this->administrador_id)
+            && ($this->categoria === 1 || $this->categoria === '1')
+        ) {
+            $this->administrador_id = 1;
+        }
+
+        if (empty($this->administrador_id)) {
+            $administradores = TableRegistry::getTableLocator()->get('Administradores');
+            $administrador = $administradores->find()
+                ->where(['Administradores.user_id' => $this->id])
+                ->first();
+
+            if (!empty($administrador)) {
+                $this->administrador_id = $administrador->id;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function can(string $action, mixed $resource): bool
+    {
+        return $this->authorization->can($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function canResult(string $action, mixed $resource): ResultInterface
+    {
+        return $this->authorization->canResult($this, $action, $resource);
+    }
+
+    /**
+     * Authorization\IdentityInterface method
+     */
+    public function applyScope(string $action, mixed $resource, mixed ...$optionalArgs): mixed
+    {
+        return $this->authorization->applyScope($this, $action, $resource, ...$optionalArgs);
+    }
+
+    /**
+     * Setter to be used by the middleware.
+     *
+     * @param \Authorization\AuthorizationService $service The authorization service.
+     * @return self
+     */
+    public function setAuthorization(AuthorizationService $service): self
+    {
+        $this->authorization = $service;
+
+        return $this;
+    }
 }

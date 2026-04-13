@@ -63,9 +63,9 @@
                     <th><?= $this->Paginator->sort('vagas') ?></th>
                     <th><?= $this->Paginator->sort('beneficios') ?></th>
                     <th><?= $this->Paginator->sort('final_de_semana', 'Final de semana') ?></th>
-                    <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
-                    <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
-                    <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
+                    <th><?= $this->Paginator->sort('carga_horaria', 'CH') ?></th>
+                    <th><?= $this->Paginator->sort('data_inscricao', 'Encerramento das Inscrições') ?></th>
+                    <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
                     <?php if (!isset($categoria)): ?>
                     <?php elseif (isset($categoria) && $categoria == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
@@ -81,9 +81,9 @@
                         <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>
                         <td><?= (h($muralestagio->final_de_semana) == 0) ? 'Não' : 'Sim' ?></td>
-                        <td><?= $muralestagio->cargaHoraria ?></td>
-                        <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
-                        <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
+                        <td><?= $muralestagio->carga_horaria ?></td>
+                        <td><?= isset($muralestagio->data_inscricao) ? $muralestagio->data_inscricao : '' ?></td>
+                        <td><?= isset($muralestagio->data_selecao) ? $muralestagio->data_selecao : '' ?></td>
                         <?php if (!isset($categoria)): ?>
                         <?php elseif (isset($categoria) && $categoria == 1): ?>
                             <td class="actions">

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,32 +9,30 @@ use Cake\ORM\Entity;
  * Muralestagio Entity
  *
  * @property int $id
- * @property int|null $instituicao_id // id_estagio -> instituicao_id
+ * @property int|null $instituicao_id
  * @property string $instituicao
  * @property string $convenio
  * @property int $vagas
  * @property string|null $beneficios
  * @property string|null $final_de_semana
- * @property int|null $cargaHoraria
+ * @property int|null $carga_horaria
  * @property string|null $requisitos
- * @property int $turmaestagio_id // id_area -> turmaestagio_id
  * @property string|null $horario
- * @property int $professor_id // id_professor -> professor_id
- * @property \Cake\I18n\Date|null $dataSelecao
- * @property \Cake\I18n\Date|null $dataInscricao
- * @property string|null $horarioSelecao
- * @property string|null $localSelecao
- * @property string|null $formaSelecao
+ * @property \Cake\I18n\FrozenDate|null $data_selecao
+ * @property \Cake\I18n\FrozenDate|null $data_inscricao
+ * @property string|null $horario_selecao
+ * @property string|null $local_selecao
+ * @property string|null $forma_selecao
  * @property string|null $contato
  * @property string|null $outras
  * @property string|null $periodo
- * @property \Cake\I18n\Date|null $datafax
- * @property string $localInscricao
+ * @property \Cake\I18n\FrozenDate|null $datafax
+ * @property string $local_inscricao
  * @property string|null $email
  *
- * @property \App\Model\Entity\Instituicao $instituicao_tabela
- * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
+ * @property \App\Model\Entity\Instituicao $instituicao_rel
  */
+
 class Muralestagio extends Entity
 {
     /**
@@ -47,6 +44,7 @@ class Muralestagio extends Entity
      *
      * @var array
      */
+
     protected array $_accessible = [
         'instituicao_id' => true,
         'instituicao' => true,
@@ -54,23 +52,20 @@ class Muralestagio extends Entity
         'vagas' => true,
         'beneficios' => true,
         'final_de_semana' => true,
-        'cargaHoraria' => true,
+        'carga_horaria' => true,
         'requisitos' => true,
-        'turmaestagio_id' => true,
         'horario' => true,
-        'professor_id' => true,
-        'dataSelecao' => true,
-        'dataInscricao' => true,
-        'horarioSelecao' => true,
-        'localSelecao' => true,
-        'formaSelecao' => true,
+        'data_selecao' => true,
+        'data_inscricao' => true,
+        'horario_selecao' => true,
+        'local_selecao' => true,
+        'forma_selecao' => true,
         'contato' => true,
         'outras' => true,
         'periodo' => true,
         'datafax' => true,
-        'localInscricao' => true,
+        'local_inscricao' => true,
         'email' => true,
-        'instituicao_tabela' => true,
-        'muralinscricoes' => true,
+        'instituicao_rel' => true,
     ];
 }

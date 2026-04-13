@@ -10,14 +10,15 @@ namespace App\Controller;
  * @property \App\Model\Table\ProfessoresTable $Professores
  * @method \App\Model\Entity\Professor[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ProfessoresController extends AppController {
-
+class ProfessoresController extends AppController
+{
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index() {
+    public function index()
+    {
         $professores = $this->paginate($this->Professores);
 
         $this->set(compact('professores'));
@@ -30,7 +31,8 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
 
         if (is_null($id)) {
             $id = $this->getRequest()->getAttribute('identity')['professor_id'];
@@ -39,8 +41,7 @@ class ProfessoresController extends AppController {
         ini_set('memory_limit', '2048M');
         $professor = $this->Professores->get($id, [
             'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-                ]
-        );
+                ]);
 
         if (!isset($professor)) {
             $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
@@ -55,7 +56,8 @@ class ProfessoresController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add()
+    {
 
         if ($this->getRequest()->getAttribute('identity')['categoria'] == 3) {
             $siape = $this->getRequest()->getAttribute('identity')['registro'];
@@ -63,11 +65,11 @@ class ProfessoresController extends AppController {
         }
 
         /** Para o formulário */
-        if ($siape):
+        if ($siape) :
             $this->set('siape', $siape);
         endif;
 
-        if ($email):
+        if ($email) :
             $this->set('email', $email);
         endif;
 
@@ -77,7 +79,7 @@ class ProfessoresController extends AppController {
                     ->where(['siape' => $siape])
                     ->first();
 
-            if ($professorcadastrado):
+            if ($professorcadastrado) :
                 $this->Flash->error(__('Professor já cadastrado'));
                 return $this->redirect(['view' => $professorcadastrado->id]);
             endif;
@@ -92,7 +94,7 @@ class ProfessoresController extends AppController {
             $usercadastrado = $this->Professores->Users->find()
                     ->where(['categoria' => 3, 'registro' => $siape])
                     ->first();
-            if (empty($usercadastrado)):
+            if (empty($usercadastrado)) :
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
                 return $this->redirect('/users/add');
             endif;
@@ -113,7 +115,6 @@ class ProfessoresController extends AppController {
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
                  */
                 if (empty($userprofessor)) {
-
                     $userestagio = $this->Professores->Users->find()
                             ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
                             ->first();
@@ -149,7 +150,8 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
 
         $professor = $this->Professores->get($id, [
             'contain' => [],
@@ -173,7 +175,8 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
 
         $this->request->allowMethod(['post', 'delete']);
         $professor = $this->Professores->get($id, [

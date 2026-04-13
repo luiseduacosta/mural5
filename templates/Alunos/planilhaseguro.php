@@ -1,178 +1,231 @@
-<script>
-    var base_url = "<?= $this->Html->Url->build(['controller' => 'Alunos', 'action' => 'planilhaseguro']); ?>";
+<?php
+declare(strict_types=1);
 
-    $(document).ready(function () {
-        $("#periodo").change(function () {
-            var periodo = $(this).val();
-            window.location = base_url + "?periodo=" + periodo;
-        });
-    });
-</script>
+?>
 
-<style>
-    th { cursor: pointer; }
-    th:hover { background-color: #e9ecef; }
-    .sort-icon { color: #0d6efd; }
-</style>
-
-<?= $this->element('templates') ?>
-
-<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
-
-<div class="container">
-
-    <?= $this->Form->create(null, ['url' => 'index', 'class' => 'form-inline']); ?>
-    <div class="form-group row">
-        <label class='col-sm-1 col-form-label'>Período</label>
-        <div class='col-sm-2'>
-            <?= $this->Form->input('periodo', ['id' => 'periodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodoselecionado => $periodoselecionado]], ['class' => 'form-control']); ?>
+<div class="alunos planilhaseguro content">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <?= $this->Form->create(null, ['type' => 'get', 'url' => ['controller' => 'Alunos', 'action' => 'planilhaseguro'], 'class' => 'form-inline']); ?>
+                <?= $this->Form->label('periodo', 'Período'); ?>
+                <?= $this->Form->input('periodo', [
+                        'default' => $periodo ?: $configuracao['mural_periodo_atual'],
+                        'id' => 'periodo',
+                        'type' => 'select',
+                        'options' => $periodos,
+                        'class' => 'form-control',
+                        'label' => false,
+                        'onchange' => 'this.form.submit()',
+                    ]);
+?>
+            <?= $this->Form->end(); ?>
         </div>
     </div>
-    <?= $this->Form->end(); ?>
+    
+    <h3>Planilha para seguro de vida dos estagiários</h3>
+    
+    <div class="paginator">
+        <?= $this->element('paginator'); ?>
+    </div>
+    <div class='table_wrap'>
+        <table class="table">
+            <thead class='thead-light'>
+            <tr>
+                <th><?= $this->Paginator->sort('Alunos.nome', 'Nome') ?></th>
+                <th><?= $this->Paginator->sort('Alunos.cpf', 'CPF') ?></th>
+                <th><?= $this->Paginator->sort('Alunos.nascimento', 'Nascimento') ?></th>
+                <th><?= $this->Paginator->sort('Alunos.registro', 'Registro') ?></th>
+                <th><?= $this->Paginator->sort('curso', 'Curso') ?></th>
+                <th><?= $this->Paginator->sort('nivel', 'Nível') ?></th>
+                <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
+                <th>Início</th>
+                <th>Final</th>
+                <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituição') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($seguro as $estagiario) : ?>
+                <?php
 
-    <table class='table table-striped table-hover table-responsive' id="sortableTable">
-    <caption style='caption-side: top'>Planilha para seguro de vida dos alunos estagiários</caption>
-    <thead class='thead-light'>
-            <tr>
-                <th onclick="sortTable(0, 'text')">Nome <span class="sort-icon"></span></th>
-                <th onclick="sortTable(1, 'text')">CPF <span class="sort-icon"></span></th>
-                <th onclick="sortTable(2, 'date')">Nascimento <span class="sort-icon"></span></th>
-                <th onclick="sortTable(3, 'text')">DRE <span class="sort-icon"></span></th>
-                <th onclick="sortTable(4, 'text')">Curso <span class="sort-icon"></span></th>
-                <th onclick="sortTable(5, 'text')">Nível <span class="sort-icon"></span></th>
-                <th onclick="sortTable(6, 'text')">Ajuste 2020 <span class="sort-icon"></span></th>
-                <th onclick="sortTable(7, 'text')">Período <span class="sort-icon"></span></th>
-                <th onclick="sortTable(8, 'date')">Início <span class="sort-icon"></span></th>
-                <th onclick="sortTable(9, 'date')">Final <span class="sort-icon"></span></th>
-                <th onclick="sortTable(10, 'text')">Instituição <span class="sort-icon"></span></th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($t_seguro as $cada_aluno): ?>
-            <tr>
-                <td>
-                    <?php echo $this->Html->link($cada_aluno['nome'], ['controller' => 'Alunos', 'action' => 'view', $cada_aluno['id']]); ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['cpf']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['nascimento']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['registro']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['curso']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['nivel']; ?>
-                </td>
-                <td>
-                    <?php if ($cada_aluno['ajuste2020'] == 0): ?>
-                        <?php echo "4 períodos"; ?>
-                    <?php elseif ($cada_aluno['ajuste2020'] == 1): ?>
-                        <?php echo "3 períodos"; ?>
-                    <?php else: ?>
-                        <?php echo "s/d"; ?>
-                    <?php endif; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['periodo']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['inicio']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['final']; ?>
-                </td>
-                <td>
-                    <?php echo $cada_aluno['instituicao']; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-    </table>
+                $ajuste2020 = (int)$estagiario->ajuste2020;
+                $semestre = explode('-', $estagiario->periodo);
+                $ano = (int)$semestre[0];
+                $indicasemestre = (int)$semestre[1];
+
+                if ($estagiario->nivel == 1) {
+                    // Início
+                    $inicio = $estagiario->periodo;
+
+                    // Final
+                    if ($ajuste2020 == 1) {
+                        // Needs 3 semesters: 1st, 2nd, 3rd.
+                        // If 1-1 -> 2-1
+                        // If 1-2 -> 2-2
+                        $novoano = $ano + 1;
+                        $final = $novoano . '-' . $indicasemestre;
+                    } else {
+                        // Needs 4 semesters: 1st, 2nd, 3rd, 4th.
+                        // If 1-1 -> 2-2
+                        // If 1-2 -> 3-1
+                        if ($indicasemestre == 1) {
+                            $novoano = $ano + 1;
+                            $final = $novoano . '-' . 2;
+                        } else {
+                            $novoano = $ano + 2;
+                            $final = $novoano . '-' . 1;
+                        }
+                    }
+                } elseif ($estagiario->nivel == 2) {
+                    // Início
+                    // Level 2 is always 2nd semester.
+                    // If 1-1 -> 1-1
+                    // If 1-2 -> 1-2
+                    if ($indicasemestre == 1) {
+                        $inicio = $ano . '-' . 1;
+                    } else {
+                        $inicio = $ano . '-' . 2;
+                    }
+
+                    // Final
+                    if ($ajuste2020 == 1) {
+                        // Ends at level 3.
+                        // If 2-1 -> 2-2
+                        // If 2-2 -> 3-1
+                        if ($indicasemestre == 1) {
+                            $final = $ano . '-' . 2;
+                        } else {
+                            $novoano = $ano + 1;
+                            $final = $novoano . '-' . 1;
+                        }
+                    } else {
+                        // Ends at level 4.
+                        // If 2-1 -> 3-1
+                        // If 2-2 -> 3-2
+                        $novoano = $ano + 1;
+                        $final = $novoano . '-' . $indicasemestre;
+                    }
+                } elseif ($estagiario->nivel == 3) {
+                    // Início
+                    // Level 3 is always 3rd semester.
+                    if ($ajuste2020 == 1) {
+                        // Start was level 1 (2 semesters ago)
+                        // If 3-1 -> 2-1
+                        // If 3-2 -> 2-2
+                        $novoano = $ano - 1;
+                        $inicio = $novoano . '-' . $indicasemestre;
+                    } else {
+                        // Start was level 1 (2 semesters ago)
+                        // If 3-1 -> 2-1 (Wait, level 1 was 2 semesters before)
+                        // If 3-1 -> 2-1
+                        // If 3-2 -> 2-2
+                        $novoano = $ano - 1;
+                        $inicio = $novoano . '-' . $indicasemestre;
+                    }
+
+                    // Final
+                    if ($ajuste2020 == 1) {
+                        // Ends now (level 3)
+                        $final = $estagiario->periodo;
+                    } else {
+                        // Ends at level 4.
+                        // If 3-1 -> 3-2
+                        // If 3-2 -> 4-1
+                        if ($indicasemestre == 1) {
+                            $final = $ano . '-' . 2;
+                        } else {
+                            $novoano = $ano + 1;
+                            $final = $novoano . '-' . 1;
+                        }
+                    }
+                } elseif ($estagiario->nivel == 4) {
+                    // Início
+                    // Level 4 is always 4th semester.
+                    // Start was level 1 (3 semesters ago)
+                    // If 4-1 -> 2-2
+                    // If 4-2 -> 3-1
+                    if ($indicasemestre == 1) {
+                        $novoano = $ano - 2;
+                        $inicio = $novoano . '-' . 2;
+                    } else {
+                        $novoano = $ano - 1;
+                        $inicio = $novoano . '-' . 1;
+                    }
+
+                    // Final
+                    $final = $estagiario->periodo;
+                } elseif ($estagiario->nivel == 9) {
+                    // Início
+                    // Assumed as level 5 or 4? The user said 4 or 3 semesters.
+                    // If we assume it as a "long" one or just use original logic:
+                    if ($indicasemestre == 1) {
+                        $novoano = $ano - 2;
+                        $inicio = $novoano . '-' . 1;
+                    } else {
+                        $novoano = $ano - 2;
+                        $inicio = $novoano . '-' . 2;
+                    }
+
+                    // Final
+                    $final = $estagiario->periodo;
+                }
+
+                $estagiario->curso = $instituicao;
+
+                if ($estagiario->nivel == 9) :
+                    $c_seguro['nivel'] = 'Não obrigatório';
+                endif;
+
+                $estagiario['inicio'] = $inicio;
+                $estagiario['final'] = $final;
+
+                ?>
+                <tr>
+                    <td>
+                        <?php echo $estagiario->aluno ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id ]) : $estagiario->id; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->aluno->cpf ?? 'N/A'; ?>
+                    </td>
+                    <td>
+                        <?php if (empty($estagiario->aluno->nascimento)) : ?>
+                            <?php echo 's/d'; ?>
+                        <?php else : ?>
+                            <?php echo $estagiario->aluno->nascimento->format('d-m-Y'); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->aluno->registro ?? 'N/A'; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->curso; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->nivel; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->periodo; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario['inicio']; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario['final']; ?>
+                    </td>
+                    <td>
+                        <?php echo $estagiario->instituicao ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id ]) : ''; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="paginator">
+        <?= $this->element('paginator'); ?>
+        <?= $this->element('paginator_count'); ?>
+    </div>
 </div>
 
 <script type="text/javascript">
-
-let sortDirection = {}; 
-
-function sortTable(columnIndex, type) {
-  const table = document.getElementById("sortableTable");
-  if (!table) return;
-  const tbody = table.tBodies[0];
-  if (!tbody) return;
-  
-  let rows = Array.from(tbody.rows);
-  
-  // Toggle direction for this column, defaulting to 'asc'
-  const currentDirection = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
-  sortDirection[columnIndex] = currentDirection;
-
-  // Update icons for all headers
-  const headers = table.querySelectorAll('th');
-  headers.forEach((th, index) => {
-    const icon = th.querySelector('.sort-icon');
-    if (icon) {
-      if (index === columnIndex) {
-        icon.textContent = currentDirection === 'asc' ? ' ▲' : ' ▼';
-      } else {
-        icon.textContent = '';
-      }
-    }
-  });
-
-  const parseDate = (str) => {
-    if (!str || str.toLowerCase() === 's/d') return new Date(0);
-    
-    // Clean string and handle both / and -
-    const cleanStr = str.trim().replace(/\//g, '-');
-    const parts = cleanStr.split('-');
-    
-    if (parts.length === 3) {
-      // Check if it's YYYY-MM-DD or DD-MM-YYYY
-      if (parts[0].length === 4) {
-        // YYYY-MM-DD
-        return new Date(parts[0], parts[1] - 1, parts[2]);
-      } else if (parts[2].length === 4) {
-        // DD-MM-YYYY
-        return new Date(parts[2], parts[1] - 1, parts[0]);
-      }
-    }
-    
-    const d = new Date(cleanStr);
-    return isNaN(d.getTime()) ? new Date(0) : d;
-  };
-
-  rows.sort((rowA, rowB) => {
-    let cellA = rowA.cells[columnIndex].textContent.trim();
-    let cellB = rowB.cells[columnIndex].textContent.trim();
-
-    if (type === 'numeric') {
-      // Handle Brazilian format (commas for decimals) and non-numeric characters
-      const extractNum = (s) => parseFloat(s.replace(/[^\d,-]/g, '').replace(',', '.')) || 0;
-      const valA = extractNum(cellA);
-      const valB = extractNum(cellB);
-      return currentDirection === 'asc' ? valA - valB : valB - valA;
-    } else if (type === 'date') {
-      const valA = parseDate(cellA).getTime();
-      const valB = parseDate(cellB).getTime();
-      return currentDirection === 'asc' ? valA - valB : valB - valA;
-    } else {
-      // Case-insensitive locale comparison
-      return currentDirection === 'asc' 
-        ? cellA.localeCompare(cellB, undefined, {sensitivity: 'base'}) 
-        : cellB.localeCompare(cellA, undefined, {sensitivity: 'base'});
-    }
-  });
-
-  // Efficiently re-append rows
-  const fragment = document.createDocumentFragment();
-  rows.forEach(row => fragment.appendChild(row));
-  tbody.appendChild(fragment);
-}
 
 // Generate and download Markdown report
 $(document).ready(function() {
@@ -186,7 +239,7 @@ $(document).ready(function() {
       return;
     }
     
-    const periodo = $("#periodo").val() || '<?= $periodoselecionado ?>';
+    const periodo = $("#periodo").val() || '<?= $periodo ?>';
 
     let markdown = `# Relatório de Seguro de Vida - Período: ${periodo}\n\n`;
     markdown += `| Nome | CPF | Nascimento | DRE | Curso | Nível | Ajuste 2020 | Período | Início | Final | Instituição |\n`;

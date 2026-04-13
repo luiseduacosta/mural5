@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -11,19 +10,19 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $nome
- * @property string $cpf
- * @property string $endereco
- * @property string $bairro
- * @property string $municipio
- * @property string $cep
- * @property string $codigo_tel
- * @property string $telefone
- * @property string $codigo_cel
- * @property string $celular
+ * @property string|null $cpf
+ * @property string|null $endereco
+ * @property string|null $bairro
+ * @property string|null $municipio
+ * @property string|null $cep
+ * @property string|null $codigo_tel
+ * @property string|null $telefone
+ * @property string|null $codigo_cel
+ * @property string|null $celular
  * @property string|null $email
- * @property string $escola
- * @property string $ano_formatura
- * @property int|null $cress
+ * @property string|null $escola
+ * @property string|null $ano_formatura
+ * @property int $cress
  * @property int $regiao
  * @property string|null $outros_estudos
  * @property string|null $area_curso
@@ -32,10 +31,12 @@ use Cake\ORM\Entity;
  * @property int|null $num_inscricao
  * @property string|null $curso_turma
  * @property string|null $observacoes
+ * @property int $user_id
+ * @property int|null $estagiarios_count
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
- * @property \App\Model\Entity\Instituicao[] $instituicoes
- * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\User[] $users
+ * @property \App\Model\Entity\Instituicao[] $instituicao
  */
 class Supervisor extends Entity
 {
@@ -71,8 +72,10 @@ class Supervisor extends Entity
         'num_inscricao' => true,
         'curso_turma' => true,
         'observacoes' => true,
+        'user_id' => true,
+        'estagiarios_count' => true,
         'estagiarios' => true,
-        'instituicoes' => true,
-        'user' => true,
+        'users' => true,
+        'instituicao' => true,
     ];
 }

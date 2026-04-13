@@ -54,7 +54,7 @@ class InstituicoesController extends AppController
 
         try {
             $instituicao = $this->Instituicoes->get($id, [
-                'contain' => ['Areainstituicoes', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'], 'Muralestagios', 'Visitas'],
+                'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Instituição não encontrada.'));
@@ -98,15 +98,15 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Não foi possível criar a instituição de estágio. Tente novamente.'));
         }
-        $areainstituicoes = $this->Instituicoes->Areainstituicoes->find('list', ['keyField' => 'id', 'valueField' => 'area']);
+        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
         $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
-        $this->set(compact('instituicao', 'areainstituicoes', 'supervisores'));
+        $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
     /**
      * Edit method
      *
-     * @param string|null $id Instituicoes id.
+     * @param string|null $id Instituicao id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -139,9 +139,9 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Instituição de estágio não foi atualizada.'));
         }
-        $areainstituicoes = $this->Instituicoes->Areainstituicoes->find('list', ['keyField' => 'id', 'valueField' => 'area']);
+        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
         $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
-        $this->set(compact('instituicao', 'areainstituicoes', 'supervisores'));
+        $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
     /**
@@ -263,7 +263,7 @@ class InstituicoesController extends AppController
         if ($instituicao) {
             $query = $this->Instituicoes->find();
             $query->where(['instituicao LIKE' => "%{$instituicao}%"]);
-            $query->order(['instituicao' => 'ASC']);
+            $query->orderBy(['instituicao' => 'ASC']);
 
             if ($query->count() == 0) {
                 $this->Flash->error(__('Nenhum(a) instituição de estágio encontrado com o nome: ' . $instituicao));

@@ -8,19 +8,31 @@ use App\Model\Table\MuralestagiosTable;
 use Authorization\IdentityInterface;
 
 /**
- * Muralestagios policy
+ * Muralestagios Table Policy
  */
 class MuralestagiosTablePolicy
 {
     /**
-     * Check if $user can index Muralestagios
+     * Anyone (including unauthenticated visitors) can view the mural index.
      *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Table\MuralestagiosTable $muralestagios
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, MuralestagiosTable $muralestagios)
+    public function canIndex(?IdentityInterface $user, MuralestagiosTable $muralestagios): bool
     {
-        return isset($user);
+        return true;
+    }
+
+    /**
+     * Only admins can add mural entries.
+     *
+     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \App\Model\Table\MuralestagiosTable $muralestagios
+     * @return bool
+     */
+    public function canAdd(?IdentityInterface $user, MuralestagiosTable $muralestagios): bool
+    {
+        return isset($user) && $user->categoria == '1';
     }
 }

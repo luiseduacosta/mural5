@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -7,21 +6,21 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Muralinscricao Entity
+ * Inscricao Entity
  *
  * @property int $id
- * @property int $registro // id_aluno -> registro
- * @property int $aluno_id // alunonovo_id -> aluno_id
+ * @property int $registro
  * @property int $muralestagio_id
- * @property \Cake\I18n\Date $data
+ * @property \Cake\I18n\FrozenDate $data
  * @property string $periodo
- * @property \Cake\I18n\DateTime $timestamp
+ * @property \Cake\I18n\FrozenTime $timestamp
+ * @property int|null $alunonovo_id
+ * @property int $aluno_id
  *
- * @property int|null $alunoestagiario_id // aluno_id -> alunoestagiario_id
- * @property \App\Model\Entity\Aluno[] $alunos
- * @property \App\Model\Entity\Muralestagio[] $muralestagios
+ * @property \App\Model\Entity\Aluno $aluno
+ * @property \App\Model\Entity\Muralestagio $muralestagio
  */
-class Muralinscricao extends Entity
+class Inscricao extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -33,14 +32,12 @@ class Muralinscricao extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'registro' => true, // id_aluno -> registro
-        'aluno_id' => true, // alunonovo_id -> aluno_id
+        'registro' => true,
         'muralestagio_id' => true,
         'data' => true,
         'periodo' => true,
         'timestamp' => true,
-        'alunoestagiario_id' => true, // aluno_id -> alunoestagiario_id Obsoleto
-        'alunos' => true,
-        'muralestagios' => true,
+        'alunonovo_id' => true,
+        'aluno_id' => true,
     ];
 }

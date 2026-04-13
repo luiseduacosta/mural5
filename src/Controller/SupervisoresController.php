@@ -12,7 +12,6 @@ namespace App\Controller;
  */
 class SupervisoresController extends AppController
 {
-
     /**
      * Index method
      *
@@ -56,7 +55,7 @@ class SupervisoresController extends AppController
             return $this->redirect(['action' => 'index']);
         }
         $this->Authorization->authorize($supervisor);
-        
+
         $this->set(compact('supervisor'));
     }
 
@@ -87,7 +86,7 @@ class SupervisoresController extends AppController
                 ->where(['cress' => $cress])
                 ->first();
 
-            if ($supervisorcadastrado):
+            if ($supervisorcadastrado) :
                 $this->Flash->error(__('Supervisor(a) já cadastrado(a)'));
                 return $this->redirect(['view' => $supervisorcadastrado->id]);
             endif;
@@ -105,7 +104,7 @@ class SupervisoresController extends AppController
             $usercadastrado = $this->Supervisores->Users->find()
                 ->where(['categoria' => 4, 'registro' => $cress])
                 ->first();
-            if (empty($usercadastrado)):
+            if (empty($usercadastrado)) :
                 $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
                 return $this->redirect('/users/add');
             endif;
@@ -126,7 +125,6 @@ class SupervisoresController extends AppController
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do supervisor_id.
                  */
                 if (empty($usersupervisor)) {
-
                     $userestagio = $this->Supervisores->Users->find()
                         ->where(['categoria' => 4, 'registro' => $supervisorresultado->cress])
                         ->first();

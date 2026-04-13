@@ -42,19 +42,19 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                 echo $this->Form->control('vagas');
                 echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios']]);
                 echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-                echo $this->Form->control('cargaHoraria', ['label' => ['text' => 'Carga horária']]);
+                echo $this->Form->control('carga_horaria', ['label' => ['text' => 'Carga horária']]);
                 echo $this->Form->control('requisitos');
                 echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
-                echo $this->Form->control('dataSelecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
-                echo $this->Form->control('dataInscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
-                echo $this->Form->control('horarioSelecao', ['label' => ['text' => 'Horário da seleção']]);
-                echo $this->Form->control('localSelecao', ['label' => ['text' => 'Local da seleção']]);
-                echo $this->Form->control('formaSelecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras']]);
+                echo $this->Form->control('data_selecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
+                echo $this->Form->control('data_inscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
+                echo $this->Form->control('horario_selecao', ['label' => ['text' => 'Horário da seleção']]);
+                echo $this->Form->control('local_selecao', ['label' => ['text' => 'Local da seleção']]);
+                echo $this->Form->control('forma_selecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras']]);
                 echo $this->Form->control('contato');
                 echo $this->Form->control('email');
                 echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'options' => $periodostotal]);
                 echo $this->Form->control('datafax', ['empty' => true]);
-                echo $this->Form->control('localInscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS']]);
+                echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS']]);
                 echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
                 ?>
             </fieldset>

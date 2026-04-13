@@ -33,7 +33,7 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('instituicao', 'Instituição') ?></th>
-                    <th><?= $this->Paginator->sort('area', 'Área institucional') ?></th>
+                    <th><?= $this->Paginator->sort('area_id', 'Área institucional') ?></th>
                     <th><?= $this->Paginator->sort('natureza', 'Natureza') ?></th>
                     <th><?= $this->Paginator->sort('cnpj', 'CNPJ') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
@@ -59,10 +59,10 @@
                 <?php foreach ($instituicoes as $instituicao): ?>
                     <tr>
                         <td><?= $instituicao->id ?></td>
-                        <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'instituicoes', 'action' => 'view', $instituicao->id]) ?>
+                        <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
                         </td>
-                        <td><?= $instituicao->hasValue('area') ? $this->Html->link($instituicao->area->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->area->id]) : '' ?>
-                        </td>
+                        <td><?= $instituicao->hasValue('area_id') ? $this->Html->link($instituicao->areas->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->areas->id]) : '' ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?> <?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
+                           </td>
                         <td><?= h($instituicao->natureza) ?></td>
                         <td><?= h($instituicao->cnpj) ?></td>
                         <td><?= h($instituicao->email) ?></td>

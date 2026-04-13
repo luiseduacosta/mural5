@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -19,7 +18,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
-use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -28,14 +26,11 @@ use Cake\Event\EventInterface;
  * will inherit them.
  *
  * @link https://book.cakephp.org/5/en/controllers.html#the-app-controller
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
+ * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  */
 class AppController extends Controller
 {
-    /**
-     * @var \Authorization\IdentityInterface|null
-     */
-    protected $user;
-
     /**
      * Initialization hook method.
      *
@@ -49,25 +44,30 @@ class AppController extends Controller
     {
         parent::initialize();
 
-        $this->loadComponent('Flash');
-        //$this->loadComponent('RequestHandler'); // Deprecated in CakePHP 5, use ContentTypeNegotiationMiddleware or BodyParserMiddleware if needed
-
-        // Add this line to check authentication result and lock your site
         $this->loadComponent('Authentication.Authentication');
         $this->loadComponent('Authorization.Authorization');
 
-            /*
+        $this->loadComponent('Flash');
+        /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+        // Configuração do site
+        $this->configuracao = $this->fetchTable('Configuracoes')->find()->first();
+        $this->set('configuracao', $this->configuracao);
     }
 
-    public function beforeFilter(EventInterface $event)
+    /**
+     * Redirect back to the previous page with fallback
+     *
+     * @param array|string $fallback Fallback URL if no referer is available
+     * @return \Cake\Http\Response
+     */
+    protected function redirectBack(array|string $fallback = ['action' => 'index'])
     {
-        parent::beforeFilter($event);
+        $referer = $this->request->referer();
 
-        $this->user = $this->request->getAttribute('identity');
-        $this->set('user', $this->user);
+        return $this->redirect($referer ?: $fallback);
     }
 }

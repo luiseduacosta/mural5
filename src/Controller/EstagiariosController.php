@@ -419,7 +419,7 @@ class EstagiariosController extends AppController
             $this->Flash->error(__('Estagiário não encontrado.'));
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
         }
-        
+
         try {
             $this->Authorization->authorize($estagiario);
         } catch (ForbiddenException $e) {
@@ -767,7 +767,7 @@ class EstagiariosController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
         }
-        
+
         $professor = $this->fetchTable('Professores')
             ->find()
             ->select(["id", "nome"])
@@ -782,7 +782,7 @@ class EstagiariosController extends AppController
             ->where(['Professores.id' => $professor_id])
             ->order(["periodo" => "desc"])
             ->toArray();
- 
+
         $periodo = $this->request->getQuery("periodo");
 
         if (empty($periodo)) {
@@ -880,5 +880,4 @@ class EstagiariosController extends AppController
         $this->set("professor", $professor);
         $this->set("estagiarios", $estagiarios);
     }
-
 }

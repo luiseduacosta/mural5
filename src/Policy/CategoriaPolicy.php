@@ -1,62 +1,62 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
 
 use App\Model\Entity\Categoria;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Categoria Policy
- */
-class CategoriaPolicy
+final class CategoriaPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Categoria
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Categoria $categoria
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Categoria $categoria)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == '1';
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (!empty($user_data['administrador_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Categoria
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Categoria $categoria
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Categoria $categoria)
+    public function canView(IdentityInterface $user, Categoria $categoria): Result
     {
-        return isset($user) && $user->categoria == '1';
+        return new Result(true);
     }
 
     /**
-     * Check if $user can view Categoria
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Categoria $categoria
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Categoria $categoria)
+    public function canEdit(IdentityInterface $user, Categoria $categoria): Result
     {
-        return isset($user) && $user->categoria == '1';
+        return new Result(false, 'Erro: categoria edit policy not authorized');
     }
 
     /**
-     * Check if $user can delete Categoria
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Categoria $categoria
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Categoria $categoria)
+    public function canDelete(IdentityInterface $user, Categoria $categoria): Result
     {
-        return isset($user) && $user->categoria == '1';
+        return new Result(false, 'Erro: categoria delete policy not authorized');
     }
 }

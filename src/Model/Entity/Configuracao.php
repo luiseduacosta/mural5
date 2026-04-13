@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,14 +9,15 @@ use Cake\ORM\Entity;
  * Configuracao Entity
  *
  * @property int $id
+ * @property string $instituicao_curso
  * @property string $mural_periodo_atual
- * @property string $termo_compromisso_periodo
- * @property \Cake\I18n\Date $termo_compromisso_inicio
- * @property \Cake\I18n\Date $termo_compromisso_final
- * @property string $periodo_calendario_academico
  * @property int $curso_turma_atual
- * @property \Cake\I18n\Date $curso_abertura_inscricoes
- * @property \Cake\I18n\Date $curso_encerramento_inscricoes
+ * @property \Cake\I18n\FrozenDate $curso_abertura_inscricoes
+ * @property \Cake\I18n\FrozenDate $curso_encerramento_inscricoes
+ * @property string $termo_compromisso_periodo
+ * @property \Cake\I18n\FrozenDate $termo_compromisso_inicio
+ * @property \Cake\I18n\FrozenDate $termo_compromisso_final
+ * @property string $periodo_calendario_academico
  */
 class Configuracao extends Entity
 {
@@ -31,13 +31,14 @@ class Configuracao extends Entity
      * @var array
      */
     protected array $_accessible = [
+        'instituicao_curso' => true,
         'mural_periodo_atual' => true,
+        'curso_turma_atual' => true,
+        'curso_abertura_inscricoes' => true,
+        'curso_encerramento_inscricoes' => true,
         'termo_compromisso_periodo' => true,
         'termo_compromisso_inicio' => true,
         'termo_compromisso_final' => true,
         'periodo_calendario_academico' => true,
-        'curso_turma_atual' => true,
-        'curso_abertura_inscricoes' => true,
-        'curso_encerramento_inscricoes' => true,
     ];
 }

@@ -38,13 +38,7 @@ class MuralestagiosController extends AppController
      */
     public function index()
     {
-        try {
-            $this->Authorization->authorize($this->Muralestagios);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');
 
@@ -57,7 +51,7 @@ class MuralestagiosController extends AppController
             'keyField' => 'periodo',
             'valueField' => 'periodo',
             'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']); 
+        ])->distinct(['periodo']);
 
         $periodos = $periodototal->toArray();
 
@@ -79,14 +73,14 @@ class MuralestagiosController extends AppController
 
         $muralestagios = $this->paginate($query, [
             'sortableFields' => [
-                'instituicao', 
-                'vagas', 
-                'beneficios', 
-                'final_de_semana', 
-                'cargaHoraria', 
-                'dataInscricao', 
-                'dataSelecao'],
-            'order' => ['dataInscricao' => 'DESC'],
+                'instituicao',
+                'vagas',
+                'beneficios',
+                'final_de_semana',
+                'carga_horaria',
+                'data_inscricao',
+                'data_selecao'],
+            'order' => ['data_inscricao' => 'DESC'],
         ]);
 
         $this->set(compact('muralestagios', 'periodo', 'periodos'));
@@ -103,7 +97,7 @@ class MuralestagiosController extends AppController
     {
         try {
             $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes', 'Muralinscricoes' => ['Alunos', 'Muralestagios']],
+                'contain' => ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
@@ -111,13 +105,7 @@ class MuralestagiosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        try {
-            $this->Authorization->authorize($muralestagio);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         /** Para o administrador selecionar o aluno */
         $alunotable = $this->fetchTable('Alunos');
