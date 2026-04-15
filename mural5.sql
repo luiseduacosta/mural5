@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `nome` varchar(50) NOT NULL,
   `nomesocial` varchar(50) DEFAULT NULL,
   `ingresso` char(6) NOT NULL,
-  `turno` varchar(7) DEFAULT NULL,
+  `turno_id` varchar(7) DEFAULT NULL,
   `registro` int(9) NOT NULL DEFAULT 0,
   `codigo_telefone` tinyint(2) NOT NULL DEFAULT 21,
   `telefone` varchar(15) DEFAULT NULL,
@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `observacoes` varchar(250) DEFAULT NULL,
   `estagiario_count` int(10) DEFAULT NULL,
   `inscricao_count` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `registro` (`registro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Alunos';
@@ -73,10 +74,10 @@ CREATE TABLE IF NOT EXISTS `alunos` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `area_instituicoes`
+-- Estrutura para tabela `areas`
 --
 
-CREATE TABLE IF NOT EXISTS `area_instituicoes` (
+CREATE TABLE IF NOT EXISTS `areas` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
   `area` varchar(90) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
@@ -179,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `complementos` (
 
 CREATE TABLE IF NOT EXISTS `configuracoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `instituicao` varchar(120) NOT NULL DEFAULT 'ESS/UFRJ',
   `mural_periodo_atual` char(6) NOT NULL,
   `curso_turma_atual` smallint(2) DEFAULT NULL,
   `curso_abertura_inscricoes` date DEFAULT NULL,
@@ -199,17 +201,14 @@ CREATE TABLE IF NOT EXISTS `configuracoes` (
 CREATE TABLE IF NOT EXISTS `estagiarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `aluno_id` int(11) NOT NULL,
-  `alunoestagiario_id` smallint(6) NOT NULL,
   `registro` int(11) NOT NULL,
-  `turno` char(1) NOT NULL,
   `nivel` char(1) NOT NULL,
-  `tc` smallint(6) DEFAULT NULL,
+  `tc` smallint(6) DEFAULT NULL COMMENT 'tc_entregue',
   `tc_solicitacao` date DEFAULT NULL,
   `instituicao_id` smallint(6) NOT NULL,
   `supervisor_id` smallint(6) DEFAULT NULL,
   `professor_id` smallint(6) DEFAULT NULL,
   `periodo` varchar(6) NOT NULL,
-  `turmaestagio_id` tinyint(4) NOT NULL,
   `nota` decimal(4,2) DEFAULT NULL,
   `ch` smallint(6) DEFAULT NULL,
   `observacoes` varchar(255) DEFAULT NULL,
@@ -224,13 +223,12 @@ CREATE TABLE IF NOT EXISTS `estagiarios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `estagio`
+-- Estrutura para tabela `instituicoes`
 --
 
-CREATE TABLE IF NOT EXISTS `estagio` (
+CREATE TABLE IF NOT EXISTS `instituicoes` (
   `id` int(4) NOT NULL AUTO_INCREMENT,
-  `areainstituicoes_id` smallint(3) DEFAULT NULL,
-  `area` smallint(3) DEFAULT NULL COMMENT 'Area de instituicao. Igual a areainstituicoes_id',
+  `area_id` smallint(3) DEFAULT NULL,
   `natureza` varchar(50) DEFAULT NULL,
   `instituicao` varchar(120) NOT NULL DEFAULT '' COMMENT 'Nome da instituição',
   `cnpj` char(18) DEFAULT NULL,
@@ -241,14 +239,11 @@ CREATE TABLE IF NOT EXISTS `estagio` (
   `municipio` varchar(30) DEFAULT NULL,
   `cep` char(9) NOT NULL DEFAULT '',
   `telefone` varchar(50) NOT NULL DEFAULT '',
-  `fax` varchar(20) NOT NULL DEFAULT '',
   `beneficio` varchar(50) DEFAULT NULL,
   `fim_de_semana` char(1) DEFAULT '0' COMMENT '0=Nao, 1=Sim, 2=Parcial',
-  `localInscricao` set('0','1') NOT NULL DEFAULT '0',
   `convenio` int(4) DEFAULT NULL,
   `expira` date DEFAULT NULL,
   `seguro` char(1) DEFAULT NULL,
-  `avaliacao` set('1','2','3','4','5') NOT NULL DEFAULT '3',
   `observacoes` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'Instituições de estágio';
@@ -286,10 +281,10 @@ CREATE TABLE IF NOT EXISTS `inst_super` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `mural_estagio`
+-- Estrutura para tabela `mural_estagios`
 --
 
-CREATE TABLE IF NOT EXISTS `mural_estagio` (
+CREATE TABLE IF NOT EXISTS `mural_estagios` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `instituicao_id` int(4) NOT NULL,
   `instituicao` varchar(100) NOT NULL,
@@ -297,21 +292,18 @@ CREATE TABLE IF NOT EXISTS `mural_estagio` (
   `vagas` tinyint(3) NOT NULL,
   `beneficios` varchar(70) DEFAULT NULL,
   `final_de_semana` char(1) NOT NULL COMMENT '0=Nao, 1=Sim, 2=Parcial',
-  `cargaHoraria` tinyint(2) DEFAULT NULL,
+  `carga_horaria` tinyint(2) DEFAULT NULL,
   `requisitos` varchar(455) DEFAULT NULL,
-  `turmaestagio_id` tinyint(2) DEFAULT NULL,
   `horario` char(1) DEFAULT NULL COMMENT 'D=Diurno, N=Noturno, A=Ambos',
-  `professor_id` tinyint(3) DEFAULT NULL,
-  `dataSelecao` date DEFAULT NULL,
-  `dataInscricao` date DEFAULT NULL,
-  `horarioSelecao` varchar(5) DEFAULT NULL,
-  `localSelecao` varchar(70) DEFAULT NULL,
-  `formaSelecao` char(1) DEFAULT NULL,
+  `data_selecao` date DEFAULT NULL,
+  `data_inscricao` date DEFAULT NULL,
+  `horario_selecao` varchar(5) DEFAULT NULL,
+  `local_selecao` varchar(70) DEFAULT NULL,
+  `forma_selecao` char(1) DEFAULT NULL,
   `contato` varchar(70) DEFAULT NULL,
   `outras` text DEFAULT NULL,
   `periodo` varchar(6) DEFAULT NULL,
-  `datafax` date DEFAULT NULL,
-  `localInscricao` set('0','1') NOT NULL DEFAULT '0' COMMENT '0=Instituicao, 1=Coordenação de Estágio',
+  `local_inscricao` set('0','1') NOT NULL DEFAULT '0' COMMENT '0=Instituicao, 1=Coordenação de Estágio',
   `email` varchar(70) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Mural de ofertas de estágios.';
@@ -329,7 +321,6 @@ CREATE TABLE IF NOT EXISTS `inscricoes` (
   `data` date NOT NULL,
   `periodo` char(6) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `alunonovo_id` int(11) DEFAULT NULL,
   `aluno_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Inscrições de alunos para seleção de estágios';
@@ -347,34 +338,14 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `siape` mediumint(10) NOT NULL,
   `cress` int(10) DEFAULT NULL,
   `regiao` int(3) DEFAULT NULL,
-  `datanascimento` date DEFAULT NULL,
-  `localnascimento` varchar(30) DEFAULT NULL,
-  `sexo` enum('2','1') DEFAULT NULL,
-  `ddd_telefone` char(2) NOT NULL DEFAULT '21',
+  `codigo_telefone` char(2) NOT NULL DEFAULT '21',
   `telefone` varchar(15) DEFAULT NULL,
-  `ddd_celular` char(2) NOT NULL DEFAULT '21',
+  `codigo_celular` char(2) NOT NULL DEFAULT '21',
   `celular` varchar(15) DEFAULT NULL,
   `email` varchar(40) DEFAULT NULL,
-  `homepage` varchar(120) DEFAULT NULL,
-  `redesocial` varchar(50) DEFAULT NULL,
   `curriculolattes` varchar(50) DEFAULT NULL,
   `atualizacaolattes` date DEFAULT NULL,
-  `curriculosigma` varchar(7) DEFAULT NULL,
-  `pesquisadordgp` varchar(20) DEFAULT NULL,
-  `formacaoprofissional` varchar(30) DEFAULT NULL,
-  `universidadedegraduacao` varchar(50) DEFAULT NULL,
-  `anoformacao` mediumint(4) DEFAULT NULL,
-  `mestradoarea` varchar(40) DEFAULT NULL,
-  `mestradouniversidade` varchar(50) DEFAULT NULL,
-  `mestradoanoconclusao` mediumint(4) DEFAULT NULL,
-  `doutoradoarea` varchar(40) DEFAULT NULL,
-  `doutoradouniversidade` varchar(50) DEFAULT NULL,
-  `doutoradoanoconclusao` mediumint(4) DEFAULT NULL,
   `dataingresso` date DEFAULT NULL,
-  `formaingresso` varchar(100) DEFAULT NULL,
-  `tipocargo` varchar(10) DEFAULT NULL,
-  `categoria` varchar(10) DEFAULT NULL,
-  `regimetrabalho` varchar(5) DEFAULT NULL,
   `departamento` varchar(30) DEFAULT NULL COMMENT 'Departamento do professor: Fundamentos, Métodos e técnicas, Política social',
   `dataegresso` date DEFAULT NULL,
   `motivoegresso` varchar(100) DEFAULT NULL,
@@ -450,21 +421,16 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
   `bairro` varchar(30) DEFAULT NULL,
   `municipio` varchar(30) DEFAULT NULL,
   `cep` varchar(9) DEFAULT NULL,
-  `codigo_tel` char(2) DEFAULT NULL DEFAULT '21',
+  `codigo_telefone` char(2) DEFAULT NULL DEFAULT '21',
   `telefone` varchar(15) DEFAULT NULL,
-  `codigo_cel` char(2) DEFAULT NULL DEFAULT '21',
+  `codigo_celular` char(2) DEFAULT NULL DEFAULT '21',
   `celular` varchar(15) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `escola` varchar(70) DEFAULT NULL,
   `ano_formatura` varchar(4) DEFAULT NULL,
   `cress` int(6) NOT NULL,
   `regiao` tinyint(2) NOT NULL DEFAULT 7,
-  `outros_estudos` varchar(100) DEFAULT NULL,
-  `area_curso` varchar(40) DEFAULT NULL,
-  `ano_curso` varchar(4) DEFAULT NULL,
   `cargo` varchar(25) DEFAULT NULL,
-  `num_inscricao` int(3) DEFAULT NULL,
-  `curso_turma` char(1) DEFAULT NULL,
   `observacoes` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'Supervisores de estagiários';
@@ -477,9 +443,22 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
 
 CREATE TABLE IF NOT EXISTS `turma_estagios` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
-  `area` varchar(70) NOT NULL,
+  `turma` varchar(70) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'Turmas de estagiários';
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `turnos`
+--
+
+CREATE TABLE IF NOT EXISTS `turnos` (
+  `id` smallint(3) NOT NULL AUTO_INCREMENT,
+  `turno` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Turnos dos alunos';
+INSERT IGNORE INTO `turnos` (`turno`) VALUES ('diurno'), ('noturno'), ('integral'), ('outro');
 
 -- --------------------------------------------------------
 
@@ -489,14 +468,19 @@ CREATE TABLE IF NOT EXISTS `turma_estagios` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(128) NOT NULL,
   `email` char(50) NOT NULL,
   `password` char(80) NOT NULL,
   `categoria` enum('1','2','3','4') NOT NULL DEFAULT '2' COMMENT '1=Administrador, 2=Aluno, 3=Professor, 4=Supervisor',
-  `numero` int(9) DEFAULT NULL COMMENT 'Registro do aluno, SIAPE do professor ou CRESS do supervisor',
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `role` enum('admin','supervisor','docente','aluno') DEFAULT 'aluno',
+  `identificacao` int(9) DEFAULT NULL COMMENT 'Registro do aluno, SIAPE do professor ou CRESS do supervisor',
+  `entidade_id` int(11) DEFAULT NULL COMMENT 'ID of the aluno, docente or supervisor table',
   `aluno_id` int(11) DEFAULT NULL,
   `supervisor_id` int(11) DEFAULT NULL,
   `professor_id` int(11) DEFAULT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT 1,
+  `criado_em` timestamp NULL DEFAULT current_timestamp(),
+  `atualizado_em` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'Usuários: administradores, professores, supervisores e alunos';
 
