@@ -9,7 +9,6 @@
     CKEDITOR.replace('observacoes')
 </script>
 
-<?= $this->element('menu_mural'); ?>
 
 <?= $this->element('templates') ?>
 

@@ -37,7 +37,6 @@ $user = $this->getRequest()->getAttribute('identity');
     }
 </script>
 
-<?php echo $this->element('menu_mural'); ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
@@ -45,7 +44,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerEstagiario">
-        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?=
                 $this->Form->postLink(

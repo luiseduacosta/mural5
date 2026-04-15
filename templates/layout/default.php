@@ -13,71 +13,42 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
-$cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
+
+$cakeDescription = $configuracao['descricao'] . ' - ' . $configuracao['instituicao'];
+
+// Set categoria for all templates
+$identity = $this->getRequest()->getAttribute('identity');
+$categoria = $identity['categoria'] ?? null;
+$this->set('categoria', $categoria);
+
 ?>
+
 <!DOCTYPE html>
+<!-- templates/layout/default.php -->
 <html>
+    <head>
+        <?= $this->Html->charset() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            <?= $cakeDescription ?>:
+            <?= $this->fetch('title') ?>
+        </title>
+        <?= $this->Html->meta('icon') ?>
+        
+        <?= $this->Html->css(['normalize.min', 'fonts', 'milligram.min', 'cake', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css', 'nav', 'mural']) ?>
+        <?= $this->Html->script(['https://code.jquery.com/jquery-3.7.0.min.js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bundle.min.js']) ?>
+        
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css') ?>
 
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-
-<body>
-
-    <div class="container">
-        <div class='row justify-content-center'>
-            <?php
-            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')['categoria'] : null;
-            if (isset($categoria) && (!empty($categoria))) {
-                switch ($categoria) {
-                    case 1: // Administrador
-                        echo $this->element('submenu_navegacao');
-                        break;
-                    case 2: // Aluno
-                        echo $this->element('submenu_aluno');
-                        break;
-                    case 3: // Professor
-                        echo $this->element('submenu_professor');
-                        break;
-                    case 4: // Supervisora
-                        echo $this->element('submenu_supervisor');
-                        break;
-                    default:
-                        echo $this->element('submenu_navegacao');
-                        break;
-                }
-            } else {
-                echo $this->element('submenu_navegacao');
-            }
-            ?>
-
+        <?= $this->fetch('script') ?>
+    </head>
+    <body>
+        <?= $this->element('submenu_navegacao'); ?>
+        <div id="content">
+            <?= $this->Flash->render() ?>
+            <?= $this->fetch('content') ?>
         </div>
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-    </div>
-    <footer>
-    </footer>
-</body>
-
+        <?= $this->element('footer'); ?>
+    </body>
 </html>

@@ -54,7 +54,6 @@ if (isset($supervisores)) {
     })
 </script>
 
-<?php echo $this->element('menu_mural'); ?>
 
 <?= $this->element('templates') ?>
 

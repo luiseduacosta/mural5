@@ -8,7 +8,7 @@ $user = $this->getRequest()->getAttribute('identity');
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <td><?= h($turmaestagio->area) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $turmaestagio->id]) ?>
-                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $turmaestagio->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id)]) ?>
                             <?php endif; ?>

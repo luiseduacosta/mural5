@@ -11,7 +11,6 @@ $cress = isset($estagiario->supervisor->cress) ? $estagiario->supervisor->cress 
 $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome : '_______________';
 ?>
 
-<?php echo $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAtividades"
@@ -19,7 +18,7 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
-        <?php if ($user->categoria == '1' || $user->categoria == '2'): ?>
+        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '2')): ?>
             <li class='nav-link'>
                 <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -93,7 +92,7 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
                     <td><?= h($folhadeatividade->atividade) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $folhadeatividade->id], ['class' => 'btn btn-info']) ?>
-                        <?php if ($user->categoria == '1' || $user->categoria == '2'): ?>
+                        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '2')): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-warning']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger']) ?>
                         <?php endif; ?>

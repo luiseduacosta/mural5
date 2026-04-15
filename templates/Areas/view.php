@@ -5,7 +5,6 @@
  */
 ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

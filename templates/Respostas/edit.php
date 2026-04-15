@@ -7,7 +7,6 @@
  */
 ?>
 
-<?= $this->element('menu_mural') ?>
 <?= $this->element('templates') ?>
 
 <div class="container mt-1">
@@ -15,7 +14,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
             <li class="nav-item">
-                <?php if (isset($user) && $user->categoria == '1'): ?>
+                <?php if (isset($categoria) && $categoria == '1'): ?>
                 <?= $this->Form->postLink(
                     __('Excluir'),
                     ['action' => 'delete', $resposta->id],

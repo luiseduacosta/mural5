@@ -257,7 +257,7 @@
                         <h4 class="alert-heading">Atenção!</h4>
                         <p>Este estagiário ainda não possui avaliação.</p>
                         <hr>
-                        <?php if (isset($user->categoria)): ?>
+                        <?php if (isset($categoria)): ?>
                             <p class="mb-0">Clique no botão para
                                 <?= $this->Html->link(
                                     "imprimir",

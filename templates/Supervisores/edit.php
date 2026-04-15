@@ -18,7 +18,7 @@
 
                     <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
-                <?php if ($user->categoria == 1): ?>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(
@@ -99,7 +99,7 @@
             ) ?>
         </li>
         <li class="nav-item">
-            <?php if (isset($user) && $user->categoria == "1"): ?>
+            <?php if (isset($categoria) && $categoria == "1"): ?>
                 <?= $this->Form->postLink(
                     __("Excluir"),
                     ["action" => "delete", $supervisor->id],

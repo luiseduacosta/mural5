@@ -6,7 +6,6 @@
 $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<?php echo $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg navbar-light btn-light">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"

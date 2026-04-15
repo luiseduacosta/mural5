@@ -7,7 +7,6 @@ use Cake\I18n\Time;
  */
 ?>
 
-<?= $this->element('menu_mural') ?>
 <?= $this->element('templates') ?>
 
 <div class="container mt-1">
@@ -18,7 +17,7 @@ use Cake\I18n\Time;
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav collapse navbar-collapse" id="resposta">
-            <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == '1'): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
@@ -43,7 +42,7 @@ use Cake\I18n\Time;
                         <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                 <?php endif ?>
-            <?php if (isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2' || $user->categoria == '4')): ?>
+            <?php if (isset($categoria) && ($categoria == '1' || $categoria == '2' || $categoria == '4')): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

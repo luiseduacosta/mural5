@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -42,7 +41,6 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
     });
 </script>
 
-<?= $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -51,7 +49,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <?php if (isset($user) && $user->categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == '1'): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Alunos'), ['controller' => 'Alunos', 'action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
@@ -70,7 +68,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                 <li class="nav-item">
                     <?= $this->Form->postLink(__('Excluir Aluno'), ['controller' => 'Alunos', 'action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']) ?>
                 </li>
-            <?php elseif (isset($user) && $user->categoria == '2'): ?>
+            <?php elseif (isset($categoria) && $categoria == '2'): ?>
                 <?php if ($user->aluno_id == $aluno->id): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Aluno'), ['controller' => 'Alunos', 'action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>

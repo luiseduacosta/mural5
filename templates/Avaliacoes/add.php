@@ -47,7 +47,6 @@ if ($cress) {
     }
 </style>
 
-<?php echo $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
@@ -55,7 +54,7 @@ if ($cress) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (isset($user) && ($user->categoria == '1' || $user->categoria == '4')): ?>
+        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '4')): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => $estagiario->id . '/' . $estagiario->registro], ['class' => 'btn btn-primary']) ?>
             </li>

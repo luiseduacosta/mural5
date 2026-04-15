@@ -3,12 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <?= $this->element('templates') ?>
 
 <div class="container">
-    <div class="container">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -17,7 +15,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
+                    <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
@@ -360,4 +358,3 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
                 </div>
             </div>
         </div>
-    </div>

@@ -5,8 +5,6 @@
  */
 ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
-
 <div class="container">
 
     <?php if (isset($categoria) && $categoria == 1): ?>
@@ -228,7 +226,7 @@
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
@@ -273,7 +271,7 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -283,7 +281,7 @@
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($usuario) && $usuario->categoria == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
+                                <td><?= (isset($categoria) && $categoria == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>

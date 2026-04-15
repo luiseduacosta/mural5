@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita $visita
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <div class="container">
 
@@ -15,7 +14,7 @@ $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerVisitas">
-        <?php if (isset($user) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar visita'), ['controller' => 'Visitas', 'action' => 'edit', $visita->id], ['class' => 'btn btn-primary me-1']) ?>
             </li>

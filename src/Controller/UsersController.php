@@ -131,7 +131,11 @@ class UsersController extends AppController
         if ($this->request->is('post') && $result && !$result->isValid()) {
             $this->Flash->error(__('Usuário ou senha inválidos'));
         }
+
+        $this->set('user', $this->Authentication->result);
+        
     }
+
 
     public function logout()
     {

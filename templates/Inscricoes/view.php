@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-$usuario = $this->getRequest()->getAttribute('identity');
 ?>
 
 <?= $this->element('templates') ?>
@@ -18,7 +17,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
 
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -31,7 +30,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                <?php elseif (isset($usuario) && $usuario->categoria == 2): ?>
+                <?php elseif (isset($categoria) && $categoria == 2): ?>
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -53,7 +52,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno->id]) : '' ?></td>
                 <?php else: ?>
                     <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>
