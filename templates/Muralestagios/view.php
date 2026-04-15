@@ -62,7 +62,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if ($categoria == 1): ?>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <td><?= $muralestagio->instituicao ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicao_id]) : '' ?>
                             </td>
                         <?php else: ?>

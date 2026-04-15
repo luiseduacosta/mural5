@@ -19,13 +19,13 @@
                     <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']) ?>
                 </li>
             </ul>
         </div>
@@ -33,49 +33,49 @@
 <?php endif; ?>
 
     <div class="container">
-        <h3><?= h($userestagio->email) ?></h3>
+        <h3><?= h($user->email) ?></h3>
         <table>
             <tr>
                 <th><?= __('Id') ?></th>
-                <td><?= $userestagio->id ?></td>
+                <td><?= $user->id ?></td>
             </tr>
             <tr>
                 <th><?= __('Número') ?></th>
-                <td><?= $userestagio->registro ?></td>
+                <td><?= $user->registro ?></td>
             </tr>
             <tr>
                 <th><?= __('E-mail') ?></th>
-                <td><?= h($userestagio->email) ?></td>
+                <td><?= h($user->email) ?></td>
             </tr>
             <!--  
              <tr>
                  <th><?= __('Password') ?></th>
-                 <td><?= h($userestagio->password) ?></td>
+                 <td><?= h($user->password) ?></td>
              </tr>
              //-->
             <tr>
                 <th><?= __('Categoria') ?></th>
-                <td><?= h($userestagio->categoria) ?></td>
+                <td><?= h($user->categoria) ?></td>
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
+                <td><?= $user->hasValue('alunos') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Professor') ?></th>
-                <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                <td><?= $user->hasValue('professores') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Supervisor') ?></th>
-                <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                <td><?= $user->hasValue('supervisores') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
                 </td>
             </tr>
             <!--
             <tr>
                 <th><?= __('Timestamp') ?></th>
-                <td><?= h($userestagio->timestamp) ?></td>
+                <td><?= h($user->timestamp) ?></td>
             </tr>
             //-->
         </table>
