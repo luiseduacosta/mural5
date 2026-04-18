@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita $visita
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <div class="container">
 

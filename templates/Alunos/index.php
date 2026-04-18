@@ -5,7 +5,6 @@
  */
 ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 <?= $this->element('templates') ?>
 

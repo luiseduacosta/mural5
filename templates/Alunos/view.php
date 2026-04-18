@@ -3,10 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php echo $this->element('menu_mural') ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAluno"

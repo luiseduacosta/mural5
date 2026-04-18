@@ -82,7 +82,6 @@
     });
 </script>
 
-<?php echo $this->element("menu_mural"); ?>
 >>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">

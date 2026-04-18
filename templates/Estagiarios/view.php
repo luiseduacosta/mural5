@@ -8,7 +8,6 @@
 
 <?php $categoria = $this->getRequest()->getAttribute('params')['categoria']; ?>
 
-<?= $this->element("menu_mural"); ?>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"

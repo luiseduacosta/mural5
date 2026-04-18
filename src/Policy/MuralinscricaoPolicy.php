@@ -21,7 +21,7 @@ class MuralinscricaoPolicy
      */
     public function canAdd(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-        return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 2);
     }
 
     /**
@@ -33,7 +33,7 @@ class MuralinscricaoPolicy
      */
     public function canEdit(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -45,9 +45,9 @@ class MuralinscricaoPolicy
      */
     public function canDelete(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-        if (isset($user->categoria) && $user->categoria == '1') {
+        if (isset($user->categoria) && $user->categoria == 1) {
             return true;
-        } elseif (isset($user->categoria) && $user->categoria == '2') {
+        } elseif (isset($user->categoria) && $user->categoria == 2) {
             return $muralinscricao->aluno_id == $user->aluno_id;
         }
         return false;
@@ -62,6 +62,6 @@ class MuralinscricaoPolicy
      */
     public function canView(?IdentityInterface $user, Muralinscricao $muralinscricao)
     {
-        return isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 2);
     }
 }

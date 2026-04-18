@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -11,7 +10,7 @@ use Authorization\IdentityInterface;
  * Aluno policy
  */
 
-class AlunoPolicy   
+class AlunoPolicy
 {
     /**
      * Check if $user can add Aluno
@@ -22,7 +21,7 @@ class AlunoPolicy
      */
     public function canAdd(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
     }
 
     /**
@@ -34,7 +33,7 @@ class AlunoPolicy
      */
     public function canEdit(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
+        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
     }
 
     /**
@@ -46,7 +45,7 @@ class AlunoPolicy
      */
     public function canView(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
+        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
     }
 
     /**
@@ -58,32 +57,37 @@ class AlunoPolicy
      */
     public function canDelete(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     public function canCargaHoraria(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     public function canDeclaracaoperiodo(?IdentityInterface $user, Aluno $aluno)
     {
-        return ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
-    } 
- 
-   public function canCertificadoperiodo(?IdentityInterface $user, Aluno $aluno)
+        return ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
+    }
+
+    public function canCertificadoperiodo(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
+        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
     }
 
     public function canCertificadoperiodopdf(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1' || ($user->categoria == '2' && $this->isAuthor($user, $aluno)));
+        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
     }
 
     public function canPlanilhaCress(?IdentityInterface $user, Aluno $aluno)
     {
-        return isset($user) && ($user->categoria == '1');
+        return isset($user) && ($user->categoria == 1);
+    }
+
+    public function canExport(?IdentityInterface $user, Aluno $aluno)
+    {
+        return isset($user) && ($user->categoria == 1);
     }
 
     protected function isAuthor(?IdentityInterface $user, Aluno $aluno)

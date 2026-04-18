@@ -69,5 +69,8 @@ class AppController extends Controller
 
         $this->user = $this->request->getAttribute('identity');
         $this->set('user', $this->user);
+        
+        $categoria = $this->user ? $this->user['categoria'] : null;
+        $this->set('categoria', $categoria);
     }
 }

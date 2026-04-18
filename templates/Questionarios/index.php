@@ -5,7 +5,6 @@
  */
 ?>
 
-<?= $this->element('menu_mural') ?>
 <?= $this->element('templates') ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">

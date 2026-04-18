@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,6 +20,6 @@ class QuestionariosTablePolicy
      */
     public function canIndex(?IdentityInterface $user, QuestionariosTable $questionarios)
     {
-        return isset($user);
+        return true;
     }
 }

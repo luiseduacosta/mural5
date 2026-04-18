@@ -4,8 +4,6 @@
  * @var \App\Model\Entity\Professor[]|\Cake\Collection\CollectionInterface $professores
  */
 ?>
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
-<?= $this->element('menu_mural') ?>
 
 <div class="container">
 

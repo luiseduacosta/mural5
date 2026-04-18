@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,6 +20,6 @@ class ConfiguracoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, ConfiguracoesTable $configuracoes)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 }

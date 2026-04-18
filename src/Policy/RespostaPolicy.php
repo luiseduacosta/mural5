@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class RespostaPolicy
      */
     public function canAdd(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, ['1', '4']);
+        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
     }
 
     /**
@@ -33,7 +32,7 @@ class RespostaPolicy
      */
     public function canEdit(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, ['1', '4']);
+        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
     }
 
     /**
@@ -45,7 +44,7 @@ class RespostaPolicy
      */
     public function canDelete(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, ['1', '4']);
+        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
     }
 
     /**

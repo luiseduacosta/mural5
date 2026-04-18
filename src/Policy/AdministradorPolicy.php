@@ -21,7 +21,7 @@ class AdministradorPolicy
      */
     public function canAdd(?IdentityInterface $user, Administrador $administrador)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -33,7 +33,7 @@ class AdministradorPolicy
      */
     public function canEdit(?IdentityInterface $user, Administrador $administrador)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -45,7 +45,7 @@ class AdministradorPolicy
      */
     public function canView(?IdentityInterface $user, Administrador $administrador)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -57,6 +57,6 @@ class AdministradorPolicy
      */
     public function canDelete(?IdentityInterface $user, Administrador $administrador)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 }

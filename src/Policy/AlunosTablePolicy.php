@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -22,6 +21,6 @@ class AlunosTablePolicy
     public function canIndex(?IdentityInterface $user, AlunosTable $alunos)
     {
 
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
     }
 }

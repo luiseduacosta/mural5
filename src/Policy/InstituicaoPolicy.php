@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class InstituicaoPolicy
      */
     public function canAdd(?IdentityInterface $user, Instituicao $instituicao)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -33,7 +32,7 @@ class InstituicaoPolicy
      */
     public function canEdit(?IdentityInterface $user, Instituicao $instituicao)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -45,7 +44,7 @@ class InstituicaoPolicy
      */
     public function canDelete(?IdentityInterface $user, Instituicao $instituicao)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**

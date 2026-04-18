@@ -3,10 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao $inscricao
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php echo $this->element('menu_mural'); ?>
 
 <div class="container">
 

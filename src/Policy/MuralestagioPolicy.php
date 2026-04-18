@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class MuralestagioPolicy
      */
     public function canAdd(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -33,7 +32,7 @@ class MuralestagioPolicy
      */
     public function canEdit(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -45,7 +44,7 @@ class MuralestagioPolicy
      */
     public function canDelete(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -57,9 +56,9 @@ class MuralestagioPolicy
      */
     public function canView(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria);
+        return true;
     }
-    
+
     /**
      * Check if $user can imprimepdf Muralestagio
      *
@@ -69,6 +68,6 @@ class MuralestagioPolicy
      */
     public function canImprimepdf(?IdentityInterface $user, Muralestagio $muralestagio)
     {
-        return isset($user->categoria) && ($user->categoria == '1');
+        return isset($user->categoria) && $user->categoria == 1;
     }
 }

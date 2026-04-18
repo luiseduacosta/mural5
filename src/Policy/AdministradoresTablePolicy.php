@@ -21,6 +21,6 @@ class AdministradoresTablePolicy
      */
     public function canIndex(?IdentityInterface $user, AdministradoresTable $administradores)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 }

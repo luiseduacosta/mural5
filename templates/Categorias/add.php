@@ -7,7 +7,6 @@
 
 <div class="container">
 
-    <?php echo $this->element('menu_mural'); ?>
 
     <div class="categorias form content">
         <?= $this->Html->link(__('Listar Categorias'), ['action' => 'index'], ['class' => 'btn btn-secondary mb-3']) ?>

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,6 +20,6 @@ class AvaliacoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, AvaliacoesTable $avaliacoes)
     {
-        return ($user->categoria == '1' || $user->categoria == '4');
+        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 4);
     }
 }

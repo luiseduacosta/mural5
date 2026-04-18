@@ -5,7 +5,6 @@
  */
 ?>
 
-<?php echo $this->element('menu_mural'); ?>
 
 <div class="row">
 

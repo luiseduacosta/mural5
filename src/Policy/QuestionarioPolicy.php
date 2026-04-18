@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class QuestionarioPolicy
      */
     public function canAdd(?IdentityInterface $user, Questionario $questionario)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**
@@ -33,7 +32,7 @@ class QuestionarioPolicy
      */
     public function canEdit(?IdentityInterface $user, Questionario $questionario)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**
@@ -45,7 +44,7 @@ class QuestionarioPolicy
      */
     public function canDelete(?IdentityInterface $user, Questionario $questionario)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**

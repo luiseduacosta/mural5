@@ -4,7 +4,6 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

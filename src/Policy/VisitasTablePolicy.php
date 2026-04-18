@@ -21,6 +21,6 @@ class VisitasTablePolicy
      */
     public function canIndex(?IdentityInterface $user, VisitasTable $visitas)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 }

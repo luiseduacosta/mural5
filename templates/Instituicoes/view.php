@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <?= $this->element('templates') ?>
 

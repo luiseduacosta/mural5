@@ -6,7 +6,6 @@
 $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<?php echo $this->element('menu_mural') ?>
 
 <div class="container">
 

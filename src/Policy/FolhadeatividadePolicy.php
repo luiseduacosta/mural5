@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class FolhadeatividadePolicy
      */
     public function canAdd(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
     }
 
     /**
@@ -37,21 +36,21 @@ class FolhadeatividadePolicy
         if (!isset($user)) {
             return false;
         }
-        
+
         // Admin can edit anything
-        if ($user->categoria === '1') {
+        if ($user->categoria === 1) {
             return true;
         }
-        
+
         // Students can only edit their own activity sheets
-        if ($user->categoria === '2') {
-            return isset($user->aluno_id) 
-                && $folhadeatividade->estagiario 
+        if ($user->categoria === 2) {
+            return isset($user->aluno_id)
+                && $folhadeatividade->estagiario
                 && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
         }
-        
+
         return false;
-}
+    }
 
     /**
      * Check if $user can delete Folhadeatividade
@@ -66,19 +65,19 @@ class FolhadeatividadePolicy
         if (!isset($user)) {
             return false;
         }
-        
+
         // Admin can delete anything
-        if ($user->categoria === '1') {
+        if ($user->categoria === 1) {
             return true;
         }
-        
+
         // Students can only delete their own activity sheets
-        if ($user->categoria === '2') {
-            return isset($user->aluno_id) 
-                && $folhadeatividade->estagiario 
+        if ($user->categoria === 2) {
+            return isset($user->aluno_id)
+                && $folhadeatividade->estagiario
                 && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
         }
-        
+
         return false;
     }
 
@@ -103,6 +102,6 @@ class FolhadeatividadePolicy
      */
     public function canFolhaDeAtividadePdf(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
     {
-        return isset($user) && ($user->categoria == '1' || $user->categoria == '2');
+        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
     }
 }

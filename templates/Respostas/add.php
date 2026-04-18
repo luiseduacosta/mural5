@@ -7,7 +7,6 @@
  */
 ?>
 
-<?= $this->element('menu_mural') ?>
 
 <div class="container mt-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

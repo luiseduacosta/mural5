@@ -5,8 +5,6 @@
  */
 ?>
 
-<?= $this->element('menu_mural') ?></div>
-
 <?= $this->element('templates') ?>
 
 <div class="container col-lg-5 shadow p-3 mb-5 bg-white rounded">

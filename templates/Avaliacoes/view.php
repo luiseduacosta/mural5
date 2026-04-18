@@ -25,7 +25,6 @@ $professora = isset($avaliacao->estagiario['docente']['nome']) ? $avaliacao->est
     }
 </style>
 
-<?php echo $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"

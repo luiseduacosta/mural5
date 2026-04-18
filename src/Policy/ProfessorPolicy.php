@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class ProfessorPolicy
      */
     public function canAdd(?IdentityInterface $user, Professor $professor)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -33,10 +32,10 @@ class ProfessorPolicy
      */
     public function canEdit(?IdentityInterface $user, Professor $professor)
     {
-        if ($user->categoria == '3') {
+        if ($user->categoria == 3) {
             return $professor->id === $user->professor_id;
         }
-        return $user->categoria == '1';
+        return $user->categoria == 1;
     }
 
     /**
@@ -48,7 +47,7 @@ class ProfessorPolicy
      */
     public function canDelete(?IdentityInterface $user, Professor $professor)
     {
-        return isset($user) && $user->categoria == '1';
+        return isset($user) && $user->categoria == 1;
     }
 
     /**
@@ -63,9 +62,9 @@ class ProfessorPolicy
         if (!isset($user)) {
             return false;
         }
-        if ($user->categoria == '1') {
+        if ($user->categoria == 1) {
             return true;
-        } elseif ($user->categoria == '3') {
+        } elseif ($user->categoria == 3) {
             return $professor->id === $user->professor_id;
         }
         return true;

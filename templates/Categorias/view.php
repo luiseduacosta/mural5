@@ -7,7 +7,6 @@
 
 <div class="container">
 
-    <?php echo $this->element('menu_mural'); ?>
 
     <div class="container">
         <h3><?= h($categoria->categoria) ?></h3>

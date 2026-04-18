@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class SupervisorPolicy
      */
     public function canAdd(?IdentityInterface $user, Supervisor $supervisor)
     {
-        return isset($user) && in_array($user->categoria, ['1', '4']);
+        return isset($user) && in_array($user->categoria, [1, 4]);
     }
 
     /**
@@ -34,9 +33,9 @@ class SupervisorPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == '1') {
+        } elseif ($user->categoria == 1) {
             return true;
-        } elseif ($user->categoria == '4') {
+        } elseif ($user->categoria == 4) {
             return $this->isAuthor($user, $supervisor);
         } else {
             return false;
@@ -52,7 +51,7 @@ class SupervisorPolicy
      */
     public function canDelete(?IdentityInterface $user, Supervisor $supervisor)
     {
-        return $user->categoria == '1';
+        return $user->categoria == 1;
     }
 
     /**
@@ -66,9 +65,9 @@ class SupervisorPolicy
     {
         if (!isset($user)) {
             return false;
-        } elseif ($user->categoria == '1') {
+        } elseif ($user->categoria == 1) {
             return true;
-        } elseif ($user->categoria == '4') {
+        } elseif ($user->categoria == 4) {
             return $this->isAuthor($user, $supervisor);
         } else {
             return false;

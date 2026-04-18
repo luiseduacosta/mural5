@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -33,7 +32,7 @@ class EstagiariosTablePolicy
      */
     public function canLancanota(?IdentityInterface $user, EstagiariosTable $estagiarios)
     {
-        return isset($user) && in_array($user->categoria, ['1', '3']);
+        return isset($user) && in_array($user->categoria, [1, 3]);
     }
 
     /**
@@ -45,6 +44,6 @@ class EstagiariosTablePolicy
      */
     public function canLancanotapdf(?IdentityInterface $user, EstagiariosTable $estagiarios)
     {
-        return isset($user) && in_array($user->categoria, ['1', '3']);
+        return isset($user) && in_array($user->categoria, [1, 3]);
     }
 }

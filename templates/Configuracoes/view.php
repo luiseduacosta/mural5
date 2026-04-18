@@ -24,7 +24,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
         </div>
     </nav>
 
-<?= $this->element('menu_mural') ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
     <ul class="navbar-nav collapse navbar-collapse">

@@ -5,7 +5,6 @@
  */
 ?>
 
-<?= $this->element("menu_mural"); ?>
 <?= $this->element("templates"); ?>
 
 <div class="container">

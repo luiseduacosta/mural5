@@ -4,7 +4,6 @@
  * @var \App\Model\Entity\Questionario $questionario
  */
 ?>
-<?= $this->element('menu_mural') ?>
 <?= $this->element('templates') ?>
 
 <div class="container mt-1">

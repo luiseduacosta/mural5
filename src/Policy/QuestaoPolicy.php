@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class QuestaoPolicy
      */
     public function canAdd(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**
@@ -33,7 +32,7 @@ class QuestaoPolicy
      */
     public function canEdit(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**
@@ -45,7 +44,7 @@ class QuestaoPolicy
      */
     public function canDelete(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === '1';
+        return $user->categoria === 1;
     }
 
     /**

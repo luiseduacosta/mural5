@@ -6,7 +6,6 @@
 $user = $this->getRequest()->getAttribute('identity');
 ?>
 
-<?= $this->element('menu_mural') ?>
 
 <div class="d-flex justify-content-start">
     <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">

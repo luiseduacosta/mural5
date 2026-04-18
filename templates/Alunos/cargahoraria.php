@@ -3,10 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 
-<?php echo $this->element('menu_mural') ?>
 
 <div class='container col-lg-8 shadow p-3 mb-5 bg-white rounded'>
     <table class='table table-hover table-striped table-responsive'>

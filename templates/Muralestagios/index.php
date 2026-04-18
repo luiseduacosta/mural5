@@ -5,14 +5,12 @@
  */
 ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
-
 <div class="container">
 
     <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -32,21 +30,20 @@
     </div>
 
     <div class="row justify-content-center">
-        <?php if (!isset($categoria)): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif (isset($categoria) && $categoria == 1): ?>
             <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
                 <div class='col-sm-2'>
                     <?= $this->Form->control('periodo', [
-                        'id' => 'MuralestagioPeriodo', 
-                    'type' => 'select', 
-                    'label' => false, 
-                    'options' => $periodos, 
-                    'empty' => [$periodo => $periodo], 
-                    'class' => 'form-control',
-                    'onchange' => 'this.form.submit();'
+                        'id' => 'MuralestagioPeriodo',
+                        'type' => 'select',
+                        'label' => false,
+                        'options' => $periodos,
+                        'empty' => [$periodo => $periodo],
+                        'class' => 'form-control',
+                        'onchange' => 'this.form.submit();'
                     ]); ?>
                 </div>
             </div>
@@ -63,11 +60,10 @@
                     <th><?= $this->Paginator->sort('vagas') ?></th>
                     <th><?= $this->Paginator->sort('beneficios') ?></th>
                     <th><?= $this->Paginator->sort('final_de_semana', 'Final de semana') ?></th>
-                    <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
-                    <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
-                    <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
-                    <?php if (!isset($categoria)): ?>
-                    <?php elseif (isset($categoria) && $categoria == 1): ?>
+                    <th><?= $this->Paginator->sort('carga_horaria', 'CH') ?></th>
+                    <th><?= $this->Paginator->sort('data_inscricao', 'Encerramento das Inscrições') ?></th>
+                    <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -81,11 +77,10 @@
                         <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>
                         <td><?= (h($muralestagio->final_de_semana) == 0) ? 'Não' : 'Sim' ?></td>
-                        <td><?= $muralestagio->cargaHoraria ?></td>
-                        <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
-                        <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
-                        <?php if (!isset($categoria)): ?>
-                        <?php elseif (isset($categoria) && $categoria == 1): ?>
+                        <td><?= $muralestagio->carga_horaria ?></td>
+                        <td><?= isset($muralestagio->data_inscricao) ? $muralestagio->data_inscricao : '' ?></td>
+                        <td><?= isset($muralestagio->data_selecao) ? $muralestagio->data_selecao : '' ?></td>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
@@ -21,7 +20,7 @@ class VisitaPolicy
      */
     public function canAdd(?IdentityInterface $user, Visita $visita)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -33,7 +32,7 @@ class VisitaPolicy
      */
     public function canEdit(?IdentityInterface $user, Visita $visita)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -45,7 +44,7 @@ class VisitaPolicy
      */
     public function canDelete(?IdentityInterface $user, Visita $visita)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 
     /**
@@ -57,6 +56,6 @@ class VisitaPolicy
      */
     public function canView(?IdentityInterface $user, Visita $visita)
     {
-        return isset($user->categoria) && $user->categoria == '1';
+        return isset($user->categoria) && $user->categoria == 1;
     }
 }

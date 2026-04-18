@@ -17,7 +17,6 @@
 
 <?= $this->element('templates') ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 

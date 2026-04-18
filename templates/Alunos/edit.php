@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-$categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
 ?>
 <script>
     $(document).ready(function () {

@@ -66,11 +66,9 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
     <div class="container">
         <div class='row justify-content-center'>
             <?php
-            $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
             if (isset($categoria) && (!empty($categoria))) {
                 switch ($categoria) {
                     case 1: // Administrador
-                        echo $this->element('menu_mural');
                         break;
                     case 2: // Aluno
                         echo $this->element('submenu_aluno');

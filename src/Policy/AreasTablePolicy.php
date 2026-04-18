@@ -3,22 +3,22 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\QuestoesTable;
+use App\Model\Table\AreasTable;
 use Authorization\IdentityInterface;
 
 /**
- * QuestoesTable policy
+ * Areas policy
  */
-class QuestoesTablePolicy
+class AreasTablePolicy
 {
     /**
-     * Check if $user can index Questoes
+     * Check if $user can index Areas
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\QuestoesTable $questoes
+     * @param \App\Model\Table\AreasTable $areas
      * @return bool
      */
-    public function canIndex(?IdentityInterface $user, QuestoesTable $questoes)
+    public function canIndex(?IdentityInterface $user, AreasTable $areas)
     {
         return isset($user) && $user->categoria == 1;
     }

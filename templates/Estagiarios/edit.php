@@ -9,11 +9,9 @@
     CKEDITOR.replace('observacoes')
 </script>
 
-<?= $this->element('menu_mural'); ?>
 
 <?= $this->element('templates') ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
