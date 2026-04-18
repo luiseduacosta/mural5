@@ -5,8 +5,9 @@
  */
 ?>
 
+<?= $this->element('templates') ?>
+
 <div class="wrapper">
-    <?= $this->element('templates') ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerArea"
             aria-controls="navbarTogglerArea" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,17 +15,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerArea">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($categoria == 1): ?>
-                    <li class="nav-item">
-                        <?=
-                            $this->Form->postLink(
-                                __('Excluir'),
-                                ['action' => 'delete', $area->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']
-                            )
-                            ?>
-                    </li>
-                <?php endif; ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar áreas'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                 </li>
@@ -33,14 +23,14 @@
     </nav>
 
     <div class="container">
-        <?= $this->Form->create($area) ?>
+        <?= $this->Form->create($area, ['class' => 'form-group']) ?>
         <fieldset>
-            <legend><?= __('Editar área') ?></legend>
+            <legend><?= __('Nova área') ?></legend>
             <?php
-            echo $this->Form->control('area', ['label' => ['text' => 'Área']]);
+            echo $this->Form->control('area', ['label' => ['text' => 'Área'], 'class' => 'form-control']);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']) ?>
+        <?= $this->Form->button(__('Incluir'), ['class' => 'btn btn-primary']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>
