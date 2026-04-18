@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -240,28 +239,10 @@ Inflector::rules('irregular', ['instituicao' => 'instituicoes']);
 Inflector::rules('irregular', ['professor' => 'professores']);
 Inflector::rules('irregular', ['supervisor' => 'supervisores']);
 Inflector::rules('irregular', ['avaliacao' => 'avaliacoes']);
+Inflector::rules('irregular', ['questao' => 'questoes']);
 
 // set a custom date and time format
 // see https://book.cakephp.org/5/en/core-libraries/time.html#setting-the-default-locale-and-format-string
 // and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
 //\Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
 //\Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
-
-$this->addPlugin('CakePdf', ['bootstrap' => true, 'routes' => true]);
-
-Configure::write('CakePdf', [
-    'engine' => [
-        'className' => 'CakePdf.DomPdf',
-        'options' => [
-            'isRemoteEnabled' => true
-        ]
-    ],
-    'margin' => [
-        'bottom' => 10,
-        'left' => 10,
-        'right' => 10,
-        'top' => 10
-    ],
-    'orientation' => 'portrait',
-    'download' => true
-]);

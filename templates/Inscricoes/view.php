@@ -4,34 +4,36 @@
  * @var \App\Model\Entity\Inscricao $inscricao
  */
 $usuario = $this->getRequest()->getAttribute('identity');
-// pr($usuario);
 ?>
 
+<?= $this->element('templates') ?>
+
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
+            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
 
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                <?php elseif (isset($usuario) && $usuario->categoria_id == 2): ?>
+                <?php elseif (isset($usuario) && $usuario->categoria == 2): ?>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -51,7 +53,7 @@ $usuario = $this->getRequest()->getAttribute('identity');
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+                <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                     <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno->id]) : '' ?></td>
                 <?php else: ?>
                     <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>
@@ -68,11 +70,11 @@ $usuario = $this->getRequest()->getAttribute('identity');
             </tr>
             <tr>
                 <th><?= __('Data') ?></th>
-                <td><?= date('d-m-Y', strtotime(h($inscricao->data))) ?></td>
+                <td><?= date('d-m-Y', strtotime($inscricao->data)) ?></td>
             </tr>
             <tr>
                 <th><?= __('Timestamp') ?></th>
-                <td><?= date('d-m-Y', strtotime(h($inscricao->timestamp))) ?></td>
+                <td><?= date('d-m-Y', strtotime($inscricao->timestamp)) ?></td>
             </tr>
         </table>
     </div>

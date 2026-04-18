@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,13 +11,13 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $estagiario_id
- * @property \Cake\I18n\FrozenDate $dia
- * @property \Cake\I18n\FrozenTime $inicio
- * @property \Cake\I18n\FrozenTime $final
- * @property \Cake\I18n\FrozenTime|null $horario
+ * @property \Cake\I18n\Date $dia
+ * @property \Cake\I18n\DateTime $inicio
+ * @property \Cake\I18n\DateTime $final
+ * @property \Cake\I18n\DateTime|null $horario
  * @property string $atividade
  *
- * @property \App\Model\Entity\Estagiario[] $estagiarios
+ * @property \App\Model\Entity\Estagiario $estagiario
  */
 class Folhadeatividade extends Entity
 {
@@ -36,6 +37,6 @@ class Folhadeatividade extends Entity
         'final' => true,
         'horario' => true,
         'atividade' => true,
-        'estagiarios' => true,
+        'estagiario' => true,
     ];
 }

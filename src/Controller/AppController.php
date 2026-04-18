@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,9 +15,11 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -28,6 +31,11 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    /**
+     * @var \Authorization\IdentityInterface|null
+     */
+    protected $user;
+
     /**
      * Initialization hook method.
      *
@@ -42,13 +50,24 @@ class AppController extends Controller
         parent::initialize();
 
         $this->loadComponent('Flash');
+        //$this->loadComponent('RequestHandler'); // Deprecated in CakePHP 5, use ContentTypeNegotiationMiddleware or BodyParserMiddleware if needed
 
         // Add this line to check authentication result and lock your site
         $this->loadComponent('Authentication.Authentication');
-        /*
+        $this->loadComponent('Authorization.Authorization');
+
+            /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
+    }
+
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $this->user = $this->request->getAttribute('identity');
+        $this->set('user', $this->user);
     }
 }

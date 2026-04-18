@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -7,7 +8,7 @@ namespace App\Controller;
  * Categorias Controller
  *
  * @property \App\Model\Table\CategoriasTable $Categorias
- * @method \App\Model\Entity\Categorias[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Categoria[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class CategoriasController extends AppController
 {
@@ -18,8 +19,8 @@ class CategoriasController extends AppController
      */
     public function index()
     {
+        $this->Authorization->skipAuthorization();
         $categorias = $this->paginate($this->Categorias);
-
         $this->set(compact('categorias'));
     }
 
@@ -32,9 +33,15 @@ class CategoriasController extends AppController
      */
     public function view($id = null)
     {
-        $categoria = $this->Categorias->get($id, [
-            'contain' => [],
-        ]);
+        $this->Authorization->skipAuthorization();
+        try {
+            $categoria = $this->Categorias->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Registro categoria nao foi encontrado. Tente novamente.'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         $this->set(compact('categoria'));
     }
@@ -47,14 +54,14 @@ class CategoriasController extends AppController
     public function add()
     {
         $categoria = $this->Categorias->newEmptyEntity();
+        $this->Authorization->authorize($categoria);
         if ($this->request->is('post')) {
             $categoria = $this->Categorias->patchEntity($categoria, $this->request->getData());
             if ($this->Categorias->save($categoria)) {
-                $this->Flash->success(__('The categoria has been saved.'));
-
+                $this->Flash->success(__('Registro categoria inserido.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The categoria could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro categoria nao foi inserido. Tente novament.'));
         }
         $this->set(compact('categoria'));
     }
@@ -68,17 +75,23 @@ class CategoriasController extends AppController
      */
     public function edit($id = null)
     {
-        $categoria = $this->Categorias->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $categoria = $this->Categorias->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Registro categoria nao foi encontrado. Tente novamente.'));
+            return $this->redirect(['action' => 'index']);
+        }
+        $this->Authorization->authorize($categoria);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $categoria = $this->Categorias->patchEntity($categoria, $this->request->getData());
             if ($this->Categorias->save($categoria)) {
-                $this->Flash->success(__('The categoria has been saved.'));
-
+                $this->Flash->success(__('Registro categoria atualizadao.'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The categoria could not be saved. Please, try again.'));
+            $this->Flash->error(__('Registro categoria nao foi atualizado. Tente novamente.'));
         }
         $this->set(compact('categoria'));
     }
@@ -93,11 +106,18 @@ class CategoriasController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $categoria = $this->Categorias->get($id);
+        try {
+            $categoria = $this->Categorias->get($id);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Registro categoria nao foi encontrado. Tente novamente.'));
+            return $this->redirect(['action' => 'index']);
+        }
+        $this->Authorization->authorize($categoria);
+
         if ($this->Categorias->delete($categoria)) {
-            $this->Flash->success(__('The categoria has been deleted.'));
+            $this->Flash->success(__('Registro categoria excluido.'));
         } else {
-            $this->Flash->error(__('The categoria could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Registro categoria nao foi excluido. Tente novamente.'));
         }
 
         return $this->redirect(['action' => 'index']);

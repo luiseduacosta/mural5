@@ -13,23 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
-
-use Cake\Cache\Cache;
-use Cake\Core\Configure;
-use Cake\Core\Plugin;
-use Cake\Datasource\ConnectionManager;
-use Cake\Error\Debugger;
-use Cake\Http\Exception\NotFoundException;
-
-// $this->disableAutoLayout();
-
-if (!Configure::read('debug')):
-    throw new NotFoundException(
-        'Please replace templates/Pages/home.php with your own version or re-enable debug mode.'
-    );
-endif;
-
-$cakeDescription = 'Mural de estágios da ESS/UFRJ';
+$cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
 ?>
 <!DOCTYPE html>
 <html>
@@ -64,18 +48,14 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
     <div class="container">
         <div class='row justify-content-center'>
             <?php
-            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')['categoria'] : null;
             if (isset($categoria) && (!empty($categoria))) {
                 switch ($categoria) {
                     case 1: // Administrador
                         echo $this->element('submenu_navegacao');
                         break;
                     case 2: // Aluno
-                        if (!empty($this->getRequest()->getSession()->read('estagiario_id'))):
-                            echo $this->element('submenu_estagiario');
-                        else:
-                            echo $this->element('submenu_estudante');
-                        endif;
+                        echo $this->element('submenu_aluno');
                         break;
                     case 3: // Professor
                         echo $this->element('submenu_professor');
@@ -85,11 +65,9 @@ $cakeDescription = 'Mural de estágios da ESS/UFRJ';
                         break;
                     default:
                         echo $this->element('submenu_navegacao');
-                        // echo $this->element('menu_mural'); 
                         break;
                 }
             } else {
-                // echo $this->element('menu_mural');
                 echo $this->element('submenu_navegacao');
             }
             ?>

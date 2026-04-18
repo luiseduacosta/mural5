@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
@@ -23,7 +24,7 @@ class MuralestagiosTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'app.Muralestagios',
         'app.Instituicoes',
         'app.Turmaestagios',

@@ -5,33 +5,30 @@
  */
 ?>
 
-<?= $this->element('templates') ?>
+<?= $this->element('menu_mural') ?>
 
-<div class="container">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
-                <li class="nav-item">
-                    <?=
-                        $this->Form->postLink(
-                            __('Excluir'),
-                            ['action' => 'delete', $userestagio->id],
-                            ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']
-                        )
-                        ?>
-                </li>
-            </ul>
-        </div>
-    </nav>
+<nav class="navbar navbar-expand-lg navbar-light" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerUsereEdit"
+            aria-controls="navbarTogglerUserEdit" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerUserEdit">
+        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
+            <li class="nav-link">
+                <?=
+                $this->Form->postLink(
+                        __('Excluir'),
+                        ['action' => 'delete', $user->id],
+                        ['confirm' => __('Tem certeza que quer excluir este usuário # {0}?', $user->id), 'class' => 'btn btn-danger float-start']
+                )
+                ?>
+            </li>
+        <li class="nav-link">
+            <?= $this->Html->link(__('Listar usuários'), ['action' => 'index'], ['class' => 'btn btn-primary float-start']) ?>
+        </li>
+        <?php endif; ?>
+    </ul>
+</nav>
 
     <div class="container">
         <?= $this->Form->create($userestagio) ?>
@@ -40,12 +37,12 @@
             <?php
             echo $this->Form->control('email');
             echo $this->Form->control('password');
-            echo $this->Form->control('categoria_id');
+            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
             echo $this->Form->control('registro');
-            echo $this->Form->control('aluno_id', ['options' => $alunos, 'empty' => true]);
-            echo $this->Form->control('supervisor_id', ['options' => $supervisores, 'empty' => true]);
-            echo $this->Form->control('professor_id', ['options' => $professores, 'empty' => true]);
-            echo $this->Form->control('timestamp');
+            echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
+            echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
+            echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
+            echo $this->Form->control('timestamp', ['type' => 'hidden', date('Y-m-d')]);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>

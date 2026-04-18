@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,8 +11,9 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $nome
+ * @property int $user_id
  *
- * @property \App\Model\Entity\User[] $user_id
+ * @property \App\Model\Entity\User $user
  */
 class Administrador extends Entity
 {

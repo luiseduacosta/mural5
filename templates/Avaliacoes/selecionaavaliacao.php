@@ -1,10 +1,9 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
+ * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-// pr($estagiario->item->aluno);
-// die();
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
 <div class="avaliacaoes index container">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
@@ -26,8 +25,6 @@
             </thead>
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
-                    <?php // pr($c_estagiario); ?>
-                    <?php // die(); ?>
                     <tr>
                         <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <td><?= $this->Html->link('Imprime folha de avaliação', ['controller' => 'avaliacoes', 'action' => 'imprimeavaliacaopdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>

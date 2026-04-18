@@ -1,50 +1,35 @@
 <?php
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/EmptyPHP.php to edit this template
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\User $user
  */
 ?>
 
-<div class="row">
-    <div class="col-lg-4 order-lg-1 order-2">
-        <?= $this->Form->create() ?>
-        <fieldset>
-            <legend><?= __('Digite seu usuário e senha') ?></legend>
-            <?= $this->Form->control('email', ['required' => true, 'class' => 'form-control']) ?>
-            <?= $this->Form->control('password', ['label' => ['text' => 'Senha'], 'required' => true, 'class' => 'form-control']) ?>
-        </fieldset>
-        <?= $this->Form->submit(__('Login'), ['class' => 'btn btn-success mt-2']); ?>
-        <?= $this->Form->end() ?>
-        <div class="row">
-            <div class="col mt-2">
-                <?= $this->Html->link("Cadastrar novo usuário", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
-                <?= $this->Html->link("Esqueceu a senha?", ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+<?= $this->element('menu_mural') ?></div>
+
+<?= $this->element('templates') ?>
+
+<div class="container col-lg-5 shadow p-3 mb-5 bg-white rounded">
+    <?= $this->Form->create($user) ?>
+    <fieldset class="border p-3 mb-4">
+        <legend class="h5"><?= __('Por favor informe seu usuário e senha') ?></legend>
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">Usuário</label>
+            <div class="col-sm-10">
+                <?= $this->Form->control('email', ['required' => true, 'label' => false, 'class' => 'form-control']) ?>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="password" class="col-sm-2 col-form-label">Senha</label>
+            <div class="col-sm-10">
+                <?= $this->Form->control('password', ['required' => true, 'label' => false, 'class' => 'form-control']) ?>
+            </div>
+        </div>
+    </fieldset>
+    <?= $this->Form->button(__('Login'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->end() ?>
+    <div class="btn-group mt-4" role="group" aria-label="Botões adicionais">
+        <?= $this->Html->link('Esqueceu a senha?', ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+        <?= $this->Html->link('Cadastro de novo usuário(a)', ['action' => 'add'], ['class' => 'btn btn-info']) ?>
     </div>
-    <div class='col-lg-8 order-lg-2 order-1'>
-        <p>
-            Prezadas(os) usuárias(os),
-            <br />
-            <br />
-            O Mural de Estágio tem a função de: permitir a consulta e inscrição em vagas de estágio; retirar o Termo de
-            Compromisso, folha de atividades, avaliação do/a supervisor/a, declaração de estágio, dentre outros.
-            <br />
-            <br />
-            É a sua primeira vez por aqui? Faça o cadastro com dados completos. Não abrevie seu nome.
-            <br />
-            <br />
-            Vai retirar o Termo de Compromisso? Preencha os dados da supervisão de campo e do/a professor de OTP.
-            <br />
-            <br />
-            Supervisores/as e professores também podem fazer o cadastro e contribuir para mantermos atualizados os dados
-            das instituições, assim como seus dados profissionais, incluindo e-mail e telefone.
-            <br />
-            <br />
-            Ficou alguma dúvida? Escreva um e-mail detalhado para: estagio@ess.ufrj.br . Estamos à disposição.
-            <br />
-            <br />
-        <p style="text-align: right">Coordenação de Estágio</p>
-    </div>
-</div>
 </div>

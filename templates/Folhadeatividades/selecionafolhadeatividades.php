@@ -1,10 +1,8 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Folhadeatividade[]|\Cake\Collection\CollectionInterface $folhadeatividades
+ * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-// pr($estagiario->item->aluno);
-// die();
 ?>
 
 <div class="container">
@@ -22,38 +20,36 @@
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                    <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
-                    <?php // pr($c_estagiario); ?>
-                    <?php // die(); ?>
                     <tr>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                         <?php endif; ?>
 
-                        <td><?= $this->Html->link('Preencher folha de atividades', ['controller' => 'folhadeatividades', 'action' => 'index', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
+                    <td><?= $this->Html->link('Preencher folha de atividades', ['controller' => 'folhadeatividades', 'action' => 'index', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?>
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
                         <?php endif; ?>
 
-                        <td><?= $c_estagiario->periodo ?></td>
-                        <td><?= $c_estagiario->nivel ?></td>
-                        <td><?= $c_estagiario->hasValue('instituicao') ? $c_estagiario->instituicao->instituicao : '' ?></td>
-                        <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
-                        <td><?= $c_estagiario->ch ?></td>
-                        <td><?= $c_estagiario->nota ?></td>
+                    <td><?= $c_estagiario->periodo ?></td>
+                    <td><?= $c_estagiario->nivel ?></td>
+                    <td><?= $c_estagiario->has('instituicao') ? $c_estagiario->instituicao->instituicao : '' ?></td>
+                    <td><?= $c_estagiario->has('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
+                    <td><?= $c_estagiario->ch ?></td>
+                    <td><?= $c_estagiario->nota ?></td>
 
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria_id'] == 1): ?> 
+                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?> 
                             <?php if (isset($c_estagiario->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('View'), ['action' => 'view', $c_estagiario->id]) ?>
@@ -63,9 +59,8 @@
                             <?php endif; ?>
                         <?php endif; ?>
 
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>

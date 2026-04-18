@@ -55,7 +55,9 @@ class UsersTable extends Table
         $this->belongsTo('Professores', [
             'foreignKey' => 'professor_id',
         ]);
-        
+        $this->hasOne('Categorias', [
+            'foreignKey' => 'categoria',
+        ]);
     }
 
     /**
@@ -80,8 +82,8 @@ class UsersTable extends Table
             ->notEmptyString('password');
 
         $validator
-            ->scalar('categoria_id')
-            ->notEmptyString('categoria_id');
+            ->scalar('categoria')
+            ->notEmptyString('categoria');
 
         $validator
             ->integer('registro')

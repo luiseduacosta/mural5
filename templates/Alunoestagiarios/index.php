@@ -6,7 +6,7 @@
 ?>
 
 <?php
-$categoria = isset($this->getRequest()->getAttribute('identity')['categoria_id']) ? $this->getRequest()->getAttribute('identity')['categoria_id'] : null;
+$categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')['categoria'] : null;
 ?>
 
 <div class="container">

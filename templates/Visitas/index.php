@@ -3,13 +3,12 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Visita[]|\Cake\Collection\CollectionInterface $visitas
  */
+$categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 ?>
-
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+    <?php if (isset($categoria) && $categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,7 +24,7 @@
         </nav>
     <?php endif; ?>
 
-    <h3><?= __('Visitas instituicionais') ?></h3>
+<h3><?= __('Visitas instituicionais') ?></h3>
 
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
@@ -52,7 +51,7 @@
                         <td><?= h($visita->avaliacao) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $visita->id]) ?>
-                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                            <?php if (isset($categoria) && $categoria == '1'): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $visita->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $visita->id)]) ?>
                             <?php endif; ?>
@@ -63,13 +62,15 @@
         </table>
     </div>
 
-    <?= $this->element('templates'); ?>
-    <div class="d-flex justify-content-center">
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+<div class="d-flex justify-content-center">
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
+            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('próximo') . ' >') ?>
+            <?= $this->Paginator->last(__('último') . ' >>') ?>
+    </ul>
+        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do total em {{count}}.')) ?></p>
     </div>
-    <?= $this->element('paginator_count') ?>
 </div>

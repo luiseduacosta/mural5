@@ -20,7 +20,7 @@ class AlunoestagiariosController extends AppController {
     public function index() {
 
         /** Alunos não podem ver os dados dos outros alunos */
-        if ($this->getRequest()->getAttribute('identity')['categoria_id'] <> 2) {
+        if ($this->getRequest()->getAttribute('identity')['categoria'] <> 2) {
 
             $alunoestagiarios = $this->paginate($this->Alunoestagiarios);
 

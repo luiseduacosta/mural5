@@ -414,5 +414,8 @@ return [
         'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
         'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
         'ignoreAuthorization' => env('DEBUG_KIT_IGNORE_AUTHORIZATION', false)
-    ]
+    ],
+    'CakePdf' => [
+        'engine' => 'CakePdf.DomPdf',
+    ],
 ];

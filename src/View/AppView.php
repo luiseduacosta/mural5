@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -13,8 +14,10 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\View;
 
+use Cake\Event\EventInterface;
 use Cake\View\View;
 
 /**
@@ -37,5 +40,14 @@ class AppView extends View
      */
     public function initialize(): void
     {
+    }
+
+    public function beforeRender(EventInterface $event): void
+    {
+        $identity = $this->getRequest()->getAttribute('identity');
+        if ($identity) {
+            $user = $identity->getOriginalData();
+            $this->set('user', $user);
+        }
     }
 }

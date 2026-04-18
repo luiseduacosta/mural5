@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string $categoria
  *
  * @property \App\Model\Entity\Categoria $categoria
+ * @property \App\Model\Entity\Users[] $users
  */
 class Categoria extends Entity
 {

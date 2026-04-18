@@ -3,32 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
  */
-// pr($periodo);
-// pr($muralestagios);
 ?>
-<?php
-/*
-  var url = "<?= $this->Html->url(['controller' => 'Murals', 'action' => 'index/periodo:']); ?>";
- */
-?>
-<script type="text/javascript">
-    $(document).ready(function () {
 
-        var url = "<?= $this->Html->Url->build(['controller' => 'muralestagios', 'action' => 'index?periodo=']); ?>";
-        // alert(url);
-        $("#MuralestagioPeriodo").change(function () {
-            var periodo = $(this).val();
-            // alert(url + '/index/' + periodo);
-            window.location = url + periodo;
-        })
-    })
-</script>
-
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario['categoria_id'] == '1'): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,16 +31,23 @@
         <h3><?= __('Mural de estagios') ?></h3>
     </div>
 
-
     <div class="row justify-content-center">
-        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
+        <?php if (!isset($categoria)): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
-            <?= $this->Form->create($muralestagios, ['class' => 'form-inline']); ?>
+        <?php elseif (isset($categoria) && $categoria == 1): ?>
+            <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
                 <div class='col-sm-2'>
-                    <?= $this->Form->control('periodo', ['id' => 'MuralestagioPeriodo', 'type' => 'select', 'label' => false, 'options' => $periodos, 'empty' => [$periodo => $periodo], 'class' => 'form-control']); ?>
+                    <?= $this->Form->control('periodo', [
+                        'id' => 'MuralestagioPeriodo', 
+                    'type' => 'select', 
+                    'label' => false, 
+                    'options' => $periodos, 
+                    'empty' => [$periodo => $periodo], 
+                    'class' => 'form-control',
+                    'onchange' => 'this.form.submit();'
+                    ]); ?>
                 </div>
             </div>
             <?= $this->Form->end(); ?>
@@ -78,8 +66,8 @@
                     <th><?= $this->Paginator->sort('cargaHoraria', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('dataInscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('dataSelecao', 'Seleção') ?></th>
-                    <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                    <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                    <?php if (!isset($categoria)): ?>
+                    <?php elseif (isset($categoria) && $categoria == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -96,8 +84,8 @@
                         <td><?= $muralestagio->cargaHoraria ?></td>
                         <td><?= isset($muralestagio->dataInscricao) ? $muralestagio->dataInscricao : '' ?></td>
                         <td><?= isset($muralestagio->dataSelecao) ? $muralestagio->dataSelecao : '' ?></td>
-                        <?php if (is_null($this->getRequest()->getAttribute('identity'))): ?>
-                        <?php elseif ($this->getRequest()->getAttribute('identity')['categoria_id'] == '1'): ?>
+                        <?php if (!isset($categoria)): ?>
+                        <?php elseif (isset($categoria) && $categoria == 1): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>
@@ -117,5 +105,4 @@
             </ul>
         </div>
     </div>
-    <?= $this->element('paginator_count') ?>
 </div>

@@ -3,9 +3,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Turmaestagio[]|\Cake\Collection\CollectionInterface $turmaestagios
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
-
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
 
@@ -24,8 +23,10 @@
             </div>
         </nav>
     <?php endif; ?>
+    </ul>
+</nav>
 
-    <h3><?= __('Turmas de estágios') ?></h3>
+<h3><?= __('Turmas de estágios') ?></h3>
 
     <div class="table-responsive">
         <table class="table table-stripted table-hover table-responsive">
@@ -54,13 +55,13 @@
         </table>
     </div>
 
-    <?= $this->element('templates'); ?>
-    <div class="d-flex justify-content-center">
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+<?= $this->element('templates'); ?>
+
+<div class="d-flex justify-content-center">
+    <div class="paginator">
+        <ul class="pagination">
+            <?= $this->element('paginator') ?>
+        </ul>
     </div>
     <?= $this->element('paginator_count') ?>
 </div>

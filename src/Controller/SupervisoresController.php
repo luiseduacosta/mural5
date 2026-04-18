@@ -20,6 +20,8 @@ class SupervisoresController extends AppController
      */
     public function index()
     {
+        $this->Authorization->authorize($this->Supervisores);
+
         $supervisores = $this->paginate($this->Supervisores);
 
         $this->set(compact('supervisores'));
@@ -35,14 +37,12 @@ class SupervisoresController extends AppController
     public function view($id = null)
     {
 
-        if (is_null($id)) {
-            $cress = $this->getRequest()->getQuery('cress');
-            if ($cress) {
-                $query = $this->Supervisores->find()
-                    ->where(['cress' => $cress])
-                    ->first();
-                $id = $query->id;
-            }
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == 4) {
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
+        if (empty($id)) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
         }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => [
@@ -55,8 +55,8 @@ class SupervisoresController extends AppController
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-
-
+        $this->Authorization->authorize($supervisor);
+        
         $this->set(compact('supervisor'));
     }
 
@@ -68,9 +68,10 @@ class SupervisoresController extends AppController
     public function add()
     {
 
-        /* Estes dados vêm da função add ou login do UsersController. Envio paro o formulário */
-        $cress = $this->getRequest()->getQuery('cress');
-        $email = $this->getRequest()->getQuery('email');
+        if ($this->getRequest()->getAttribute('identity')['categoria'] == 4) {
+            $cress = $this->getRequest()->getAttribute('identity')['registro'];
+            $email = $this->getRequest()->getAttribute('identity')['email'];
+        }
 
         /** Envio para o formulário */
         if ($cress) {
@@ -102,7 +103,7 @@ class SupervisoresController extends AppController
              */
             $cress = $this->request->getData('cress');
             $usercadastrado = $this->Supervisores->Users->find()
-                ->where(['categoria_id' => 4, 'registro' => $cress])
+                ->where(['categoria' => 4, 'registro' => $cress])
                 ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Supervisor(a) naõ cadastrado(a) como usuário(a)'));
@@ -127,7 +128,7 @@ class SupervisoresController extends AppController
                 if (empty($usersupervisor)) {
 
                     $userestagio = $this->Supervisores->Users->find()
-                        ->where(['categoria_id' => 4, 'registro' => $supervisorresultado->cress])
+                        ->where(['categoria' => 4, 'registro' => $supervisorresultado->cress])
                         ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo supervisor_id */
@@ -165,6 +166,9 @@ class SupervisoresController extends AppController
      */
     public function edit($id = null)
     {
+        if (is_null($id)) {
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
@@ -190,6 +194,9 @@ class SupervisoresController extends AppController
      */
     public function delete($id = null)
     {
+        if (is_null($id)) {
+            $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
+        }
         $this->request->allowMethod(['post', 'delete']);
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']

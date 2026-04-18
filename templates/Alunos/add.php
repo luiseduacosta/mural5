@@ -3,14 +3,70 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
-// pr($registro);
-// pr($email);
-// die();
+$categoria = $this->getRequest()->getAttribute('identity')->get('categoria');
 ?>
 
+<script>
+    $(document).ready(function () {
+        $('#telefone').mask('(00) 0000-0000');
+        $('#celular').mask('(00) 00000-0000');
+        $('#cpf').mask('000.000.000-00');
+
+        if ($('#codigo-telefone').val() == null) {
+            codigo = '21';
+        } else {
+            codigo = $('#codigo-telefone').val();
+        }
+        if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
+            $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
+        }
+        var telMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
+        };
+        var telOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(telMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#telefone').mask(telMaskBehavior, telOptions);
+
+        if ($('#codigo-celular').val() == null) {
+            codigo = '21';
+        } else {
+            codigo = $('#codigo-celular').val();
+        }
+        if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
+            $('#celular').val('(' + codigo + ') ' + $('#celular').val());
+        } 
+        var celMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
+        };
+        var celOptions = {
+            onKeyPress: function(val, e, field, options) {
+                field.mask(celMaskBehavior.apply({}, arguments), options);
+            },
+            clearIfNotMatch: true
+        };
+        $('#celular').mask(celMaskBehavior, celOptions);
+
+        $('#cep').mask('00000-000', {
+            onComplete: function(cep, e, masks) {
+                buscarEndereco(cep);
+            }
+        });
+        $('#ingresso').mask('0000-0');
+        $('#novoperiodo').val($('#ingresso').val());
+        $('#novoperiodo').mask('0000-0');
+        $('#nascimento').mask('00-00-0000', { placeholder: "dd-MM-yyyy" });
+
+    });
+</script>
+
 <?= $this->element('templates') ?>
+
 <div class="container">
-    <?php if ($this->getRequest()->getAttribute('identity')->get('categoria_id') == '1'): ?>
+    <?php if ($categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">

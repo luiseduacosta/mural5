@@ -1,19 +1,15 @@
 <?php
-// pr($usuario);
-// die();
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
-// pr($muralestagio->inscricoes);
-// die();
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+<?php $categoria = $this->getRequest()->getAttribute('identity')['categoria']; ?>
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
@@ -23,16 +19,16 @@
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $muralestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $muralestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
                 </ul>
             </div>
@@ -46,7 +42,7 @@
                 <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
                    aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
-            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+            <?php if (isset($categoria) && $categoria == 1): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
                        aria-controls="Alunos inscritos" aria-selected="false">Alunos inscritos</a>
@@ -68,8 +64,8 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if ($usuario->categoria_id == 1): ?>
-                            <td><?= $muralestagio->hasValue('instituicoes') ? $this->Html->link($muralestagio->instituicoes->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicoes->id]) : '' ?>
+                        <?php if ($categoria == 1): ?>
+                            <td><?= $muralestagio->instituicao ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicao_id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td><?= $muralestagio->hasValue('instituicoes') ? $muralestagio->instituicoes->instituicao : '' ?></td>
@@ -108,11 +104,6 @@
                         <td><?= $muralestagio->requisitos ?></td>
                     </tr>
                     <tr>
-                        <th><?= __('Turma de estágio') ?></th>
-                        <td><?= $muralestagio->hasValue('turmaestagio') ? $this->Html->link($muralestagio->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $muralestagio->turmaestagio->id]) : 'Sem dados' ?>
-                        </td>
-                    </tr>
-                    <tr>
                         <th><?= __('Horário da OTP') ?></th>
                         <td><?php
                             switch ($muralestagio->horario) {
@@ -130,11 +121,6 @@
                                     break;
                             }
                             ?></td>
-                    </tr>
-                    <tr>
-                        <th><?= __('Professor') ?></th>
-                            <td><?= $muralestagio->hasValue('professor') ? $this->Html->link($muralestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $muralestagio->professor->id]) : 'Sem dados' ?>
-                            </td>
                     </tr>
                     <tr>
                         <th><?= __('Horario da seleção') ?></th>
@@ -242,13 +228,13 @@
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if (isset($usuario) && $usuario->categoria_id == '1'): ?>
+                    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($usuario) && $usuario->categoria_id == 2): ?>
+                    <?php elseif (isset($categoria) && $categoria == 2): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->
@@ -287,7 +273,7 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                            <?php if (isset($usuario) && $usuario->categoria == 1): ?>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -297,14 +283,14 @@
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($usuario) && $usuario->categoria_id == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
+                                <td><?= (isset($usuario) && $usuario->categoria == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if (isset($usuario) && $usuario->categoria_id == 1): ?>
+                                <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                          <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
                                     </td>
@@ -313,7 +299,7 @@
                         <?php endforeach; ?>
                     </table>
                 <?php else: ?>
-õ                    <p>Sem inscrições</p>
+                    <p>Sem inscrições</p>
                 <?php endif; ?>
             </div>
         </div>
