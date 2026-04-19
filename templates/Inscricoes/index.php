@@ -19,11 +19,9 @@
     })
 </script>
 
-
-
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if ($user->isAdmin()): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -35,15 +33,15 @@
 
 <div class="container">
 
-    <?php if ($user->isAdmin()): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if ($user->isAdmin() || $user->isStudent()): ?>
+                    <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
