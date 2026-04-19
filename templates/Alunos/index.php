@@ -12,15 +12,18 @@ if ($user_session) {
 }
 ?>
 <div class="alunos index content">
-    <?php if ($user_data['administrador_id'] or $user_data['aluno_id']) : ?>
-    <aside>
-        <div class="nav">
+    <?php if ($user_data['administrador_id'] || $user_data['aluno_id']) : ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAluno" aria-controls="navbarTogglerAluno" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerAluno">
             <?php if ($user_data['administrador_id']) : ?>
                 <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button']) ?>
                 <?= $this->Html->link(__('Buscar Aluno'), ['action' => 'busca'], ['class' => 'button']) ?>
             <?php endif; ?>
         </div>
-    </aside>
+    </nav>
     <?php endif; ?>
     <h3><?= __('Lista de Alunos(as)') ?></h3>
     <div class="paginator">

@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
 ?>
+
 <div class="avaliacaoes index container">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">

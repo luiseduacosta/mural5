@@ -5,13 +5,7 @@
  */
 ?>
 
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
-        aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
+<div class="avaliacaoes index container">
 
 <h3><?= __('Avaliações') ?></h3>
 
@@ -81,6 +75,6 @@
                 </tr>
             <?php endforeach; ?>
         </tbody>
-        </table>
-    </div>
+    </table>
+</div>
 </div>

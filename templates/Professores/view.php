@@ -8,11 +8,11 @@
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerProfessor"
-            aria-controls="navbarTogglerProfessor" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Ddd Telefone') ?></th>
-                    <td><?= h($professor->ddd_telefone) ?></td>
+                    <td><?= h($professor->codigo_telefone) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Telefone') ?></th>
@@ -90,7 +90,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Ddd Celular') ?></th>
-                    <td><?= h($professor->ddd_celular) ?></td>
+                    <td><?= h($professor->codigo_celular) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Celular') ?></th>
@@ -148,7 +148,6 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
-                            <th><?= __('Turno') ?></th>
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Instituição') ?></th>
                             <th><?= __('Supervisora') ?></th>
@@ -215,7 +214,6 @@
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
-                            <?php // pr($estagiarios->folhadeatividade) ?>
                             <tr>
                                 <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td><?= h($estagiarios->id) ?></td>

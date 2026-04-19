@@ -9,11 +9,11 @@
 
     <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
                         <?= $this->Html->link(__('Nova professora'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
@@ -39,9 +39,9 @@
                     <th><?= $this->Paginator->sort('nome') ?></th>
                     <th><?= $this->Paginator->sort('cpf', 'CPF') ?></th>
                     <th><?= $this->Paginator->sort('siape', 'SIAPE') ?></th>
-                    <th><?= $this->Paginator->sort('ddd_telefone', 'DDD') ?></th>
+                    <th><?= $this->Paginator->sort('codigo_telefone', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('ddd_celular', 'DDD') ?></th>
+                    <th><?= $this->Paginator->sort('codigo_celular', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email', 'E-mail') ?></th>
                     <th><?= $this->Paginator->sort('curriculolattes', 'Lattes') ?></th>
@@ -61,9 +61,9 @@
                         </td>
                         <td><?= h($professor->cpf) ?></td>
                         <td><?= $professor->siape ?></td>
-                        <td><?= h($professor->ddd_telefone) ?></td>
+                        <td><?= h($professor->codigo_telefone) ?></td>
                         <td><?= h($professor->telefone) ?></td>
-                        <td><?= h($professor->ddd_celular) ?></td>
+                        <td><?= h($professor->codigo_celular) ?></td>
                         <td><?= h($professor->celular) ?></td>
                         <td><?= h($professor->email) ?></td>
                         <td><?= h($professor->curriculolattes) ?></td>

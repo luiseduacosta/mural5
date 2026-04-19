@@ -4,23 +4,24 @@
  * @var \App\Model\Entity\Instituicao $instituicao
  */
 ?>
+
 <?= $this->element('templates') ?>
 
 <div class="container">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
-                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
@@ -38,23 +39,23 @@
 <div class="row">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#instituicao" role="tab" aria-controls="instituicao"
                 aria-selected="true">Instituição</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#supervisores" role="tab" aria-controls="supervisores"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#supervisores" role="tab" aria-controls="supervisores"
                 aria-selected="false">Supervisores</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#muraldeestagio" role="tab" aria-controls="muraldeestagio"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#muraldeestagio" role="tab" aria-controls="muraldeestagio"
                 aria-selected="false">Mural de estágio</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#visitas" role="tab" aria-controls="visitas"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#visitas" role="tab" aria-controls="visitas"
                 aria-selected="false">Visitas</a>
         </li>
     </ul>
@@ -99,10 +100,6 @@
                     <td><?= h($instituicao->telefone) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Fax') ?></th>
-                    <td><?= h($instituicao->fax) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('CEP') ?></th>
                     <td><?= h($instituicao->cep) ?></td>
                 </tr>
@@ -128,16 +125,8 @@
                     <td><?= ($instituicao->fim_de_semana == 0) ? 'Não' : 'Sim'; ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Local de inscrição') ?></th>
-                    <td><?= h($instituicao->localInscricao) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Seguro') ?></th>
                     <td><?= ($instituicao->seguro == 0) ? 'Não' : 'Sim'; ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Avaliação') ?></th>
-                    <td><?= h($instituicao->avaliacao) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Área') ?></th>
@@ -169,14 +158,14 @@
                                     <th><?= __('Nome') ?></th>
                                     <th><?= __('Cress') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
                                 <?php foreach ($instituicao->supervisores as $supervisores): ?>
                                     <tr>
                                         <td><?= h($supervisores->id) ?></td>
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td><?= $this->Html->link($supervisores->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                             </td>
                                         <?php else: ?>
@@ -184,7 +173,7 @@
                                         <?php endif; ?>
                                         <td><?= h($supervisores->cress) ?></td>
                                         <td><?= h($supervisores->observacoes) ?></td>
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('View'), ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Supervisores', 'action' => 'edit', $supervisores->id]) ?>
@@ -215,11 +204,10 @@
                                     <th><?= __('Turno') ?></th>
                                     <th><?= __('Tc') ?></th>
                                     <th><?= __('Tc Solicitação') ?></th>
-                                    <th><?= __('Turma de estágio') ?></th>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -227,7 +215,7 @@
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
 
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -236,7 +224,7 @@
 
                                 <td><?= h($estagiarios->registro) ?></td>
 
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -244,7 +232,7 @@
                                             </td>
                                         <?php endif; ?>
 
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -253,7 +241,7 @@
 
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td><?= h($estagiarios->ajuste2020) ?></td>
                                             <td><?= h($estagiarios->turno) ?></td>
                                             <td><?= h($estagiarios->tc) ?></td>
@@ -272,7 +260,7 @@
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
                                             </td>
-                                        <?php if (null !== $categoria && $categoria == '1'): ?>
+                                        <?php if (null !== $categoria && $categoria == 1): ?>
                                             <td><?= h($estagiarios->observacoes) ?></td>
                                         <?php endif; ?>
                                     </tr>
@@ -292,7 +280,7 @@
                                     <th><?= __('Instituicoes') ?></th>
                                     <th><?= __('Vagas') ?></th>
                                     <th><?= __('Periodo') ?></th>
-                                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -303,7 +291,7 @@
                                         </td>
                                         <td><?= h($muralestagios->vagas) ?></td>
                                         <td><?= h($muralestagios->periodo) ?></td>
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Muralestagios', 'action' => 'edit', $muralestagios->id]) ?>
@@ -330,7 +318,7 @@
                                     <th><?= __('Responsável') ?></th>
                                     <th><?= __('Descrição') ?></th>
                                     <th><?= __('Avaliação') ?></th>
-                                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                                    <?php if (isset($categoria) && $categoria == 1): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -343,7 +331,7 @@
                                         <td><?= h($visitas->responsavel) ?></td>
                                         <td><?= h($visitas->descricao) ?></td>
                                         <td><?= h($visitas->avaliacao) ?></td>
-                                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                                        <?php if (isset($categoria) && $categoria == 1): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visitas->id]) ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visitas->id]) ?>

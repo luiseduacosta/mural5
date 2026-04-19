@@ -3,15 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento[]|\Cake\Collection\CollectionInterface $complementos
  */
-$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
-
 
 <div class="container">
 
     <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerComplemento"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerComplemento"
                 aria-controls="navbarTogglerComplemento" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

@@ -75,8 +75,11 @@ if ($user_session) {
 <div>
     <div class="column-responsive column-80">
         <div class="alunos form content">
-            <aside>
-                <div class="nav">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAluno" aria-controls="navbarTogglerAluno" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerAluno">
                     <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'button']) ?>
                     <?php if ($user_data['administrador_id']) : ?>
                         <?= $this->Form->postLink(
@@ -86,7 +89,7 @@ if ($user_session) {
                         ) ?>
                     <?php endif; ?>
                 </div>
-            </aside>
+            </nav>
             <?= $this->Form->create($aluno) ?>
             <fieldset>
                 <h3><?= __('Editando aluno(a) ' . $aluno->id) ?></h3>

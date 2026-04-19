@@ -5,34 +5,6 @@
  */
 ?>
 
-<<<<<<< HEAD
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-
-                    <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
-                <?php if (isset($categoria) && $categoria == 1): ?>
-                    <li class="nav-item">
-                        <?=
-                            $this->Form->postLink(
-                                __('Excluir'),
-                                ['action' => 'delete', $supervisor->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']
-                            )
-                            ?>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </nav>
-=======
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
@@ -40,10 +12,10 @@
 
         $('#cpf').mask('000.000.000-00');
 
-        if ($('#ddd_telefone').val() === '' ) {
+        if ($('#codigo_telefone').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_telefone').val();
+            codigo = $('#codigo_telefone').val();
         }
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
@@ -59,10 +31,10 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-                if ($('#ddd_celular').val() === '' ) {
+        if ($('#codigo_celular').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_celular').val();
+            codigo = $('#codigo_celular').val();
         }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
@@ -82,15 +54,12 @@
     });
 </script>
 
-<?php echo $this->element("menu_mural"); ?>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerSupervisores"
-            aria-controls="navbarTogglerSupervisores" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerSupervisores">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
             <?= $this->Html->link(
                 __("Listar supervisores"),
@@ -99,7 +68,7 @@
             ) ?>
         </li>
         <li class="nav-item">
-            <?php if (isset($categoria) && $categoria == "1"): ?>
+            <?php if (isset($categoria) && $categoria == 1): ?>
                 <?= $this->Form->postLink(
                     __("Excluir"),
                     ["action" => "delete", $supervisor->id],
@@ -153,7 +122,7 @@
             "label" => "Município",
             "type" => "text",
         ]);
-        echo $this->Form->control("codigo_tel", [
+        echo $this->Form->control("codigo_telefone", [
             "label" => "DDD",
             "type" => "number",
         ]);
@@ -161,7 +130,7 @@
             "label" => "Telefone",
             "type" => "text",
         ]);
-        echo $this->Form->control("codigo_cel", [
+        echo $this->Form->control("codigo_celular", [
             "label" => "DDD",
             "type" => "number",
         ]);
@@ -173,37 +142,9 @@
             "label" => "E-mail",
             "type" => "email",
         ]);
-        echo $this->Form->control("escola", [
-            "label" => "Escola de origem",
-            "type" => "text",
-        ]);
-        echo $this->Form->control("ano_formatura", [
-            "label" => "Ano de formatura",
-            "type" => "number",
-        ]);
-        echo $this->Form->control("outros_estudos", [
-            "label" => "Outros estudos",
-            "type" => "text",
-        ]);
-        echo $this->Form->control("area_curso", [
-            "label" => "Área do curso",
-            "type" => "text",
-        ]);
-        echo $this->Form->control("ano_curso", [
-            "label" => "Ano do curso",
-            "type" => "number",
-        ]);
         echo $this->Form->control("cargo", [
             "label" => "Cargo que ocupa",
             "type" => "text",
-        ]);
-        echo $this->Form->control("num_inscricao", [
-            "label" => "Inscrição para curso de supervisores",
-            "type" => "number",
-        ]);
-        echo $this->Form->control("curso_turma", [
-            "label" => "Turma do curso de supervisores",
-            "type" => "number",
         ]);
         echo $this->Form->control("observacoes", [
             "label" => "Observações",

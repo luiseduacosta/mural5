@@ -5,20 +5,19 @@
  */
 ?>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerMuralinscricao"
-            aria-controls="navbarTogglerMuralinscricao" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerMuralinscricao">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
             <?= $this->Html->link(__('Voltar'), ['controller' => 'Alunos', 'action' => 'view', $muralinscricao->aluno_id], ['class' => 'btn btn-info me-1']) ?>
         </li>
         <li class="nav-item">
             <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
         </li>
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -28,7 +27,7 @@
             <li class="nav-item">
                 <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger me-1']) ?>
             </li>
-        <?php elseif (isset($categoria) && $categoria == '2'): ?>
+        <?php elseif (isset($categoria) && $categoria == 2): ?>
             <li class="nav-item">
                 <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $muralinscricao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralinscricao->id), 'class' => 'btn btn-danger me-1']) ?>
             </li>

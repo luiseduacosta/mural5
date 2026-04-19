@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao $configuracao
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 
     <div class="container">
@@ -20,7 +19,6 @@ $user = $this->getRequest()->getAttribute('identity');
             echo $this->Form->control('curso_encerramento_inscricoes', ['label' => 'Encerramento das inscrições do curso']);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
         <?= $this->Form->end() ?>
     </div>
-</div>

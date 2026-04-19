@@ -6,8 +6,6 @@
  */
 ?>
 
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
-
 <?php
 use Cake\I18n\I18n;
 use Cake\I18n\DateTime;
@@ -47,14 +45,13 @@ if ($cress) {
     }
 </style>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
         aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '4')): ?>
+        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => $estagiario->id . '/' . $estagiario->registro], ['class' => 'btn btn-primary']) ?>
             </li>

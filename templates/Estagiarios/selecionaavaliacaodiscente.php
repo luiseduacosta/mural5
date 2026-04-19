@@ -6,7 +6,6 @@
  */
 ?>
 
-
 <div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">

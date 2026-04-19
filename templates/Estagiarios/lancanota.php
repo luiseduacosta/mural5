@@ -20,7 +20,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
             <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo =>$periodo]], ['class' => 'form-control']); ?>
             <?php echo $this->Form->input('professor_id', ['type' => 'hidden', 'value' => $professor->id]); ?>
@@ -55,7 +55,7 @@
         <tbody>
             <?php foreach ($estagiarios as $estagiario): ?>
                 <tr>
-                    <?php if (isset($categoria) && $categoria == '1'): ?>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
                         <td><?= $estagiario->id ?></td>
                     <?php endif; ?>
                     <td><?= $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) ?>

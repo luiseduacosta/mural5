@@ -11,14 +11,13 @@ $cress = isset($estagiario->supervisor->cress) ? $estagiario->supervisor->cress 
 $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome : '_______________';
 ?>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAtividades"
-        aria-controls="navbarTogglerAtividades" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
-        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '2')): ?>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
             <li class='nav-link'>
                 <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
             </li>

@@ -10,11 +10,11 @@
     <?php if (isset($categoria) && $categoria == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
@@ -37,12 +37,12 @@
     <div class="row">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#instituicao" role="tab"
+                <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#instituicao" role="tab"
                    aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
             <?php if (isset($categoria) && $categoria == 1): ?>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#inscricoes" role="tab"
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#inscricoes" role="tab"
                        aria-controls="Alunos inscritos" aria-selected="false">Alunos inscritos</a>
                 </li>
             <?php endif; ?>
@@ -214,7 +214,7 @@
                     <!--
                     Se a inscricao e na instituição também tem que fazer inscrição no mural
                     //-->
-                    <?php if ($muralestagio->localInscricao === 1): ?>
+                    <?php if ($muralestagio->local_inscricao === 1): ?>
 
                         <tr>
                             <td colspan=2>
@@ -277,7 +277,6 @@
                         </tr>
                         <?php foreach ($muralestagio->inscricoes as $inscricoes): ?>
                             <tr>
-                                <?php // pr($inscricoes) ?>
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 

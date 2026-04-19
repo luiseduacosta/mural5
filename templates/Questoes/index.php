@@ -11,7 +11,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if (isset($categoria) && $categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == 1): ?>
             <li class="nav-item">
                 <?= $this->Html->link(
                     __("Nova questão"),

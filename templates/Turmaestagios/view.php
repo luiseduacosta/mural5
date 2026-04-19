@@ -3,17 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Turmaestagio $turmaestagio
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
-
 
 <div class="d-flex justify-content-start">
     <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerTurma"
-            aria-controls="navbarTogglerTurma" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerTurma">
+        <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
             <li class="nav-item">
                     <?= $this->Html->link(__('Listar turma de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -58,11 +56,10 @@ $user = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Tc') ?></th>
                             <th><?= __('Tc Solicitacao') ?></th>
-                            <th><?= __('Instituicaoestagio') ?></th>
+                            <th><?= __('Instituição') ?></th>
                             <th><?= __('Supervisor') ?></th>
                             <th><?= __('Professor') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <th><?= __('Turmaestagio') ?></th>
                             <?php if (isset($categoria) && $categoria == 1): ?>
                                 <th><?= __('Nota') ?></th>
                                 <th><?= __('Ch') ?></th>
@@ -74,8 +71,6 @@ $user = $this->getRequest()->getAttribute('identity');
                         </tr>
                         <?php foreach ($turmaestagio->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php // pr($estagiarios); ?>
-                                <?php // die(); ?>
                                 <td><?= h($estagiarios->id) ?></td>
                                 <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?></td>
@@ -100,7 +95,6 @@ $user = $this->getRequest()->getAttribute('identity');
                                     <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : '' ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->periodo) ?></td>
-                                <td><?= $estagiarios->hasValue('turmaestagio') ? $this->Html->link(h($estagiarios->turmaestagio->area), ['controller' => 'turmaestagios', 'action' => 'view', $estagiarios->turmaestagio_id]) : '' ?></td>
                                 <?php if (isset($categoria) && $categoria == 1): ?>
                                     <td><?= h($estagiarios->nota) ?></td>
                                     <td><?= h($estagiarios->ch) ?></td>
@@ -133,21 +127,19 @@ $user = $this->getRequest()->getAttribute('identity');
                             <th><?= __('Vagas') ?></th>
                             <th><?= __('Beneficios') ?></th>
                             <th><?= __('Final De Semana') ?></th>
-                            <th><?= __('CargaHoraria') ?></th>
+                            <th><?= __('Carga horaria') ?></th>
                             <th><?= __('Requisitos') ?></th>
-                            <th><?= __('Turmaestagio Id') ?></th>
                             <th><?= __('Horario') ?></th>
                             <th><?= __('Professor') ?></th>
-                            <th><?= __('DataSelecao') ?></th>
-                            <th><?= __('DataInscricao') ?></th>
-                            <th><?= __('HorarioSelecao') ?></th>
-                            <th><?= __('LocalSelecao') ?></th>
-                            <th><?= __('FormaSelecao') ?></th>
+                            <th><?= __('Data selecao') ?></th>
+                            <th><?= __('Data inscricao') ?></th>
+                            <th><?= __('Horario selecao') ?></th>
+                            <th><?= __('Local selecao') ?></th>
+                            <th><?= __('Forma selecao') ?></th>
                             <th><?= __('Contato') ?></th>
                             <th><?= __('Outras') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <th><?= __('Datafax') ?></th>
-                            <th><?= __('LocalInscricao') ?></th>
+                            <th><?= __('Local inscricao') ?></th>
                             <th><?= __('Email') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
@@ -161,21 +153,18 @@ $user = $this->getRequest()->getAttribute('identity');
                                 <td><?= h($muralestagios->vagas) ?></td>
                                 <td><?= h($muralestagios->beneficios) ?></td>
                                 <td><?= h($muralestagios->final_de_semana) ?></td>
-                                <td><?= h($muralestagios->cargaHoraria) ?></td>
+                                <td><?= h($muralestagios->carga_horaria) ?></td>
                                 <td><?= h($muralestagios->requisitos) ?></td>
-                                <td><?= h($muralestagios->turmaestagio_id) ?></td>
                                 <td><?= h($muralestagios->horario) ?></td>
-                                <td><?= h($muralestagios->professor_id) ?></td>
-                                <td><?= h($muralestagios->dataSelecao) ?></td>
-                                <td><?= h($muralestagios->dataInscricao) ?></td>
-                                <td><?= h($muralestagios->horarioSelecao) ?></td>
-                                <td><?= h($muralestagios->localSelecao) ?></td>
-                                <td><?= h($muralestagios->formaSelecao) ?></td>
+                                <td><?= h($muralestagios->data_selecao) ?></td>
+                                <td><?= h($muralestagios->data_inscricao) ?></td>
+                                <td><?= h($muralestagios->horario_selecao) ?></td>
+                                <td><?= h($muralestagios->local_selecao) ?></td>
+                                <td><?= h($muralestagios->forma_selecao) ?></td>
                                 <td><?= h($muralestagios->contato) ?></td>
                                 <td><?= h($muralestagios->outras) ?></td>
                                 <td><?= h($muralestagios->periodo) ?></td>
-                                <td><?= h($muralestagios->datafax) ?></td>
-                                <td><?= h($muralestagios->localInscricao) ?></td>
+                                <td><?= h($muralestagios->local_inscricao) ?></td>
                                 <td><?= h($muralestagios->email) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>

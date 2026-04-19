@@ -13,10 +13,10 @@
         $('#cpf').mask('000.000.000-00');
         $('#cep').mask('00000-000');
 
-        if ($('#ddd_telefone').val() === '' ) {
+        if ($('#codigo_telefone').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_telefone').val();
+            codigo = $('#codigo_telefone').val();
         }
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
@@ -32,10 +32,10 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#ddd_celular').val() === '' ) {
+        if ($('#codigo_celular').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_celular').val();
+            codigo = $('#codigo_celular').val();
         }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
@@ -58,11 +58,11 @@
 
 <div class="d-flex justify-content-start">
     <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerProfessor"
-            aria-controls="navbarTogglerProfessor" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
@@ -91,9 +91,9 @@
         echo $this->Form->control('dataegresso', ['empty' => true, 'label' => ['text' => 'Data de Egresso']]);
         echo $this->Form->control('motivoegresso', ['label' => ['text' => 'Motivo de Egresso'], 'options' => ['Aposentadoria' => 'Aposentadoria', 'Demissão' => 'Demissão', 'Falecimento' => 'Falecimento', 'Outro' => 'Outro']]);
         /** Dados de contato */
-        echo $this->Form->control('ddd_telefone', ['label' => ['text' => 'DDD do Telefone']]);
+        echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD do Telefone']]);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone']]);
-        echo $this->Form->control('ddd_celular', ['label' => ['text' => 'DDD do Celular']]);
+        echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD do Celular']]);
         echo $this->Form->control('celular', ['label' => ['text' => 'Celular']]);
         if (isset($email)) {
             echo $this->Form->control('email', ['value' => $email, 'readonly', 'label' => ['text' => 'Email']]);
@@ -107,6 +107,6 @@
         echo $this->Form->control('observacoes', ['type' => 'textarea', 'rows' => '3', 'cols' => '40', 'label' => ['text' => 'Outras informações']]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
+    <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>

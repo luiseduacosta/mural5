@@ -9,7 +9,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <ul class="navbar-nav mr-auto">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == 1): ?>
         <li class="nav-item active">
             <?= $this->Html->link(__('Novo Questionario'), ['controller' => 'Questionarios', 'action' => 'add'], ['class' => 'btn btn-primary']) ?>
         </li>

@@ -3,7 +3,6 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <script type="text/javascript">
@@ -37,14 +36,13 @@ $user = $this->getRequest()->getAttribute('identity');
     }
 </script>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerEstagiario">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <li class="nav-item">
                 <?=
                 $this->Form->postLink(

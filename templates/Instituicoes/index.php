@@ -7,13 +7,13 @@
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == '1'): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+            <div class="collapse navbar-collapse" id="navbarToggler ">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
                         <?= $this->Html->link(__('Nova instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
@@ -41,14 +41,11 @@
                     <th><?= $this->Paginator->sort('municipio') ?></th>
                     <th><?= $this->Paginator->sort('cep', 'CEP') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('fax') ?></th>
                     <th><?= $this->Paginator->sort('beneficio', 'Benefício') ?></th>
                     <th><?= $this->Paginator->sort('fim_de_semana') ?></th>
-                    <th><?= $this->Paginator->sort('localInscricao', 'Local de inscrição') ?></th>
                     <th><?= $this->Paginator->sort('convenio', 'Convênio') ?></th>
                     <th><?= $this->Paginator->sort('expira') ?></th>
                     <th><?= $this->Paginator->sort('seguro') ?></th>
-                    <th><?= $this->Paginator->sort('avaliacao', 'Avaliação') ?></th>
                     <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
                 </tr>
@@ -70,15 +67,12 @@
                         <td><?= h($instituicao->municipio) ?></td>
                         <td><?= h($instituicao->cep) ?></td>
                         <td><?= h($instituicao->telefone) ?></td>
-                        <td><?= h($instituicao->fax) ?></td>
                         <td><?= h($instituicao->beneficio) ?></td>
                         <td><?= h($instituicao->fim_de_semana) ?></td>
-                        <td><?= h($instituicao->localInscricao) ?></td>
                         <td><?= $instituicao->convenio ?></td>
                         <td><?= $instituicao->expira ? date('d-m-Y', strtotime(h($instituicao->expira))) : '' ?>
                         </td>
                         <td><?= h($instituicao->seguro) ?></td>
-                        <td><?= h($instituicao->avaliacao) ?></td>
                         <td><?= h($instituicao->observacoes) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $instituicao->id]) ?>

@@ -5,13 +5,12 @@
  */
 ?>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerMural"
-        aria-controls="navbarTogglerMural" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerMural">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
@@ -23,7 +22,7 @@
     <fieldset>
         <legend><?= __('Inscrição para seleção de estágio') ?></legend>
         <?php
-        if (isset($categoria) && $categoria == '1'):
+        if (isset($categoria) && $categoria == 1):
             echo $this->Form->control('aluno_id', [
                 'label' => ['text' => 'Aluno(a)', 'class' => 'col-sm-2 form-label'],
                 'options' => $alunos,
@@ -76,7 +75,7 @@
                 ]
             ]);
             echo $this->Form->control('timestamp', ['type' => 'hidden', 'value' => date('Y-m-d H:i:s'), 'readonly' => true]);
-        elseif (isset($categoria) && $categoria == '2'):
+        elseif (isset($categoria) && $categoria == 2):
             echo $this->Form->control('aluno_id', [
                 'label' => 'Aluno(a)',
                 'options' => [$alunos[$user->aluno_id]],

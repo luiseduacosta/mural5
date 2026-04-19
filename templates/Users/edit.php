@@ -6,12 +6,12 @@
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerUsereEdit"
-            aria-controls="navbarTogglerUserEdit" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerUserEdit">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if (isset($categoria) && $categoria == 1): ?>
             <li class="nav-link">
                 <?=
                 $this->Form->postLink(
@@ -43,7 +43,7 @@
             echo $this->Form->control('timestamp', ['type' => 'hidden', date('Y-m-d')]);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

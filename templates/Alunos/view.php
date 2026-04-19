@@ -100,7 +100,7 @@ if ($user_session) {
             </table>
             <?php if (!empty($aluno->observacoes)) : ?>
             <div class="text">
-                <strong><?= __('Observacoes') ?></strong>
+                <strong><?= __('Observações') ?></strong>
                 <blockquote>
                     <?= $this->Markdown->parse($aluno->observacoes); ?>
                 </blockquote>

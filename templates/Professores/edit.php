@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
+
 <div class="container">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -14,10 +15,10 @@
         $('#cpf').mask('000.000.000-00');
         $('#cep').mask('00000-000');
 
-        if ($('#ddd_telefone').val() === '' ) {
+        if ($('#codigo_telefone').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_telefone').val();
+            codigo = $('#codigo_telefone').val();
         }
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
@@ -33,10 +34,10 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#ddd_celular').val() === '' ) {
+        if ($('#codigo_celular').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_celular').val();
+            codigo = $('#codigo_celular').val();
         }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
@@ -58,13 +59,13 @@
 
 <div class="d-flex justify-content-start">
     <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerProfessor"
-            aria-controls="navbarTogglerProfessor" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($categoria) && ($categoria == '1' || $categoria == '3')): ?>
+                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 3)): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(
@@ -76,7 +77,7 @@
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Professores'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Listar Professores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
             </ul>
         </div>
@@ -98,9 +99,9 @@
         echo $this->Form->control('dataegresso', ['empty' => true, 'label' => ['text' => 'Data de Egresso']]);
         echo $this->Form->control('motivoegresso', ['label' => ['text' => 'Motivo de Egresso'], 'options' => ['Aposentadoria' => 'Aposentadoria', 'Demissão' => 'Demissão', 'Falecimento' => 'Falecimento', 'Outro' => 'Outro']]);
         /** Dados de contato */
-        echo $this->Form->control('ddd_telefone', ['label' => ['text' => 'DDD do Telefone']]);
+        echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD do Telefone']]);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone']]);
-        echo $this->Form->control('ddd_celular', ['label' => ['text' => 'DDD do Celular']]);
+        echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD do Celular']]);
         echo $this->Form->control('celular', ['label' => ['text' => 'Celular']]);
         echo $this->Form->control('email', ['label' => ['text' => 'E-mail']]);
         /** Dados de currículos */

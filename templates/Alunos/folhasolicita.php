@@ -16,4 +16,3 @@ echo $this->Form->control('registro', ['type' => 'text', 'label' => 'DRE', 'valu
 echo $this->Form->submit('Confirma', ['type' => 'Submit', 'label' => ['text' => 'Confirma'], 'class' => 'button']);
 echo $this->Form->end();
 ?>
-

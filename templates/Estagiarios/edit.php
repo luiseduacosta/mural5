@@ -9,18 +9,15 @@
     CKEDITOR.replace('observacoes')
 </script>
 
-
 <?= $this->element('templates') ?>
-
-<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
                     <?=
@@ -92,7 +89,6 @@ $niveis = [
             ]
         ]);
         echo $this->Form->control('registro', ['label' => 'DRE']);
-        echo $this->Form->control('turno', ['label' => 'Turno']);
         echo $this->Form->control('nivel', [
             'options' => $niveis,
             'value' => isset($estagiario) ? $estagiario->nivel : '',
@@ -152,7 +148,7 @@ $niveis = [
                 'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
             ]
         ]);
-        if (isset($categoria) && $categoria == '1') {
+        if (isset($categoria) && $categoria == 1) {
             echo $this->Form->control('nota', ['label' => 'Nota', 'type' => 'number', 'step' => '0.01', 'placeholder' => '00.00']);
             echo $this->Form->control('ch', ['label' => 'Carga horária', 'type' => 'number', 'placeholder' => '000']);
             echo $this->Form->control('observacoes', ['type' => 'textarea', 'rows' => '3', 'cols' => '40', 'label' => 'Observações']);

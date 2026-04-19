@@ -7,14 +7,13 @@
  */
 ?>
 
-
 <div class="container mt-1">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
             <li class="nav-item">
                 <?= $this->Html->link('Listar respostas', ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
-            <?php if (isset($categoria) && ($categoria == '1' || $categoria == '4')): ?>
+            <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

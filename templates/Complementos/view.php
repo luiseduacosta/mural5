@@ -3,13 +3,11 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Complemento $complemento
  */
-$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
-
 
 <nav class="navbar navbar-expand-lg navbar-light btn-light">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
@@ -51,7 +49,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
             <tr>
                 <th><?= __('Id') ?></th>
                 <th><?= __('Registro') ?></th>
-                <th><?= __('Turno') ?></th>
                 <th><?= __('Nivel') ?></th>
                 <th><?= __('Tc') ?></th>
                 <th><?= __('Tc Solicitacao') ?></th>
@@ -59,20 +56,17 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                 <th><?= __('Supervisor') ?></th>
                 <th><?= __('Professor') ?></th>
                 <th><?= __('Periodo') ?></th>
-                <th><?= __('Turma') ?></th>
                 <th><?= __('Nota') ?></th>
-                <th><?= __('Ch') ?></th>
-                <th><?= __('Observacoes') ?></th>
+                <th><?= __('CH') ?></th>
                 <th><?= __('Complemento Id') ?></th>
                 <th><?= __('Ajuste2020') ?></th>
+                <th><?= __('Observacoes') ?></th>
                 <th><?= __('Ações') ?></th>
             </tr>
             <?php foreach ($complemento->estagiarios as $estagiarios): ?>
-                <?php // pr($estagiarios) ?>
                 <tr>
                     <td><?= h($estagiarios->id) ?></td>
                     <td><?= h($estagiarios->registro) ?></td>
-                    <td><?= h($estagiarios->turno) ?></td>
                     <td><?= h($estagiarios->nivel) ?></td>
                     <td><?= h($estagiarios->tc) ?></td>
                     <td><?= h($estagiarios->tc_solicitacao) ?></td>
@@ -80,12 +74,11 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                     <td><?= h($estagiarios->supervisor_id) ?></td>
                     <td><?= h($estagiarios->professor_id) ?></td>
                     <td><?= h($estagiarios->periodo) ?></td>
-                    <td><?= h($estagiarios['turmaestagio_id']) ?></td>
                     <td><?= h($estagiarios->nota) ?></td>
                     <td><?= h($estagiarios->ch) ?></td>
-                    <td><?= h($estagiarios->observacoes) ?></td>
-                    <td><?= h($estagiarios['complemento_id']) ?></td>
+                    <td><?= h($estagiarios->complemento_id) ?></td>
                     <td><?= h($estagiarios->ajuste2020) ?></td>
+                    <td><?= h($estagiarios->observacoes) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                         <?php if (isset($categoria) && $categoria == 1): ?>
