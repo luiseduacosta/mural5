@@ -51,6 +51,13 @@ class SupervisoresController extends AppController
             ]
         ]);
 
+        try {
+            $this->Authorization->authorize($supervisor);
+        } catch (\Authorization\AuthorizationException $e) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if (!isset($supervisor)) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
@@ -94,6 +101,8 @@ class SupervisoresController extends AppController
         }
 
         $supervisor = $this->Supervisores->newEmptyEntity();
+
+        $this->Authorization->authorize($supervisor);
 
         if ($this->request->is('post')) {
 
@@ -172,6 +181,14 @@ class SupervisoresController extends AppController
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
+
+        try {
+            $this->Authorization->authorize($supervisor);
+        } catch (\Authorization\AuthorizationException $e) {
+            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supervisor = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
             if ($this->Supervisores->save($supervisor)) {
@@ -201,6 +218,9 @@ class SupervisoresController extends AppController
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']
         ]);
+
+        $this->Authorization->authorize($supervisor);
+        
         if (sizeof($supervisor->estagiarios) > 0) {
             $this->Flash->error(__('Supervisor(a) com estagiarios'));
             return $this->redirect(['controller' => 'supervisores', 'action' => 'view', $id]);

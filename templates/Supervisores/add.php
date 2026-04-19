@@ -6,11 +6,11 @@
 ?>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
 
@@ -20,10 +20,10 @@
     $(document).ready(function() {
         $('#cpf').mask('000.000.000-00');
         
-        if ($('#ddd_telefone').val() === '' ) {
+        if ($('#codigo_telefone').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_telefone').val();
+            codigo = $('#codigo_telefone').val();
         }
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
@@ -39,10 +39,10 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#ddd_celular').val() === '' ) {
+        if ($('#codigo_celular').val() === '' ) {
             codigo = '21';
         } else {
-            codigo = $('#ddd_celular').val();
+            codigo = $('#codigo_celular').val();
         }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
@@ -117,7 +117,7 @@
             "mask" => "00000-000",
             "placeholder" => "00000-000",
         ]);
-        echo $this->Form->control("codigo_tel", [
+        echo $this->Form->control("codigo_telefone", [
             "label" => ["text" => "DDD"],
             "type" => "number",
         ]);
@@ -127,7 +127,7 @@
             "mask" => "(00) 0000-0000",
             "placeholder" => "(00) 0000-0000",
         ]);
-        echo $this->Form->control("codigo_cel", [
+        echo $this->Form->control("codigo_celular", [
             "label" => ["text" => "DDD"],
             "type" => "number",
         ]);
@@ -150,16 +150,6 @@
                 "type" => "email",
             ]);
         }
-        echo $this->Form->control("escola", [
-            "label" => ["text" => "Escola de origem"],
-            "type" => "text",
-        ]);
-        echo $this->Form->control("ano_formatura", [
-            "label" => ["text" => "Ano de formatura"],
-            "type" => "number",
-            "mask" => "0000",
-            "placeholder" => "0000",
-        ]);
         if (isset($cress)) {
             echo $this->Form->control("cress", [
                 "label" => ["text" => "Cress"],
@@ -178,33 +168,9 @@
             "type" => "number",
             "value" => 7,
         ]);
-        echo $this->Form->control("outros_estudos", [
-            "label" => ["text" => "Outros estudos"],
-            "type" => "text",
-        ]);
-        echo $this->Form->control("area_curso", [
-            "label" => ["text" => "Área do curso"],
-            "type" => "text",
-        ]);
-        echo $this->Form->control("ano_curso", [
-            "label" => ["text" => "Ano do curso"],
-            "type" => "number",
-            "mask" => "0000",
-            "placeholder" => "0000",
-        ]);
         echo $this->Form->control("cargo", [
             "label" => ["text" => "Cargo que ocupa"],
             "type" => "text",
-        ]);
-        echo $this->Form->control("num_inscricao", [
-            "label" => [
-                "text" => "Número de inscrição para o curso de supervisores",
-            ],
-            "type" => "number",
-        ]);
-        echo $this->Form->control("curso_turma", [
-            "label" => ["text" => "Turma do curso de supervisores"],
-            "type" => "number",
         ]);
         echo $this->Form->control("observacoes", [
             "label" => ["text" => "Observações"],
