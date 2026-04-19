@@ -7,11 +7,11 @@
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-        aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+    <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav ms-auto mt-lg-0">
             <?php if ($categoria == 1): ?>
                 <li class="nav-item">
@@ -67,17 +67,17 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" href="#estagiario"
+        <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" data-bs-target="#estagiario"
             data-bs-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" href="#folhadeatividade"
+        <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" data-bs-target="#folhadeatividade"
             data-bs-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
             de
             atividades</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" href="#avaliacao" data-bs-target="#avaliacao"
+        <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" data-bs-target="#avaliacao" data-bs-target="#avaliacao"
             role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
     </li>
 </ul>

@@ -3,16 +3,15 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor $supervisor
  */
-$user = $this->getRequest()->getAttribute('identity');
 ?>
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
                 <?php if (isset($categoria) && $categoria == 1): ?>
@@ -41,15 +40,15 @@ $user = $this->getRequest()->getAttribute('identity');
 <div class="row">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#supervisora" role="tab" aria-controls="supervisora"
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#supervisora" role="tab" aria-controls="supervisora"
                 aria-selected="true">Supervisora</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#instituicao" role="tab" aria-controls="instituicao"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#instituicao" role="tab" aria-controls="instituicao"
                 aria-selected="false">Instituição</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
     </ul>
@@ -102,7 +101,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         </tr>
                         <tr>
                             <th><?= __('DDD') ?></th>
-                            <td><?= h($supervisor->codigo_tel) ?></td>
+                            <td><?= h($supervisor->codigo_telefone) ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Telefone') ?></th>
@@ -110,43 +109,15 @@ $user = $this->getRequest()->getAttribute('identity');
                         </tr>
                         <tr>
                             <th><?= __('DDD') ?></th>
-                            <td><?= h($supervisor->codigo_cel) ?></td>
+                            <td><?= h($supervisor->codigo_celular) ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Celular') ?></th>
                             <td><?= h($supervisor->celular) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('Escola') ?></th>
-                            <td><?= h($supervisor->escola) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Ano Formatura') ?></th>
-                            <td><?= h($supervisor->ano_formatura) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Outros Estudos') ?></th>
-                            <td><?= h($supervisor->outros_estudos) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Área Curso') ?></th>
-                            <td><?= h($supervisor->area_curso) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Ano Curso') ?></th>
-                            <td><?= h($supervisor->ano_curso) ?></td>
-                        </tr>
-                        <tr>
                             <th><?= __('Cargo') ?></th>
                             <td><?= h($supervisor->cargo) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Curso Turma') ?></th>
-                            <td><?= h($supervisor->curso_turma) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('Nº Inscrição') ?></th>
-                            <td><?= $supervisor->num_inscricao ?></td>
                         </tr>
                     </table>
                     <div class="text">
@@ -232,7 +203,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
                                         </td>
                                         <td><?= h($estagiarios->registro) ?></td>
-                                        <td><?= h($estagiarios->turno) ?></td>
+                                        <td><?= h($estagiarios->aluno->turno) ?></td>
                                         <td><?= h($estagiarios->nivel) ?></td>
                                         <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                         </td>
@@ -280,7 +251,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) ?>
                                         </td>
                                         <td><?= h($estagiarios->registro) ?></td>
-                                        <td><?= h($estagiarios->turno) ?></td>
+                                        <td><?= h($estagiarios->aluno->turno) ?></td>
                                         <td><?= h($estagiarios->nivel) ?></td>
                                         <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                         </td>
