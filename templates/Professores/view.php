@@ -4,11 +4,12 @@
  * @var \App\Model\Entity\Professor $professor
  */
 ?>
+
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerProfessor"
+            aria-controls="navbarTogglerProfessor" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerProfessor">
@@ -41,15 +42,15 @@
 <div class="row">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#professor" role="tab" aria-controls="professor"
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#professor" role="tab" aria-controls="professor"
                 aria-selected="true">Professor(a)</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#estagiarios" role="tab" aria-controls="estagiarios"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#notas" role="tab" aria-controls="estagiarios"
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Avaliação</a>
         </li>
     </ul>
@@ -80,19 +81,6 @@
                     <td><?= h($professor->cpf) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Data nascimento') ?></th>
-                    <td><?= $professor->datanascimento ? date('d-m-Y', strtotime(h($professor->datanascimento))) : '' ?>
-                    </td>
-                </tr>
-                <tr>
-                    <th><?= __('Local nascimento') ?></th>
-                    <td><?= h($professor->localnascimento) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Sexo') ?></th>
-                    <td><?= h($professor->sexo) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Ddd Telefone') ?></th>
                     <td><?= h($professor->ddd_telefone) ?></td>
                 </tr>
@@ -113,14 +101,6 @@
                     <td><?= h($professor->email) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Home page') ?></th>
-                    <td><?= h($professor->homepage) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Rede social') ?></th>
-                    <td><?= h($professor->redesocial) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Curriculo lattes') ?></th>
                     <td><?= h($professor->curriculolattes) ?></td>
                 </tr>
@@ -130,57 +110,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th><?= __('Curriculo sigma') ?></th>
-                    <td><?= h($professor->curriculosigma) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Pesquisador dgp') ?></th>
-                    <td><?= h($professor->pesquisadordgp) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Formacao profissional') ?></th>
-                    <td><?= h($professor->formacaoprofissional) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Universidade de graduacao') ?></th>
-                    <td><?= h($professor->universidadedegraduacao) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Mestrado área') ?></th>
-                    <td><?= h($professor->mestradoarea) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Mestrado universidade') ?></th>
-                    <td><?= h($professor->mestradouniversidade) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Doutorado área') ?></th>
-                    <td><?= h($professor->doutoradoarea) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Doutorado universidade') ?></th>
-                    <td><?= h($professor->doutoradouniversidade) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Data de ingresso') ?></th>
                     <td><?= $professor->dataingresso ? date('d-m-Y', strtotime(h($professor->dataingresso))) : '' ?>
                     </td>
-                </tr>
-                <tr>
-                    <th><?= __('Forma de ingresso') ?></th>
-                    <td><?= h($professor->formaingresso) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Tipo de cargo') ?></th>
-                    <td><?= h($professor->tipocargo) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Categoria') ?></th>
-                    <td><?= h($professor->categoria) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Regime de trabalho') ?></th>
-                    <td><?= h($professor->regimetrabalho) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Departamento') ?></th>
@@ -189,18 +121,6 @@
                 <tr>
                     <th><?= __('Motivo egresso') ?></th>
                     <td><?= h($professor->motivoegresso) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Ano formação') ?></th>
-                    <td><?= $professor->anoformacao ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Mestrado ano conclusão') ?></th>
-                    <td><?= $professor->mestradoanoconclusao ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Doutorado ano conclusão') ?></th>
-                    <td><?= $professor->doutoradoanoconclusao ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Data de egresso') ?></th>
@@ -247,7 +167,7 @@
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
-                                <td><?= h($estagiarios->turno) ?></td>
+                                <td><?= h($estagiarios->aluno->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>
@@ -314,7 +234,7 @@
                                 <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliacao de estágio', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem avaliações cadastradas' ?>
                                 </td>
 
-                                <td><?= h($estagiarios->turno) ?></td>
+                                <td><?= h($estagiarios->aluno->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>
@@ -338,7 +258,6 @@
             <?php endif; ?>
         </div>
     </div>
-</div>
 
 <script type="text/javascript">
 

@@ -35,8 +35,13 @@ $this->set('categoria', $categoria);
         </title>
         <?= $this->Html->meta('icon') ?>
         
-        <?= $this->Html->css(['normalize.min', 'fonts', 'milligram.min', 'cake', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css', 'nav', 'mural']) ?>
-        <?= $this->Html->script(['https://code.jquery.com/jquery-3.7.0.min.js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bundle.min.js']) ?>
+        <?= $this->Html->css(['normalize.min', 'fonts', 'milligram.min', 'cake', 'nav', 'mural']) ?>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+        <?= $this->Html->script(['https://code.jquery.com/jquery-3.7.0.min.js']) ?>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         
         <?= $this->fetch('meta') ?>
         <?= $this->fetch('css') ?>
