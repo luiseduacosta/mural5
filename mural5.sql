@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `mural_ess`
+-- Banco de dados: `mural5`
 --
 CREATE DATABASE IF NOT EXISTS `mural_ess` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `mural_ess`;
@@ -350,6 +350,7 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `dataegresso` date DEFAULT NULL,
   `motivoegresso` varchar(100) DEFAULT NULL,
   `observacoes` text DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,  
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Professores';
 
@@ -432,6 +433,7 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
   `regiao` tinyint(2) NOT NULL DEFAULT 7,
   `cargo` varchar(25) DEFAULT NULL,
   `observacoes` text DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT 'Supervisores de estagiários';
 
