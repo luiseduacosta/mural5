@@ -4,7 +4,6 @@
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
 
-$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
 <script type="text/javascript">
@@ -51,7 +50,7 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
     <?php if (isset($categoria) && $categoria == '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                    aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
@@ -107,13 +106,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($turmaestagios)): ?>
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <?= $this->Form->control('turmaestagio_id', ['id' => 'EstagiarioTurmaestagio', 'type' => 'select', 'label' => false, 'options' => $turmaestagios, 'empty' => 'Turma', 'class' => 'form-control']); ?>
-                    </div>
-                </div>
-            <?php endif; ?>
         </div>
 
     <?php endif; ?>
@@ -135,7 +127,6 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                         <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
-                        <th><?= $this->Paginator->sort('Turmaaestagio.area', 'Turma') ?></th>
                         <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>
                         <?php if (isset($categoria) && $categoria == 1): ?>
                             <th><?= $this->Paginator->sort('nota') ?></th>
@@ -158,7 +149,8 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
                             <td><?= h($estagiario->turno) ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
                             <td><?= $estagiario->tc ?></td>
-                            <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?></td>
+                            <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?>
+                            </td>
 
                             <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                             </td>
@@ -171,31 +163,29 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 
                             <td><?= h($estagiario->periodo) ?></td>
 
-                            <td><?= $estagiario->hasValue('turmaestagio') ? $this->Html->link($estagiario->turmaestagio->area, ['controller' => 'Turmaestagios', 'action' => 'view', $estagiario->turmaestagio->id]) : '' ?>
-                            </td>
                             <td><?= $estagiario->complemento_id ?>
                             </td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
-                            <?php if (isset($estagiario->nota)): ?>
-                                <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
-                            <?php else: ?>
-                                <td>Sem nota</td>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
+                                <?php if (isset($estagiario->nota)): ?>
+                                    <td><?= $this->Number->format($estagiario->nota, ['precision' => 2]) ?></td>
+                                <?php else: ?>
+                                    <td>Sem nota</td>
+                                <?php endif; ?>
+                                <td><?= $this->Number->format($estagiario->ch) ?></td>
                             <?php endif; ?>
-                            <td><?= $this->Number->format($estagiario->ch) ?></td>
-                        <?php endif; ?>
                             <td><?= h($estagiario->observacoes) ?></td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                            <?php if (isset($categoria) && $categoria == 1): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiario->id)]) ?>
                                 </td>
-                        <?php endif; ?>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-    <?= $this->element('paginator') ?>
+        <?= $this->element('paginator') ?>
     </div>
 </div>

@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
 /**
  * Instituicoes Model
  *
- * @property \App\Model\Table\AreainstituicoesTable&\Cake\ORM\Association\BelongsTo $Areainstituicoes
+ * @property \App\Model\Table\AreasTable&\Cake\ORM\Association\BelongsTo $Areas
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
@@ -49,8 +49,8 @@ class InstituicoesTable extends Table
         $this->setDisplayField('instituicao');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Areainstituicoes', [
-            'className' => 'Areainstituicoes',
+        $this->belongsTo('Areas', [
+            'className' => 'Areas',
             'foreignKey' => 'area_id',
         ]);
         $this->hasMany('Estagiarios', [
@@ -88,7 +88,8 @@ class InstituicoesTable extends Table
             ->notEmptyString('instituicao');
 
         $validator
-            ->allowEmptyString('area');
+            ->integer('area_id')
+            ->allowEmptyString('area_id');
 
         $validator
             ->scalar('natureza')
@@ -98,8 +99,7 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('cnpj')
             ->maxLength('cnpj', 18)
-            ->requirePresence('cnpj', 'create')
-            ->notEmptyString('cnpj');
+            ->allowEmptyString('cnpj');
 
         $validator
             ->email('email')
@@ -113,34 +113,29 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('endereco')
             ->maxLength('endereco', 105)
-            ->notEmptyString('endereco');
+            ->allowEmptyString('endereco');
 
         $validator
             ->scalar('bairro')
             ->maxLength('bairro', 30)
             ->requirePresence('bairro', 'create')
-            ->notEmptyString('bairro');
+            ->allowEmptyString('bairro');
 
         $validator
             ->scalar('municipio')
             ->maxLength('municipio', 30)
             ->requirePresence('municipio', 'create')
-            ->notEmptyString('municipio');
+            ->allowEmptyString('municipio');
 
         $validator
             ->scalar('cep')
             ->maxLength('cep', 9)
-            ->notEmptyString('cep');
+            ->allowEmptyString('cep');
 
         $validator
             ->scalar('telefone')
             ->maxLength('telefone', 50)
-            ->notEmptyString('telefone');
-
-        $validator
-            ->scalar('fax')
-            ->maxLength('fax', 20)
-            ->allowEmptyString('fax');
+            ->allowEmptyString('telefone');
 
         $validator
             ->scalar('beneficio')
@@ -154,12 +149,11 @@ class InstituicoesTable extends Table
 
         $validator
             ->scalar('localInscricao')
-            ->notEmptyString('localInscricao');
+            ->allowEmptyString('localInscricao');
 
         $validator
-            ->integer('convenio')
-            ->requirePresence('convenio', 'create')
-            ->notEmptyString('convenio');
+            ->scalar('convenio')
+            ->allowEmptyString('convenio');
 
         $validator
             ->date('expira')
@@ -168,12 +162,11 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('seguro')
             ->maxLength('seguro', 1)
-            ->requirePresence('seguro', 'create')
-            ->notEmptyString('seguro');
+            ->allowEmptyString('seguro');
 
         $validator
             ->scalar('avaliacao')
-            ->notEmptyString('avaliacao');
+            ->allowEmptyString('avaliacao');
 
         $validator
             ->scalar('observacoes')
@@ -192,7 +185,7 @@ class InstituicoesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['area_id'], 'Areainstituicoes'), ['errorField' => 'area_id']);
+        $rules->add($rules->existsIn(['area_id'], 'Areas'), ['errorField' => 'area_id']);
 
         return $rules;
     }

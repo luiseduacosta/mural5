@@ -10,14 +10,18 @@ namespace App\Controller;
  * @property \App\Model\Table\ProfessoresTable $Professores
  * @method \App\Model\Entity\Professor[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class ProfessoresController extends AppController {
+class ProfessoresController extends AppController
+{
 
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index() {
+    public function index()
+    {
+
+        $this->Authorization->authorize($this->Professores, 'index');
         $professores = $this->paginate($this->Professores);
 
         $this->set(compact('professores'));
@@ -30,22 +34,23 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null) {
+    public function view($id = null)
+    {
 
         if (is_null($id)) {
             $id = $this->getRequest()->getAttribute('identity')['professor_id'];
         }
+
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-                ]
+        $professor = $this->Professores->get(
+            $id,
+            [
+                'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
+            ]
         );
 
-        if (!isset($professor)) {
-            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->Authorization->authorize($professor);
 
         $this->set(compact('professor'));
     }
@@ -55,7 +60,12 @@ class ProfessoresController extends AppController {
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add() {
+    public function add()
+    {
+
+        $professor = $this->Professores->newEmptyEntity();
+
+        $this->Authorization->authorize($professor);
 
         if ($this->getRequest()->getAttribute('identity')['categoria'] == 3) {
             $siape = $this->getRequest()->getAttribute('identity')['registro'];
@@ -74,8 +84,8 @@ class ProfessoresController extends AppController {
         /* Verifico se já está cadastrado */
         if ($siape) {
             $professorcadastrado = $this->Professores->find()
-                    ->where(['siape' => $siape])
-                    ->first();
+                ->where(['siape' => $siape])
+                ->first();
 
             if ($professorcadastrado):
                 $this->Flash->error(__('Professor já cadastrado'));
@@ -90,8 +100,8 @@ class ProfessoresController extends AppController {
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
             $usercadastrado = $this->Professores->Users->find()
-                    ->where(['categoria' => 3, 'registro' => $siape])
-                    ->first();
+                ->where(['categoria' => 3, 'registro' => $siape])
+                ->first();
             if (empty($usercadastrado)):
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
                 return $this->redirect('/users/add');
@@ -106,8 +116,8 @@ class ProfessoresController extends AppController {
                  * Primeiro busco o usuário.
                  */
                 $userprofessor = $this->Professores->Users->find()
-                        ->where(['professor_id' => $professorresultado->id])
-                        ->first();
+                    ->where(['professor_id' => $professorresultado->id])
+                    ->first();
 
                 /**
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
@@ -115,8 +125,8 @@ class ProfessoresController extends AppController {
                 if (empty($userprofessor)) {
 
                     $userestagio = $this->Professores->Users->find()
-                            ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
-                            ->first();
+                        ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
+                        ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $professorresultado->id;
@@ -149,11 +159,15 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null) {
+    public function edit($id = null)
+    {
 
         $professor = $this->Professores->get($id, [
             'contain' => [],
         ]);
+
+        $this->Authorization->authorize($professor);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $professor = $this->Professores->patchEntity($professor, $this->request->getData());
             if ($this->Professores->save($professor)) {
@@ -173,12 +187,17 @@ class ProfessoresController extends AppController {
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null) {
+    public function delete($id = null)
+    {
 
         $this->request->allowMethod(['post', 'delete']);
+
         $professor = $this->Professores->get($id, [
             'contain' => ['Estagiarios']
         ]);
+
+        $this->Authorization->authorize($professor);
+
         if (sizeof($professor->estagiarios) > 0) {
             $this->Flash->error(__('Professor(a) tem estagiários associados'));
             return $this->redirect(['controller' => 'Professores', 'action' => 'view', $id]);

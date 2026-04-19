@@ -21,6 +21,6 @@ class MuralestagiosTablePolicy
      */
     public function canIndex(?IdentityInterface $user, MuralestagiosTable $muralestagios)
     {
-        return isset($user);
+        return true;
     }
 }

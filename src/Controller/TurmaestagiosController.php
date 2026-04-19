@@ -49,9 +49,7 @@ class TurmaestagiosController extends AppController
         ini_set('memory_limit', '2048M');
 
         try {
-            $turmaestagio = $this->Turmaestagios->get($id, [
-                'contain' => ['Estagiarios' => ['Alunos', 'Professores', 'Supervisores', 'Instituicoes', 'Turmaestagios']],
-            ]);
+            $turmaestagio = $this->Turmaestagios->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de turmas de estágio para esse número!'));
 
@@ -109,9 +107,7 @@ class TurmaestagiosController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $turmaestagio = $this->Turmaestagios->get($id, [
-                'contain' => [],
-            ]);
+            $turmaestagio = $this->Turmaestagios->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de turmas de estágio para esse número!'));
 
@@ -150,9 +146,7 @@ class TurmaestagiosController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $turmaestagio = $this->Turmaestagios->get($id, [
-                'contain' => ['Estagiarios'],
-            ]);
+            $turmaestagio = $this->Turmaestagios->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de turmas de estágio para esse número!'));
 
@@ -167,18 +161,12 @@ class TurmaestagiosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        if (count($turmaestagio->estagiarios) > 0) {
-            $this->Flash->error(__('Não pode ser excluida porque têm estagiários associados.'));
-
-            return $this->redirect(['action' => 'view', $id]);
-        }
-
         if ($this->Turmaestagios->delete($turmaestagio)) {
             $this->Flash->success(__('Turma de estágio excluída.'));
         } else {
             $this->Flash->error(__('Turma de estágio não foi excluída. Tente novamente.'));
 
-             return $this->redirect(['action' => 'view', $turmaestagio->id]);
+            return $this->redirect(['action' => 'view', $turmaestagio->id]);
         }
 
         return $this->redirect(['action' => 'index']);

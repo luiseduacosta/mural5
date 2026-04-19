@@ -6,7 +6,6 @@
 $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
 
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

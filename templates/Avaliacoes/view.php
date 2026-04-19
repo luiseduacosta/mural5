@@ -32,7 +32,7 @@ $professora = isset($avaliacao->estagiario['docente']['nome']) ? $avaliacao->est
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (isset($user) && ($user->categoria == '1' || $user->categoria == '4')): ?>
+        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary me-1']) ?>
             </li>

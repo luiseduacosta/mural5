@@ -5,14 +5,13 @@
  */
 ?>
 
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAluno"
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAluno"
             aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerAluno">
-            <ul class="navbar-nav ms-auto mt-lg-0">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerAluno">
+        <ul class="navbar-nav ms-auto mt-lg-0">
 
                 <?php if ($categoria == 2): ?>
                     <li class="nav-item">
@@ -40,8 +39,10 @@
                     <li class="nav-item">
                         <?= $this->Form->postLink(__('Excluir Aluno'), ['controller' => 'Alunos', 'action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']) ?>
                     </li>
-                </ul>
-            <?php endif ?>
+
+                <?php endif ?>
+        </ul>
+
             <?php if ($categoria == 2): ?>
                 <?php if ($user->aluno_id == $aluno->id): ?>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -62,23 +63,21 @@
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" id="aluno-tab" href="#aluno" data-target="#aluno" role="tab"
-                aria-controls="aluno" aria-selected="true">Dados do
-                aluno</a>
+            <a class="nav-link active" data-bs-toggle="tab" id="aluno-tab" data-bs-target="#aluno" role="tab"
+                aria-controls="aluno" aria-selected="true">Dados do(a) aluno(a)</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" href="#inscricoes" data-target="#inscricoes"
+            <a class="nav-link" data-bs-toggle="tab" id="inscricoes-tab" data-bs-target="#inscricoes"
                 role="tab" aria-controls="inscricoes" aria-selected="false">Inscrições para estágio</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" href="#estagios" data-target="#estagios"
+            <a class="nav-link" data-bs-toggle="tab" id="estagios-tab" data-bs-target="#estagios"
                 role="tab" aria-controls="estagios" aria-selected="true">Estágios cursados</a>
         </li>
     </ul>
 
-    <div class="row">
+    <div class="tab-content">
 
-        <div class="tab-content">
             <div id="aluno" class="tab-pane container active show">
                 <h3><?= h($aluno->nome) ?></h3>
                 <table class="table table-hover table-responsive table-striped">
@@ -166,60 +165,58 @@
                     <?php endif ?>
                 </table>
             </div>
-        </div>
 
-        <div id="inscricoes" class="tab-pane" role="tabpanel" aria-labelledby="inscricoes-tab">
-            <h4><?= __('Inscrições para seleção de estágio') ?></h4>
-            <?php if (!empty($aluno->inscricoes)): ?>
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover table-responsive">
-                        <tr>
-                            <th><?= __('Id') ?></th>
-                            <th><?= __('Registro') ?></th>
-                            <th><?= __('Mural de estágio') ?></th>
-                            <th><?= __('Data') ?></th>
-                            <th><?= __('Período') ?></th>
-                            <?php if ($categoria == 1): ?>
-                                <th><?= __('Timestamp') ?></th>
-                                <th class="actions"><?= __('Ações') ?></th>
-                            <?php elseif ($categoria == 2): ?>
-                                <th class="actions"><?= __('Ações') ?></th>
-                            <?php endif; ?>
-                        </tr>
-                        <?php foreach ($aluno->inscricoes as $inscricoes): ?>
+            <div id="inscricoes" class="tab-pane" role="tabpanel" aria-labelledby="inscricoes-tab">
+                <h4><?= __('Inscrições para seleção de estágio') ?></h4>
+                <?php if (!empty($aluno->inscricoes)): ?>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-responsive">
                             <tr>
-                                <td><?= h($inscricoes->id) ?></td>
-                                <td><?= h($inscricoes->registro) ?></td>
+                                <th><?= __('Id') ?></th>
+                                <th><?= __('Registro') ?></th>
+                                <th><?= __('Mural de estágio') ?></th>
+                                <th><?= __('Data') ?></th>
+                                <th><?= __('Período') ?></th>
                                 <?php if ($categoria == 1): ?>
-                                    <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $inscricoes->muralestagio->id]) : '' ?>
-                                    </td>
-                                <?php else: ?>
-                                    <td><?= $inscricoes->hasValue('muralestagio') ? $inscricoes->muralestagio->instituicao : '' ?>
-                                    </td>
-                                <?php endif; ?>
-                                <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
-                                <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if ($categoria == 1): ?>
-                                    <td><?= h($inscricoes->timestamp) ?></td>
-                                    <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
-                                    </td>
+                                    <th><?= __('Timestamp') ?></th>
+                                    <th class="actions"><?= __('Ações') ?></th>
                                 <?php elseif ($categoria == 2): ?>
-                                    <td class="actions">
-                                        <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
-                                    </td>
+                                    <th class="actions"><?= __('Ações') ?></th>
                                 <?php endif; ?>
                             </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php endif; ?>
+                            <?php foreach ($aluno->inscricoes as $inscricoes): ?>
+                                <tr>
+                                    <td><?= h($inscricoes->id) ?></td>
+                                    <td><?= h($inscricoes->registro) ?></td>
+                                    <?php if ($categoria == 1): ?>
+                                        <td><?= $inscricoes->hasValue('muralestagio') ? $this->Html->link($inscricoes->muralestagio->instituicao, ['controller' => 'muralestagios', 'action' => 'view', $inscricoes->muralestagio->id]) : '' ?>
+                                        </td>
+                                    <?php else: ?>
+                                        <td><?= $inscricoes->hasValue('muralestagio') ? $inscricoes->muralestagio->instituicao : '' ?>
+                                        </td>
+                                    <?php endif; ?>
+                                    <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
+                                    <td><?= h($inscricoes->periodo) ?></td>
+                                    <?php if ($categoria == 1): ?>
+                                        <td><?= h($inscricoes->timestamp) ?></td>
+                                        <td class="actions">
+                                            <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                            <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>
+                                            <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
+                                        </td>
+                                    <?php elseif ($categoria == 2): ?>
+                                        <td class="actions">
+                                            <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
+                                            <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $inscricoes->id)]) ?>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    <?php endif; ?>
+                </div>
             </div>
-        </div>
 
-        <div class="tab-content">
             <div id="estagios" class="tab-pane container fade">
                 <h4><?= __('Estágios cursados') ?></h4>
                 <?php if (!empty($aluno->estagiarios)): ?>
@@ -230,59 +227,52 @@
                                 <th><?= __('Aluno') ?></th>
                                 <th><?= __('Estagiario') ?></th>
                                 <th><?= __('Ajuste 2020') ?></th>
-                                <th><?= __('Turno') ?></th>
                                 <th><?= __('Nível') ?></th>
                                 <th><?= __('Período') ?></th>
-                                <th><?= __('Tc') ?></th>
-                                <th><?= __('Tc Solicitação') ?></th>
-                                <th><?= __('Instituição de estágio') ?></th>
+                                <th><?= __('Instituição') ?></th>
                                 <th><?= __('Supervisor') ?></th>
                                 <th><?= __('Docente') ?></th>
-                                <th><?= __('Turma de estágio') ?></th>
                                 <?php if ($categoria == 1): ?>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
-                                    <th><?= __('Observações') ?></th>
                                     <th><?= __('Ações') ?></th>
                                 <?php endif ?>
                             </tr>
                         </thead>
                         <?php foreach ($aluno->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php // pr($estagiarios); ?>
                                 <td><?= h($estagiarios->id) ?></td>
                                 <?php if ($categoria == 1): ?>
-                                    <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
+                                    <td><?= $estagiarios->has('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
+                                    <td><?= $estagiarios->has('aluno') ? $estagiarios->aluno->nome : '' ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
-                                <td><?= h($estagiarios->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= h($estagiarios->periodo) ?></td>
 
                                 <?php if ($categoria == 1): ?>
-                                    <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link($estagiarios->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?>
+                                    <td><?= $estagiarios->has('instituicao') ? $this->Html->link($estagiarios->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : '' ?>
+                                    <td><?= $estagiarios->has('instituicao') ? $estagiarios->instituicao->instituicao : '' ?>
                                     </td>
                                 <?php endif; ?>
 
                                 <?php if ($categoria == 1): ?>
-                                    <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : '' ?>
+                                    <td><?= $estagiarios->has('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : '' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
+                                    <td><?= $estagiarios->has('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                 <?php endif; ?>
 
                                 <?php if ($categoria == 1): ?>
-                                    <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiarios->professor->id]) : 'Sem dados' ?>
+                                    <td><?= $estagiarios->has('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiarios->professor->id]) : 'Sem dados' ?>
                                     </td>
                                 <?php else: ?>
-                                    <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : 'Sem informação' ?>
+                                    <td><?= $estagiarios->has('professor') ? $estagiarios->professor->nome : 'Sem informação' ?>
                                     </td>
                                 <?php endif; ?>
 
@@ -293,7 +283,6 @@
                                 <?php endif; ?>
 
                                 <td><?= h($estagiarios->ch) ?></td>
-                                <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                     <?php if ($categoria == 1): ?>
@@ -306,6 +295,4 @@
                     </table>
                 <?php endif; ?>
             </div>
-        </div>
     </div>
-</div>

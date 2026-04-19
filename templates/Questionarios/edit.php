@@ -9,7 +9,7 @@
 <div class="container mt-1">
     <nav class="nav navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if (isset($user) && $user->categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Form->postLink(
                     __('Excluir'),

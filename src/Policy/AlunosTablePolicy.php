@@ -23,4 +23,40 @@ class AlunosTablePolicy
 
         return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
     }
+
+    /**
+     * Check if $user can access planilhaseguro
+     *
+     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \App\Model\Table\AlunosTable $alunos
+     * @return bool
+     */
+    public function canPlanilhaseguro(?IdentityInterface $user, AlunosTable $alunos)
+    {
+        return isset($user) && $user->categoria == 1; // Admin
+    }
+
+    /**
+     * Check if $user can access planilhacress
+     *
+     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \App\Model\Table\AlunosTable $alunos
+     * @return bool
+     */
+    public function canPlanilhacress(?IdentityInterface $user, AlunosTable $alunos)
+    {
+        return isset($user) && $user->categoria == 1; // Admin
+    }
+
+    /**
+     * Check if $user can access cargahoraria
+     *
+     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \App\Model\Table\AlunosTable $alunos
+     * @return bool
+     */
+    public function canCargahoraria(?IdentityInterface $user, AlunosTable $alunos)
+    {
+        return isset($user) && $user->categoria == 1; // Admin
+    }
 }

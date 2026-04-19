@@ -14,10 +14,10 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
- * @property \App\Model\Table\TurmaestagiosTable&\Cake\ORM\Association\BelongsTo $Turmestagios
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  * @property \App\Model\Table\AvaliacoesTable&\Cake\ORM\Association\HasOne $Avaliacao
+ * @property \App\Model\Table\RespostasTable&\Cake\ORM\Association\HasOne $Resposta
  * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasMany $Folhadeatividade
  *
  * @method \App\Model\Entity\Estagiario get($primaryKey, $options = [])
@@ -54,10 +54,6 @@ class EstagiariosTable extends Table
 
         $this->belongsTo("Professores", [
             "foreignKey" => "professor_id",
-        ]);
-
-        $this->belongsTo("Turmaestagios", [
-            "foreignKey" => "turmaestagio_id",
         ]);
 
         $this->belongsTo("Supervisores", [
@@ -99,13 +95,6 @@ class EstagiariosTable extends Table
         $validator->integer("registro")->notEmptyString("registro");
 
         $validator
-            //->multipleOptions( "turno", ["D" => "Diurno", "N" => "Noturno", "I" => "Indefinido"], "Selecione um turno", )
-            ->inList('turno', ['D', 'N', 'I'], 'Selecione um turno')
-            ->scalar("turno")
-            ->maxLength("turno", 1)
-            ->notEmptyString("turno");
-
-        $validator
             ->inList(
                 "nivel",
                 ["1", "2", "3", "4", "9"],
@@ -116,7 +105,6 @@ class EstagiariosTable extends Table
             ->notEmptyString("nivel");
 
         $validator
-             //->multipleOptions("tc", ["0" => "0", "1" => "1"])
             ->inList("tc", ["0", "1"])
             ->notEmptyString("tc");
 
@@ -130,10 +118,6 @@ class EstagiariosTable extends Table
             ->scalar("periodo")
             ->maxLength("periodo", 6)
             ->notEmptyString("periodo");
-
-        $validator
-            ->naturalNumber("turmaestagio_id")
-            ->allowEmptyString("turmaestagio_id");
 
         $validator
             ->decimal("nota")
@@ -161,7 +145,6 @@ class EstagiariosTable extends Table
     {
         $rules->add($rules->existsIn(["aluno_id"], "Alunos"));
         $rules->add($rules->existsIn(["professor_id"], "Professores"));
-        $rules->add($rules->existsIn(["turmaestagio_id"], "Turmaestagios"));
         $rules->add($rules->existsIn(["supervisor_id"], "Supervisores"));
         $rules->add($rules->existsIn(["instituicao_id"], "Instituicoes"));
 

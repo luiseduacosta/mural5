@@ -1,10 +1,11 @@
 <?php
+//pegando categoria do usuario
 if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
+    $categoria = $this->getRequest()->getAttribute('identity')['categoria'];
 } else {
     $categoria = null;
 }
 ?>
-
 <nav class='navbar navbar-expand-lg navbar-light py-0 navbar-fixed-top' style="background-color: #2b6c9c;">
     <?php $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '50', 'width' => '150', 'alt' => 'ESS']); ?>
     <?= $this->Html->link($logo, "http://www.ess.ufrj.br", ['class' => 'navbar-brand', 'style' => 'color: white', 'escape' => false]) ?>
@@ -21,20 +22,6 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
             <?php
             if ($categoria == 1) {
                 ?>
-
-                <li class="nav-item dropdown">
-                    <a style='color:white' class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">Declarações</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <?php echo $this->Html->link("Declaração de período", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-                        <?php echo $this->Html->link("Termo de compromisso", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white;']); ?>
-                        <?php echo $this->Html->link("Declaração de estágio", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link("Folha de atividades", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link("Folha de atividades on-line", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link("Folha de avaliação discente", "/Alunos/index", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link("Formulário de avaliação discente on-line", "/Alunos/index/", ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                    </div>
-                </li>
                 <li class="nav-item">
                     <?php echo $this->Html->link("Alunos", "/Alunos/index", ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                 </li>
@@ -60,15 +47,11 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
                         <?php echo $this->Html->link('Planilha CRESS', '/Alunos/planilhacress/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Carga horária', '/Alunos/cargahoraria/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                         <?php echo $this->Html->link('Complemento período', '/Complementos/index/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-                        <?php echo $this->Html->link('Turmas de estágio', '/Turmaestagios/index/', ['class' => 'dropdown-item', 'style' => 'background-color: #2b6c9c; color: white']); ?>
                     </div>
                 </li>
             <?php }
             ; ?>
 
-            <li class="nav-item">
-                <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-            </li>
             <li class="nav-item">
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>

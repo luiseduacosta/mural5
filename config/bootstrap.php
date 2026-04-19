@@ -66,9 +66,9 @@ require CAKE . 'functions.php';
 if (!env('APP_NAME') && file_exists(CONFIG . '.env')) {
     $dotenv = new \josegonzalez\Dotenv\Loader([CONFIG . '.env']);
     $dotenv->parse()
-            ->putenv()
-            ->toEnv()
-            ->toServer();
+        ->putenv()
+        ->toEnv()
+        ->toServer();
 }
 
 /*
@@ -244,5 +244,5 @@ Inflector::rules('irregular', ['questao' => 'questoes']);
 // set a custom date and time format
 // see https://book.cakephp.org/5/en/core-libraries/time.html#setting-the-default-locale-and-format-string
 // and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
-//\Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
-//\Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');
+// \Cake\I18n\Date::setToStringFormat('dd.MM.yyyy');
+// \Cake\I18n\Time::setToStringFormat('dd.MM.yyyy HH:mm');

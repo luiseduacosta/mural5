@@ -13,8 +13,6 @@ use Cake\Validation\Validator;
  * Turmaestagios Model
  *
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
- * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\HasMany $Instituicoes
  *
  * @method \App\Model\Entity\Turmaestagio newEmptyEntity()
  * @method \App\Model\Entity\Turmaestagio newEntity(array $data, array $options = [])
@@ -24,7 +22,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Turmaestagio patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Turmaestagio[] patchEntities(iterable $entities, array $data, array $options = [])
  * @method \App\Model\Entity\Turmaestagio|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Turmaaestagio saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Turmaestagio|false saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \App\Model\Entity\Turmaestagio[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Turmaestagio[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Turmaestagio[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
@@ -46,23 +44,6 @@ class TurmaestagiosTable extends Table
         $this->setAlias('Turmaestagios');
         $this->setDisplayField('area');
         $this->setPrimaryKey('id');
-
-        $this->hasMany('Estagiarios', [
-            'foreignKey' => 'turmaestagio_id',
-        ]);
-        $this->hasMany('Muralestagios', [
-            'foreignKey' => 'turmaestagio_id',
-        ]);
-        $this->hasMany('Instituicoes', [
-            'foreignKey' => 'turmaestagio_id',
-        ]);
-    }
-
-    public function beforeFind($event, $query, $options, $primary)
-    {
-
-        $query->order(['Turmaestagios.area' => 'ASC']);
-        return $query;
     }
 
     /**
@@ -74,12 +55,12 @@ class TurmaestagiosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-                ->allowEmptyString('id', null, 'create');
+            ->allowEmptyString('id', null, 'create');
 
         $validator
-                ->scalar('area')
-                ->maxLength('area', 70)
-                ->notEmptyString('area');
+            ->scalar('area')
+            ->maxLength('area', 70)
+            ->notEmptyString('area');
 
         return $validator;
     }

@@ -53,9 +53,8 @@ class AlunosController extends AppController
                     'Alunos',
                     'Supervisores',
                     'Professores',
-                    'Turmaestagios',
                 ],
-                'Muralinscricoes' => ['Muralestagios'],
+                'Inscricoes' => ['Muralestagios'],
             ])
             ->where(['Alunos.id' => $id])
             ->first();
@@ -195,6 +194,7 @@ class AlunosController extends AppController
             }
         } // Finaliza post
 
+        $this->set('turnos', $this->fetchTable('Turnos')->find('list', ['keyField' => 'id', 'valueField' => 'turno']));
         $this->set(compact('aluno'));
     }
 
@@ -228,6 +228,7 @@ class AlunosController extends AppController
             }
             $this->Flash->error(__('Registro de aluno não foi atualizado. Tente novamente.'));
         }
+        $this->set('turnos', $this->fetchTable('Turnos')->find('list', ['keyField' => 'id', 'valueField' => 'turno']));
         $this->set(compact('aluno'));
     }
 
@@ -310,17 +311,12 @@ class AlunosController extends AppController
 
         $ordem = 'nome';
 
-        try {
-            $this->Authorization->authorize($this->Alunos);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        $this->Authorization->authorize($this->Alunos, 'planilhaseguro');
 
         $periodototal = $this->Alunos->Estagiarios->find('list', [
             'keyField' => 'periodo',
             'valueField' => 'periodo',
-            'order' => 'periodo'
+            'order' => ['periodo' => 'desc']
         ]);
         $periodos = $periodototal->toArray();
 
@@ -339,6 +335,7 @@ class AlunosController extends AppController
                 'Alunos.registro',
                 'Estagiarios.nivel',
                 'Estagiarios.periodo',
+                'Estagiarios.ajuste2020',
                 'Instituicoes.instituicao'
             ])
             ->orderBy(['Estagiarios.nivel'])
@@ -460,6 +457,7 @@ class AlunosController extends AppController
             $t_seguro[$i]['periodo'] = $c_seguro->periodo;
             $t_seguro[$i]['inicio'] = $inicio;
             $t_seguro[$i]['final'] = $final;
+            $t_seguro[$i]['ajuste2020'] = $c_seguro->ajuste2020;
             $t_seguro[$i]['instituicao'] = $c_seguro->instituicao->instituicao;
             $criterio[$i] = $t_seguro[$i][$ordem];
 
@@ -650,36 +648,39 @@ class AlunosController extends AppController
         endif;
 
         $alunos = $this->Alunos->find()->contain(['Estagiarios'])->limit(20)->toArray();
-
         $i = 0;
         foreach ($alunos as $aluno):
-            $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'];
-            $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'];
+            $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'] ?? 's/d';
+            $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'] ?? 's/d';
             $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']);
             $carga_estagio = null;
             $y = 0;
             foreach ($aluno['estagiarios'] as $estagiario):
                 if ($estagiario['nivel'] == 1):
-                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
-                    $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
-                    $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'];
-                    $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
+                    if ($estagiario['ch'] > 0):
+                        $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] ?? 's/d';
+                        $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'] ?? 's/d';
+                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';
+                    endif;
+                    // $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
                     // $criterio[$i][$ordem] = $c_estagio['periodo'];
                 else:
-                    $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'];
-                    $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'];
-                    $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'];
-                    $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
+                    if ($estagiario['ch'] > 0):
+                        $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] ?? 's/d';
+                        $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'] ?? 's/d';
+                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';                        
+                    endif;
+                    // $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
                     // $criterio[$i][$ordem] = NULL;
                 endif;
                 $y++;
             endforeach;
-            $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
-            $criterio[$i] = $cargahorariatotal[$i][$ordem];
+            // $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
+            // $criterio[$i] = $cargahorariatotal[$i][$ordem];
             $i++;
         endforeach;
 
-        array_multisort($criterio, SORT_ASC, $cargahorariatotal);
+        // array_multisort($criterio, SORT_ASC, $cargahorariatotal);
         $this->set('cargahorariatotal', $cargahorariatotal);
     }
 }

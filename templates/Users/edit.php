@@ -12,7 +12,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerUserEdit">
-        <?php if (isset($user->categoria) && $user->categoria == '1'): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-link">
                 <?=
                 $this->Form->postLink(

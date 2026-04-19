@@ -5,10 +5,9 @@
  */
 ?>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerInstituicoes"
-            aria-controls="navbarTogglerInstituicoes" aria-expanded="false" aria-label="Toggle navigation">
+        aria-controls="navbarTogglerInstituicoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerInstituicoes">
@@ -26,7 +25,7 @@
         <legend><?= __('Nova instituição') ?></legend>
         <?php
         echo $this->Form->control('instituicao', ['label' => ['text' => 'Instituição'], 'required' => true, 'class' => 'form-control']);
-        echo $this->Form->control('areainstituicoes_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areainstituicoes, 'empty' => true, 'class' => 'form-control']);
+        echo $this->Form->control('area_id', ['label' => ['text' => 'Área da instituição'], 'options' => $areainstituicoes, 'empty' => true, 'class' => 'form-control']);
         echo $this->Form->control('natureza', ['label' => ['text' => 'Natureza'], 'class' => 'form-control']);
         echo $this->Form->control('cnpj', ['label' => ['text' => 'CNPJ'], 'placeholder' => '00.000.000/0000-00', 'id' => 'cnpj', 'keypress()', 'required' => true, 'class' => 'form-control']);
         echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'class' => 'form-control']);
@@ -36,14 +35,12 @@
         echo $this->Form->control('municipio', ['label' => ['text' => 'Município'], 'class' => 'form-control']);
         echo $this->Form->control('cep', ['label' => ['text' => 'CEP'], 'id' => 'cep', 'required' => false, 'keypress()', 'class' => 'form-control']);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone'], 'id' => 'telefone', 'required' => true, 'keypress()', 'class' => 'form-control']);
-        echo $this->Form->control('fax', ['label' => ['text' => 'Fax'], 'type' => 'hidden']);
         echo $this->Form->control('beneficio', ['label' => ['text' => 'Benefícios'], 'class' => 'form-control']);
         echo $this->Form->control('fim_de_semana', ['label' => ['text' => 'Estágio no final de semana?'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'class' => 'form-control']);
         echo $this->Form->control('localInscricao', ['label' => ['text' => 'Local de inscrição'], 'placeholder' => 'Local de inscrição', 'required' => false, 'class' => 'form-control']);
-        echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'placeholder' => 'Número do convêncio registrado na PR4', 'required' => true, 'class' => 'form-control']);
+        echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'placeholder' => 'Número do convênio registrado na PR4', 'required' => true, 'class' => 'form-control']);
         echo $this->Form->control('expira', ['label' => ['text' => 'Data de encerramento do convênio'], 'placeholder' => 'Data de encerramento do convênio', 'empty' => true, 'class' => 'form-control']);
         echo $this->Form->control('seguro', ['label' => ['text' => 'Seguro'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'required' => true, 'class' => 'form-control']);
-        echo $this->Form->control('avaliacao', ['label' => ['text' => 'Avaliação'], 'type' => 'hidden']);
         echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações'], 'class' => 'form-control']);
         echo $this->Form->control('supervisores._ids', ['label' => ['text' => 'Supervisores'], 'options' => $supervisores, 'empty' => true, 'class' => 'form-control']);
         ?>

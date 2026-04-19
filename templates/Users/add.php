@@ -11,7 +11,7 @@
 <div class="container">
 
     <?php
-    if (isset($usuario) && $usuario->categoria == 1): ?>
+    if (isset($categoria) && $categoria == 1): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"

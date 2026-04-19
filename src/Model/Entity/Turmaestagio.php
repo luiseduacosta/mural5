@@ -11,8 +11,6 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $area
- *
- * @property \App\Model\Entity\Estagiario[] $estagiarios
  */
 class Turmaestagio extends Entity
 {
@@ -27,6 +25,5 @@ class Turmaestagio extends Entity
      */
     protected array $_accessible = [
         'area' => true,
-        'estagiarios' => true,
     ];
 }

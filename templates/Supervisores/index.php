@@ -5,11 +5,11 @@
  */
 ?>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 
 <div class="container">
 
-    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+    <?php if (isset($categoria) && $categoria == 1): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
                     aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
                     <th><?= $this->Paginator->sort('codigo_cel', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                    <?php if (isset($categoria) && $categoria == 1): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -49,7 +49,7 @@
                 <?php foreach ($supervisores as $supervisor): ?>
                     <tr>
                         <td><?= $supervisor->id ?></td>
-                        <?php if ($usuario->categoria == 1): ?>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
                             </td>
                         <?php else: ?>
@@ -62,7 +62,7 @@
                         <td><?= h($supervisor->codigo_cel) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
-                        <?php if (isset($usuario) && $usuario->categoria == 1): ?>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>

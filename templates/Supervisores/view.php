@@ -15,7 +15,7 @@ $user = $this->getRequest()->getAttribute('identity');
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if ($user->categoria == 1): ?>
+                <?php if (isset($categoria) && $categoria == 1): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -29,7 +29,7 @@ $user = $this->getRequest()->getAttribute('identity');
                         <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if ($user->categoria == 4): ?>
+                <?php if (isset($categoria) && $categoria == 4): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
                     </li>
@@ -197,7 +197,7 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Instituicoes', 'action' => 'view', $instituicoes->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Instituicoes', 'action' => 'edit', $instituicoes->id]) ?>
-                                            <?php if ($user->categoria == 1): ?>
+                                            <?php if (isset($categoria) && $categoria == 1): ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Instituicoes', 'action' => 'delete', $instituicoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicoes->id)]) ?>
                                             <?php endif; ?>
                                         </td>
@@ -241,10 +241,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
+                                            <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
-                                            <?php if ($user->categoria == 1): ?>
+                                            <?php if (isset($categoria) && $categoria == 1): ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                             <?php endif; ?>
@@ -289,10 +289,10 @@ $user = $this->getRequest()->getAttribute('identity');
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if ($user->categoria == 1 || $user->categoria == 4): ?>
+                                        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif ($user->categoria == 2 || $user->categoria == 3): ?>
+                                        <?php elseif (isset($categoria) && ($categoria == 2 || $categoria == 3)): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>

@@ -43,7 +43,6 @@ class MuralestagiosController extends AppController
             $this->Authorization->authorize($this->Muralestagios);
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
             return $this->redirect(['action' => 'index']);
         }
 
@@ -103,7 +102,7 @@ class MuralestagiosController extends AppController
     {
         try {
             $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes', 'Muralinscricoes' => ['Alunos', 'Muralestagios']],
+                'contain' => ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
@@ -291,7 +290,7 @@ class MuralestagiosController extends AppController
     public function imprimepdf($id = null)
     {
         $muralestagio = $this->Muralestagios->find()
-            ->contain(['Muralinscricoes' => ['Alunos']])
+            ->contain(['Inscricoes' => ['Alunos']])
             ->where(['Muralestagios.id' => $id])
             ->first();
 

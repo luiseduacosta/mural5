@@ -14,7 +14,7 @@
             <li class="nav-item">
                 <?= $this->Html->link('Listar respostas', ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
-            <?php if (isset($user->categoria) && ($user->categoria == '1' || $user->categoria == '4')): ?>
+            <?php if (isset($categoria) && ($categoria == '1' || $categoria == '4')): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

@@ -11,7 +11,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if (isset($user) && $user->categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(
                     __("Nova questão"),
@@ -78,7 +78,7 @@
                             ], [
                                 "class" => "btn btn-primary btn-sm btn-block p-1 mb-1",
                             ]) ?>
-                            <?php if (isset($user) && $user->categoria == '1'): ?>
+                            <?php if (isset($categoria) && $categoria == '1'): ?>
                             <?= $this->Html->link(__("Editar"), [
                                 "action" => "edit",
                                 $questao->id,

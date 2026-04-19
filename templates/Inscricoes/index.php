@@ -19,7 +19,7 @@
     })
 </script>
 
-<?php $usuario = $this->getRequest()->getAttribute('identity'); ?>
+
 
 <div class="row justify-content-center">
     <div class="col-auto">
@@ -74,7 +74,7 @@
                     <tr>
                         <td><?= $inscricao->id ?></td>
                         <td><?= $inscricao->registro ?></td>
-                        <?php if (isset($usuario) && $usuario['categoria'] == 1): ?>
+                        <?php if (isset($categoria) && $categoria == 1): ?>
                             <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno_id]) : '' ?>
                             </td>
                         <?php else: ?>

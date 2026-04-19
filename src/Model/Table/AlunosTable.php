@@ -12,9 +12,10 @@ use Cake\Validation\Validator;
 /**
  * Alunos Model
  *
- * @property \App\Model\Table\MuralinscricoesTable&\Cake\ORM\Association\HasMany $Muralinscricoes
+ * @property \App\Model\Table\InscricoesTable&\Cake\ORM\Association\HasMany $Inscricoes
  * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\HasMany $Users
+ * @property \App\Model\Table\TurnosTable&\Cake\ORM\Association\BelongsTo $Turnos
  *
  * @method \App\Model\Entity\Aluno newEmptyEntity()
  * @method \App\Model\Entity\Aluno newEntity(array $data, array $options = [])
@@ -38,27 +39,32 @@ class AlunosTable extends Table
          * @param array $config The configuration for the Table.
          * @return void
          */
-    public function initialize(array $config): void
-    {
-            parent::initialize($config);
+        public function initialize(array $config): void
+        {
+                parent::initialize($config);
 
-            $this->setTable('alunos');
-            $this->setAlias('Alunos');
-            $this->setDisplayField('nome');
-            $this->setPrimaryKey('id');
+                $this->setTable('alunos');
+                $this->setAlias('Alunos');
+                $this->setDisplayField('nome');
+                $this->setPrimaryKey('id');
 
-            $this->hasMany('Estagiarios', [
-                    'foreignKey' => 'aluno_id',
-            ]);
+                $this->hasMany('Estagiarios', [
+                        'foreignKey' => 'aluno_id',
+                ]);
 
-            $this->hasMany('Muralinscricoes', [
-                    'foreignKey' => 'aluno_id',
-            ]);
+                $this->hasMany('Inscricoes', [
+                        'foreignKey' => 'aluno_id',
+                ]);
 
-            $this->hasOne('Users', [
-                    'foreignKey' => 'aluno_id',
-            ]);
-    }
+                $this->hasOne('Users', [
+                        'foreignKey' => 'aluno_id',
+                ]);
+
+                $this->belongsTo('Turnos', [
+                        'foreignKey' => 'turno_id',
+                        'propertyName' => 'turnoID'
+                ]);
+        }
 
         /**
          * Default validation rules.
@@ -66,92 +72,102 @@ class AlunosTable extends Table
          * @param \Cake\Validation\Validator $validator Validator instance.
          * @return \Cake\Validation\Validator
          */
-    public function validationDefault(Validator $validator): Validator
-    {
-            $validator
-                    ->integer('id')
-                    ->allowEmptyString('id', null, 'create');
+        public function validationDefault(Validator $validator): Validator
+        {
+                $validator
+                        ->integer('id')
+                        ->allowEmptyString('id', null, 'create');
 
-            $validator
-                    ->scalar('nome')
-                    ->maxLength('nome', 50)
-                    ->notEmptyString('nome');
+                $validator
+                        ->scalar('nome')
+                        ->maxLength('nome', 50)
+                        ->notEmptyString('nome');
 
-            $validator
-                    ->scalar('ingresso')
-                    ->maxLength('ingresso', 6)
-                    ->notEmptyString('ingresso');
+                $validator
+                        ->scalar('nome_social')
+                        ->maxLength('nome_social', 50)
+                        ->allowEmptyString('nome_social');
+        
+                $validator
+                        ->integer('turno_id')
+                        ->requirePresence('turno_id', 'create')
+                        ->allowEmptyString('turno_id');
 
-            $validator
-                    ->integer('registro')
-                    ->notEmptyString('registro');
+                $validator
+                        ->scalar('ingresso')
+                        ->maxLength('ingresso', 6)
+                        ->allowEmptyString('ingresso');
 
-            $validator
-                    ->notEmptyString('codigo_telefone');
+                $validator
+                        ->integer('registro')
+                        ->notEmptyString('registro');
 
-            $validator
-                    ->scalar('telefone')
-                    ->maxLength('telefone', 15)
-                    ->allowEmptyString('telefone');
+                $validator
+                        ->allowEmptyString('codigo_telefone');
 
-            $validator
-                    ->notEmptyString('codigo_celular');
+                $validator
+                        ->scalar('telefone')
+                        ->maxLength('telefone', 15)
+                        ->allowEmptyString('telefone');
 
-            $validator
-                    ->scalar('celular')
-                    ->maxLength('celular', 15)
-                    ->allowEmptyString('celular');
+                $validator
+                        ->allowEmptyString('codigo_celular');
 
-            $validator
-                    ->email('email')
-                    ->allowEmptyString('email');
+                $validator
+                        ->scalar('celular')
+                        ->maxLength('celular', 15)
+                        ->allowEmptyString('celular');
 
-            $validator
-                    ->scalar('cpf')
-                    ->maxLength('cpf', 15)
-                    ->notEmptyString('cpf');
+                $validator
+                        ->email('email')
+                        ->allowEmptyString('email');
 
-            $validator
-                    ->scalar('identidade')
-                    ->maxLength('identidade', 15)
-                    ->allowEmptyString('identidade');
+                $validator
+                        ->scalar('cpf')
+                        ->maxLength('cpf', 15)
+                        ->allowEmptyString('cpf');
 
-            $validator
-                    ->scalar('orgao')
-                    ->maxLength('orgao', 15)
-                    ->allowEmptyString('orgao');
+                $validator
+                        ->scalar('identidade')
+                        ->maxLength('identidade', 15)
+                        ->allowEmptyString('identidade');
 
-            $validator
-                    ->date('nascimento', ['ymd'])
-                    ->notEmptyDate('nascimento');
+                $validator
+                        ->scalar('orgao')
+                        ->maxLength('orgao', 15)
+                        ->allowEmptyString('orgao');
 
-            $validator
-                    ->scalar('endereco')
-                    ->maxLength('endereco', 100)
-                    ->allowEmptyString('endereco');
+                $validator
+                        ->date('nascimento', ['ymd'])
+                        ->allowEmptyDate('nascimento');
 
-            $validator
-                    ->scalar('cep')
-                    ->maxLength('cep', 9)
-                    ->allowEmptyString('cep');
+                $validator
+                        ->scalar('endereco')
+                        ->maxLength('endereco', 100)
+                        ->allowEmptyString('endereco');
 
-            $validator
-                    ->scalar('municipio')
-                    ->maxLength('municipio', 50)
-                    ->allowEmptyString('municipio');
+                $validator
+                        ->scalar('cep')
+                        ->maxLength('cep', 9)
+                        ->allowEmptyString('cep');
 
-            $validator
-                    ->scalar('bairro')
-                    ->maxLength('bairro', 30)
-                    ->allowEmptyString('bairro');
+                $validator
+                        ->scalar('municipio')
+                        ->maxLength('municipio', 50)
+                        ->allowEmptyString('municipio');
 
-            $validator
-                    ->scalar('observacoes')
-                    ->maxLength('observacoes', 250)
-                    ->allowEmptyString('observacoes');
+                $validator
+                        ->scalar('bairro')
+                        ->maxLength('bairro', 30)
+                        ->allowEmptyString('bairro');
 
-            return $validator;
-    }
+                $validator
+                        ->scalar('observacoes')
+                        ->maxLength('observacoes', 250)
+                        ->allowEmptyString('observacoes');
+
+                return $validator;
+        }
 
         /**
          * Returns a rules checker object that will be used for validating
@@ -160,12 +176,12 @@ class AlunosTable extends Table
          * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
          * @return \Cake\ORM\RulesChecker
          */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
+        public function buildRules(RulesChecker $rules): RulesChecker
+        {
 
-            $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
-            $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
+                $rules->add($rules->isUnique(['registro']), ['errorField' => 'registro']);
+                $rules->add($rules->isUnique(['email']), ['errorField' => 'email']);
 
-            return $rules;
-    }
+                return $rules;
+        }
 }

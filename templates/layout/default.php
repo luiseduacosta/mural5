@@ -30,13 +30,13 @@ $cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -44,38 +44,15 @@ $cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
 </head>
 
 <body>
-
-    <div class="container">
-        <div class='row justify-content-center'>
-            <?php
-            $categoria = isset($this->getRequest()->getAttribute('identity')['categoria']) ? $this->getRequest()->getAttribute('identity')['categoria'] : null;
-            if (isset($categoria) && (!empty($categoria))) {
-                switch ($categoria) {
-                    case 1: // Administrador
-                        echo $this->element('submenu_navegacao');
-                        break;
-                    case 2: // Aluno
-                        echo $this->element('submenu_aluno');
-                        break;
-                    case 3: // Professor
-                        echo $this->element('submenu_professor');
-                        break;
-                    case 4: // Supervisora
-                        echo $this->element('submenu_supervisor');
-                        break;
-                    default:
-                        echo $this->element('submenu_navegacao');
-                        break;
-                }
-            } else {
-                echo $this->element('submenu_navegacao');
-            }
-            ?>
-
+    <header>
+        <?= $this->element('submenu_navegacao'); ?>
+    </header>
+    <main class="main">
+        <div class="container">
+            <?= $this->Flash->render() ?>
+            <?= $this->fetch('content') ?>
         </div>
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-    </div>
+    </main>
     <footer>
     </footer>
 </body>

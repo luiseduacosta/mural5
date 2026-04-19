@@ -21,8 +21,6 @@ use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 use Cake\Http\Exception\NotFoundException;
 
-$this->disableAutoLayout();
-
 if (!Configure::read('debug')):
     throw new NotFoundException(
         'Please replace templates/Pages/home.php with your own version or re-enable debug mode.'
@@ -31,69 +29,10 @@ endif;
 
 $cakeDescription = 'Mural de estágios da ESS/UFRJ';
 ?>
-<!DOCTYPE html>
-<html>
-
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
-
-<body>
-    <header>
-    </header>
-    <div class="container">
-        <div class='row justify-content-center'>
-            <?php
-            if (isset($categoria) && (!empty($categoria))) {
-                switch ($categoria) {
-                    case 1: // Administrador
-                        break;
-                    case 2: // Aluno
-                        echo $this->element('submenu_aluno');
-                        break;
-                    case 3: // Professor
-                        echo $this->element('submenu_professor');
-                        break;
-                    case 4: // Supervisora
-                        echo $this->element('submenu_supervisor');
-                        break;
-                    default:
-                        echo $this->element('submenu_navegacao');
-                        break;
-                }
-            } else {
-                echo $this->element('submenu_navegacao');
-            }
-            ?>
-
-        </div>
-        <?= $this->Flash->render() ?>
-        <?= $this->fetch('content') ?>
-    </div>
-    <footer>
-    </footer>
-</body>
-
-</html>
+<div class='row justify-content-center'>
+    <?php
+    if (isset($categoria) && (!empty($categoria))) {
+        echo $this->element('submenu_navegacao');
+    }
+    ?>
+</div>

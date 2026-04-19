@@ -21,8 +21,8 @@ use Cake\ORM\Entity;
  * @property string|null $identidade
  * @property string|null $orgao
  * @property \Cake\I18n\Date|null $nascimento
+ * @property int|null $turno_id
  * @property string|null $ingresso
- * @property string|null $turno
  * @property string|null $endereco
  * @property string|null $cep
  * @property string|null $municipio
@@ -30,8 +30,9 @@ use Cake\ORM\Entity;
  * @property string|null $observacoes
  *
  * @property \App\Model\Entity\Estagiario[] $estagiarios
- * @property \App\Model\Entity\Muralinscricao[] $muralinscricoes
+ * @property \App\Model\Entity\Inscricao[] $inscricoes
  * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Turno $turno
  */
 class Aluno extends Entity
 {
@@ -56,15 +57,16 @@ class Aluno extends Entity
         'identidade' => true,
         'orgao' => true,
         'nascimento' => true,
+        'turno_id' => true,
         'ingresso' => true,
-        'turno' => true,
         'endereco' => true,
         'cep' => true,
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
         'estagiarios' => true,
-        'muralinscricoes' => true,
+        'inscricoes' => true,
         'user' => true,
+        'turno' => true,
     ];
 }

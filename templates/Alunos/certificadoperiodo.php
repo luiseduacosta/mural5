@@ -49,7 +49,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <?php if (isset($user) && $user->categoria == '1'): ?>
+            <?php if (isset($categoria) && $categoria == 1): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Alunos'), ['controller' => 'Alunos', 'action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
@@ -68,7 +68,7 @@
                 <li class="nav-item">
                     <?= $this->Form->postLink(__('Excluir Aluno'), ['controller' => 'Alunos', 'action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']) ?>
                 </li>
-            <?php elseif (isset($user) && $user->categoria == '2'): ?>
+            <?php elseif (isset($categoria) && $categoria == 2): ?>
                 <?php if ($user->aluno_id == $aluno->id): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Aluno'), ['controller' => 'Alunos', 'action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>

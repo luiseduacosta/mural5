@@ -5,7 +5,6 @@
  */
 ?>
 
-
 <div class='container col-lg-8 shadow p-3 mb-5 bg-white rounded'>
     <table class='table table-hover table-striped table-responsive'>
         <thead class='thead-light'>
@@ -27,7 +26,6 @@
                 <th>Nível</th>
                 <th>Período</th>
                 <th>CH 4</th>
-                <th><?= $this->Html->link("Total", ['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'ch_total']]); ?>
                 </th>
             </tr>
         </thead>
@@ -40,7 +38,7 @@
                 </td>
 
                 <td>
-                    <?php echo $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']); ?>
+                    <?= $c_cargahorariatotal['registro'] ? $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']) : ''; ?>
                 </td>
 
                 <td>
@@ -69,10 +67,6 @@
 
                 <td>
                     <?php echo "Total: "; ?>
-                </td>
-
-                <td>
-                    <?php echo $c_cargahorariatotal['ch_total']; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

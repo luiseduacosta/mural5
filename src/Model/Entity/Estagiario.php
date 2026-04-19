@@ -20,7 +20,6 @@ use Cake\ORM\Entity;
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
- * @property int|null $turmaestagio_id
  * @property float|null $nota
  * @property int|null $ch
  * @property string $ajuste2020
@@ -28,7 +27,6 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Aluno $aluno
  * @property \App\Model\Entity\Professor $professor
- * @property \App\Model\Entity\Turmaestagio $turmaestagio
  * @property \App\Model\Entity\Supervisor $supervisor
  * @property \App\Model\Entity\Instituicao $instituicao
  * @property \App\Model\Entity\Avaliacao $avaliacao
@@ -64,7 +62,6 @@ class Estagiario extends Entity
         "observacoes" => true,
         "aluno" => true,
         "professor" => true,
-        "turmaestagio" => true,
         "supervisor" => true,
         "instituicao" => true,
         "avaliacao" => true,
