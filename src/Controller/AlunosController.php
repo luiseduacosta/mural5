@@ -25,7 +25,28 @@ class AlunosController extends AppController
     {
 
         $this->Authorization->authorize($this->Alunos);
-        $alunos = $this->paginate($this->Alunos);
+
+        $query = $this->Alunos->find('all', ['contain' => ['Turnos']]);
+
+        $alunos = $this->paginate($query, [
+            'sortableFields' => [
+                'Alunos.id',
+                'Alunos.registro',
+                'Alunos.nome',
+                'Alunos.nomesocial',
+                'Alunos.nascimento',
+                'Alunos.cpf',
+                'Alunos.identidade',
+                'Alunos.orgao',
+                'Alunos.ingresso',
+                'Turnos.turno',
+                'Alunos.email',
+                'Alunos.codigo_telefone',
+                'Alunos.telefone',
+                'Alunos.codigo_celular',
+                'Alunos.celular',
+            ],
+        ]);
         $this->set(compact('alunos'));
     }
 
@@ -668,7 +689,7 @@ class AlunosController extends AppController
                     if ($estagiario['ch'] > 0):
                         $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] ?? 's/d';
                         $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'] ?? 's/d';
-                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';                        
+                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';
                     endif;
                     // $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
                     // $criterio[$i][$ordem] = NULL;
