@@ -7,7 +7,7 @@
 
 <div class="container">
 
-
+    
     <div class="container">
         <h3><?= h($categoria->categoria) ?></h3>
         <div class="table-responsive">

@@ -5,57 +5,64 @@ namespace App\Policy;
 
 use App\Model\Entity\Visita;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Visita policy
- */
-class VisitaPolicy
+final class VisitaPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Visita
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Visita $visita
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Visita $visita)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    $user_data['administrador_id']
+                    || $user_data['professor_id']
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Visita
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Visita $visita
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Visita $visita)
+    public function canView(IdentityInterface $user, Visita $visita): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Visita
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Visita $visita
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Visita $visita)
+    public function canEdit(IdentityInterface $user, Visita $visita): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: visita edit policy not authorized');
     }
 
     /**
-     * Check if $user can view Visita
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Visita $visita
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Visita $visita)
+    public function canDelete(IdentityInterface $user, Visita $visita): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: visita delete policy not authorized');
     }
 }

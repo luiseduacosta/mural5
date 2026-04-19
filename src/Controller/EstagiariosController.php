@@ -55,12 +55,14 @@ class EstagiariosController extends AppController
             'Alunos',
             'Professores',
             'Supervisores',
-            'Instituicoes',
+            'Instituicoes'
         ]);
 
         if ($periodo) {
             $query->where(['Estagiarios.periodo' => $periodo]);
         }
+
+        $query->orderBy(['Alunos.nome' => 'ASC']);
 
         if ($nivel) {
             $query->where([
@@ -82,7 +84,7 @@ class EstagiariosController extends AppController
                 'Professores.id' => $professor,
             ]);
         }
-        $config = [
+        $config =  [ // Removed $this->paginate assignment to local var as array
             'sortableFields' => [
                 'id',
                 'Alunos.nome',
@@ -111,7 +113,7 @@ class EstagiariosController extends AppController
             ->contain([
                 'Instituicoes',
                 'Supervisores',
-                'Professores',
+                'Professores'
             ])
             ->where(['Estagiarios.periodo' => $periodo]);
 
@@ -201,7 +203,7 @@ class EstagiariosController extends AppController
             $respostas = json_decode($resposta->response, true);
             foreach ($respostas as $key => $value) {
                 if (substr($key, 0, 9) == 'avaliacao') {
-                    $pergunta_id = (int) substr($key, 9);
+                    $pergunta_id = (int)substr($key, 9); // Removed ,2 to allow more digits if needed
                     try {
                         $pergunta = $this->fetchTable('Questiones')->get(intval($pergunta_id));
                         if (in_array($pergunta->type, ['select', 'radio', 'checkbox', 'boolean'])) {
@@ -265,7 +267,7 @@ class EstagiariosController extends AppController
             $ultimo_estagio = $this->Estagiarios
                 ->find()
                 ->where(['aluno_id' => $aluno_id])
-                ->orderByDesc('nivel')
+                ->orderBy(['nivel' => 'desc'])
                 ->first();
 
             if ($ultimo_estagio) {
@@ -305,9 +307,9 @@ class EstagiariosController extends AppController
                     );
 
                     return $this->redirect([
-                        'controller' => 'Estagiarios',
-                        'action' => 'view',
-                        $ultimo_estagio->id,
+                       'controller' => 'Estagiarios',
+                       'action' => 'view',
+                       $ultimo_estagio->id,
                     ]);
                 }
             } else {
@@ -333,8 +335,8 @@ class EstagiariosController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-            $alunos = $this->fetchTable('Alunos')->find('list', ['order' => ['nome' => 'asc']]);
-            $this->set('alunos', $alunos);
+             $alunos = $this->fetchTable('Alunos')->find('list', ['order' => ['nome' => 'asc']]);
+             $this->set('alunos', $alunos);
         }
 
         $periodo = $this->fetchTable('Configuracoes')
@@ -353,7 +355,7 @@ class EstagiariosController extends AppController
                 'ultimo_estagio',
                 'instituicoes',
                 'supervisores',
-                'professores',
+                'professores'
             ),
         );
     }
@@ -384,10 +386,10 @@ class EstagiariosController extends AppController
 
         try {
             $estagiario = $this->Estagiarios
-                ->find()
-                ->where(['aluno_id' => $aluno_id])
-                ->orderByDesc('nivel')
-                ->first();
+            ->find()
+            ->where(['aluno_id' => $aluno_id])
+            ->orderBy(['nivel' => 'desc'])
+            ->first();
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'add', '?' => ['aluno_id' => $aluno_id]]);
@@ -546,7 +548,7 @@ class EstagiariosController extends AppController
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
 
         if (!$estagiario_id) {
-            // Fallback if ID is passed
+             // Fallback if ID is passed
             if ($id) {
                 $estagiario_id = $id;
             } else {
@@ -561,9 +563,9 @@ class EstagiariosController extends AppController
                 'contain' => ['Alunos', 'Supervisores', 'Instituicoes', 'Professores'],
             ]);
         } catch (Exception $e) {
-            $this->Flash->error(__('Estagiário não encontrado.'));
+             $this->Flash->error(__('Estagiário não encontrado.'));
 
-            return $this->redirect(['action' => 'index']);
+             return $this->redirect(['action' => 'index']);
         }
 
         $this->viewBuilder()->enableAutoLayout(false);
@@ -598,7 +600,7 @@ class EstagiariosController extends AppController
 
         try {
             $estagiario = $this->Estagiarios->get($id, [
-                'contain' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'],
+                'contain' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
@@ -606,8 +608,10 @@ class EstagiariosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        if ($categoria && $categoria == 3 && $estagiario->professor_id != $user->professor_id) {
+        $user = $this->Authentication->getIdentity();
+        if ($user && $user->categoria == '3' && $estagiario->professor_id != $user->professor_id) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para editar este estagiário.'));
+
             return $this->redirect(['action' => 'index']);
         }
 
@@ -635,7 +639,7 @@ class EstagiariosController extends AppController
             }
 
             if ($this->request->is('ajax')) {
-                return $this->response->withStatus(400)
+                 return $this->response->withStatus(400)
                     ->withType('application/json')
                     ->withStringBody(json_encode(['status' => 'error', 'errors' => $estagiario->getErrors()]));
             }
@@ -672,7 +676,7 @@ class EstagiariosController extends AppController
                 'alunos',
                 'instituicoes',
                 'professores',
-                'supervisores',
+                'supervisores'
             ),
         );
     }
@@ -690,9 +694,9 @@ class EstagiariosController extends AppController
         try {
             $estagiario = $this->Estagiarios->get($id);
         } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Registro não encontrado.'));
+             $this->Flash->error(__('Registro não encontrado.'));
 
-            return $this->redirect(['action' => 'index']);
+             return $this->redirect(['action' => 'index']);
         }
 
         try {
@@ -735,7 +739,7 @@ class EstagiariosController extends AppController
             return $this->redirect(["action" => "index"]);
         }
 
-        if ($professor_id && $user && $user->categoria == 3) {
+        if ($professor_id && $user && $user->categoria == '3') {
             if ($professor_id != $user->professor_id) {
                 $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
                 return $this->redirect(['action' => 'index']);
@@ -749,12 +753,12 @@ class EstagiariosController extends AppController
             ->first();
 
         $periodos = $this->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo'
-        ])
+                'keyField' => 'periodo',
+                'valueField' => 'periodo'
+            ])
             ->contain(['Professores'])
             ->where(['Professores.id' => $professor_id])
-            ->orderByDesc("periodo")
+            ->order(["periodo" => "desc"])
             ->toArray();
 
         $periodo = $this->request->getQuery("periodo");
@@ -765,14 +769,15 @@ class EstagiariosController extends AppController
 
         $estagiarios = $this->Estagiarios->find()
             ->contain([
-                "Alunos" => [
-                    "fields" => ["id", "nome"],
-                    "sort" => ["nome"],
-                ],
-                "Professores" => ["fields" => ["id", "nome", "siape"]],
-                "Supervisores" => ["fields" => ["id", "nome", "cress"]],
-                "Instituicoes" => ["fields" => ["id", "instituicao"]],
-                "Folhadeatividades" => ["fields" => ["id", "estagiario_id"]],
+                    "Alunos" => [
+                        "fields" => ["id", "nome"],
+                        "sort" => ["nome"],
+                    ],
+                    "Professores" => ["fields" => ["id", "nome", "siape"]],
+                    "Supervisores" => ["fields" => ["id", "nome", "cress"]],
+                    "Instituicoes" => ["fields" => ["id", "instituicao"]],
+                    "Folhadeatividades" => ["fields" => ["id", "estagiario_id"]],
+                    "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
             ])
             ->where(["Estagiarios.professor_id" => $professor_id, "Estagiarios.periodo" => $periodo]);
 
@@ -799,7 +804,7 @@ class EstagiariosController extends AppController
         if ($user_data['categoria'] == '3') {
             $professor_id = $user_data['professor_id'];
         } else {
-            $professor_id = (int) $this->request->getQuery("professor_id");
+            $professor_id = (int)$this->request->getQuery("professor_id");
         }
 
         if (empty($professor_id)) {
@@ -828,11 +833,11 @@ class EstagiariosController extends AppController
             ->contain([
                 "Alunos" => [
                     "fields" => ["id", "nome"],
-                    "sort" => ["nome"],
                 ],
                 "Professores" => ["fields" => ["id", "nome", "siape"]],
                 "Supervisores" => ["fields" => ["id", "nome"]],
-                "Instituicoes" => ["fields" => ["id", "instituicao"]]
+                "Instituicoes" => ["fields" => ["id", "instituicao"]],
+                "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
             ])
             ->where(["Estagiarios.professor_id" => $professor_id])
             ->orderBy(["Alunos.nome" => "ASC"]);
@@ -853,5 +858,4 @@ class EstagiariosController extends AppController
         $this->set("professor", $professor);
         $this->set("estagiarios", $estagiarios);
     }
-
 }

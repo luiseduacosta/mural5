@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,7 +13,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
- *
+ * @property \App\Model\Table\AdministradoresTable&\Cake\ORM\Association\BelongsTo $Administradores
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
@@ -46,17 +45,19 @@ class UsersTable extends Table
         $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Alunos', [
-            'foreignKey' => 'aluno_id',
-        ]);        
-        $this->belongsTo('Supervisores', [
-            'foreignKey' => 'supervisor_id',
+        $this->addBehavior('Timestamp');
+
+        $this->hasOne('Administradores', [
+            'foreignKey' => 'user_id',
         ]);
-        $this->belongsTo('Professores', [
-            'foreignKey' => 'professor_id',
+        $this->hasOne('Alunos', [
+            'foreignKey' => 'user_id',
         ]);
-        $this->hasOne('Categorias', [
-            'foreignKey' => 'categoria',
+        $this->hasOne('Professores', [
+            'foreignKey' => 'user_id',
+        ]);
+        $this->hasOne('Supervisores', [
+            'foreignKey' => 'user_id',
         ]);
     }
 
@@ -74,25 +75,41 @@ class UsersTable extends Table
 
         $validator
             ->email('email')
-            ->notEmptyString('email');
+            ->notEmptyString('email', 'Erro: Email vazio');
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 50)
-            ->notEmptyString('password');
+            ->maxLength('password', 80)
+            ->notEmptyString('password', 'Erro: senha vazia');
 
         $validator
-            ->scalar('categoria')
-            ->notEmptyString('categoria');
+            ->integer('categoria')
+            ->inList('categoria', [1, 2, 3, 4], 'Erro: categoria inválida')
+            ->notEmptyString('categoria', 'Erro: categoria vazia');
 
         $validator
-            ->integer('registro')
-            ->requirePresence('registro', 'create')
-            ->notEmptyString('registro');
+            ->integer('numero')
+            ->allowEmptyString('numero');
 
         $validator
-            /* ->dateTime('timestamp') */
-            ->notEmptyDateTime('timestamp');
+            ->integer('aluno_id')
+            ->allowEmptyString('aluno_id');
+
+        $validator
+            ->integer('supervisor_id')
+            ->allowEmptyString('supervisor_id');
+
+        $validator
+            ->integer('professor_id')
+            ->allowEmptyString('professor_id');
+
+        $validator
+            ->dateTime('created')
+            ->notEmptyDateTime('created');
+
+        $validator
+            ->dateTime('modified')
+            ->notEmptyDateTime('modified');
 
         return $validator;
     }
@@ -106,9 +123,7 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
-        $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
+        $rules->add($rules->isUnique(['email']));
 
         return $rules;
     }

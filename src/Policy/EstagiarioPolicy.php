@@ -5,82 +5,144 @@ namespace App\Policy;
 
 use App\Model\Entity\Estagiario;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Estagiario policy
- */
-class EstagiarioPolicy
+final class EstagiarioPolicy implements BeforePolicyInterface
 {
-        /**
-         * Check if $user can create Estagiario
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canAdd(?IdentityInterface $user, Estagiario $estagiario)
-        {
-                return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
-        }
+    /**
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
+     */
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
+    {
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
 
-        /**
-         * Check if $user can update Estagiario
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canEdit(?IdentityInterface $user, Estagiario $estagiario)
-        {
-                $cat = $user->categoria ?? null;
-                return isset($cat) && in_array($cat, [1, 2, 3]);
-        }
-
-        /**
-         * Check if $user can delete Estagiario
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canDelete(?IdentityInterface $user, Estagiario $estagiario)
-        {
-                return isset($user) && $user->categoria == 1;
-        }
-
-        /**
-         * Check if $user can view Estagiario
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canView(?IdentityInterface $user, Estagiario $estagiario)
-        {
+            if (!empty($user_data['administrador_id'])) {
                 return true;
+            }
         }
 
-        /**
-         * Check if $user can create Novo Termo de Compromisso
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canNovotermocompromisso(?IdentityInterface $user, Estagiario $estagiario)
-        {
-                return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
+        return null;
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \Cake\ORM\Table $table
+     * @return \Authorization\Policy\Result
+     */
+    public function canIndex(IdentityInterface $userSession): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canView(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        // Supervisor pode ver estagiarios
+        if ($userSession->getOriginalData()['categoria'] == '4') {
+            if ($estagiarioData->supervisor_id == $userSession->getOriginalData()['supervisor_id']) {
+                return new Result(true);
+            }
         }
 
-        /**
-         * Check if $user can create Lançar nota
-         *
-         * @param \Authorization\IdentityInterface|null $user The user.
-         * @param \App\Model\Entity\Estagiario $estagiario
-         * @return bool
-         */
-        public function canLancanota(?IdentityInterface $user, Estagiario $estagiario)
-        {
-                return isset($user) && ($user->categoria == 1 || $user->categoria == 3);
+        return $this->isProfessorOwned($userSession, $estagiarioData) || $this->sameUser($userSession, $estagiarioData)
+            ? new Result(true)
+            : new Result(false, 'Erro: estagiario view policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canEdit(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        return $this->isProfessorOwned($userSession, $estagiarioData) || $this->sameUser($userSession, $estagiarioData)
+            ? new Result(true)
+            : new Result(false, 'Erro: estagiario edit policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canLancanota(IdentityInterface $userSession): Result
+    {
+        $user_data = $userSession->getOriginalData();
+        if ($user_data['professor_id']) {
+            return new Result(true);
         }
+
+        return new Result(false, 'Erro: lancanota policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        return new Result(false, 'Erro: estagiario delete policy not allowed');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canTermoCompromisso(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canTermoCompromissopdf(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return bool
+     */
+    protected function isProfessorOwned(IdentityInterface $userSession, Estagiario $estagiarioData): bool
+    {
+        $user_data = $userSession->getOriginalData();
+
+        return isset($user_data['professor_id']) && $user_data['professor_id'] === $estagiarioData->professor_id;
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return bool
+     */
+    protected function sameUser(IdentityInterface $userSession, Estagiario $estagiarioData): bool
+    {
+        return $userSession->id === $estagiarioData->aluno->user_id;
+    }
 }

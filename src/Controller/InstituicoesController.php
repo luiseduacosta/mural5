@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -31,26 +32,11 @@ class InstituicoesController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $query = $this->Instituicoes
-            ->find()
-            ->contain(['Areas']);
+        $query = $this->Instituicoes->find()->contain(['Areas']);
 
-        $instituicoes = $this->paginate($query, [
-            'order' => ['Instituicoes.instituicao' => 'asc'],
-            'sortableFields' => [
-                'id',
-                'instituicao',
-                'Areas.area',
-                'cnpj',
-                'email',
-                'telefone',
-                'beneficio',
-                'fim_de_semana',
-                'convenio',
-                'expira',
-                'seguro'
-            ]
-        ]);
+        $query->orderBy(['Instituicoes.instituicao' => 'ASC']);
+
+        $instituicoes = $this->paginate($query);
         $this->set(compact('instituicoes'));
     }
 
@@ -63,6 +49,9 @@ class InstituicoesController extends AppController
      */
     public function view(?string $id = null)
     {
+        // Aumentar a memória
+        ini_set('memory_limit', '512M');
+
         try {
             $instituicao = $this->Instituicoes->get($id, [
                 'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
@@ -117,7 +106,7 @@ class InstituicoesController extends AppController
     /**
      * Edit method
      *
-     * @param string|null $id Instituicoes id.
+     * @param string|null $id Instituicao id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -148,7 +137,6 @@ class InstituicoesController extends AppController
 
                 return $this->redirect(['action' => 'view', $instituicao->id]);
             }
-            debug($instituicao->getErrors());
             $this->Flash->error(__('Instituição de estágio não foi atualizada.'));
         }
         $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
@@ -246,11 +234,11 @@ class InstituicoesController extends AppController
                 'keyField' => 'id',
                 'valueField' => 'nome',
             ])
-                ->matching('Instituicoes', function ($q) use ($instituicao_id) {
-                    return $q->where(['Instituicoes.id' => $instituicao_id]);
-                })
-                ->order(['nome' => 'ASC'])
-                ->toArray();
+            ->matching('Instituicoes', function ($q) use ($instituicao_id) {
+                return $q->where(['Instituicoes.id' => $instituicao_id]);
+            })
+            ->order(['nome' => 'ASC'])
+            ->toArray();
 
             return $this->response
                 ->withType('application/json')
@@ -275,6 +263,7 @@ class InstituicoesController extends AppController
         if ($instituicao) {
             $query = $this->Instituicoes->find();
             $query->where(['instituicao LIKE' => "%{$instituicao}%"]);
+            $query->orderBy(['instituicao' => 'ASC']);
 
             if ($query->count() == 0) {
                 $this->Flash->error(__('Nenhum(a) instituição de estágio encontrado com o nome: ' . $instituicao));

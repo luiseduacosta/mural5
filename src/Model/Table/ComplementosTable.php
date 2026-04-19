@@ -1,19 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Complementos Model
  *
- * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- *
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @method \App\Model\Entity\Complemento newEmptyEntity()
  * @method \App\Model\Entity\Complemento newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Complemento[] newEntities(array $data, array $options = [])
@@ -42,7 +38,10 @@ class ComplementosTable extends Table
 
         $this->setTable('complementos');
         $this->setAlias('Complementos');
-        $this->hasMany('Estagiarios', [
+        $this->setDisplayField('periodo_especial');
+        $this->setPrimaryKey('id');
+
+        $this->belongsTo('Estagiarios', [
             'foreignKey' => 'complemento_id',
         ]);
     }
@@ -56,30 +55,8 @@ class ComplementosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('id')
-            ->requirePresence('id', 'create')
-            ->notEmptyString('id')
-            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->scalar('periodo_especial')
-            ->maxLength('periodo_especial', 10)
-            ->allowEmptyString('periodo_especial');
+            ->allowEmptyString('id', null, 'create');
 
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->isUnique(['id']), ['errorField' => 'id']);
-
-        return $rules;
     }
 }

@@ -5,7 +5,6 @@
  */
 ?>
 
-
 <div class="container">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -15,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user->isAdmin() || $user->isStudent() || (isset($categoria) && $categoria == 2)): ?>
+                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(

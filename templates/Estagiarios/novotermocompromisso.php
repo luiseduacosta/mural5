@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario $estagiario
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 <script type="text/javascript">
@@ -15,43 +16,43 @@
                 data: {
                     id: id,
                     _csrfToken: '<?= $this->request->getAttribute('csrfToken') ?>'
-                },
-                success: function (response) {
-                    let options = '<option value="">Selecione o supervisor</option>';
-                    if (response && Object.keys(response).length > 0) {
-                        $.each(response, function (key, value) {
-                            options += '<option value="' + key + '">' + value + '</option>';
-                        });
-                    } else {
-                        options = '<option value="">Nenhum supervisor encontrado</option>';
-                    }
-                    $('#supervisor-id').html(options);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Ajax error:', error);
-                    $('#supervisor-id').html('<option value="">Erro ao carregar supervisores</option>');
+            },
+            success: function (response) {
+                let options = '<option value="">Selecione o supervisor</option>';
+                if (response && Object.keys(response).length > 0) {
+                    $.each(response, function (key, value) {
+                        options += '<option value="' + key + '">' + value + '</option>';
+                    });
+                } else {
+                    options = '<option value="">Nenhum supervisor encontrado</option>';
                 }
+                $('#supervisor-id').html(options);
+            },
+            error: function (xhr, status, error) {
+                console.error('Ajax error:', error);
+                $('#supervisor-id').html('<option value="">Erro ao carregar supervisores</option>');
             }
-        );
+        }
+    );
     }
 </script>
 
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
-        aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerEstagiario">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class="nav-item">
                 <?=
-                    $this->Form->postLink(
+                $this->Form->postLink(
                         __('Excluir'),
                         ['action' => 'delete', $estagiario->id],
                         ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-start']
-                    )
-                    ?>
+                )
+                ?>
             </li>
         <?php endif; ?>
         <li class="nav-item">
@@ -73,7 +74,6 @@
         <?php
         echo $this->Form->control('aluno_id', ['options' => [$aluno_id => $nomealuno], 'required' => true, 'readonly' => true]);
         echo $this->Form->control('registro', ['label' => 'Registro', 'required' => true, 'readonly' => true]);
-        echo $this->Form->control('turno', ['hidden' => true, 'label' => false]);
         if ($nivel == '9'):
             echo $this->Form->control('nivel', ['label' => false, 'value' => $nivel, 'hidden' => true, 'readonly' => true]);
         else:
@@ -83,7 +83,7 @@
         echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo, 'required' => true, 'readonly' => true]);
         echo $this->Form->control('ajuste2020', ['label' => 'Ajuste 2020', 'options' => ['0' => 'Não', '1' => 'Sim'], 'default' => '1']);
 
-        echo $this->Form->control('instituicao_id', ['value' => $instituicao_id, 'options' => $instituicoes, 'required' => true, 'onchange' => 'getsupervisores(this.value)', 'empty' => 'Seleciona instituição']);
+        echo $this->Form->control('instituicao_id', ['value' => $instituicao_id, 'options' => $instituicoes, 'required' => true, 'onchange' => 'getsupervisores(this.value)','empty' => 'Seleciona instituição']);
 
         if (isset($supervisor_id)) {
             echo $this->Form->control('supervisor_id', ['value' => $supervisor_id, 'options' => $supervisores, 'required' => false, 'empty' => "Seleciona supervisor"]);

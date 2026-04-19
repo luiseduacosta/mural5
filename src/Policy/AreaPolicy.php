@@ -5,57 +5,58 @@ namespace App\Policy;
 
 use App\Model\Entity\Area;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Area policy
- */
-class AreaPolicy
+final class AreaPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Area
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Area $area
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Area $area)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (!empty($user_data['administrador_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Area
-     *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Area $area
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Area $area)
+    public function canView(IdentityInterface $user, Area $area): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Area
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Area $area
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Area $area)
+    public function canEdit(IdentityInterface $user, Area $area): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(false, 'Erro: area edit policy not authorized');
     }
 
     /**
-     * Check if $user can view Area
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Area $area
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Area $area)
+    public function canDelete(IdentityInterface $user, Area $area): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(false, 'Erro: area delete policy not authorized');
     }
 }

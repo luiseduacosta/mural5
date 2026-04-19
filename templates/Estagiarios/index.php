@@ -36,11 +36,6 @@
             window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&professor=' + professor;
         })
 
-        $("#EstagiarioTurmaestagio").change(function () {
-            var turmaestagio = $(this).val();
-            window.location = url + '/index?periodo=' + $('#EstagiarioPeriodo').val() + '&turmaestagio=' + turmaestagio;
-        })
-
     })
 </script>
 
@@ -119,7 +114,6 @@
                         <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
                         <th><?= $this->Paginator->sort('registro') ?></th>
                         <th><?= $this->Paginator->sort('ajuste2020', 'Ajuste 2020') ?></th>
-                        <th><?= $this->Paginator->sort('turno') ?></th>
                         <th><?= $this->Paginator->sort('nivel') ?></th>
                         <th><?= $this->Paginator->sort('tc', 'Termo de compromisso') ?></th>
                         <th><?= $this->Paginator->sort('tc_solicitacao', 'Data TC') ?></th>
@@ -146,7 +140,6 @@
                             </td>
                             <td><?= $estagiario->registro ?></td>
                             <td><?= h($estagiario->ajuste2020) == 0 ? 'Não' : 'Sim' ?></td>
-                            <td><?= h($estagiario->turno) ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
                             <td><?= $estagiario->tc ?></td>
                             <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?>

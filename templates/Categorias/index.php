@@ -7,7 +7,7 @@
 
 <div class="container">
 
-
+    
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><?= __('Categorias de usuários') ?></h3>
         <?= $this->Html->link(__('Nova Categoria'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm']) ?>

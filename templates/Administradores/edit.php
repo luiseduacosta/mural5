@@ -1,12 +1,15 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Administrador $nome
+ * @var \App\Model\Entity\Administrador $administrador
  */
-$categoria = 0;
 
-if ($session) {
-    $categoria = $session->get('categoria');
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
 }
 ?>
 <div>
@@ -15,24 +18,19 @@ if ($session) {
             <aside>
                 <div class="nav">
                     <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Form->postLink(
-                        __('Deletar'),
-                        ['action' => 'delete', $administrador->id],
-                        ['confirm' => __('Are you sure you want to delete {0}?', $administrador->nome), 'class' => 'button']
-                    ) ?>
                 </div>
             </aside>
             <?= $this->Form->create($administrador) ?>
             <fieldset>
-                <h3><?= __('Editando Administrador') ?></h3>
+                <h3><?= __('Editando administrador_' . $administrador->id) ?></h3>
                 <?php
-                    if ($categoria == 1):
-                       echo $this->Form->control('user_id', ['type' => 'number']); 
-                    endif;
+                if ($user_data['administrador_id']) :
+                    echo $this->Form->control('user_id', ['type' => 'number', 'value' => $administrador->user_id, 'readonly' => true]);
+                endif;
                     echo $this->Form->control('nome');
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Editar')) ?>
+            <?= $this->Form->button(__('Editar'), ['class' => 'button']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

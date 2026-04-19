@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -13,7 +11,6 @@ use Cake\Validation\Validator;
  * Visitas Model
  *
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
- *
  * @method \App\Model\Entity\Visita newEmptyEntity()
  * @method \App\Model\Entity\Visita newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Visita[] newEntities(array $data, array $options = [])
@@ -27,7 +24,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Visita[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Visita[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Visita[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  */
 class VisitasTable extends Table
 {
@@ -48,7 +44,6 @@ class VisitasTable extends Table
 
         $this->belongsTo('Instituicoes', [
             'foreignKey' => 'instituicao_id',
-            'joinType' => 'INNER',
         ]);
     }
 

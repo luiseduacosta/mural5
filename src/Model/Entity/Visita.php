@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -11,13 +10,14 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $instituicao_id
- * @property \Cake\I18n\Date $data
+ * @property \Cake\I18n\FrozenDate $data
  * @property string $motivo
  * @property string $responsavel
  * @property string|null $descricao
  * @property string $avaliacao
  *
  * @property \App\Model\Entity\Instituicao $instituicao
+ * @property \App\Model\Entity\Professor|null $professor
  */
 class Visita extends Entity
 {
@@ -37,6 +37,5 @@ class Visita extends Entity
         'responsavel' => true,
         'descricao' => true,
         'avaliacao' => true,
-        'instituicao' => true,
     ];
 }

@@ -38,13 +38,7 @@ class MuralestagiosController extends AppController
      */
     public function index()
     {
-
-        try {
-            $this->Authorization->authorize($this->Muralestagios);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');
 
@@ -56,7 +50,7 @@ class MuralestagiosController extends AppController
         $periodototal = $this->Muralestagios->find('list', [
             'keyField' => 'periodo',
             'valueField' => 'periodo',
-            'orderBy' => ['periodo' => 'DESC'],
+            'sort' => ['periodo' => 'DESC'],
         ])->distinct(['periodo']);
 
         $periodos = $periodototal->toArray();
@@ -68,12 +62,13 @@ class MuralestagiosController extends AppController
             $query->where([
                 'Muralestagios.periodo' => $periodo,
             ]);
+        } else {
+            $this->Flash->error(__('Selecionar período.'));
         }
 
-        $query->orderBy(['Muralestagios.data_inscricao' => 'DESC']);
-
         if ($query->count() == 0) {
-            $this->Flash->warning(__('Nenhum registro de mural de estágio encontrado para o período selecionado.'));
+             // Warning managed in view or just flash
+             $this->Flash->warning(__('Nenhum registro de mural de estágio encontrado para o período selecionado.'));
         }
 
         $muralestagios = $this->paginate($query, [
@@ -84,8 +79,8 @@ class MuralestagiosController extends AppController
                 'final_de_semana',
                 'carga_horaria',
                 'data_inscricao',
-                'data_selecao'
-            ]
+                'data_selecao'],
+            'order' => ['data_inscricao' => 'DESC'],
         ]);
 
         $this->set(compact('muralestagios', 'periodo', 'periodos'));
@@ -110,13 +105,7 @@ class MuralestagiosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        try {
-            $this->Authorization->authorize($muralestagio);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         /** Para o administrador selecionar o aluno */
         $alunotable = $this->fetchTable('Alunos');
@@ -136,7 +125,8 @@ class MuralestagiosController extends AppController
      */
     public function add()
     {
-        $periodo = $this->request->getQuery('periodo');
+        $periodo = $this->request->getQuery('periodo'); // Original used undefined variable check logic?
+        // Logic: if (empty($periodo)) fetch from config. But variable $periodo isn't defined in scope unless passed or fetched.
 
         if (empty($periodo)) {
             $configuracaotable = $this->fetchTable('Configuracoes');
@@ -159,6 +149,9 @@ class MuralestagiosController extends AppController
         if ($this->request->is('post')) {
             $dados = $this->request->getData();
 
+            // Auto populate instituicao name from ID if chosen
+            // Original code fetched institution name to save it as string in 'instituicao' field?
+            // "Muralestagios.instituicao" seems to be a field, distinct from association?
             $instituicao = $this->Muralestagios->Instituicoes->find()
                 ->where(['id' => $dados['instituicao_id']])
                 ->select(['instituicao'])
@@ -169,20 +162,21 @@ class MuralestagiosController extends AppController
 
                 return $this->redirect(['action' => 'add']);
             } else {
-                $dados['instituicao'] = $instituicao->instituicao;
+                 $dados['instituicao'] = $instituicao->instituicao;
 
-                $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $dados);
+                 $muralestagio = $this->Muralestagios->patchEntity($muralestagio, $dados);
                 if ($this->Muralestagios->save($muralestagio)) {
                     $this->Flash->success(__('Registo de novo mural de estágio feito.'));
 
                     return $this->redirect(['action' => 'view', $muralestagio->id]);
                 }
-                $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
+                 $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
         }
         $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $turmaestagios = $this->fetchTable('Turmaestagios')->find('list', ['order' => ['area' => 'ASC']]);
         $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'ASC']]);
-        $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodo'));
+        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodo'));
     }
 
     /**
@@ -222,17 +216,18 @@ class MuralestagiosController extends AppController
             $this->Flash->error(__('Registro muralestagio não foi atualizado. Tente novamente.'));
         }
 
-        /** Todos os períodos */
+        /** Todos os periódos */
         $periodototal = $this->Muralestagios->find('list', [
             'keyField' => 'periodo',
             'valueField' => 'periodo',
-            'orderBy' => ['periodo' => 'DESC'],
+            'sort' => ['periodo' => 'DESC'],
         ])->distinct(['periodo']);
         $periodos = $periodototal->toArray();
 
-        $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['orderBy' => ['instituicao' => 'ASC']]);
-        $professores = $this->Muralestagios->Professores->find('list', ['orderBy' => ['nome' => 'ASC']]);
-        $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodos'));
+        $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list', ['order' => ['area' => 'ASC']]);
+        $professores = $this->Muralestagios->Professores->find('list', ['order' => ['nome' => 'ASC']]);
+        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodos'));
     }
 
     /**
@@ -261,6 +256,7 @@ class MuralestagiosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+        // Check for associated records to prevent data integrity issues
         $inscricoesCount = $this->Muralestagios->Muralinscricoes->find()
             ->where(['muralestagio_id' => $id])
             ->count();

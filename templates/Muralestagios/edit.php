@@ -16,16 +16,16 @@
         </li>
         <li class="nav-item">
             <?php if (null !== $categoria && $categoria == 1): ?>
-                <?=
-                    $this->Form->postLink(
-                        __('Excluir'),
-                        ['action' => 'delete', $muralestagio->id],
-                        ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
-                    )
-                    ?>
-            </li>
-        </ul>
-    </nav>
+            <?=
+                $this->Form->postLink(
+                    __('Excluir'),
+                    ['action' => 'delete', $muralestagio->id],
+                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
+                )
+                ?>
+        </li>
+    </ul>
+</nav>
 
     <div class="row">
         <div class="container">
@@ -50,6 +50,7 @@
                 echo $this->Form->control('contato');
                 echo $this->Form->control('email');
                 echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'options' => $periodostotal]);
+                echo $this->Form->control('datafax', ['empty' => true]);
                 echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS']]);
                 echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
                 ?>
@@ -59,7 +60,7 @@
         </div>
     </div>
     <?= $this->Form->end() ?>
-    </div>
+</div>
 <?php endif; ?>
 
 <script type="module">

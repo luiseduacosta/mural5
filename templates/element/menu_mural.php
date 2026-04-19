@@ -95,19 +95,19 @@ use Cake\ORM\TableRegistry;
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 2): ?>
+                <?php if (isset($categoria) && $categoria == '2'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Alunos/view/" . $user->aluno_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 3): ?>
+                <?php if (isset($categoria) && $categoria == '3'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Professores/view/" . $user->professor_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 4): ?>
+                <?php if (isset($categoria) && $categoria == '4'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Supervisores/view/" . $user->supervisor_id, ['class' => 'nav-link']); ?>
                     </li>
@@ -120,8 +120,8 @@ use Cake\ORM\TableRegistry;
                 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                <?php if (!empty($categoria)): ?>
-                    <?php if ($categoria == 2 && $user->aluno_id) {
+                <?php if (!empty($user)): ?>
+                    <?php if (isset($categoria) && $categoria == 2 && isset($user) && $user->aluno_id) {
                         $aluno = TableRegistry::getTableLocator()->get('Alunos')->find()->where(['Alunos.id' => $user->aluno_id])->first();
                         ?>
                         <li class='nav-item'>

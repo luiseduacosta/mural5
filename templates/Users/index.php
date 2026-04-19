@@ -5,8 +5,6 @@
  */
 ?>
 
-
-
 <div class="container">
 
     <?php if (isset($categoria) && $categoria == '1'): ?>

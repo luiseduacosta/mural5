@@ -73,6 +73,7 @@
     }
 </script>
 
+<?php $categoria = $this->getRequest()->getAttribute('identity')->get('categoria'); ?>
 
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
@@ -93,223 +94,212 @@
 
 <div class="container">
 
-    <div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-        <?= $this->Form->create($estagiario) ?>
-        <fieldset class="border p-2">
-            <legend><?= __('Novo estagiário') ?></legend>
-            <?php
-            if (isset($aluno)) {
-                echo $this->Form->control('aluno_id', [
-                    'label' => 'Aluno',
-                    'options' => [$aluno->id => $aluno->nome],
-                    'readonly' => true,
-                    'templates' => [
-                        'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                        'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                        'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
-                    ]
-                ]);
-            } elseif (isset($alunos)) {
-                echo $this->Form->control('aluno_id', [
-                    'label' => 'Aluno',
-                    'options' => $alunos,
-                    'empty' => ['' => 'Seleciona estudante'],
-                    'onchange' => 'getaluno(this.value)',
-                    'templates' => [
-                        'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                        'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                        'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
-                    ]
-                ]);
-            }
-            echo $this->Form->control('registro', [
-                'label' => 'DRE',
-                'value' => $aluno->registro,
-                'type' => 'text',
+<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
+    <?= $this->Form->create($estagiario) ?>
+    <fieldset class="border p-2">
+        <legend><?= __('Novo estagiário') ?></legend>
+        <?php
+        if (isset($aluno)) {
+            echo $this->Form->control('aluno_id', [
+                'label' => 'Aluno',
+                'options' => [$aluno->id => $aluno->nome],
                 'readonly' => true,
-                'id' => 'registro',
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
-                ]
-            ]);
-            echo $this->Form->control('turno', [
-                'label' => 'Turno',
-                'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indefinido'],
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-                ],
-                'id' => 'turno',
-                'value' => isset($aluno) ? $aluno->turno : ''
-            ]);
-            echo $this->Form->control('nivel', [
-                'label' => 'Nível',
-                'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Não curricular'],
-                'value' => $nivel,
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-                ],
-                'id' => 'nivel'
-            ]);
-            echo $this->Form->control('tc', [
-                'label' => 'Termo de compromisso',
-                'options' => ['0' => 'Sem TC', '1' => 'Com TC'],
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-                ],
-                'id' => 'tc',
-                'value' => isset($aluno) ? $aluno->tc : ''
-            ]);
-            echo $this->Form->control('tc_solicitacao', [
-                'label' => 'Solicitação de TC',
-                'empty' => true,
-                'type' => 'date',
-                'value' => $now->i18nFormat('dd-MM-yyyy'),
-                'readonly' => true,
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-3">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'input' => '<input class="col-sm-3 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
-                ],
-                'id' => 'tc_solicitacao'
-            ]);
-            echo $this->Form->control('ajuste2020', [
-                'label' => 'Ajuste 2020',
-                'empty' => true,
-                'type' => 'select',
-                'options' => ['0' => 'Não', '1' => 'Sim'],
-                'readonly' => false,
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-                ],
-                'id' => 'ajuste2020',
-                'value' => isset($ultimo_estagio) ? $ultimo_estagio->ajuste2020 : ''
-            ]);
-            echo $this->Form->control('instituicao_id', [
-                'label' => 'Instituição',
-                'empty' => ['' => 'Selecione uma instituição'],
-                'options' => $instituicoes,
-                'value' => isset($ultimo_estagio) ? $ultimo_estagio->instituicao_id : '',
-                'onchange' => 'getsupervisores(this.value)',
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
-                ],
-                'id' => 'instituicao-id',
-            ]);
-            echo $this->Form->control('supervisor_id', [
-                'label' => 'Supervisor',
-                'options' => $supervisores,
-                'empty' => true,
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
-                ],
-                'id' => 'supervisor-id',
-                'value' => isset($ultimo_estagio) ? $ultimo_estagio->supervisor_id : ''
-            ]);
-            echo $this->Form->control('professor_id', [
-                'label' => 'Professor',
-                'options' => $professores,
-                'value' => isset($ultimo_estagio) ? $ultimo_estagio->professor_id : '',
-                'empty' => true,
                 'templates' => [
                     'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
                     'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
                     'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
                 ]
             ]);
-            echo $this->Form->control('periodo', [
-                'label' => 'Período',
-                'value' => $periodo,
+        } elseif (isset($alunos)) {
+            echo $this->Form->control('aluno_id', [
+                'label' => 'Aluno',
+                'options' => $alunos,
+                'empty' => ['' => 'Seleciona estudante'],
+                'onchange' => 'getaluno(this.value)',
                 'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
                     'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
-                ],
-                'readonly' => true
+                    'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
+                ]
             ]);
-            if (isset($categoria) && $categoria == 1) {
-                echo $this->Form->control('nota', [
-                    'label' => 'Nota',
-                    'value' => '',
-                    'readonly' => true,
-                    'templates' => [
-                        'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                        'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                        'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
-                    ]
-                ]);
-                echo $this->Form->control('ch', [
-                    'label' => 'Carga horária',
-                    'value' => '',
-                    'readonly' => true,
-                    'templates' => [
-                        'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                        'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                        'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
-                    ]
-                ]);
-                echo $this->Form->control('observacoes', [
-                    'type' => 'textarea',
-                    'rows' => '3',
-                    'cols' => '50',
-                    'label' => 'Observações',
-                    'value' => '',
-                    'templates' => [
-                        'formGroup' => '<div class="form-group row">{{label}}{{input}}</div>',
-                        'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                        'input' => '<textarea class="form-control col-sm-12" rows="{{rows}}" cols="{{cols}}" name="{{name}}"{{attrs}}>{{value}}</textarea>'
-                    ]
-                ]);
-            }
-            ?>
-        </fieldset>
-        <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']) ?>
-        <?= $this->Form->end() ?>
-    </div>
-
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Strikethrough,
-            Font,
-            Paragraph,
-            List,
-            Alignment
-        } from 'ckeditor5';
-
-        let;
-        if (typeof observacoes !== 'undefined') {
-            observacoes.destroy();
         }
-
-        ClassicEditor
-            .create(document.querySelector('#observacoes'), {
-                plugins: [Essentials, Bold, Italic, Strikethrough, Font, Paragraph, List, Alignment],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', 'strikethrough', 'bulletedList', 'numberedList', 'alignment', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+        echo $this->Form->control('registro', [
+            'label' => 'DRE',
+            'value' => $aluno->registro,
+            'type' => 'text',
+            'readonly' => true,
+            'id' => 'registro',
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
+            ]
+        ]);
+        echo $this->Form->control('nivel', [
+            'label' => 'Nível',
+            'options' => ['1' => 1, '2' => 2, '3' => 3, '4' => 4, '9' => 'Não curricular'],
+            'value' => $nivel,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
+            ],
+            'id' => 'nivel'
+        ]);
+        echo $this->Form->control('tc', [
+            'label' => 'Termo de compromisso',
+            'options' => ['0' => 'Sem TC', '1' => 'Com TC'],
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
+            ],
+            'id' => 'tc',
+            'value' => isset($aluno) ? $aluno->tc : ''
+        ]);
+        echo $this->Form->control('tc_solicitacao', [
+            'label' => 'Solicitação de TC',
+            'empty' => true,
+            'type' => 'date',
+            'value' => $now->i18nFormat('dd-MM-yyyy'),
+            'readonly' => true,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-3">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'input' => '<input class="col-sm-3 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
+            ],
+            'id' => 'tc_solicitacao'
+        ]);
+        echo $this->Form->control('ajuste2020', [
+            'label' => 'Ajuste 2020',
+            'empty' => true,
+            'type' => 'select',
+            'options' => ['0' => 'Não', '1' => 'Sim'],
+            'readonly' => false,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
+            ],
+            'id' => 'ajuste2020',
+            'value' => isset($ultimo_estagio) ? $ultimo_estagio->ajuste2020 : ''
+        ]);
+        echo $this->Form->control('instituicao_id', [
+            'label' => 'Instituição',
+            'empty' => ['' => 'Selecione uma instituição'],
+            'options' => $instituicoes,
+            'value' => isset($ultimo_estagio) ? $ultimo_estagio->instituicao_id : '',
+            'onchange' => 'getsupervisores(this.value)',
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
+            ],
+            'id' => 'instituicao-id',
+        ]);
+        echo $this->Form->control('supervisor_id', [
+            'label' => 'Supervisor',
+            'options' => $supervisores,
+            'empty' => true,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
+            ],
+            'id' => 'supervisor-id',
+            'value' => isset($ultimo_estagio) ? $ultimo_estagio->supervisor_id : ''
+        ]);
+        echo $this->Form->control('professor_id', [
+            'label' => 'Professor',
+            'options' => $professores,
+            'value' => isset($ultimo_estagio) ? $ultimo_estagio->professor_id : '',
+            'empty' => true,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'select' => '<select name="{{name}}"{{attrs}} class="form-select">{{content}}</select>'
+            ]
+        ]);
+        echo $this->Form->control('periodo', [
+            'label' => 'Período',
+            'value' => $periodo,
+            'templates' => [
+                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
+            ],
+            'readonly' => true
+        ]);
+        if (isset($categoria) && $categoria == '1') {
+            echo $this->Form->control('nota', [
+                'label' => 'Nota',
+                'value' => '',
+                'readonly' => true,
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                    'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
                 ]
-            })
-            .then(editor => {
-                observacoes = editor;
-                console.log('Olá editor observações inicializado', observacoes);
-                requisitos.setData("");
-            });
+            ]);
+            echo $this->Form->control('ch', [
+                'label' => 'Carga horária',
+                'value' => '',
+                'readonly' => true,
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                    'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
+                ]
+            ]);
+            echo $this->Form->control('observacoes', [
+                'type' => 'textarea',
+                'rows' => '3',
+                'cols' => '50',
+                'label' => 'Observações',
+                'value' => '',
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}{{input}}</div>',
+                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
+                    'input' => '<textarea class="form-control col-sm-12" rows="{{rows}}" cols="{{cols}}" name="{{name}}"{{attrs}}>{{value}}</textarea>'
+                ]
+            ]);
+        }
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']) ?>
+    <?= $this->Form->end() ?>
+</div>
 
-    </script>
+<script type="module">
+    import {
+        ClassicEditor,
+        Essentials,
+        Bold,
+        Italic,
+        Strikethrough,
+        Font,
+        Paragraph,
+        List,
+        Alignment
+    } from 'ckeditor5';
+
+    let ;
+    if (typeof observacoes !== 'undefined') {
+        observacoes.destroy();
+    }
+
+    ClassicEditor
+        .create(document.querySelector('#observacoes'), {
+            plugins: [Essentials, Bold, Italic, Strikethrough, Font, Paragraph, List, Alignment],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', 'strikethrough', 'bulletedList', 'numberedList', 'alignment', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+            ]
+        })
+        .then(editor => {
+            observacoes = editor;
+            console.log('Olá editor observações inicializado', observacoes);
+            requisitos.setData("");
+        });
+
+</script>

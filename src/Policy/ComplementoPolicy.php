@@ -5,57 +5,58 @@ namespace App\Policy;
 
 use App\Model\Entity\Complemento;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Complemento policy
- */
-class ComplementoPolicy
+final class ComplementoPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Complemento
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Complemento $complemento
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Complemento $complemento)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (!empty($user_data['administrador_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Complemento
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Complemento $complemento
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Complemento $complemento)
+    public function canView(IdentityInterface $user, Complemento $complemento): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Complemento
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Complemento $complemento
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Complemento $complemento)
+    public function canEdit(IdentityInterface $user, Complemento $complemento): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: complemento edit policy not authorized');
     }
 
     /**
-     * Check if $user can view Complemento
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Complemento $complemento
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Complemento $complemento)
+    public function canDelete(IdentityInterface $user, Complemento $complemento): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: complemento delete policy not authorized');
     }
 }

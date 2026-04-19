@@ -12,7 +12,6 @@ namespace App\Controller;
  */
 class ProfessoresController extends AppController
 {
-
     /**
      * Index method
      *
@@ -20,8 +19,13 @@ class ProfessoresController extends AppController
      */
     public function index()
     {
+        try {
+            $this->Authorization->authorize($this->Professores);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
-        $this->Authorization->authorize($this->Professores, 'index');
         $professores = $this->paginate($this->Professores);
 
         $this->set(compact('professores'));
@@ -40,17 +44,23 @@ class ProfessoresController extends AppController
         if (is_null($id)) {
             $id = $this->getRequest()->getAttribute('identity')['professor_id'];
         }
-
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
-        $professor = $this->Professores->get(
-            $id,
-            [
+        try {
+            $professor = $this->Professores->get($id, [
                 'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-            ]
-        );
+                    ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            return $this->redirect(['action' => 'index']);
+        }
 
-        $this->Authorization->authorize($professor);
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         $this->set(compact('professor'));
     }
@@ -65,7 +75,12 @@ class ProfessoresController extends AppController
 
         $professor = $this->Professores->newEmptyEntity();
 
-        $this->Authorization->authorize($professor);
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         if ($this->getRequest()->getAttribute('identity')['categoria'] == 3) {
             $siape = $this->getRequest()->getAttribute('identity')['registro'];
@@ -73,36 +88,34 @@ class ProfessoresController extends AppController
         }
 
         /** Para o formulário */
-        if ($siape):
+        if ($siape) :
             $this->set('siape', $siape);
         endif;
 
-        if ($email):
+        if ($email) :
             $this->set('email', $email);
         endif;
 
         /* Verifico se já está cadastrado */
         if ($siape) {
             $professorcadastrado = $this->Professores->find()
-                ->where(['siape' => $siape])
-                ->first();
+                    ->where(['siape' => $siape])
+                    ->first();
 
-            if ($professorcadastrado):
+            if ($professorcadastrado) :
                 $this->Flash->error(__('Professor já cadastrado'));
                 return $this->redirect(['view' => $professorcadastrado->id]);
             endif;
         }
-
-        $professor = $this->Professores->newEmptyEntity();
 
         if ($this->request->is('post')) {
 
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
             $usercadastrado = $this->Professores->Users->find()
-                ->where(['categoria' => 3, 'registro' => $siape])
-                ->first();
-            if (empty($usercadastrado)):
+                    ->where(['categoria' => 3, 'registro' => $siape])
+                    ->first();
+            if (empty($usercadastrado)) :
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
                 return $this->redirect('/users/add');
             endif;
@@ -116,17 +129,16 @@ class ProfessoresController extends AppController
                  * Primeiro busco o usuário.
                  */
                 $userprofessor = $this->Professores->Users->find()
-                    ->where(['professor_id' => $professorresultado->id])
-                    ->first();
+                        ->where(['professor_id' => $professorresultado->id])
+                        ->first();
 
                 /**
                  * Se a busca retorna vazia então atualizo a tabela Users com o valor do professor_id.
                  */
                 if (empty($userprofessor)) {
-
                     $userestagio = $this->Professores->Users->find()
-                        ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
-                        ->first();
+                            ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
+                            ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
                     $userdata['professor_id'] = $professorresultado->id;
@@ -162,11 +174,21 @@ class ProfessoresController extends AppController
     public function edit($id = null)
     {
 
-        $professor = $this->Professores->get($id, [
-            'contain' => [],
-        ]);
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => [],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Professor não encontrado.'));
+            return $this->redirect(['action' => 'index']);
+        }
 
-        $this->Authorization->authorize($professor);
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $professor = $this->Professores->patchEntity($professor, $this->request->getData());
@@ -191,12 +213,22 @@ class ProfessoresController extends AppController
     {
 
         $this->request->allowMethod(['post', 'delete']);
+        
+        try {
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios']
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Flash->error(__('Professor não encontrado.'));
+            return $this->redirect(['action' => 'index']);
+        }
 
-        $professor = $this->Professores->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
-
-        $this->Authorization->authorize($professor);
+        try {
+            $this->Authorization->authorize($professor);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        }
 
         if (sizeof($professor->estagiarios) > 0) {
             $this->Flash->error(__('Professor(a) tem estagiários associados'));

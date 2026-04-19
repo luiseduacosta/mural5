@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -7,12 +6,12 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Turmaestagio Entity
+ * Turno Entity
  *
  * @property int $id
- * @property string $area
+ * @property string $turno
  */
-class Turmaestagio extends Entity
+class Turno extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -21,9 +20,9 @@ class Turmaestagio extends Entity
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var array<string, bool>
      */
     protected array $_accessible = [
-        'area' => true,
+        'turno' => true,
     ];
 }

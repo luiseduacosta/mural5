@@ -5,57 +5,48 @@ namespace App\Policy;
 
 use App\Model\Entity\Configuracao;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Configuracao policy
- */
-class ConfiguracaoPolicy
+final class ConfiguracaoPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Configuracao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Configuracao $configuracao
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Configuracao $configuracao)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (!empty($user_data['administrador_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Configuracao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Configuracao $configuracao
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Configuracao $configuracaoData
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Configuracao $configuracao)
+    public function canView(IdentityInterface $userSession, Configuracao $configuracaoData): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Configuracao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Configuracao $configuracao
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Configuracao $configuracaoData
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Configuracao $configuracao)
+    public function canEdit(IdentityInterface $userSession, Configuracao $configuracaoData): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
-    }
-
-    /**
-     * Check if $user can view Configuracao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Configuracao $configuracao
-     * @return bool
-     */
-    public function canView(?IdentityInterface $user, Configuracao $configuracao)
-    {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: configuracao edit policy not authorized');
     }
 }

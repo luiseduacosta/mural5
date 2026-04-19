@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
+$user = $this->getRequest()->getAttribute('identity');
 ?>
 
 
@@ -12,7 +13,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if (isset($categoria) && $categoria == '1'): ?>
             <li class='nav-item'>
                 <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1']) ?>
             </li>
@@ -70,7 +71,7 @@
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_folhadeatividade->id]) ?>
                         </div>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if (isset($categoria) && $categoria == '1'): ?>
 
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_folhadeatividade->id]) ?>

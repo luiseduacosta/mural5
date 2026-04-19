@@ -1,10 +1,18 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Administrador $nome
+ * @var \App\Model\Entity\Administrador $administrador
  */
+
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
-<div
+<div>
     <div class="column-responsive column-80">
         <div class="administradores form content">
             <aside>
@@ -14,13 +22,12 @@
             </aside>
             <?= $this->Form->create($administrador) ?>
             <fieldset>
-                <h3><?= __('Adicionando Administrador') ?></h3>
+                <h3><?= __('Adicionar administrador') ?></h3>
                 <?php
-                    if ($categoria == 1):
-                        $val = $this->request->getParam('pass') ? $this->request->getParam('pass')[0] : '';
-                        echo $this->Form->control('user_id', ['type' => 'number', 'value' => $val ]); 
-                    endif;
-                    echo $this->Form->control('nome');
+                if ($user_data['categoria'] == 1) :
+                    echo $this->Form->control('user_id', ['type' => 'number', 'label' => 'Usuario', 'value' => $user_session['id'], 'readonly' => true, 'hidden' => true]);
+                endif;
+                    echo $this->Form->control('nome', ['label' => 'Nome']);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Adicionar'), ['class' => 'button']) ?>

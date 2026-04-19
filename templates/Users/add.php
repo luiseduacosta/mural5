@@ -5,7 +5,6 @@
  */
 ?>
 
-
 <?= $this->element('templates') ?>
 
 <div class="container">

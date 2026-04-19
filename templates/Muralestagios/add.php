@@ -40,6 +40,7 @@
         echo $this->Form->control('forma_selecao', ['label' => ['text' => 'Forma de seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras (especificar em "Outras informações")']]);
         echo $this->Form->control('contato', ['label' => ['text' => 'Contato'], 'type' => 'email']);
         echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'value' => $periodo, 'readonly']);
+        echo $this->Form->control('datafax', ['type' => 'hidden', 'empty' => true]);
         echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e no mural da Coordenação de Estágio/ESS']]);
         echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'type' => 'email']);
         echo $this->Form->control('outras', ['type' => 'textarea', 'rows' => 5, 'style' => 'height: 200', 'label' => ['text' => 'Outras informações']]);

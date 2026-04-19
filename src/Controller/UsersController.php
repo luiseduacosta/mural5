@@ -131,7 +131,11 @@ class UsersController extends AppController
         if ($this->request->is('post') && $result && !$result->isValid()) {
             $this->Flash->error(__('Usuário ou senha inválidos'));
         }
+
+        $this->set('user', $this->Authentication->result);
+        
     }
+
 
     public function logout()
     {
@@ -209,7 +213,7 @@ class UsersController extends AppController
                     $estudantecadastrado = $estudantetabela->find()
                         ->where(['registro' => $registro])
                         ->first();
-                        
+
                     if ($estudantecadastrado) {
                         $user->aluno_id = $estudantecadastrado->id;
                         $this->Users->save($user);
@@ -227,7 +231,7 @@ class UsersController extends AppController
                     $professorcadastrado = $professortabela->find()
                         ->where(['siape' => $registro])
                         ->first();
-                        
+
                     if ($professorcadastrado) {
                         $user->professor_id = $professorcadastrado->id;
                         $this->Users->save($user);
@@ -245,7 +249,7 @@ class UsersController extends AppController
                     $supervisorcadastrado = $supervisorestabela->find()
                         ->where(['cress' => $registro])
                         ->first();
-                        
+
                     if ($supervisorcadastrado) {
                         $user->supervisor_id = $supervisorcadastrado->id;
                         $this->Users->save($user);

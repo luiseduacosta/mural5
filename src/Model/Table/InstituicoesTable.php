@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -17,7 +15,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\HasMany $Muralestagios
  * @property \App\Model\Table\VisitasTable&\Cake\ORM\Association\HasMany $Visitas
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsToMany $Supervisores
- *
  * @method \App\Model\Entity\Instituicao newEmptyEntity()
  * @method \App\Model\Entity\Instituicao newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Instituicao[] newEntities(array $data, array $options = [])
@@ -50,8 +47,12 @@ class InstituicoesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Areas', [
-            'className' => 'Areas',
+            'propertyName' => 'Area',
             'foreignKey' => 'area_id',
+        ]);
+
+        $this->hasMany('Inscricoes', [
+            'foreignKey' => 'instituicao_id',
         ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicao_id',
@@ -59,14 +60,13 @@ class InstituicoesTable extends Table
         $this->hasMany('Muralestagios', [
             'foreignKey' => 'instituicao_id',
         ]);
-        $this->hasMany('Visitas', [
-            'foreignKey' => 'instituicao_id',
-        ]);
         $this->belongsToMany('Supervisores', [
-            'className' => 'Supervisores',
             'foreignKey' => 'instituicao_id',
             'targetForeignKey' => 'supervisor_id',
             'joinTable' => 'inst_super',
+        ]);
+        $this->hasMany('Visitas', [
+            'foreignKey' => 'instituicao_id',
         ]);
     }
 
@@ -99,6 +99,7 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('cnpj')
             ->maxLength('cnpj', 18)
+            ->regex('cnpj', '/^[0-9]{2}\.[0-9]{3}\.[0-9]{3}\/[0-9]{4}\-[0-9]{2}$/')
             ->allowEmptyString('cnpj');
 
         $validator
@@ -118,17 +119,16 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('bairro')
             ->maxLength('bairro', 30)
-            ->requirePresence('bairro', 'create')
             ->allowEmptyString('bairro');
 
         $validator
             ->scalar('municipio')
             ->maxLength('municipio', 30)
-            ->requirePresence('municipio', 'create')
             ->allowEmptyString('municipio');
 
         $validator
             ->scalar('cep')
+            ->regex('cep', '/^[0-9]{5}\-[0-9]{3}$/')
             ->maxLength('cep', 9)
             ->allowEmptyString('cep');
 
@@ -138,21 +138,25 @@ class InstituicoesTable extends Table
             ->allowEmptyString('telefone');
 
         $validator
-            ->scalar('beneficio')
-            ->maxLength('beneficio', 50)
-            ->allowEmptyString('beneficio');
+            ->scalar('fax')
+            ->maxLength('fax', 50)
+            ->allowEmptyString('fax');
+
+        $validator
+            ->scalar('beneficios')
+            ->maxLength('beneficios', 50);
 
         $validator
             ->scalar('fim_de_semana')
-            ->maxLength('fim_de_semana', 1)
-            ->allowEmptyString('fim_de_semana');
+            ->inList('fim_de_semana', ['0', '1', '2'])
+            ->maxLength('fim_de_semana', 1);
 
         $validator
             ->scalar('localInscricao')
-            ->allowEmptyString('localInscricao');
+            ->maxLength('localInscricao', 7);
 
         $validator
-            ->scalar('convenio')
+            ->nonNegativeInteger('convenio')
             ->allowEmptyString('convenio');
 
         $validator
@@ -162,7 +166,8 @@ class InstituicoesTable extends Table
         $validator
             ->scalar('seguro')
             ->maxLength('seguro', 1)
-            ->allowEmptyString('seguro');
+            ->inList('seguro', ['0', '1'])
+            ->notEmptyString('seguro');
 
         $validator
             ->scalar('avaliacao')
@@ -172,6 +177,10 @@ class InstituicoesTable extends Table
             ->scalar('observacoes')
             ->maxLength('observacoes', 255)
             ->allowEmptyString('observacoes');
+
+        $validator
+            ->scalar('estagiarios_count')
+            ->allowEmptyString('estagiarios_count');
 
         return $validator;
     }

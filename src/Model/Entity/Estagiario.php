@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -12,26 +11,30 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $aluno_id
  * @property int $registro
- * @property string $turno
+ * @property string $ajuste2020
  * @property string $nivel
  * @property int $tc
- * @property \Cake\I18n\Date|null $tc_solicitacao
+ * @property \Cake\I18n\FrozenDate|null $tc_solicitacao
  * @property int $instituicao_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
- * @property float|null $nota
+ * @property int $turma_id
+ * @property int $turno_id
+ * @property string|null $nota
  * @property int|null $ch
- * @property string $ajuste2020
  * @property string|null $observacoes
+ * @property int|null $alunoestagiario_id
+ * @property bool|null $benetransporte
+ * @property bool|null $benealimentacao
+ * @property string|null $benebolsa
  *
  * @property \App\Model\Entity\Aluno $aluno
- * @property \App\Model\Entity\Professor $professor
- * @property \App\Model\Entity\Supervisor $supervisor
  * @property \App\Model\Entity\Instituicao $instituicao
+ * @property \App\Model\Entity\Supervisor $supervisor
+ * @property \App\Model\Entity\Professor $professor
+ * @property \App\Model\Entity\Folhadeatividade $folhadeatividade
  * @property \App\Model\Entity\Avaliacao $avaliacao
- * @property \App\Model\Entity\Resposta $resposta
- * @property \App\Model\Entity\Folhadeatividade[] $folhadeatividades
  */
 class Estagiario extends Entity
 {
@@ -45,27 +48,27 @@ class Estagiario extends Entity
      * @var array
      */
     protected array $_accessible = [
-        "aluno_id" => true,
-        "registro" => true,
-        "turno" => true,
-        "nivel" => true,
-        "tc" => true,
-        "tc_solicitacao" => true,
-        "instituicao_id" => true,
-        "supervisor_id" => true,
-        "professor_id" => true,
-        "periodo" => true,
-        "area_id" => true,
-        "nota" => true,
-        "ch" => true,
-        "ajuste2020" => true,
-        "observacoes" => true,
-        "aluno" => true,
-        "professor" => true,
-        "supervisor" => true,
-        "instituicao" => true,
-        "avaliacao" => true,
-        "resposta" => true,
-        "folhadeatividades" => true,
+        'aluno_id' => true,
+        'registro' => true,
+        'ajuste2020' => true,
+        'nivel' => true,
+        'tc' => true,
+        'tc_solicitacao' => true,
+        'instituicao_id' => true,
+        'supervisor_id' => true,
+        'professor_id' => true,
+        'periodo' => true,
+        'nota' => true,
+        'ch' => true,
+        'observacoes' => true,
+        'benetransporte' => true,
+        'benealimentacao' => true,
+        'benebolsa' => true,
+        'aluno' => true,
+        'instituicao' => true,
+        'supervisor' => true,
+        'professor' => true,
+        'folhadeatividade' => true,
+        'avaliacoes' => true,
     ];
 }

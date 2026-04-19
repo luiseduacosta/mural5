@@ -7,7 +7,7 @@
 
 <div class="container">
 
-
+    
     <div class="categorias form content">
         <?= $this->Html->link(__('Listar Categorias'), ['action' => 'index'], ['class' => 'btn btn-secondary mb-3']) ?>
         <div class="card">
