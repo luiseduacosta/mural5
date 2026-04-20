@@ -22,7 +22,9 @@ if ($user_session) {
     });
 </script>
     
-<nav class="sticky-top">
+<nav class="navbar sticky-top navbar-light bg-light">
+    <div class="container-fluid">
+
     <?php
         $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '50', 'width' => '150', 'alt' => 'ESS']);
         echo $this->Html->link($logo, $this->getRequest()->getRequestTarget() == '/' ? 'http://www.ess.ufrj.br' : '/', ['escape' => false, 'full' => true]);
@@ -119,4 +121,5 @@ if ($user_session) {
             </menu>  
         </li>    
     </menu>
+    </div>
 </nav>
