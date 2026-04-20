@@ -21,7 +21,7 @@ class AlunosController extends AppController
      */
     public function index()
     {
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($this->Alunos);
         $query = $this->Alunos->find('all');
         $query->contain(['Users', 'Turnos']);
 
@@ -152,8 +152,7 @@ class AlunosController extends AppController
     public function edit(?string $id = null)
     {
         $aluno = $this->Alunos->get($id);
-
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($aluno);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $dados = $this->request->getData();
@@ -188,14 +187,14 @@ class AlunosController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $aluno = $this->Alunos->get($id, ['contain' => ['Estagiarios']]);
+        $this->Authorization->authorize($aluno);
 
         if (count($aluno->estagiarios) > 0) {
             $this->Flash->error(__('Erro ao Excluir: O aluno tem estagiários associados.'));
 
             return $this->redirect(['controller' => 'alunos', 'action' => 'view', $id]);
         }
-
-        $this->Authorization->skipAuthorization();
+        
         if ($this->Alunos->delete($aluno)) {
             $this->Flash->success(__('O aluno foi deletado com sucesso.'));
         } else {
@@ -277,8 +276,6 @@ class AlunosController extends AppController
             $user_data = $user_session->getOriginalData();
         }
 
-        $this->Authorization->authorize($this->Alunos);
-
         $totalperiodos = $this->request->getQuery('totalperiodos');
         $novoperiodo = $this->request->getQuery('novoperiodo');
 
@@ -288,20 +285,18 @@ class AlunosController extends AppController
 
         if ($id == null) {
             $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
-
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
         $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
 
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($this->Alunos);
 
         $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
 
         // Incomplete field ingresso on record of alunos
         if (strlen($aluno->ingresso) < 6) {
             $this->Flash->error(__('Período de ingresso incompleto.'));
-
             return $this->redirect(['action' => 'view', $id]);
         }
 

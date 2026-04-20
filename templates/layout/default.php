@@ -20,7 +20,6 @@ $cakeDescription = $configuracao['descricao'] . ' - ' . $configuracao['instituic
 $identity = $this->getRequest()->getAttribute('identity');
 $categoria = $identity['categoria'] ?? null;
 $this->set('categoria', $categoria);
-
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +34,12 @@ $this->set('categoria', $categoria);
         </title>
         <?= $this->Html->meta('icon') ?>
         
-        <?= $this->Html->css(['normalize.min', 'fonts', 'milligram.min', 'cake', 'nav', 'mural']) ?>
+        <?= $this->Html->css(['normalize.min']) ?>
+        <?= $this->Html->css(['fonts']) ?>
+        <?= $this->Html->css(['milligram.min']) ?>
+        <?= $this->Html->css(['cake']) ?>
+        <?= $this->Html->css(['nav']) ?>
+        <?= $this->Html->css(['mural']) ?>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
@@ -48,9 +52,9 @@ $this->set('categoria', $categoria);
 
         <?= $this->fetch('script') ?>
     </head>
-    <body>
-        <?= $this->element('submenu_navegacao'); ?>
+    <body class = "fs-4 fst-normal">
         <div id="content">
+            <?= $this->element('submenu_navegacao'); ?>
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>

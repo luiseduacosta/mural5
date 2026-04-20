@@ -3,11 +3,18 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao[]|\Cake\Collection\CollectionInterface $instituicao
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,22 +38,14 @@
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('instituicao', 'Instituição') ?></th>
-                    <th><?= $this->Paginator->sort('area_id', 'Área institucional') ?></th>
-                    <th><?= $this->Paginator->sort('natureza', 'Natureza') ?></th>
+                    <th><?= $this->Paginator->sort('area_id', 'Área') ?></th>
                     <th><?= $this->Paginator->sort('cnpj', 'CNPJ') ?></th>
-                    <th><?= $this->Paginator->sort('email') ?></th>
-                    <th><?= $this->Paginator->sort('url', 'URL') ?></th>
-                    <th><?= $this->Paginator->sort('endereco', 'Endereço') ?></th>
-                    <th><?= $this->Paginator->sort('bairro') ?></th>
-                    <th><?= $this->Paginator->sort('municipio') ?></th>
-                    <th><?= $this->Paginator->sort('cep', 'CEP') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('beneficio', 'Benefício') ?></th>
+                    <th><?= $this->Paginator->sort('beneficios', 'Benefícios') ?></th>
                     <th><?= $this->Paginator->sort('fim_de_semana') ?></th>
                     <th><?= $this->Paginator->sort('convenio', 'Convênio') ?></th>
                     <th><?= $this->Paginator->sort('expira') ?></th>
                     <th><?= $this->Paginator->sort('seguro') ?></th>
-                    <th><?= $this->Paginator->sort('observacoes', 'Observações') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
@@ -56,24 +55,16 @@
                         <td><?= $instituicao->id ?></td>
                         <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
                         </td>
-                        <td><?= $instituicao->hasValue('areas') ? $this->Html->link($instituicao->areas->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->areas->id]) : '' ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?> <?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
+                        <td><?= $instituicao->hasValue('Area') ? $this->Html->link($instituicao->Area->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->Area->id]) : '' ?></td>
                            </td>
-                        <td><?= h($instituicao->natureza) ?></td>
                         <td><?= h($instituicao->cnpj) ?></td>
-                        <td><?= h($instituicao->email) ?></td>
-                        <td><?= h($instituicao->url) ?></td>
-                        <td><?= h($instituicao->endereco) ?></td>
-                        <td><?= h($instituicao->bairro) ?></td>
-                        <td><?= h($instituicao->municipio) ?></td>
-                        <td><?= h($instituicao->cep) ?></td>
                         <td><?= h($instituicao->telefone) ?></td>
-                        <td><?= h($instituicao->beneficio) ?></td>
-                        <td><?= h($instituicao->fim_de_semana) ?></td>
+                        <td><?= h($instituicao->beneficios) ?></td>
+                        <td><?= h($instituicao->fim_de_semana ? 'Sim' : 'Não') ?></td>
                         <td><?= $instituicao->convenio ?></td>
                         <td><?= $instituicao->expira ? date('d-m-Y', strtotime(h($instituicao->expira))) : '' ?>
                         </td>
-                        <td><?= h($instituicao->seguro) ?></td>
-                        <td><?= h($instituicao->observacoes) ?></td>
+                        <td><?= $instituicao->seguro ? 'Sim' : 'Não' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $instituicao->id]) ?>
                             <?php if (isset($categoria) && $categoria == '1'): ?>

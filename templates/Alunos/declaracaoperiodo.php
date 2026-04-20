@@ -33,8 +33,8 @@
         echo $this->Form->control('identidade', ['label' => ['text' => 'Carteira de identidade']]);
         echo $this->Form->control('orgao', ['label' => ['text' => 'Orgão emissor']]);
         echo $this->Form->control('nascimento', ['empty' => true]);
-        echo $this->Form->control('endereco', ['label' => ['text' => 'Endereço']]);
         echo $this->Form->control('cep', ['label' => ['text' => 'CEP']]);
+        echo $this->Form->control('endereco', ['label' => ['text' => 'Endereço']]);
         echo $this->Form->control('municipio');
         echo $this->Form->control('bairro');
         echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações']]);

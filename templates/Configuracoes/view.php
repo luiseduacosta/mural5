@@ -30,6 +30,10 @@
                 <td><?= $configuracao->id ?></td>
             </tr>
             <tr>
+                <th><?= __('Instituição') ?></th>
+                <td><?= h($configuracao->instituicao) ?></td>
+            </tr>
+            <tr>
                 <th><?= __('Período do mural de estágios') ?></th>
                 <td><?= h($configuracao->mural_periodo_atual) ?></td>
             </tr>

@@ -17,7 +17,7 @@ declare(strict_types=1);
                     'label' => false,
                     'onchange' => 'this.form.submit()',
                 ]);
-?>
+            ?>
             <?= $this->Form->end(); ?>
         </div>
     </div>

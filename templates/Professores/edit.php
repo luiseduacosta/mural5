@@ -65,7 +65,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 3)): ?>
+                <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['professor_id'])): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(

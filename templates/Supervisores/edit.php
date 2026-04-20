@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor $supervisor
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -68,7 +75,7 @@
             ) ?>
         </li>
         <li class="nav-item">
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if ($user_data['administrador_id']): ?>
                 <?= $this->Form->postLink(
                     __("Excluir"),
                     ["action" => "delete", $supervisor->id],

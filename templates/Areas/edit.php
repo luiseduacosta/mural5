@@ -15,7 +15,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerArea">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($categoria == 1): ?>
+                <?php if ($user_data['administrador_id']): ?>
                         <li class="nav-item">
                         <?=
                         $this->Form->postLink(

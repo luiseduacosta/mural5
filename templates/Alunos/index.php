@@ -13,14 +13,15 @@ if ($user_session) {
 ?>
 <div class="alunos index content">
     <?php if ($user_data['administrador_id'] || $user_data['aluno_id']) : ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAluno" aria-controls="navbarTogglerAluno" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light position-relative">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" 
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerAluno">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <?php if ($user_data['administrador_id']) : ?>
-                <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button']) ?>
-                <?= $this->Html->link(__('Buscar Aluno'), ['action' => 'busca'], ['class' => 'button']) ?>
+                <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button ms-2']) ?>
+                <?= $this->Html->link(__('Buscar Aluno'), ['action' => 'busca'], ['class' => 'button ms-2']) ?>
             <?php endif; ?>
         </div>
     </nav>
@@ -74,7 +75,7 @@ if ($user_session) {
                     <?php endif; ?>
                     <td><?= h($aluno->cpf) ?></td>
                     <td><?= h($aluno->ingresso) ?? 's/d' ?></td>
-                    <td><?= h($aluno->Turno->turno ?? '') ?></td>
+                    <td><?= h($aluno->TurnoID->turno ?? '') ?></td>
                     <td><?= h($aluno->inscricao_count) ?></td>
                 </tr>
                 <?php endforeach; ?>

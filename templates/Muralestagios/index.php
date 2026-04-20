@@ -3,11 +3,18 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,7 +39,7 @@
     <div class="row justify-content-center">
         <?php if (!isset($categoria)): ?>
             <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif (isset($categoria) && $categoria == 1): ?>
+        <?php elseif ($user_data['administrador_id']): ?>
             <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -65,7 +72,7 @@
                     <th><?= $this->Paginator->sort('data_inscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
                     <?php if (!isset($categoria)): ?>
-                    <?php elseif (isset($categoria) && $categoria == 1): ?>
+                    <?php elseif ($user_data['administrador_id']): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -83,7 +90,7 @@
                         <td><?= isset($muralestagio->data_inscricao) ? $muralestagio->data_inscricao : '' ?></td>
                         <td><?= isset($muralestagio->data_selecao) ? $muralestagio->data_selecao : '' ?></td>
                         <?php if (!isset($categoria)): ?>
-                        <?php elseif (isset($categoria) && $categoria == 1): ?>
+                        <?php elseif ($user_data['administrador_id']): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

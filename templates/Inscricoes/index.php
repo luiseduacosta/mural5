@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao[]|\Cake\Collection\CollectionInterface $inscricoes
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script type="text/javascript">
@@ -21,7 +28,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if ($user_data['administrador_id']): ?>
             <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -33,7 +40,7 @@
 
 <div class="container">
 
-    <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
+    <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'])): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +77,7 @@
                     <tr>
                         <td><?= $inscricao->id ?></td>
                         <td><?= $inscricao->registro ?></td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno_id]) : '' ?>
                             </td>
                         <?php else: ?>
@@ -83,7 +90,7 @@
                         <td><?= h($inscricao->timestamp) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
-                            <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
+                            <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'])): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                             <?php endif; ?>

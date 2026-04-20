@@ -13,7 +13,7 @@
             <li class="nav-item">
                 <?= $this->Html->link('Listar respostas', ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
-            <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
+            <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

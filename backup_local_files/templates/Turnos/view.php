@@ -14,7 +14,7 @@
             <li class="nav-item">
                 <?= $this->Html->link(__('Listar turnos'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
             </li>
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if ($user_data['administrador_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Editar turno'), ['action' => 'edit', $turno->id], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

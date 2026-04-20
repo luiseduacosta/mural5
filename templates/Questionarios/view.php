@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Questionario $questionario
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <?= $this->element('templates') ?>
@@ -94,7 +101,7 @@
                                 <td><?= h($questoes->ordem) ?></td>
                                 <td class="d-grid">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Questoes', 'action' => 'view', $questoes->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['administrador_id']): ?>
                                     <?= $this->Html->link(__('Editar'), ['controller' => 'Questoes', 'action' => 'edit', $questoes->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Questoes', 'action' => 'delete', $questoes->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $questoes->id), 'class' => 'btn btn-danger btn-sm btn-block p-1 mb-1']) ?>
                                     <?php endif; ?>

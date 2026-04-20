@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Instituicao $instituicao
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <?= $this->element('templates') ?>
@@ -16,12 +23,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
+                    <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
                     <?php endif; ?>
-                    <?php if (isset($categoria) && $categoria == 1): ?>
+                    <?php if ($user_data['administrador_id'] && $user_data['supervisor_id']): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                         </li>
@@ -76,7 +83,7 @@
                 </tr>
                 <tr>
                     <th><?= __('Área instituicao') ?></th>
-                    <td><?= $instituicao->hasvalue('areainstituicao') ? $this->Html->link($instituicao->areainstituicao->area, ['controller' => 'Areainstituicoes', 'action' => 'view', $instituicao->areainstituicao->id]) : 's/d' ?>
+                    <td><?= $instituicao->hasvalue('Area') ? $this->Html->link($instituicao->Area->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->Area->id]) : 's/d' ?>
                     </td>
                 </tr>
                 <tr>
@@ -118,7 +125,7 @@
 
                 <tr>
                     <th><?= __('Beneficios') ?></th>
-                    <td><?= h($instituicao->beneficio) ?></td>
+                    <td><?= h($instituicao->beneficios) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Fim de Semana') ?></th>
@@ -129,16 +136,12 @@
                     <td><?= ($instituicao->seguro == 0) ? 'Não' : 'Sim'; ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Área') ?></th>
-                    <td><?= $instituicao->area ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Convênio') ?></th>
                     <td><?= $instituicao->convenio ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Expira') ?></th>
-                    <td><?= ($instituicao->expira) ? date('d-m-Y', strtotime($instituicao->expira)) : 'Sem informação' ?>
+                    <td><?= ($instituicao->expira) ?? 'Sem informação' ?>
                     </td>
                 </tr>
                 <tr>
@@ -158,14 +161,14 @@
                                     <th><?= __('Nome') ?></th>
                                     <th><?= __('Cress') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['administrador_id']): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
                                 <?php foreach ($instituicao->supervisores as $supervisores): ?>
                                     <tr>
                                         <td><?= h($supervisores->id) ?></td>
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= $this->Html->link($supervisores->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                             </td>
                                         <?php else: ?>
@@ -173,7 +176,7 @@
                                         <?php endif; ?>
                                         <td><?= h($supervisores->cress) ?></td>
                                         <td><?= h($supervisores->observacoes) ?></td>
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('View'), ['controller' => 'Supervisores', 'action' => 'view', $supervisores->id]) ?>
                                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Supervisores', 'action' => 'edit', $supervisores->id]) ?>
@@ -201,13 +204,12 @@
                                     <th><?= __('Período') ?></th>
                                     <th><?= __('Nível') ?></th>
                                     <th><?= __('Ajuste 2020') ?></th>
-                                    <th><?= __('Turno') ?></th>
                                     <th><?= __('Tc') ?></th>
                                     <th><?= __('Tc Solicitação') ?></th>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
                                     <th><?= __('Observações') ?></th>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['administrador_id']): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -215,7 +217,7 @@
                                     <tr>
                                         <td><?= h($estagiarios->id) ?></td>
 
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link($estagiarios->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -224,7 +226,7 @@
 
                                 <td><?= h($estagiarios->registro) ?></td>
 
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -232,7 +234,7 @@
                                             </td>
                                         <?php endif; ?>
 
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= $estagiarios->hasValue('professor') ? $this->Html->link($estagiarios->professor->nome, ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?>
                                             </td>
                                         <?php else: ?>
@@ -241,9 +243,8 @@
 
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= h($estagiarios->ajuste2020) ?></td>
-                                            <td><?= h($estagiarios->turno) ?></td>
                                             <td><?= h($estagiarios->tc) ?></td>
                                             <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
                                             </td>
@@ -260,7 +261,7 @@
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
                                             </td>
-                                        <?php if (null !== $categoria && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td><?= h($estagiarios->observacoes) ?></td>
                                         <?php endif; ?>
                                     </tr>
@@ -280,7 +281,7 @@
                                     <th><?= __('Instituicoes') ?></th>
                                     <th><?= __('Vagas') ?></th>
                                     <th><?= __('Periodo') ?></th>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['administrador_id']): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -291,7 +292,7 @@
                                         </td>
                                         <td><?= h($muralestagios->vagas) ?></td>
                                         <td><?= h($muralestagios->periodo) ?></td>
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Muralestagios', 'action' => 'view', $muralestagios->id]) ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Muralestagios', 'action' => 'edit', $muralestagios->id]) ?>
@@ -318,7 +319,7 @@
                                     <th><?= __('Responsável') ?></th>
                                     <th><?= __('Descrição') ?></th>
                                     <th><?= __('Avaliação') ?></th>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['administrador_id']): ?>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -331,7 +332,7 @@
                                         <td><?= h($visitas->responsavel) ?></td>
                                         <td><?= h($visitas->descricao) ?></td>
                                         <td><?= h($visitas->avaliacao) ?></td>
-                                        <?php if (isset($categoria) && $categoria == 1): ?>
+                                        <?php if ($user_data['administrador_id']): ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Visitas', 'action' => 'view', $visitas->id]) ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Visitas', 'action' => 'edit', $visitas->id]) ?>

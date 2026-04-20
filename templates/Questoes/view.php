@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Questao $questao
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <?= $this->element('templates') ?>
@@ -11,7 +18,7 @@
 
     <nav class="nav navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if ($user_data['administrador_id']): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $questao->id], ['class' => 'btn btn-primary me-1']) ?>
             </li>

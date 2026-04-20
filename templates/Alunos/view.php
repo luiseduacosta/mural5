@@ -59,7 +59,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Turno') ?></th>
-                    <td><?= h($aluno->Turno->turno ?? 's/d') ?></td>
+                    <td><?= h($aluno->TurnoID->turno ?? 's/d') ?></td>
                 </tr>
                 <tr>
                     <th><?= __('CPF') ?></th>

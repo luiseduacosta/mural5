@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao[]|\Cake\Collection\CollectionInterface $configuracao
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <div class="container">
@@ -27,7 +34,7 @@
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-dark">
             <tr>
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['administrador_id']): ?>
                     <th><?= $this->Paginator->sort('id') ?></th>
                 <?php endif; ?>
                 <th><?= $this->Paginator->sort('mural_periodo_atual', 'Período do mural') ?></th>

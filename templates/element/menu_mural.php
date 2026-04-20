@@ -15,7 +15,7 @@ use Cake\ORM\TableRegistry;
         </button>
         <div class="collapse navbar-collapse" id="navbarPrincipal">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['administrador_id']): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -121,7 +121,7 @@ use Cake\ORM\TableRegistry;
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                 <?php if (!empty($user)): ?>
-                    <?php if (isset($categoria) && $categoria == 2 && isset($user) && $user->aluno_id) {
+                    <?php if ($user_data['aluno_id'] && isset($user) && $user->aluno_id) {
                         $aluno = TableRegistry::getTableLocator()->get('Alunos')->find()->where(['Alunos.id' => $user->aluno_id])->first();
                         ?>
                         <li class='nav-item'>

@@ -58,7 +58,7 @@ class AlunosTable extends Table
 
         $this->belongsTo('Turnos', [
             'foreignKey' => 'turno_id',
-            'propertyName' => 'Turno',
+            'propertyName' => 'TurnoID',
             'joinType' => 'LEFT',
         ]);
     }

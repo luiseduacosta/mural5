@@ -5,7 +5,7 @@
  */
 ?>
 <div class="container">
-    <?php if (isset($categoria) && $categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerTurnos"
                 aria-controls="navbarTogglerTurnos" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@
                         <td><?= h($turno->turno) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $turno->id]) ?>
-                            <?php if (isset($categoria) && $categoria == 1): ?>
+                            <?php if ($user_data['administrador_id']): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $turno->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $turno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $turno->id)]) ?>
                             <?php endif; ?>

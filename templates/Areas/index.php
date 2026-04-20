@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <?php if ($categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerArea"
                     aria-controls="navbarTogglerArea" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
                         <td><?= h($area->area) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $area->id]) ?>
-                            <?php if ($categoria == 1): ?>
+                            <?php if ($user_data['administrador_id']): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $area->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $area->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id)]) ?>
                             <?php endif; ?>

@@ -14,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($categoria == 1 || $categoria == 2): ?>
+                <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -35,7 +35,7 @@
                 echo $this->Form->control('data', ['value' => date('d-m-Y'), 'readonly']);
                 echo $this->Form->control('periodo', ['label' => 'Período', 'value' => $periodo]);
                 echo $this->Form->control('timestamp', ['type' => 'hidden']);
-            elseif (isset($categoria) && $categoria == 2):
+            elseif ($user_data['aluno_id']):
                 echo $this->Form->control('aluno_id', ['label' => 'Aluno', 'options' => $alunos, 'value' => $aluno_id, 'readonly']);
                 echo $this->Form->control('muralestagio_id', ['label' => 'Mural de estágio', 'options' => $muralestagios, 'value' => $muralestagio_id, 'readonly']);
                 echo $this->Form->control('data', ['type' => 'hidden', 'value' => date('Y-m-d'), 'readonly']);

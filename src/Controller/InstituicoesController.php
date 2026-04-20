@@ -34,8 +34,6 @@ class InstituicoesController extends AppController
 
         $query = $this->Instituicoes->find()->contain(['Areas']);
 
-        $query->orderBy(['Instituicoes.instituicao' => 'ASC']);
-
         $instituicoes = $this->paginate($query);
         $this->set(compact('instituicoes'));
     }

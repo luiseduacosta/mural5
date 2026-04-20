@@ -3,11 +3,18 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor[]|\Cake\Collection\CollectionInterface $supervisores
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +45,7 @@
                     <th><?= $this->Paginator->sort('codigo_celular', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <?php if (isset($categoria) && $categoria == 1): ?>
+                    <?php if ($user_data['administrador_id']): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -47,7 +54,7 @@
                 <?php foreach ($supervisores as $supervisor): ?>
                     <tr>
                         <td><?= $supervisor->id ?></td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
                             </td>
                         <?php else: ?>
@@ -60,7 +67,7 @@
                         <td><?= h($supervisor->codigo_celular) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>

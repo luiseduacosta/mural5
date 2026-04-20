@@ -3,11 +3,16 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == 1): ?>
+    <?php if ($user_data['administrador_id']): ?>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
@@ -40,7 +45,7 @@
                 <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#instituicao" role="tab"
                    aria-controls="Instituição" aria-selected="true">Instituição</a>
             </li>
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if ($user_data['administrador_id']): ?>
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" data-bs-target="#inscricoes" role="tab"
                        aria-controls="Alunos inscritos" aria-selected="false">Alunos inscritos</a>
@@ -62,7 +67,7 @@
                     </tr>
                     <tr>
                         <th><?= __('Instituição') ?></th>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <td><?= $muralestagio->instituicao ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $muralestagio->instituicao_id]) : '' ?>
                             </td>
                         <?php else: ?>
@@ -226,13 +231,13 @@
                     <?php endif; ?>
 
                     <!-- O administrador pode fazer inscrições sempre //-->
-                    <?php if (isset($categoria) && $categoria == 1): ?>
+                    <?php if ($user_data['administrador_id']): ?>
                         <tr>
                             <td colspan=2 style="text-align: center">
                                 <?= $this->Html->link('Incricão administrador', ['controller' => 'inscricoes', 'action' => 'add', '?' => ['muralestagio_id' => $muralestagio->id, 'periodo' => trim($muralestagio->periodo)]], ['class' => 'btn btn-primary']); ?>
                             </td>
                         </tr>
-                    <?php elseif (isset($categoria) && $categoria == 2): ?>
+                    <?php elseif ($user_data['aluno_id']): ?>
                         <!--
                         Para os estudantes as inscrições dependem da data de encerramento
                         //-->
@@ -271,7 +276,7 @@
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Data') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if (isset($categoria) && $categoria == 1): ?>
+                            <?php if ($user_data['administrador_id']): ?>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
@@ -280,12 +285,12 @@
                                 <td><?= h($inscricoes->id) ?></td>
                                 <td><?= h($inscricoes->registro) ?></td>
 
-                                <td><?= (isset($categoria) && $categoria == 1) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
+                                <td><?= ($user_data['administrador_id']) ? $this->Html->link($inscricoes->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricoes->aluno_id]) : $inscricoes->aluno->nome; ?>
                                 </td>
 
                                 <td><?= date('d-m-Y', strtotime(h($inscricoes->data))) ?></td>
                                 <td><?= h($inscricoes->periodo) ?></td>
-                                <?php if (isset($categoria) && $categoria == 1): ?>
+                                <?php if ($user_data['administrador_id']): ?>
                                     <td class="actions">
                                           <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricoes->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricoes->id]) ?>

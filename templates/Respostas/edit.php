@@ -5,6 +5,13 @@
  * @var string[]|\Cake\Collection\CollectionInterface $questiones
  * @var string[]|\Cake\Collection\CollectionInterface $estagiarios
  */
+declare(strict_types=1);
+
+$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <?= $this->element('templates') ?>
@@ -14,7 +21,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <ul class="navbar-nav collapse navbar-collapse">
             <li class="nav-item">
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['administrador_id']): ?>
                 <?= $this->Form->postLink(
                     __('Excluir'),
                     ['action' => 'delete', $resposta->id],
