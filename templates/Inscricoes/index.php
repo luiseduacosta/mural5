@@ -85,7 +85,7 @@ if ($user_session) {
                         <?php endif; ?>
                         <td><?= $inscricao->has('muralestagios') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                         </td>
-                        <td><?= date('d-m-Y', strtotime($inscricao->data)) ?></td>
+                        <td><?= $inscricao->data ?></td>
                         <td><?= h($inscricao->periodo) ?></td>
                         <td><?= h($inscricao->timestamp) ?></td>
                         <td class="actions">

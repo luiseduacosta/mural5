@@ -53,7 +53,7 @@ if ($user_session) {
                 <?php foreach ($instituicoes as $instituicao): ?>
                     <tr>
                         <td><?= $instituicao->id ?></td>
-                        <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'update', $instituicao->id]) ?><?= $this->Html->link($instituicao->id, [''=> 'delete', $instituicao->id]) ?>
+                        <td><?= $this->Html->link($instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $instituicao->id]) ?>
                         </td>
                         <td><?= $instituicao->hasValue('Area') ? $this->Html->link($instituicao->Area->area, ['controller' => 'Areas', 'action' => 'view', $instituicao->Area->id]) : '' ?></td>
                            </td>
