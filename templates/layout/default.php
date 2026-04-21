@@ -52,7 +52,7 @@ $this->set('categoria', $categoria);
 
         <?= $this->fetch('script') ?>
     </head>
-    <body class = "fs-4 fst-normal" style="background-color: yellow;">
+    <body class = "fs-4 fst-normal">
         <div id="content" class="container">
             <?= $this->element('menu_superior'); ?>
             <?= $this->Flash->render() ?>

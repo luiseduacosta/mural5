@@ -53,7 +53,7 @@ class AppController extends Controller
          * see https://book.cakephp.org/5/en/controllers/components/form-protection.html
          */
         //$this->loadComponent('FormProtection');
-        
+
         // Configuração do site
         $this->configuracao = $this->fetchTable('Configuracoes')->find()->first();
         $this->set('configuracao', $this->configuracao);

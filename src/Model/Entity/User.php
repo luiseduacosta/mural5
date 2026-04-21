@@ -101,6 +101,8 @@ class User extends Entity implements AuthenticationIdentity
 
         $this->_originalDataLoaded = true;
 
+        $categoria = (int)($this->categoria ?? 0);
+
         if (!isset($this->aluno_id)) {
             $this->aluno_id = null;
         }
@@ -114,7 +116,7 @@ class User extends Entity implements AuthenticationIdentity
             $this->administrador_id = null;
         }
 
-        if (empty($this->aluno_id)) {
+        if ($categoria === 2 && empty($this->aluno_id)) {
             $alunos = TableRegistry::getTableLocator()->get('Alunos');
             $aluno = $alunos->find()
                 ->where(['Alunos.user_id' => $this->id])
@@ -131,7 +133,7 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if (empty($this->professor_id)) {
+        if ($categoria === 3 && empty($this->professor_id)) {
             $professores = TableRegistry::getTableLocator()->get('Professores');
             $professor = $professores->find()
                 ->where(['Professores.user_id' => $this->id])
@@ -148,7 +150,7 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if (empty($this->supervisor_id)) {
+        if ($categoria === 4 && empty($this->supervisor_id)) {
             $supervisores = TableRegistry::getTableLocator()->get('Supervisores');
             $supervisor = $supervisores->find()
                 ->where(['Supervisores.user_id' => $this->id])
@@ -165,13 +167,6 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if (
-            empty($this->administrador_id)
-            && ($this->categoria === 1 || $this->categoria === '1')
-        ) {
-            $this->administrador_id = 1;
-        }
-
         if (empty($this->administrador_id)) {
             $administradores = TableRegistry::getTableLocator()->get('Administradores');
             $administrador = $administradores->find()
@@ -181,6 +176,10 @@ class User extends Entity implements AuthenticationIdentity
             if (!empty($administrador)) {
                 $this->administrador_id = $administrador->id;
             }
+        }
+
+        if ($categoria === 1 && empty($this->administrador_id)) {
+            $this->administrador_id = 1;
         }
 
         return $this;

@@ -213,7 +213,7 @@ class ProfessoresController extends AppController
     {
 
         $this->request->allowMethod(['post', 'delete']);
-        
+
         try {
             $professor = $this->Professores->get($id, [
                 'contain' => ['Estagiarios']

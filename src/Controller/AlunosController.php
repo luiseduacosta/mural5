@@ -194,7 +194,7 @@ class AlunosController extends AppController
 
             return $this->redirect(['controller' => 'alunos', 'action' => 'view', $id]);
         }
-        
+
         if ($this->Alunos->delete($aluno)) {
             $this->Flash->success(__('O aluno foi deletado com sucesso.'));
         } else {

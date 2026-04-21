@@ -54,8 +54,9 @@ class UsersController extends AppController
                             // Link found, update user
                             $userEntity = $this->Users->get($user->id);
                             $userEntity->aluno_id = $estudante->id;
+                            $userEntity->numero = $estudante->registro;
                             $this->Users->save($userEntity);
-                            $parametro = $aluno->id;
+                            $parametro = $estudante->id;
                         }
                     } else {
                         $parametro = $aluno_id;
@@ -133,9 +134,7 @@ class UsersController extends AppController
         }
 
         $this->set('user', $this->Authentication->result);
-        
     }
-
 
     public function logout()
     {
