@@ -15,7 +15,7 @@ if ($user_session) {
 <div class="container">
 
     <?php if ($user_data['administrador_id']): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -23,7 +23,7 @@ if ($user_session) {
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Novo mural'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 </ul>
             </div>
@@ -37,9 +37,8 @@ if ($user_session) {
     </div>
 
     <div class="row justify-content-center">
-        <?php if (!isset($categoria)): ?>
-            <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php elseif ($user_data['administrador_id']): ?>
+        <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
+        <?php if ($user_data['administrador_id']): ?>
             <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -71,8 +70,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('carga_horaria', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('data_inscricao', 'Encerramento das Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
-                    <?php if (!isset($categoria)): ?>
-                    <?php elseif ($user_data['administrador_id']): ?>
+                    <?php if ($user_data['administrador_id']): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -89,8 +87,7 @@ if ($user_session) {
                         <td><?= $muralestagio->carga_horaria ?></td>
                         <td><?= isset($muralestagio->data_inscricao) ? $muralestagio->data_inscricao : '' ?></td>
                         <td><?= isset($muralestagio->data_selecao) ? $muralestagio->data_selecao : '' ?></td>
-                        <?php if (!isset($categoria)): ?>
-                        <?php elseif ($user_data['administrador_id']): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

@@ -10,6 +10,7 @@
         <fieldset>
             <legend><?= __('Editar configurações') ?></legend>
             <?php
+            echo $this->Form->control('instituicao_nome', ['label' => 'Nome da instituição']);
             echo $this->Form->control('mural_periodo_atual', ['label' => 'Período do mural de estágios']);
             echo $this->Form->control('termo_compromisso_periodo', ['label' => 'Período do termo de compromisso']);
             echo $this->Form->control('termo_compromisso_inicio', ['label' => 'Data de início do termo de compromisso']);

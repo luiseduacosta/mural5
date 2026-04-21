@@ -16,8 +16,10 @@ if ($user_session) {
         <div class="administradores view content">
             <aside>
                 <div class="nav">
-                    <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Html->link(__('Editar Administrador'), ['action' => 'edit', $administrador->id], ['class' => 'button']) ?>
+                    <?php if ($user_data['administrador_id']) : ?>
+                        <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                    <?php endif; ?>
+                        <?= $this->Html->link(__('Editar Administrador'), ['action' => 'edit', $administrador->id], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
                 </div>
             </aside>
             <h3>admin_<?= h($administrador->id) ?></h3>

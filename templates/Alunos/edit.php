@@ -75,18 +75,21 @@ if ($user_session) {
 <div>
     <div class="column-responsive column-80">
         <div class="alunos form content">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light position-relative">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" 
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggler">
-                    <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'button']) ?>
+                    <ul class="navbar-nav ms-auto mt-lg-0">
+                        <li class="nav-item">
+                            <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                        </li>
                     <?php if ($user_data['administrador_id']) : ?>
                         <?= $this->Form->postLink(
                             __('Excluir Aluno(a)'),
                             ['action' => 'delete', $aluno->id],
-                            ['confirm' => __('Are you sure you want to delete {0}?', $aluno->nome), 'class' => 'button'],
+                            ['confirm' => __('Are you sure you want to delete {0}?', $aluno->nome), 'class' => 'button', 'style' => 'font-size: 10pt;'],
                         ) ?>
                     <?php endif; ?>
                 </div>

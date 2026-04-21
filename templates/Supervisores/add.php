@@ -6,7 +6,7 @@
 ?>
 
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -73,7 +73,7 @@
             <?= $this->Html->link(
                 __("Listar supervisores"),
                 ["action" => "index"],
-                ["class" => "btn btn-primary"],
+                ["class" => "btn btn-primary", "style" => "font-size: 10pt;"],
             ) ?>
         </li>
     </ul>

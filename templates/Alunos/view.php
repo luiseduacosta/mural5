@@ -11,6 +11,7 @@ if ($user_session) {
     $user_data = $user_session->getOriginalData();
 }
 ?>
+
 <div>
     <div class="column-responsive column-80">
         <div class="alunos view content">
@@ -162,7 +163,7 @@ if ($user_session) {
                                 <?php endif; ?>
                             </td>
                             <td><?= $this->Html->link(h((string)$inscricao->id), ['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]) ?></td>
-                            <td><?= $inscricao->muralestagio->instituicao_entidade ? $this->Html->link($inscricao->muralestagio->instituicao_entidade->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : $inscricao->muralestagio_id ?></td>
+                            <td><?= empty($inscricao->muralestagio->instituicao_id) ? $inscricao->muralestagio_id : $this->Html->link($inscricao->muralestagio->instituicao_entidade->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) ?></td>
                             <td><?= h($inscricao->data ? $inscricao->data->format('d/m/Y') : '') ?></td>
                             <td><?= h($inscricao->periodo) ?></td>
                             <td><?= h($inscricao->timestamp ? $inscricao->timestamp->format('d/m/Y H:i:s') : '') ?></td>

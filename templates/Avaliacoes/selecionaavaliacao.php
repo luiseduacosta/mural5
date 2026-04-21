@@ -1,11 +1,11 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
+ * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
 ?>
 
-<div class="avaliacaoes index container">
+<div class="estagiarios index container">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">

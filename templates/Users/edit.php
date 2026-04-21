@@ -12,7 +12,7 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,12 +24,12 @@ if ($user_session) {
                 $this->Form->postLink(
                         __('Excluir'),
                         ['action' => 'delete', $user->id],
-                        ['confirm' => __('Tem certeza que quer excluir este usuário # {0}?', $user->id), 'class' => 'btn btn-danger float-start']
+                        ['confirm' => __('Tem certeza que quer excluir este usuário # {0}?', $user->id), 'class' => 'btn btn-danger float-start', 'style' => 'font-size: 10pt;']
                 )
                 ?>
             </li>
         <li class="nav-link">
-            <?= $this->Html->link(__('Listar usuários'), ['action' => 'index'], ['class' => 'btn btn-primary float-start']) ?>
+            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-start', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <?php endif; ?>
     </ul>

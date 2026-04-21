@@ -11,22 +11,22 @@ $cress = isset($estagiario->supervisor->cress) ? $estagiario->supervisor->cress 
 $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome : '_______________';
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
         aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'])): ?>
+        <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
             <li class='nav-link'>
-                <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
         <?php endif; ?>
         <li class='nav-link'>
-            <?= $this->Html->link(__('Imprime atividades preenchidas'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Imprime atividades preenchidas'), ['action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <li class='nav-link'>
-            <?= $this->Html->link(__('Folha de atividades manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Folha de atividades manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>
@@ -91,7 +91,7 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
                     <td><?= h($folhadeatividade->atividade) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $folhadeatividade->id], ['class' => 'btn btn-info']) ?>
-                        <?php if (isset($categoria) && ($categoria == '1' || $categoria == '2')): ?>
+                        <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-warning']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger']) ?>
                         <?php endif; ?>

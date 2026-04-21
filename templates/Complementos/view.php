@@ -12,24 +12,24 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light btn-light">
+<nav class="navbar navbar-expand-lg navbar-light btn-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
         aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <?php if ($user_data['administrador_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary me-2']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Form->postLink(__('Excluir registro'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id), 'class' => 'btn btn-danger']) ?>
+                <?= $this->Form->postLink(__('Excluir registro'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id), 'class' => 'btn btn-danger', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>
         <?php endif; ?>
     </ul>

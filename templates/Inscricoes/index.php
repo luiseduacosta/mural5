@@ -40,8 +40,8 @@ if ($user_session) {
 
 <div class="container">
 
-    <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'])): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
                 aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -49,7 +49,7 @@ if ($user_session) {
             <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
                 </ul>
             </div>
@@ -65,10 +65,10 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('registro', 'Registro') ?></th>
                     <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
-                    <th><?= $this->Paginator->sort('Muralestagios.instituicao', 'Instituição') ?></th>
+                    <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('data') ?></th>
                     <th><?= $this->Paginator->sort('periodo') ?></th>
-                    <th><?= $this->Paginator->sort('timestamp') ?></th>
+                    <th><?= $this->Paginator->sort('timestamp', 'Atualizado') ?></th>
                     <th class="actions"><?= __('Açoes') ?></th>
                 </tr>
             </thead>
@@ -83,14 +83,13 @@ if ($user_session) {
                         <?php else: ?>
                             <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>
                         <?php endif; ?>
-                        <td><?= $inscricao->has('muralestagios') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
-                        </td>
-                        <td><?= $inscricao->data ?></td>
+                        <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao_entidade->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio_id]) : '' ?></td>
+                        <td><?= $inscricao->data ? $inscricao->data->format('d/m/Y') : '' ?></td>
                         <td><?= h($inscricao->periodo) ?></td>
-                        <td><?= h($inscricao->timestamp) ?></td>
+                        <td><?= $inscricao->timestamp ? $inscricao->timestamp->format('d/m/Y H:i:s') : '' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
-                            <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'])): ?>
+                            <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                             <?php endif; ?>

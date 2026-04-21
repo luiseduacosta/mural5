@@ -61,7 +61,7 @@ if ($user_session) {
     });
 </script>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -71,7 +71,7 @@ if ($user_session) {
             <?= $this->Html->link(
                 __("Listar supervisores"),
                 ["action" => "index"],
-                ["class" => "btn btn-primary me-1"],
+                ["class" => "btn btn-primary me-1", "style" => "font-size: 10pt;"],
             ) ?>
         </li>
         <li class="nav-item">
@@ -84,7 +84,7 @@ if ($user_session) {
                             "Tem certeza que deseja excluir este registo # {0}?",
                             $supervisor->id,
                         ),
-                        "class" => "btn btn-danger",
+                        "class" => "btn btn-danger me-1", "style" => "font-size: 10pt;",
                     ],
                 ) ?>
             <?php endif; ?>

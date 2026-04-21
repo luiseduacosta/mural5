@@ -5,7 +5,7 @@
  */
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
         aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,7 +13,7 @@
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
         <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>                
         <?php endif; ?>
     </ul>
@@ -33,7 +33,7 @@
                 <th><?= $this->Paginator->sort('estagiario.supervisor.nome', 'Supervisor(a)') ?></th>
                 <th><?= $this->Paginator->sort('estagiario.ch', 'Carga horária') ?></th>
                 <th><?= $this->Paginator->sort('estagiario.nota', 'Nota') ?></th>
-                <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                     <th><?= __('Ações') ?></th>
                 <?php endif; ?>
             </tr>
@@ -47,7 +47,7 @@
                         <td><?= $c_estagiario->aluno->nome ?></td>
                     <?php endif; ?>
 
-                    <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                    <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                         <td><?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : $this->Html->link('Fazer avaliação', ['controller' => 'Avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $c_estagiario->id]], ['class' => 'btn btn-warning']) ?></td>
                     <?php else: ?>
                         <td><?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : 'Sem avaliação on-line' ?></td>

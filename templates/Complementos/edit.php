@@ -12,7 +12,7 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
         aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -23,10 +23,10 @@ if ($user_session) {
                 $this->Form->postLink(
                     __('Excluir'),
                     ['action' => 'delete', $complemento->id],
-                    ['confirm' => __('Tem certeza que quer excluir # {0}?', $complemento->id), 'class' => 'btn btn-danger']
+                    ['confirm' => __('Tem certeza que quer excluir # {0}?', $complemento->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']
                 )
                 ?>
-                <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary me-2 float-end', 'style' => 'font-size: 10pt;']) ?>
             </div>
         </aside>
         <div class="column-responsive column-80">

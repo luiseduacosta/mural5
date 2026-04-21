@@ -19,7 +19,7 @@ if ($user_session) {
 <?= $this->element('templates') ?>
 
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,12 +31,12 @@ if ($user_session) {
                         $this->Form->postLink(
                             __('Excluir'),
                             ['action' => 'delete', $estagiario->id],
-                            ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-start']
+                            ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']
                         )
                         ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar Estagiários'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>

@@ -54,7 +54,7 @@ class MuralestagiosTable extends Table
 
         $this->belongsTo('Instituicoes', [
             'foreignKey' => 'instituicao_id',
-            'propertyName' => 'instituicao_entidade',
+            'propertyName' => 'instituicao_entidade', // There is a instituicao field
         ]);
     }
 

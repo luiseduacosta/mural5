@@ -13,24 +13,24 @@ if ($user_session) {
 ?>
 
 <div class="d-flex justify-content-start">
-    <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
             <li class="nav-item">
-                    <?= $this->Html->link(__('Listar turma de estágios'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <?php if ($user_data['administrador_id']): ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar turma de estágio'), ['action' => 'edit', $turmaestagio->id], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Editar turma de estágio'), ['action' => 'edit', $turmaestagio->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Form->postLink(__('Excluir turma de estágio'), ['action' => 'delete', $turmaestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $turmaestagio->id), 'class' => 'btn btn-danger me-1']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Nova turma de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Nova turma de estágio'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             <?php endif; ?>
         </ul>

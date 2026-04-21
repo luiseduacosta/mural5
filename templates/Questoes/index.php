@@ -16,7 +16,7 @@ if ($user_session) {
 
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="actions-sidebar">
         <ul class="navbar-nav collapse navbar-collapse">
             <?php if ($user_data['administrador_id']): ?>
             <li class="nav-item">
@@ -25,7 +25,8 @@ if ($user_session) {
                     ["action" => "add"],
                     [
                         "class" => "btn btn-primary",
-                    ],
+                        "style" => "font-size: 10pt;",
+                                           ],
                 ) ?>
             </li>
             <?php endif; ?>
@@ -85,7 +86,7 @@ if ($user_session) {
                             ], [
                                 "class" => "btn btn-primary btn-sm btn-block p-1 mb-1",
                             ]) ?>
-                            <?php if (isset($categoria) && $categoria == '1'): ?>
+                            <?php if ($user_data['administrador_id']): ?>
                             <?= $this->Html->link(__("Editar"), [
                                 "action" => "edit",
                                 $questao->id,

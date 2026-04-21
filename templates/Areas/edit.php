@@ -8,7 +8,7 @@
 <?= $this->element('templates') ?>
 
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerArea"
                 aria-controls="navbarTogglerArea" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,13 +21,13 @@
                         $this->Form->postLink(
                                 __('Excluir'),
                                 ['action' => 'delete', $area->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger float-end']
+                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $area->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']
                         )
                         ?>
                     </li>
                 <?php endif; ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar áreas das instituições'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar áreas das instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>

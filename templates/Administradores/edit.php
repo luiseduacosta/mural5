@@ -16,7 +16,7 @@ if ($user_session) {
         <div class="administradores form content">
             <aside>
                 <div class="nav">
-                    <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button']) ?>
+                    <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
                 </div>
             </aside>
             <?= $this->Form->create($administrador) ?>

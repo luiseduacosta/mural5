@@ -100,7 +100,7 @@ if ($user_session) {
                     <?php endif; ?>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
-                        <?php if (isset($categoria) && $categoria == '1'): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario->id)]) ?>
                         <?php endif; ?>

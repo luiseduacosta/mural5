@@ -13,7 +13,7 @@ if ($user_session) {
 ?>
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,21 +23,24 @@ if ($user_session) {
 
                 <?php if ($user_data['administrador_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif; ?>
                 <?php if ($user_data['supervisor_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -153,10 +156,6 @@ if ($user_session) {
                                     <th><?= __('Instituição') ?></th>
                                     <th><?= __('CNPJ') ?></th>
                                     <th><?= __('Email') ?></th>
-                                    <th><?= __('Endereço') ?></th>
-                                    <th><?= __('Bairro') ?></th>
-                                    <th><?= __('Município') ?></th>
-                                    <th><?= __('CEP') ?></th>
                                     <th><?= __('Telefone') ?></th>
                                     <th><?= __('Convênio') ?></th>
                                     <th><?= __('Expira') ?></th>
@@ -171,10 +170,6 @@ if ($user_session) {
                                         </td>
                                         <td><?= h($instituicoes->cnpj) ?></td>
                                         <td><?= h($instituicoes->email) ?></td>
-                                        <td><?= h($instituicoes->endereco) ?></td>
-                                        <td><?= h($instituicoes->bairro) ?></td>
-                                        <td><?= h($instituicoes->municipio) ?></td>
-                                        <td><?= h($instituicoes->cep) ?></td>
                                         <td><?= h($instituicoes->telefone) ?></td>
                                         <td><?= h($instituicoes->convenio) ?></td>
                                         <td><?= h($instituicoes->expira) ?></td>
@@ -209,7 +204,6 @@ if ($user_session) {
                                     <th><?= __('Período') ?></th>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
-                                    <th><?= __('Observações') ?></th>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
@@ -225,9 +219,8 @@ if ($user_session) {
                                         <td><?= h($estagiarios->periodo) ?></td>
                                         <td><?= h($estagiarios->nota) ?></td>
                                         <td><?= h($estagiarios->ch) ?></td>
-                                        <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                                            <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
                                             <?php if ($user_data['administrador_id']): ?>
@@ -275,14 +268,13 @@ if ($user_session) {
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                                        <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif (isset($categoria) && ($user_data['aluno_id'] || $user_data['professor_id'])): ?>
+                                        <?php elseif ($user_data['aluno_id'] || $user_data['professor_id']): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>
-                                        <td><?= h($estagiarios->observacoes) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </table>

@@ -5,17 +5,17 @@
  */
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+            <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <li class="nav-item">
-            <?= $this->Html->link(__('Imprime formulário manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Imprime formulário manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>

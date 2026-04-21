@@ -18,7 +18,7 @@ use Cake\I18n\Time;
 
 <div class="container mt-1">
 
-    <nav class="nav navbar-expand-lg navbar-light bg-light">
+    <nav class="nav navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#resposta"
             aria-controls="resposta" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -26,32 +26,34 @@ use Cake\I18n\Time;
         <ul class="navbar-nav collapse navbar-collapse" id="resposta">
             <?php if ($user_data['administrador_id']): ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1']) ?>
+                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
+                </li>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Nova'), ['action' => 'add', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Nova'), ['action' => 'add', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <?php endif ?>
                 <?php if (isset($user->supervisor_id) && ($user->supervisor_id == $resposta->estagiario->supervisor_id)): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Supervisor(a)'), ['controller' => 'Supervisores', 'action' => 'view', '?' => ['id' => $user->supervisor_id]], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Supervisor(a)'), ['controller' => 'Supervisores', 'action' => 'view', '?' => ['id' => $user->supervisor_id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
+                    </li>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1']) ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif ?>
-            <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['aluno_id'] || $user_data['supervisor_id'])): ?>
+            <?php if ($user_data['administrador_id'] || $user_data['aluno_id'] || $user_data['supervisor_id']): ?>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             <?php endif ?>
         </ul>

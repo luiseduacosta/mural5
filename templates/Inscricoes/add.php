@@ -7,7 +7,7 @@
 
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -16,7 +16,7 @@
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px;']) ?>
                     </li>
                 <?php endif; ?>
             </ul>

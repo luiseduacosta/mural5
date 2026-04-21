@@ -18,11 +18,14 @@ if ($user_session) {
 
 <div class="container mt-1">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-sidebar" aria-controls="actions-sidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <ul class="navbar-nav mr-auto">
             <?php if ($user_data['administrador_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Nova resposta'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('Nova resposta'), ['action' => 'add'], ['class' => 'btn btn-primary', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <?php endif; ?>
         </ul>
@@ -53,7 +56,7 @@ if ($user_session) {
                         <td><?= $this->Time->format($resposta->modified, 'd-MM-Y HH:mm:ss') ?></td>
                         <td class="d-grid">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $resposta->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
-                            <?php if (isset($categoria) && $categoria == '1'): ?>
+                            <?php if ($user_data['administrador_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger btn-sm btn-block p-1 mb-1']) ?>
                             <?php endif; ?>

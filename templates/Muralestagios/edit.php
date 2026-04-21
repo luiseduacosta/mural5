@@ -10,7 +10,7 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
         aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,12 +20,12 @@ if ($user_session) {
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
         <li class="nav-item">
-            <?php if (null !== $categoria && $user_data['administrador_id']): ?>
+            <?php if ($user_data['administrador_id']): ?>
             <?=
                 $this->Form->postLink(
                     __('Excluir'),
                     ['action' => 'delete', $muralestagio->id],
-                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
+                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger', 'style' => 'font-size: 10pt;']
                 )
                 ?>
         </li>

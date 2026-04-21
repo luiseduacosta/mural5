@@ -16,7 +16,7 @@ if ($user_session) {
 
 <div class="container">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -25,20 +25,22 @@ if ($user_session) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['administrador_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
+                    </li>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
+                    </li>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
                     </li>
                 <?php elseif ($user_data['aluno_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -66,7 +68,7 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Inscrição para estágio') ?></th>
-                <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
+                <td><?= $inscricao->hasValue('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
                 </td>
             </tr>
             <tr>
@@ -75,11 +77,11 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Data') ?></th>
-                <td><?= date('d-m-Y', strtotime($inscricao->data)) ?></td>
+                <td><?= $inscricao->data ? $inscricao->data->format('d/m/Y') : '' ?></td>
             </tr>
             <tr>
-                <th><?= __('Timestamp') ?></th>
-                <td><?= date('d-m-Y', strtotime($inscricao->timestamp)) ?></td>
+                <th><?= __('Atualizado em') ?></th>
+                <td><?= $inscricao->timestamp ? $inscricao->timestamp->format('d/m/Y H:i:s') : '' ?></td>
             </tr>
         </table>
     </div>

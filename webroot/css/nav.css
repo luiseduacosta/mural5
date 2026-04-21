@@ -9,9 +9,12 @@ body {
 nav {
   font-family: 'Raleway', sans-serif;
   position: fixed;
-  width: 100vw;
-  top: 0;
   left: 0;
+  right: 0;
+  width: 100%;
+  background: #2b6c9c;
+  height: 50px;
+  top: 0;
   display: grid;
   grid-template-columns: 150px 1fr;
   grid-gap: 20px;

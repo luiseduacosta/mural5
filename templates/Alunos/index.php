@@ -13,15 +13,19 @@ if ($user_session) {
 ?>
 <div class="alunos index content">
     <?php if ($user_data['administrador_id'] || $user_data['aluno_id']) : ?>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light position-relative">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" 
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <?php if ($user_data['administrador_id']) : ?>
-                <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button ms-2']) ?>
-                <?= $this->Html->link(__('Buscar Aluno'), ['action' => 'busca'], ['class' => 'button ms-2']) ?>
+                <ul class="navbar-nav ms-auto mt-lg-0">
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button ms-2', 'style' => 'font-size: 10pt;']) ?>
+                        <?= $this->Html->link(__('Buscar Aluno'), ['action' => 'busca'], ['class' => 'button ms-2', 'style' => 'font-size: 10pt;']) ?>
+                    </li>
+                </ul>
             <?php endif; ?>
         </div>
     </nav>
@@ -62,7 +66,7 @@ if ($user_session) {
                     <?php endif; ?>
                     <td><?= $aluno->nome ? $this->Html->link(h($aluno->nome), ['action' => 'view', $aluno->id]) : '' ?></td>
                     <td><?= h($aluno->registro) ?></td>
-                    <td><?= $aluno->user || (!empty($aluno->email) ? $this->Text->autoLinkEmails($aluno->email) : '') ?></td>
+                    <td><?= $aluno->email ? $this->Html->link(h($aluno->email), ['mailto' => $aluno->email]) : '' ?></td>
                     <?php if (!empty((string)$aluno->telefone) && strlen((string)$aluno->telefone) < 10) : ?>
                         <td><?= $aluno->telefone ? '(' . $aluno->codigo_telefone . ') ' . h($aluno->telefone) : '' ?></td>
                     <?php else : ?>

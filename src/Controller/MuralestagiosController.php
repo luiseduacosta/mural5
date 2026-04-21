@@ -174,9 +174,8 @@ class MuralestagiosController extends AppController
             }
         }
         $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
-        $turmaestagios = $this->fetchTable('Turmaestagios')->find('list', ['order' => ['area' => 'ASC']]);
         $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'ASC']]);
-        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodo'));
+        $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodo'));
     }
 
     /**

@@ -20,7 +20,7 @@ if ($user_session) {
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <?php if ($categoria): ?>
+                    <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
                     <th><?= $this->Paginator->sort('estagiario.avaliacao.id', 'Imprime folha de atividades') ?></th>
@@ -39,7 +39,7 @@ if ($user_session) {
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
                     <tr>
-                        <?php if ($user_data['administrador_id']): ?>
+                        <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>

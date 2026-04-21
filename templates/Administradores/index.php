@@ -21,7 +21,9 @@ if ($user_session) {
     </div>
 
     <aside>
-        <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button']) ?>
+        <?php if ($user_data['administrador_id']) : ?>
+            <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+        <?php endif; ?>
     </aside>
 
     <div class="table_wrap">

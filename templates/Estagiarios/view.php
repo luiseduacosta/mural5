@@ -15,7 +15,7 @@ if ($user_session) {
 
 <?= $this->element("menu_mural"); ?>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -24,48 +24,51 @@ if ($user_session) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['administrador_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
+                <?php endif; ?>
+
+                <?php if ($user_data['aluno_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item active">
-                        <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
                 <!-- Professor pode lançar notas -->
                 <?php if ($user_data['professor_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
                 <?php if ($user_data['aluno_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Declaração de estágio'), ['action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Declaração de estágio'), ['action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Preenche Atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Preenche Atividades'), ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:180px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Imprime Atividades'), ['controller' => 'folhadeatividades', 'action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Imprime Atividades'), ['controller' => 'folhadeatividades', 'action' => 'folhadeatividadespdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Imprime folha de atividades'), ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Imprime folha de atividades'), ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:200px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Imprime Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Imprime Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                            <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
                     <?php endif; ?>
 
@@ -262,7 +265,7 @@ if ($user_session) {
                         <h4 class="alert-heading">Atenção!</h4>
                         <p>Este estagiário ainda não possui avaliação.</p>
                         <hr>
-                        <?php if (isset($categoria)): ?>
+                        <?php if ($user_data['administrador_id']): ?>
                             <p class="mb-0">Clique no botão para
                                 <?= $this->Html->link(
                                     "imprimir",

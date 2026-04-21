@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Avaliaco[]|\Cake\Collection\CollectionInterface $avaliacaoes
+ * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
 ?>
 
@@ -34,7 +34,7 @@
                     <td><?= $c_estagiario->id ?></td>
 
                     <td>
-                        <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                        <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                             <?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : $this->Html->link('Fazer avaliação on-line', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $c_estagiario->id]], ['class' => 'btn btn-warning']) ?>
                         <?php else: ?>
                             <?= $c_estagiario->hasValue('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : 'Sem avaliação on-line' ?>
@@ -46,7 +46,7 @@
                     </td>
 
                     <td>
-                        <?php if (isset($categoria) && ($user_data['administrador_id'] || $user_data['supervisor_id'])): ?>
+                        <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                             <?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?>
                         <?php else: ?>
                             <?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?>

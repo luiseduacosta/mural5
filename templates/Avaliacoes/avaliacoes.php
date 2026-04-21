@@ -12,7 +12,7 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
         aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,9 +20,10 @@ if ($user_session) {
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
         <?php if ($user_data['administrador_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
-            </li>                
+                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
+            </li>
         <?php endif; ?>
+        <li class="nav-item">
     </ul>
 </nav>
 

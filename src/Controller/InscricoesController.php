@@ -57,6 +57,8 @@ class InscricoesController extends AppController
                 ],
             ]);
 
+        $query->leftJoinWith('Muralestagios.Instituicoes');
+
         if ($periodo !== 'all') {
             $query->where(['Inscricoes.periodo' => $periodo]);
         }

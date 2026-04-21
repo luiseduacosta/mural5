@@ -16,7 +16,7 @@ if ($user_session) {
 
 <div class="container">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                 aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -25,18 +25,18 @@ if ($user_session) {
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1']) ?>
+                            <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                         </li>
                     <?php endif; ?>
                     <?php if ($user_data['administrador_id'] && $user_data['supervisor_id']): ?>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                         </li>
                         <li class="nav-item">
-                            <?= $this->Html->link(__('Nova Instituição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+                            <?= $this->Html->link(__('Nova Instituição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                         </li>
                         <li class="nav-item">
-                            <?= $this->Form->postLink(__('Excluir Instituição'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1']) ?>
+                            <?= $this->Form->postLink(__('Excluir Instituição'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
                         </li>
                     <?php endif; ?>
                 </ul>
