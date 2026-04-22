@@ -600,7 +600,7 @@ class EstagiariosController extends AppController
 
         try {
             $estagiario = $this->Estagiarios->get($id, [
-                'contain' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores', 'Turmaestagios'],
+                'contain' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));

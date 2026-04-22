@@ -144,17 +144,6 @@ $niveis = [
             ]
         ]);
         echo $this->Form->control('periodo', ['label' => 'Semestre']);
-        echo $this->Form->control('turmaestagio_id', [
-            'label' => 'Turma',
-            'options' => $turmaestagios,
-            'value' => isset($estagiario) ? $estagiario->turmaestagio_id : '',
-            'empty' => true,
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-            ]
-        ]);
         if ($user_data['administrador_id']) {
             echo $this->Form->control('nota', ['label' => 'Nota', 'type' => 'number', 'step' => '0.01', 'placeholder' => '00.00']);
             echo $this->Form->control('ch', ['label' => 'Carga horária', 'type' => 'number', 'placeholder' => '000']);
