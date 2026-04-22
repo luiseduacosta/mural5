@@ -86,27 +86,6 @@ CREATE TABLE IF NOT EXISTS `areas` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `auth_users`
---
-
-CREATE TABLE IF NOT EXISTS `auth_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `identificacao` varchar(50) DEFAULT NULL COMMENT 'Either DRE, Siape ou CRESS',
-  `role` enum('admin','supervisor','docente','aluno') DEFAULT 'aluno',
-  `entidade_id` int(11) DEFAULT NULL COMMENT 'Id of the aluno, docente or supervisor table',
-  `ativo` tinyint(1) DEFAULT 1,
-  `criado_em` timestamp NULL DEFAULT current_timestamp(),
-  `atualizado_em` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Usuários do sistema: versão javascript';
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `avaliacoes`
 --
 
@@ -317,11 +296,11 @@ CREATE TABLE IF NOT EXISTS `mural_estagios` (
 CREATE TABLE IF NOT EXISTS `inscricoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `registro` int(9) NOT NULL,
-  `muralestagio_id` smallint(3) NOT NULL,
-  `data` date NOT NULL,
-  `periodo` char(6) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `aluno_id` int(11) NOT NULL,
+  `muralestagio_id` smallint(3) NOT NULL,
+  `periodo` char(6) NOT NULL,
+  `data` date NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Inscrições de alunos para seleção de estágios';
 
@@ -440,10 +419,10 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `turma_estagios`
+-- Estrutura para tabela `turmas`
 --
 
-CREATE TABLE IF NOT EXISTS `turma_estagios` (
+CREATE TABLE IF NOT EXISTS `turmas` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
   `turma` varchar(70) NOT NULL,
   PRIMARY KEY (`id`)

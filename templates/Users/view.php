@@ -47,22 +47,24 @@ if ($user_session) {
                 <td><?= $user->id ?></td>
             </tr>
             <tr>
-                <th><?= __('Número') ?></th>
-                <td><?= $user->registro ?></td>
+                <th><?= __('Nome') ?></th>
+                <td><?= h($user->nome) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Identificação') ?></th>
+                <td><?= h($user->identificacao) ?></td>
             </tr>
             <tr>
                 <th><?= __('E-mail') ?></th>
                 <td><?= h($user->email) ?></td>
             </tr>
-            <!--  
-             <tr>
-                 <th><?= __('Password') ?></th>
-                 <td><?= h($user->password) ?></td>
-             </tr>
-             //-->
             <tr>
                 <th><?= __('Categoria') ?></th>
                 <td><?= h($user->categoria) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Ativo') ?></th>
+                <td><?= $user->ativo ? __('Sim') : __('Não') ?></td>
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>

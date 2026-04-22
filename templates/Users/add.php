@@ -40,14 +40,14 @@ if ($user_session) {
         <fieldset>
             <legend><?= __('Cadastro de novo usuário(a)') ?></legend>
             <?php
+            echo $this->Form->control('nome', ['label' => ['text' => 'Nome']]);
             echo $this->Form->control('email');
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
             echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
-            echo $this->Form->control('registro', ['label' => ['text' => 'DRE, Siape ou Cress']]);
+            echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE, Siape ou CRESS']]);
             echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
             echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
             echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
-            echo $this->Form->control('timestamp', ['type' => 'hidden', date('Y-m-d')]);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>

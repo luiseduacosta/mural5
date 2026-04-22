@@ -6,34 +6,8 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-/**
- * Supervisores Model
- *
- * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
- * @method \App\Model\Entity\Supervisor newEmptyEntity()
- * @method \App\Model\Entity\Supervisor newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Supervisor[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Supervisor get($primaryKey, $options = [])
- * @method \App\Model\Entity\Supervisor findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Supervisor patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Supervisor[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Supervisor|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Supervisor saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Supervisor[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- */
 class SupervisoresTable extends Table
 {
-    /**
-     * Initialize method
-     *
-     * @param array $config The configuration for the Table.
-     * @return void
-     */
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -57,12 +31,6 @@ class SupervisoresTable extends Table
         ]);
     }
 
-    /**
-     * Default validation rules.
-     *
-     * @param \Cake\Validation\Validator $validator Validator instance.
-     * @return \Cake\Validation\Validator
-     */
     public function validationDefault(Validator $validator): Validator
     {
         $validator
@@ -102,27 +70,23 @@ class SupervisoresTable extends Table
             ->allowEmptyString('cep');
 
         $validator
-            ->scalar('codigo_tel')
-            ->maxLength('codigo_tel', 2)
-            ->regex('codigo_tel', '/^[0-9]{2}$/', 'Código de telefone inválido')
-            ->allowEmptyString('codigo_tel');
+            ->scalar('codigo_telefone')
+            ->maxLength('codigo_telefone', 2)
+            ->allowEmptyString('codigo_telefone');
 
         $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
-            ->regex('telefone', '/^\([0-9]{2}\)\s[0-9]{4,5}\.[0-9]{4}$/', 'Telefone inválido')
             ->allowEmptyString('telefone');
 
         $validator
-            ->nonNegativeInteger('codigo_cel')
-            ->maxLength('codigo_cel', 2)
-            ->regex('codigo_cel', '/^[0-9]{2}$/', 'Código de celular inválido')
-            ->allowEmptyString('codigo_cel');
+            ->scalar('codigo_celular')
+            ->maxLength('codigo_celular', 2)
+            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')
             ->maxLength('celular', 15)
-            ->regex('celular', '/^\([0-9]{2}\)\s[0-9]{4,5}\.[0-9]{4}$/', 'Celular inválido')
             ->allowEmptyString('celular');
 
         $validator
@@ -135,33 +99,18 @@ class SupervisoresTable extends Table
             ->allowEmptyString('escola');
 
         $validator
-            ->nonNegativeInteger('ano_formatura')
-            ->regex('ano_formatura', '/^(19|20)[0-9]{2}$/', 'Insira um ano válido')
+            ->scalar('ano_formatura')
+            ->maxLength('ano_formatura', 4)
             ->allowEmptyString('ano_formatura');
 
         $validator
-            ->nonNegativeInteger('cress')
+            ->integer('cress')
             ->notEmptyString('cress', null, 'create');
 
         $validator
-            ->nonNegativeInteger('regiao')
+            ->integer('regiao')
             ->maxLength('regiao', 2)
             ->notEmptyString('regiao', null, 'create');
-
-        $validator
-            ->scalar('outros_estudos')
-            ->maxLength('outros_estudos', 100)
-            ->allowEmptyString('outros_estudos');
-
-        $validator
-            ->scalar('area_curso')
-            ->maxLength('area_curso', 40)
-            ->allowEmptyString('area_curso');
-
-        $validator
-            ->nonNegativeInteger('ano_curso')
-            ->regex('ano_curso', '/^(19|20)[0-9]{2}$/', 'Insira um ano válido')
-            ->allowEmptyString('ano_curso');
 
         $validator
             ->scalar('cargo')
@@ -169,25 +118,12 @@ class SupervisoresTable extends Table
             ->allowEmptyString('cargo');
 
         $validator
-            ->nonNegativeInteger('num_inscricao')
-            ->allowEmptyString('num_inscricao');
-
-        $validator
-            ->integer('estagiarios_count')
-            ->allowEmptyString('estagiarios_count');
-
-        $validator
-            ->scalar('curso_turma')
-            ->maxLength('curso_turma', 1)
-            ->allowEmptyString('curso_turma');
-
-        $validator
             ->scalar('observacoes')
             ->allowEmptyString('observacoes');
 
         $validator
-            ->scalar('estagiarios_count')
-            ->allowEmptyString('estagiarios_count');
+            ->integer('user_id')
+            ->allowEmptyString('user_id');
 
         return $validator;
     }

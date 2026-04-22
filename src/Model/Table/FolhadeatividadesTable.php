@@ -94,10 +94,6 @@ class FolhadeatividadesTable extends Table
                 ->notEmptyTime('final');
 
         $validator
-                ->time('horario')
-                ->allowEmptyTime('horario');
-
-        $validator
                 ->scalar('atividade')
                 ->maxLength('atividade', 100)
                 ->requirePresence('atividade', 'create')

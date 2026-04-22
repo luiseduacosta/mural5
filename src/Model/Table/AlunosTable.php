@@ -103,16 +103,19 @@ class AlunosTable extends Table
             ->allowEmptyString('turno_id');
 
         $validator
-            ->notEmptyString('codigo_telefone');
+            ->integer('codigo_telefone')
+            ->maxLength('codigo_telefone', 2)
+            ->allowEmptyString('codigo_telefone');
 
         $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
-            ->regex('telefone', '/^\([0-9]{2}\)\s[0-9]{4,5}\.[0-9]{4}$/', 'Telefone inválido')
             ->allowEmptyString('telefone');
 
         $validator
-            ->notEmptyString('codigo_celular');
+            ->integer('codigo_celular')
+            ->maxLength('codigo_celular', 2)
+            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')
@@ -171,12 +174,8 @@ class AlunosTable extends Table
             ->allowEmptyString('observacoes');
 
         $validator
-            ->integer('estagiario_count')
-            ->allowEmptyString('estagiario_count');
-
-        $validator
-            ->integer('inscricao_count')
-            ->allowEmptyString('inscricao_count');
+            ->integer('user_id')
+            ->allowEmptyString('user_id');
 
         return $validator;
     }

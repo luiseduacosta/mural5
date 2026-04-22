@@ -69,8 +69,6 @@ class Aluno extends Entity
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
-        'estagiario_count' => true,
-        'inscricao_count' => true,
         'user_id' => true,
         'user' => true,
         'estagiarios' => true,

@@ -13,16 +13,22 @@ use Cake\ORM\TableRegistry;
  * User Entity
  *
  * @property int $id
+ * @property string $nome
  * @property string|null $email
  * @property string|null $password
  * @property string $categoria
- * @property int|null $numero
+ * @property string $role
+ * @property int|null $identificacao
+ * @property int|null $entidade_id
  * @property int|null $aluno_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property int|null $administrador_id
+ * @property int $ativo
+ * @property \Cake\I18n\FrozenTime $criado_em
+ * @property \Cake\I18n\FrozenTime $atualizado_em
  *
+ * @property \App\Model\Entity\Categoria $categoria
  * @property \App\Model\Entity\Aluno $aluno
  * @property \App\Model\Entity\Supervisor $supervisor
  * @property \App\Model\Entity\Professor $professor
@@ -30,37 +36,48 @@ use Cake\ORM\TableRegistry;
  */
 class User extends Entity implements AuthenticationIdentity
 {
-    /**
-     * Fields that can be mass assigned using newEntity() or patchEntity().
-     *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
-     * @var array
-     */
     protected array $_accessible = [
+        'nome' => true,
         'email' => true,
         'password' => true,
         'categoria' => true,
-        'numero' => true,
+        'role' => true,
+        'identificacao' => true,
+        'entidade_id' => true,
         'aluno_id' => true,
         'supervisor_id' => true,
         'professor_id' => true,
-        'created' => true,
-        'modified' => true,
+        'ativo' => true,
+        'criado_em' => true,
+        'atualizado_em' => true,
+        'categoria_obj' => true,
         'aluno' => true,
         'supervisor' => true,
         'professor' => true,
         'administrador' => true,
     ];
 
-    /**
-     * Fields that are excluded from JSON versions of the entity.
-     *
-     * @var array
-     */
     protected array $_hidden = ['password'];
+
+    public function isAdmin(): bool
+    {
+        return $this->categoria === '1';
+    }
+
+    public function isProfessor(): bool
+    {
+        return $this->categoria === '3';
+    }
+
+    public function isSupervisor(): bool
+    {
+        return $this->categoria === '4';
+    }
+
+    public function isAluno(): bool
+    {
+        return $this->categoria === '2';
+    }
 
     // Automatically hash passwords when they are changed.
 
@@ -101,7 +118,7 @@ class User extends Entity implements AuthenticationIdentity
 
         $this->_originalDataLoaded = true;
 
-        $categoria = (int)($this->categoria ?? 0);
+        $categoria = $this->categoria ?? '0';
 
         if (!isset($this->aluno_id)) {
             $this->aluno_id = null;
@@ -116,7 +133,7 @@ class User extends Entity implements AuthenticationIdentity
             $this->administrador_id = null;
         }
 
-        if ($categoria === 2 && empty($this->aluno_id)) {
+        if ($categoria === '2' && empty($this->aluno_id)) {
             $alunos = TableRegistry::getTableLocator()->get('Alunos');
             $aluno = $alunos->find()
                 ->where(['Alunos.user_id' => $this->id])
@@ -133,7 +150,7 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if ($categoria === 3 && empty($this->professor_id)) {
+        if ($categoria === '3' && empty($this->professor_id)) {
             $professores = TableRegistry::getTableLocator()->get('Professores');
             $professor = $professores->find()
                 ->where(['Professores.user_id' => $this->id])
@@ -150,7 +167,7 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if ($categoria === 4 && empty($this->supervisor_id)) {
+        if ($categoria === '4' && empty($this->supervisor_id)) {
             $supervisores = TableRegistry::getTableLocator()->get('Supervisores');
             $supervisor = $supervisores->find()
                 ->where(['Supervisores.user_id' => $this->id])
@@ -178,12 +195,10 @@ class User extends Entity implements AuthenticationIdentity
             }
         }
 
-        if ($categoria === 1 && empty($this->administrador_id)) {
+        if ($categoria === '1' && empty($this->administrador_id)) {
             $this->administrador_id = 1;
         }
 
         return $this;
     }
-
-
 }

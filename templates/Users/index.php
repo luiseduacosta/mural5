@@ -35,9 +35,10 @@ if ($user_session) {
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
+                    <th><?= $this->Paginator->sort('nome') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('categoria') ?></th>
-                    <th><?= $this->Paginator->sort('registro') ?></th>
+                    <th><?= $this->Paginator->sort('identificacao', 'DRE/Siape/CRESS') ?></th>
                     <th><?= $this->Paginator->sort('aluno_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
                     <th><?= $this->Paginator->sort('professor_id') ?></th>
@@ -48,9 +49,10 @@ if ($user_session) {
                 <?php foreach ($users as $userestagio): ?>
                     <tr>
                         <td><?= $userestagio->id ?></td>
+                        <td><?= h($userestagio->nome) ?></td>
                         <td><?= h($userestagio->email) ?></td>
                         <td><?= h($userestagio->categoria) ?></td>
-                        <td><?= $userestagio->registro ?></td>
+                        <td><?= h($userestagio->identificacao) ?></td>
                         <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
                         </td>
                         <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>

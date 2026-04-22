@@ -20,14 +20,12 @@ use Cake\ORM\Entity;
  * @property string $municipio
  * @property string $cep
  * @property string $telefone
- * @property string|null $fax
- * @property string|null $beneficios
+ * @property string|null $beneficio
  * @property string|null $fim_de_semana
- * @property string $localInscricao
+ * @property string $local_inscricao
  * @property int $convenio
- * @property \Cake\I18n\FrozenDate|null $expira
- * @property string $seguro
- * @property string $avaliacao
+ * @property int|null $expira
+ * @property string|null $seguro
  * @property string|null $observacoes
  *
  * @property \App\Model\Entity\Area $area
@@ -38,15 +36,6 @@ use Cake\ORM\Entity;
  */
 class Instituicao extends Entity
 {
-    /**
-     * Fields that can be mass assigned using newEntity() or patchEntity().
-     *
-     * Note that when '*' is set to true, this allows all unspecified fields to
-     * be mass assigned. For security purposes, it is advised to set '*' to false
-     * (or remove it), and explicitly make individual fields accessible as needed.
-     *
-     * @var array
-     */
     protected array $_accessible = [
         'instituicao' => true,
         'area_id' => true,
@@ -59,14 +48,11 @@ class Instituicao extends Entity
         'municipio' => true,
         'cep' => true,
         'telefone' => true,
-        'fax' => true,
-        'beneficios' => true,
+        'beneficio' => true,
         'fim_de_semana' => true,
-        'localInscricao' => true,
         'convenio' => true,
         'expira' => true,
         'seguro' => true,
-        'avaliacao' => true,
         'observacoes' => true,
         'area' => true,
         'estagiarios' => true,

@@ -41,5 +41,4 @@ final class TurnosTablePolicy implements BeforePolicyInterface
     {
         return new Result(true);
     }
-
 }

@@ -41,7 +41,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('area_id', 'Área') ?></th>
                     <th><?= $this->Paginator->sort('cnpj', 'CNPJ') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('beneficios', 'Benefícios') ?></th>
+                    <th><?= $this->Paginator->sort('beneficio', 'Benefício') ?></th>
                     <th><?= $this->Paginator->sort('fim_de_semana') ?></th>
                     <th><?= $this->Paginator->sort('convenio', 'Convênio') ?></th>
                     <th><?= $this->Paginator->sort('expira') ?></th>
@@ -59,7 +59,7 @@ if ($user_session) {
                            </td>
                         <td><?= h($instituicao->cnpj) ?></td>
                         <td><?= h($instituicao->telefone) ?></td>
-                        <td><?= h($instituicao->beneficios) ?></td>
+                        <td><?= h($instituicao->beneficio) ?></td>
                         <td><?= h($instituicao->fim_de_semana ? 'Sim' : 'Não') ?></td>
                         <td><?= $instituicao->convenio ?></td>
                         <td><?= $instituicao->expira ? date('d-m-Y', strtotime(h($instituicao->expira))) : '' ?>

@@ -135,6 +135,15 @@ class AdministradoresController extends AppController
     public function add()
     {
         $administrador = $this->Administradores->newEmptyEntity();
+
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $error) {
+            $this->Flash->error('Authorization error: ' . $error->getMessage());
+
+            return $this->redirect('/');
+        }
+
         if ($this->request->is('post')) {
             $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
 

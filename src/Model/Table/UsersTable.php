@@ -47,6 +47,11 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Categorias', [
+            'foreignKey' => 'categoria',
+            'bindingKey' => 'id',
+        ]);
+
         $this->hasOne('Administradores', [
             'foreignKey' => 'user_id',
         ]);
@@ -74,6 +79,11 @@ class UsersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('nome')
+            ->maxLength('nome', 128)
+            ->notEmptyString('nome');
+
+        $validator
             ->email('email')
             ->notEmptyString('email', 'Erro: Email vazio');
 
@@ -83,13 +93,22 @@ class UsersTable extends Table
             ->notEmptyString('password', 'Erro: senha vazia');
 
         $validator
-            ->integer('categoria')
-            ->inList('categoria', [1, 2, 3, 4], 'Erro: categoria inválida')
+            ->scalar('categoria')
+            ->inList('categoria', ['1', '2', '3', '4'], 'Erro: categoria inválida')
             ->notEmptyString('categoria', 'Erro: categoria vazia');
 
         $validator
-            ->integer('numero')
-            ->allowEmptyString('numero');
+            ->scalar('role')
+            ->inList('role', ['admin', 'supervisor', 'docente', 'aluno'])
+            ->allowEmptyString('role');
+
+        $validator
+            ->integer('identificacao')
+            ->allowEmptyString('identificacao');
+
+        $validator
+            ->integer('entidade_id')
+            ->allowEmptyString('entidade_id');
 
         $validator
             ->integer('aluno_id')
@@ -104,12 +123,16 @@ class UsersTable extends Table
             ->allowEmptyString('professor_id');
 
         $validator
-            ->dateTime('created')
-            ->notEmptyDateTime('created');
+            ->integer('ativo')
+            ->allowEmptyString('ativo');
 
         $validator
-            ->dateTime('modified')
-            ->notEmptyDateTime('modified');
+            ->dateTime('criado_em')
+            ->allowEmptyDateTime('criado_em');
+
+        $validator
+            ->dateTime('atualizado_em')
+            ->allowEmptyDateTime('atualizado_em');
 
         return $validator;
     }
@@ -124,6 +147,7 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['email']));
+        $rules->add($rules->existsIn(['categoria'], 'Categorias'), ['errorField' => 'categoria']);
 
         return $rules;
     }

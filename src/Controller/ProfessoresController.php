@@ -82,8 +82,8 @@ class ProfessoresController extends AppController
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
-        if ($this->getRequest()->getAttribute('identity')['categoria'] == 3) {
-            $siape = $this->getRequest()->getAttribute('identity')['registro'];
+        if ($this->getRequest()->getAttribute('identity')['categoria'] === '3') {
+            $siape = $this->getRequest()->getAttribute('identity')['identificacao'];
             $email = $this->getRequest()->getAttribute('identity')['email'];
         }
 
@@ -113,7 +113,7 @@ class ProfessoresController extends AppController
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
             $usercadastrado = $this->Professores->Users->find()
-                    ->where(['categoria' => 3, 'registro' => $siape])
+                    ->where(['categoria' => '3', 'identificacao' => $siape])
                     ->first();
             if (empty($usercadastrado)) :
                 $this->Flash->error(__('Professor(a) não cadastrado(a) como usuário(a)'));
@@ -137,7 +137,7 @@ class ProfessoresController extends AppController
                  */
                 if (empty($userprofessor)) {
                     $userestagio = $this->Professores->Users->find()
-                            ->where(['categoria' => 3, 'registro' => $professorresultado->siape])
+                            ->where(['categoria' => '3', 'identificacao' => $professorresultado->siape])
                             ->first();
                     $userdata = $userestagio->toArray();
                     /** Carrego o valor do campo professor_id */
