@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `areas` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `areas` (`area`) VALUES ('Saúde'), ('Educação'), ('Assistência Social');
+INSERT INTO `areas` (`id`, `area`) VALUES (1, 'Saúde'), (2, 'Educação'), (3, 'Assistência Social');
 
 -- =====================================================
 -- Table: instituicoes
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `turnos` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `turnos` (`turno`) VALUES ('diurno'), ('noturno'), ('integral'), ('outro');
+INSERT INTO `turnos` (`id`, `turno`) VALUES (1, 'diurno'), (2, 'noturno'), (3, 'integral'), (4, 'outro');
 
 -- =====================================================
 -- Table: alunos
@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `complementos` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `complementos` (`periodo_especial`) VALUES ('2020-2');
+INSERT INTO `complementos` (`id`, `periodo_especial`) VALUES (1, 'REMOTO'), (2, 'PLE');
 
 -- =====================================================
 -- Table: estagiarios

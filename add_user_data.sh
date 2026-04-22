@@ -32,8 +32,6 @@ FILES=(
 "templates/Supervisores/edit.php"
 "templates/Supervisores/index.php"
 "templates/Supervisores/view.php"
-"templates/Turmaestagios/index.php"
-"templates/Turmaestagios/view.php"
 "templates/Users/add.php"
 "templates/Users/edit.php"
 "templates/Users/index.php"

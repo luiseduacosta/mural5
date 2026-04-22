@@ -11,7 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -128,16 +127,6 @@ CREATE TABLE IF NOT EXISTS `categorias` (
   `categoria` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Categorias dos usuários: administrador, professor, supervisor e aluno';
-
---
--- Dados para tabela `categorias`
---
-
-INSERT INTO `categorias` (`id`, `categoria`) VALUES
-(1, 'Administrador'),
-(2, 'Aluno'),
-(3, 'Professor'),
-(4, 'Supervisor');
 
 -- --------------------------------------------------------
 
@@ -491,10 +480,6 @@ ALTER TABLE `questoes`
 --
 -- Seed data for initial system setup
 --
-
--- Default admin user (password: admin123 - change after first login)
-INSERT INTO `users` (`id`, `email`, `password`, `categoria`, `numero`, `timestamp`, `aluno_id`, `supervisor_id`, `professor_id`) VALUES
-(1, 'admin@ess.ufrj.br', '$2y$10$YourHashedPasswordHere', '1', 1, CURRENT_TIMESTAMP, NULL, NULL, NULL);
 
 -- Default system configuration
 INSERT INTO `configuracoes` (`id`, `mural_periodo_atual`, `curso_turma_atual`, `curso_abertura_inscricoes`, `curso_encerramento_inscricoes`, `termo_compromisso_periodo`, `termo_compromisso_inicio`, `termo_compromisso_final`, `periodo_calendario_academico`) VALUES

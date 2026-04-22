@@ -224,9 +224,8 @@ class MuralestagiosController extends AppController
         $periodos = $periodototal->toArray();
 
         $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['order' => ['instituicao' => 'ASC']]);
-        $turmaestagios = $this->Muralestagios->Turmaestagios->find('list', ['order' => ['area' => 'ASC']]);
         $professores = $this->Muralestagios->Professores->find('list', ['order' => ['nome' => 'ASC']]);
-        $this->set(compact('muralestagio', 'instituicoes', 'turmaestagios', 'professores', 'periodos'));
+        $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodos'));
     }
 
     /**

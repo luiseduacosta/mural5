@@ -248,8 +248,6 @@ if ($user_session) {
                                             <td><?= h($estagiarios->tc) ?></td>
                                             <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
                                             </td>
-                                            <td><?= $estagiarios->hasValue('turmaestagio') ? $estagiarios->turmaestagio->area : '' ?>
-                                            </td>
                                             <td><?= !is_null($estagiarios->nota) ? $this->Number->format($estagiarios->nota, ['places' => 2]) : 'Sem dados' ?>
                                             </td>
                                             <td><?= h($estagiarios->ch) ?></td>
