@@ -25,7 +25,6 @@ final class TurnosTablePolicy implements BeforePolicyInterface
                 $user_data
                 && (
                     $user_data['administrador_id']
-                    || $user_data['professor_id']
                 )
             ) {
                 return true;
@@ -43,11 +42,4 @@ final class TurnosTablePolicy implements BeforePolicyInterface
         return new Result(true);
     }
 
-    /**
-     * @return \Authorization\Policy\Result
-     */
-    public function canAdd(): Result
-    {
-        return new Result(true);
-    }
 }

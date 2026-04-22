@@ -26,7 +26,6 @@ final class TurmaPolicy implements BeforePolicyInterface
                 $user_data
                 && (
                     $user_data['administrador_id']
-                    || $user_data['professor_id']
                 )
             ) {
                 return true;
@@ -34,6 +33,16 @@ final class TurmaPolicy implements BeforePolicyInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $user
+     * @param \App\Model\Entity\Turma $turma
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(IdentityInterface $user, Turma $turma): Result
+    {
+        return new Result(false, 'Erro: turma add policy not authorized');
     }
 
     /**

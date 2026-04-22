@@ -26,7 +26,6 @@ final class TurnoPolicy implements BeforePolicyInterface
                 $user_data
                 && (
                     $user_data['administrador_id']
-                    || $user_data['professor_id']
                 )
             ) {
                 return true;
@@ -34,6 +33,14 @@ final class TurnoPolicy implements BeforePolicyInterface
         }
 
         return null;
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(): Result
+    {
+        return new Result(false, 'Erro: turno add policy not authorized');
     }
 
     /**

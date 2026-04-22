@@ -50,6 +50,8 @@ class SupervisoresController extends AppController
             ]
         ]);
 
+        $this->Authorization->authorize($supervisor);
+
         if (!isset($supervisor)) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
@@ -68,7 +70,7 @@ class SupervisoresController extends AppController
     {
 
         if ($this->getRequest()->getAttribute('identity')['categoria'] == 4) {
-            $cress = $this->getRequest()->getAttribute('identity')['registro'];
+            $cress = $this->getRequest()->getAttribute('identity')['identificao'];
             $email = $this->getRequest()->getAttribute('identity')['email'];
         }
 
@@ -93,6 +95,8 @@ class SupervisoresController extends AppController
         }
 
         $supervisor = $this->Supervisores->newEmptyEntity();
+
+        $this->Authorization->authorize($supervisor);
 
         if ($this->request->is('post')) {
 
@@ -170,6 +174,9 @@ class SupervisoresController extends AppController
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Instituicoes'],
         ]);
+
+        $this->Authorization->authorize($supervisor);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $supervisor = $this->Supervisores->patchEntity($supervisor, $this->request->getData());
             if ($this->Supervisores->save($supervisor)) {
@@ -199,6 +206,9 @@ class SupervisoresController extends AppController
         $supervisor = $this->Supervisores->get($id, [
             'contain' => ['Estagiarios']
         ]);
+
+        $this->Authorization->authorize($supervisor);
+
         if (sizeof($supervisor->estagiarios) > 0) {
             $this->Flash->error(__('Supervisor(a) com estagiarios'));
             return $this->redirect(['controller' => 'supervisores', 'action' => 'view', $id]);

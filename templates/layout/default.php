@@ -38,8 +38,8 @@ $this->set('categoria', $categoria);
         <?= $this->Html->css(['fonts']) ?>
         <?= $this->Html->css(['milligram.min']) ?>
         <?= $this->Html->css(['cake']) ?>
-        <?= $this->Html->css(['nav']) ?>
         <?= $this->Html->css(['mural']) ?>
+        <?= $this->Html->css(['nav']) ?>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
@@ -52,9 +52,11 @@ $this->set('categoria', $categoria);
 
         <?= $this->fetch('script') ?>
     </head>
-    <body class = "fs-4 fst-normal">
-        <div id="content" class="container">
-            <?= $this->element('menu_superior'); ?>
+    <body>
+
+        <?= $this->element('menu_superior'); ?>
+
+        <div id="content">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>

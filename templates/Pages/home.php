@@ -62,23 +62,34 @@ $user_session = $this->request->getAttribute('identity');
 <!-- templates/pages/home -->
 <html>
 <head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+        <?= $this->Html->charset() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            <?= $cakeDescription ?>
+            <?= $this->fetch('title') ?>
+        </title>
+        <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css(['normalize.min', 'fonts', 'milligram.min', 'cake', 'bootstrap', 'mural', 'nav']) ?>
+        <?= $this->Html->css(['normalize.min']) ?>
+        <?= $this->Html->css(['fonts']) ?>
+        <?= $this->Html->css(['milligram.min']) ?>
+        <?= $this->Html->css(['cake']) ?>
+        <?= $this->Html->css(['mural']) ?>
+        <?= $this->Html->css(['nav']) ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+        <?= $this->Html->script(['https://code.jquery.com/jquery-3.7.0.min.js']) ?>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css') ?>
+        <?= $this->fetch('script') ?>
 </head>
 <body>
 
-    <?= $this->element('submenu_navegacao'); ?>
+    <?= $this->element('menu_superior'); ?>
 
     <div id="content">
         <?= $this->Flash->render() ?>
@@ -117,6 +128,7 @@ $user_session = $this->request->getAttribute('identity');
             <div class="message default-cursor default text-center" >
                 <p>Atenção: a seção abaixo não irá aparecer se o modo debug estiver desligado.</p>
             </div>
+
             <div>
                 <div class="content">
                     <div class="row">
@@ -140,6 +152,7 @@ $user_session = $this->request->getAttribute('identity');
                         <a href="./alunos">alunos</a> | <a href="./alunos/view/1">view</a> | <a href="./alunos/edit/1">edit</a> | <a href="./alunos/add">add</a> | <a href="./alunos/busca">busca</a> | <a href="./alunos/planilhacress">planilhacress</a> | <a href="./alunos/planilhaseguro">planilhaseguro</a> | <a href="./alunos/cargahoraria">cargahoraria</a> | <a href="./alunos/declaracaoperiodo/1">declaracaoperiodo</a><br />
                         <a href="./areas">areas</a> | <a href="./areas/view/1">view</a> | <a href="./areas/edit/1">edit</a> | <a href="./areas/add">add</a><br />
                         <a href="./avaliacoes">avaliacoes</a> | <a href="./avaliacoes/view/1">view</a> | <a href="./avaliacoes/edit/1">edit</a> | <a href="./avaliacoes/add">add</a> | <a href="./avaliacoes/imprimeavaliacaopdf/1">imprimeavaliacaopdf</a> | <a href="./avaliacoes/avaliacaomanualpdf">avaliacaomanualpdf</a><br />
+                        <a href="./categorias">categorias</a> | <a href="./categorias/view/1">view</a> | <a href="./categorias/edit/1">edit</a> | <a href="./categorias/add">add</a><br />
                         <a href="./complementos">complementos</a> | <a href="./complementos/view/1">view</a> | <a href="./complementos/edit/1">edit</a> | <a href="./complementos/add">add</a><br />
                         <a href="./configuracoes">configuracoes</a> | <a href="./configuracoes/edit/1">edit</a><br />
                         <a href="./estagiarios">estagiarios</a> | <a href="./estagiarios/view/1">view</a> | <a href="./estagiarios/edit/1">edit</a> | <a href="./estagiarios/add">add</a> | <a href="./estagiarios/lancanota/1">lancanota</a> | <a href="./estagiarios/termodecompromisso/1">termodecompromisso</a> | <a href="./estagiarios/declaracaodeestagiopdf/1">declaracaodeestagio</a> | <a href="./estagiarios/lancanotapdf/1">lancanotapdf</a> <br />
@@ -148,13 +161,15 @@ $user_session = $this->request->getAttribute('identity');
                         <a href="./instituicoes">instituicoes</a> | <a href="./instituicoes/view/1">view</a> | <a href="./instituicoes/edit/1">edit</a> | <a href="./instituicoes/add">add</a><br />
                         <a href="./muralestagios">muralestagios</a> | <a href="./muralestagios/view/1">view</a> | <a href="./muralestagios/edit/1">edit</a> | <a href="./muralestagios/add">add</a> | <a href="./muralestagios/imprimepdf">imprimepdf</a> <br />
                         <a href="./professores">professores</a> | <a href="./professores/view/1">view</a> | <a href="./professores/edit/1">edit</a> | <a href="./professores/add">add</a><br />
+                        <a href="./questionarios">questionarios</a> | <a href="./questionarios/view/1">view</a> | <a href="./questionarios/edit/1">edit</a> | <a href="./questionarios/add">add</a><br />
+                        <a href="./questoes">questoes</a> | <a href="./questoes/view/1">view</a> | <a href="./questoes/edit/1">edit</a> | <a href="./questoes/add">add</a><br />
+                        <a href="./respostas">respostas</a> | <a href="./respostas/view/1">view</a> | <a href="./respostasquestoes</a> | <a href="./questoes/view/1">view</a> | <a href="./questoes/edit/1">edit</a> | <a href="./questoes/add">add</a><br />
                         <a href="./supervisores">supervisores</a> | <a href="./supervisores/view/1">view</a> | <a href="./supervisores/edit/1">edit</a> | <a href="./supervisores/add">add</a><br />
                         <a href="./turmas">turmas</a> | <a href="./turmas/view/1">view</a> | <a href="./turmas/edit/1">edit</a> | <a href="./turmas/add">add</a><br />
                         <a href="./turnos">turnos</a> | <a href="./turnos/view/1">view</a> | <a href="./turnos/edit/1">edit</a> | <a href="./turnos/add">add</a><br />
                         <a href="./users">users</a> | <a href="./users/view/1">view</a> | <a href="./users/edit/1">edit</a> | <a href="./users/add">add</a> | <a href="./users/login">login</a><br />
                         <a href="./visitas">visitas</a> | <a href="./visitas/view/1">view</a> | <a href="./visitas/edit/1">edit</a> | <a href="./visitas/add">add</a><br />
                     </p>
-
 
                     <div class="row">
                         <div class="column">

@@ -25,7 +25,6 @@ final class TurmasTablePolicy implements BeforePolicyInterface
                 $user_data
                 && (
                     $user_data['administrador_id']
-                    || $user_data['professor_id']
                 )
             ) {
                 return true;
@@ -39,14 +38,6 @@ final class TurmasTablePolicy implements BeforePolicyInterface
      * @return \Authorization\Policy\Result
      */
     public function canIndex(): Result
-    {
-        return new Result(true);
-    }
-
-    /**
-     * @return \Authorization\Policy\Result
-     */
-    public function canAdd(): Result
     {
         return new Result(true);
     }

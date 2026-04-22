@@ -15,7 +15,7 @@ if ($user_session) {
 <div class="container">
 
     <?php if ($user_data['administrador_id']): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -68,7 +68,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('beneficios') ?></th>
                     <th><?= $this->Paginator->sort('final_de_semana', 'Final de semana') ?></th>
                     <th><?= $this->Paginator->sort('carga_horaria', 'CH') ?></th>
-                    <th><?= $this->Paginator->sort('data_inscricao', 'Encerramento das Inscrições') ?></th>
+                    <th><?= $this->Paginator->sort('data_inscricao', 'Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
                     <?php if ($user_data['administrador_id']): ?>
                         <th class="actions"><?= __('Ações') ?></th>
