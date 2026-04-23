@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -23,7 +23,7 @@ if ($user_session) {
             <fieldset>
                 <h3><?= __('Editando administrador_' . $administrador->id) ?></h3>
                 <?php
-                if ($user_data['administrador_id']) :
+                if ($user_data['categoria'] === '1' && $user_data['entidade_id']) :
                     echo $this->Form->control('user_id', ['type' => 'number', 'value' => $administrador->user_id, 'readonly' => true]);
                 endif;
                     echo $this->Form->control('nome');

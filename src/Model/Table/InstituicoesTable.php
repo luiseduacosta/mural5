@@ -51,9 +51,6 @@ class InstituicoesTable extends Table
             'foreignKey' => 'area_id',
         ]);
 
-        $this->hasMany('Inscricoes', [
-            'foreignKey' => 'instituicao_id',
-        ]);
         $this->hasMany('Estagiarios', [
             'foreignKey' => 'instituicao_id',
         ]);

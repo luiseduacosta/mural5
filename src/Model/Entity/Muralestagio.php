@@ -26,7 +26,6 @@ use Cake\ORM\Entity;
  * @property string|null $contato
  * @property string|null $outras
  * @property string|null $periodo
- * @property \Cake\I18n\FrozenDate|null $datafax
  * @property string $local_inscricao
  * @property string|null $email
  *
@@ -63,7 +62,6 @@ class Muralestagio extends Entity
         'contato' => true,
         'outras' => true,
         'periodo' => true,
-        'datafax' => true,
         'local_inscricao' => true,
         'email' => true,
         'instituicao_rel' => true,

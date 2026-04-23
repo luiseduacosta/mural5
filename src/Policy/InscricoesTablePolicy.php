@@ -27,7 +27,7 @@ final class InscricoesTablePolicy implements BeforePolicyInterface
             if (
                 $user_data
                 && (
-                    $user_data['administrador_id']
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
                     || $user_data['professor_id']
                 )
             ) {

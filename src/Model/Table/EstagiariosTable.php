@@ -14,6 +14,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsTo $Instituicoes
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
+ * @property \App\Model\Table\ComplementosTable&\Cake\ORM\Association\BelongsTo $Complementos
  * @property \App\Model\Table\FolhadeatividadesTable&\Cake\ORM\Association\HasMany $Folhadeatividades
  * @property \App\Model\Table\AvaliacoesTable&\Cake\ORM\Association\HasOne $Avaliacoes
  * @method \App\Model\Entity\Estagiario newEmptyEntity()
@@ -59,6 +60,9 @@ class EstagiariosTable extends Table
         $this->belongsTo('Professores', [
             'foreignKey' => 'professor_id',
         ]);
+        $this->belongsTo('Complementos', [
+            'foreignKey' => 'complemento_id',
+        ]);
         $this->hasMany('Folhadeatividades', [
             'foreignKey' => 'estagiario_id',
         ]);
@@ -67,6 +71,7 @@ class EstagiariosTable extends Table
         ]);
 
         $this->addBehavior('CounterCache', [
+            'Alunos' => ['estagiario_count'],
             'Supervisores' => ['estagiarios_count'],
             'Professores' => ['estagiarios_count'],
             'Instituicoes' => ['estagiarios_count'],
@@ -140,6 +145,10 @@ class EstagiariosTable extends Table
             ->maxLength('benebolsa', 5)
             ->allowEmptyString('benebolsa');
 
+        $validator
+            ->integer('complemento_id')
+            ->notEmptyString('complemento_id');
+
         return $validator;
     }
 
@@ -156,6 +165,7 @@ class EstagiariosTable extends Table
         $rules->add($rules->existsIn(['instituicao_id'], 'Instituicoes'), ['errorField' => 'instituicao_id']);
         $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
         $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
+        $rules->add($rules->existsIn(['complemento_id'], 'Complementos'), ['errorField' => 'complemento_id']);
 
         return $rules;
     }

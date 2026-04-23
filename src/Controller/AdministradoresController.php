@@ -150,6 +150,13 @@ class AdministradoresController extends AppController
             if ($this->Administradores->save($administrador)) {
                 $this->Flash->success(__('The administrador has been saved.'));
 
+                // Update the user record with entidade_id
+                if ($administrador->user_id) {
+                    $userEntity = $this->fetchTable('Users')->get($administrador->user_id);
+                    $userEntity->entidade_id = $administrador->id;
+                    $this->fetchTable('Users')->save($userEntity);
+                }
+
                 return $this->redirect(['action' => 'view', $administrador->id]);
             }
             $this->Flash->error(__('The administrador could not be saved. Please, try again.'));

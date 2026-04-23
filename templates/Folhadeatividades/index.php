@@ -17,7 +17,7 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
+        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
             <li class='nav-link'>
                 <?= $this->Html->link(__('Cadastra nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
@@ -91,7 +91,7 @@ $professora = isset($estagiario->professor->nome) ? $estagiario->professor->nome
                     <td><?= h($folhadeatividade->atividade) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $folhadeatividade->id], ['class' => 'btn btn-info']) ?>
-                        <?php if ($user_data['administrador_id'] || $user_data['aluno_id']): ?>
+                        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $folhadeatividade->id], ['class' => 'btn btn-warning']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $folhadeatividade->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $folhadeatividade->id), 'class' => 'btn btn-danger']) ?>
                         <?php endif; ?>

@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `nome` varchar(50) NOT NULL,
   `nomesocial` varchar(50) DEFAULT NULL,
   `ingresso` char(6) NOT NULL,
-  `turno_id` varchar(7) DEFAULT NULL,
+  `turno_id` int(11) DEFAULT NULL,
   `registro` int(9) NOT NULL DEFAULT 0,
   `codigo_telefone` tinyint(2) NOT NULL DEFAULT 21,
   `telefone` varchar(15) DEFAULT NULL,
@@ -442,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` char(50) NOT NULL,
   `password` char(80) NOT NULL,
   `categoria` enum('1','2','3','4') NOT NULL DEFAULT '2' COMMENT '1=Administrador, 2=Aluno, 3=Professor, 4=Supervisor',
-  `role` enum('admin','supervisor','docente','aluno') DEFAULT 'aluno',
+  `role` enum('admin','supervisor','professor','aluno') DEFAULT 'aluno',
   `identificacao` int(9) DEFAULT NULL COMMENT 'Registro do aluno, SIAPE do professor ou CRESS do supervisor',
   `entidade_id` int(11) DEFAULT NULL COMMENT 'ID of the aluno, docente or supervisor table',
   `aluno_id` int(11) DEFAULT NULL,
@@ -457,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `visita`
+-- Estrutura para tabela `visitas`
 --
 
 CREATE TABLE IF NOT EXISTS `visitas` (

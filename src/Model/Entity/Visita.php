@@ -17,7 +17,6 @@ use Cake\ORM\Entity;
  * @property string $avaliacao
  *
  * @property \App\Model\Entity\Instituicao $instituicao
- * @property \App\Model\Entity\Professor|null $professor
  */
 class Visita extends Entity
 {

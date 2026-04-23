@@ -15,7 +15,7 @@ use Cake\ORM\TableRegistry;
         </button>
         <div class="collapse navbar-collapse" id="navbarPrincipal">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <?php if ($user_data['administrador_id']): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">

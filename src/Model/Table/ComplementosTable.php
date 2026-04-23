@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Complementos Model
  *
- * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
  * @method \App\Model\Entity\Complemento newEmptyEntity()
  * @method \App\Model\Entity\Complemento newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Complemento[] newEntities(array $data, array $options = [])
@@ -41,7 +41,7 @@ class ComplementosTable extends Table
         $this->setDisplayField('periodo_especial');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Estagiarios', [
+        $this->hasMany('Estagiarios', [
             'foreignKey' => 'complemento_id',
         ]);
     }

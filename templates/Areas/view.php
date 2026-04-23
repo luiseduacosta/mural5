@@ -16,7 +16,7 @@
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar área instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
-                <?php if ($user_data['administrador_id']): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar área de instituição'), ['action' => 'edit', $area->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>

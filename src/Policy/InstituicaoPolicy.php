@@ -91,7 +91,7 @@ final class InstituicaoPolicy implements BeforePolicyInterface
 
     private function isAdmin(mixed $user_data): bool
     {
-        return !empty($user_data['administrador_id'] ?? null);
+        return ($user_data['categoria'] ?? null) === '1' && !empty($user_data['entidade_id']);
     }
 
     private function isProfessor(mixed $user_data): bool

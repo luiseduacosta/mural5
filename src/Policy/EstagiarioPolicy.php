@@ -22,7 +22,7 @@ final class EstagiarioPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (!empty($user_data['administrador_id'])) {
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
                 return true;
             }
         }

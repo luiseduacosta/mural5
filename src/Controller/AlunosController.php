@@ -102,13 +102,13 @@ class AlunosController extends AppController
      */
     public function add()
     {
-        $user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
             $user_data = $user_session->getOriginalData();
         }
 
-        if ($user_data['aluno_id'] > 0) {
+        if (!empty($user_data['aluno_id'])) {
             $this->Flash->warning(__('Aluno já está cadastrado.'));
 
             return $this->redirect(['action' => 'view', $user_data['aluno_id']]);
@@ -120,21 +120,29 @@ class AlunosController extends AppController
 
         if ($this->request->is('post')) {
             $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
-            if ($user_data['aluno_id']) {
-                $aluno->user_id = $user_data['id'];
+            if ($user_session) {
+                $aluno->user_id = $user_session->id;
             }
 
             if ($this->Alunos->save($aluno)) {
                 $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
+
+                // Update the user record with aluno_id and entidade_id
+                if ($user_session) {
+                    $userEntity = $this->fetchTable('Users')->get($user_session->id);
+                    $userEntity->aluno_id = $aluno->id;
+                    $userEntity->entidade_id = $aluno->id;
+                    $this->fetchTable('Users')->save($userEntity);
+                }
 
                 return $this->redirect(['action' => 'view', $aluno->id]);
             }
             $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
         }
 
-        if ($user_data['aluno_id']) {
+        if ($user_session) {
             $email = $user_data['email'];
-            $registro = $user_data['numero'];
+            $registro = $user_data['identificacao'];
             $aluno->email = $email;
             $aluno->registro = $registro;
         }
@@ -270,7 +278,7 @@ class AlunosController extends AppController
      */
     public function declaracaoperiodo(?string $id = null)
     {
-        $user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
             $user_data = $user_session->getOriginalData();
@@ -351,7 +359,7 @@ class AlunosController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
-        $user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
             $user_data = $user_session->getOriginalData();

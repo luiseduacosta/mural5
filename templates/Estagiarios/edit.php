@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -144,7 +144,7 @@ $niveis = [
             ]
         ]);
         echo $this->Form->control('periodo', ['label' => 'Semestre']);
-        if ($user_data['administrador_id']) {
+        if ($user_data['categoria'] === '1' && $user_data['entidade_id']) {
             echo $this->Form->control('nota', ['label' => 'Nota', 'type' => 'number', 'step' => '0.01', 'placeholder' => '00.00']);
             echo $this->Form->control('ch', ['label' => 'Carga horária', 'type' => 'number', 'placeholder' => '000']);
             echo $this->Form->control('observacoes', ['type' => 'textarea', 'rows' => '3', 'cols' => '40', 'label' => 'Observações']);

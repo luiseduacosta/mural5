@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -22,7 +22,7 @@ if ($user_session) {
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user_data['administrador_id']): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -66,7 +66,7 @@ if ($user_session) {
                     <li class="nav-item">
                         <?= $this->Html->link(__('Imprime Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                    <?php if ($user_data['administrador_id'] || $user_data['supervisor_id']): ?>
+                    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
                         <li class="nav-item">
                             <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                         </li>
@@ -110,7 +110,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Aluno') ?></th>
-                    <?php if ($user_data['administrador_id']): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= (isset($estagiario->aluno)) ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -131,7 +131,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Instituição') ?></th>
-                    <?php if ($user_data['administrador_id']): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -141,7 +141,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Supervisor(a)') ?></th>
-                    <?php if ($user_data['administrador_id']): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -150,7 +150,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Professor') ?></th>
-                    <?php if ($user_data['administrador_id']): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= $estagiario->hasValue('professor') ? $this->Html->link($estagiario->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiario->professor->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -265,7 +265,7 @@ if ($user_session) {
                         <h4 class="alert-heading">Atenção!</h4>
                         <p>Este estagiário ainda não possui avaliação.</p>
                         <hr>
-                        <?php if ($user_data['administrador_id']): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <p class="mb-0">Clique no botão para
                                 <?= $this->Html->link(
                                     "imprimir",

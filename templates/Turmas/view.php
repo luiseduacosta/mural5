@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -22,7 +22,7 @@ if ($user_session) {
             <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
-            <?php if ($user_data['administrador_id']): ?>
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Editar turma'), ['action' => 'edit', $turma->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
@@ -66,18 +66,18 @@ if ($user_session) {
                             <th><?= __('Supervisor') ?></th>
                             <th><?= __('Professor') ?></th>
                             <th><?= __('Periodo') ?></th>
-                            <?php if ($user_data['administrador_id']): ?>
+                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                 <th><?= __('Nota') ?></th>
                                 <th><?= __('Ch') ?></th>
                             <?php endif; ?>
-                            <?php if ($user_data['administrador_id']): ?>
+                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                 <th class="actions"><?= __('Ações') ?></th>
                             <?php endif; ?>
                         </tr>
                         <?php foreach ($turma->estagiarios as $estagiarios): ?>
                             <tr>
                                 <td><?= h($estagiarios->id) ?></td>
-                                <?php if ($user_data['administrador_id']): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= $estagiarios->hasValue('aluno') ? $this->Html->link(h($estagiarios->aluno->nome), ['controller' => 'alunos', 'action' => 'view', $estagiarios->aluno_id]) : '' ?></td>
                                 <?php else: ?>
                                     <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
@@ -88,24 +88,24 @@ if ($user_session) {
                                 <td><?= h($estagiarios->tc) ?></td>
                                 <td><?= h($estagiarios->tc_solicitacao) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $this->Html->link(h($estagiarios->instituicao->instituicao), ['controller' => 'instituicoes', 'action' => 'view', $estagiarios->instituicao_id]) : '' ?></td>
-                                <?php if ($user_data['administrador_id']): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?></td>
                                 <?php else: ?>
                                     <td><?= $estagiarios->hasValue('supervisor') ? $estagiarios->supervisor->nome : '' ?></td>
                                 <?php endif; ?>
-                                <?php if ($user_data['administrador_id']): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= $estagiarios->hasValue('professor') ? $this->Html->link(h($estagiarios->professor->nome), ['controller' => 'professores', 'action' => 'view', $estagiarios->professor_id]) : '' ?></td>
                                 <?php else: ?>
                                     <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : '' ?></td>
                                 <?php endif; ?>
                                 <td><?= h($estagiarios->periodo) ?></td>
-                                <?php if ($user_data['administrador_id']): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= h($estagiarios->nota) ?></td>
                                     <td><?= h($estagiarios->ch) ?></td>
                                 <?php endif; ?>
 
                                 <td class="actions">
-                                    <?php if ($user_data['administrador_id']): ?>
+                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                         <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>

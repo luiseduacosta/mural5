@@ -369,8 +369,6 @@ class EstagiariosController extends AppController
      */
     public function novotermocompromisso(?string $id = null)
     {
-
-        $this->Authorization->skipAuthorization();
         $aluno_id = $this->getRequest()->getQuery('aluno_id');
 
         if (empty($aluno_id)) {
@@ -484,7 +482,6 @@ class EstagiariosController extends AppController
      */
     public function declaracaodeestagiopdf(?string $id = null)
     {
-        $this->Authorization->skipAuthorization();
         try {
             $estagiario = $this->Estagiarios->get($id, [
                 'contain' => ['Alunos', 'Supervisores', 'Instituicoes'],

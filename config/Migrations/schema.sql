@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `email` CHAR(50) NOT NULL,
     `password` CHAR(80) NOT NULL,
     `categoria` ENUM('1','2','3','4') NOT NULL DEFAULT '2',
-    `role` ENUM('admin','supervisor','docente','aluno') DEFAULT 'aluno',
+    `role` ENUM('admin','supervisor','professor','aluno') DEFAULT 'aluno',
     `identificacao` INT(9) DEFAULT NULL,
     `entidade_id` INT(11) DEFAULT NULL,
     `aluno_id` INT(11) DEFAULT NULL,

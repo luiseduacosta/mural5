@@ -7,7 +7,6 @@ use ArrayAccess;
 use Authentication\IdentityInterface as AuthenticationIdentity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 
 /**
  * User Entity
@@ -23,7 +22,6 @@ use Cake\ORM\TableRegistry;
  * @property int|null $aluno_id
  * @property int|null $supervisor_id
  * @property int|null $professor_id
- * @property int|null $administrador_id
  * @property int $ativo
  * @property \Cake\I18n\FrozenTime $criado_em
  * @property \Cake\I18n\FrozenTime $atualizado_em
@@ -36,6 +34,16 @@ use Cake\ORM\TableRegistry;
  */
 class User extends Entity implements AuthenticationIdentity
 {
+    /**
+     * Mapping of categoria values to role values.
+     */
+    public const CATEGORIA_ROLE_MAP = [
+        '1' => 'admin',
+        '2' => 'aluno',
+        '3' => 'professor',
+        '4' => 'supervisor',
+    ];
+
     protected array $_accessible = [
         'nome' => true,
         'email' => true,
@@ -57,29 +65,8 @@ class User extends Entity implements AuthenticationIdentity
         'administrador' => true,
     ];
 
-    protected array $_hidden = ['password'];
-
-    public function isAdmin(): bool
-    {
-        return $this->categoria === '1';
-    }
-
-    public function isProfessor(): bool
-    {
-        return $this->categoria === '3';
-    }
-
-    public function isSupervisor(): bool
-    {
-        return $this->categoria === '4';
-    }
-
-    public function isAluno(): bool
-    {
-        return $this->categoria === '2';
-    }
-
     // Automatically hash passwords when they are changed.
+    protected array $_hidden = ['password'];
 
     /**
      * Set password hook - automatically hashes the password.
@@ -94,10 +81,35 @@ class User extends Entity implements AuthenticationIdentity
         return $hasher->hash($password);
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->categoria === '1';
+    }
+
+    public function isAluno(): bool
+    {
+        return $this->categoria === '2';
+    }
+
+    public function isProfessor(): bool
+    {
+        return $this->categoria === '3';
+    }
+
+    public function isSupervisor(): bool
+    {
+        return $this->categoria === '4';
+    }
+
     /**
-     * Flag to prevent multiple database queries when fetching original data.
+     * Returns the role value for the current categoria.
+     *
+     * @return string|null
      */
-    protected bool $_originalDataLoaded = false;
+    public function roleForCategoria(): ?string
+    {
+        return self::CATEGORIA_ROLE_MAP[$this->categoria] ?? null;
+    }
 
     /**
      * Authentication\IdentityInterface method
@@ -112,93 +124,6 @@ class User extends Entity implements AuthenticationIdentity
      */
     public function getOriginalData(): ArrayAccess|array
     {
-        if ($this->_originalDataLoaded) {
-            return $this;
-        }
-
-        $this->_originalDataLoaded = true;
-
-        $categoria = $this->categoria ?? '0';
-
-        if (!isset($this->aluno_id)) {
-            $this->aluno_id = null;
-        }
-        if (!isset($this->professor_id)) {
-            $this->professor_id = null;
-        }
-        if (!isset($this->supervisor_id)) {
-            $this->supervisor_id = null;
-        }
-        if (!isset($this->administrador_id)) {
-            $this->administrador_id = null;
-        }
-
-        if ($categoria === '2' && empty($this->aluno_id)) {
-            $alunos = TableRegistry::getTableLocator()->get('Alunos');
-            $aluno = $alunos->find()
-                ->where(['Alunos.user_id' => $this->id])
-                ->first();
-
-            if (empty($aluno) && !empty($this->email)) {
-                $aluno = $alunos->find()
-                    ->where(['Alunos.email' => $this->email])
-                    ->first();
-            }
-
-            if (!empty($aluno)) {
-                $this->aluno_id = $aluno->id;
-            }
-        }
-
-        if ($categoria === '3' && empty($this->professor_id)) {
-            $professores = TableRegistry::getTableLocator()->get('Professores');
-            $professor = $professores->find()
-                ->where(['Professores.user_id' => $this->id])
-                ->first();
-
-            if (empty($professor) && !empty($this->email)) {
-                $professor = $professores->find()
-                    ->where(['Professores.email' => $this->email])
-                    ->first();
-            }
-
-            if (!empty($professor)) {
-                $this->professor_id = $professor->id;
-            }
-        }
-
-        if ($categoria === '4' && empty($this->supervisor_id)) {
-            $supervisores = TableRegistry::getTableLocator()->get('Supervisores');
-            $supervisor = $supervisores->find()
-                ->where(['Supervisores.user_id' => $this->id])
-                ->first();
-
-            if (empty($supervisor) && !empty($this->email)) {
-                $supervisor = $supervisores->find()
-                    ->where(['Supervisores.email' => $this->email])
-                    ->first();
-            }
-
-            if (!empty($supervisor)) {
-                $this->supervisor_id = $supervisor->id;
-            }
-        }
-
-        if (empty($this->administrador_id)) {
-            $administradores = TableRegistry::getTableLocator()->get('Administradores');
-            $administrador = $administradores->find()
-                ->where(['Administradores.user_id' => $this->id])
-                ->first();
-
-            if (!empty($administrador)) {
-                $this->administrador_id = $administrador->id;
-            }
-        }
-
-        if ($categoria === '1' && empty($this->administrador_id)) {
-            $this->administrador_id = 1;
-        }
-
         return $this;
     }
 }

@@ -19,12 +19,10 @@ use Cake\ORM\Entity;
  * @property int|null $supervisor_id
  * @property int|null $professor_id
  * @property string $periodo
- * @property int $turma_id
- * @property int $turno_id
+ * @property int $complemento_id
  * @property string|null $nota
  * @property int|null $ch
  * @property string|null $observacoes
- * @property int|null $alunoestagiario_id
  * @property bool|null $benetransporte
  * @property bool|null $benealimentacao
  * @property string|null $benebolsa
@@ -33,6 +31,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Instituicao $instituicao
  * @property \App\Model\Entity\Supervisor $supervisor
  * @property \App\Model\Entity\Professor $professor
+ * @property \App\Model\Entity\Complemento $complemento
  * @property \App\Model\Entity\Folhadeatividade $folhadeatividade
  * @property \App\Model\Entity\Avaliacao $avaliacao
  */
@@ -58,6 +57,7 @@ class Estagiario extends Entity
         'supervisor_id' => true,
         'professor_id' => true,
         'periodo' => true,
+        'complemento_id' => true,
         'nota' => true,
         'ch' => true,
         'observacoes' => true,
@@ -68,6 +68,7 @@ class Estagiario extends Entity
         'instituicao' => true,
         'supervisor' => true,
         'professor' => true,
+        'complemento' => true,
         'folhadeatividade' => true,
         'avaliacoes' => true,
     ];

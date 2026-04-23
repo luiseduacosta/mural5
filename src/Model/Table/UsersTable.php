@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -17,16 +18,16 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\User get($primaryKey, array $options = [])
+ * @method \App\Model\Entity\User findOrCreate(array|string $search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class UsersTable extends Table
 {
@@ -99,7 +100,7 @@ class UsersTable extends Table
 
         $validator
             ->scalar('role')
-            ->inList('role', ['admin', 'supervisor', 'docente', 'aluno'])
+            ->inList('role', ['admin', 'supervisor', 'professor', 'aluno'])
             ->allowEmptyString('role');
 
         $validator
@@ -135,6 +136,27 @@ class UsersTable extends Table
             ->allowEmptyDateTime('atualizado_em');
 
         return $validator;
+    }
+
+    /**
+     * Sync role with categoria before saving.
+     *
+     * @param \Cake\Event\EventInterface $event The event.
+     * @param \Cake\Datasource\EntityInterface $entity The entity.
+     * @param \ArrayObject $options The options.
+     * @return void
+     */
+    public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
+    {
+        $role = User::CATEGORIA_ROLE_MAP[$entity->categoria] ?? null;
+        if ($role !== null) {
+            $entity->role = $role;
+        }
+
+        // Admins must not have identificacao
+        if ($entity->categoria === '1') {
+            $entity->identificacao = null;
+        }
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -24,7 +24,7 @@ use Cake\I18n\Time;
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav collapse navbar-collapse" id="resposta">
-            <?php if ($user_data['administrador_id']): ?>
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>
@@ -51,7 +51,7 @@ use Cake\I18n\Time;
                         <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif ?>
-            <?php if ($user_data['administrador_id'] || $user_data['aluno_id'] || $user_data['supervisor_id']): ?>
+            <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id'] || $user_data['supervisor_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $resposta->estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>

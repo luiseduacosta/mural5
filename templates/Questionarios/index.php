@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-$user_data = ['administrador_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0, 'categoria' => '0'];
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
@@ -16,7 +16,7 @@ if ($user_session) {
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <ul class="navbar-nav mr-auto">
-        <?php if ($user_data['administrador_id']): ?>
+        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
         <li class="nav-item active">
             <?= $this->Html->link(__('Novo Questionario'), ['controller' => 'Questionarios', 'action' => 'add'], ['class' => 'btn btn-primary', 'style' => 'font-size: 10pt;']) ?>
         </li>
@@ -52,7 +52,7 @@ if ($user_session) {
                     <td><?= h($questionario->target_user_type) ?></td>
                     <td class="d-grid">
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $questionario->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
-                        <?php if ($user_data['administrador_id']): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $questionario->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $questionario->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $questionario->id), 'class' => 'btn btn-danger btn-sm btn-block p-1 mb-1']) ?>
                         <?php endif; ?>
