@@ -142,12 +142,6 @@ class AdministradoresController extends AppController
             return $this->redirect('/');
         }
 
-        $administradores = $this->fetchTable('Users')->find()
-            ->where(['categoria' => '1'])
-            ->all();
-            
-        pr($administradores);
-        die();
         $administrador = $this->Administradores->newEmptyEntity();
 
         try {
@@ -179,6 +173,6 @@ class AdministradoresController extends AppController
             }
             $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
         }
-        $this->set(compact('administrador', 'administradores'));
+        $this->set(compact('administrador'));
     }
 }
