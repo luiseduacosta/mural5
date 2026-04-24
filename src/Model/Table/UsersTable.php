@@ -48,10 +48,19 @@ class UsersTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Categorias', [
-            'foreignKey' => 'categoria',
-            'bindingKey' => 'id',
-        ]);
+        try {
+            $tables = $this->getConnection()->getSchemaCollection()->listTables();
+        } catch (\Throwable) {
+            $tables = [];
+        }
+
+        if (in_array('categorias', $tables, true)) {
+            $this->belongsTo('Categorias', [
+                'foreignKey' => 'categoria',
+                'bindingKey' => 'id',
+                'propertyName' => 'categoria_entidade',
+            ]);
+        }
 
         $this->hasOne('Administradores', [
             'foreignKey' => 'user_id',
@@ -169,7 +178,9 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['categoria'], 'Categorias'), ['errorField' => 'categoria']);
+        if ($this->hasAssociation('Categorias')) {
+            $rules->add($rules->existsIn(['categoria'], 'Categorias'), ['errorField' => 'categoria']);
+        }
 
         return $rules;
     }

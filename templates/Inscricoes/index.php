@@ -90,8 +90,8 @@ if ($user_session) {
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
                             <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id)]) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

@@ -134,33 +134,51 @@ class AdministradoresController extends AppController
      */
     public function add()
     {
+        $identity = $this->request->getAttribute('identity');
+
+        if (!$identity) {
+            $this->Authorization->skipAuthorization();
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect('/');
+        }
+
+        $administradores = $this->fetchTable('Users')->find()
+            ->where(['categoria' => '1'])
+            ->all();
+            
+        pr($administradores);
+        die();
         $administrador = $this->Administradores->newEmptyEntity();
 
         try {
             $this->Authorization->authorize($administrador);
         } catch (ForbiddenException $error) {
-            $this->Flash->error('Authorization error: ' . $error->getMessage());
-
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
             return $this->redirect('/');
         }
 
         if ($this->request->is('post')) {
-            $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
+            $dados = $this->request->getData();
+            if (!empty($dados['user_id'])) {
+                $administrador->user_id = null;
+            }
+            $administrador = $this->Administradores->patchEntity($administrador, $dados);
 
             if ($this->Administradores->save($administrador)) {
-                $this->Flash->success(__('The administrador has been saved.'));
-
-                // Update the user record with entidade_id
-                if ($administrador->user_id) {
-                    $userEntity = $this->fetchTable('Users')->get($administrador->user_id);
-                    $userEntity->entidade_id = $administrador->id;
-                    $this->fetchTable('Users')->save($userEntity);
+                $this->Flash->success(__('Administrador cadastrado com sucesso.'));
+                $userExist = $this->fetchTable('Users')->find()
+                    ->where(['entidade_id' => $administrador->id, 'categoria' => '1'])
+                    ->first();
+                if (empty($userExist)) {
+                    return $this->redirect(['controller' => 'Users', 'action' => 'add', '?' => ['entidade_id' => $administrador->id]]);
+                } else {
+                    $administrador->user_id = $userExist->id;
+                    $this->Administradores->save($administrador);
+                    return $this->redirect(['action' => 'view', $administrador->id]);
                 }
-
-                return $this->redirect(['action' => 'view', $administrador->id]);
             }
-            $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+            $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
         }
-        $this->set(compact('administrador'));
+        $this->set(compact('administrador', 'administradores'));
     }
 }

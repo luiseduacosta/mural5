@@ -110,7 +110,6 @@ class AlunosController extends AppController
 
         if (!empty($user_data['aluno_id'])) {
             $this->Flash->warning(__('Aluno já está cadastrado.'));
-
             return $this->redirect(['action' => 'view', $user_data['aluno_id']]);
         }
 
@@ -128,11 +127,17 @@ class AlunosController extends AppController
                 $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
 
                 // Update the user record with aluno_id and entidade_id
-                if ($user_session) {
-                    $userEntity = $this->fetchTable('Users')->get($user_session->id);
+                if ($user_session && $user_data['aluno_id']) {
+                    $userEntity = $this->fetchTable('Users')->get($user_data['aluno_id']);
                     $userEntity->aluno_id = $aluno->id;
                     $userEntity->entidade_id = $aluno->id;
+                    $userEntity->identificacao = $aluno->registro;
+                    $userEntity->role = 'aluno';
                     $this->fetchTable('Users')->save($userEntity);
+                    $this->Flash->success(__('Usuário atualizado com o id do aluno'));
+                    // Update the alunos table with aluno_id
+                    $this->Alunos->patchEntity($aluno, ['user_id' => $userEntity->id]);
+                    $this->Alunos->save($aluno);
                 }
 
                 return $this->redirect(['action' => 'view', $aluno->id]);
@@ -145,8 +150,14 @@ class AlunosController extends AppController
             $registro = $user_data['identificacao'];
             $aluno->email = $email;
             $aluno->registro = $registro;
+        } else {
+            $email = $this->request->getQuery('email');
+            $registro = $this->request->getQuery('registro');
+            $aluno->email = $email;
+            $aluno->registro = $registro;
         }
-        $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
+
+        $turnos = $this->Alunos->Turnos->find('list')->all();
         $this->set(compact('aluno', 'turnos'));
     }
 

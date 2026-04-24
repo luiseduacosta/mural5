@@ -25,22 +25,20 @@ if ($user_session) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
+                        <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
-                    </li>
-                    </li>
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
-                    </li>
+                        <?= $this->Html->link(__('Listar inscrições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
+                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt;']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
                 <?php elseif ($user_data['aluno_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:10px']) ?>
+                        <?= $this->Form->postLink(__('Excluir inscrição'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt']) ?>
                     </li>
                 <?php endif; ?>
             </ul>

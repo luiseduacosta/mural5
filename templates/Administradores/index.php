@@ -39,8 +39,10 @@ if ($user_session) {
                 <?php foreach ($administradores as $administrador) : ?>
                 <tr>
                     <td class="actions">
+                        <?= $this->Html->link(__('Usuário'), ['controller' => 'Users', 'action' => 'view', $administrador->user_id]) ?>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $administrador->id]) ?>
                         <?= $this->Html->link(__('Editar'), ['action' => 'edit', $administrador->id]) ?>
+                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $administrador->id]) ?>
                     </td>
                     <td><?= $this->Html->link((string)$administrador->id, ['action' => 'view', $administrador->id]) ?></td>
                     <td><?= $this->Html->link($administrador->nome, ['action' => 'view', $administrador->id]) ?></td>

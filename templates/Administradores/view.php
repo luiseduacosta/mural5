@@ -17,9 +17,10 @@ if ($user_session) {
             <aside>
                 <div class="nav">
                     <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
-                        <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
-                    <?php endif; ?>
                         <?= $this->Html->link(__('Editar Administrador'), ['action' => 'edit', $administrador->id], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                        <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                        <?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                    <?php endif; ?>
                 </div>
             </aside>
             <h3>admin_<?= h($administrador->id) ?></h3>

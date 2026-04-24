@@ -24,34 +24,34 @@ if ($user_session) {
                 $this->Form->postLink(
                         __('Excluir'),
                         ['action' => 'delete', $user->id],
-                        ['confirm' => __('Tem certeza que quer excluir este usuário # {0}?', $user->id), 'class' => 'btn btn-danger float-start', 'style' => 'font-size: 10pt;']
+                        ['confirm' => __('Tem certeza que quer excluir este usuário # {0}?', $user->id), 'class' => 'btn btn-danger float-end me-2', 'style' => 'font-size: 10pt;']
                 )
                 ?>
             </li>
         <li class="nav-link">
-            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-start', 'style' => 'font-size: 10pt;']) ?>
+            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <?php endif; ?>
     </ul>
 </nav>
 
     <div class="container">
-        <?= $this->Form->create($userestagio) ?>
+        <h3><?= h($user->nome) ?></h3>
+        <?= $this->Form->create($user) ?>
         <fieldset>
-            <legend><?= __('Editar  usuário') ?></legend>
+            <legend><?= __('Editar usuário') ?></legend>
             <?php
-            echo $this->Form->control('nome');
-            echo $this->Form->control('email');
+            echo $this->Form->control('entidade_id', ['type' => 'number', 'label' => ['text' => 'Entidade']]);
+            echo $this->Form->control('nome',['readonly' => true]);
+            echo $this->Form->control('email',['readonly' => true]);
             echo $this->Form->control('password');
-            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
-            echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE/Siape/CRESS']]);
-            echo $this->Form->control('ativo', ['options' => ['1' => 'Sim', '0' => 'Não']]);
-            echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
-            echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
-            echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
+            echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE/Siape/CRESS', 'readonly' => true]]);
+            echo $this->Form->control('ativo', ['options' => ['1' => 'Sim', '0' => 'Não'], 
+                'label' => ['text' => 'Ativo'],
+                'readonly' => true]);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
+        <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-success']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

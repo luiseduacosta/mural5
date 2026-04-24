@@ -39,6 +39,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <th><?= $this->Paginator->sort('categoria') ?></th>
                     <th><?= $this->Paginator->sort('identificacao', 'DRE/Siape/CRESS') ?></th>
+                    <th><?= $this->Paginator->sort('entidade_id', 'Entidade ID') ?></th>
                     <th><?= $this->Paginator->sort('aluno_id') ?></th>
                     <th><?= $this->Paginator->sort('supervisor_id') ?></th>
                     <th><?= $this->Paginator->sort('professor_id') ?></th>
@@ -46,24 +47,25 @@ if ($user_session) {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $userestagio): ?>
+                <?php foreach ($users as $user): ?>
                     <tr>
-                        <td><?= $userestagio->id ?></td>
-                        <td><?= h($userestagio->nome) ?></td>
-                        <td><?= h($userestagio->email) ?></td>
-                        <td><?= h($userestagio->categoria) ?></td>
-                        <td><?= h($userestagio->identificacao) ?></td>
-                        <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
+                        <td><?= $user->id ?></td>
+                        <td><?= h($user->nome) ?></td>
+                        <td><?= h($user->email) ?></td>
+                        <td><?= h($user->categoria) ?></td>
+                        <td><?= h($user->identificacao) ?></td>
+                        <td><?= h($user->entidade_id) ?></td>
+                        <td><?= $user->hasValue('aluno') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?>
                         </td>
-                        <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                        <td><?= $user->hasValue('supervisor') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
                         </td>
-                        <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                        <td><?= $user->hasValue('professor') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?>
                         </td>
                         <td class="actions">
-                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $userestagio->id]) ?>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id]) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $userestagio->id)]) ?>
+                            <?= $this->Html->link(__('Ver'), ['action' => 'view', $user->id]) ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $user->id)]) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

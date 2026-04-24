@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 CREATE TABLE IF NOT EXISTS `administradores` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(128) NOT NULL,
-    `user_id` INT(11) NOT NULL,
+    `user_id` INT(11) NULL DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

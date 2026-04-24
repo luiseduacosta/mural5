@@ -80,9 +80,7 @@ if ($user_session) {
         <?php if ($user_data['categoria'] == 4) { ?>
                 <li><?php echo $this->Html->link('Meus dados', ['controller' => 'Supervisores', 'action' => 'view', $user_data['supervisor_id']]); ?></li>
         <?php } ?>
-        
-        <li><?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess'); ?></li>
-        
+                
         <?php if ($user_data['categoria'] == 1) : ?>
             <li class="menu-admin">
                 <input id="menu-admin-toggler" type="checkbox" class="toggle-input" />

@@ -88,6 +88,9 @@ class ProfessoresController extends AppController
         if ($identity && $identity['categoria'] === '3') {
             $siape = $identity['identificacao'];
             $email = $identity['email'];
+        } else {
+            $email = $this->request->getQuery('email');
+            $siape = $this->request->getQuery('siape');
         }
 
         /** Para o formulário */
@@ -132,9 +135,13 @@ class ProfessoresController extends AppController
                 $userEntity = $this->fetchTable('Users')->get($usercadastrado->id);
                 $userEntity->professor_id = $professorresultado->id;
                 $userEntity->entidade_id = $professorresultado->id;
+                $userEntity->identificacao = $professorresultado->siape;
+                $userEntity->role = 'professor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
                     $this->Flash->success(__('Usuário atualizado com o id do professor'));
-
+                    // Update the professores table with professor_id
+                    $this->Professores->patchEntity($professorresultado, ['user_id' => $userEntity->id]);
+                    $this->Professores->save($professorresultado);
                     return $this->redirect(['action' => 'view', $professorresultado->id]);
                 }
 

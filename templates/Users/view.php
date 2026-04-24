@@ -23,6 +23,9 @@ if ($user_session) {
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
+                    <?= $this->Html->link(__('Admininistradores'), ['controller' => 'Administradores', 'action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                </li>
+                <li class="nav-item">
                     <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
@@ -48,7 +51,17 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Nome') ?></th>
-                <td><?= h($user->nome) ?></td>
+                <?php if ($user->isAdmin()): ?>
+                    <td><?= h($user->nome) ?></td>
+                <?php elseif ($user->isAluno()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Alunos', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php elseif ($user->isProfessor()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Professores', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php elseif ($user->isSupervisor()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php else: ?>
+                    <td><?= h($user->nome) ?></td>
+                <?php endif; ?>
             </tr>
             <tr>
                 <th><?= __('Identificação') ?></th>
@@ -63,8 +76,8 @@ if ($user_session) {
                 <td><?= h($user->categoria) ?></td>
             </tr>
             <tr>
-                <th><?= __('Ativo') ?></th>
-                <td><?= $user->ativo ? __('Sim') : __('Não') ?></td>
+                <th><?= __('Role') ?></th>
+                <td><?= h($user->role) ?? '' ?></td>
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
@@ -81,12 +94,14 @@ if ($user_session) {
                 <td><?= $user->hasValue('supervisores') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
                 </td>
             </tr>
-            <!--
             <tr>
-                <th><?= __('Timestamp') ?></th>
-                <td><?= h($user->timestamp) ?></td>
+                <th><?= __('Criado em') ?></th>
+                <td><?= $user->criado_em->format('d-m-Y H:i:s') ?></td>
             </tr>
-            //-->
+            <tr>
+                <th><?= __('Atualizado em') ?></th>
+                <td><?= $user->atualizado_em->format('d-m-Y H:i:s') ?></td>
+            </tr>
         </table>
     </div>
 </div>  

@@ -43,14 +43,18 @@ if ($user_session) {
             echo $this->Form->control('nome', ['label' => ['text' => 'Nome']]);
             echo $this->Form->control('email');
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
-            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno', '3' => 'Professor(a)', '4' => 'Supervisor']]);
+            echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno(a)', '3' => 'Professor(a)', '4' => 'Supervisor(a)'],
+                'label' => ['text' => 'Categoria'],
+                'templates' => [
+                    'inputContainer' => '<div class="form-group row mb-3">{{content}}</div>',
+                    'label' => '<div class="col-sm-3"><label class="form-label"{{attrs}}>{{text}}</label></div>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                    'option' => '<option value="{{value}}">{{text}}</option>']
+                ]);
             echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE, Siape ou CRESS']]);
-            echo $this->Form->control('aluno_id', ['type' => 'hidden', 'options' => $alunos, 'empty' => true]);
-            echo $this->Form->control('supervisor_id', ['type' => 'hidden', 'options' => $supervisores, 'empty' => true]);
-            echo $this->Form->control('professor_id', ['type' => 'hidden', 'options' => $professores, 'empty' => true]);
             ?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
+        <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']); ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

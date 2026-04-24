@@ -22,12 +22,35 @@ final class AdministradorPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if ($action === 'add') {
+                return null;
+            }
+
+            if (($user_data['categoria'] ?? null) === '1' && !empty($user_data['entidade_id'])) {
                 return true;
             }
         }
 
         return null;
+    }
+
+    public function canAdd(IdentityInterface $user, Administrador $administrador): Result
+    {
+        $userData = $user->getOriginalData();
+
+        $isCategoriaAdmin = ($userData['categoria'] ?? null) === '1';
+        if (!$isCategoriaAdmin) {
+            return new Result(false);
+        }
+
+        $currentUserId = (int)($userData['id'] ?? 0);
+        $targetUserId = (int)($administrador->user_id ?? 0);
+
+        if ($targetUserId !== 0 && $targetUserId !== $currentUserId) {
+            return new Result(($userData['role'] ?? null) === 'admin');
+        }
+
+        return new Result(true);
     }
 
     /**

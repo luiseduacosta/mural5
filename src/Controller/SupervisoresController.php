@@ -40,7 +40,7 @@ class SupervisoresController extends AppController
             $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
         }
         if (empty($id)) {
-            $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
+            $this->Flash->error(__('Nõo há registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
         $supervisor = $this->Supervisores->get($id, [
@@ -73,6 +73,9 @@ class SupervisoresController extends AppController
         if ($identity && $identity['categoria'] == 4) {
             $cress = $identity['identificacao'];
             $email = $identity['email'];
+        } else {
+            $email = $this->request->getQuery('email');
+            $cress = $this->request->getQuery('cress');
         }
 
         /** Envio para o formulário */
@@ -122,8 +125,13 @@ class SupervisoresController extends AppController
                 $userEntity = $this->fetchTable('Users')->get($usercadastrado->id);
                 $userEntity->supervisor_id = $supervisorresultado->id;
                 $userEntity->entidade_id = $supervisorresultado->id;
+                $userEntity->identificacao = $supervisorresultado->cress;
+                $userEntity->role = 'supervisor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
                     $this->Flash->success(__('Usuário atualizado com o id do supervisor'));
+                    // Update the user_id of the supervisores table
+                    $this->Supervisores->patchEntity($supervisorresultado, ['user_id' => $userEntity->id]);
+                    $this->Supervisores->save($supervisorresultado);
 
                     return $this->redirect(['action' => 'view', $supervisorresultado->id]);
                 }

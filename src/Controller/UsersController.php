@@ -42,22 +42,22 @@ class UsersController extends AppController
                 case '2': // Aluno
                     $aluno_id = $user->aluno_id;
                     if (empty($aluno_id)) {
-                        $estudante = $this->fetchTable('Alunos')->find()
+                        $aluno = $this->fetchTable('Alunos')->find()
                             ->where(['Alunos.email' => $user->email])
                             ->first();
 
-                        if (empty($estudante)) {
+                        if (empty($aluno)) {
                             $this->Flash->error(__('Aluno não encontrado. Por favor, cadastre-se.'));
 
                             return $this->redirect(['controller' => 'Alunos', 'action' => 'add', '?' => ['dre' => $user->identificacao, 'email' => $user->email]]);
                         }
 
                         $userEntity = $this->Users->get($user->id);
-                        $userEntity->aluno_id = $estudante->id;
-                        $userEntity->entidade_id = $estudante->id;
-                        $userEntity->identificacao = $estudante->registro;
+                        $userEntity->aluno_id = $aluno->id;
+                        $userEntity->entidade_id = $aluno->id;
+                        $userEntity->identificacao = $aluno->registro;
                         $this->Users->save($userEntity);
-                        $parametro = $estudante->id;
+                        $parametro = $aluno->id;
                     } else {
                         $parametro = $aluno_id;
                     }
@@ -200,13 +200,14 @@ class UsersController extends AppController
      */
     public function view(?string $id = null)
     {
+        $this->Authorization->skipAuthorization();
+
         try {
             $user = $this->Users->get($id, [
                 'contain' => [],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
-
             return $this->redirect(['action' => 'index']);
         }
         $this->Authorization->authorize($user);
@@ -223,91 +224,123 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         $user = $this->Users->newEmptyEntity();
+        if ($this->request->getQuery('entidade_id')) {
+            $entidade_id = $this->request->getQuery('entidade_id');
+            $administradorCadastrado = $this->fetchTable('Administradores')->find()
+                ->where(['id' => $entidade_id])    
+                ->first();
+
+            if ($administradorCadastrado) {
+                $user->nome = $administradorCadastrado->nome;
+                $user->entidade_id = $administradorCadastrado->id;
+                $user->role = 'admin';
+            }
+        }
+
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Usuário cadastrado.'));
+                // Update the user_id in the Users table
+                $this->Users->save($user);
 
                 $categoria = $this->request->getData('categoria');
+                $email = $this->request->getData('email');
                 $identificacao = $this->request->getData('identificacao');
 
                 /** Aluno */
                 if ($categoria === '2') {
-                    $estudantetabela = $this->fetchTable('Alunos');
-                    $estudantecadastrado = $estudantetabela->find()
+                    $alunoCadastrado = $this->fetchTable('Alunos')->find()
                         ->where(['registro' => $identificacao])
                         ->first();
 
-                    if ($estudantecadastrado) {
-                        $user->aluno_id = $estudantecadastrado->id;
-                        $user->entidade_id = $estudantecadastrado->id;
+                    if ($alunoCadastrado) {
+                        $user->aluno_id = $alunoCadastrado->id;
+                        $user->entidade_id = $alunoCadastrado->id;
+                        $user->role = 'aluno';
                         $this->Users->save($user);
                         $this->Flash->success(__('Usuário aluno vinculado.'));
-
-                        return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $estudantecadastrado->id]);
+                        // Update the user_id in the Alunos table
+                        $alunoCadastrado->user_id = $user->id;
+                        $this->fetchTable('Alunos')->save($alunoCadastrado);
+                        return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $alunoCadastrado->id]);
                     }
 
                     $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) aluno(a).'));
-
-                    return $this->redirect(['controller' => 'Alunos', 'action' => 'add', '?' => ['dre' => $identificacao, 'email' => $user->email]]);
+                    return $this->redirect(['action' => 'add', '?' => ['email' => $email, 'registro' => $identificacao]]);
                 }
 
                 /** Professor */
                 if ($categoria === '3') {
-                    $professortabela = $this->fetchTable('Professores');
-                    $professorcadastrado = $professortabela->find()
+                    $professessorTabela = $this->fetchTable('Professores');
+                    $professorCadastrado = $professessorTabela->find()
                         ->where(['siape' => $identificacao])
                         ->first();
 
-                    if ($professorcadastrado) {
-                        $user->professor_id = $professorcadastrado->id;
-                        $user->entidade_id = $professorcadastrado->id;
+                    if ($professorCadastrado) {
+                        $user->professor_id = $professorCadastrado->id;
+                        $user->entidade_id = $professorCadastrado->id;
+                        $user->role = 'professor';
                         $this->Users->save($user);
                         $this->Flash->success(__('Usuário professor vinculado.'));
-
-                        return $this->redirect(['controller' => 'Professores', 'action' => 'view', $professorcadastrado->id]);
+                        // Update the user_id in the Professores table
+                        $professorCadastrado->user_id = $user->id;
+                        $professessorTabela->save($professorCadastrado);
+                        return $this->redirect(['controller' => 'Professores', 'action' => 'view', $professorCadastrado->id]);
                     }
 
                     $this->Flash->error(__('Professores são cadastrados diretamente junto com a Coordenação de Estágio'));
-
-                    return $this->redirect(['controller' => 'Professores', 'action' => 'add', '?' => ['siape' => $identificacao, 'email' => $user->email]]);
+                    return $this->redirect(['controller' => 'Professores', 'action' => 'add', '?' => ['siape' => $identificacao, 'email' => $email]]);
                 }
 
                 /** Supervisor */
                 if ($categoria === '4') {
-                    $supervisorestabela = $this->fetchTable('Supervisores');
-                    $supervisorcadastrado = $supervisorestabela->find()
+                    $supervisorCadastrado = $this->fetchTable('Supervisores')->find()
                         ->where(['cress' => $identificacao])
                         ->first();
 
-                    if ($supervisorcadastrado) {
-                        $user->supervisor_id = $supervisorcadastrado->id;
-                        $user->entidade_id = $supervisorcadastrado->id;
+                    if ($supervisorCadastrado) {
+                        $user->supervisor_id = $supervisorCadastrado->id;
+                        $user->entidade_id = $supervisorCadastrado->id;
+                        $user->role = 'supervisor';
                         $this->Users->save($user);
                         $this->Flash->success(__('Usuário supervisor vinculado.'));
-
-                        return $this->redirect(['controller' => 'Supervisores', 'action' => 'view', $supervisorcadastrado->id]);
+                        // Update the user_id in the Supervervisores table
+                        $supervisorCadastrado->user_id = $user->id;
+                        $this->fetchTable('Supervisores')->save($supervisorCadastrado);
+                        return $this->redirect(['controller' => 'Supervisores', 'action' => 'view', $supervisorCadastrado->id]);
                     }
 
                     $this->Flash->error(__('Supervisor não encontrado, redirecionando para cadastro.'));
-
-                    return $this->redirect(['controller' => 'Supervisores', 'action' => 'add', '?' => ['cress' => $identificacao, 'email' => $user->email]]);
+                    return $this->redirect(['controller' => 'Supervisores', 'action' => 'add', '?' => ['cress' => $identificacao, 'email' => $email]]);
                 }
 
                 /** Admin */
                 if ($categoria === '1') {
-                    $administradortabela = $this->fetchTable('Administradores');
-                    $administradorcadastrado = $administradortabela->find()
-                        ->where(['user_id' => $user->id])
+                    // Administrador add() gives the entidade_id value
+                    $entidade_id = $this->request->getQuery('entidade_id');
+                    if (empty($entidade_id)) {
+                        $this->Flash->error(__('Administrador não cadastrado.'));
+                        $this->Authentication->logout();
+                        return $this->redirect(['action' => 'login']);
+                    }
+                    $administradorCadastrado = $this->fetchTable('Administradores')->find()
+                        ->where(['id' => $entidade_id])
                         ->first();
 
-                    if ($administradorcadastrado) {
-                        $user->entidade_id = $administradorcadastrado->id;
+                    if ($administradorCadastrado) {
+                        $user->entidade_id = $administradorCadastrado->id;
+                        $user->nome = $administradorCadastrado->nome;
+                        $user->role = 'admin';
                         $this->Users->save($user);
                         $this->Flash->success(__('Usuário administrador vinculado.'));
+                        // Update the user_id in the Administradores table
+                        $administradorCadastrado->user_id = $user->id;
+                        $this->fetchTable('Administradores')->save($administradorCadastrado);
+                        return $this->redirect(['action' => 'view', $administradorCadastrado->id]);
                     }
-
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+                    $this->Flash->error(__('Administrador não encontrado, redirecionando para cadastro.'));
+                    return $this->redirect(['controller' => 'Administradores', 'action' => 'add']);
                 }
 
                 return $this->redirect(['action' => 'index']);
@@ -355,7 +388,7 @@ class UsersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
 
         try {
-            $userresultado = $this->Users->get($id);
+            $user = $this->Users->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
 
@@ -363,14 +396,14 @@ class UsersController extends AppController
         }
 
         try {
-            $this->Authorization->authorize($userresultado);
+            $this->Authorization->authorize($user);
         } catch (\Authorization\Exception\ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado.'));
 
             return $this->redirect(['action' => 'index']);
         }
 
-        if ($this->Users->delete($userresultado)) {
+        if ($this->Users->delete($user)) {
             $this->Flash->success(__('Usuário excluído.'));
         }
 
