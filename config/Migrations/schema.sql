@@ -93,6 +93,7 @@ CREATE TABLE IF NOT EXISTS `instituicoes` (
     `expira` DATE DEFAULT NULL,
     `seguro` CHAR(1) DEFAULT NULL,
     `observacoes` VARCHAR(255) DEFAULT NULL,
+    `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -119,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
     `cargo` VARCHAR(25) DEFAULT NULL,
     `observacoes` TEXT DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
+    `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -155,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `professores` (
     `motivoegresso` VARCHAR(100) DEFAULT NULL,
     `observacoes` TEXT DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
+    `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -194,6 +197,8 @@ CREATE TABLE IF NOT EXISTS `alunos` (
     `bairro` VARCHAR(30) DEFAULT NULL,
     `observacoes` VARCHAR(250) DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
+    `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
+    `inscricao_count` INT(11) DEFAULT NULL DEFAULT 0,
     PRIMARY KEY (`id`),
     UNIQUE KEY `registro` (`registro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

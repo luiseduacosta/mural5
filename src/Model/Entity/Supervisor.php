@@ -26,6 +26,7 @@ class Supervisor extends Entity
         'cargo' => true,
         'observacoes' => true,
         'user_id' => true,
+        'estagiario_count' => true,
         'estagiarios' => true,
         'instituicoes' => true,
     ];

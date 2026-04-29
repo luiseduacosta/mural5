@@ -227,7 +227,7 @@ class UsersController extends AppController
         if ($this->request->getQuery('entidade_id')) {
             $entidade_id = $this->request->getQuery('entidade_id');
             $administradorCadastrado = $this->fetchTable('Administradores')->find()
-                ->where(['id' => $entidade_id])    
+                ->where(['id' => $entidade_id])
                 ->first();
 
             if ($administradorCadastrado) {

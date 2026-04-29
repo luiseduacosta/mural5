@@ -15,5 +15,15 @@ class Instituicoes extends BaseMigration
      */
     public function change(): void
     {
+        $table = $this->table('instituicoes');
+        
+        if (!$table->hasColumn('user_id')) {
+            $table->addColumn('user_id', 'integer', ['default' => null, 'null' => true]);
+        }
+        if (!$table->hasColumn('estagiario_count')) {
+            $table->addColumn('estagiario_count', 'integer', ['default' => 0]);
+        }
+        
+        $table->update();
     }
 }

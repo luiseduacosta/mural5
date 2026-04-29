@@ -44,19 +44,14 @@ if ($user_session) {
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('nome') ?></th>
-                    <th><?= $this->Paginator->sort('cpf', 'CPF') ?></th>
                     <th><?= $this->Paginator->sort('siape', 'SIAPE') ?></th>
-                    <th><?= $this->Paginator->sort('codigo_telefone', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('codigo_celular', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
-                    <th><?= $this->Paginator->sort('email', 'E-mail') ?></th>
                     <th><?= $this->Paginator->sort('curriculolattes', 'Lattes') ?></th>
-                    <th><?= $this->Paginator->sort('atualizacaolattes') ?></th>
-                    <th><?= $this->Paginator->sort('dataingresso') ?></th>
+                    <th><?= $this->Paginator->sort('dataingresso', 'Ingresso') ?></th>
                     <th><?= $this->Paginator->sort('departamento') ?></th>
-                    <th><?= $this->Paginator->sort('dataegresso') ?></th>
-                    <th><?= $this->Paginator->sort('motivoegresso') ?></th>
+                    <th><?= $this->Paginator->sort('dataegresso', 'Egresso') ?></th>
+                    <th><?= $this->Paginator->sort('motivoegresso', 'Motivo') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
                 </tr>
             </thead>
@@ -66,15 +61,10 @@ if ($user_session) {
                         <td><?= $professor->id ?></td>
                         <td><?= $this->Html->link(h($professor->nome), ['controller' => 'professores', 'action' => 'view', $professor->id]) ?>
                         </td>
-                        <td><?= h($professor->cpf) ?></td>
                         <td><?= $professor->siape ?></td>
-                        <td><?= h($professor->codigo_telefone) ?></td>
                         <td><?= h($professor->telefone) ?></td>
-                        <td><?= h($professor->codigo_celular) ?></td>
                         <td><?= h($professor->celular) ?></td>
-                        <td><?= h($professor->email) ?></td>
                         <td><?= h($professor->curriculolattes) ?></td>
-                        <td><?= h($professor->atualizacaolattes) ?></td>
                         <td><?= $professor->dataingresso ? $professor->dataingresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->departamento) ?></td>
                         <td><?= $professor->dataegresso ? $professor->dataegresso->format('d-m-Y') : '' ?></td>

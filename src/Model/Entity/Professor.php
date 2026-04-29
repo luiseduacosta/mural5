@@ -25,6 +25,7 @@ class Professor extends Entity
         'dataegresso' => true,
         'motivoegresso' => true,
         'observacoes' => true,
+        'estagiario_count' => true,
         'user_id' => true,
         'user' => true,
         'estagiarios' => true,

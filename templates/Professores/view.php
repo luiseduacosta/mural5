@@ -40,13 +40,10 @@ if ($user_session) {
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 12pt;']) ?>
                     </li>
-                    <li class="nav-item">
-                    </li>
                 <?php endif; ?>
             </ul>
         </div>
     </nav>
-</div>
 
 <div class="row">
     <ul class="nav nav-tabs">
@@ -58,10 +55,12 @@ if ($user_session) {
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="notas"
-                aria-selected="false">Avaliação</a>
-        </li>
+        <?php if ($user_data['professor_id'] || $user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="notas"
+                    aria-selected="false">Notas e CH</a>
+            </li>
+        <?php endif; ?>
     </ul>
 </div>
 
