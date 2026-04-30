@@ -52,3 +52,7 @@ O input tem que ser definido como -> "type=>text"
 
 Ex. de DRE
 107379689
+
+**Seed Users**
+admin@example.com
+senha123
