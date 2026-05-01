@@ -44,6 +44,10 @@ class MuralestagiosController extends AppController
 
         if (($periodo == null) || empty($periodo)) {
             $periodoconfiguracao = $this->fetchTable('Configuracoes')->find()->first();
+            if (!$periodoconfiguracao) {
+                $this->Flash->error(__('Configuração de período atual não encontrada. Por favor, configure o período atual.'));
+                return $this->redirect(['controller' => 'Configuracoes', 'action' => 'add']);
+            }
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
         /** Todos os períodos */
@@ -64,6 +68,7 @@ class MuralestagiosController extends AppController
             ]);
         } else {
             $this->Flash->error(__('Selecionar período.'));
+            $this->redirect(['controller' => 'Configuracoes', 'action' => 'add']);
         }
 
         if ($query->count() == 0) {

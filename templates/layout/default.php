@@ -14,8 +14,11 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = $configuracao['descricao'] . ' - ' . $configuracao['instituicao'];
-
+if (isset($configuracao)) {
+    $cakeDescription = $configuracao['mural_periodo_atual'] . ' - ' . $configuracao['instituicao'];
+} else {
+    $cakeDescription = 'Mural de Estágios';
+}
 // Set categoria for all templates
 $identity = $this->getRequest()->getAttribute('identity');
 $categoria = $identity['categoria'] ?? null;
