@@ -35,16 +35,13 @@ if ($user_session) {
         <thead class="thead-dark">
             <tr>
                 <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
-                    <th><?= $this->Paginator->sort('id') ?></th>
+                    <th>Id</th>
                 <?php endif; ?>
-                <th><?= $this->Paginator->sort('mural_periodo_atual', 'Período do mural') ?></th>
-                <th><?= $this->Paginator->sort('termo_compromisso_periodo', 'Período do termo de compromisso') ?></th>
-                <th><?= $this->Paginator->sort('termo_compromisso_inicio', 'Data de início do termo de compromisso') ?>
-                </th>
-                <th><?= $this->Paginator->sort('termo_compromisso_final', 'Data de finalização do termo de compromisso') ?>
-                </th>
-                <th><?= $this->Paginator->sort('periodo_calendario_academico', 'Período calendário acadêmico') ?>
-                </th>
+                <th>Período do mural</th>
+                <th>Período do termo de compromisso</th>
+                <th>Data de início do termo de compromisso</th>
+                <th>Data de finalização do termo de compromisso</th>
+                <th>Período calendário acadêmico</th>
                 <th><?= __('Ações') ?></th>
             </tr>
         </thead>
@@ -66,18 +63,4 @@ if ($user_session) {
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
-
-<?= $this->element("templates") ?>
-
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
-        <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('próximo') . ' >') ?>
-        <?= $this->Paginator->last(__('último') . ' >>') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do {{count}} total')) ?>
-    </p>
 </div>

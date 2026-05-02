@@ -34,7 +34,7 @@ if ($user_session) {
 
         <li><?php echo $this->Html->link('Mural', ['controller' => 'Muralestagios', 'action' => 'index']); ?></li>
 
-        <?php if ($user_data['categoria'] == 1 || $user_data['categoria'] == 2) : ?>
+        <?php if ($user_data['categoria'] == 1) : ?>
         <li class="menu-declaracoes">
             <input id="menu-declaracoes-toggler" type="checkbox" class="toggle-input" />
             <label for="menu-declaracoes-toggler" class="toggle-label">Declarações <span class="toggle-more">▾</span><span class="toggle-less">◂</span></label>
@@ -74,7 +74,7 @@ if ($user_session) {
         <?php } ?>
 
         <?php if ($user_data['categoria'] == 3) { ?>
-                <li><?php echo $this->Html->link('Meus dados', ['controller' => 'Professores', 'action' => 'view', $user_data['professor_id']]); ?></li>
+                <li><?php echo $this->Html->link('Meus dados', ['controller' => 'Professores', 'action' => 'view', $user_data['entidade_id']]); ?></li>
         <?php } ?>
 
         <?php if ($user_data['categoria'] == 4) { ?>

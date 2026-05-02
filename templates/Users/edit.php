@@ -49,6 +49,7 @@ if ($user_session) {
             echo $this->Form->control('ativo', ['options' => ['1' => 'Sim', '0' => 'Não'], 
                 'label' => ['text' => 'Ativo'],
                 'readonly' => true]);
+            echo $this->Form->control('atualizado_em', ['value' => date('Y-m-d H:i:s'), 'type' => 'hidden']);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-success']) ?>

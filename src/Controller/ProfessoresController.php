@@ -40,18 +40,24 @@ class ProfessoresController extends AppController
      */
     public function view($id = null)
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
 
-        if (is_null($id)) {
-            $id = $this->getRequest()->getAttribute('identity')['professor_id'];
+        if ($id === null) {
+            $id = $user_data['professor_id'] ?? null;
         }
         /** Têm professores com muitos estagiários: aumentar a memória */
         ini_set('memory_limit', '2048M');
+
         try {
             $professor = $this->Professores->get($id, [
                 'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
                     ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
-            $this->Flash->error(__('Nao ha registros de professor para esse numero!'));
+            $this->Flash->error(__('Nao ha registros para este(a) professor(a)!'));
             return $this->redirect(['action' => 'index']);
         }
 
@@ -82,25 +88,21 @@ class ProfessoresController extends AppController
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
+        $nome = null;
         $siape = null;
         $email = null;
         $identity = $this->getRequest()->getAttribute('identity');
         if ($identity && $identity['categoria'] === '3') {
+            $nome = $identity['nome'];
             $siape = $identity['identificacao'];
             $email = $identity['email'];
+            $professor->nome = $nome;
+            $professor->siape = $siape;
+            $professor->email = $email;
         } else {
             $email = $this->request->getQuery('email');
             $siape = $this->request->getQuery('siape');
         }
-
-        /** Para o formulário */
-        if ($siape) :
-            $this->set('siape', $siape);
-        endif;
-
-        if ($email) :
-            $this->set('email', $email);
-        endif;
 
         /* Verifico se já está cadastrado */
         if ($siape) {
@@ -138,7 +140,10 @@ class ProfessoresController extends AppController
                 $userEntity->identificacao = $professorresultado->siape;
                 $userEntity->role = 'professor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
+                    $refreshUser = $this->Users->get($userEntity->id);
+                    $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do professor'));
+
                     // Update the professores table with professor_id
                     $this->Professores->patchEntity($professorresultado, ['user_id' => $userEntity->id]);
                     $this->Professores->save($professorresultado);

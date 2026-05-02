@@ -67,23 +67,25 @@ class SupervisoresController extends AppController
      */
     public function add()
     {
+
+        $supervisor = $this->Supervisores->newEmptyEntity();
+
+        $this->Authorization->authorize($supervisor);
+
+        $nome = null;
         $cress = null;
         $email = null;
         $identity = $this->getRequest()->getAttribute('identity');
         if ($identity && $identity['categoria'] == 4) {
+            $nome = $identity['nome'];
             $cress = $identity['identificacao'];
             $email = $identity['email'];
+            $supervisor->nome = $nome;
+            $supervisor->cress = $cress;
+            $supervisor->email = $email;
         } else {
             $email = $this->request->getQuery('email');
             $cress = $this->request->getQuery('cress');
-        }
-
-        /** Envio para o formulário */
-        if ($cress) {
-            $this->set('cress', $cress);
-        }
-        if ($email) {
-            $this->set('email', $email);
         }
 
         /* Verifico se já está cadastrado */
@@ -98,10 +100,6 @@ class SupervisoresController extends AppController
                 return $this->redirect(['view' => $supervisorcadastrado->id]);
             endif;
         }
-
-        $supervisor = $this->Supervisores->newEmptyEntity();
-
-        $this->Authorization->authorize($supervisor);
 
         if ($this->request->is('post')) {
             /**
@@ -128,6 +126,8 @@ class SupervisoresController extends AppController
                 $userEntity->identificacao = $supervisorresultado->cress;
                 $userEntity->role = 'supervisor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
+                    $refreshUser = $this->fetchTable('Users')->get($userEntity->id);
+                    $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do supervisor'));
                     // Update the user_id of the supervisores table
                     $this->Supervisores->patchEntity($supervisorresultado, ['user_id' => $userEntity->id]);

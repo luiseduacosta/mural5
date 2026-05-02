@@ -43,6 +43,7 @@ if ($user_session) {
             echo $this->Form->control('nome', ['label' => ['text' => 'Nome']]);
             echo $this->Form->control('email');
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
+            echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => ['text' => 'Confirmar senha']]);
             echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno(a)', '3' => 'Professor(a)', '4' => 'Supervisor(a)'],
                 'label' => ['text' => 'Categoria'],
                 'templates' => [
@@ -51,6 +52,7 @@ if ($user_session) {
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                     'option' => '<option value="{{value}}">{{text}}</option>']
                 ]);
+            echo $this->Form->control('criado_em', ['value' => date('Y-m-d H:i:s'), 'type' => 'hidden']);
             echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE, Siape ou CRESS']]);
             ?>
         </fieldset>

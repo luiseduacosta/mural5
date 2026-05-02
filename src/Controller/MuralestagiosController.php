@@ -45,8 +45,13 @@ class MuralestagiosController extends AppController
         if (($periodo == null) || empty($periodo)) {
             $periodoconfiguracao = $this->fetchTable('Configuracoes')->find()->first();
             if (!$periodoconfiguracao) {
-                $this->Flash->error(__('Configuração de período atual não encontrada. Por favor, configure o período atual.'));
-                return $this->redirect(['controller' => 'Configuracoes', 'action' => 'add']);
+                $identity = $this->request->getAttribute('identity');
+                if (isset($identity) && $identity['categoria'] === '1') {
+                    $this->Flash->error(__('Configuração de período atual não encontrada. Por favor, configure o período atual.'));
+                    return $this->redirect(['controller' => 'Configuracoes', 'action' => 'add']);
+                }
+                $this->Flash->error(__('Configuração de período atual não encontrada. Por favor, contate o administrador.'));
+                return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
             }
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }

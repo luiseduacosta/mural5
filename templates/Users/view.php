@@ -96,11 +96,11 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Criado em') ?></th>
-                <td><?= $user->criado_em->format('d-m-Y H:i:s') ?></td>
+                <td><?= $user->criado_em ? $user->criado_em->format('d-m-Y H:i:s') : '' ?></td>
             </tr>
             <tr>
                 <th><?= __('Atualizado em') ?></th>
-                <td><?= $user->atualizado_em->format('d-m-Y H:i:s') ?></td>
+                <td><?= $user->atualizado_em ? $user->atualizado_em->format('d-m-Y H:i:s') : '' ?></td>
             </tr>
         </table>
     </div>

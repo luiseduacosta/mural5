@@ -52,7 +52,11 @@ $checkConnection = function (string $name) {
     return compact('connected', 'error');
 };
 
-$cakeDescription = $configuracao['descricao'] . ' - ' . $configuracao['instituicao'];
+if ($configuracao) {
+    $cakeDescription = $configuracao['mural_periodo_atual'] . ' - ' . $configuracao['instituicao'];
+} else {
+    $cakeDescription = 'Mural de Estágios';
+}
 
 $user_session = $this->request->getAttribute('identity');
 

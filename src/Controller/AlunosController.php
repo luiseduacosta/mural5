@@ -57,6 +57,16 @@ class AlunosController extends AppController
      */
     public function view(?string $id = null)
     {
+        
+        $identity = $this->request->getAttribute('identity');
+        if ($identity && $identity->getOriginalData()['categoria'] == 2) {
+            $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
+        }
+
+        if ($aluno) {
+            $id = $aluno->first()->id;
+        }
+
         $contained = [
             'Estagiarios' => ['Alunos', 'Instituicoes', 'Supervisores', 'Professores'],
             'Inscricoes' => ['Muralestagios' => ['Instituicoes']],
@@ -106,6 +116,9 @@ class AlunosController extends AppController
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
             $user_data = $user_session->getOriginalData();
+        } else {
+            $this->Flash->error(__('Operação não pode ser realizada porque o usuário não está autenticado.'));
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
 
         if (!empty($user_data['aluno_id'])) {
@@ -119,35 +132,28 @@ class AlunosController extends AppController
 
         if ($this->request->is('post')) {
             $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
-            if ($user_session) {
-                $aluno->user_id = $user_session->id;
-            }
-
             if ($this->Alunos->save($aluno)) {
                 $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
 
                 // Update the user record with aluno_id and entidade_id
-                if ($user_session && $user_data['aluno_id']) {
-                    $userEntity = $this->fetchTable('Users')->get($user_data['aluno_id']);
-                    $userEntity->aluno_id = $aluno->id;
-                    $userEntity->entidade_id = $aluno->id;
-                    $userEntity->identificacao = $aluno->registro;
-                    $userEntity->role = 'aluno';
-                    $this->fetchTable('Users')->save($userEntity);
+                $usuario = $this->Users->get($user_session->id);
+                $usuario->aluno_id = $aluno->id;
+                $usuario->entidade_id = $aluno->id;
+                if ($this->Users->save($usuario)) {
+                    $refreshUser = $this->Users->get($usuario->id);
+                    $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do aluno'));
-                    // Update the alunos table with aluno_id
-                    $this->Alunos->patchEntity($aluno, ['user_id' => $userEntity->id]);
-                    $this->Alunos->save($aluno);
                 }
-
-                return $this->redirect(['action' => 'view', $aluno->id]);
-            }
+            } else {
             $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
+            }
         }
 
         if ($user_session) {
+            $nome = $user_data['nome'] ?? '';
             $email = $user_data['email'];
             $registro = $user_data['identificacao'];
+            $aluno->nome = $nome;
             $aluno->email = $email;
             $aluno->registro = $registro;
         } else {
@@ -160,7 +166,7 @@ class AlunosController extends AppController
         $turnos = $this->Alunos->Turnos->find('list')->all();
         $this->set(compact('aluno', 'turnos'));
     }
-
+    
     /**
      * Edit method
      *

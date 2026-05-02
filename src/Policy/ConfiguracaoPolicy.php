@@ -49,4 +49,24 @@ final class ConfiguracaoPolicy implements BeforePolicyInterface
     {
         return new Result(false, 'Erro: configuracao edit policy not authorized');
     }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Configuracao $configuracaoData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, Configuracao $configuracaoData): Result
+    {
+        return new Result(false, 'Erro: configuracao delete policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Configuracao $configuracaoData
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(IdentityInterface $userSession, Configuracao $configuracaoData): Result
+    {
+        return new Result(false, 'Erro: configuracao add policy not authorized');
+    }
 }

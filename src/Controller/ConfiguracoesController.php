@@ -32,6 +32,10 @@ class ConfiguracoesController extends AppController
         }
         // This table has only one record, so get it directly
         $configuracao = $this->Configuracoes->find()->first();
+        if (!$configuracao) {
+            $this->Flash->warning(__('Nenhuma configuração encontrada. Por favor, adicione uma configuração.'));
+            return $this->redirect(['action' => 'add']);
+        }
         $this->set(compact('configuracao'));
     }
 
@@ -74,20 +78,17 @@ class ConfiguracoesController extends AppController
     {
 
         $configuracao = $this->Configuracoes->newEmptyEntity();
-
         try {
             $this->Authorization->authorize($configuracao);
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
         }
 
         if ($this->request->is('post')) {
             $configuracao = $this->Configuracoes->patchEntity($configuracao, $this->request->getData());
             if ($this->Configuracoes->save($configuracao)) {
                 $this->Flash->success(__('Dados de configuração inseridos.'));
-
                 return $this->redirect(['action' => 'view', $configuracao->id]);
             }
             $this->Flash->error(__('Dados de configuração não foram inseridos. Tente novamente.'));

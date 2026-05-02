@@ -43,13 +43,12 @@ class UsersController extends AppController
                     $aluno_id = $user->aluno_id;
                     if (empty($aluno_id)) {
                         $aluno = $this->fetchTable('Alunos')->find()
-                            ->where(['Alunos.email' => $user->email])
+                            ->where(['Alunos.user_id' => $user->id])
                             ->first();
 
                         if (empty($aluno)) {
                             $this->Flash->error(__('Aluno não encontrado. Por favor, cadastre-se.'));
-
-                            return $this->redirect(['controller' => 'Alunos', 'action' => 'add', '?' => ['dre' => $user->identificacao, 'email' => $user->email]]);
+                            return $this->redirect(['controller' => 'Alunos', 'action' => 'add']);
                         }
 
                         $userEntity = $this->Users->get($user->id);
@@ -73,7 +72,7 @@ class UsersController extends AppController
                             ->first();
 
                         if (empty($professor)) {
-                            return $this->redirect(['controller' => 'Professores', 'action' => 'add', '?' => ['siape' => $user->identificacao, 'email' => $user->email]]);
+                            return $this->redirect(['controller' => 'Professores', 'action' => 'add']);
                         }
 
                         $userEntity = $this->Users->get($user->id);
@@ -97,7 +96,7 @@ class UsersController extends AppController
                             ->first();
 
                         if (empty($supervisor)) {
-                            return $this->redirect(['controller' => 'Supervisores', 'action' => 'add', '?' => ['cress' => $user->identificacao, 'email' => $user->email]]);
+                            return $this->redirect(['controller' => 'Supervisores', 'action' => 'add']);
                         }
 
                         $userEntity = $this->Users->get($user->id);
@@ -144,7 +143,6 @@ class UsersController extends AppController
             $this->Flash->success(__('Login realizado com sucesso'));
 
             // Refresh identity in session so FKs (aluno_id, professor_id, etc.)
-            // updated above are visible to policies on this and subsequent requests.
             $freshUser = $this->Users->get($user->id);
             $this->Authentication->setIdentity($freshUser);
 
@@ -224,6 +222,7 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         $user = $this->Users->newEmptyEntity();
+
         if ($this->request->getQuery('entidade_id')) {
             $entidade_id = $this->request->getQuery('entidade_id');
             $administradorCadastrado = $this->fetchTable('Administradores')->find()
@@ -238,12 +237,13 @@ class UsersController extends AppController
         }
 
         if ($this->request->is('post')) {
+
             $user = $this->Users->patchEntity($user, $this->request->getData());
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Usuário cadastrado.'));
                 // Update the user_id in the Users table
                 $this->Users->save($user);
-
                 $categoria = $this->request->getData('categoria');
                 $email = $this->request->getData('email');
                 $identificacao = $this->request->getData('identificacao');
@@ -267,7 +267,7 @@ class UsersController extends AppController
                     }
 
                     $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) aluno(a).'));
-                    return $this->redirect(['action' => 'add', '?' => ['email' => $email, 'registro' => $identificacao]]);
+                    return $this->redirect(['action' => 'add']);
                 }
 
                 /** Professor */
@@ -288,9 +288,8 @@ class UsersController extends AppController
                         $professessorTabela->save($professorCadastrado);
                         return $this->redirect(['controller' => 'Professores', 'action' => 'view', $professorCadastrado->id]);
                     }
-
-                    $this->Flash->error(__('Professores são cadastrados diretamente junto com a Coordenação de Estágio'));
-                    return $this->redirect(['controller' => 'Professores', 'action' => 'add', '?' => ['siape' => $identificacao, 'email' => $email]]);
+                    $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) professor(a).'));
+                    return $this->redirect(['controller' => 'Professores', 'action' => 'add']);
                 }
 
                 /** Supervisor */
@@ -311,8 +310,7 @@ class UsersController extends AppController
                         return $this->redirect(['controller' => 'Supervisores', 'action' => 'view', $supervisorCadastrado->id]);
                     }
 
-                    $this->Flash->error(__('Supervisor não encontrado, redirecionando para cadastro.'));
-                    return $this->redirect(['controller' => 'Supervisores', 'action' => 'add', '?' => ['cress' => $identificacao, 'email' => $email]]);
+                    return $this->redirect(['controller' => 'Supervisores', 'action' => 'add']);
                 }
 
                 /** Admin */
