@@ -24,6 +24,11 @@ class UsersController extends AppController
         $this->Authentication->addUnauthenticatedActions(['login', 'add', 'logout']);
     }
 
+    /**
+     * Login method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful login, renders view otherwise.
+     */
     public function login()
     {
         $this->Authorization->skipAuthorization();
@@ -47,7 +52,6 @@ class UsersController extends AppController
                             ->first();
 
                         if (empty($aluno)) {
-                            $this->Flash->error(__('Aluno não encontrado. Por favor, cadastre-se.'));
                             return $this->redirect(['controller' => 'Alunos', 'action' => 'add']);
                         }
 
@@ -265,15 +269,13 @@ class UsersController extends AppController
                         $this->fetchTable('Alunos')->save($alunoCadastrado);
                         return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $alunoCadastrado->id]);
                     }
-
                     $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) aluno(a).'));
                     return $this->redirect(['action' => 'add']);
                 }
 
                 /** Professor */
                 if ($categoria === '3') {
-                    $professessorTabela = $this->fetchTable('Professores');
-                    $professorCadastrado = $professessorTabela->find()
+                    $professorCadastrado = $this->fetchTable('Professores')->find()
                         ->where(['siape' => $identificacao])
                         ->first();
 
@@ -285,7 +287,7 @@ class UsersController extends AppController
                         $this->Flash->success(__('Usuário professor vinculado.'));
                         // Update the user_id in the Professores table
                         $professorCadastrado->user_id = $user->id;
-                        $professessorTabela->save($professorCadastrado);
+                        $this->fetchTable('Professores')->save($professorCadastrado);
                         return $this->redirect(['controller' => 'Professores', 'action' => 'view', $professorCadastrado->id]);
                     }
                     $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) professor(a).'));
@@ -309,7 +311,7 @@ class UsersController extends AppController
                         $this->fetchTable('Supervisores')->save($supervisorCadastrado);
                         return $this->redirect(['controller' => 'Supervisores', 'action' => 'view', $supervisorCadastrado->id]);
                     }
-
+                    $this->Flash->error(__('Redireciona para continuar com o cadastro do(a) supervisor(a).'));
                     return $this->redirect(['controller' => 'Supervisores', 'action' => 'add']);
                 }
 
@@ -337,7 +339,7 @@ class UsersController extends AppController
                         $this->fetchTable('Administradores')->save($administradorCadastrado);
                         return $this->redirect(['action' => 'view', $administradorCadastrado->id]);
                     }
-                    $this->Flash->error(__('Administrador não encontrado, redirecionando para cadastro.'));
+                    $this->Flash->error(__('Redirecionando para cadastro.'));
                     return $this->redirect(['controller' => 'Administradores', 'action' => 'add']);
                 }
 
@@ -348,6 +350,13 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    /**
+     * Edit method
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function edit($id = null)
     {
         try {
@@ -381,6 +390,13 @@ class UsersController extends AppController
         $this->set(compact('user', 'alunos', 'supervisores', 'professores'));
     }
 
+    /**
+     * Delete method
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
@@ -408,77 +424,79 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    /**
+     * This method is intended to be run manually (e.g. via a shell command) to fix any inconsistencies in user data
+     */
     public function preencher()
     {
         try {
             $this->Authorization->authorize($this->Users);
         } catch (\Authorization\Exception\ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado.'));
-
             return $this->redirect(['action' => 'index']);
         }
 
         $users = $this->Users->find('all');
-        foreach ($users as $c_user) {
+        foreach ($users as $user) {
             // Sync role with categoria
-            $expectedRole = User::CATEGORIA_ROLE_MAP[$c_user->categoria] ?? null;
-            if ($expectedRole !== null && $c_user->role !== $expectedRole) {
-                $c_user->role = $expectedRole;
+            $expectedRole = User::CATEGORIA_ROLE_MAP[$user->categoria] ?? null;
+            if ($expectedRole !== null && $user->role !== $expectedRole) {
+                $user->role = $expectedRole;
             }
 
-            if ($c_user->categoria === '1') {
+            if ($user->categoria === '1') {
                 // Admin: ensure identificacao is null, link to administradores
-                $c_user->identificacao = null;
-                if (empty($c_user->entidade_id)) {
+                $user->identificacao = null;
+                if (empty($user->entidade_id)) {
                     $administrador = $this->fetchTable('Administradores')->find()
-                        ->where(['Administradores.user_id' => $c_user->id])
+                        ->where(['Administradores.user_id' => $user->id])
                         ->first();
                     if ($administrador) {
-                        $c_user->entidade_id = $administrador->id;
+                        $user->entidade_id = $administrador->id;
                     }
                 }
             }
 
-            if ($c_user->categoria === '2') {
+            if ($user->categoria === '2') {
                 // Aluno: link by identificacao (registro)
-                if (empty($c_user->aluno_id) || empty($c_user->entidade_id)) {
+                if (empty($user->aluno_id) || empty($user->entidade_id)) {
                     $aluno = $this->fetchTable('Alunos')->find()
-                        ->where(['Alunos.registro' => $c_user->identificacao])
+                        ->where(['Alunos.registro' => $user->identificacao])
                         ->first();
                     if ($aluno) {
-                        $c_user->aluno_id = $aluno->id;
-                        $c_user->entidade_id = $aluno->id;
+                        $user->aluno_id = $aluno->id;
+                        $user->entidade_id = $aluno->id;
                     }
                 }
             }
 
-            if ($c_user->categoria === '3') {
+            if ($user->categoria === '3') {
                 // Professor: link by identificacao (siape)
-                if (empty($c_user->professor_id) || empty($c_user->entidade_id)) {
+                if (empty($user->professor_id) || empty($user->entidade_id)) {
                     $professor = $this->fetchTable('Professores')->find()
-                        ->where(['Professores.siape' => $c_user->identificacao])
+                        ->where(['Professores.siape' => $user->identificacao])
                         ->first();
                     if ($professor) {
-                        $c_user->professor_id = $professor->id;
-                        $c_user->entidade_id = $professor->id;
+                        $user->professor_id = $professor->id;
+                        $user->entidade_id = $professor->id;
                     }
                 }
             }
 
-            if ($c_user->categoria === '4') {
+            if ($user->categoria === '4') {
                 // Supervisor: link by identificacao (cress)
-                if (empty($c_user->supervisor_id) || empty($c_user->entidade_id)) {
+                if (empty($user->supervisor_id) || empty($user->entidade_id)) {
                     $supervisor = $this->fetchTable('Supervisores')->find()
-                        ->where(['Supervisores.cress' => $c_user->identificacao])
+                        ->where(['Supervisores.cress' => $user->identificacao])
                         ->first();
                     if ($supervisor) {
-                        $c_user->supervisor_id = $supervisor->id;
-                        $c_user->entidade_id = $supervisor->id;
+                        $user->supervisor_id = $supervisor->id;
+                        $user->entidade_id = $supervisor->id;
                     }
                 }
             }
 
-            $this->Users->save($c_user);
+            $this->Users->save($user);
         }
 
         $this->Flash->success(__('Dados dos usuários atualizados.'));

@@ -37,5 +37,7 @@ class Inscricao extends Entity
         'periodo' => true,
         'timestamp' => true,
         'aluno_id' => true,
+        'aluno' => true,
+        'muralestagio' => true,
     ];
 }

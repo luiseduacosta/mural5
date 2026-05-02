@@ -14,7 +14,6 @@ use Cake\ORM\Entity;
  * @property int $registro
  * @property int|null $ingresso
  * @property int|null $turno_id
- * @property \App\Model\Entity\Turno|null $turno
  * @property int $codigo_telefone
  * @property string|null $telefone
  * @property int $codigo_celular

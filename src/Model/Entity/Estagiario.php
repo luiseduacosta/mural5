@@ -70,6 +70,6 @@ class Estagiario extends Entity
         'professor' => true,
         'complemento' => true,
         'folhadeatividade' => true,
-        'avaliacoes' => true,
+        'avaliacao' => true,
     ];
 }

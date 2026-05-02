@@ -26,5 +26,6 @@ class Folhadeatividade extends Entity
         'inicio' => true,
         'final' => true,
         'atividade' => true,
+        'estagiario' => true,
     ];
 }

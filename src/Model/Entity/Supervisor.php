@@ -5,6 +5,32 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 
+/**
+ * Supervisor Entity
+ *
+ * @property int $id
+ * @property string $nome
+ * @property string $cpf
+ * @property string $endereco
+ * @property string $bairro
+ * @property string $municipio
+ * @property string $cep
+ * @property string $codigo_telefone
+ * @property string $telefone
+ * @property string $codigo_celular
+ * @property string $celular
+ * @property string $email
+ * @property string $escola
+ * @property int $ano_formatura
+ * @property string $cress
+ * @property string $regiao
+ * @property string $cargo
+ * @property string|null $observacoes
+ * @property int|null $user_id
+ *
+ * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Estagiario[] $estagiarios
+ */
 class Supervisor extends Entity
 {
     protected array $_accessible = [

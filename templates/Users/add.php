@@ -41,13 +41,13 @@ if ($user_session) {
             <legend><?= __('Cadastro de novo usuário(a)') ?></legend>
             <?php
             echo $this->Form->control('nome', ['label' => ['text' => 'Nome']]);
-            echo $this->Form->control('email');
+            echo $this->Form->control('email', ['label' => ['text' => 'E-mail'], 'autofocus' => true]);
             echo $this->Form->control('password', ['label' => ['text' => 'Senha']]);
             echo $this->Form->control('confirm_password', ['type' => 'password', 'label' => ['text' => 'Confirmar senha']]);
             echo $this->Form->control('categoria', ['options' => ['2' => 'Aluno(a)', '3' => 'Professor(a)', '4' => 'Supervisor(a)'],
                 'label' => ['text' => 'Categoria'],
                 'templates' => [
-                    'inputContainer' => '<div class="form-group row mb-3">{{content}}</div>',
+                    'inputContainer' => '<div class="form-group row col-md-12">{{content}}</div>',
                     'label' => '<div class="col-sm-3"><label class="form-label"{{attrs}}>{{text}}</label></div>',
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                     'option' => '<option value="{{value}}">{{text}}</option>']

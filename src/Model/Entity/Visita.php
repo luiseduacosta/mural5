@@ -36,5 +36,6 @@ class Visita extends Entity
         'responsavel' => true,
         'descricao' => true,
         'avaliacao' => true,
+        'instituicao' => true,
     ];
 }
