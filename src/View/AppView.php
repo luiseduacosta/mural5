@@ -19,6 +19,7 @@ namespace App\View;
 
 use Cake\Event\EventInterface;
 use Cake\View\View;
+use Parsedown;
 
 /**
  * Application View
@@ -42,6 +43,12 @@ class AppView extends View
     {
     }
 
+    /**
+     * Hook method called before the view is rendered.
+     *
+     * @param \Cake\Event\EventInterface $event The event.
+     * @return void
+     */
     public function beforeRender(EventInterface $event): void
     {
         $identity = $this->getRequest()->getAttribute('identity');
@@ -49,5 +56,20 @@ class AppView extends View
             $user = $identity->getOriginalData();
             $this->set('user', $user);
         }
+    }
+
+    /**
+     * Converts Markdown text to HTML.
+     *
+     * @param string|null $text Markdown text to convert
+     * @return string HTML output
+     */
+    public function markdown(?string $text): string
+    {
+        if (empty($text)) {
+            return '';
+        }
+        $parsedown = new Parsedown();
+        return $parsedown->text($text);
     }
 }

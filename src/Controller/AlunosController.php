@@ -63,7 +63,7 @@ class AlunosController extends AppController
             $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
         }
 
-        if ($aluno) {
+        if (empty($id) && $aluno) {
             $id = $aluno->first()->id;
         }
 
