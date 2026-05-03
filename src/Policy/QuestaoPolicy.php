@@ -20,7 +20,15 @@ class QuestaoPolicy
      */
     public function canAdd(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === 1;
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -32,7 +40,15 @@ class QuestaoPolicy
      */
     public function canEdit(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === 1;
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -44,7 +60,15 @@ class QuestaoPolicy
      */
     public function canDelete(?IdentityInterface $user, Questao $questao)
     {
-        return $user->categoria === 1;
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

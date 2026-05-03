@@ -20,6 +20,14 @@ class QuestoesTablePolicy
      */
     public function canIndex(?IdentityInterface $user, QuestoesTable $questoes)
     {
-        return isset($user) && $user->categoria == 1;
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

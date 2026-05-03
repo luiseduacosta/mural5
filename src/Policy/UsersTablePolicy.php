@@ -21,7 +21,7 @@ final class UsersTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -36,6 +36,12 @@ final class UsersTablePolicy implements BeforePolicyInterface
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
-        return $query->where(['Users.id' => $user->getIdentifier()]);
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return $query->where(['Users.id' => $user->getIdentifier()]);
+        }
+
+        return $query;
     }
 }

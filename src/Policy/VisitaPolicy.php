@@ -22,13 +22,7 @@ final class VisitaPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                    || $user_data['professor_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -53,6 +47,12 @@ final class VisitaPolicy implements BeforePolicyInterface
      */
     public function canEdit(IdentityInterface $user, Visita $visita): Result
     {
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return new Result(true);
+        }
+
         return new Result(false, 'Erro: visita edit policy not authorized');
     }
 
@@ -63,6 +63,12 @@ final class VisitaPolicy implements BeforePolicyInterface
      */
     public function canDelete(IdentityInterface $user, Visita $visita): Result
     {
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return new Result(true);
+        }
+
         return new Result(false, 'Erro: visita delete policy not authorized');
     }
 }

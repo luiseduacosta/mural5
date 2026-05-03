@@ -22,10 +22,7 @@ final class AlunoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1')
                     || $user_data['professor_id']
                     || $user_data['supervisor_id']
                 )
@@ -45,14 +42,14 @@ final class AlunoPolicy implements BeforePolicyInterface
     public function canView(IdentityInterface $userSession, Aluno $alunoData): Result
     {
         // Supervisor pode ver alunos estagiarios
-        if ($userSession->getOriginalData()['categoria'] == '4') {
+        if (isset($userSession->getOriginalData()['categoria']) && $userSession->getOriginalData()['categoria'] == '4') {
             if ($alunoData->estagiarios->supervisores->id == $userSession->getOriginalData()['supervisor_id']) {
                 return new Result(true);
             }
         }
 
         // Professor pode ver alunos estagiarios
-        if ($userSession->getOriginalData()['categoria'] == '3') {
+        if (isset($userSession->getOriginalData()['categoria']) && $userSession->getOriginalData()['categoria'] == '3') {
             if ($alunoData->estagiarios->professores->id == $userSession->getOriginalData()['professor_id']) {
                 return new Result(true);
             }

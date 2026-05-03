@@ -20,7 +20,13 @@ class RespostaPolicy
      */
     public function canAdd(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
+        if (!$user) {
+            return false;
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && in_array($user_data['categoria'], [1, 2]);
     }
 
     /**
@@ -32,7 +38,13 @@ class RespostaPolicy
      */
     public function canEdit(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
+        if (!$user) {
+            return false;
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], [1, 2]);
     }
 
     /**
@@ -44,7 +56,13 @@ class RespostaPolicy
      */
     public function canDelete(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user->categoria) && in_array($user->categoria, [1, 4]);
+        if (!$user) {
+            return false;
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && in_array($user_data['categoria'], [1, 2]);
     }
 
     /**
@@ -56,6 +74,10 @@ class RespostaPolicy
      */
     public function canView(?IdentityInterface $user, Resposta $resposta)
     {
-        return isset($user);
+        if (!$user) {
+            return false;
+        }
+
+        return true;
     }
 }

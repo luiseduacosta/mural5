@@ -23,7 +23,7 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -48,7 +48,7 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
     public function canLancanota(IdentityInterface $userSession): Result
     {
         $user_data = $userSession->getOriginalData();
-        if (($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) || $user_data['professor_id']) {
+        if (($user_data['categoria'] === '1') || $user_data['professor_id']) {
             return new Result(true);
         }
 
@@ -82,7 +82,7 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canBusca(): Result
+    public function canBusca(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: estagiarios busca policy not authorized');
     }

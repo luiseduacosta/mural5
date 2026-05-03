@@ -22,7 +22,7 @@ final class ProfessorPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -33,17 +33,23 @@ final class ProfessorPolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canAdd(): Result
+    public function canAdd(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        if (!$user) {
+        return new Result(false, 'Not authorized');
+    }
+    return new Result(true);
     }
 
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canView(): Result
+    public function canView(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        if (!$user) {
+        return new Result(false, 'Not authorized');
+    }
+    return new Result(true);
     }
 
     /**

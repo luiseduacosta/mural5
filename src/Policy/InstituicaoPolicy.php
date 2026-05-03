@@ -22,7 +22,7 @@ final class InstituicaoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($this->isAdmin($user_data)) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
 
@@ -76,7 +76,7 @@ final class InstituicaoPolicy implements BeforePolicyInterface
 
         $user_data = $user->getOriginalData();
 
-        return $this->isAdmin($user_data) ? new Result(true) : new Result(false);
+        return ($user_data['categoria'] ?? null) === '1' ? new Result(true) : new Result(false);
     }
 
     /**
@@ -91,28 +91,37 @@ final class InstituicaoPolicy implements BeforePolicyInterface
 
     private function isAdmin(mixed $user_data): bool
     {
-        return ($user_data['categoria'] ?? null) === '1' && !empty($user_data['entidade_id']);
+        return ($user_data['categoria'] ?? null) == '1';
     }
 
     private function isProfessor(mixed $user_data): bool
     {
-        return !empty($user_data['professor_id'] ?? null);
+        return ($user_data['categoria'] ?? null) == '2';
+    }
+
+    private function isSupervisor(mixed $user_data): bool
+    {
+        return ($user_data['categoria'] ?? null) == '4';
     }
 
     private function isSupervisorOfInstituicao(mixed $user_data, Instituicao $instituicao): bool
     {
+        if (!$this->isSupervisor($user_data)) {
+            return false;
+        }
+
         $supervisor_id = $user_data['supervisor_id'] ?? null;
         if (!$supervisor_id) {
             return false;
         }
 
-        $supervisores = $instituicao->supervisores ?? null;
-        if (!$supervisores) {
+        $supervisor_ids = $instituicao->supervisor_id ?? [];
+        if (empty($supervisor_ids)) {
             return false;
         }
 
-        foreach ($supervisores as $supervisor) {
-            if (($supervisor->id ?? null) == $supervisor_id) {
+        foreach ($supervisor_ids as $id) {
+            if ($id == $supervisor_id) {
                 return true;
             }
         }

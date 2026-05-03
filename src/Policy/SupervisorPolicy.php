@@ -22,7 +22,7 @@ final class SupervisorPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -31,19 +31,33 @@ final class SupervisorPolicy implements BeforePolicyInterface
     }
 
     /**
+     * @param \Authorization\IdentityInterface|null $user
+     * @param \App\Model\Entity\Supervisor $supervisor
      * @return \Authorization\Policy\Result
      */
-    public function canAdd(): Result
+    public function canAdd(?IdentityInterface $user, Supervisor $supervisor): Result
     {
-        return new Result(true);
+        if (!$user) {
+            return new Result(false, 'Erro: usuário não autenticado');
+        }
+
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && in_array($user_data['categoria'], ['1', '4'])) {
+            return new Result(true);
+        }
+        return new Result(false, 'Erro: supervisor add policy not allowed');
     }
 
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canView(): Result
+    public function canView(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        if (!$user) {
+        return new Result(false, 'Not authorized');
+    }
+    return new Result(true);
     }
 
     /**

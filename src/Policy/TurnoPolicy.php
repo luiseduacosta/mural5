@@ -22,12 +22,7 @@ final class TurnoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -38,7 +33,7 @@ final class TurnoPolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canAdd(): Result
+    public function canAdd(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: turno add policy not authorized');
     }
@@ -60,7 +55,15 @@ final class TurnoPolicy implements BeforePolicyInterface
      */
     public function canEdit(IdentityInterface $user, Turno $turno): Result
     {
-        return new Result(false, 'Erro: turno edit policy not authorized');
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -70,6 +73,14 @@ final class TurnoPolicy implements BeforePolicyInterface
      */
     public function canDelete(IdentityInterface $user, Turno $turno): Result
     {
-        return new Result(false, 'Erro: turno delete policy not authorized');
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

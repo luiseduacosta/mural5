@@ -21,12 +21,7 @@ final class TurnosTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -37,8 +32,11 @@ final class TurnosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canIndex(): Result
+    public function canIndex(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        if (!$user) {
+        return new Result(false, 'Not authorized');
+    }
+    return new Result(true);
     }
 }

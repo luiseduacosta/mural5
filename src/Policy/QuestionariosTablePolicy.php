@@ -20,6 +20,14 @@ class QuestionariosTablePolicy
      */
     public function canIndex(?IdentityInterface $user, QuestionariosTable $questionarios)
     {
-        return true;
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

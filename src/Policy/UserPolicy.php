@@ -22,7 +22,7 @@ final class UserPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -73,7 +73,9 @@ final class UserPolicy implements BeforePolicyInterface
      */
     public function canDelete(IdentityInterface $userSession, User $userData): Result
     {
-        return new Result(false, 'Erro: user delete policy not allowed');
+        return $this->sameUser($userSession, $userData)
+            ? new Result(true)
+            : new Result(false, 'Erro: user delete policy not allowed');
     }
 
     /**
@@ -83,6 +85,7 @@ final class UserPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, User $userData): bool
     {
-        return $userSession->id === $userData->id;
+        $user_data = $userSession->getOriginalData();
+        return $user_data && isset($user_data['categoria']) && $user_data['categoria'] === '1' && $userSession->id === $userData->id;
     }
 }

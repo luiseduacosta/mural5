@@ -26,7 +26,7 @@ final class AdministradorPolicy implements BeforePolicyInterface
                 return null;
             }
 
-            if (($user_data['categoria'] ?? null) === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -34,6 +34,11 @@ final class AdministradorPolicy implements BeforePolicyInterface
         return null;
     }
 
+    /**
+     * @param \Authorization\IdentityInterface $user
+     * @param \App\Model\Entity\Administrador $administrador
+     * @return \Authorization\Policy\Result
+     */
     public function canAdd(IdentityInterface $user, Administrador $administrador): Result
     {
         $userData = $user->getOriginalData();

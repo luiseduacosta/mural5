@@ -22,10 +22,7 @@ final class AvaliacaoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1')
                     || $user_data['supervisor_id']
                 )
             ) {

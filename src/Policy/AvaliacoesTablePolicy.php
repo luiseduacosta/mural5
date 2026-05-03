@@ -22,9 +22,9 @@ final class AvaliacoesTablePolicy implements BeforePolicyInterface
             $user_data = $identity->getOriginalData();
 
             if (
-                $user_data
+                isset($user_data['categoria'])
                 && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                    ($user_data['categoria'] === '1')
                     || $user_data['supervisor_id']
                 )
             ) {
@@ -42,7 +42,10 @@ final class AvaliacoesTablePolicy implements BeforePolicyInterface
     {
         $user_data = $userSession->getOriginalData();
         // Everyone can see the index (filtered by role in controller)
-        if (in_array($user_data['categoria'], ['1', '2', '3', '4'])) {
+        if (
+            isset($user_data['categoria'])
+            && in_array($user_data['categoria'], ['1', '2', '3', '4'])
+        ) {
             return new Result(true);
         }
 
@@ -52,8 +55,11 @@ final class AvaliacoesTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canAdd(): Result
+    public function canAdd(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        if (!$user) {
+        return new Result(false, 'Not authorized');
+    }
+    return new Result(true);
     }
 }

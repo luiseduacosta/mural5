@@ -25,10 +25,10 @@ final class InscricoesTablePolicy implements BeforePolicyInterface
             $user_data = $identity->getOriginalData();
 
             if (
-                $user_data
+                isset($user_data['categoria'])
                 && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                    || $user_data['professor_id']
+                    ($user_data['categoria'] === '1')
+                    || $user_data['aluno_id']
                 )
             ) {
                 return true;
@@ -76,7 +76,7 @@ final class InscricoesTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canBusca(): Result
+    public function canBusca(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: inscricoes busca policy not authorized');
     }

@@ -20,6 +20,14 @@ class RespostasTablePolicy
      */
     public function canIndex(?IdentityInterface $user, RespostasTable $respostas)
     {
-        return isset($user);
+        if ($user) {
+            $user_data = $user->getOriginalData();
+
+            if (isset($user_data['categoria']) && in_array($user_data['categoria'], [1, 2])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

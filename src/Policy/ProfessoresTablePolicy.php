@@ -21,7 +21,7 @@ final class ProfessoresTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -32,8 +32,10 @@ final class ProfessoresTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canIndex(): Result
+    public function canIndex(IdentityInterface $userSession): Result
     {
-        return new Result(true);
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && $user_data['categoria'] === '1' ? new Result(true) : new Result(false);
     }
 }

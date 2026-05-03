@@ -23,12 +23,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) || $user_data['professor_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -43,7 +38,11 @@ final class AlunosTablePolicy implements BeforePolicyInterface
      */
     public function canIndex(IdentityInterface $userSession, AlunosTable $alunosTable): Result
     {
-        return new Result(false, 'Erro: alunos index policy not authorized');
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], ['1', '2', '3', '4'])
+            ? new Result(true)
+            : new Result(false, 'Erro: alunos index policy not authorized');
     }
 
     /**
@@ -63,25 +62,29 @@ final class AlunosTablePolicy implements BeforePolicyInterface
      */
     public function canAdd(IdentityInterface $userSession, AlunosTable $alunosTable): Result
     {
-        $alunocadastrado = $alunosTable->find()->where(['user_id' => $userSession->id]);
+        $user_data = $userSession->getOriginalData();
 
-        return $alunocadastrado->count() > 0
-            ? new Result(false, 'Erro: alunos add policy not authorized')
-            : new Result(true);
+        return $user_data && in_array($user_data['categoria'], ['1', '2'])
+            ? new Result(true)
+            : new Result(false, 'Erro: alunos add policy not authorized');
     }
 
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canBusca(): Result
+    public function canBusca(?IdentityInterface $user, $resource): Result
     {
-        return new Result(false, 'Erro: alunos busca policy not authorized');
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], ['1', '2', '3', '4'])
+            ? new Result(true)
+            : new Result(false, 'Erro: alunos busca policy not authorized');
     }
 
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canPlanilhacress(): Result
+    public function canPlanilhacress(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: alunos planilha cress policy not authorized');
     }
@@ -89,7 +92,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canPlanilhaseguro(): Result
+    public function canPlanilhaseguro(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: alunos planilha seguro policy not authorized');
     }
@@ -97,7 +100,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canCargahoraria(): Result
+    public function canCargahoraria(?IdentityInterface $user, $resource): Result
     {
         return new Result(false, 'Erro: alunos cargahoraria policy not authorized');
     }
@@ -105,8 +108,12 @@ final class AlunosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canDeclaracaoperiodo(): Result
+    public function canDeclaracaoperiodo(?IdentityInterface $user, $resource): Result
     {
-        return new Result(true);
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], ['1', '2'])
+            ? new Result(true)
+            : new Result(false, 'Erro: alunos declaracao periodo policy not authorized');
     }
 }

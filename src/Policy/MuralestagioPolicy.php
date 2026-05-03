@@ -22,13 +22,7 @@ final class MuralestagioPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                $user_data
-                && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                    || $user_data['professor_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -41,9 +35,9 @@ final class MuralestagioPolicy implements BeforePolicyInterface
      * @param \App\Model\Entity\Muralestagio $muralestagio
      * @return \Authorization\Policy\Result
      */
-    public function canView(IdentityInterface $user, Muralestagio $muralestagio): Result
+    public function canView(?IdentityInterface $user, Muralestagio $muralestagio): Result
     {
-        return new Result(false);
+        return new Result(true);
     }
 
     /**
