@@ -42,7 +42,7 @@ class InstituicoesSeed extends BaseSeed
                 'email' => $faker->companyEmail(),
                 'url' => $faker->url(),
                 'endereco' => $faker->streetAddress(),
-                'bairro' => $faker->bairro(),
+                'bairro' => $faker->words(2, true),
                 'municipio' => $faker->city(),
                 'cep' => $faker->postcode(),
                 'telefone' => $faker->phoneNumber(),
@@ -58,4 +58,3 @@ class InstituicoesSeed extends BaseSeed
         $this->insert('instituicoes', $rows);
     }
 }
-

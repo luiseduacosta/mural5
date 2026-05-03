@@ -28,7 +28,7 @@ class SupervisoresSeed extends BaseSeed
                 'nome' => $faker->name(),
                 'cpf' => $faker->optional(0.9)->passthrough($cpf),
                 'endereco' => $faker->optional(0.8)->streetAddress(),
-                'bairro' => $faker->optional(0.7)->bairro(),
+                'bairro' => $faker->optional(0.7)->words(2, true),
                 'municipio' => $faker->optional(0.7)->city(),
                 'cep' => $faker->optional(0.7)->numerify('#####-###'),
                 'codigo_telefone' => '21',

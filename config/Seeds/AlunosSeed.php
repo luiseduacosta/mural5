@@ -96,7 +96,7 @@ class AlunosSeed extends BaseSeed
                 'endereco' => $faker->streetAddress(),
                 'cep' => $faker->numerify('#####-###'),
                 'municipio' => $faker->city(),
-                'bairro' => $faker->bairro(),
+                'bairro' => $faker->words(2, true),
                 'observacoes' => $faker->optional(0.4)->sentence(),
                 'user_id' => $userId,
                 'estagiario_count' => 0,

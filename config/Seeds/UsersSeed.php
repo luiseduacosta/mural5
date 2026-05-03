@@ -22,6 +22,7 @@ class UsersSeed extends BaseSeed
         $hasher = new DefaultPasswordHasher();
 
         $defaultPasswordHash = $hasher->hash('senha123');
+        $now = (new DateTimeImmutable('now'))->format('Y-m-d H:i:s');
 
         $rows = [[
             'nome' => 'Administrador',
@@ -32,6 +33,8 @@ class UsersSeed extends BaseSeed
             'identificacao' => 100000001,
             'entidade_id' => 1,
             'ativo' => 1,
+            'criado_em' => $now,
+            'atualizado_em' => $now,
         ]];
 
         for ($i = 0; $i < 40; $i++) {
@@ -51,6 +54,8 @@ class UsersSeed extends BaseSeed
                 'supervisor_id' => null,
                 'professor_id' => null,
                 'ativo' => 1,
+                'criado_em' => $now,
+                'atualizado_em' => $now,
             ];
         }
 
