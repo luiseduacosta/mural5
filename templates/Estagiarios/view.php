@@ -14,11 +14,6 @@ if ($user_session) {
 }
 ?>
 
-<<<<<<< HEAD
-<?= $this->element("menu_mural"); ?>
-
-=======
->>>>>>> rafael
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
