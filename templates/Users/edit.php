@@ -45,7 +45,7 @@ if ($user_session) {
             echo $this->Form->control('nome',['readonly' => true]);
             echo $this->Form->control('email',['readonly' => true]);
             echo $this->Form->control('password');
-            echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE/Siape/CRESS', 'readonly' => true]]);
+            echo $this->Form->control('identificacao', ['label' => ['text' => 'DRE/Siape/CRESS'], 'readonly' => true]);
             echo $this->Form->control('ativo', ['options' => ['1' => 'Sim', '0' => 'Não'], 
                 'label' => ['text' => 'Ativo'],
                 'readonly' => true]);

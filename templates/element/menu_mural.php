@@ -26,7 +26,7 @@ use Cake\ORM\TableRegistry;
                                 <?php echo $this->Html->link("Declaração de periódo", "/Alunos/certificadoperiodo/" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
                             </li>
                             <li>
-                                <?php echo $this->Html->link("Termo de compromisso", "/Estagiarios/novotermocompromisso?aluno_id=" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
+                                <?php echo $this->Html->link("Termo de compromisso", "/Estagiarios/termocompromisso?aluno_id=" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
                             </li>
                             <li>
                                 <?php echo $this->Html->link("Declaração de estágio", "/Estagiarios/declaracaodeestagiopdf/" . $this->getRequest()->getSession()->read('estagiario_id'), ['class' => 'dropdown-item']); ?>

@@ -184,7 +184,9 @@ class UsersController extends AppController
         $user = $this->Authentication->getIdentity();
 
         if ($user && $user->categoria === '1') {
-            $users = $this->paginate($this->Users);
+            $users = $this->paginate(
+                $this->Users->find()->contain(['Alunos', 'Supervisores', 'Professores'])
+            );
             $this->set(compact('users'));
         } else {
             $this->Flash->error(__('Usuário não autorizado'));
@@ -241,10 +243,11 @@ class UsersController extends AppController
         }
 
         if ($this->request->is('post')) {
-
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-
-            if ($this->Users->save($user)) {
+            $data = $this->request->getData();
+            if (($data['password'] ?? '') !== ($data['confirm_password'] ?? '')) {
+                $this->Flash->error(__('As senhas não conferem.'));
+                $user = $this->Users->patchEntity($user, $data);
+            } elseif ($this->Users->save($user = $this->Users->patchEntity($user, $data))) {
                 $this->Flash->success(__('Usuário cadastrado.'));
                 // Update the user_id in the Users table
                 $this->Users->save($user);
@@ -344,8 +347,9 @@ class UsersController extends AppController
                 }
 
                 return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('O usuário não pôde ser cadastrado. Tente novamente.'));
             }
-            $this->Flash->error(__('O usuário não pôde ser cadastrado. Tente novamente.'));
         }
         $this->set(compact('user'));
     }
@@ -378,11 +382,12 @@ class UsersController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $userresultado = $this->Users->patchEntity($user, $this->request->getData());
-            $this->Users->save($userresultado);
-            $this->Flash->success(__('User atualizado.'));
-
-            return $this->redirect(['action' => 'view', $userresultado->id]);
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('User atualizado.'));
+                return $this->redirect(['action' => 'view', $user->id]);
+            }
+            $this->Flash->error(__('O usuário não pôde ser atualizado. Tente novamente.'));
         }
         $alunos = $this->Users->Alunos->find('list');
         $supervisores = $this->Users->Supervisores->find('list');

@@ -109,7 +109,17 @@ final class EstagiarioPolicy implements BeforePolicyInterface
      * @param \App\Model\Entity\Estagiario $estagiarioData
      * @return \Authorization\Policy\Result
      */
-    public function canTermoCompromisso(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    public function canDeclaracaodeestagiopdf(IdentityInterface $userSession, Estagiario $estagiarioData): Result
+    {
+        return $this->canView($userSession, $estagiarioData);
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Estagiario $estagiarioData
+     * @return \Authorization\Policy\Result
+     */
+    public function canTermocompromisso(IdentityInterface $userSession, Estagiario $estagiarioData): Result
     {
         return new Result(true);
     }

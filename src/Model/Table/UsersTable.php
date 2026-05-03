@@ -46,7 +46,14 @@ class UsersTable extends Table
         $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'criado_em' => 'new',
+                    'atualizado_em' => 'always',
+                ],
+            ],
+        ]);
 
         try {
             $tables = $this->getConnection()->getSchemaCollection()->listTables();

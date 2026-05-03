@@ -63,7 +63,7 @@ if ($user_session) {
                     <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'termocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Novo Aluno'), ['controller' => 'Alunos', 'action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
@@ -82,7 +82,7 @@ if ($user_session) {
                         <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'termocompromisso', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
             <?php endif ?>
         </ul>

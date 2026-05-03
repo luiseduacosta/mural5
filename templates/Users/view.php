@@ -81,17 +81,17 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <td><?= $user->hasValue('alunos') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?>
+                <td><?= $user->hasValue('aluno') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Professor') ?></th>
-                <td><?= $user->hasValue('professores') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?>
+                <td><?= $user->hasValue('professor') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Supervisor') ?></th>
-                <td><?= $user->hasValue('supervisores') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
+                <td><?= $user->hasValue('supervisor') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
                 </td>
             </tr>
             <tr>

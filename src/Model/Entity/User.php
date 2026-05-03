@@ -7,6 +7,7 @@ use ArrayAccess;
 use Authentication\IdentityInterface as AuthenticationIdentity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 
 /**
  * User Entity
@@ -58,7 +59,7 @@ class User extends Entity implements AuthenticationIdentity
         'ativo' => true,
         'criado_em' => true,
         'atualizado_em' => true,
-        'categoria_obj' => true,
+        'categoria_entidade' => true,
         'aluno' => true,
         'supervisor' => true,
         'professor' => true,
@@ -121,9 +122,81 @@ class User extends Entity implements AuthenticationIdentity
 
     /**
      * Authentication\IdentityInterface method
+     *
+     * Dynamically resolves foreign keys by querying related tables
+     * when they are null, so policies and controllers can reliably
+     * read aluno_id, professor_id, supervisor_id and entidade_id.
      */
     public function getOriginalData(): ArrayAccess|array
     {
+        if (empty($this->id) || empty($this->categoria)) {
+            return $this;
+        }
+
+        if ($this->get('_fk_resolved')) {
+            return $this;
+        }
+
+        $this->set('_fk_resolved', true);
+
+        $map = [
+            '1' => ['table' => 'Administradores', 'fk' => 'entidade_id', 'idField' => null],
+            '2' => ['table' => 'Alunos', 'fk' => 'aluno_id', 'idField' => 'registro'],
+            '3' => ['table' => 'Professores', 'fk' => 'professor_id', 'idField' => 'siape'],
+            '4' => ['table' => 'Supervisores', 'fk' => 'supervisor_id', 'idField' => 'cress'],
+        ];
+
+        if (!isset($map[$this->categoria])) {
+            return $this;
+        }
+
+        $config = $map[$this->categoria];
+        $fkField = $config['fk'];
+
+        if (!empty($this->$fkField)) {
+            return $this;
+        }
+
+        try {
+            $table = TableRegistry::getTableLocator()->get($config['table']);
+            $record = null;
+
+            $strategies = [
+                ["{$config['table']}.user_id" => $this->id],
+            ];
+
+            if (!empty($this->email)) {
+                $strategies[] = ["{$config['table']}.email" => $this->email];
+            }
+
+            if (!empty($this->identificacao) && $config['idField'] !== null) {
+                $strategies[] = ["{$config['table']}.{$config['idField']}" => $this->identificacao];
+            }
+
+            foreach ($strategies as $conditions) {
+                $record = $table->find()
+                    ->where($conditions)
+                    ->first();
+                if ($record) {
+                    break;
+                }
+            }
+
+            if ($record) {
+                $this->$fkField = $record->id;
+
+                if (empty($this->entidade_id)) {
+                    $this->entidade_id = $record->id;
+                }
+
+                if (empty($this->identificacao) && $config['idField'] !== null && isset($record->{$config['idField']})) {
+                    $this->identificacao = $record->{$config['idField']};
+                }
+            }
+        } catch (\Throwable) {
+            // Silently ignore if table or query fails
+        }
+
         return $this;
     }
 }

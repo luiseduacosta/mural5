@@ -367,7 +367,7 @@ class EstagiariosController extends AppController
      * @return \Cake\Http\Response|null|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function novotermocompromisso(?string $id = null)
+    public function termocompromisso(?string $id = null)
     {
         $aluno_id = $this->getRequest()->getQuery('aluno_id');
 
@@ -382,20 +382,24 @@ class EstagiariosController extends AppController
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
-        try {
-            $estagiario = $this->Estagiarios
+        $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
             ->orderBy(['nivel' => 'desc'])
             ->first();
-        } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Estagiário não encontrado.'));
-            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'add', '?' => ['aluno_id' => $aluno_id]]);
-        }
 
         if ($estagiario === null) {
-            $this->Flash->error(__('Estagiário não encontrado.'));
-            return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
+            try {
+                $this->Authorization->authorize($this->Estagiarios->newEmptyEntity(), 'add');
+            } catch (ForbiddenException $e) {
+                $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+                return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
+            }
+            $this->Flash->success(__('O aluno ainda não é estagiário'));
+            return $this->redirect([
+                'action' => 'add',
+                '?' => ['aluno_id' => $aluno_id],
+            ]);
         }
 
         try {
@@ -405,32 +409,24 @@ class EstagiariosController extends AppController
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
         }
 
-        if ($estagiario) {
-            $configuracoes = $this->fetchTable('Configuracoes')
-                ->find()
-                ->select('mural_periodo_atual')
-                ->first();
-            $periodoatual = $configuracoes->mural_periodo_atual;
+        $configuracoes = $this->fetchTable('Configuracoes')
+            ->find()
+            ->select(['termo_compromisso_periodo'])
+            ->first();
 
-            if ($estagiario->periodo == $periodoatual) {
-                return $this->redirect([
-                    'action' => 'edit',
-                    $estagiario->id,
-                ]);
-            } else {
-                return $this->redirect([
-                    'action' => 'add',
-                    '?' => ['aluno_id' => $aluno_id],
-                ]);
-            }
-        } else {
-            $this->Flash->success(__('O aluno ainda não é estagiário'));
+        $termoPeriodo = $configuracoes->termo_compromisso_periodo;
 
+        if ($estagiario->periodo == $termoPeriodo) {
             return $this->redirect([
-                'action' => 'add',
-                '?' => ['aluno_id' => $aluno_id],
+                'action' => 'edit',
+                $estagiario->id,
             ]);
         }
+
+        return $this->redirect([
+            'action' => 'add',
+            '?' => ['aluno_id' => $aluno_id],
+        ]);
     }
 
     /**
@@ -605,13 +601,6 @@ class EstagiariosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $user = $this->Authentication->getIdentity();
-        if ($user && $user->categoria == '3' && $estagiario->professor_id != $user->professor_id) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para editar este estagiário.'));
-
-            return $this->redirect(['action' => 'index']);
-        }
-
         try {
             $this->Authorization->authorize($estagiario);
         } catch (ForbiddenException $e) {
@@ -777,8 +766,6 @@ class EstagiariosController extends AppController
                     "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
             ])
             ->where(["Estagiarios.professor_id" => $professor_id, "Estagiarios.periodo" => $periodo]);
-
-        $this->Authorization->skipAuthorization();
 
         $this->set("periodos", $periodos);
         $this->set("periodo", $periodo ?? end($periodos)->periodo);
