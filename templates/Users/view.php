@@ -23,19 +23,22 @@ if ($user_session) {
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Admininistradores'), ['controller' => 'Administradores', 'action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                    <?= $this->Html->link(__('Admininistradores'), ['controller' => 'Administradores', 'action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                    <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $user->id), 'class' => 'btn btn-danger float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $user->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Html->link(__('Alternar usuário'), ['controller' => 'Users', 'action' => 'alternarusuario', '?' => ['id' => $user->id]], ['class' => 'btn btn-info me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>

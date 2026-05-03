@@ -8,36 +8,11 @@ declare(strict_types=1);
 
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
+
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
 }
 ?>
-
-<<<<<<< HEAD
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
-        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarToggler">
-        <ul class="navbar-nav ms-auto mt-lg-0">
-            <?php if ($categoria == 1): ?>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
-                <li class="nav-item active">
-                    <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                </li>
-            <?php endif; ?>
-=======
-<?= $this->element("menu_mural"); ?>
->>>>>>> main
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
@@ -46,12 +21,15 @@ if ($user_session) {
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] == '1'): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item active">
+                        <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
@@ -59,36 +37,14 @@ if ($user_session) {
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                    <li class="nav-item active">
-                        <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                    </li>
                 <?php endif; ?>
 
-<<<<<<< HEAD
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" data-bs-target="#estagiario"
-            data-bs-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" data-bs-target="#folhadeatividade"
-            data-bs-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
-            de
-            atividades</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" data-bs-target="#avaliacao" data-bs-target="#avaliacao"
-            role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
-    </li>
-</ul>
-=======
                 <!-- Professor pode lançar notas -->
                 <?php if ($user_data['professor_id']): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
->>>>>>> main
 
                 <?php if ($user_data['aluno_id']): ?>
                     <li class="nav-item">
@@ -109,12 +65,12 @@ if ($user_session) {
                     <li class="nav-item">
                         <?= $this->Html->link(__('Imprime Avaliação'), ['action' => 'avaliacaodiscentepdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
-                    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
-                        </li>
-                    <?php endif; ?>
+                <?php endif; ?>
 
+                <?php if ($user_data['categoria'] === '1' || $user_data['supervisor_id']): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Preencher Avaliação'), ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:150px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
@@ -122,18 +78,13 @@ if ($user_session) {
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" data-bs-toggle="tab" id="estagiario-tab" href="#estagiario"
-                data-bs-target="#estagiario" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
+            <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#estagiario" id="estagiario-tab" role="tab" aria-controls="estagiario" aria-selected="true">Estagiario</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="folhadeatividade-tab" href="#folhadeatividade"
-                data-bs-target="#folhadeatividade" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha
-                de
-                atividades</a>
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#atividades" id="atividades-tab" role="tab" aria-controls="atividadesfolhadeatividade-tab" role="tab" aria-controls="folhadeatividade" aria-selected="false">Folha de atividades</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="avaliacao-tab" href="#avaliacao" data-bs-target="#avaliacao"
-                role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#avaliacao" id="avaliacao-tab" role="tab" aria-controls="avaliacao" aria-selected="true">Avaliação</a>
         </li>
     </ul>
 
@@ -274,18 +225,12 @@ if ($user_session) {
                                 </td>
                                 <td>
                                     <?=
-                                        $this->Time->format(
-                                            $folhadeatividade->inicio,
-                                            "HH:mm"
-                                        )
+                                        $folhadeatividade->inicio ? $folhadeatividade->inicio->format('H:i') : ''
                                         ?>
                                 </td>
                                 <td>
                                     <?=
-                                        $this->Time->format(
-                                            $folhadeatividade->final,
-                                            "HH:mm"
-                                        )
+                                        $folhadeatividade->final ? $folhadeatividade->final->format('H:i') : ''
                                         ?>
                                 </td>
                                 <td class="text">

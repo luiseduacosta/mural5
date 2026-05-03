@@ -17,7 +17,7 @@ if ($user_session) {
     $(document).ready(function () {
         $('#cpf').mask('000.000.000-00');
         $('#cep').mask('00000-000');
-        $('#ingresso').mask('0000-S', { translation: { 'S': { pattern: '[12]', optional: false } } }); // last digit is only 1 or 2
+        $('#ingresso').mask('0000-S', { translation: { 'S': { pattern: '[12]', optional: false } } });
         if ($('#codigo-telefone').val() == null) {
             codigo = '21';
         } else {

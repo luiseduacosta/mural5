@@ -25,8 +25,8 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
             if (
                 $user_data
                 && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                    || $user_data['professor_id']
+                    ($user_data['categoria'] === '1')
+                    || $user_data['aluno_id']
                 )
             ) {
                 return true;
@@ -35,6 +35,18 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
 
         return null;
     }
+
+    /**
+     * @param \Authorization\IdentityInterface $user
+     * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
+    {
+        // Add ownership check if needed
+        return new Result(true);
+    }
+
 
     /**
      * @param \Authorization\IdentityInterface $user

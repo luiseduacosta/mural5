@@ -68,13 +68,20 @@ class EstagiariosTable extends Table
         ]);
         $this->hasOne('Avaliacoes', [
             'foreignKey' => 'estagiario_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
+        ]);
+        $this->hasOne('Respostas', [
+            'foreignKey' => 'estagiario_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true,
         ]);
 
         $this->addBehavior('CounterCache', [
             'Alunos' => ['estagiario_count'],
-            'Supervisores' => ['estagiarios_count'],
-            'Professores' => ['estagiarios_count'],
-            'Instituicoes' => ['estagiarios_count'],
+            'Supervisores' => ['estagiario_count'],
+            'Professores' => ['estagiario_count'],
+            'Instituicoes' => ['estagiario_count'],
         ]);
     }
 

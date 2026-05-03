@@ -508,4 +508,76 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * Alternarusuario method
+     * https://book.cakephp.org/authentication/3/en/impersonation.html
+     *
+     * @param string|null $id User id.
+     * @return \Cake\Http\Response|null|void Redirects on successful impersonation.
+     */
+    public function alternarusuario(?string $id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        $identity = $this->Authentication->getIdentity();
+        $user_data = $identity->getOriginalData();
+
+        // Only administrators can impersonate
+        if ($user_data['categoria'] !== '1' && !$this->request->getSession()->check('Auth.impersonating')) {
+            $this->Flash->error(__('Acesso negado. Apenas administradores podem alternar usuários.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        // 1. Start impersonating via GET parameter ($id)
+        if ($id && $this->request->is('get')) {
+            $targetUser = $this->Users->get($id);
+
+            // Store original admin ID if not already impersonating
+            if (!$this->request->getSession()->check('Auth.impersonating')) {
+                $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+            }
+
+            $this->Authentication->impersonate($targetUser);
+            $this->Flash->success(__('Você agora está acessando como ' . $targetUser->email));
+
+            return $this->redirect('/');
+        }
+
+        // 2. Start impersonating via form submission (using 'id')
+        if ($this->request->is('post')) {
+            $id = $this->request->getQuery('id');
+            $targetUser = $this->Users->find()->where(['id' => $id])->first();
+            if ($targetUser) {
+                // Store original admin ID if not already impersonating
+                if (!$this->request->getSession()->check('Auth.impersonating')) {
+                    $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+                }
+                $this->Authentication->impersonate($targetUser);
+                $this->Flash->success(__('Você agora está acessando como ' . $targetUser->nome));
+                return $this->redirect(['controller' => 'Users', 'action' => 'view', $targetUser->id]);
+            } else {
+                $this->Flash->error(__('Usuário não encontrado.'));
+            }
+        }
+
+        // 3. Stop impersonating if accessed without an ID/POST and we are currently impersonating
+        if (!$this->request->is('post') && !$id && $this->request->getSession()->check('Auth.impersonating')) {
+            $originalId = $this->request->getSession()->read('Auth.impersonating');
+            $originalUser = $this->Users->get($originalId);
+
+            $this->Authentication->impersonate($originalUser);
+            $this->request->getSession()->delete('Auth.impersonating');
+
+            $this->Flash->success(__('Identidade restaurada para administrador.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        // 4. Render the view (templates/Users/alternarusuario.php)
+        // If we reach here, it's a GET request, without an ID, and we are not currently impersonating.
+        // By NOT returning a redirect, CakePHP will naturally render the form view.
+    }
+
 }

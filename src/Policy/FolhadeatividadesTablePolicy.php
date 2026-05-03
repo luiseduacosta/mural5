@@ -24,15 +24,15 @@ final class FolhadeatividadesTablePolicy implements BeforePolicyInterface
             if (
                 $user_data
                 && (
-                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
-                    || $user_data['professor_id']
+                    ($user_data['categoria'] === '1')
+                    || $user_data['aluno_id']
                 )
             ) {
                 return true;
             }
         }
 
-        return null;
+        return false;
     }
 
     /**
