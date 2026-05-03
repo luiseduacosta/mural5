@@ -3,75 +3,79 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use Authorization\IdentityInterface;
 use App\Model\Entity\Professor;
+use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Professor policy
- */
-class ProfessorPolicy
+final class ProfessorPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can create Professor
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Professor $professsor
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Professor $professor)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can update Professor
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Professor $professor
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Professor $professor)
+    public function canAdd(): Result
     {
-        if ($user->categoria == 3) {
-            return $professor->id === $user->professor_id;
-        }
-        return $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Docente
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Professor $professor
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Professor $professor)
+    public function canView(): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can view Docente
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Professor $professor
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Professor $professorData
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Professor $professor)
+    public function canEdit(IdentityInterface $userSession, Professor $professorData): Result
     {
-        if (!isset($user)) {
-            return false;
-        }
-        if ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 3) {
-            return $professor->id === $user->professor_id;
-        }
-        return true;
+        return $this->sameUser($userSession, $professorData)
+            ? new Result(true)
+            : new Result(false, 'Erro: professor edit policy not authorized');
     }
 
-    protected function isAuthor(?IdentityInterface $user, Professor $professor)
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Professor $professorData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, Professor $professorData): Result
     {
-        return $professor->id === $user->professor_id;
+        return new Result(false, 'Erro: professor delete policy not allowed');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Professor $professorData
+     * @return bool
+     */
+    protected function sameUser(IdentityInterface $userSession, Professor $professorData): bool
+    {
+        $userData = $userSession->getOriginalData();
+        return !empty($userData['professor_id']) && (int)$userData['professor_id'] === (int)$professorData->id;
     }
 }

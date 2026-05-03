@@ -3,27 +3,37 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Questao $questao
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <?= $this->element('templates') ?>
 
 <div class="container mt-1">
 
-    <nav class="nav navbar-expand-lg navbar-light bg-light">
+    <nav class="nav navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#actions-sidebar" aria-controls="actions-sidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if (isset($categoria) && $categoria == '1'): ?>
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $questao->id], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $questao->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $questao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $questao->id), 'class' => 'btn btn-danger me-1']) ?>
+                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $questao->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $questao->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Html->link(__('Nova'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Nova'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <?php endif; ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
         </ul>
     </nav>

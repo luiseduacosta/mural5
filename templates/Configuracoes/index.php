@@ -3,32 +3,30 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao[]|\Cake\Collection\CollectionInterface $configuracao
  */
-$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
-
 <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Nova Configuração'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Nova Configuração'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
+
             </ul>
         </div>
     </nav>
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <ul class="navbar-nav collapse navbar-collapse">
-        <li class="nav-item">
-            <?= $this->Html->link(__('Nova Configuração'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
-        </li>
-    </ul>
-</nav>
 
 <h3><?= __('Configurações') ?></h3>
 
@@ -36,17 +34,14 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-dark">
             <tr>
-                <?php if (isset($categoria) && $categoria == 1): ?>
-                    <th><?= $this->Paginator->sort('id') ?></th>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <th>Id</th>
                 <?php endif; ?>
-                <th><?= $this->Paginator->sort('mural_periodo_atual', 'Período do mural') ?></th>
-                <th><?= $this->Paginator->sort('termo_compromisso_periodo', 'Período do termo de compromisso') ?></th>
-                <th><?= $this->Paginator->sort('termo_compromisso_inicio', 'Data de início do termo de compromisso') ?>
-                </th>
-                <th><?= $this->Paginator->sort('termo_compromisso_final', 'Data de finalização do termo de compromisso') ?>
-                </th>
-                <th><?= $this->Paginator->sort('periodo_calendario_academico', 'Período calendário acadêmico') ?>
-                </th>
+                <th>Período do mural</th>
+                <th>Período do termo de compromisso</th>
+                <th>Data de início do termo de compromisso</th>
+                <th>Data de finalização do termo de compromisso</th>
+                <th>Período calendário acadêmico</th>
                 <th><?= __('Ações') ?></th>
             </tr>
         </thead>
@@ -68,18 +63,4 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
             <?php endforeach; ?>
         </tbody>
     </table>
-</div>
-
-<?= $this->element("templates") ?>
-
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
-        <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('próximo') . ' >') ?>
-        <?= $this->Paginator->last(__('último') . ' >>') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do {{count}} total')) ?>
-    </p>
 </div>

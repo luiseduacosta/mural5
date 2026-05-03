@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -15,21 +14,24 @@ use Cake\ORM\Entity;
  * @property string $convenio
  * @property int $vagas
  * @property string|null $beneficios
- * @property int|null $final_de_semana
+ * @property string|null $final_de_semana
  * @property int|null $carga_horaria
  * @property string|null $requisitos
  * @property string|null $horario
- * @property \Cake\I18n\Date|null $data_selecao
- * @property \Cake\I18n\Date|null $data_inscricao
+ * @property \Cake\I18n\FrozenDate|null $data_selecao
+ * @property \Cake\I18n\FrozenDate|null $data_inscricao
  * @property string|null $horario_selecao
  * @property string|null $local_selecao
  * @property string|null $forma_selecao
  * @property string|null $contato
  * @property string|null $outras
- * @property string $periodo
+ * @property string|null $periodo
  * @property string $local_inscricao
  * @property string|null $email
+ *
+ * @property \App\Model\Entity\Instituicao $instituicao_rel
  */
+
 class Muralestagio extends Entity
 {
     /**
@@ -41,6 +43,7 @@ class Muralestagio extends Entity
      *
      * @var array
      */
+
     protected array $_accessible = [
         'instituicao_id' => true,
         'instituicao' => true,
@@ -61,5 +64,6 @@ class Muralestagio extends Entity
         'periodo' => true,
         'local_inscricao' => true,
         'email' => true,
+        'instituicao_rel' => true,
     ];
 }

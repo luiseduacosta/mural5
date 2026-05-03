@@ -15,7 +15,7 @@ use Cake\ORM\TableRegistry;
         </button>
         <div class="collapse navbar-collapse" id="navbarPrincipal">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -26,7 +26,7 @@ use Cake\ORM\TableRegistry;
                                 <?php echo $this->Html->link("Declaração de periódo", "/Alunos/certificadoperiodo/" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
                             </li>
                             <li>
-                                <?php echo $this->Html->link("Termo de compromisso", "/Estagiarios/novotermocompromisso?aluno_id=" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
+                                <?php echo $this->Html->link("Termo de compromisso", "/Estagiarios/termocompromisso?aluno_id=" . $user['aluno_id'], ['class' => 'dropdown-item']); ?>
                             </li>
                             <li>
                                 <?php echo $this->Html->link("Declaração de estágio", "/Estagiarios/declaracaodeestagiopdf/" . $this->getRequest()->getSession()->read('estagiario_id'), ['class' => 'dropdown-item']); ?>
@@ -95,19 +95,19 @@ use Cake\ORM\TableRegistry;
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 2): ?>
+                <?php if (isset($categoria) && $categoria == '2'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Alunos/view/" . $user->aluno_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 3): ?>
+                <?php if (isset($categoria) && $categoria == '3'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Professores/view/" . $user->professor_id, ['class' => 'nav-link']); ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 4): ?>
+                <?php if (isset($categoria) && $categoria == '4'): ?>
                     <li class="nav-item">
                         <?php echo $this->Html->link("Meus dados", "/Supervisores/view/" . $user->supervisor_id, ['class' => 'nav-link']); ?>
                     </li>
@@ -120,8 +120,8 @@ use Cake\ORM\TableRegistry;
                 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                <?php if (!empty($categoria)): ?>
-                    <?php if ($categoria == 2 && $user->aluno_id) {
+                <?php if (!empty($user)): ?>
+                    <?php if ($user_data['aluno_id'] && isset($user) && $user->aluno_id) {
                         $aluno = TableRegistry::getTableLocator()->get('Alunos')->find()->where(['Alunos.id' => $user->aluno_id])->first();
                         ?>
                         <li class='nav-item'>

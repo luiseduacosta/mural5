@@ -6,10 +6,9 @@
 ?>
 
 <div class="container">
-
-
+    
     <div class="categorias form content">
-        <?= $this->Html->link(__('Listar Categorias'), ['action' => 'index'], ['class' => 'btn btn-secondary mb-3']) ?>
+        <?= $this->Html->link(__('Listar Categorias'), ['action' => 'index'], ['class' => 'btn btn-secondary me-2', 'style' => 'font-size: 10pt;']) ?>
         <div class="card">
             <div class="card-header">
                 <h4><?= __('Nova Categoria') ?></h4>

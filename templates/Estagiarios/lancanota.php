@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script type="text/javascript">
@@ -20,9 +27,9 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
-            <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
+            <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo =>$periodo]], ['class' => 'form-control']); ?>
             <?php echo $this->Form->input('professor_id', ['type' => 'hidden', 'value' => $professor->id]); ?>
             <?= $this->Form->end(); ?>
         <?php else: ?>
@@ -36,7 +43,7 @@
     <table class="table table-striped table-hover table-responsive">
         <thead class="table-dark">
             <tr>
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <th><?= $this->Paginator->sort('id') ?></th>
                 <?php endif; ?>
                 <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
@@ -48,20 +55,21 @@
                 <th><?= $this->Paginator->sort('nota', 'Nota') ?></th>
                 <th><?= $this->Paginator->sort('ch', 'CH') ?></th>
                 <th><?= $this->Paginator->sort('folhadeatividades', 'Folha de atividades') ?></th>
+                <th><?= $this->Paginator->sort('avaliacao', 'Avaliação discente') ?></th>
                 <th><?= __('Ações') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($estagiarios as $estagiario): ?>
                 <tr>
-                    <?php if (isset($categoria) && $categoria == 1): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= $estagiario->id ?></td>
                     <?php endif; ?>
                     <td><?= $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) ?>
                     </td>
                     <td><?= $estagiario->registro ?></td>
                     <td>
-                        <?php if (isset($estagiario->instituicao)): ?>
+                        <?php if (isset($estagiario->instituicao)): ?> 
                             <?= $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) ?>
                         <?php else: ?>
                             N/A
@@ -92,7 +100,7 @@
                     <?php endif; ?>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario->id)]) ?>
                         <?php endif; ?>

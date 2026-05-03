@@ -6,11 +6,10 @@
 ?>
 
 <div class="container">
-
-
+    
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3><?= __('Categorias de usuários') ?></h3>
-        <?= $this->Html->link(__('Nova Categoria'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm']) ?>
+        <?= $this->Html->link(__('Nova Categoria'), ['action' => 'add'], ['class' => 'btn btn-success btn-sm me-2', 'style' => 'font-size: 10pt;']) ?>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">

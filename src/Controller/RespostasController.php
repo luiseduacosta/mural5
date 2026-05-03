@@ -51,7 +51,6 @@ class RespostasController extends AppController
      */
     public function view(?string $id = null)
     {
-        $this->Authorization->skipAuthorization();
         $resposta = null;
         if ($id === null) {
             $estagiario_id = $this->request->getQuery('estagiario_id');
@@ -127,7 +126,6 @@ class RespostasController extends AppController
      */
     public function add()
     {
-        $this->Authorization->skipAuthorization();
         $estagiario_id = $this->request->getQuery('estagiario_id');
 
         if (!$estagiario_id) {

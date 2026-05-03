@@ -1,20 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
 use Authorization\Exception\ForbiddenException;
-use Cake\Datasource\Exception\RecordNotFoundException;
-use Cake\I18n\DateTime;
-use Exception;
+use DateTime;
 
 /**
  * Inscricoes Controller
  *
  * @property \App\Model\Table\InscricoesTable $Inscricoes
- * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
- * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  * @method \App\Model\Entity\Inscricao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class InscricoesController extends AppController
@@ -24,232 +19,161 @@ class InscricoesController extends AppController
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index($periodo = null)
+    public function index()
     {
-        try {
-            $this->Authorization->authorize($this->Inscricoes);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+        $this->Authorization->skipAuthorization();
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        // Optimized periods query using distinct and list to save memory
+        $periodos = $this->Inscricoes->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo',
+        ])->distinct(['periodo'])->order(['periodo' => 'ASC'])->toArray();
+        $periodos = ['all' => 'Todos'] + $periodos;
 
+        $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');
         if (empty($periodo)) {
-            $configuracaotable = $this->fetchTable('Configuracoes');
-            $periodoconfiguracao = $configuracaotable->get(1);
-            $periodo = $periodoconfiguracao->mural_periodo_atual;
+            $periodo = end($periodos);
         }
 
         $query = $this->Inscricoes->find()
-            ->contain(['Alunos', 'Muralestagios'])
-            ->orderBy(['Alunos.nome' => 'ASC']);
+            ->select([
+                'Inscricoes.id',
+                'Inscricoes.aluno_id',
+                'Inscricoes.registro',
+                'Inscricoes.muralestagio_id',
+                'Inscricoes.data',
+                'Inscricoes.periodo',
+                'Inscricoes.timestamp',
+            ])
+            ->contain([
+                'Alunos' => [
+                    'fields' => ['id', 'nome'],
+                ],
+                'Muralestagios' => [
+                    'fields' => ['id', 'instituicao_id'],
+                    'Instituicoes' => [
+                        'fields' => ['id', 'instituicao'],
+                    ],
+                ],
+            ]);
 
-        if ($periodo) {
+        $query->leftJoinWith('Muralestagios.Instituicoes');
+
+        if ($periodo !== 'all') {
             $query->where(['Inscricoes.periodo' => $periodo]);
         }
 
-        $muralinscricoes = $this->paginate($query, [
-            'sortableFields' => ['id', 'registro', 'Alunos.nome', 'Muralestagios.instituicao', 'data', 'periodo', 'timestamp'],
+        if ($this->request->getQuery('aluno_id')) {
+            $query->where(['Inscricoes.aluno_id' => $this->request->getQuery('aluno_id')]);
+        }
+
+        $inscricoes = $this->paginate($query, [
+            'sortableFields' => [
+                'id',
+                'aluno_id',
+                'registro',
+                'muralestagio_id',
+                'data',
+                'periodo',
+                'timestamp',
+                'Alunos.nome',
+                'Instituicoes.instituicao',
+            ],
         ]);
 
-        $periodototal = $this->Inscricoes->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']);
-
-        $periodos = $periodototal->toArray();
-
-        $this->set(compact('muralinscricoes', 'periodo', 'periodos'));
+        $this->set(compact('inscricoes', 'periodos', 'periodo'));
     }
 
     /**
      * View method
      *
-     * @param string|null $id Muralinscricao id.
+     * @param string|null $id Inscricao id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function view(?string $id = null)
     {
-
-        try {
-            $inscricao = $this->Inscricoes->get($id, [
-                'contain' => ['Alunos', 'Muralestagios' => ['Instituicoes']],
-            ]);
-        } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Não há registros de inscrições para esse número!'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        try {
-            $this->Authorization->authorize($inscricao);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
+        $inscricao = $this->Inscricoes->get($id, [
+            'contain' => ['Alunos', 'Muralestagios' => ['Instituicoes']],
+        ]);
+        $this->Authorization->skipAuthorization();
         $this->set(compact('inscricao'));
     }
 
     /**
-     * Add method
+     * Add method. O aluno e o admin podem fazer inscrição.
      *
-     * @param string|null $id Muralestagio id.
-     * @param string|null $registro Registro dre.
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add(?string $id = null, ?string $registro = null)
+    public function add(?string $id = null)
     {
+        $this->Authorization->skipAuthorization();
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
+        $dados = $this->request->getData();
+
+        $periodo = $this->configuracao->mural_periodo_atual;
+        $dados['periodo'] = $periodo;
+
+        $muralestagio_id = $this->getRequest()->getQuery('muralestagio_id');
+
+        if (!$muralestagio_id) {
+            $this->Flash->info(__('Selecione no mural de estagios'));
+
+            return $this->redirectBack(['controller' => 'Muralestagios', 'action' => 'index']);
+        } else {
+            $muralestagio = $this->fetchTable('Muralestagios')->get($muralestagio_id);
+            // $dados['muralestagio'] = $muralestagio;
+            $dados['muralestagio_id'] = $muralestagio->id;
+
+            /** Verifico o periodo do mural e comparo com o periodo da inscricao */
+            if ($muralestagio->periodo != $periodo) {
+                $this->Flash->error(__('O periodo de inscricao nao coincide com o periodo do Mural.'));
+
+                return $this->redirectBack(['controller' => 'Muralestagios', 'action' => 'view', $muralestagio_id]);
+            }
+            $instituicao = $this->fetchTable('Instituicoes')->get($muralestagio->instituicao_id);
+        }
+
+        // Admin não pode fazer inscrição de aluno? Corrigir
+        if ($user_data['aluno_id']) {
+            $aluno = $this->fetchTable('Alunos')->get($user_data['aluno_id']);
+            $dados['registro'] = $aluno->registro;
+            $dados['aluno_id'] = $aluno->id;
+        } else {
+            $this->Flash->error(__('Selecione um aluno(a) para fazer a inscrição.'));
+
+            return $this->redirectBack(['controller' => 'Alunos', 'action' => 'index']);
+        }
+        /** Verifico se já fez inscrição para não duplicar */
+        $conditions = [
+            'Inscricoes.aluno_id' => $aluno->id,
+            'Inscricoes.muralestagio_id' => $muralestagio->id,
+        ];
+        $inscricao_duplicada = $this->Inscricoes->find()
+            ->where($conditions)
+            ->first();
+        if ($inscricao_duplicada) {
+            $this->Flash->error(__('Inscrição já realizada'));
+
+            return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao_duplicada->id]);
+        }
+        // Date atual
+        $data = new DateTime();
+        $dados['data'] = $data->format('Y-m-d');
         $inscricao = $this->Inscricoes->newEmptyEntity();
-        try {
-            $this->Authorization->authorize($inscricao);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+        $inscricao = $this->Inscricoes->patchEntity($inscricao, $dados);
+        if ($this->Inscricoes->save($inscricao)) {
+            $this->Flash->success(__('Inscricao realizada com sucesso.'));
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);
         }
-
-        $muralestagios = []; // Init variables
-        $alunos = [];
-
-        if ($this->request->is(['post', 'put', 'patch'])) {
-            $data = $this->request->getData();
-
-            // Pega os dados do formulário
-            if (!empty($data['aluno_id'])) {
-                try {
-                    $aluno = $this->fetchTable('Alunos')->get($data['aluno_id']);
-                    $registro = $aluno->registro;
-                } catch (RecordNotFoundException $e) {
-                    $this->Flash->error(__('Aluno não encontrado.'));
-
-                    return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-                }
-            } elseif (!empty($data['registro'])) {
-                $registro = $data['registro'];
-            }
-
-            if (empty($registro)) {
-                $this->Flash->error(__('Precisa do DRE do estudante para fazer inscrição'));
-
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-            }
-
-            $muralestagio_id = $data['muralestagio_id'] ?? null;
-            if (empty($muralestagio_id)) {
-                $this->Flash->error(__('Selecionar um mural de estágio para a qual quer fazer inscrição.'));
-
-                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            }
-
-            try {
-                $muralestagio = $this->Inscricoes->Muralestagios->get($muralestagio_id);
-                $periodo_mural = $muralestagio->periodo;
-            } catch (Exception $e) {
-                $this->Flash->error(__('Mural de estágio não localizado'));
-
-                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            }
-
-            $hoje = DateTime::now();
-
-            // Date check logic - use clone to avoid mutating $hoje
-            $dataInscricao = $muralestagio->dataInscricao ?? (clone $hoje)->addDays(1);
-
-            /** Verifica se o período de inscrição está aberto para o aluno fazer inscrição */
-            if ($this->user && $this->user->categoria == 2 && $dataInscricao < $hoje) {
-                $this->Flash->error(__('Período de inscrição encerrado em {0}. Não é possível fazer inscrição.', $dataInscricao));
-
-                return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            }
-
-            /** Verifica se já fez inscricações para essa mesma vaga de estágio */
-            $verifica = $this->Inscricoes->find()
-                ->where(['muralestagio_id' => $muralestagio_id, 'registro' => $registro])
-                ->first();
-
-            if ($verifica) {
-                $this->Flash->error(__('Inscrição já realizada'));
-
-                return $this->redirect(['controller' => 'Muralinscricoes', 'action' => 'view', $verifica->id]);
-            }
-
-            /** Pega o id do aluno */
-            if (!isset($aluno)) {
-                $aluno = $this->fetchTable('Alunos')->find()
-                    ->where(['registro' => $registro])
-                    ->first();
-            }
-
-            if (!$aluno) {
-                $this->Flash->error(__('Aluno não localizado'));
-
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
-            }
-
-            /** Pega o período atual */
-            $config = $this->fetchTable('Configuracoes')->get(1);
-            $periodo_atual = $config->mural_periodo_atual;
-
-            /** Dados para fazer a inscrição */
-            $saveData = [];
-            $saveData['registro'] = $registro;
-            $saveData['aluno_id'] = $aluno->id;
-            $saveData['muralestagio_id'] = $muralestagio_id;
-            $saveData['data'] = date('Y-m-d');
-            $saveData['periodo'] = $periodo_mural ?? $periodo_atual;
-            $saveData['timestamp'] = date('Y-m-d H:i:s');
-
-            $muralinscricao = $this->Inscricoes->patchEntity($muralinscricao, $saveData);
-            if ($this->Inscricoes->save($muralinscricao)) {
-                $this->Flash->success(__('Inscrição realizada!'));
-
-                return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $muralinscricao->id]);
-            }
-            $this->Flash->error(__('Não foi possível realizar a inscrição. Tente novamente.'));
-        }
-
-        /**  Alunos com o registro */
-        // Use concat for display
-        $queryAlunos = $this->Inscricoes->Alunos->find();
-        $concat = $queryAlunos->func()->concat([
-            'Alunos.registro' => 'identifier',
-            ' - ',
-            'Alunos.nome' => 'identifier',
-        ]);
-        $alunosList = $queryAlunos->select([
-            'id',
-            'registro_nome' => $concat,
-        ])
-            ->order(['Alunos.nome' => 'ASC'])
-            ->all();
-
-        foreach ($alunosList as $a) {
-            $alunos[$a->id] = $a->registro_nome;
-        }
-
-        /**  Muralestagios com período e instituição */
-        $queryMural = $this->Inscricoes->Muralestagios->find();
-        $concatMural = $queryMural->func()->concat([
-            'Muralestagios.periodo' => 'identifier',
-            ' - ',
-            'Muralestagios.instituicao' => 'identifier',
-        ]);
-        $muralList = $queryMural->select([
-            'Muralestagios.id',
-            'instituicao_periodo' => $concatMural,
-        ])
-            ->orderBy(['Muralestagios.periodo' => 'DESC', 'Muralestagios.instituicao' => 'ASC'])
-            ->all();
-
-        foreach ($muralList as $m) {
-            $muralestagios[$m->id] = $m->instituicao_periodo;
-        }
-
-        $this->set(compact('inscricao', 'muralinscricao', 'alunos', 'muralestagios'));
+        $this->Flash->error(__('The inscricao could not be saved. Please, try again.'));
+        $this->set(compact('inscricao', 'aluno', 'periodo', 'muralestagio', 'data', 'instituicao'));
     }
 
     /**
@@ -261,89 +185,22 @@ class InscricoesController extends AppController
      */
     public function edit(?string $id = null)
     {
-        try {
-            $inscricao = $this->Inscricoes->get($id, [
-                'contain' => ['Alunos', 'Muralestagios'],
-            ]);
-        } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Registro de inscrição não foi encontrado. Tente novamente.'));
+        $inscricao = $this->Inscricoes->get($id, [
+            'contain' => ['Alunos'],
+        ]);
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        try {
-            $this->Authorization->authorize($inscricao);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $inscricao = $this->Inscricoes->patchEntity($inscricao, $this->request->getData());
+            if ($this->Inscricoes->save($inscricao)) {
+                $this->Flash->success(__('The inscricao has been saved.'));
 
-            /** Ajusto o período conforme o mural de estágio selecionado */
-            $mural_id_to_check = $this->request->getData('muralestagio_id');
-
-            if ($mural_id_to_check) {
-                $mural = $this->Inscricoes->Muralestagios->get($mural_id_to_check);
-                if (!$mural) {
-                    $this->Flash->error(__('Mural de estágio não localizado'));
-
-                    return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-                }
-                $data = $this->request->getData();
-                $data['periodo'] = $mural->periodo;
-
-                $muralinscricao = $this->Inscricoes->patchEntity($muralinscricao, $data);
-                if ($this->Inscricoes->save($muralinscricao)) {
-                    $this->Flash->success(__('Registro de inscrição atualizado.'));
-
-                    return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $muralinscricao->id]);
-                }
+                return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]);
             }
-            $this->Flash->error(__('Registro de inscrição não foi atualizado. Tente novamente.'));
+            $this->Flash->error(__('The inscricao could not be saved. Please, try again.'));
         }
-
-        // Prepare lists
-        $muralestagios = [];
-        $alunos = [];
-
-        /**  Muralestagios com período e instituição */
-        $queryMural = $this->Inscricoes->Muralestagios->find();
-        $concatMural = $queryMural->func()->concat([
-            'Muralestagios.periodo' => 'identifier',
-            ' - ',
-            'Muralestagios.instituicao' => 'identifier',
-        ]);
-        $muralList = $queryMural->select([
-            'Muralestagios.id',
-            'instituicao_periodo' => $concatMural,
-        ])
-            ->orderBy(['Muralestagios.periodo' => 'DESC', 'Muralestagios.instituicao' => 'ASC'])
-            ->all();
-
-        foreach ($muralList as $m) {
-            $muralestagios[$m->id] = $m->instituicao_periodo;
-        }
-
-        /**  Alunos */
-        $queryAlunos = $this->Inscricoes->Alunos->find();
-        $concat = $queryAlunos->func()->concat([
-            'Alunos.registro' => 'identifier',
-            ' - ',
-            'Alunos.nome' => 'identifier',
-        ]);
-        $alunosList = $queryAlunos->select([
-            'id',
-            'registro_nome' => $concat,
-        ])
-            ->orderBy(['Alunos.nome' => 'ASC'])
-            ->all();
-        foreach ($alunosList as $a) {
-            $alunos[$a->id] = $a->registro_nome;
-        }
-
-        $this->set(compact('inscricao', 'muralinscricao', 'muralestagios', 'alunos'));
+        $this->set(compact('inscricao'));
     }
 
     /**
@@ -356,31 +213,21 @@ class InscricoesController extends AppController
     public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        try {
-            $inscricao = $this->Inscricoes->get($id);
-        } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Registro de inscrição não foi encontrado. Tente novamente.'));
+        $inscricao = $this->Inscricoes->get($id);
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
+        if ($this->Inscricoes->delete($inscricao)) {
+            $this->Flash->success(__('The inscricao has been deleted.'));
 
-        try {
-            $this->Authorization->authorize($inscricao);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-
-        if ($this->Inscricoes->delete($muralinscricao)) {
-            $this->Flash->success(__('Inscrição excluída.'));
-            // return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $muralinscricao->aluno_id]); // Or index
+            return $this->redirect([
+                'controller' => 'Inscricoes',
+                'action' => 'index',
+                '?' => ['aluno_id' => $inscricao->aluno_id, 'periodo' => $inscricao->periodo],
+            ]);
         } else {
-            $this->Flash->error(__('Não foi possível excluir a inscrição.'));
-
-            return $this->redirect(['controller' => 'Inscricoes', 'action' => 'view', $muralinscricao->id]);
+            $this->Flash->error(__('The inscricao could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        return $this->redirect(['action' => 'index']);
     }
 }

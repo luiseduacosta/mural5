@@ -3,13 +3,16 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Configuracao $configuracao
  */
-$categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <ul class="navbar-nav collapse navbar-collapse">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar configurações'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Listar configurações'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>
@@ -19,6 +22,7 @@ $categoria = $this->getRequest()->getAttribute('params')['categoria'] ?? null;
         <fieldset>
             <legend><?= __('Configuração') ?></legend>
             <?php
+            echo $this->Form->control('instituicao_nome', ['label' => 'Nome da instituição']);
             echo $this->Form->control('mural_periodo_atual', ['label' => 'Período atual do mural']);
             echo $this->Form->control('termo_compromisso_periodo', ['label' => 'Período do termo de compromisso']);
             echo $this->Form->control('termo_compromisso_inicio', ['label' => 'Início do termo de compromisso']);

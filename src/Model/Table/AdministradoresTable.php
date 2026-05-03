@@ -1,11 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -13,7 +10,6 @@ use Cake\Validation\Validator;
  * Administradores Model
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
- *
  * @method \App\Model\Entity\Administrador newEmptyEntity()
  * @method \App\Model\Entity\Administrador newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Administrador[] newEntities(array $data, array $options = [])
@@ -66,21 +62,10 @@ class AdministradoresTable extends Table
             ->maxLength('nome', 128)
             ->notEmptyString('nome');
 
+        $validator
+            ->integer('user_id')
+            ->notEmptyString('user_id');
+
         return $validator;
-    }
-
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules): RulesChecker
-    {
-        $rules->add($rules->existsIn(['user_id'], 'Users'), ['errorField' => 'user_id']);
-        $rules->add($rules->isUnique(['user_id']), ['errorField' => 'user_id', 'message' => 'Este usuário já está associado a um administrador.']);
-
-        return $rules;
     }
 }

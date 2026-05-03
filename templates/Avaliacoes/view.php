@@ -25,26 +25,25 @@ $professora = isset($avaliacao->estagiario['docente']['nome']) ? $avaliacao->est
     }
 </style>
 
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
         aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
+        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Editar avaliação'), ['action' => 'edit', $avaliacao->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Tem certeza que deseja excluir a avaliação # {0}?', $avaliacao->id), 'class' => 'btn btn-danger me-1']) ?>
+                <?= $this->Form->postLink(__('Excluir avaliação'), ['action' => 'delete', $avaliacao->id], ['confirm' => __('Tem certeza que deseja excluir a avaliação # {0}?', $avaliacao->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>
             <li class="nav-item">
-                <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $avaliacao->estagiario['id'], 'registro' => $avaliacao->estagiario['registro']]], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => ['estagiario_id' => $avaliacao->estagiario['id'], 'registro' => $avaliacao->estagiario['registro']]], ['class' => 'btn btn-primary me-1', 'style'=> '']) ?>
             </li>
         <?php endif; ?>
         <li class="nav-item">
-            <?= $this->Html->link(__('Imprimir avaliação'), ['action' => 'imprimeavaliacaopdf', '?' => ['estagiario_id' => $avaliacao->estagiario_id]], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Imprimir avaliação'), ['action' => 'imprimeavaliacaopdf', '?' => ['estagiario_id' => $avaliacao->estagiario_id]], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>

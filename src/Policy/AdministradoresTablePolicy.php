@@ -1,26 +1,39 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\AdministradoresTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Administradores Table Policy
- */
-class AdministradoresTablePolicy
+final class AdministradoresTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Administradores
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\AdministradoresTable $administradores
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, AdministradoresTable $administradores)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canIndex(): Result
+    {
+        return new Result(true);
     }
 }

@@ -8,15 +8,15 @@
 <?= $this->element('templates') ?>
 
 <div class="wrapper">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerArea"
+    <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerArea"
             aria-controls="navbarTogglerArea" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerArea">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar áreas'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar áreas'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>

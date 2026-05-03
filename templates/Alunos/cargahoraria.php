@@ -1,74 +1,73 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Aluno $aluno
  */
 ?>
 
-<div class='container col-lg-8 shadow p-3 mb-5 bg-white rounded'>
-    <table class='table table-hover table-striped table-responsive'>
-        <thead class='thead-light'>
-            <tr>
-                <th>Id</th>
-                <th><?= $this->Html->link("Registro", ['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'registro']]); ?>
-                </th>
-                <th><?= $this->Html->link("Semestres", ['controller' => 'alunos', 'action' => 'cargahoraria', '?' => ['ordem' => 'q_semestres']]); ?>
-                </th>
-                <th>Nível</th>
-                <th>Período</th>
-                <th>CH 1</th>
-                <th>Nível</th>
-                <th>Período</th>
-                <th>CH 2</th>
-                <th>Nível</th>
-                <th>Período</th>
-                <th>CH 3</th>
-                <th>Nível</th>
-                <th>Período</th>
-                <th>CH 4</th>
-                </th>
-            </tr>
-        </thead>
-        <?php $i = 1; ?>
-        <?php foreach ($cargahorariatotal as $c_cargahorariatotal): ?>
-            <tr>
+<!-- Picks datatables link from template -->
+<?= $this->Html->css('https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css', ['block' => true]); ?>
+<?= $this->Html->script('https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js', ['block' => true]); ?>
+<?= $this->Html->script('https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js', ['block' => true]); ?>
 
-                <td>
-                    <?php echo $i++; ?>
-                </td>
+<div class="alunos cargahoraria content">
+    <h3><?= __('Carga Horária') ?></h3>
 
-                <td>
-                    <?= $c_cargahorariatotal['registro'] ? $this->Html->link($c_cargahorariatotal['registro'], '/alunos/view/' . $c_cargahorariatotal['id']) : ''; ?>
-                </td>
-
-                <td>
-                    <?php echo $c_cargahorariatotal['q_semestres']; ?>
-                </td>
-
-                <?php foreach ($c_cargahorariatotal as $cada_cargahorariatotal): ?>
-                    <?php // pr($cada_cargahorariatotal); ?>
-                    <?php if (is_array($cada_cargahorariatotal)): ?>
-
-                        <td>
-                            <?php echo $cada_cargahorariatotal['nivel']; ?>
-                        </td>
-
-                        <td>
-                            <?php echo $cada_cargahorariatotal['periodo']; ?>
-                        </td>
-
-                        <td>
-                            <?php echo $cada_cargahorariatotal['ch']; ?>
-                        </td>
-
-                    <?php endif; ?>
-
-                <?php endforeach; ?>
-
-                <td>
-                    <?php echo "Total: "; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
+    <div class='table_wrap'>
+        <table id="cargahoraria" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nome</th> 
+                    <th>Registro</th>
+                    <th>Semestres</th>
+                    <th>Nível</th>
+                    <th>Período</th>
+                    <th>CH 1</th>
+                    <th>Nível</th>
+                    <th>Período</th>
+                    <th>CH 2</th>
+                    <th>Nível</th>
+                    <th>Período</th>
+                    <th>CH 3</th>
+                    <th>Nível</th>
+                    <th>Período</th>
+                    <th>CH 4</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($alunos as $aluno) : ?>
+                <?php $carga_estagio = 0; ?>
+                <tr>
+                    <td><?php echo $this->Html->link($aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $aluno->id ]); ?></td>
+                    <td><?php echo h($aluno['registro']); ?></td>
+                    <td><?php echo sizeof($aluno['estagiarios']); ?></td>
+                    
+                    <?php for ($i = 0; $i <= 3; $i++) : ?>
+                            <?php $estagiario = $aluno['estagiarios'][$i] ?? null; ?>
+                            <td><?php echo $estagiario ? $estagiario['nivel'] : ''; ?></td>
+                            <td><?php echo $estagiario ? $estagiario['periodo'] : '-'; ?></td>
+                            <td><?php echo $estagiario ? $estagiario['ch'] : '0'; ?></td>
+                            <?php $carga_estagio += $estagiario ? $estagiario['ch'] : 0; ?>
+                    <?php endfor; ?>
+                    <td><?php echo $carga_estagio; ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+            $('#cargahoraria').DataTable(
+                {
+                    "language": {
+                        "url": "https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
+                    },
+                    "order": [[0, 'asc']],
+                    "pageLength": 20,
+                }
+            );
+        }
+    );
+</script>

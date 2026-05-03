@@ -3,22 +3,28 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Folhadeatividade $folhadeatividade
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
-
-<nav class="navbar navbar-expand-lg py-1 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAtividades"
-            aria-controls="navbarTogglerAtividades" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg py-1 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAtividades">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
             <li class='nav-item'>
-                <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1']) ?>
+                <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
         <?php endif; ?>    
         <li class='nav-item'>
-            <?= $this->Html->link(__('Listar atividades'), ['action' => 'atividade', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1']) ?>
+            <?= $this->Html->link(__('Listar atividades'), ['action' => 'atividade', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>
@@ -70,8 +76,7 @@
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_folhadeatividade->id]) ?>
                         </div>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
-
+                        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_folhadeatividade->id]) ?>
                         </div>                        

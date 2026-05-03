@@ -3,40 +3,47 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Professor $professor
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
+
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir Professor(a)'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $professor->id), 'class' => 'btn btn-danger me-1']) ?>
+                        <?= $this->Form->postLink(__('Excluir Professor(a)'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $professor->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) Professor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Novo(a) Professor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif; ?>
 
-                <?php if (isset($categoria) && $categoria == 3): ?>
+                <?php if ($user_data['professor_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 12pt;']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
         </div>
     </nav>
-</div>
 
 <div class="row">
     <ul class="nav nav-tabs">
@@ -48,10 +55,12 @@
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="estagiarios"
-                aria-selected="false">Avaliação</a>
-        </li>
+        <?php if ($user_data['professor_id'] || $user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="notas"
+                    aria-selected="false">Notas e CH</a>
+            </li>
+        <?php endif; ?>
     </ul>
 </div>
 
@@ -141,25 +150,23 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if (isset($categoria) && $categoria == 1): ?>
+                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
-                            <th><?= __('Turno') ?></th>
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Instituição') ?></th>
                             <th><?= __('Supervisora') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
-                            <th><?= __('Observações') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php if (isset($categoria) && $categoria == 1): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
@@ -175,10 +182,9 @@
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
-                                <td><?= h($estagiarios->observacoes) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
@@ -196,33 +202,31 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if (isset($categoria) && $categoria == 1): ?>
+                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Atividades') ?></th>
                             <th><?= __('Avaliação estágio') ?></th>
-                            <th><?= __('Turno') ?></th>
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Instituição') ?></th>
                             <th><?= __('Supervisora') ?></th>
                             <th><?= __('Periodo') ?></th>
                             <th><?= __('Nota') ?></th>
                             <th><?= __('CH') ?></th>
-                            <th><?= __('Observações') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php if (isset($categoria) && $categoria == 1): ?>
+                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
 
-                                <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
+                                <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
                                     <td><?= $estagiarios->hasValue('folhadeatividade') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', $estagiarios->id]) : $this->Html->link('Cadastrar atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                     </td>
                                 <?php else: ?>
@@ -232,7 +236,6 @@
                                 <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliacao de estágio', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem avaliações cadastradas' ?>
                                 </td>
 
-                                <td><?= h($estagiarios->aluno->turno) ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>
@@ -241,10 +244,10 @@
                                 <td><?= h($estagiarios->periodo) ?></td>
                                 <td><?= h($estagiarios->nota) ?></td>
                                 <td><?= h($estagiarios->ch) ?></td>
-                                <td><?= h($estagiarios->observacoes) ?></td>
+
                                 <td class="actions">
                                     <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
-                                    <?php if (isset($categoria) && $categoria == 1): ?>
+                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>

@@ -3,23 +3,42 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\TurnosTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Turnos Table Policy
- */
-class TurnosTablePolicy
+final class TurnosTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Turnos
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\TurnosTable $turnos
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, TurnosTable $turnos)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canIndex(): Result
+    {
+        return new Result(true);
     }
 }

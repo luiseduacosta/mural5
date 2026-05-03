@@ -11,24 +11,24 @@ use Cake\Validation\Validator;
  *
  * @method \App\Model\Entity\Turno newEmptyEntity()
  * @method \App\Model\Entity\Turno newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Turno[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Turno get($primaryKey, $options = [])
- * @method \App\Model\Entity\Turno findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method array<\App\Model\Entity\Turno> newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Turno get(mixed $primaryKey, array|string $finder = 'all', \Psr\SimpleCache\CacheInterface|string|null $cache = null, \Closure|string|null $cacheKey = null, mixed ...$args)
+ * @method \App\Model\Entity\Turno findOrCreate($search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\Turno patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Turno[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Turno|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Turno saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Turno[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Turno[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Turno[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Turno[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method array<\App\Model\Entity\Turno> patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Turno|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\Turno saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method iterable<\App\Model\Entity\Turno>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Turno>|false saveMany(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\Turno>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Turno> saveManyOrFail(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\Turno>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Turno>|false deleteMany(iterable $entities, array $options = [])
+ * @method iterable<\App\Model\Entity\Turno>|\Cake\Datasource\ResultSetInterface<\App\Model\Entity\Turno> deleteManyOrFail(iterable $entities, array $options = [])
  */
 class TurnosTable extends Table
 {
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<string, mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -36,6 +36,7 @@ class TurnosTable extends Table
         parent::initialize($config);
 
         $this->setTable('turnos');
+        $this->setAlias('Turnos');
         $this->setDisplayField('turno');
         $this->setPrimaryKey('id');
 
@@ -53,12 +54,7 @@ class TurnosTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
-
-        $validator
             ->scalar('turno')
-            ->maxLength('turno', 70)
             ->requirePresence('turno', 'create')
             ->notEmptyString('turno');
 

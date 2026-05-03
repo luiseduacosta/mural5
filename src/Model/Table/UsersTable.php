@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\User;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,20 +14,20 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\SupervisoresTable&\Cake\ORM\Association\BelongsTo $Supervisores
  * @property \App\Model\Table\ProfessoresTable&\Cake\ORM\Association\BelongsTo $Professores
- *
+ * @property \App\Model\Table\AdministradoresTable&\Cake\ORM\Association\BelongsTo $Administradores
  * @method \App\Model\Entity\User newEmptyEntity()
  * @method \App\Model\Entity\User newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \App\Model\Entity\User get($primaryKey, array $options = [])
+ * @method \App\Model\Entity\User findOrCreate(array|string $search, ?callable $callback = null, array $options = [])
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \App\Model\Entity\User|false save(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\User saveOrFail(\Cake\Datasource\EntityInterface $entity, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, array $options = [])
+ * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, array $options = [])
  */
 class UsersTable extends Table
 {
@@ -46,17 +46,40 @@ class UsersTable extends Table
         $this->setDisplayField('email');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Alunos', [
-            'foreignKey' => 'aluno_id',
-        ]);        
-        $this->belongsTo('Supervisores', [
-            'foreignKey' => 'supervisor_id',
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'criado_em' => 'new',
+                    'atualizado_em' => 'always',
+                ],
+            ],
         ]);
-        $this->belongsTo('Professores', [
-            'foreignKey' => 'professor_id',
+
+        try {
+            $tables = $this->getConnection()->getSchemaCollection()->listTables();
+        } catch (\Throwable) {
+            $tables = [];
+        }
+
+        if (in_array('categorias', $tables, true)) {
+            $this->belongsTo('Categorias', [
+                'foreignKey' => 'categoria',
+                'bindingKey' => 'id',
+                'propertyName' => 'categoria_entidade',
+            ]);
+        }
+
+        $this->hasOne('Administradores', [
+            'foreignKey' => 'user_id',
         ]);
-        $this->hasOne('Categorias', [
-            'foreignKey' => 'categoria',
+        $this->hasOne('Alunos', [
+            'foreignKey' => 'user_id',
+        ]);
+        $this->hasOne('Professores', [
+            'foreignKey' => 'user_id',
+        ]);
+        $this->hasOne('Supervisores', [
+            'foreignKey' => 'user_id',
         ]);
     }
 
@@ -73,28 +96,83 @@ class UsersTable extends Table
             ->allowEmptyString('id', null, 'create');
 
         $validator
+            ->scalar('nome')
+            ->maxLength('nome', 128)
+            ->notEmptyString('nome');
+
+        $validator
             ->email('email')
-            ->notEmptyString('email');
+            ->notEmptyString('email', 'Erro: Email vazio');
 
         $validator
             ->scalar('password')
-            ->maxLength('password', 50)
-            ->notEmptyString('password');
+            ->maxLength('password', 80)
+            ->notEmptyString('password', 'Erro: senha vazia');
 
         $validator
             ->scalar('categoria')
-            ->notEmptyString('categoria');
+            ->inList('categoria', ['1', '2', '3', '4'], 'Erro: categoria inválida')
+            ->notEmptyString('categoria', 'Erro: categoria vazia');
 
         $validator
-            ->integer('registro')
-            ->requirePresence('registro', 'create')
-            ->notEmptyString('registro');
+            ->scalar('role')
+            ->inList('role', ['admin', 'supervisor', 'professor', 'aluno'])
+            ->allowEmptyString('role');
 
         $validator
-            /* ->dateTime('timestamp') */
-            ->notEmptyDateTime('timestamp');
+            ->integer('identificacao')
+            ->allowEmptyString('identificacao');
+
+        $validator
+            ->integer('entidade_id')
+            ->allowEmptyString('entidade_id');
+
+        $validator
+            ->integer('aluno_id')
+            ->allowEmptyString('aluno_id');
+
+        $validator
+            ->integer('supervisor_id')
+            ->allowEmptyString('supervisor_id');
+
+        $validator
+            ->integer('professor_id')
+            ->allowEmptyString('professor_id');
+
+        $validator
+            ->integer('ativo')
+            ->allowEmptyString('ativo');
+
+        $validator
+            ->dateTime('criado_em')
+            ->allowEmptyDateTime('criado_em');
+
+        $validator
+            ->dateTime('atualizado_em')
+            ->allowEmptyDateTime('atualizado_em');
 
         return $validator;
+    }
+
+    /**
+     * Sync role with categoria before saving.
+     *
+     * @param \Cake\Event\EventInterface $event The event.
+     * @param \Cake\Datasource\EntityInterface $entity The entity.
+     * @param \ArrayObject $options The options.
+     * @return void
+     */
+    public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
+    {
+        $role = User::CATEGORIA_ROLE_MAP[$entity->categoria] ?? null;
+        if ($role !== null) {
+            $entity->role = $role;
+        }
+
+        // Admins must not have identificacao
+        if ($entity->categoria === '1') {
+            $entity->identificacao = null;
+        }
     }
 
     /**
@@ -106,9 +184,10 @@ class UsersTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['aluno_id'], 'Alunos'), ['errorField' => 'aluno_id']);
-        $rules->add($rules->existsIn(['supervisor_id'], 'Supervisores'), ['errorField' => 'supervisor_id']);
-        $rules->add($rules->existsIn(['professor_id'], 'Professores'), ['errorField' => 'professor_id']);
+        $rules->add($rules->isUnique(['email']));
+        if ($this->hasAssociation('Categorias')) {
+            $rules->add($rules->existsIn(['categoria'], 'Categorias'), ['errorField' => 'categoria']);
+        }
 
         return $rules;
     }

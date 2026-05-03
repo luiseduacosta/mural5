@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -11,7 +10,10 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $nome
+ * @property string|null $nomesocial
  * @property int $registro
+ * @property int|null $ingresso
+ * @property int|null $turno_id
  * @property int $codigo_telefone
  * @property string|null $telefone
  * @property int $codigo_celular
@@ -20,18 +22,19 @@ use Cake\ORM\Entity;
  * @property string|null $cpf
  * @property string|null $identidade
  * @property string|null $orgao
- * @property \Cake\I18n\Date|null $nascimento
- * @property int|null $turno_id
- * @property string|null $ingresso
+ * @property \Cake\I18n\FrozenDate|null $nascimento
  * @property string|null $endereco
  * @property string|null $cep
  * @property string|null $municipio
  * @property string|null $bairro
  * @property string|null $observacoes
+ * @property int|null $estagiario_count
+ * @property int|null $inscricao_count
+ * @property int $user_id
  *
+ * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Inscricao[] $inscricoes
- * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Turno $turno
  */
 class Aluno extends Entity
@@ -47,7 +50,10 @@ class Aluno extends Entity
      */
     protected array $_accessible = [
         'nome' => true,
+        'nomesocial' => true,
         'registro' => true,
+        'ingresso' => true,
+        'turno_id' => true,
         'codigo_telefone' => true,
         'telefone' => true,
         'codigo_celular' => true,
@@ -57,16 +63,17 @@ class Aluno extends Entity
         'identidade' => true,
         'orgao' => true,
         'nascimento' => true,
-        'turno_id' => true,
-        'ingresso' => true,
         'endereco' => true,
         'cep' => true,
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
+        'estagiario_count' => true,
+        'inscricao_count' => true,
+        'user_id' => true,
+        'user' => true,
         'estagiarios' => true,
         'inscricoes' => true,
-        'user' => true,
         'turno' => true,
     ];
 }

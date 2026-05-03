@@ -8,14 +8,13 @@
 <?= $this->element("templates"); ?>
 
 <div class="container mt-1">
-
-    <nav class="navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <ul class="navbar-nav collapse navbar-collapse">
             <li class="nav-item">
                 <?= $this->Html->link(
                     __("Listar Questionarios"),
                     ["controller" => "Questionarios", "action" => "index"],
-                    ["class" => "btn btn-primary me-1"],
+                    ["class" => "btn btn-primary me-1", "style" => "font-size: 10pt;"],
                 ) ?>
             </li>
         </ul>

@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -41,15 +48,14 @@
     });
 </script>
 
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAluno"
+        aria-controls="navbarNavAluno" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" id="navbarNavAluno">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <?php if (isset($categoria) && $categoria == 1): ?>
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Alunos'), ['controller' => 'Alunos', 'action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
@@ -57,7 +63,7 @@
                     <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
+                    <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'termocompromisso', '?' => ['aluno_id' => $aluno->id]], ['class' => 'btn btn-primary me-1']) ?>
                 </li>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Novo Aluno'), ['controller' => 'Alunos', 'action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
@@ -68,8 +74,7 @@
                 <li class="nav-item">
                     <?= $this->Form->postLink(__('Excluir Aluno'), ['controller' => 'Alunos', 'action' => 'delete', $aluno->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $aluno->id), 'class' => 'btn btn-danger me-1']) ?>
                 </li>
-            <?php elseif (isset($categoria) && $categoria == 2): ?>
-                <?php if ($user->aluno_id == $aluno->id): ?>
+            <?php elseif ($user_data['aluno_id'] == $aluno->id): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Aluno'), ['controller' => 'Alunos', 'action' => 'edit', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
@@ -77,9 +82,8 @@
                         <?= $this->Html->link(__('Declaração de período'), ['controller' => 'Alunos', 'action' => 'certificadoperiodo', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'novotermocompromisso', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'Estagiarios', 'action' => 'termocompromisso', $aluno->id], ['class' => 'btn btn-primary me-1']) ?>
                     </li>
-                <?php endif; ?>
             <?php endif ?>
         </ul>
     </div>
@@ -101,7 +105,7 @@
         echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social'], 'readonly' => true]);
         echo $this->Form->control('registro', ['label' => 'Registro', 'readonly' => true]);
         echo $this->Form->control('ingresso', ['label' => 'Ingresso', 'readonly' => true]);
-        echo $this->Form->control('turno', ['options' => ['diurno' => 'Diurno', 'noturno' => 'Noturno'], 'readonly' => true, 
+        echo $this->Form->control('turno_id', ['options' => $turnos, 'readonly' => true, 
         'templates' => ['inputContainer' => '<div class="row col-md-12 {{type}}{{required}}">{{content}}</div>',
                         'label' => '<label class="col-sm-3 col-form-label"{{attrs}}>{{text}}</label>',
                         'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>']]);

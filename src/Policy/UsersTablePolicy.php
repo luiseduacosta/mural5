@@ -3,23 +3,39 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\UsersTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\ResultInterface;
+use Cake\ORM\Query;
 
-/**
- * Users policy
- */
-class UsersTablePolicy
+final class UsersTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Users
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Table\UsersTable $users
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, UsersTable $users)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $user
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
+     */
+    public function scopeIndex(IdentityInterface $user, Query $query): Query
+    {
+        return $query->where(['Users.id' => $user->getIdentifier()]);
     }
 }

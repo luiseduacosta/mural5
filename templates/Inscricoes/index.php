@@ -3,6 +3,13 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Inscricao[]|\Cake\Collection\CollectionInterface $inscricoes
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script type="text/javascript">
@@ -21,7 +28,7 @@
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
             <?= $this->Form->create($inscricoes, ['class' => 'form-inline']); ?>
             <?= $this->Form->input('periodo', ['id' => 'InscricoesPeriodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo => $periodo]], ['class' => 'form-control']); ?>
             <?= $this->Form->end(); ?>
@@ -33,19 +40,17 @@
 
 <div class="container">
 
-    <?php if (isset($categoria) && $categoria == 1): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiario"
+                aria-controls="navbarTogglerEstagiario" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if (isset($categoria) && ($categoria == 1 || $categoria == 2)): ?>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                        </li>
-                    <?php endif; ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Nova inscrição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size: 10pt;']) ?>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -60,10 +65,10 @@
                     <th><?= $this->Paginator->sort('id') ?></th>
                     <th><?= $this->Paginator->sort('registro', 'Registro') ?></th>
                     <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
-                    <th><?= $this->Paginator->sort('Muralestagios.instituicao', 'Instituição') ?></th>
+                    <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituição') ?></th>
                     <th><?= $this->Paginator->sort('data') ?></th>
                     <th><?= $this->Paginator->sort('periodo') ?></th>
-                    <th><?= $this->Paginator->sort('timestamp') ?></th>
+                    <th><?= $this->Paginator->sort('timestamp', 'Atualizado') ?></th>
                     <th class="actions"><?= __('Açoes') ?></th>
                 </tr>
             </thead>
@@ -72,22 +77,21 @@
                     <tr>
                         <td><?= $inscricao->id ?></td>
                         <td><?= $inscricao->registro ?></td>
-                        <?php if (isset($categoria) && $categoria == 1): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno_id]) : '' ?>
                             </td>
                         <?php else: ?>
                             <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>
                         <?php endif; ?>
-                        <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio->id]) : '' ?>
-                        </td>
-                        <td><?= date('d-m-Y', strtotime($inscricao->data)) ?></td>
+                        <td><?= $inscricao->has('muralestagio') ? $this->Html->link($inscricao->muralestagio->instituicao_entidade->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $inscricao->muralestagio_id]) : '' ?></td>
+                        <td><?= $inscricao->data ? $inscricao->data->format('d/m/Y') : '' ?></td>
                         <td><?= h($inscricao->periodo) ?></td>
-                        <td><?= h($inscricao->timestamp) ?></td>
+                        <td><?= $inscricao->timestamp ? $inscricao->timestamp->format('d/m/Y H:i:s') : '' ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $inscricao->id]) ?>
-                            <?php if ($user->isAdmin() || $user->isStudent()): ?>
-                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
-                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id), 'class' => 'btn btn-danger me-1', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                            <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+                                <?= $this->Html->link(__('Editar'), ['action' => 'edit', $inscricao->id]) ?>
+                                <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $inscricao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $inscricao->id)]) ?>
                             <?php endif; ?>
                         </td>
                     </tr>

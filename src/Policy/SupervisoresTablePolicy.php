@@ -3,23 +3,45 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
-use App\Model\Table\SupervisoresTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Supervisores policy
- */
-class SupervisoresTablePolicy
+final class SupervisoresTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Supervisores
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\SupervisoresTable $supervisores
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, SupervisoresTable $supervisores)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 4);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canIndex(): Result
+    {
+        return new Result(true);
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(): Result
+    {
+        return new Result(false, 'Erro: supervisores add policy not authorized');
     }
 }

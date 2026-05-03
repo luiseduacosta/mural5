@@ -6,15 +6,21 @@
  * @var int $totalperiodos
  */
 
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
+
 use Cake\I18n\DateTime;
 use Cake\I18n\I18n;
 
 I18n::setLocale('pt-BR');
 $hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
 
-if ($aluno->turno == 'diurno') {
+if ($aluno->TurnoID->turno == 'diurno') {
     $duracaocurso = '8';
-} elseif ($aluno->turno == 'noturno') {
+} elseif ($aluno->TurnoID->turno == 'noturno') {
     $duracaocurso = '10';
 }
 
@@ -37,12 +43,12 @@ $this->assign('title', 'Certificado de Período');
     expedido por <?= h($aluno->orgao) ?>, 
     matriculado(a) no Curso de Serviço Social da 
     Universidade Federal do Rio de Janeiro com o número <?= h($aluno->registro) ?>, 
-    ingressou em <?= h($aluno->ingresso) ?> no turno <?= ucfirst(h($aluno->turno)) ?>
+    ingressou em <?= h($aluno->ingresso) ?> no turno <?= ucfirst(h($aluno->TurnoID->turno)) ?>
     cursando atualmente <?= $totalperiodos ?><sup>o</sup> período.
 <p>
 
 <p style="text-align:justify; line-height: 2.5;">
-    O turno <?= ucfirst(h($aluno->turno)) ?> do curso de Serviço Social consta de <?= ($aluno->turno == 'diurno') ? '8' : '10' ?> semestres.
+    O turno <?= ucfirst(h($aluno->TurnoID->turno)) ?> do curso de Serviço Social consta de <?= ($aluno->TurnoID->turno == 'diurno') ? '8' : '10' ?> semestres.
 </p>
 <br />
 <br />

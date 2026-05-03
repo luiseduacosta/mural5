@@ -5,6 +5,7 @@
  */
 ?>
 
+<div class="container">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <!-- jQuery Mask -->
@@ -32,7 +33,7 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#codgio_celular').val() === '' ) {
+        if ($('#codigo_celular').val() === '' ) {
             codigo = '21';
         } else {
             codigo = $('#codigo_celular').val();
@@ -57,7 +58,7 @@
 <?= $this->element('templates') ?>
 
 <div class="d-flex justify-content-start">
-    <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,7 +66,7 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Listar Professore(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>
@@ -107,6 +108,6 @@
         echo $this->Form->control('observacoes', ['type' => 'textarea', 'rows' => '3', 'cols' => '40', 'label' => ['text' => 'Outras informações']]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Confirma')) ?>
+    <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']) ?>
     <?= $this->Form->end() ?>
 </div>

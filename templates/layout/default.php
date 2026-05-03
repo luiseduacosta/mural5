@@ -13,48 +13,56 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
-$cakeDescription = 'Mural de estágios da Escola de Serviço Social da UFRJ';
+
+if (isset($configuracao)) {
+    $cakeDescription = $configuracao['mural_periodo_atual'] . ' - ' . $configuracao['instituicao'];
+} else {
+    $cakeDescription = 'Mural de Estágios';
+}
+// Set categoria for all templates
+$identity = $this->getRequest()->getAttribute('identity');
+$categoria = $identity['categoria'] ?? null;
+$this->set('categoria', $categoria);
 ?>
+
 <!DOCTYPE html>
+<!-- templates/layout/default.php -->
 <html>
+    <head>
+        <?= $this->Html->charset() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            <?= $cakeDescription ?>:
+            <?= $this->fetch('title') ?>
+        </title>
+        <?= $this->Html->meta('icon') ?>
+        
+        <?= $this->Html->css(['normalize.min']) ?>
+        <?= $this->Html->css(['fonts']) ?>
+        <?= $this->Html->css(['milligram.min']) ?>
+        <?= $this->Html->css(['cake']) ?>
+        <?= $this->Html->css(['mural']) ?>
+        <?= $this->Html->css(['nav']) ?>
 
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
+        <?= $this->Html->script(['https://code.jquery.com/jquery-3.7.0.min.js']) ?>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+        
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css') ?>
 
-    <!-- jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+        <?= $this->fetch('script') ?>
+    </head>
+    <body>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
-</head>
+        <?= $this->element('menu_superior'); ?>
 
-<body>
-    <header>
-        <?= $this->element('submenu_navegacao'); ?>
-    </header>
-    <main class="main">
-        <div class="container">
+        <div id="content">
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>
-    </main>
-    <footer>
-    </footer>
-</body>
-
+        <?= $this->element('footer'); ?>
+    </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -10,15 +9,15 @@ use Cake\ORM\Entity;
  * Inscricao Entity
  *
  * @property int $id
- * @property int $registro 
- * @property int $aluno_id 
+ * @property int $registro
  * @property int $muralestagio_id
- * @property \Cake\I18n\Date $data
+ * @property \Cake\I18n\FrozenDate $data
  * @property string $periodo
- * @property \Cake\I18n\DateTime $timestamp
+ * @property \Cake\I18n\FrozenTime $timestamp
+ * @property int $aluno_id
  *
- * @property \App\Model\Entity\Aluno[] $alunos
- * @property \App\Model\Entity\Muralestagio[] $muralestagios
+ * @property \App\Model\Entity\Aluno $aluno
+ * @property \App\Model\Entity\Muralestagio $muralestagio
  */
 class Inscricao extends Entity
 {
@@ -32,13 +31,13 @@ class Inscricao extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'registro' => true, // id_aluno -> registro
-        'aluno_id' => true, // alunonovo_id -> aluno_id
+        'registro' => true,
         'muralestagio_id' => true,
         'data' => true,
         'periodo' => true,
         'timestamp' => true,
-        'alunos' => true,
-        'muralestagios' => true,
+        'aluno_id' => true,
+        'aluno' => true,
+        'muralestagio' => true,
     ];
 }

@@ -3,8 +3,14 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
-?>
+declare(strict_types=1);
 
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
+?>
 
 <div class="container">
 
@@ -31,13 +37,13 @@
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
                     <tr>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                         <?php endif; ?>
                         <td><?= $this->Html->link('Imprime declaração de estágio', ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
@@ -48,7 +54,7 @@
                         <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
-                        <?php if ($this->getRequest()->getAttribute('identity')['categoria'] == 1): ?>
+                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                             <?php if (isset($c_estagiario->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->id]) ?>

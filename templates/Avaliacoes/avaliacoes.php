@@ -3,21 +3,27 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
-
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
         aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (isset($categoria) && $categoria == 1): ?>
+        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary float-end']) ?>
-            </li>                
+                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add', $id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
+            </li>
         <?php endif; ?>
+        <li class="nav-item">
     </ul>
 </nav>
 
@@ -36,7 +42,7 @@
                 <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                 <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                 <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                <?php if ($categoria == 1): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <th><?= __('Ações') ?></th>
                 <?php endif; ?>
             </tr>
@@ -44,19 +50,19 @@
         <tbody>
             <?php foreach ($estagiario as $c_estagiario): ?>
                 <tr>
-                    <?php if ($categoria == 1): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                     <?php else: ?>
                         <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
                     <?php endif; ?>
 
-                    <?php if ($categoria == 1 || $categoria == 4): ?>
+                    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
                         <td><?= $c_estagiario->has('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : $this->Html->link('Fazer avaliação', ['controller' => 'avaliacoes', 'action' => 'add', $c_estagiario->id], ['class' => 'btn btn-warning']) ?></td>
                     <?php else: ?>
                         <td><?= $c_estagiario->has('avaliacao') ? $this->Html->link('Ver avaliação', ['controller' => 'Avaliacoes', 'action' => 'view', $c_estagiario->avaliacao->id], ['class' => 'btn btn-success']) : 'Sem avaliação on-line' ?></td>
                     <?php endif; ?>
                     
-                    <?php if ($categoria == 1 || $categoria == 4): ?>
+                    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
                         <td><?= $c_estagiario->hasValue('estudante') ? $this->Html->link($c_estagiario->estudante->nome, ['controller' => 'estudantes', 'action' => 'view', $c_estagiario->estudante->id]) : '' ?></td>
                     <?php else: ?>
                         <td><?= $c_estagiario->hasValue('estudante') ? $c_estagiario->estudante->nome : '' ?></td>
@@ -69,7 +75,7 @@
                     <td><?= $c_estagiario->ch ?></td>
                     <td><?= $c_estagiario->nota ?></td>
 
-                    <?php if ($categoria == 1): ?>
+                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                         <?php if (isset($c_estagiario->avaliacao->id)): ?>
                             <td>
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->avaliacao->id]) ?>

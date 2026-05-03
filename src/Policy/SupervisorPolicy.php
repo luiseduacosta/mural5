@@ -5,84 +5,76 @@ namespace App\Policy;
 
 use App\Model\Entity\Supervisor;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Supervisor policy
- */
-class SupervisorPolicy
+final class SupervisorPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Supervisor
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Supervisor $supervisor
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Supervisor $supervisor)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && in_array($user->categoria, [1, 4]);
-    }
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
 
-    /**
-     * Check if $user can edit Supervisor
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Supervisor $supervisor
-     * @return bool
-     */
-    public function canEdit(?IdentityInterface $user, Supervisor $supervisor)
-    {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 4) {
-            return $this->isAuthor($user, $supervisor);
-        } else {
-            return false;
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
         }
+
+        return null;
     }
 
     /**
-     * Check if $user can delete Supervisor
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Supervisor $supervisor
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Supervisor $supervisor)
+    public function canAdd(): Result
     {
-        return $user->categoria == 1;
+        return new Result(true);
     }
 
     /**
-     * Check if $user can view Supervisor
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Supervisor $supervisor
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Supervisor $supervisor)
+    public function canView(): Result
     {
-        if (!isset($user)) {
-            return false;
-        } elseif ($user->categoria == 1) {
-            return true;
-        } elseif ($user->categoria == 4) {
-            return $this->isAuthor($user, $supervisor);
-        } else {
-            return false;
-        }
+        return new Result(true);
     }
 
     /**
-     * Check if $user is the author of $supervisor
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Supervisor $supervisor
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Supervisor $userData
+     * @return \Authorization\Policy\Result
+     */
+    public function canEdit(IdentityInterface $userSession, Supervisor $supervisorData): Result
+    {
+        return $this->sameUser($userSession, $supervisorData)
+            ? new Result(true)
+            : new Result(false, 'Erro: supervisor edit policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Supervisor $supervisorData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, Supervisor $supervisorData): Result
+    {
+        return new Result(false, 'Erro: supervisor delete policy not allowed');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Supervisor $supervisorData
      * @return bool
      */
-    protected function isAuthor(?IdentityInterface $user, Supervisor $supervisor)
+    protected function sameUser(IdentityInterface $userSession, Supervisor $supervisorData): bool
     {
-        return $supervisor->id === $user->supervisor_id;
+        return $userSession->id === $supervisorData->user_id;
     }
 }

@@ -3,29 +3,34 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Muralestagio $muralestagio
  */
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerMural"
-        aria-controls="navbarTogglerMural" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerMural">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
             <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
         </li>
         <li class="nav-item">
-            <?php if (null !== $categoria && $categoria == 1): ?>
-                <?=
-                    $this->Form->postLink(
-                        __('Excluir'),
-                        ['action' => 'delete', $muralestagio->id],
-                        ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger']
-                    )
-                    ?>
-            </li>
-        </ul>
-    </nav>
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?=
+                $this->Form->postLink(
+                    __('Excluir'),
+                    ['action' => 'delete', $muralestagio->id],
+                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $muralestagio->id), 'class' => 'btn btn-danger', 'style' => 'font-size: 10pt;']
+                )
+                ?>
+        </li>
+    </ul>
+</nav>
 
     <div class="row">
         <div class="container">
@@ -54,12 +59,12 @@
                 echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
                 ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
     <?= $this->Form->end() ?>
-    </div>
+</div>
 <?php endif; ?>
 
 <script type="module">

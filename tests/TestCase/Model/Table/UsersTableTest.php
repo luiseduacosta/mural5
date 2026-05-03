@@ -7,30 +7,15 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\UsersTable;
 use Cake\TestSuite\TestCase;
 
-/**
- * App\Model\Table\UsersTable Test Case
- */
 class UsersTableTest extends TestCase
 {
-    /**
-     * Test subject
-     *
-     * @var \App\Model\Table\UsersTable
-     */
     protected $Users;
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
-    protected array $fixtures = [];
+    protected array $fixtures = [
+        'app.users',
+        'app.categorias',
+    ];
 
-    /**
-     * setUp method
-     *
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -38,62 +23,59 @@ class UsersTableTest extends TestCase
         $this->Users = $this->getTableLocator()->get('Users', $config);
     }
 
-    /**
-     * tearDown method
-     *
-     * @return void
-     */
     public function tearDown(): void
     {
         unset($this->Users);
-
         parent::tearDown();
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
+    public function testInitialize(): void
+    {
+        $this->assertSame('users', $this->Users->getTable());
+        $this->assertSame('Users', $this->Users->getAlias());
+        $this->assertSame('email', $this->Users->getDisplayField());
+        $this->assertSame('id', $this->Users->getPrimaryKey());
+    }
+
     public function testValidationDefault(): void
     {
         $validator = $this->Users->validationDefault(new \Cake\Validation\Validator());
 
-        // Test valid data passes validation
         $errors = $validator->validate([
+            'nome' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'test123',
-            'categoria' => '1',
+            'categoria' => '2',
         ]);
-        $this->assertEmpty($errors);
+        $this->assertEmpty($errors, 'Valid data should pass: ' . print_r($errors, true));
 
-        // Test empty email fails
         $errors = $validator->validate([
+            'nome' => 'Test User',
             'email' => '',
             'password' => 'test123',
-            'categoria' => '1',
+            'categoria' => '2',
         ]);
-        $this->assertArrayHasKey('email', $errors);
+        $this->assertArrayHasKey('email', $errors, 'Empty email should fail');
 
-        // Test invalid email format
         $errors = $validator->validate([
+            'nome' => 'Test User',
             'email' => 'invalid-email',
             'password' => 'test123',
-            'categoria' => '1',
+            'categoria' => '2',
         ]);
-        $this->assertArrayHasKey('email', $errors);
+        $this->assertArrayHasKey('email', $errors, 'Invalid email format should fail');
 
-        // Test invalid categoria
         $errors = $validator->validate([
+            'nome' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'test123',
             'categoria' => '5',
         ]);
-        $this->assertArrayHasKey('categoria', $errors);
+        $this->assertArrayHasKey('categoria', $errors, 'Invalid categoria should fail');
 
-        // Test valid categoria values
         foreach (['1', '2', '3', '4'] as $cat) {
             $errors = $validator->validate([
+                'nome' => 'Test User',
                 'email' => 'test@example.com',
                 'password' => 'test123',
                 'categoria' => $cat,
@@ -102,28 +84,9 @@ class UsersTableTest extends TestCase
         }
     }
 
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
     public function testBuildRules(): void
     {
         $rules = $this->Users->buildRules(new \Cake\ORM\RulesChecker());
-
         $this->assertInstanceOf(\Cake\ORM\RulesChecker::class, $rules);
-    }
-
-    /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize(): void
-    {
-        $this->assertSame('users', $this->Users->getTable());
-        $this->assertSame('Users', $this->Users->getAlias());
-        $this->assertSame('email', $this->Users->getDisplayField());
-        $this->assertSame('id', $this->Users->getPrimaryKey());
     }
 }

@@ -1,10 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
 use Authorization\Exception\ForbiddenException;
+use Cake\Event\EventInterface;
+use Exception;
 
 /**
  * Administradores Controller
@@ -15,6 +16,14 @@ use Authorization\Exception\ForbiddenException;
 class AdministradoresController extends AppController
 {
     /**
+     * beforeFilter method
+     */
+    public function beforeFilter(EventInterface $event): void
+    {
+        parent::beforeFilter($event);
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
@@ -23,14 +32,13 @@ class AdministradoresController extends AppController
     {
         try {
             $this->Authorization->authorize($this->Administradores);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Não autorizado!'));
+        } catch (ForbiddenException $error) {
+            $this->Flash->error('Authorization error: ' . $error->getMessage());
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            return $this->redirect('/');
         }
 
         $administradores = $this->paginate($this->Administradores);
-
         $this->set(compact('administradores'));
     }
 
@@ -41,20 +49,81 @@ class AdministradoresController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
-        $administrador = $this->Administradores->get($id, [
-            'contain' => ['Users'],
-        ]);
+        $administrador = null;
+
+        if ($id) {
+            try {
+                $administrador = $this->Administradores->get($id, [
+                    'contain' => ['Users'],
+                ]);
+            } catch (Exception $error) {
+                $this->Flash->error('Error: ' . $error->getMessage());
+
+                return $this->redirect('/');
+            }
+        } else {
+            $user_id = $this->request->getQuery('user_id');
+            if ($user_id) {
+                try {
+                    $administrador = $this->Administradores->find('all', [
+                        'conditions' => ['Administradores.user_id' => $user_id],
+                        'contain' => ['Users'],
+                    ])->first();
+                } catch (Exception $error) {
+                    $this->Flash->error('Error: ' . $error->getMessage());
+
+                    return $this->redirect('/');
+                }
+            }
+        }
+
+        if (!$administrador) {
+            $this->Flash->error('Administrador not found');
+
+            return $this->redirect(['action' => 'index']);
+        }
 
         try {
             $this->Authorization->authorize($administrador);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Não autorizado!'));
+        } catch (ForbiddenException $error) {
+            $this->Flash->error('Authorization error: ' . $error->getMessage());
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            return $this->redirect('/');
         }
 
+        $this->set(compact('administrador'));
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Administrador id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit(?string $id = null)
+    {
+        $administrador = $this->Administradores->get($id);
+
+        try {
+            $this->Authorization->authorize($administrador);
+        } catch (ForbiddenException $error) {
+            $this->Flash->error('Authorization error: ' . $error->getMessage());
+
+            return $this->redirect('/');
+        }
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
+            if ($this->Administradores->save($administrador)) {
+                $this->Flash->success(__('The administrador has been saved.'));
+
+                return $this->redirect(['action' => 'view', $id]);
+            }
+            $this->Flash->error(__('The administrador could not be saved. Please, try again.'));
+        }
         $this->set(compact('administrador'));
     }
 
@@ -65,90 +134,45 @@ class AdministradoresController extends AppController
      */
     public function add()
     {
+        $identity = $this->request->getAttribute('identity');
+
+        if (!$identity) {
+            $this->Authorization->skipAuthorization();
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect('/');
+        }
+
         $administrador = $this->Administradores->newEmptyEntity();
 
         try {
             $this->Authorization->authorize($administrador);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Não autorizado!'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        } catch (ForbiddenException $error) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect('/');
         }
+
         if ($this->request->is('post')) {
-            $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
-
-            if (!$administrador->user_id) {
-                $administrador->user_id = $this->user->id;
+            $dados = $this->request->getData();
+            if (!empty($dados['user_id'])) {
+                $administrador->user_id = null;
             }
+            $administrador = $this->Administradores->patchEntity($administrador, $dados);
 
             if ($this->Administradores->save($administrador)) {
-                $this->Flash->success(__('Administrador inserido.'));
-
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('Administrador cadastrado com sucesso.'));
+                $userExist = $this->fetchTable('Users')->find()
+                    ->where(['entidade_id' => $administrador->id, 'categoria' => '1'])
+                    ->first();
+                if (empty($userExist)) {
+                    return $this->redirect(['controller' => 'Users', 'action' => 'add', '?' => ['entidade_id' => $administrador->id]]);
+                } else {
+                    $administrador->user_id = $userExist->id;
+                    $this->Administradores->save($administrador);
+                    return $this->redirect(['action' => 'view', $administrador->id]);
+                }
             }
-            $this->Flash->error(__('Administrador não foi inserido. Tente novamente.'));
+            $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
         }
-        $users = $this->Administradores->Users->find('list', ['limit' => 200]);
-        $this->set(compact('administrador', 'users'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Administrador id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $administrador = $this->Administradores->get($id);
-
-        try {
-            $this->Authorization->authorize($administrador);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Não autorizado!'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $administrador = $this->Administradores->patchEntity($administrador, $this->request->getData());
-            if ($this->Administradores->save($administrador)) {
-                $this->Flash->success(__('Registro administrador atualizado.'));
-
-                return $this->redirect(['action' => 'view', $id]);
-            }
-            $this->Flash->error(__('Registro administrador não foi atualizado. Tente novamente.'));
-            return $this->redirect(['action' => 'view', $id]);
-        }
-        $users = $this->Administradores->Users->find('list', ['limit' => 200]);
-        $this->set(compact('administrador', 'users'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Administrador id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $administrador = $this->Administradores->get($id);
-
-        try {
-            $this->Authorization->authorize($administrador);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Não autorizado!'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
-        if ($this->Administradores->delete($administrador)) {
-            $this->Flash->success(__('Registro administrador foi excluído.'));
-        } else {
-            $this->Flash->error(__('Registro administrador não foi excluído. Tente novamente.'));
-            return $this->redirect(['action' => 'view', $id]);
-        }
-        return $this->redirect(['action' => 'index']);
+        $this->set(compact('administrador'));
     }
 }

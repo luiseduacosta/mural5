@@ -5,45 +5,85 @@ namespace App\Policy;
 
 use App\Model\Table\EstagiariosTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
+use Cake\ORM\Query;
 
-/**
- * Estagiarios policy
- */
-class EstagiariosTablePolicy
+final class EstagiariosTablePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can index Estagiarios
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\EstagiariosTable $estagiarios
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canIndex(?IdentityInterface $user, EstagiariosTable $estagiarios)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can lancanota Estagiarios
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\EstagiariosTable $estagiarios
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Table\EstagiariosTable $estagiariosTable
+     * @return \Authorization\Policy\Result
      */
-    public function canLancanota(?IdentityInterface $user, EstagiariosTable $estagiarios)
+    public function canIndex(IdentityInterface $userSession, EstagiariosTable $estagiariosTable): Result
     {
-        return isset($user) && in_array($user->categoria, [1, 3]);
+        return new Result(true);
     }
 
     /**
-     * Check if $user can lancanotapdf Estagiarios
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\EstagiariosTable $estagiarios
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @return \Authorization\Policy\Result
      */
-    public function canLancanotapdf(?IdentityInterface $user, EstagiariosTable $estagiarios)
+    public function canLancanota(IdentityInterface $userSession): Result
     {
-        return isset($user) && in_array($user->categoria, [1, 3]);
+        $user_data = $userSession->getOriginalData();
+        if (($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) || $user_data['professor_id']) {
+            return new Result(true);
+        }
+
+        return new Result(false, 'Erro: lancanota policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @return \Authorization\Policy\Result
+     */
+    public function canLancanotapdf(IdentityInterface $userSession): Result
+    {
+        $user_data = $userSession->getOriginalData();
+        if ($user_data['professor_id']) {
+            return new Result(true);
+        }
+
+        return new Result(false, 'Erro: lancanota policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $user
+     * @param \Cake\ORM\Query $query
+     * @return \Cake\ORM\Query
+     */
+    public function scopeIndex(IdentityInterface $user, Query $query): Query
+    {
+        return $query->where(['Estagiarios.aluno_id' => $user->aluno_id]);
+    }
+
+    /**
+     * @return \Authorization\Policy\Result
+     */
+    public function canBusca(): Result
+    {
+        return new Result(false, 'Erro: estagiarios busca policy not authorized');
     }
 }

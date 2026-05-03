@@ -3,122 +3,105 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\User $user
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
-<<<<<<< HEAD
-    
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-            aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
+<?= $this->element('templates') ?>
+
+<?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
+        <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Admininistradores'), ['controller' => 'Administradores', 'action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $userestagio->id], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Novo'), ['action' => 'add'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $user->id], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
                 <li class="nav-item">
-                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $userestagio->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $userestagio->id), 'class' => 'btn btn-danger float-end']) ?>
+                    <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary float-end me-2', 'style' => 'font-size: 10pt;']) ?>
+                </li>
+                <li class="nav-item">
+                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $user->id), 'class' => 'btn btn-danger float-end me-2', 'style' => 'font-size: 10pt;']) ?>
                 </li>
             </ul>
         </div>
     </nav>
+<?php endif; ?>
 
     <div class="container">
-        <h3><?= h($userestagio->email) ?></h3>
+        <h3><?= h($user->email) ?></h3>
         <table>
             <tr>
                 <th><?= __('Id') ?></th>
-                <td><?= $userestagio->id ?></td>
+                <td><?= $user->id ?></td>
             </tr>
             <tr>
-                <th><?= __('Número') ?></th>
-                <td><?= $userestagio->registro ?></td>
+                <th><?= __('Nome') ?></th>
+                <?php if ($user->isAdmin()): ?>
+                    <td><?= h($user->nome) ?></td>
+                <?php elseif ($user->isAluno()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Alunos', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php elseif ($user->isProfessor()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Professores', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php elseif ($user->isSupervisor()): ?>
+                    <td><?= $this->Html->link($user->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->entidade_id]) ?></td>
+                <?php else: ?>
+                    <td><?= h($user->nome) ?></td>
+                <?php endif; ?>
+            </tr>
+            <tr>
+                <th><?= __('Identificação') ?></th>
+                <td><?= h($user->identificacao) ?></td>
             </tr>
             <tr>
                 <th><?= __('E-mail') ?></th>
-                <td><?= h($userestagio->email) ?></td>
+                <td><?= h($user->email) ?></td>
             </tr>
-            <!--  
-             <tr>
-                 <th><?= __('Password') ?></th>
-                 <td><?= h($userestagio->password) ?></td>
-             </tr>
-             //-->
             <tr>
                 <th><?= __('Categoria') ?></th>
-                <td><?= h($userestagio->categoria) ?></td>
+                <td><?= h($user->categoria) ?></td>
+            </tr>
+            <tr>
+                <th><?= __('Role') ?></th>
+                <td><?= h($user->role) ?? '' ?></td>
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <td><?= $userestagio->hasValue('aluno') ? $this->Html->link($userestagio->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $userestagio->aluno->id]) : '' ?>
+                <td><?= $user->hasValue('aluno') ? $this->Html->link($user->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $user->aluno->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Professor') ?></th>
-                <td><?= $userestagio->hasValue('professor') ? $this->Html->link($userestagio->professor->nome, ['controller' => 'Professores', 'action' => 'view', $userestagio->professor->id]) : '' ?>
+                <td><?= $user->hasValue('professor') ? $this->Html->link($user->professor->nome, ['controller' => 'Professores', 'action' => 'view', $user->professor->id]) : '' ?>
                 </td>
             </tr>
             <tr>
                 <th><?= __('Supervisor') ?></th>
-                <td><?= $userestagio->hasValue('supervisor') ? $this->Html->link($userestagio->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $userestagio->supervisor->id]) : '' ?>
+                <td><?= $user->hasValue('supervisor') ? $this->Html->link($user->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $user->supervisor->id]) : '' ?>
                 </td>
             </tr>
-            <!--
             <tr>
-                <th><?= __('Timestamp') ?></th>
-                <td><?= h($userestagio->timestamp) ?></td>
+                <th><?= __('Criado em') ?></th>
+                <td><?= $user->criado_em ? $user->criado_em->format('d-m-Y H:i:s') : '' ?></td>
             </tr>
-            //-->
+            <tr>
+                <th><?= __('Atualizado em') ?></th>
+                <td><?= $user->atualizado_em ? $user->atualizado_em->format('d-m-Y H:i:s') : '' ?></td>
+            </tr>
         </table>
     </div>
 </div>  
-=======
-
-<nav class="navbar navbar-expand-lg navbar-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerUseresView"
-            aria-controls="navbarTogglerUsersView" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerUserView">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Novo usuário'), ['action' => 'add'], ['class' => 'btn btn-primary me-1']) ?>
-            </li>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Editar usuário'), ['action' => 'edit', $user->id], ['class' => 'btn btn-primary me-1']) ?>
-            </li>
-            <li class="nva-item">
-                <?= $this->Form->postLink(__('Excluir usuaŕio'), ['action' => 'delete', $user->id], ['confirm' => __('Tem certeza que quer excluir # {0}?', $user->id), 'class' => 'btn btn-danger me-1']) ?>
-            </li>
-        <?php endif; ?>
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar usuarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
-        </li>
-    </ul>
-</nav>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <h3><?= h($user->id) ?></h3>
-    <table class="table table-striped table-hover table-responsive">
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Categoria') ?></th>
-            <td><?= h($user->categoria) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($user->id) ?></td>
-        </tr>
-    </table>
-</div>
->>>>>>> f24fd5044a46c82646db2ccb8d44e906b708f1fd

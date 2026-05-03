@@ -3,34 +3,44 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Supervisor $supervisor
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
 
-                <?php if (isset($categoria) && $categoria == 1): ?>
+                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Listar supervisores(as)'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Cadastrar supervisor(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']) ?>
+                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Form->postLink(__('Excluir supervisor(a)'), ['action' => 'delete', $supervisor->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif; ?>
-                <?php if (isset($categoria) && $categoria == 4): ?>
+                <?php if ($user_data['supervisor_id']): ?>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary float-end']) ?>
+                        <?= $this->Html->link(__('Editar supervisor(a)'), ['action' => 'edit', $supervisor->id], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
                     </li>
                 <?php endif; ?>
             </ul>
@@ -116,6 +126,14 @@
                             <td><?= h($supervisor->celular) ?></td>
                         </tr>
                         <tr>
+                            <th><?= __('Escola') ?></th>
+                            <td><?= h($supervisor->escola) ?></td>
+                        </tr>
+                        <tr>
+                            <th><?= __('Ano Formatura') ?></th>
+                            <td><?= h($supervisor->ano_formatura) ?></td>
+                        </tr>
+                        <tr>
                             <th><?= __('Cargo') ?></th>
                             <td><?= h($supervisor->cargo) ?></td>
                         </tr>
@@ -138,10 +156,6 @@
                                     <th><?= __('Instituição') ?></th>
                                     <th><?= __('CNPJ') ?></th>
                                     <th><?= __('Email') ?></th>
-                                    <th><?= __('Endereço') ?></th>
-                                    <th><?= __('Bairro') ?></th>
-                                    <th><?= __('Município') ?></th>
-                                    <th><?= __('CEP') ?></th>
                                     <th><?= __('Telefone') ?></th>
                                     <th><?= __('Convênio') ?></th>
                                     <th><?= __('Expira') ?></th>
@@ -156,10 +170,6 @@
                                         </td>
                                         <td><?= h($instituicoes->cnpj) ?></td>
                                         <td><?= h($instituicoes->email) ?></td>
-                                        <td><?= h($instituicoes->endereco) ?></td>
-                                        <td><?= h($instituicoes->bairro) ?></td>
-                                        <td><?= h($instituicoes->municipio) ?></td>
-                                        <td><?= h($instituicoes->cep) ?></td>
                                         <td><?= h($instituicoes->telefone) ?></td>
                                         <td><?= h($instituicoes->convenio) ?></td>
                                         <td><?= h($instituicoes->expira) ?></td>
@@ -168,7 +178,7 @@
                                         <td class="actions">
                                             <?= $this->Html->link(__('Ver'), ['controller' => 'Instituicoes', 'action' => 'view', $instituicoes->id]) ?>
                                             <?= $this->Html->link(__('Editar'), ['controller' => 'Instituicoes', 'action' => 'edit', $instituicoes->id]) ?>
-                                            <?php if (isset($categoria) && $categoria == 1): ?>
+                                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Instituicoes', 'action' => 'delete', $instituicoes->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $instituicoes->id)]) ?>
                                             <?php endif; ?>
                                         </td>
@@ -194,7 +204,6 @@
                                     <th><?= __('Período') ?></th>
                                     <th><?= __('Nota') ?></th>
                                     <th><?= __('CH') ?></th>
-                                    <th><?= __('Observações') ?></th>
                                     <th class="actions"><?= __('Ações') ?></th>
                                 </tr>
                                 <?php foreach ($supervisor->estagiarios as $estagiarios): ?>
@@ -210,12 +219,11 @@
                                         <td><?= h($estagiarios->periodo) ?></td>
                                         <td><?= h($estagiarios->nota) ?></td>
                                         <td><?= h($estagiarios->ch) ?></td>
-                                        <td><?= h($estagiarios->observacoes) ?></td>
                                         <td class="actions">
-                                            <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
+                                            <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                             <?php endif; ?>
-                                            <?php if (isset($categoria) && $categoria == 1): ?>
+                                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                             <?php endif; ?>
@@ -260,14 +268,13 @@
                                         <td><?= h($estagiarios->ch) ?></td>
                                         <td><?= h($estagiarios->hasValue('folhadeatividades')) ? $this->Html->link('Atividades', ['controller' => 'folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) : 'Sem atividades' ?></td>
                                         <!-- Administradores e supervisores podem avaliar -->
-                                        <?php if (isset($categoria) && ($categoria == 1 || $categoria == 4)): ?>
+                                        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiario(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : $this->Html->link('Avaliar discente', ['controller' => 'avaliacoes', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                             </td>
-                                        <?php elseif (isset($categoria) && ($categoria == 2 || $categoria == 3)): ?>
+                                        <?php elseif ($user_data['aluno_id'] || $user_data['professor_id']): ?>
                                             <td><?= $estagiarios->hasValue('avaliacao') ? $this->Html->link('Avaliação do(a) estagiário(a)', ['controller' => 'avaliacoes', 'action' => 'view', '?' => ['estagiario_id' => $estagiarios->id]]) : "Sem avaliação" ?>
                                             </td>
                                         <?php endif; ?>
-                                        <td><?= h($estagiarios->observacoes) ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </table>

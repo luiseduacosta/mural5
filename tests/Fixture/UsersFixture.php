@@ -6,54 +6,56 @@ namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-/**
- * UsersFixture
- */
 class UsersFixture extends TestFixture
 {
-    /**
-     * Fields
-     *
-     * @var array
-     */
-    // phpcs:disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'email' => ['type' => 'char', 'length' => 50, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-        'password' => ['type' => 'char', 'length' => 40, 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-        'categoria_id' => ['type' => 'string', 'length' => null, 'null' => false, 'default' => '1', 'collate' => 'latin1_swedish_ci', 'comment' => '', 'precision' => null],
-        'registro' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'aluno_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'supervisor_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'professor_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'timestamp' => ['type' => 'timestamp', 'length' => null, 'precision' => null, 'null' => false, 'default' => 'CURRENT_TIMESTAMP', 'comment' => ''],
+        'nome' => ['type' => 'string', 'length' => 128, 'null' => false, 'default' => '', 'comment' => '', 'precision' => null],
+        'email' => ['type' => 'char', 'length' => 50, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'password' => ['type' => 'char', 'length' => 80, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        'categoria' => ['type' => 'string', 'length' => 1, 'null' => false, 'default' => '2', 'comment' => '1=Admin, 2=Aluno, 3=Professor, 4=Supervisor', 'precision' => null],
+        'role' => ['type' => 'string', 'length' => 20, 'null' => true, 'default' => 'aluno', 'comment' => '', 'precision' => null],
+        'identificacao' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => 'DRE/Siape/CRESS', 'precision' => null],
+        'entidade_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'aluno_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'supervisor_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'professor_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'ativo' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '1', 'comment' => '', 'precision' => null],
+        'criado_em' => ['type' => 'timestamp', 'length' => null, 'precision' => null, 'null' => true, 'default' => 'CURRENT_TIMESTAMP', 'comment' => ''],
+        'atualizado_em' => ['type' => 'timestamp', 'length' => null, 'precision' => null, 'null' => true, 'default' => 'CURRENT_TIMESTAMP', 'comment' => ''],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
-        '_options' => [
-            'engine' => 'MyISAM',
-            'collation' => 'latin1_swedish_ci'
-        ],
     ];
-    // phpcs:enable
-    /**
-     * Init method
-     *
-     * @return void
-     */
+
     public function init(): void
     {
         $this->records = [
             [
                 'id' => 1,
-                'email' => '',
-                'password' => '',
-                'categoria_id' => 'Lorem ipsum dolor sit amet',
-                'registro' => 1,
+                'nome' => 'Admin User',
+                'email' => 'admin@test.com',
+                'password' => 'hashedpassword',
+                'categoria' => '1',
+                'role' => 'admin',
+                'identificacao' => 1,
+                'aluno_id' => null,
+                'supervisor_id' => null,
+                'professor_id' => null,
+                'ativo' => 1,
+            ],
+            [
+                'id' => 2,
+                'nome' => 'Aluno Test',
+                'email' => 'aluno@test.com',
+                'password' => 'hashedpassword',
+                'categoria' => '2',
+                'role' => 'aluno',
+                'identificacao' => 123456789,
                 'aluno_id' => 1,
-                'supervisor_id' => 1,
-                'professor_id' => 1,
-                'timestamp' => 1597029367,
+                'supervisor_id' => null,
+                'professor_id' => null,
+                'ativo' => 1,
             ],
         ];
         parent::init();

@@ -5,69 +5,64 @@ namespace App\Policy;
 
 use App\Model\Entity\Muralestagio;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Muralestagio policy
- */
-class MuralestagioPolicy
+final class MuralestagioPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Muralestagio
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Muralestagio $muralestagio
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Muralestagio $muralestagio)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                    || $user_data['professor_id']
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Muralestagio
-     *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Muralestagio $muralestagio
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Muralestagio $muralestagio)
+    public function canView(IdentityInterface $user, Muralestagio $muralestagio): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false);
     }
 
     /**
-     * Check if $user can delete Muralestagio
-     *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Muralestagio $muralestagio
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Muralestagio $muralestagio)
+    public function canEdit(IdentityInterface $user, Muralestagio $muralestagio): Result
     {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: muralestagio edit policy not authorized');
     }
 
     /**
-     * Check if $user can view Muralestagio
-     *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Muralestagio $muralestagio
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Muralestagio $muralestagio)
+    public function canDelete(IdentityInterface $user, Muralestagio $muralestagio): Result
     {
-        return true;
-    }
-
-    /**
-     * Check if $user can imprimepdf Muralestagio
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Muralestagio $muralestagio
-     * @return bool
-     */
-    public function canImprimepdf(?IdentityInterface $user, Muralestagio $muralestagio)
-    {
-        return isset($user->categoria) && $user->categoria == 1;
+        return new Result(false, 'Erro: muralestagio delete policy not authorized');
     }
 }

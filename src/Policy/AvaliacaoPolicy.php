@@ -5,57 +5,76 @@ namespace App\Policy;
 
 use App\Model\Entity\Avaliacao;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Avaliacao policy
- */
-class AvaliacaoPolicy
+final class AvaliacaoPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Avaliacao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Avaliacao $avaliacao
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Avaliacao $avaliacao)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 4);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                    || $user_data['supervisor_id']
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Avaliacao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Avaliacao $avaliacao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Avaliacao $avaliacao)
+    public function canView(IdentityInterface $user, Avaliacao $avaliacao): Result
     {
-        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 4);
+        $user_data = $user->getOriginalData();
+
+        // Student can only view their own
+        if ($user_data['aluno_id']) {
+            return new Result($user_data['aluno_id'] == $avaliacao->estagiario->aluno_id);
+        }
+
+        // Professor can view evaluations for their assigned students
+        if ($user_data['professor_id']) {
+            return new Result($user_data['professor_id'] == $avaliacao->estagiario->professor_id);
+        }
+
+        return new Result(false);
     }
 
     /**
-     * Check if $user can delete Avaliacao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Avaliacao $avaliacao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Avaliacao $avaliacao)
+    public function canEdit(IdentityInterface $user, Avaliacao $avaliacao): Result
     {
-        return isset($user->categoria) && ($user->categoria == 1 || $user->categoria == 4);
+        return new Result(false, 'Erro: avaliacao edit policy not authorized');
     }
 
     /**
-     * Check if $user can view Avaliacao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Avaliacao $avaliacao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Avaliacao $avaliacao)
+    public function canDelete(IdentityInterface $user, Avaliacao $avaliacao): Result
     {
-        return true;
+        return new Result(false, 'Erro: avaliacao delete policy not authorized');
     }
 }

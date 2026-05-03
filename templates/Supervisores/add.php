@@ -4,6 +4,7 @@
  * @var \App\Model\Entity\Supervisor $supervisor
  */
 ?>
+<<<<<<< HEAD
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
@@ -13,6 +14,9 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <li class="nav-item">
+=======
+
+>>>>>>> main
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
@@ -62,18 +66,17 @@
     });
 </script>
 
-
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerSupervisores"
-            aria-controls="navbarTogglerSupervisores" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerSupervisores">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
             <?= $this->Html->link(
                 __("Listar supervisores"),
                 ["action" => "index"],
-                ["class" => "btn btn-primary"],
+                ["class" => "btn btn-primary", "style" => "font-size: 10pt;"],
             ) ?>
         </li>
     </ul>

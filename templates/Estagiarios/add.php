@@ -5,6 +5,13 @@
  * @var \App\Model\Entity\Aluno $aluno
  * @var \Cake\I18n\DateTime $now
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
 <script type="text/javascript">
@@ -73,17 +80,15 @@
     }
 </script>
 
-
-
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerEstagiarioAdd"
-        aria-controls="navbarTogglerEstagiarioAdd" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerEstagiarioAdd">
-        <?php if (isset($categoria) && $categoria == '1'): ?>
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
             <li class="nav-item">
-                <?= $this->Html->link(__('Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary float-start']) ?>
+                <?= $this->Html->link(__('Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>
         <?php endif; ?>
     </ul>
@@ -133,17 +138,6 @@
                     'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
                     'input' => '<input class="col-sm-2 form-control " type="{{type}}" name="{{name}}"{{attrs}}/>'
                 ]
-            ]);
-            echo $this->Form->control('turno', [
-                'label' => 'Turno',
-                'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indefinido'],
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-2 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
-                ],
-                'id' => 'turno',
-                'value' => isset($aluno) ? $aluno->turno : ''
             ]);
             echo $this->Form->control('nivel', [
                 'label' => 'Nível',
@@ -240,7 +234,7 @@
                 ],
                 'readonly' => true
             ]);
-            if (isset($categoria) && $categoria == 1) {
+            if ($user_data['categoria'] === '1' && $user_data['entidade_id']) {
                 echo $this->Form->control('nota', [
                     'label' => 'Nota',
                     'value' => '',
@@ -280,36 +274,38 @@
         <?= $this->Form->end() ?>
     </div>
 
-    <script type="module">
-        import {
-            ClassicEditor,
-            Essentials,
-            Bold,
-            Italic,
-            Strikethrough,
-            Font,
-            Paragraph,
-            List,
-            Alignment
-        } from 'ckeditor5';
+</div>
 
-        let;
-        if (typeof observacoes !== 'undefined') {
-            observacoes.destroy();
-        }
+<script type="module">
+    import {
+        ClassicEditor,
+        Essentials,
+        Bold,
+        Italic,
+        Strikethrough,
+        Font,
+        Paragraph,
+        List,
+        Alignment
+    } from 'ckeditor5';
 
-        ClassicEditor
-            .create(document.querySelector('#observacoes'), {
-                plugins: [Essentials, Bold, Italic, Strikethrough, Font, Paragraph, List, Alignment],
-                toolbar: [
-                    'undo', 'redo', '|', 'bold', 'italic', 'strikethrough', 'bulletedList', 'numberedList', 'alignment', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
-                ]
-            })
-            .then(editor => {
-                observacoes = editor;
-                console.log('Olá editor observações inicializado', observacoes);
-                requisitos.setData("");
-            });
+    let ;
+    if (typeof observacoes !== 'undefined') {
+        observacoes.destroy();
+    }
 
-    </script>
+    ClassicEditor
+        .create(document.querySelector('#observacoes'), {
+            plugins: [Essentials, Bold, Italic, Strikethrough, Font, Paragraph, List, Alignment],
+            toolbar: [
+                'undo', 'redo', '|', 'bold', 'italic', 'strikethrough', 'bulletedList', 'numberedList', 'alignment', '|',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+            ]
+        })
+        .then(editor => {
+            observacoes = editor;
+            console.log('Olá editor observações inicializado', observacoes);
+            requisitos.setData("");
+        });
+
+</script>

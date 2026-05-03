@@ -5,58 +5,84 @@ namespace App\Policy;
 
 use App\Model\Entity\User;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * User policy
- */
-class UserPolicy
+final class UserPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can create User
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\User $resource
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, User $resource)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
 
-        return true;
+            if ($user_data['categoria'] === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can update User
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\User $resource
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\User $userData
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, User $resource)
+    public function canView(IdentityInterface $userSession, User $userData): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return $this->sameUser($userSession, $userData)
+            ? new Result(true)
+            : new Result(false, 'Erro: user view policy not authorized');
     }
 
     /**
-     * Check if $user can delete User
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\User $resource
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\User $userData
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, User $resource)
+    public function canEdit(IdentityInterface $userSession, User $userData): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return $this->sameUser($userSession, $userData)
+            ? new Result(true)
+            : new Result(false, 'Erro: user edit policy not authorized');
     }
 
     /**
-     * Check if $user can view User
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\User $resource
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\User $userData
+     * @return \Authorization\Policy\Result
+     */
+    public function canEditpassword(IdentityInterface $userSession, User $userData): Result
+    {
+        return $this->sameUser($userSession, $userData)
+            ? new Result(true)
+            : new Result(false, 'Erro: user edit policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\User $userData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, User $userData): Result
+    {
+        return new Result(false, 'Erro: user delete policy not allowed');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\User $userData
      * @return bool
      */
-    public function canView(?IdentityInterface $user, User $resource)
+    protected function sameUser(IdentityInterface $userSession, User $userData): bool
     {
-        return isset($user) && $user->categoria == 1;
+        return $userSession->id === $userData->id;
     }
 }

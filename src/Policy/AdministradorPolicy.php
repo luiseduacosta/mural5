@@ -1,62 +1,85 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Policy;
 
 use App\Model\Entity\Administrador;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Administrador Policy
- */
-class AdministradorPolicy
+final class AdministradorPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Administrador
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Administrador $administrador
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Administrador $administrador)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && $user->categoria == 1;
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if ($action === 'add') {
+                return null;
+            }
+
+            if (($user_data['categoria'] ?? null) === '1' && !empty($user_data['entidade_id'])) {
+                return true;
+            }
+        }
+
+        return null;
+    }
+
+    public function canAdd(IdentityInterface $user, Administrador $administrador): Result
+    {
+        $userData = $user->getOriginalData();
+
+        $isCategoriaAdmin = ($userData['categoria'] ?? null) === '1';
+        if (!$isCategoriaAdmin) {
+            return new Result(false);
+        }
+
+        $currentUserId = (int)($userData['id'] ?? 0);
+        $targetUserId = (int)($administrador->user_id ?? 0);
+
+        if ($targetUserId !== 0 && $targetUserId !== $currentUserId) {
+            return new Result(($userData['role'] ?? null) === 'admin');
+        }
+
+        return new Result(true);
     }
 
     /**
-     * Check if $user can edit Administrador
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Administrador $administrador
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Administrador $administrador)
+    public function canView(IdentityInterface $user, Administrador $administrador): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(false, 'Erro: admin view policy not authorized');
     }
 
     /**
-     * Check if $user can view Administrador
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Administrador $administrador
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Administrador $administrador)
+    public function canEdit(IdentityInterface $user, Administrador $administrador): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(false, 'Erro: admin edit policy not authorized');
     }
 
     /**
-     * Check if $user can delete Administrador
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Administrador $administrador
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Administrador $administrador)
+    public function canDelete(IdentityInterface $user, Administrador $administrador): Result
     {
-        return isset($user) && $user->categoria == 1;
+        return new Result(false, 'Erro: admin delete policy not authorized');
     }
 }

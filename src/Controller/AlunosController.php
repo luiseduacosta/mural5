@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Utility\Files;
-use Cake\Http\Exception\ForbiddenException;
+use Authorization\Exception\ForbiddenException;
+use Cake\Datasource\Exception\RecordNotFoundException;
 
 /**
  * Alunos Controller
@@ -15,38 +14,37 @@ use Cake\Http\Exception\ForbiddenException;
  */
 class AlunosController extends AppController
 {
-
     /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index($id = null)
+    public function index()
     {
-
         $this->Authorization->authorize($this->Alunos);
+        $query = $this->Alunos->find('all');
+        $query->contain(['Users', 'Turnos']);
 
-        $query = $this->Alunos->find('all', ['contain' => ['Turnos']]);
+        $identity = $this->request->getAttribute('identity');
+        if ($identity && $identity->getOriginalData()['categoria'] == 2) {
+            $query->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
+        }
 
         $alunos = $this->paginate($query, [
             'sortableFields' => [
-                'Alunos.id',
-                'Alunos.registro',
-                'Alunos.nome',
-                'Alunos.nomesocial',
-                'Alunos.nascimento',
-                'Alunos.cpf',
-                'Alunos.identidade',
-                'Alunos.orgao',
-                'Alunos.ingresso',
+                'id',
+                'nome',
+                'registro',
+                'email',
+                'telefone',
+                'celular',
+                'cpf',
+                'ingresso',
                 'Turnos.turno',
-                'Alunos.email',
-                'Alunos.codigo_telefone',
-                'Alunos.telefone',
-                'Alunos.codigo_celular',
-                'Alunos.celular',
+                'inscricao_count',
             ],
         ]);
+
         $this->set(compact('alunos'));
     }
 
@@ -57,57 +55,52 @@ class AlunosController extends AppController
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view(?string $id = null)
     {
-
-        if ($id === null) {
-            $this->Flash->error(__('Identificador de aluno(a) não encontrado.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        
+        $identity = $this->request->getAttribute('identity');
+        if ($identity && $identity->getOriginalData()['categoria'] == 2) {
+            $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
         }
 
-        $aluno = $this->Alunos
-            ->find()
-            ->contain([
-                'Estagiarios' => [
-                    'Instituicoes',
-                    'Alunos',
-                    'Supervisores',
-                    'Professores',
-                ],
-                'Inscricoes' => ['Muralestagios'],
-            ])
-            ->where(['Alunos.id' => $id])
-            ->first();
-
-        if (empty($aluno)) {
-            $this->Flash->error(__('Aluno não encontrado.'));
-
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        if ($aluno) {
+            $id = $aluno->first()->id;
         }
 
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
+        $contained = [
+            'Estagiarios' => ['Alunos', 'Instituicoes', 'Supervisores', 'Professores'],
+            'Inscricoes' => ['Muralestagios' => ['Instituicoes']],
+            'Users',
+            'Turnos',
+        ];
 
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        if (empty($id)) {
+            // Give a chance with the registro
+            $registro = $this->request->getQuery('registro');
+            if ($registro) {
+                $aluno = $this->Alunos->find()->where(['Alunos.registro' => $registro])->first();
+                if ($aluno) {
+                    $id = $aluno->id;
+                }
+            }
+            if (empty($id)) {
+                $this->Authorization->skipAuthorization();
+                $this->Flash->error(__('Sem parâmetros para localizar o(a) aluno(a)'));
 
-        if (empty($aluno)) {
-            $this->Flash->error(__('Aluno não encontrado'));
-
-            return $this->redirect(['action' => 'index']);
+                return $this->redirectBack(['controller' => 'Alunos', 'action' => 'index']);
+            }
         }
 
         try {
-            $this->set(compact('aluno'));
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
+            $aluno = $this->Alunos->get($id, ['contain' => $contained]);
+        } catch (RecordNotFoundException $e) {
+            $this->Authorization->skipAuthorization();
+            $this->Flash->error(__('Aluno 1 não encontrado.'));
 
-            return $this->redirect(['action' => 'index']);
+            return $this->redirectBack(['action' => 'index']);
         }
-        $this->Authorization->authorize($aluno);
+
+        $this->Authorization->skipAuthorization();
 
         $this->set(compact('aluno'));
     }
@@ -117,108 +110,63 @@ class AlunosController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add($id = NULL)
+    public function add()
     {
-
-        if ($this->getRequest()->getAttribute('identity')['categoria'] == 2) {
-            $registro = $this->getRequest()->getAttribute('identity')['registro'];
-            $email = $this->getRequest()->getAttribute('identity')['email'];
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        } else {
+            $this->Flash->error(__('Operação não pode ser realizada porque o usuário não está autenticado.'));
+            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
 
-        /** Envio para o formulário */
-        if ($registro) {
-            $this->set('registro', $registro);
-        }
-        if ($email) {
-            $this->set('email', $email);
-        }
-
-        /* Verifico se já está cadastrado */
-        if ($registro) {
-            $estudantecadastrado = $this->Alunos->find()
-                ->where(['registro' => $registro])
-                ->first();
-
-            if ($estudantecadastrado):
-                $this->Flash->error(__('Aluno já cadastrado'));
-                return $this->redirect(['view' => $estudantecadastrado->id]);
-            endif;
+        if (!empty($user_data['aluno_id'])) {
+            $this->Flash->warning(__('Aluno já está cadastrado.'));
+            return $this->redirect(['action' => 'view', $user_data['aluno_id']]);
         }
 
         $aluno = $this->Alunos->newEmptyEntity();
 
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        $this->Authorization->skipAuthorization();
 
         if ($this->request->is('post')) {
+            $aluno = $this->Alunos->patchEntity($aluno, $this->request->getData());
+            if ($this->Alunos->save($aluno)) {
+                $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
 
-            /**
-             * Verifico se já é um usuário cadastrado no users.
-             * Isto pode acontecer por exemplo quando para recuperar a senha é excluido o usuário.
-             */
-            $registro = $this->request->getData('registro');
-            $usercadastrado = $this->Alunos->Users->find()
-                ->where(['categoria' => 2, 'registro' => $registro])
-                ->first();
-            if (empty($usercadastrado)):
-                $this->Flash->error(__('Aluno naõ cadastrado como usuário'));
-                return $this->redirect('/users/add');
-            endif;
-
-            $alunoresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
-
-            if ($this->Alunos->save($alunoresultado)) {
-                $this->Flash->success(__('Aluno cadastrado 1.'));
-
-                /**
-                 * Verifico se está preenchido o campo aluno_id na tabela Users.
-                 * Primeiro busco o usuário.
-                 */
-                $userestagioestudante = $this->Alunos->Users->find()
-                    ->where(['aluno_id' => $alunoresultado->id])
-                    ->first();
-
-                /**
-                 * Se a busca retorna vazia então atualizo a tabela Users com o valor do aluno_id.
-                 */
-                if (empty($userestagioestudante)) {
-
-                    $userestagio = $this->Alunos->Users->find()
-                        ->where(['categoria' => 2, 'registro' => $alunoresultado->registro])
-                        ->first();
-                    $userdata = $userestagio->toArray();
-                    /** Carrego o valor do campo aluno_id */
-                    $userdata['aluno_id'] = $alunoresultado->id;
-
-                    $userestagiostabela = $this->fetchTable('Users');
-                    $user_entity = $userestagiostabela->get($userestagio->id);
-                    /** Atualiza */
-                    $userestagioresultado = $this->Alunos->Users->patchEntity($user_entity, $userdata);
-                    if ($this->Alunos->Users->save($userestagioresultado)) {
-                        $this->Flash->success(__('Usuário atualizado com o id do aluno'));
-                        return $this->redirect(['action' => 'view', $alunoresultado->id]);
-                    } else {
-                        $this->Flash->erro(__('Não foi possível atualizar a tabela Users com o id do aluno'));
-                        // debug($users->getErrors());
-                        return $this->redirect(['controller' => 'Users', 'action' => 'logout']);
-                    }
+                // Update the user record with aluno_id and entidade_id
+                $usuario = $this->Users->get($user_session->id);
+                $usuario->aluno_id = $aluno->id;
+                $usuario->entidade_id = $aluno->id;
+                if ($this->Users->save($usuario)) {
+                    $refreshUser = $this->Users->get($usuario->id);
+                    $this->Authentication->setIdentity($refreshUser);
+                    $this->Flash->success(__('Usuário atualizado com o id do aluno'));
                 }
-                return $this->redirect(['controller' => 'Alunos', 'action' => 'view', $alunoresultado->id]);
             } else {
-                // debug($aluno)->getErrors();
-                $this->Flash->error(__('Não foi possível cadastrar o aluno. Tente novamente.'));
-                return $this->redirect(['action' => 'add', '?' => ['registro' => $registro, 'email' => $email]]);
+            $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
             }
-        } // Finaliza post
+        }
 
-        $this->set('turnos', $this->fetchTable('Turnos')->find('list', ['keyField' => 'id', 'valueField' => 'turno']));
-        $this->set(compact('aluno'));
+        if ($user_session) {
+            $nome = $user_data['nome'] ?? '';
+            $email = $user_data['email'];
+            $registro = $user_data['identificacao'];
+            $aluno->nome = $nome;
+            $aluno->email = $email;
+            $aluno->registro = $registro;
+        } else {
+            $email = $this->request->getQuery('email');
+            $registro = $this->request->getQuery('registro');
+            $aluno->email = $email;
+            $aluno->registro = $registro;
+        }
+
+        $turnos = $this->Alunos->Turnos->find('list')->all();
+        $this->set(compact('aluno', 'turnos'));
     }
-
+    
     /**
      * Edit method
      *
@@ -226,31 +174,31 @@ class AlunosController extends AppController
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit(?string $id = null)
     {
-
-        $aluno = $this->Alunos->get($id, [
-            'contain' => [],
-        ]);
-
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        $aluno = $this->Alunos->get($id);
+        $this->Authorization->authorize($aluno);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $alunoresultado = $this->Alunos->patchEntity($aluno, $this->request->getData());
-            if ($this->Alunos->save($alunoresultado)) {
-                $this->Flash->success(__('Registo de aluno atualizado.'));
+            $dados = $this->request->getData();
+            if (empty($this->request->getData('ingresso'))) {
+                if (strlen((string)$aluno->registro) == 9) {
+                    $dados['ingresso'] = '20' . substr((string)$aluno->registro, 1, 2);
+                } elseif (strlen((string)$aluno->registro) == 8) {
+                    $dados['ingresso'] = '19' . substr((string)$aluno->registro, 0, 2);
+                }
+            }
+
+            $aluno = $this->Alunos->patchEntity($aluno, $dados);
+            if ($this->Alunos->save($aluno)) {
+                $this->Flash->success(__('A edição foi salva com sucesso.'));
 
                 return $this->redirect(['action' => 'view', $id]);
             }
-            $this->Flash->error(__('Registro de aluno não foi atualizado. Tente novamente.'));
+            $this->Flash->error(__('Erro ao salvar: não foi possível salvar os dados.'));
         }
-        $this->set('turnos', $this->fetchTable('Turnos')->find('list', ['keyField' => 'id', 'valueField' => 'turno']));
-        $this->set(compact('aluno'));
+        $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
+        $this->set(compact('aluno', 'turnos'));
     }
 
     /**
@@ -260,448 +208,363 @@ class AlunosController extends AppController
      * @return \Cake\Http\Response|null|void Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete(?string $id = null)
     {
-
         $this->request->allowMethod(['post', 'delete']);
-        $aluno = $this->Alunos->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+        $aluno = $this->Alunos->get($id, ['contain' => ['Estagiarios']]);
+        $this->Authorization->authorize($aluno);
 
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-        }
+        if (count($aluno->estagiarios) > 0) {
+            $this->Flash->error(__('Erro ao Excluir: O aluno tem estagiários associados.'));
 
-        if (sizeof($aluno->estagiarios) > 0) {
-            $this->Flash->error(__('Aluno tem estagiários associados.'));
             return $this->redirect(['controller' => 'alunos', 'action' => 'view', $id]);
         }
+
         if ($this->Alunos->delete($aluno)) {
-            $this->Flash->success(__('Registro de aluno excluído.'));
+            $this->Flash->success(__('O aluno foi deletado com sucesso.'));
         } else {
-            $this->Flash->error(__('Registro de aluno não foi excluído. Tente novamente.'));
+            $this->Flash->error(__('Erro ao Excluir: Não foi possível Excluir o aluno.'));
         }
 
         return $this->redirect(['action' => 'index']);
     }
 
-    public function planilhacress($id = NULL)
+    /**
+     * Busca method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function busca()
     {
+        $this->Authorization->skipAuthorization();
 
-        $periodo = !is_null($this->getRequest()->getQuery('periodo')) ? $this->getRequest()->getQuery('periodo') : NULL;
-        $ordem = 'Alunos.nome';
+        $nome = $this->getRequest()->getQuery('nome');
+        if ($nome) {
+            $condition = ['Alunos.nome LIKE' => '%' . $nome . '%'];
+            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $alunos = $this->paginate($busca, [
+                'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
+            ]);
+            $this->set(compact('alunos'));
 
-        try {
-            $this->Authorization->authorize($this->Alunos);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            return;
         }
 
-        /* Todos os periódos */
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'order' => 'periodo'
-        ]);
-        $periodos = $periodototal->toArray();
-        /* Se o periodo não veio anexo como parametro então o período é o último da lista dos períodos */
-        if (empty($periodo)) {
-            $periodo = end($periodos);
+        $dre = $this->getRequest()->getQuery('dre');
+        if ($dre) {
+            $condition = ['Alunos.registro' => $dre];
+            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $alunos = $this->paginate($busca, [
+                'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
+            ]);
+            $this->set(compact('alunos'));
+
+            return;
         }
 
-        $cress = $this->Alunos->Estagiarios->find()
-            ->contain(['Alunos', 'Instituicoes', 'Supervisores', 'Professores'])
-            ->select(['Estagiarios.periodo', 'Alunos.id', 'Alunos.nome', 'Instituicoes.id', 'Instituicoes.instituicao', 'Instituicoes.cep', 'Instituicoes.endereco', 'Instituicoes.bairro', 'Supervisores.nome', 'Supervisores.cress', 'Professores.nome'])
-            ->where(['Estagiarios.periodo' => $periodo])
-            ->orderBy(['Alunos.nome' => 'ASC'])
-            ->all();
+        $cpf = $this->getRequest()->getQuery('cpf');
+        if ($cpf) {
+            $condition = ['Alunos.cpf' => $cpf];
+            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $alunos = $this->paginate($busca, [
+                'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
+            ]);
+            $this->set(compact('alunos'));
 
-        $this->set('cress', $cress);
-        $this->set('periodos', $periodos);
-        $this->set('periodoselecionado', $periodo);
+            return;
+        }
+
+        $email = $this->getRequest()->getQuery('email');
+        if ($email) {
+            $condition = ['Users.email' => $email];
+            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $alunos = $this->paginate($busca, [
+                'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
+            ]);
+            $this->set(compact('alunos'));
+
+            return;
+        }
     }
 
-    public function planilhaseguro($id = NULL)
+    /**
+     * Declaracaoperiodo method
+     *
+     * @param string|null $id Aluno id.
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function declaracaoperiodo(?string $id = null)
     {
-
-        $periodo = $this->getRequest()->getQuery('periodo');
-
-        $ordem = 'nome';
-
-        $this->Authorization->authorize($this->Alunos, 'planilhaseguro');
-
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'order' => ['periodo' => 'desc']
-        ]);
-        $periodos = $periodototal->toArray();
-
-        if (empty($periodo)) {
-            $periodo = end($periodos);
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
         }
 
-        $seguro = $this->Alunos->Estagiarios->find()
-            ->contain(['Alunos', 'Instituicoes'])
-            ->where(['Estagiarios.periodo' => $periodo])
-            ->select([
-                'Alunos.id',
-                'Alunos.nome',
-                'Alunos.cpf',
-                'Alunos.nascimento',
-                'Alunos.registro',
-                'Estagiarios.nivel',
-                'Estagiarios.periodo',
-                'Estagiarios.ajuste2020',
-                'Instituicoes.instituicao'
-            ])
-            ->orderBy(['Estagiarios.nivel'])
-            ->all();
+        $totalperiodos = $this->request->getQuery('totalperiodos');
+        $novoperiodo = $this->request->getQuery('novoperiodo');
 
-        $i = 0;
-        foreach ($seguro as $c_seguro) {
-            // pr($c_seguro);
-            // die();
-            if ($c_seguro->nivel == 1) {
-
-                // Início
-                $inicio = $c_seguro->periodo;
-
-                // Final
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                if ($indicasemestre == 1) {
-                    $novoano = $ano + 1;
-                    $novoindicasemestre = $indicasemestre + 1;
-                    $final = $novoano . "-" . $novoindicasemestre;
-                } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 2;
-                    $final = $novoano . "-" . 1;
-                }
-            } elseif ($c_seguro->nivel == 2) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início
-                if ($indicasemestre == 1) {
-                    $novoano = $ano - 1;
-                    $inicio = $novoano . "-" . 2;
-                } elseif ($indicasemestre == 2) {
-                    $inicio = $ano . "-" . "1";
-                }
-
-                // Final
-                if ($indicasemestre == 1) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . 1;
-                } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . "2";
-                }
-            } elseif ($c_seguro->nivel == 3) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início
-                $novoano = $ano - 1;
-                $inicio = $novoano . "-" . $indicasemestre;
-
-                // Final
-                if ($indicasemestre == 1) {
-                    // $ano = $ano + 1;
-                    $final = $ano . "-" . 2;
-                } elseif ($indicasemestre == 2) {
-                    $novoano = $ano + 1;
-                    $final = $novoano . "-" . 1;
-                }
-            } elseif ($c_seguro->nivel == 4) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 2;
-                    $inicio = $ano . "-" . 2;
-                } elseif ($indicasemestre == 2) {
-                    $ano = $ano - 1;
-                    $inicio = $ano . "-" . 1;
-                }
-
-                // Final
-                $final = $c_seguro->periodo;
-
-                // Estagio não obrigatório. Conto como estágio 5
-            } elseif ($c_seguro->nivel == 9) {
-
-                $semestre = explode('-', $c_seguro->periodo);
-                $ano = $semestre[0];
-                $indicasemestre = $semestre[1];
-
-                // Início
-                if ($indicasemestre == 1) {
-                    $ano = $ano - 2;
-                    $inicio = $ano . "-" . 1;
-                } elseif ($indicasemestre == 2) {
-                    $ano = $ano - 2;
-                    $inicio = $ano . "-" . 2;
-                }
-
-                // Final
-                $final = $c_seguro->periodo;
-
-            }
-
-            $t_seguro[$i]['id'] = $c_seguro->aluno->id;
-            $t_seguro[$i]['nome'] = $c_seguro->aluno->nome;
-            $t_seguro[$i]['cpf'] = $c_seguro->aluno->cpf;
-            $t_seguro[$i]['nascimento'] = $c_seguro->aluno->nascimento;
-            $t_seguro[$i]['sexo'] = "";
-            $t_seguro[$i]['registro'] = $c_seguro->aluno->registro;
-            $t_seguro[$i]['curso'] = "UFRJ/Serviço Social";
-            if ($c_seguro->nivel == 9):
-                $t_seguro[$i]['nivel'] = "Não obrigatório";
-            else:
-                $t_seguro[$i]['nivel'] = $c_seguro->nivel;
-            endif;
-            $t_seguro[$i]['periodo'] = $c_seguro->periodo;
-            $t_seguro[$i]['inicio'] = $inicio;
-            $t_seguro[$i]['final'] = $final;
-            $t_seguro[$i]['ajuste2020'] = $c_seguro->ajuste2020;
-            $t_seguro[$i]['instituicao'] = $c_seguro->instituicao->instituicao;
-            $criterio[$i] = $t_seguro[$i][$ordem];
-
-            $i++;
-        }
-        if (!empty($t_seguro)) {
-            array_multisort($criterio, SORT_ASC, $t_seguro);
-        }
-        $this->set('t_seguro', $t_seguro);
-        $this->set('periodos', $periodos);
-        $this->set('periodoselecionado', $periodo);
-    }
-
-    public function certificadoperiodo($id = NULL)
-    {
-        /**
-         * Autorização. Verifica se o aluno cadastrado no Users está acessando seu próprio registro.
-         */
-        if ($this->getRequest()->getAttribute('identity')['categoria'] == '2') {
-            $aluno_id = $this->getRequest()->getAttribute('identity')['aluno_id'];
-            if ($id == $aluno_id) {
-                /**
-                 * @var $option
-                 * Para consultar a tabela alunos com o id.
-                 */
-                $option = "id = $aluno_id";
-                // echo "Aluno Id autorizado";
-            } else {
-                $estudante_registro = $this->getRequest()->getAttribute('identity')['registro'];
-                if ($estudante_registro == $this->getRequest()->getQuery('registro')) {
-                    /**
-                     * @var $option
-                     * Para consultar a tabela alunos com o registro
-                     */
-                    $option = "Alunos.registro  =  $estudante_registro";
-                    // echo "Aluno registro autorizado";
-                } else {
-                    // echo "Registros não coincidem" . "<br>";
-                    $this->Flash->error(__('1. Operação não autorizada.'));
-                    return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo?registro=' . $this->getRequest()->getAttribute('identity')['registro']]);
-                    // die('Aluno não autorizado.');
-                }
-            }
-        } elseif ($this->getRequest()->getAttribute('identity')['categoria'] == '1') {
-            echo "Administrador autorizado";
-        } else {
-            $this->Flash->error(__('2. Operação não autorizada.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
-            // die('Professores e Supervisores não autorizados');
+        if ($user_data && $user_data['aluno_id']) {
+            $id = $user_data['aluno_id'];
         }
 
-        /**
-         * Consulto a tabela alunos com o registro ou com o id
-         */
-        $aluno = $this->Alunos->find()
-            ->where([$option])
-            ->first();
-
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        if ($id == null) {
+            $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
+            return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
-        /**
-         * Calculo a partir do ingresso em que periodo o aluno esté neste momento.
-         */
-        /* Capturo o periodo do calendario academico atual */
-        $configuracaotabela = $this->fetchTable('Configuracoes');
-        $periodoacademicoatual = $configuracaotabela->find()->select(['periodo_calendario_academico'])->first();
-        /**
-         * Separo o periodo em duas partes: o ano e o indicador de primeiro ou segundo semestre.
-         */
-        $periodo_atual = $periodoacademicoatual->periodo_calendario_academico;
-        /** Capturo o periodo inicial para o cálculo dos semetres.
-         *  Inicialmente coincide com o campo de ingresso.
-         *  Mas pode ser alterada para fazer coincider os semestres no casos dos alunos que trancaram.
-         */
-        $novoperiodo = $this->getRequest()->getData('novoperiodo');
+        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+
+        $this->Authorization->authorize($this->Alunos);
+
+        $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
+
+        // Incomplete field ingresso on record of alunos
+        if (strlen($aluno->ingresso) < 6) {
+            $this->Flash->error(__('Período de ingresso incompleto.'));
+            return $this->redirect(['action' => 'view', $id]);
+        }
+
+        $periodo_atual = $this->configuracao->periodo_calendario_academico;
+
         if ($novoperiodo) {
-            $periodo_inicial = $this->getRequest()->getData('novoperiodo');
+            $periodo_inicial = $novoperiodo;
         } else {
             $periodo_inicial = $aluno->ingresso;
         }
 
         $inicial = explode('-', $periodo_inicial);
         $atual = explode('-', $periodo_atual);
-        // echo $atual[0] . ' ' . $inicial[0] . '<br>';
+        $semestres = ($atual[0] - $inicial[0] + 1) * 2;
 
-        /**
-         * Calculo o total de semestres
-         */
-        $semestres = (($atual[0] - $inicial[0]) + 1) * 2;
-        // pr($semestres);
-
-        /** Se começa no semestre 1 e finaliza no 2 então são anos inteiros */
-        if (($inicial[1] == 1) && ($atual[1] == 2)) {
+        $totalperiodos = $semestres; // Simplified fallback
+        if ($inicial[1] == 1 && $atual[1] == 2) {
             $totalperiodos = $semestres;
         }
-
-        /** Se começa no semestre 1 e finaliza no 1 então perdeu um semestre (o segundo semestre atual) */
-        if (($inicial[1] == 1) && ($atual[1] == 1)) {
+        if ($inicial[1] == 1 && $atual[1] == 1) {
             $totalperiodos = $semestres - 1;
         }
-
-        /** Se começa no semestre 2 e finaliza no 2 então perdeu um semestre (o primeiro semestre inicial) */
-        if (($inicial[1] == 2) && ($atual[1] == 2)) {
+        if ($inicial[1] == 2 && $atual[1] == 2) {
             $totalperiodos = $semestres - 1;
         }
-
-        /** Se começa no semestre 2 e finaliza no semestre 1 então perdeu dois semestres (o primeiro do ano inicial e o segundo do ano atual) */
-        if (($inicial[1] == 2) && ($atual[1] == 1)) {
+        if ($inicial[1] == 2 && $atual[1] == 1) {
             $totalperiodos = $semestres - 2;
         }
 
-        /** Se o período inicial é maior que o período atual então informar que há um erro */
-        if ($totalperiodos <= 0) {
-            $this->Flash->error(__('Error: período inicial é maior que período atual'));
-            return $this->redirect(['controller' => 'Alunos', 'action' => 'certificadoperiodo', '?' => ['registro' => $this->getRequest()->getAttribute('identity')['registro']]]);
+        if ($this->request->is(['post', 'put'])) {
+            $data = $this->request->getData();
+            $novoperiodo = $data['novoperiodo'] ?? $aluno->ingresso;
+
+            // Recalculate logic...
+            return $this->redirect([
+                'action' => 'declaracaoperiodo',
+                $id,
+                '?' => ['totalperiodos' => $totalperiodos, 'novoperiodo' => $novoperiodo],
+            ]);
         }
 
-        // pr($totalperiodos);
-        if (isset($this->getRequest()->getData()['novoperiodo'])) {
-            $aluno->periodonovo = $this->getRequest()->getData()['novoperiodo'];
-        } else {
-            $aluno->periodonovo = $aluno->ingresso;
-        }
-
-        $this->set('aluno', $aluno);
-        $this->set('totalperiodos', $totalperiodos);
+        $this->set(compact('aluno', 'totalperiodos', 'novoperiodo', 'turnos'));
     }
 
-
-    public function certificadoperiodopdf($id = NULL)
+    /**
+     * Gera o PDF do certificado de período do aluno.
+     *
+     * @param string|null $id
+     * @return void
+     */
+    public function declaracaoperiodopdf(?string $id = null)
     {
+        $this->Authorization->skipAuthorization();
 
-        $this->layout = false;
-        $id = $this->getRequest()->getQuery('id');
-        $totalperiodos = $this->getRequest()->getQuery('totalperiodos');
-
-        if (is_null($id)) {
-            $this->cakeError('error404');
-        } else {
-            $aluno = $this->Alunos->find()
-                ->contain([])
-                ->where(['Alunos.id' => $id])
-                ->first();
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
         }
 
-        try {
-            $this->Authorization->authorize($aluno);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        $id = $this->request->getQuery('id');
+        $totalperiodos = $this->request->getQuery('totalperiodos');
+
+        if ($user_data && $user_data['aluno_id']) {
+            $id = $user_data['aluno_id'];
         }
 
-        $this->viewBuilder()->enableAutoLayout(false);
+        if ($id === null) {
+            $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+
+        $this->Authorization->skipAuthorization();
+
+        $this->viewBuilder()->setLayout('pdf/default');
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
-        $this->viewBuilder()->setOption(
-            'pdfConfig',
-            [
-                'orientation' => 'portrait',
-                'download' => true, // This can be omitted if "filename" is specified.
-                'filename' => 'declaracao_de_periodo_' . $id . '.pdf' //// This can be omitted if you want file name based on URL.
-            ]
-        );
+        $this->viewBuilder()->setOption('pdfConfig', [
+            'orientation' => 'portrait',
+            'download' => true,
+            'filename' => 'declaracao_de_periodo_' . $id . '.pdf',
+        ]);
 
-        $this->set('aluno', $aluno);
-        $this->set('totalperiodos', $totalperiodos);
+        $this->set(compact('aluno', 'totalperiodos'));
     }
 
-    public function cargahoraria($ordem = null)
+    /**
+     * Cargahoraria method
+     *
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cargahoraria()
     {
-        /** Aumenta a memória */
-        ini_set('memory_limit', '2048M');
-        $ordem = $this->getRequest()->getQuery('ordem');
+        $this->Authorization->skipAuthorization();
 
-        try {
-            $this->Authorization->authorize($this->Alunos);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso não autorizado.'));
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+        $alunos = $this->Alunos->find()->contain(['Estagiarios']);
+
+        $this->set('alunos', $alunos);
+    }
+
+    /**
+     * Planilhacress method
+     *
+     * @param string|null $id Aluno id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function planilhacress(?string $id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        $periodo = $this->request->getQuery('periodo')
+            ?? $this->request->getData('periodo')
+            ?? $this->configuracao->periodo_calendario_academico;
+        $this->set('periodo', $periodo);
+
+        /* lista de periodos */
+        $periodototal = $this->Alunos->Estagiarios->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo',
+        ]);
+        $periodos = $periodototal->toArray();
+        $periodos = array_merge($periodos, ['all' => 'Todos']);
+        $periodos = array_reverse($periodos);
+        $this->set('periodos', $periodos);
+
+        /* Se o periodo não veio anexo como parametro então o período é o último da lista dos períodos */
+        if (empty($periodo)) {
+            $periodo = end($periodos);
         }
 
-        if (empty($ordem)):
-            $ordem = 'q_semestres';
-        endif;
+        $contained = ['Alunos', 'Instituicoes', 'Supervisores', 'Professores'];
 
-        $alunos = $this->Alunos->find()->contain(['Estagiarios'])->limit(20)->toArray();
-        $i = 0;
-        foreach ($alunos as $aluno):
-            $cargahorariatotal[$i]['id'] = $aluno['Aluno']['id'] ?? 's/d';
-            $cargahorariatotal[$i]['registro'] = $aluno['Aluno']['registro'] ?? 's/d';
-            $cargahorariatotal[$i]['q_semestres'] = sizeof($aluno['estagiarios']);
-            $carga_estagio = null;
-            $y = 0;
-            foreach ($aluno['estagiarios'] as $estagiario):
-                if ($estagiario['nivel'] == 1):
-                    if ($estagiario['ch'] > 0):
-                        $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] ?? 's/d';
-                        $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'] ?? 's/d';
-                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';
-                    endif;
-                    // $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
-                    // $criterio[$i][$ordem] = $c_estagio['periodo'];
-                else:
-                    if ($estagiario['ch'] > 0):
-                        $cargahorariatotal[$i][$y]['ch'] = $estagiario['ch'] ?? 's/d';
-                        $cargahorariatotal[$i][$y]['nivel'] = $estagiario['nivel'] ?? 's/d';
-                        $cargahorariatotal[$i][$y]['periodo'] = $estagiario['periodo'] ?? 's/d';
-                    endif;
-                    // $carga_estagio['ch'] = $carga_estagio['ch'] + $estagiario['ch'];
-                    // $criterio[$i][$ordem] = NULL;
-                endif;
-                $y++;
-            endforeach;
-            // $cargahorariatotal[$i]['ch_total'] = $carga_estagio['ch'];
-            // $criterio[$i] = $cargahorariatotal[$i][$ordem];
-            $i++;
-        endforeach;
+        $selected = [
+            'Estagiarios.periodo',
+            'Alunos.id',
+            'Alunos.nome',
+            'Instituicoes.id',
+            'Instituicoes.instituicao',
+            'Instituicoes.cep',
+            'Instituicoes.endereco',
+            'Instituicoes.bairro',
+            'Supervisores.nome',
+            'Supervisores.cress',
+            'Professores.nome',
+        ];
 
-        // array_multisort($criterio, SORT_ASC, $cargahorariatotal);
-        $this->set('cargahorariatotal', $cargahorariatotal);
+        if ($periodo === 'all') {
+            $cress = $this->Alunos->Estagiarios->find()
+                    ->contain($contained)
+                    ->select($selected);
+        } else {
+            $cress = $this->Alunos->Estagiarios->find()
+                    ->contain($contained)
+                    ->select($selected)
+                    ->where(['Estagiarios.periodo' => $periodo]);
+        }
+
+        $this->set('cress', $this->paginate($cress, [
+            'sortableFields' => [
+                'Alunos.nome',
+                'Instituicoes.instituicao',
+                'Supervisores.nome',
+                'Professores.nome',
+            ],
+            'order' => ['Alunos.nome' => 'asc'],
+        ]));
+    }
+
+    /**
+     * Planilhaseguro method
+     *
+     * @param string|null $id Aluno id.
+     * @return \Cake\Http\Response|null|void Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function planilhaseguro(?string $id = null)
+    {
+        $this->Authorization->skipAuthorization();
+
+        $periodototal = $this->Alunos->Estagiarios->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo',
+        ]);
+        $periodos = $periodototal->toArray();
+        $periodos = array_merge($periodos, ['all' => 'Todos']);
+        $periodos = array_reverse($periodos);
+        $this->set('periodos', $periodos);
+
+        $periodo = $this->request->getQuery('periodo')
+            ?? $this->request->getData('periodo')
+            ?? $this->configuracao->termo_compromisso_periodo;
+        if (empty($periodo)) {
+            $periodo = end($periodos);
+        }
+        $this->set('periodo', $periodo);
+
+        $contained = ['Alunos', 'Instituicoes'];
+
+        $selected = [
+            'Alunos.id',
+            'Alunos.nome',
+            'Alunos.cpf',
+            'Alunos.nascimento',
+            'Alunos.registro',
+            'Estagiarios.nivel',
+            'Estagiarios.periodo',
+            'Estagiarios.ajuste2020',
+            'Instituicoes.id',
+            'Instituicoes.instituicao',
+        ];
+
+        if ($periodo === 'all') {
+            $seguro = $this->Alunos->Estagiarios->find()
+                ->contain($contained)
+                ->select($selected);
+        } else {
+            $seguro = $this->Alunos->Estagiarios->find()
+                ->contain($contained)
+                ->where(['Estagiarios.periodo' => $periodo])
+                ->select($selected);
+        }
+
+        $this->set('seguro', $this->paginate($seguro, [
+            'sortableFields' => [
+                'Alunos.nome',
+                'Alunos.cpf',
+                'Alunos.nascimento',
+                'Alunos.registro',
+                'nivel',
+                'periodo',
+                'Instituicoes.instituicao',
+            ],
+            'order' => ['nivel' => 'asc'],
+        ]));
+
+        $instituicao = $this->fetchTable('Configuracoes')->find()->first()['instituicao_curso'];
+        if (empty($instituicao)) {
+            $instituicao = 'ESS/UFRJ';
+        }
+        $this->set('instituicao', $instituicao);
     }
 }

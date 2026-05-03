@@ -32,7 +32,11 @@
     --color-message-info-border: #6cb2eb;
 }
 
-.button, button, input[type='button'], input[type='reset'], input[type='submit'] {
+.button,
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
     background-color: var(--color-cakephp-red);
     border-color: var(--color-cakephp-red);
 }
@@ -41,17 +45,42 @@ body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
     background: var(--color-main-bg);
+    font-size: 16px;
 }
 
 .top-nav-links,
 .side-nav,
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: "Raleway", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 400;
     color: var(--color-headings);
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 2em;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px;
 }
 
 a {
@@ -66,9 +95,7 @@ a:active {
     transition: color 0.2s ease-out;
 }
 
-.side-nav a,
-.top-nav-links a,
-th a,
+.side-nav a th a,
 .actions a {
     color: var(--color-lightgray);
 }
@@ -80,12 +107,22 @@ th a,
     color: var(--color-links-active);
 }
 
+h2.label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
 /* Utility */
-.table-responsive {
-    display: block;
+table {
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+}
+
+table p {
+    margin: 0;
+}
+
+.view table {
+    width: auto;
 }
 
 /* Main */
@@ -97,16 +134,22 @@ th a,
     box-shadow: 0 7px 14px 0 rgba(60, 66, 87, 0.1),
         0 3px 6px 0 rgba(0, 0, 0, 0.07);
 }
+
+.content h3,
+.content h4 {
+    margin: 1em 0;
+}
+
 .content form {
     margin: 0;
 }
+
 .actions a {
     font-weight: bold;
-    padding: 0 0.4rem;
+    /* padding: 0 0.4rem; */
+    display: block;
 }
-.actions a:first-child {
-    padding-left: 0;
-}
+
 th {
     white-space: nowrap;
 }
@@ -120,35 +163,46 @@ th {
     padding: 2rem;
     margin: 0 auto;
 }
+
 .top-nav-title a {
     font-size: 2.4rem;
     color: var(--color-cakephp-red);
 }
+
 .top-nav-title span {
     color: var(--color-cakephp-gray);
 }
+
 .top-nav-links a {
     margin: 0 0.5rem;
 }
+
 .top-nav-title a,
 .top-nav-links a {
     font-weight: bold;
 }
+
 .side-nav-item {
     display: block;
     padding: 0.5rem 0;
+}
+
+.nav-item {
+    margin: 0;
 }
 
 /* View action */
 .view.content .text {
     margin-top: 1.2rem;
 }
+
 .related {
     margin-top: 2rem;
 }
 
 /* Flash messages */
-.message {
+.message,
+.error-message {
     padding: .5rem 1rem;
     background: var(--color-message-info-bg);
     color: var(--color-message-info-text);
@@ -159,36 +213,47 @@ th {
     margin-bottom: 1rem;
     cursor: pointer;
 }
+
 .message.hidden {
     display: none;
 }
+
 .message.success {
     background: var(--color-message-success-bg);
     color: var(--color-message-success-text);
     border-color: var(--color-message-success-border);
 }
+
 .message.warning {
     background: var(--color-message-warning-bg);
     color: var(--color-message-warning-text);
     border-color: var(--color-message-warning-border);
 }
-.message.error {
+
+.message.error,
+.error-message {
     background: var(--color-message-error-bg);
     color: var(--color-message-error-text);
     border-color: var(--color-message-error-border);
 }
 
 /* Forms */
+.form-inline label {
+    margin-right: 1em;
+}
+
 .input.radio,
 .input.checkbox,
 .input.multicheckbox {
     margin-bottom: 2.0rem;
 }
+
 .input.radio input,
 .input.checkbox input,
 .input.multicheckbox input {
     margin: 0;
 }
+
 .input.radio label,
 .input.checkbox label,
 .input.multicheckbox label {
@@ -196,19 +261,23 @@ th {
     display: flex;
     align-items: center;
 }
-.input.radio label > input,
-.input.checkbox label > input,
-.input.multicheckbox label > input {
+
+.input.radio label>input,
+.input.checkbox label>input,
+.input.multicheckbox label>input {
     margin-right: 1.0rem;
 }
+
 input[type='color'] {
     max-width: 4rem;
     padding: 0.3rem .5rem 0.3rem;
 }
+
 input[type='date'] {
     display: block;
     max-width: 220px;
 }
+
 input[type='datetime-local'] {
     display: block;
     max-width: 450px;
@@ -218,9 +287,13 @@ input[type='datetime-local'] {
 .paginator {
     text-align: right;
 }
+
 .paginator p {
     margin-bottom: 0;
+    text-align: center;
+    color: var(--color-lightgray);
 }
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -228,11 +301,13 @@ input[type='datetime-local'] {
     margin: 0 0 1rem 0;
     padding: 0;
 }
+
 .pagination li {
     display: inline-block;
     margin: 0.25em;
     text-align: center;
 }
+
 .pagination a {
     color: var(--color-cakephp-blue);
     display: inline-block;
@@ -242,30 +317,34 @@ input[type='datetime-local'] {
     padding: 0;
     position: relative;
     text-decoration: none;
-    transition: background .3s,color .3s;
+    transition: background .3s, color .3s;
 }
+
 .pagination li.active a,
 .pagination a:hover {
     text-decoration: underline;
 }
+
 .pagination .disabled a {
-    cursor: not-allowed;
-    color: var(--color-lightgray);
-    text-decoration: none;
+    display: none;
 }
+
 .first a,
 .prev a,
 .next a,
 .last a {
     padding: 0 .75rem;
 }
+
 .disabled a:hover {
     background: initial;
     color: initial;
 }
+
 .asc:after {
     content: " \2193";
 }
+
 .desc:after {
     content: " \2191";
 }
@@ -284,23 +363,61 @@ input[type='datetime-local'] {
     flex: 0 0 100%;
     max-width: 100%
 }
+
 .top-nav {
     margin: 0 auto;
 }
+
 .side-nav {
     margin-bottom: 1rem;
 }
+
 .heading {
     margin-bottom: 1rem;
 }
+
 .side-nav-item {
     display: inline;
     margin: 0 1.5rem 0 0;
 }
+
 .asc:after {
     content: " \2192";
 }
+
 .desc:after {
     content: " \2190";
 }
 
+/* Forms */
+.nav .button {
+    margin-right: 1em;
+}
+
+.content .form-inline .form-control {
+    min-width: 7em;
+}
+
+/* Error */
+.cake-error {
+    margin-top: 2em;
+}
+
+.cake-error:first-child {
+    margin-top: 6em;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1em;
+}
+
+footer img {
+    margin-right: 4em;
+    max-height: 40px;
+}
+
+footer img[alt="CakePHP"] {
+    max-height: 25px;
+}

@@ -5,93 +5,117 @@ namespace App\Policy;
 
 use App\Model\Entity\Aluno;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Aluno policy
- */
-
-class AlunoPolicy
+final class AlunoPolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Aluno
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Aluno $aluno
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Aluno $aluno)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                    || $user_data['professor_id']
+                    || $user_data['supervisor_id']
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Aluno
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Aluno $aluno
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Aluno $aluno)
+    public function canView(IdentityInterface $userSession, Aluno $alunoData): Result
     {
-        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
+        // Supervisor pode ver alunos estagiarios
+        if ($userSession->getOriginalData()['categoria'] == '4') {
+            if ($alunoData->estagiarios->supervisores->id == $userSession->getOriginalData()['supervisor_id']) {
+                return new Result(true);
+            }
+        }
+
+        // Professor pode ver alunos estagiarios
+        if ($userSession->getOriginalData()['categoria'] == '3') {
+            if ($alunoData->estagiarios->professores->id == $userSession->getOriginalData()['professor_id']) {
+                return new Result(true);
+            }
+        }
+
+        return $this->sameUser($userSession, $alunoData)
+            ? new Result(true)
+            : new Result(false, 'Erro: aluno view policy not authorized');
     }
 
     /**
-     * Check if $user can view Aluno
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Aluno $aluno
-     * @return bool
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Aluno $aluno)
+    public function canEdit(IdentityInterface $userSession, Aluno $alunoData): Result
     {
-        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
+        return $this->sameUser($userSession, $alunoData)
+            ? new Result(true)
+            : new Result(false, 'Erro: aluno edit policy not authorized');
     }
 
     /**
-     * Check if $user can delete Aluno
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Aluno $aluno
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDelete(IdentityInterface $userSession, Aluno $alunoData): Result
+    {
+        return new Result(false, 'Erro: aluno delete policy not allowed');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDeclaracaoperiodo(IdentityInterface $userSession, Aluno $alunoData): Result
+    {
+        return $this->sameUser($userSession, $alunoData)
+            ? new Result(true)
+            : new Result(false, 'Erro: aluno declaracao periodo policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
+     * @return \Authorization\Policy\Result
+     */
+    public function canDeclaracaoperiodopdf(IdentityInterface $userSession, Aluno $alunoData): Result
+    {
+        return $this->sameUser($userSession, $alunoData)
+            ? new Result(true)
+            : new Result(false, 'Erro: aluno declaracao periodo policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Aluno $alunoData
      * @return bool
      */
-    public function canDelete(?IdentityInterface $user, Aluno $aluno)
+    protected function sameUser(IdentityInterface $userSession, Aluno $alunoData): bool
     {
-        return isset($user) && $user->categoria == 1;
-    }
-
-    public function canCargaHoraria(?IdentityInterface $user, Aluno $aluno)
-    {
-        return isset($user) && $user->categoria == 1;
-    }
-
-    public function canDeclaracaoperiodo(?IdentityInterface $user, Aluno $aluno)
-    {
-        return ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
-    }
-
-    public function canCertificadoperiodo(?IdentityInterface $user, Aluno $aluno)
-    {
-        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
-    }
-
-    public function canCertificadoperiodopdf(?IdentityInterface $user, Aluno $aluno)
-    {
-        return isset($user) && ($user->categoria == 1 || ($user->categoria == 2 && $this->isAuthor($user, $aluno)));
-    }
-
-    public function canPlanilhaCress(?IdentityInterface $user, Aluno $aluno)
-    {
-        return isset($user) && ($user->categoria == 1);
-    }
-
-    public function canExport(?IdentityInterface $user, Aluno $aluno)
-    {
-        return isset($user) && ($user->categoria == 1);
-    }
-
-    protected function isAuthor(?IdentityInterface $user, Aluno $aluno)
-    {
-        return $aluno->id === $user->aluno_id;
+        return $userSession->id === $alunoData->user_id;
     }
 }

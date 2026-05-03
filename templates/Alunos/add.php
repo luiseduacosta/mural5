@@ -3,38 +3,41 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Aluno $aluno
  */
+declare(strict_types=1);
+
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
 ?>
 
+<?= $this->Html->script('jquery.mask.min'); ?>
 <script>
     $(document).ready(function () {
-        $('#telefone').mask('(00) 0000-0000');
-        $('#celular').mask('(00) 00000-0000');
         $('#cpf').mask('000.000.000-00');
-
+        $('#cep').mask('00000-000');
+        $('#ingresso').mask('0000-S', { translation: { 'S': { pattern: '[12]', optional: false } } }); // last digit is only 1 or 2
         if ($('#codigo-telefone').val() == null) {
             codigo = '21';
         } else {
             codigo = $('#codigo-telefone').val();
         }
+
         if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
             $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
-        }
+        } 
         var telMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
         };
         var telOptions = {
             onKeyPress: function(val, e, field, options) {
-                field.mask(telMaskBehavior.apply({}, arguments), options);
+                field.mask(mask.apply({}, arguments), options);
             },
             clearIfNotMatch: true
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#codigo-celular').val() == null) {
-            codigo = '21';
-        } else {
-            codigo = $('#codigo-celular').val();
-        }
         if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
             $('#celular').val('(' + codigo + ') ' + $('#celular').val());
         } 
@@ -48,76 +51,78 @@
             clearIfNotMatch: true
         };
         $('#celular').mask(celMaskBehavior, celOptions);
-
-        $('#cep').mask('00000-000', {
-            onComplete: function(cep, e, masks) {
-                buscarEndereco(cep);
-            }
-        });
-        $('#ingresso').mask('0000-0');
-        $('#novoperiodo').val($('#ingresso').val());
-        $('#novoperiodo').mask('0000-0');
-        $('#nascimento').mask('00-00-0000', { placeholder: "dd-MM-yyyy" });
-
     });
 </script>
 
-<?= $this->element('templates') ?>
+<link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+<!-- Needs this style to show the icons -->
+<style>
+    .editor-toolbar button {
+        color: #333 !important;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const easyMDE = new EasyMDE({element: document.getElementById('observacoes')});
+    });
+</script>
 
-<div class="container">
-    <?php if ($categoria == '1'): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerEstagiario"
-                aria-controls="navbarTogglerUsuario" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerEstagiario">
-                <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Listar aluno(a)s'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-    <?php endif; ?>
-
-    <div class="container">
-
-        <?= $this->Form->create($aluno, ['method' => 'post']) ?>
-        <fieldset>
-            <legend><?= __('Cadastro de aluno(a)') ?></legend>
-            <?php
-            echo $this->Form->control('nome', ['required']);
-            echo $this->Form->control('nomesocial', ['label' => ['text' => 'Nome social']]);
-            if (isset($registro)):
-                echo $this->Form->control('registro', ['value' => $registro, 'readonly', 'required']);
-            else:
-                echo $this->Form->control('registro', ['required']);
-            endif;
-            echo $this->Form->control('ingresso', ['label' => ['text' => 'Ingresso: aaaa-n'], 'pattern' => '\d{4}-[1-2]{1}', 'placeholder' => '____-_', 'required']);
-            echo $this->Form->control('turno', ['label' => ['text' => 'Turno'], 'options' => ['diurno' => 'Diurno', 'noturno' => 'Noturno'], 'required']);
-            echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD']]);
-            echo $this->Form->control('telefone');
-            echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD']]);
-            echo $this->Form->control('celular', ['pattern' => '\d{5}.\d{4}', 'placeholder' => '_____.____']);
-            if (isset($email)):
-                echo $this->Form->control('email', ['value' => $email, 'readonly', 'required']);
-            else:
-                echo $this->Form->control('email', ['required']);
-            endif;
-            echo $this->Form->control('cpf', ['label' => ['text' => 'CPF'], 'pattern' => '\d{9}-\d{2}', 'placeholder' => '_________-__', 'required']);
-            echo $this->Form->control('identidade', ['label' => ['text' => 'Carteira de identidade'], 'required']);
-            echo $this->Form->control('orgao', ['label' => ['text' => 'Orgão emissor'], 'required']);
-            echo $this->Form->control('nascimento', ['type' => 'date', 'empty' => true]);
-            echo $this->Form->control('cep', ['label' => ['text' => 'CEP'], 'pattern' => '\d{5}-\d{3}', 'placeholder' => '_____-___']);
-            echo $this->Form->control('endereco', ['label' => ['text' => 'Endereço']]);
-            echo $this->Form->control('municipio', ['label' => ['text' => 'Município']]);
-            echo $this->Form->control('bairro');
-            echo $this->Form->control('observacoes', ['label' => ['text' => 'Observações']]);
-            ?>
-        </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
-        <?= $this->Form->end() ?>
+<div>
+    <div class="column-responsive column-80">
+    
+            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggler">
+                    <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
+                </div>
+            </nav>
+            <?php endif; ?>
+            <?= $this->Form->create($aluno) ?>
+            <fieldset>
+                <h3><?= __('Adicionando Aluno(a)') ?></h3>
+                <?php
+                if ($user_data['categoria'] === '1' && $user_data['entidade_id']) :
+                    $val = $this->request->getParam('pass') ? $this->request->getParam('pass')[0] : '';
+                    echo $this->Form->control('user_id', ['type' => 'number', 'value' => $val, 'hidden' => true, 'label' => false ]);
+                elseif ($user_data['aluno_id']) :
+                        echo $this->Form->control('user_id', ['type' => 'number', 'value' => $user_session->get('id'), 'hidden' => true, 'label' => false ]);
+                endif;
+                    echo $this->Form->control('nome', ['label' => 'Nome Completo', 'required' => true]);
+                    echo $this->Form->control('nomesocial', ['label' => 'Nome Social', 'required' => false]);
+                if ($aluno->registro) {
+                    echo $this->Form->control('registro', ['label' => 'Número de Registro - DRE', 'value' => $aluno->registro, 'required' => true, 'readonly' => true]);
+                } else {
+                    echo $this->Form->control('registro', ['label' => 'Número de Registro - DRE', 'required' => true]);
+                }
+                    echo $this->Form->control('codigo_telefone', ['label' => 'Código do Telefone', 'required' => false]);
+                    echo $this->Form->control('telefone', ['label' => 'Telefone', 'pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}\.[0-9]{4}', 'placeholder' => '(00) 0000.0000', 'data-mask' => '(00) 0000.0000', 'required' => false]);
+                    echo $this->Form->control('codigo_celular', ['label' => 'Código do Celular', 'required' => false]);
+                    echo $this->Form->control('celular', ['label' => 'Celular', 'pattern' => '\([0-9]{2}\)[\s][0-9]{4,5}\.[0-9]{4}', 'placeholder' => '(00) 00000.0000', 'data-mask' => '(00) 00000.0000', 'required' => false]);
+                if ($aluno->email) {
+                    echo $this->Form->control('email', ['type' => 'email', 'value' => $aluno->email, 'required' => true, 'readonly' => true]);
+                } else {
+                    echo $this->Form->control('email', ['type' => 'email', 'required' => true]);
+                }
+                    echo $this->Form->control('cpf', ['label' => 'CPF', 'pattern' => '[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}', 'placeholder' => '000.000.000-00', 'data-mask' => '000.000.000-00', 'required' => true]);
+                    echo $this->Form->control('identidade', ['label' => 'Registro da Identidade', 'required' => false]);
+                    echo $this->Form->control('orgao', ['label' => 'Órgão Emissor da Identidade', 'required' => false]);
+                    echo $this->Form->control('nascimento', ['label' => 'Data de Nascimento', 'placeholder' => 'dd-mm-aaaa', 'required' => true]);
+                    echo $this->Form->control('ingresso', ['label' => 'Período de Ingresso', 'pattern' => '(19|20)[0-9]{2}-[1-2]', 'placeholder' => '0000-9', 'required' => true]);
+                    echo $this->Form->control('turno_id', ['options' => $turnos, 'empty' => true, 'required' => true]);
+                    echo $this->Form->control('cep', ['label' => 'CEP', 'pattern' => '[0-9]{5}-[0-9]{3}', 'placeholder' => '00000-000', 'required' => true]);
+                    echo $this->Form->control('endereco', ['label' => 'Endereço', 'placeholder' => 'Rua, Avenida, etc.', 'required' => false]);
+                    echo $this->Form->control('municipio', ['label' => 'Município', 'placeholder' => 'Município', 'required' => false]);
+                    echo $this->Form->control('bairro', ['label' => 'Bairro', 'placeholder' => 'Bairro', 'required' => false]);
+                    echo $this->Form->control('observacoes', ['label' => 'Observações', 'required' => false]);
+                ?>
+            </fieldset>
+            <?= $this->Form->button(__('Adicionar'), ['class' => 'button']) ?>
+            <?= $this->Form->end() ?>
     </div>
 </div>

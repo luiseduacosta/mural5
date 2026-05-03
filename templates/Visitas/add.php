@@ -5,17 +5,16 @@
  */
 ?>
 
-
 <?= $this->element('templates') ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerVisitas"
-        aria-controls="navbarTogglerVisitas" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerVisitas">
+    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar visitas'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Listar visitas'), ['action' => 'index'], ['class' => 'btn btn-primary', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>    
 </nav>

@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -14,7 +12,6 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
- *
  * @method \App\Model\Entity\Inscricao newEmptyEntity()
  * @method \App\Model\Entity\Inscricao newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Inscricao[] newEntities(array $data, array $options = [])
@@ -47,14 +44,14 @@ class InscricoesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->belongsTo('Alunos', [
-            'propertyName' => 'aluno',
             'foreignKey' => 'aluno_id',
         ]);
-
         $this->belongsTo('Muralestagios', [
-            'propertyName' => 'muralestagio',
             'foreignKey' => 'muralestagio_id',
-            'joinType' => 'INNER',
+        ]);
+
+        $this->addBehavior('CounterCache', [
+            'Alunos' => ['inscricao_count'],
         ]);
     }
 
@@ -67,34 +64,27 @@ class InscricoesTable extends Table
     public function validationDefault(Validator $validator): Validator
     {
         $validator
-            ->integer('id')
-            ->allowEmptyString('id', null, 'create');
+                ->integer('id')
+                ->allowEmptyString('id', null, 'create');
+        $validator
+                ->integer('registro')
+                ->notEmptyString('registro');
+        $validator
+                ->integer('aluno_id')
+                ->notEmptyString('aluno_id');
 
         $validator
-            ->scalar('registro')
-            ->notEmptyString('registro');
+                ->integer('muralestagio_id')
+                ->notEmptyString('muralestagio_id');
+        $validator
+                ->date('data')
+                ->requirePresence('data', 'create')
+                ->notEmptyDate('data');
 
         $validator
-            ->integer('aluno_id')
-            ->notEmptyString('aluno_id');
-
-        $validator
-            ->integer('muralestagio_id')
-            ->notEmptyString('muralestagio_id');
-
-        $validator
-            ->date('data')
-            ->requirePresence('data', 'create')
-            ->notEmptyDate('data');
-
-        $validator
-            ->scalar('periodo')
-            ->maxLength('periodo', 6)
-            ->notEmptyString('periodo');
-
-        $validator
-            ->dateTime('timestamp')
-            ->notEmptyDateTime('timestamp');
+                ->scalar('periodo')
+                ->maxLength('periodo', 6)
+                ->notEmptyString('periodo');
 
         return $validator;
     }

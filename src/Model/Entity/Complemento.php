@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -26,7 +25,6 @@ class Complemento extends Entity
      * @var array
      */
     protected array $_accessible = [
-        'id' => true,
         'periodo_especial' => true,
         'estagiarios' => true,
     ];

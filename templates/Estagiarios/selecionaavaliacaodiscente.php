@@ -4,8 +4,14 @@
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacoes
  * @var \App\Model\Entity\Estagiario $estagiario
  */
-?>
+declare(strict_types=1);
 
+$user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+$user_session = $this->request->getAttribute('identity');
+if ($user_session) {
+    $user_data = $user_session->getOriginalData();
+}
+?>
 
 <div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <h3><?= __('Estágios cursados pela(o) estudande ') ?></h3>

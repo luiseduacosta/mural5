@@ -5,103 +5,66 @@ namespace App\Policy;
 
 use App\Model\Entity\Folhadeatividade;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
-/**
- * Folhadeatividade policy
- */
-class FolhadeatividadePolicy
+final class FolhadeatividadePolicy implements BeforePolicyInterface
 {
     /**
-     * Check if $user can add Folhadeatividade
-     *
-     * @param \Authorization\IdentityInterface $user The user.
-     * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
-     * @return bool
+     * @param \Authorization\IdentityInterface|null $identity
+     * @param mixed $resource
+     * @param string $action
+     * @return \Authorization\Policy\ResultInterface|bool|null
      */
-    public function canAdd(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
+
+            if (
+                $user_data
+                && (
+                    ($user_data['categoria'] === '1' && !empty($user_data['entidade_id']))
+                    || $user_data['professor_id']
+                )
+            ) {
+                return true;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * Check if $user can edit Folhadeatividade
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Folhadeatividade $folhadeatividade): bool
+    public function canView(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        // Not logged in = no access
-        if (!isset($user)) {
-            return false;
-        }
-
-        // Admin can edit anything
-        if ($user->categoria === 1) {
-            return true;
-        }
-
-        // Students can only edit their own activity sheets
-        if ($user->categoria === 2) {
-            return isset($user->aluno_id)
-                && $folhadeatividade->estagiario
-                && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
-        }
-
-        return false;
+        // Add ownership check if needed
+        return new Result(true);
     }
 
     /**
-     * Check if $user can delete Folhadeatividade
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    public function canEdit(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        // Not logged in = no access
-        if (!isset($user)) {
-            return false;
-        }
-
-        // Admin can delete anything
-        if ($user->categoria === 1) {
-            return true;
-        }
-
-        // Students can only delete their own activity sheets
-        if ($user->categoria === 2) {
-            return isset($user->aluno_id)
-                && $folhadeatividade->estagiario
-                && $folhadeatividade->estagiario->aluno_id === $user->aluno_id;
-        }
-
-        return false;
+        // Add ownership check if needed
+        return new Result(true);
     }
 
     /**
-     * Check if $user can view Folhadeatividade
-     *
-     * @param \Authorization\IdentityInterface $user The user.
+     * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
+    public function canDelete(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        return isset($user);
-    }
-
-    /**
-     * Check if $user can folhadeatividades pdf
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
-     * @return bool
-     */
-    public function canFolhaDeAtividadePdf(?IdentityInterface $user, Folhadeatividade $folhadeatividade)
-    {
-        return isset($user) && ($user->categoria == 1 || $user->categoria == 2);
+        return new Result(true);
     }
 }
