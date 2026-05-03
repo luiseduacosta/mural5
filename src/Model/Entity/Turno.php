@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $turno
+ * 
+ * @property Aluno[] $Alunos
  */
 class Turno extends Entity
 {
@@ -24,5 +26,6 @@ class Turno extends Entity
      */
     protected array $_accessible = [
         'turno' => true,
+        'Alunos' => true,
     ];
 }

@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Turnos Model
  *
+ * @property \App\Model\Table\AlunosTable $Alunos
+ *
  * @method \App\Model\Entity\Turno newEmptyEntity()
  * @method \App\Model\Entity\Turno newEntity(array $data, array $options = [])
  * @method array<\App\Model\Entity\Turno> newEntities(array $data, array $options = [])

@@ -10,6 +10,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $turma
+ * 
+ * @property \App\Model\Entity\Estagiario[] $Estagiarios
  */
 class Turma extends Entity
 {
@@ -24,5 +26,6 @@ class Turma extends Entity
      */
     protected array $_accessible = [
         'turma' => true,
+        'Estagiarios' => true,
     ];
 }
