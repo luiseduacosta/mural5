@@ -12,33 +12,6 @@ if ($user_session) {
 }
 ?>
 
-<<<<<<< HEAD
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"
-            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggler">
-            <ul class="navbar-nav ms-auto mt-lg-0">
-                <li class="nav-item">
-                    <?= $this->Html->link(__('Listar supervisores'), ['action' => 'index'], ['class' => 'btn btn-primary float-end']) ?>
-                </li>
-                <?php if (isset($categoria) && $categoria == 1): ?>
-                    <li class="nav-item">
-                        <?=
-                            $this->Form->postLink(
-                                __('Excluir'),
-                                ['action' => 'delete', $supervisor->id],
-                                ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $supervisor->id), 'class' => 'btn btn-danger float-end']
-                            )
-                            ?>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </nav>
-=======
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
@@ -102,7 +75,7 @@ if ($user_session) {
             ) ?>
         </li>
         <li class="nav-item">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
                 <?= $this->Form->postLink(
                     __("Excluir"),
                     ["action" => "delete", $supervisor->id],
@@ -118,7 +91,6 @@ if ($user_session) {
         </li>
     </ul>
 </nav>
->>>>>>> main
 
 <?php echo $this->element("templates"); ?>
 

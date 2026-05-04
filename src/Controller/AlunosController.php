@@ -57,7 +57,7 @@ class AlunosController extends AppController
      */
     public function view(?string $id = null)
     {
-        
+
         $identity = $this->request->getAttribute('identity');
         if ($identity && $identity->getOriginalData()['categoria'] == 2) {
             $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
@@ -145,7 +145,7 @@ class AlunosController extends AppController
                     $this->Flash->success(__('Usuário atualizado com o id do aluno'));
                 }
             } else {
-            $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
+                $this->Flash->error(__('Erro ao adicionar: não foi possível salvar os dados.'));
             }
         }
 
@@ -166,7 +166,7 @@ class AlunosController extends AppController
         $turnos = $this->Alunos->Turnos->find('list')->all();
         $this->set(compact('aluno', 'turnos'));
     }
-    
+
     /**
      * Edit method
      *

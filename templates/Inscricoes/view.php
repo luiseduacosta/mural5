@@ -23,7 +23,7 @@ if ($user_session) {
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar inscrição'), ['action' => 'edit', $inscricao->id], ['class' => 'btn btn-primary me-1', 'style' => 'max-width:120pt; word-wrap:break-word; font-size: 10pt;']) ?>
                     </li>
@@ -58,7 +58,7 @@ if ($user_session) {
             </tr>
             <tr>
                 <th><?= __('Aluno') ?></th>
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                     <td><?= $inscricao->has('aluno') ? $this->Html->link($inscricao->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $inscricao->aluno->id]) : '' ?></td>
                 <?php else: ?>
                     <td><?= $inscricao->has('aluno') ? $inscricao->aluno->nome : '' ?></td>

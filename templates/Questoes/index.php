@@ -18,7 +18,7 @@ if ($user_session) {
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="actions-sidebar">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(
                     __("Nova questão"),
@@ -86,7 +86,7 @@ if ($user_session) {
                             ], [
                                 "class" => "btn btn-primary btn-sm btn-block p-1 mb-1",
                             ]) ?>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
                             <?= $this->Html->link(__("Editar"), [
                                 "action" => "edit",
                                 $questao->id,

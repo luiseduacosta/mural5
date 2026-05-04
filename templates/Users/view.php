@@ -14,7 +14,7 @@ if ($user_session) {
 
 <?= $this->element('templates') ?>
 
-<?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+<?php if ($user_data['categoria'] === '1'): ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">

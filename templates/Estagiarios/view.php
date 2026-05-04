@@ -104,7 +104,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Aluno') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <td><?= (isset($estagiario->aluno)) ? $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -125,7 +125,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Instituição') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <td><?= $estagiario->hasValue('instituicao') ? $this->Html->link($estagiario->instituicao->instituicao, ['controller' => 'Instituicoes', 'action' => 'view', $estagiario->instituicao->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -135,7 +135,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Supervisor(a)') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <td><?= $estagiario->hasValue('supervisor') ? $this->Html->link($estagiario->supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $estagiario->supervisor->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -144,7 +144,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Professor') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <td><?= $estagiario->hasValue('professor') ? $this->Html->link($estagiario->professor->nome, ['controller' => 'Professores', 'action' => 'view', $estagiario->professor->id]) : '' ?>
                         </td>
                     <?php else: ?>
@@ -253,7 +253,7 @@ if ($user_session) {
                         <h4 class="alert-heading">Atenção!</h4>
                         <p>Este estagiário ainda não possui avaliação.</p>
                         <hr>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <p class="mb-0">Clique no botão para
                                 <?= $this->Html->link(
                                     "imprimir",

@@ -52,6 +52,12 @@ final class AlunosTablePolicy implements BeforePolicyInterface
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return $query;
+        }
+
         return $query->where(['Alunos.user_id' => $user->getIdentifier()]);
     }
 
@@ -72,7 +78,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canBusca(?IdentityInterface $user, $resource): Result
+    public function canBusca(IdentityInterface $userSession, AlunosTable $alunosTable): Result
     {
         $user_data = $userSession->getOriginalData();
 
@@ -108,7 +114,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canDeclaracaoperiodo(?IdentityInterface $user, $resource): Result
+    public function canDeclaracaoperiodo(IdentityInterface $userSession, AlunosTable $alunosTable): Result
     {
         $user_data = $userSession->getOriginalData();
 

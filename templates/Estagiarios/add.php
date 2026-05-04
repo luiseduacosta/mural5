@@ -86,7 +86,7 @@ if ($user_session) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>
@@ -234,7 +234,7 @@ if ($user_session) {
                 ],
                 'readonly' => true
             ]);
-            if ($user_data['categoria'] === '1' && $user_data['entidade_id']) {
+            if ($user_data['categoria'] === '1') {
                 echo $this->Form->control('nota', [
                     'label' => 'Nota',
                     'value' => '',

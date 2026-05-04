@@ -85,7 +85,6 @@ final class UserPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, User $userData): bool
     {
-        $user_data = $userSession->getOriginalData();
-        return $user_data && isset($user_data['categoria']) && $user_data['categoria'] === '1' && $userSession->id === $userData->id;
+        return (int)$userSession->getIdentifier() === (int)$userData->id;
     }
 }

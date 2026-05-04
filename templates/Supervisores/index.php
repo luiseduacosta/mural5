@@ -14,7 +14,7 @@ if ($user_session) {
 
 <div class="container">
 
-    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+    <?php if ($user_data['categoria'] === '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('codigo_celular', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -54,7 +54,7 @@ if ($user_session) {
                 <?php foreach ($supervisores as $supervisor): ?>
                     <tr>
                         <td><?= $supervisor->id ?></td>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <td><?= $this->Html->link($supervisor->nome, ['controller' => 'Supervisores', 'action' => 'view', $supervisor->id]) ?>
                             </td>
                         <?php else: ?>
@@ -67,7 +67,7 @@ if ($user_session) {
                         <td><?= h($supervisor->codigo_celular) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $supervisor->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $supervisor->id]) ?>

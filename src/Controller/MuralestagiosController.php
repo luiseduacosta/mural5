@@ -233,9 +233,8 @@ class MuralestagiosController extends AppController
         ])->distinct(['periodo']);
         $periodos = $periodototal->toArray();
 
-        $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['order' => ['instituicao' => 'ASC']]);
-        $professores = $this->Muralestagios->Professores->find('list', ['order' => ['nome' => 'ASC']]);
-        $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodos'));
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $this->set(compact('muralestagio', 'instituicoes', 'periodos'));
     }
 
     /**
@@ -301,8 +300,8 @@ class MuralestagiosController extends AppController
         try {
             $this->Authorization->authorize($muralestagio);
         } catch (ForbiddenException $error) {
-            $this->Flash->error('Authorization error: ' . $error->getMessage());
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+            return $this->redirect(['action' => 'index']);
         }
 
         $this->viewBuilder()->setLayout('default');

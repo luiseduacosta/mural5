@@ -23,7 +23,7 @@ if ($user_session) {
             <span class="navbar-toggler-icon"></span>
         </button>
         <ul class="navbar-nav mr-auto">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Nova resposta'), ['action' => 'add'], ['class' => 'btn btn-primary', 'style' => 'font-size: 10pt;']) ?>
             </li>
@@ -56,7 +56,7 @@ if ($user_session) {
                         <td><?= $this->Time->format($resposta->modified, 'd-MM-Y HH:mm:ss') ?></td>
                         <td class="d-grid">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $resposta->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $resposta->id], ['class' => 'btn btn-primary btn-sm btn-block p-1 mb-1']) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $resposta->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $resposta->id), 'class' => 'btn btn-danger btn-sm btn-block p-1 mb-1']) ?>
                             <?php endif; ?>

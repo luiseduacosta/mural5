@@ -22,8 +22,11 @@ final class AvaliacaoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (isset($user_data['categoria']) && $user_data['categoria'] === '1')
-                    || $user_data['supervisor_id']
+            if (
+                $user_data
+                && (
+                    (isset($user_data['categoria']) && $user_data['categoria'] === '1')
+                    || !empty($user_data['supervisor_id'])
                 )
             ) {
                 return true;
@@ -43,13 +46,18 @@ final class AvaliacaoPolicy implements BeforePolicyInterface
         $user_data = $user->getOriginalData();
 
         // Student can only view their own
-        if ($user_data['aluno_id']) {
+        if (!empty($user_data['aluno_id'])) {
             return new Result($user_data['aluno_id'] == $avaliacao->estagiario->aluno_id);
         }
 
         // Professor can view evaluations for their assigned students
-        if ($user_data['professor_id']) {
+        if (!empty($user_data['professor_id'])) {
             return new Result($user_data['professor_id'] == $avaliacao->estagiario->professor_id);
+        }
+
+        // Supervisor can view evaluations for their assigned students
+        if (!empty($user_data['supervisor_id'])) {
+            return new Result($user_data['supervisor_id'] == $avaliacao->estagiario->supervisor_id);
         }
 
         return new Result(false);

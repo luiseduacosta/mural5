@@ -15,13 +15,12 @@ if ($user_session) {
     
     <h3><?= __('Lista de Administradores') ?></h3>
     
-
     <div class="paginator">
         <?= $this->element('paginator'); ?>
     </div>
 
     <aside>
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+        <?php if ($user_data['categoria'] === '1') : ?>
             <?= $this->Html->link(__('Novo Administrador'), ['action' => 'add'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
         <?php endif; ?>
     </aside>

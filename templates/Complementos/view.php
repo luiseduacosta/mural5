@@ -21,7 +21,7 @@ if ($user_session) {
         <li class="nav-item">
             <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary me-2']) ?>
             </li>
@@ -88,7 +88,7 @@ if ($user_session) {
                     <td><?= h($estagiarios->observacoes) ?></td>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $estagiarios->id)]) ?>
                         <?php endif; ?>

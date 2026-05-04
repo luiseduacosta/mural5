@@ -77,6 +77,6 @@ final class InscricaoPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Inscricao $inscricaoData): bool
     {
-        return $userSession->id === $inscricaoData->aluno->user_id;
+        return (int)$userSession->getIdentifier() === (int)$inscricaoData->aluno->user_id;
     }
 }

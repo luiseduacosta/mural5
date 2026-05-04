@@ -33,6 +33,12 @@ class MuralestagiosTablePolicy
      */
     public function canAdd(?IdentityInterface $user, MuralestagiosTable $muralestagios): bool
     {
-        return isset($user) && $user->categoria == '1';
+        if (!$user) {
+            return false;
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && $user_data['categoria'] === '1';
     }
 }

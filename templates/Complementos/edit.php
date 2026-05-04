@@ -18,6 +18,7 @@ if ($user_session) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
+        <?php if ($user_data['categoria'] === '1'): ?>
         <li class="nav-item">
             <?=
                 $this->Form->postLink(
@@ -25,16 +26,21 @@ if ($user_session) {
                     ['action' => 'delete', $complemento->id],
                     ['confirm' => __('Tem certeza que quer excluir # {0}?', $complemento->id), 'class' => 'btn btn-danger me-2', 'style' => 'font-size: 10pt;']
                 )
-                ?>
-                <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary me-2 float-end', 'style' => 'font-size: 10pt;']) ?>
-            </div>
-        </aside>
+            ?>
+        </li>
+        <?php endif; ?>
+        <li class="nav-item">
+            <?= $this->Html->link(__('Listar complemento do estágio'), ['action' => 'index'], ['class' => 'btn btn-primary me-2 float-end', 'style' => 'font-size: 10pt;']) ?>
+        </li>
+    </ul>
+</nav>
+
         <div class="column-responsive column-80">
             <div class="complementos form content">
                 <?= $this->Form->create($complemento) ?>
                 <fieldset>
                     <legend><?= __('Editar complemento de estágio') ?></legend>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <?php
                         echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
                         ?>
@@ -44,5 +50,3 @@ if ($user_session) {
                 <?= $this->Form->end() ?>
             </div>
         </div>
-    </div>
-</div>

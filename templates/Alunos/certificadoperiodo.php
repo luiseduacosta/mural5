@@ -55,7 +55,7 @@ if ($user_session) {
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAluno">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Listar Alunos'), ['controller' => 'Alunos', 'action' => 'index'], ['class' => 'btn btn-primary me-1']) ?>
                 </li>

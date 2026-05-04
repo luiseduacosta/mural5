@@ -540,9 +540,9 @@ class UsersController extends AppController
             }
 
             $this->Authentication->impersonate($targetUser);
-            $this->Flash->success(__('Você agora está acessando como ' . $targetUser->email));
+            $this->Flash->success(__('Você agora está acessando como ' . $targetUser->nome));
 
-            return $this->redirect('/');
+            return $this->redirect(['controller' => 'Users', 'action' => 'view', $targetUser->id]);
         }
 
         // 2. Start impersonating via form submission (using 'id')
@@ -579,5 +579,4 @@ class UsersController extends AppController
         // If we reach here, it's a GET request, without an ID, and we are not currently impersonating.
         // By NOT returning a redirect, CakePHP will naturally render the form view.
     }
-
 }

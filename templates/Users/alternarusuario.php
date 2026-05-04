@@ -16,7 +16,6 @@ if ($user_session) {
     <?= $this->Html->link('Busca por numero', '/users/busca_numero', ['role' => 'button', 'class' => 'button']) ?>
     <?= $this->Html->link('Busca por Email', '/users/busca_email', ['role' => 'button', 'class' => 'button']) ?>
     <?= $this->Html->link('Alterna usuário', '/users/alternarusuario', ['role' => 'button', 'class' => 'button']) ?>
-
 <?php endif; ?>
 
 <?php

@@ -16,7 +16,7 @@ if ($user_session) {
 <div class="container mt-1">
     <nav class="nav navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
         <ul class="navbar-nav collapse navbar-collapse">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-item">
                 <?= $this->Form->postLink(
                     __('Excluir'),

@@ -14,7 +14,7 @@ if ($user_session) {
 
 <div class="container">
 
-    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+    <?php if ($user_data['categoria'] === '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ if ($user_session) {
 
     <div class="row justify-content-center">
         <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['categoria'] === '1'): ?>
             <?= $this->Form->create($muralestagios, ['type' => 'get', 'class' => 'form-inline']); ?>
             <div class="form-group row">
                 <label class='col-sm-1 col-form-label'>Período</label>
@@ -70,7 +70,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('carga_horaria', 'CH') ?></th>
                     <th><?= $this->Paginator->sort('data_inscricao', 'Inscrições') ?></th>
                     <th><?= $this->Paginator->sort('data_selecao', 'Seleção') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -87,7 +87,7 @@ if ($user_session) {
                         <td><?= $muralestagio->carga_horaria ?></td>
                         <td><?= isset($muralestagio->data_inscricao) ? $muralestagio->data_inscricao : '' ?></td>
                         <td><?= isset($muralestagio->data_selecao) ? $muralestagio->data_selecao : '' ?></td>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['action' => 'view', $muralestagio->id]) ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $muralestagio->id]) ?>

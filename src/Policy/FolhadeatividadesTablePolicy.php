@@ -21,18 +21,12 @@ final class FolhadeatividadesTablePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                isset($user_data['categoria'])
-                && (
-                    ($user_data['categoria'] === '1')
-                    || $user_data['aluno_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -41,9 +35,9 @@ final class FolhadeatividadesTablePolicy implements BeforePolicyInterface
     public function canIndex(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 
     /**
@@ -52,8 +46,8 @@ final class FolhadeatividadesTablePolicy implements BeforePolicyInterface
     public function canAdd(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 }

@@ -27,7 +27,7 @@ if ($user_session) {
 
 <div class="row justify-content-center">
     <div class="col-auto">
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['categoria'] === '1'): ?>
             <?= $this->Form->create($estagiarios, ['class' => 'form-inline']); ?>
             <?php echo $this->Form->input('periodo', ['id' => 'Periodo', 'type' => 'select', 'label' => ['text' => 'Período ', 'style' => 'display: inline;'], 'options' => $periodos, 'empty' => [$periodo =>$periodo]], ['class' => 'form-control']); ?>
             <?php echo $this->Form->input('professor_id', ['type' => 'hidden', 'value' => $professor->id]); ?>
@@ -43,7 +43,7 @@ if ($user_session) {
     <table class="table table-striped table-hover table-responsive">
         <thead class="table-dark">
             <tr>
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                     <th><?= $this->Paginator->sort('id') ?></th>
                 <?php endif; ?>
                 <th><?= $this->Paginator->sort('Alunos.nome', 'Aluno') ?></th>
@@ -62,7 +62,7 @@ if ($user_session) {
         <tbody>
             <?php foreach ($estagiarios as $estagiario): ?>
                 <tr>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <td><?= $estagiario->id ?></td>
                     <?php endif; ?>
                     <td><?= $this->Html->link($estagiario->aluno->nome, ['controller' => 'Alunos', 'action' => 'view', $estagiario->aluno->id]) ?>
@@ -100,7 +100,7 @@ if ($user_session) {
                     <?php endif; ?>
                     <td>
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $estagiario->id]) ?>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $estagiario->id]) ?>
                             <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza de excluir este registro # {0}?', $estagiario->id)]) ?>
                         <?php endif; ?>

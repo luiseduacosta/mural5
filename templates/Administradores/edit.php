@@ -23,7 +23,7 @@ if ($user_session) {
             <fieldset>
                 <h3><?= __('Editando administrador_' . $administrador->id) ?></h3>
                 <?php
-                if ($user_data['categoria'] === '1' && $user_data['entidade_id']) :
+                if ($user_data['categoria'] === '1') :
                     echo $this->Form->control('user_id', ['type' => 'number', 'value' => $administrador->user_id, 'readonly' => true]);
                 endif;
                     echo $this->Form->control('nome');

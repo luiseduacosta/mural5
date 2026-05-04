@@ -16,7 +16,7 @@
             <li class="nav-item">
                 <?= $this->Html->link('Listar respostas', ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
-            <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
+            <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
                 <li class="nav-item">
                     <?= $this->Html->link(__('Imprimir'), ['action' => 'imprimeresposta', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                 </li>

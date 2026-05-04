@@ -14,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+                <?php if (($user_data['categoria'] === '1') || $user_data['aluno_id']): ?>
                     <li class="nav-item">
                         <?=
                             $this->Form->postLink(

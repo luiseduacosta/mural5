@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $categoria
- * 
+ *
  * @property \App\Model\Entity\User[] $users
  */
 class Categoria extends Entity

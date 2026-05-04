@@ -51,7 +51,7 @@ if ($cress) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
+        <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
             <li class="nav-item">
                 <?= $this->Html->link(__('Listar avaliações'), ['action' => 'index', '?' => $estagiario->id . '/' . $estagiario->registro], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
             </li>

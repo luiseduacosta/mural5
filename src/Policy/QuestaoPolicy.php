@@ -5,30 +5,45 @@ namespace App\Policy;
 
 use App\Model\Entity\Questao;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
 /**
  * Questao policy
  */
-class QuestaoPolicy
+final class QuestaoPolicy implements BeforePolicyInterface
 {
-    /**
-     * Check if $user can add Questao
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\Questao $questao
-     * @return bool
-     */
-    public function canAdd(?IdentityInterface $user, Questao $questao)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        if ($user) {
-            $user_data = $user->getOriginalData();
-
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
             if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * Check if $user can add Questao
+     *
+     * @param \Authorization\IdentityInterface|null $user The user.
+     * @param \App\Model\Entity\Questao $questao
+     * @return \Authorization\Policy\Result
+     */
+    public function canAdd(?IdentityInterface $user, Questao $questao): Result
+    {
+        if (!$user) {
+            return new Result(false);
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && $user_data['categoria'] === '1'
+            ? new Result(true)
+            : new Result(false, 'Erro: questao add policy not authorized');
     }
 
     /**
@@ -36,19 +51,19 @@ class QuestaoPolicy
      *
      * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Questao $questao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canEdit(?IdentityInterface $user, Questao $questao)
+    public function canEdit(?IdentityInterface $user, Questao $questao): Result
     {
-        if ($user) {
-            $user_data = $user->getOriginalData();
-
-            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
-                return true;
-            }
+        if (!$user) {
+            return new Result(false);
         }
 
-        return false;
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && $user_data['categoria'] === '1'
+            ? new Result(true)
+            : new Result(false, 'Erro: questao edit policy not authorized');
     }
 
     /**
@@ -56,19 +71,19 @@ class QuestaoPolicy
      *
      * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Questao $questao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canDelete(?IdentityInterface $user, Questao $questao)
+    public function canDelete(?IdentityInterface $user, Questao $questao): Result
     {
-        if ($user) {
-            $user_data = $user->getOriginalData();
-
-            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
-                return true;
-            }
+        if (!$user) {
+            return new Result(false);
         }
 
-        return false;
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && $user_data['categoria'] === '1'
+            ? new Result(true)
+            : new Result(false, 'Erro: questao delete policy not authorized');
     }
 
     /**
@@ -76,10 +91,10 @@ class QuestaoPolicy
      *
      * @param \Authorization\IdentityInterface|null $user The user.
      * @param \App\Model\Entity\Questao $questao
-     * @return bool
+     * @return \Authorization\Policy\Result
      */
-    public function canView(?IdentityInterface $user, Questao $questao)
+    public function canView(?IdentityInterface $user, Questao $questao): Result
     {
-        return isset($user);
+        return $user ? new Result(true) : new Result(false);
     }
 }

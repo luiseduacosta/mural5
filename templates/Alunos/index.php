@@ -12,14 +12,14 @@ if ($user_session) {
 }
 ?>
 <div class="alunos index content">
-    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']) : ?>
+    <?php if (($user_data['categoria'] === '1') || $user_data['aluno_id']) : ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler" 
             aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+            <?php if ($user_data['categoria'] === '1') : ?>
                 <ul class="navbar-nav ms-auto mt-lg-0">
                     <li class="nav-item">
                         <?= $this->Html->link(__('Novo Aluno'), ['action' => 'add'], ['class' => 'button ms-2', 'style' => 'font-size: 10pt;']) ?>
@@ -38,7 +38,7 @@ if ($user_session) {
         <table>
             <thead>
                 <tr>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                    <?php if ($user_data['categoria'] === '1') : ?>
                         <th class="actions"><?= __('Ações') ?></th>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
@@ -56,7 +56,7 @@ if ($user_session) {
             <tbody>
                 <?php foreach ($alunos as $aluno) : ?>
                 <tr>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                    <?php if ($user_data['categoria'] === '1') : ?>
                     <td class="actions">
                         <?= $this->Html->link(__('Ver'), ['action' => 'view', $aluno->id]) ?>
                         <?= $this->Html->link(__('Editar'), ['action' => 'edit', $aluno->id]) ?>

@@ -85,7 +85,7 @@ if ($user_session) {
                         <li class="nav-item">
                             <?= $this->Html->link(__('Listar Alunos'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
                         </li>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                    <?php if ($user_data['categoria'] === '1') : ?>
                         <?= $this->Form->postLink(
                             __('Excluir Aluno(a)'),
                             ['action' => 'delete', $aluno->id],
@@ -98,7 +98,7 @@ if ($user_session) {
             <fieldset>
                 <h3><?= __('Editando aluno(a) ' . $aluno->id) ?></h3>
                 <?php
-                if ($user_data['categoria'] === '1' && $user_data['entidade_id']) :
+                if ($user_data['categoria'] === '1') :
                     echo $this->Form->control('user_id', ['type' => 'number', 'hidden' => true, 'label' => false]);
                 endif;
                     echo $this->Form->control('nome', ['label' => 'Nome Completo', 'required' => true]);

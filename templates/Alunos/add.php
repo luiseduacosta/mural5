@@ -72,7 +72,7 @@ if ($user_session) {
 <div>
     <div class="column-responsive column-80">
     
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+            <?php if ($user_data['categoria'] === '1') : ?>
             <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,7 @@ if ($user_session) {
             <fieldset>
                 <h3><?= __('Adicionando Aluno(a)') ?></h3>
                 <?php
-                if ($user_data['categoria'] === '1' && $user_data['entidade_id']) :
+                if ($user_data['categoria'] === '1') :
                     $val = $this->request->getParam('pass') ? $this->request->getParam('pass')[0] : '';
                     echo $this->Form->control('user_id', ['type' => 'number', 'value' => $val, 'hidden' => true, 'label' => false ]);
                 elseif ($user_data['aluno_id']) :

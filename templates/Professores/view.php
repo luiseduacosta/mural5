@@ -21,7 +21,7 @@ if ($user_session) {
         </button>
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mt-lg-0">
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Notas e CH'), ['controller' => 'Estagiarios', 'action' => 'lancanota', '?' => ['professor_id' => $professor->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
                     </li>
@@ -55,7 +55,7 @@ if ($user_session) {
             <a class="nav-link" data-bs-toggle="tab" data-bs-target="#estagiarios" role="tab" aria-controls="estagiarios"
                 aria-selected="false">Estagiários</a>
         </li>
-        <?php if ($user_data['professor_id'] || $user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['professor_id'] || $user_data['categoria'] === '1' ): ?>
             <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notas" role="tab" aria-controls="notas"
                     aria-selected="false">Notas e CH</a>
@@ -150,7 +150,7 @@ if ($user_session) {
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
@@ -166,7 +166,7 @@ if ($user_session) {
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                                <?php if ($user_data['categoria'] === '1'): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
@@ -184,7 +184,7 @@ if ($user_session) {
                                 <td><?= h($estagiarios->ch) ?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
-                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                                    <?php if ($user_data['categoria'] === '1'): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
@@ -202,7 +202,7 @@ if ($user_session) {
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
                                 <th><?= __('Id') ?></th>
                             <?php endif; ?>
                             <th><?= __('Aluno') ?></th>
@@ -219,14 +219,14 @@ if ($user_session) {
                         </tr>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
                             <tr>
-                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                                <?php if ($user_data['categoria'] === '1'): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
                                 <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
 
-                                <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+                                <?php if (($user_data['categoria'] === '1') || $user_data['aluno_id']): ?>
                                     <td><?= $estagiarios->hasValue('folhadeatividade') ? $this->Html->link('Atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'index', $estagiarios->id]) : $this->Html->link('Cadastrar atividades de estágio', ['controller' => 'folhadeatividades', 'action' => 'add', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
                                     </td>
                                 <?php else: ?>
@@ -247,7 +247,7 @@ if ($user_session) {
 
                                 <td class="actions">
                                     <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
-                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                                    <?php if ($user_data['categoria'] === '1'): ?>
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>

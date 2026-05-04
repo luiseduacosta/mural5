@@ -18,7 +18,7 @@ if ($user_session) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+        <?php if (($user_data['categoria'] === '1') || $user_data['aluno_id']): ?>
             <li class='nav-item'>
                 <?= $this->Html->link(__('Nova atividade'), ['action' => 'add', '?' => ['estagiario_id' => $folhadeatividade->id]], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
             </li>
@@ -76,7 +76,7 @@ if ($user_session) {
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_folhadeatividade->id]) ?>
                         </div>
-                        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['aluno_id']): ?>
+                        <?php if (($user_data['categoria'] === '1') || $user_data['aluno_id']): ?>
                         <div class="col-lg-3">
                             <?= $this->Html->link(__('Editar'), ['action' => 'edit', $c_folhadeatividade->id]) ?>
                         </div>                        

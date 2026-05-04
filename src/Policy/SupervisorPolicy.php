@@ -55,9 +55,9 @@ final class SupervisorPolicy implements BeforePolicyInterface
     public function canView(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 
     /**
@@ -89,6 +89,6 @@ final class SupervisorPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Supervisor $supervisorData): bool
     {
-        return $userSession->id === $supervisorData->user_id;
+        return (int)$userSession->getIdentifier() === (int)$supervisorData->user_id;
     }
 }

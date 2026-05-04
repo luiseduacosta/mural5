@@ -108,7 +108,7 @@ if ($user_session) {
             </div>
             <?php endif; ?>
             
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+            <?php if ($user_data['categoria'] === '1') : ?>
                 <?php if (!empty($aluno->user)) : ?>
                 <div class="related">
                     <h4><?= __('Usuário') ?></h4>
@@ -125,7 +125,7 @@ if ($user_session) {
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['controller' => 'Users', 'action' => 'view', $aluno->user->id]) ?>
                                     <?= $this->Html->link(__('Editar'), ['controller' => 'Users', 'action' => 'edit', $aluno->user->id]) ?>
-                                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                                    <?php if ($user_data['categoria'] === '1') : ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Users', 'action' => 'delete', $aluno->user->id], ['confirm' => __('Are you sure you want to delete user_{0}?', $aluno->user->id)]) ?>
                                     <?php endif; ?>
                                 </td>   
@@ -157,7 +157,7 @@ if ($user_session) {
                         <tr>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Inscricoes', 'action' => 'view', $inscricao->id]) ?>
-                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                                <?php if ($user_data['categoria'] === '1') : ?>
                                     <?= $this->Html->link(__('Editar'), ['controller' => 'Inscricoes', 'action' => 'edit', $inscricao->id]) ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Inscricoes', 'action' => 'delete', $inscricao->id], ['confirm' => __('Are you sure you want to delete # {0}?', $inscricao->id)]) ?>
                                 <?php endif; ?>
@@ -195,7 +195,7 @@ if ($user_session) {
                         <tr>
                             <td class="actions">
                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiario->id]) ?>
-                                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                                <?php if ($user_data['categoria'] === '1') : ?>
                                     <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiario->id], ['confirm' => __('Are you sure you want to delete {0}?', $estagiario->id)]) ?>
                                 <?php endif; ?>
                             </td>

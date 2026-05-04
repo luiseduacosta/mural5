@@ -10,7 +10,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $turno
- * 
+ *
  * @property Aluno[] $Alunos
  */
 class Turno extends Entity

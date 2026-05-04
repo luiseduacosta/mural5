@@ -16,7 +16,7 @@ if ($user_session) {
         <div class="administradores view content">
             <aside>
                 <div class="nav">
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']) : ?>
+                    <?php if ($user_data['categoria'] === '1') : ?>
                         <?= $this->Html->link(__('Editar Administrador'), ['action' => 'edit', $administrador->id], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
                         <?= $this->Html->link(__('Listar Administradores'), ['action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>
                         <?= $this->Html->link(__('Usuários'), ['controller' => 'Users', 'action' => 'index'], ['class' => 'button', 'style' => 'font-size: 10pt;']) ?>

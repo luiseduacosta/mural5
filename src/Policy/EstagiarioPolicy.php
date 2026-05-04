@@ -46,9 +46,9 @@ final class EstagiarioPolicy implements BeforePolicyInterface
     public function canAdd(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 
     /**
@@ -156,6 +156,6 @@ final class EstagiarioPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Estagiario $estagiarioData): bool
     {
-        return $userSession->id === $estagiarioData->aluno->user_id;
+        return (int)$userSession->getIdentifier() === (int)$estagiarioData->aluno->user_id;
     }
 }

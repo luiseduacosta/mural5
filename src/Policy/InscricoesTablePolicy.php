@@ -9,7 +9,6 @@ use Authorization\Policy\BeforePolicyInterface;
 use Authorization\Policy\Result;
 use Authorization\Policy\ResultInterface;
 use Cake\ORM\Query;
-use Cake\ORM\TableRegistry;
 
 final class InscricoesTablePolicy implements BeforePolicyInterface
 {
@@ -55,7 +54,17 @@ final class InscricoesTablePolicy implements BeforePolicyInterface
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
-        return $query->where(['Inscricoes.user_id' => $user->getIdentifier()]);
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return $query;
+        }
+
+        if (!empty($user_data['aluno_id'])) {
+            return $query->where(['Inscricoes.aluno_id' => $user_data['aluno_id']]);
+        }
+
+        return $query->where(['Inscricoes.id' => 0]);
     }
 
     /**
@@ -65,12 +74,14 @@ final class InscricoesTablePolicy implements BeforePolicyInterface
      */
     public function canAdd(IdentityInterface $userSession, InscricoesTable $inscricoesTable): Result
     {
-        $alunosTable = TableRegistry::getTableLocator()->get('Alunos');
-        $alunocadastrado = $alunosTable->find()->where(['user_id' => $userSession->id]);
+        $user_data = $userSession->getOriginalData();
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return new Result(true);
+        }
 
-        return $alunocadastrado->count() > 0
-            ? new Result(false, 'Erro: inscricoes canAdd policy not authorized')
-            : new Result(true);
+        return !empty($user_data['aluno_id'])
+            ? new Result(true)
+            : new Result(false, 'Erro: inscricoes canAdd policy not authorized');
     }
 
     /**

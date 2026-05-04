@@ -12,7 +12,7 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\AlunosTable&\Cake\ORM\Association\BelongsTo $Alunos
  * @property \App\Model\Table\MuralestagiosTable&\Cake\ORM\Association\BelongsTo $Muralestagios
- * 
+ *
  * @method \App\Model\Entity\Inscricao newEmptyEntity()
  * @method \App\Model\Entity\Inscricao newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Inscricao[] newEntities(array $data, array $options = [])

@@ -18,7 +18,7 @@ if ($user_session) {
         <span class="navbar-toggler-icon"></span>
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+        <?php if ($user_data['categoria'] === '1'): ?>
             <li class="nav-link">
                 <?=
                 $this->Form->postLink(

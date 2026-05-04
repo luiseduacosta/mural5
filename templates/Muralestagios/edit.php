@@ -17,10 +17,10 @@ if ($user_session) {
     </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <li class="nav-item">
-            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+            <?= $this->Html->link(__('Listar'), ['action' => 'index'], ['class' => 'btn btn-primary', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <li class="nav-item">
-            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+            <?php if ($user_data['categoria'] === '1'): ?>
             <?=
                 $this->Form->postLink(
                     __('Excluir'),
@@ -39,24 +39,51 @@ if ($user_session) {
             <fieldset>
                 <legend><?= __('Editar Mural') ?></legend>
                 <?php
-                echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly']);
-                echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-                echo $this->Form->control('vagas');
-                echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios']]);
-                echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim']]);
-                echo $this->Form->control('carga_horaria', ['label' => ['text' => 'Carga horária']]);
-                echo $this->Form->control('requisitos');
-                echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
+                echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 'empty' => true, 'readonly', 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
+                echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'options' => ['0' => 'Não', '1' => 'Sim'], 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
+                echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios'], 'empty' => true]);
+                echo $this->Form->control('final_de_semana', ['label' => ['text' => 'Final de semana'], 'options' => ['0' => 'Não', '1' => 'Sim'], 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
+                echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado'], 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
                 echo $this->Form->control('data_selecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
                 echo $this->Form->control('data_inscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
-                echo $this->Form->control('horario_selecao', ['label' => ['text' => 'Horário da seleção']]);
-                echo $this->Form->control('local_selecao', ['label' => ['text' => 'Local da seleção']]);
-                echo $this->Form->control('forma_selecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras']]);
-                echo $this->Form->control('contato');
-                echo $this->Form->control('email');
-                echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'options' => $periodostotal]);
-                echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS']]);
-                echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações']]);
+                echo $this->Form->control('horario_selecao', ['label' => ['text' => 'Horário da seleção'], 'empty' => true]);
+                echo $this->Form->control('local_selecao', ['label' => ['text' => 'Local da seleção'], 'empty' => true]);
+                echo $this->Form->control('forma_selecao', ['label' => ['text' => 'Forma da seleção'], 'options' => ['0' => 'Entrevista', '1' => 'CR', '2' => 'Prova', '3' => 'Outras'], 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
+                echo $this->Form->control('contato', ['label' => ['text' => 'Contato'], 'empty' => true]);
+                echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'empty' => true]);
+                echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'type' => 'text', 'empty' => true]);
+                echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS'], 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]]);
+                echo $this->Form->control('outras', ['label' => ['text' => 'Outras informações'], 'empty' => true]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>

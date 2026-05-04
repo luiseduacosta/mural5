@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
+use App\Model\Table\AvaliacoesTable;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
 use Authorization\Policy\Result;
@@ -38,7 +39,7 @@ final class AvaliacoesTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canIndex(IdentityInterface $userSession): Result
+    public function canIndex(IdentityInterface $userSession, AvaliacoesTable $avaliacoesTable): Result
     {
         $user_data = $userSession->getOriginalData();
         // Everyone can see the index (filtered by role in controller)
@@ -58,8 +59,8 @@ final class AvaliacoesTablePolicy implements BeforePolicyInterface
     public function canAdd(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 }

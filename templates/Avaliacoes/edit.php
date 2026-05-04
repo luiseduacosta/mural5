@@ -7,10 +7,10 @@
 $estagiario = $avaliacao->estagiario;
 ?>
 <?php
-$hoje = new \DateTime();
-$dia = strftime('%e', $hoje->getTimestamp());
-$mes = strftime('%B', $hoje->getTimestamp());
-$ano = strftime('%Y', $hoje->getTimestamp());
+$hoje = new \DateTimeImmutable();
+$dia = $hoje->format('j');
+$mes = $hoje->format('F');
+$ano = $hoje->format('Y');
 
 $supervisora = isset($estagiario->supervisor->nome) ? $estagiario->supervisor->nome : "____________________";
 $regiao = isset($estagiario->supervisor->regiao) ? $estagiario->supervisor->regiao : '__';

@@ -35,8 +35,8 @@ final class AdministradoresTablePolicy implements BeforePolicyInterface
     public function canIndex(?IdentityInterface $user, $resource): Result
     {
         if (!$user) {
-        return new Result(false, 'Not authorized');
-    }
-    return new Result(true);
+            return new Result(false, 'Not authorized');
+        }
+        return new Result(true);
     }
 }

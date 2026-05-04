@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
+use App\Model\Table\ProfessoresTable;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
 use Authorization\Policy\Result;
@@ -32,7 +33,7 @@ final class ProfessoresTablePolicy implements BeforePolicyInterface
     /**
      * @return \Authorization\Policy\Result
      */
-    public function canIndex(IdentityInterface $userSession): Result
+    public function canIndex(IdentityInterface $userSession, ProfessoresTable $professoresTable): Result
     {
         $user_data = $userSession->getOriginalData();
 

@@ -34,7 +34,7 @@ if ($user_session) {
     <table class="table table-striped table-hover table-responsive">
         <thead class="thead-dark">
             <tr>
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                     <th>Id</th>
                 <?php endif; ?>
                 <th>Período do mural</th>

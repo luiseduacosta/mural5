@@ -24,7 +24,7 @@ if ($user_session) {
         </button>
         <ul class="navbar-nav collapse navbar-collapse">
             <li class="nav-item">
-                <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                <?php if ($user_data['categoria'] === '1'): ?>
                 <?= $this->Form->postLink(
                     __('Excluir'),
                     ['action' => 'delete', $resposta->id],

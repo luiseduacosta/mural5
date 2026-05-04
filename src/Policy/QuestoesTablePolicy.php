@@ -5,29 +5,37 @@ namespace App\Policy;
 
 use App\Model\Table\QuestoesTable;
 use Authorization\IdentityInterface;
+use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
+use Authorization\Policy\ResultInterface;
 
 /**
  * QuestoesTable policy
  */
-class QuestoesTablePolicy
+final class QuestoesTablePolicy implements BeforePolicyInterface
 {
-    /**
-     * Check if $user can index Questoes
-     *
-     * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Table\QuestoesTable $questoes
-     * @return bool
-     */
-    public function canIndex(?IdentityInterface $user, QuestoesTable $questoes)
+    public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
-        if ($user) {
-            $user_data = $user->getOriginalData();
-
+        if ($identity) {
+            $user_data = $identity->getOriginalData();
             if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
 
-        return false;
+        return null;
+    }
+
+    public function canIndex(?IdentityInterface $user, QuestoesTable $questoes): Result
+    {
+        if (!$user) {
+            return new Result(false);
+        }
+
+        $user_data = $user->getOriginalData();
+
+        return isset($user_data['categoria']) && $user_data['categoria'] === '1'
+            ? new Result(true)
+            : new Result(false);
     }
 }

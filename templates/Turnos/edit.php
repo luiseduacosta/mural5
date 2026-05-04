@@ -7,6 +7,7 @@
 <div>
     <div class="column-responsive column-80">
         <div class="turnos form content">
+            <?php if ($user_data['categoria'] === '1'): ?>
             <aside>
                 <div class="nav">
                     <?= $this->Form->postLink(
@@ -17,6 +18,7 @@
                     <?= $this->Html->link(__('Listar Turnos'), ['action' => 'index'], ['class' => 'button']) ?>
                 </div>
             </aside>
+            <?php endif; ?>
             <?= $this->Form->create($turno) ?>
             <fieldset>
                 <h3><?= __('Editando turno_') . $turno->id ?></h3>

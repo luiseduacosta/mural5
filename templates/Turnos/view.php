@@ -10,9 +10,11 @@
             <aside>
                 <div class="nav">
                     <?= $this->Html->link(__('Listar Turnos'), ['action' => 'index'], ['class' => 'button']) ?>
-                    <?= $this->Html->link(__('Editar Turno'), ['action' => 'edit', $turno->id], ['class' => 'button']) ?>
-                    <?= $this->Form->postLink(__('Excluir Turno'), ['action' => 'delete', $turno->id], ['confirm' => __('Are you sure you want to delete # {0}?', $turno->id), 'class' => 'button']) ?>
-                    <?= $this->Html->link(__('Novo Turno'), ['action' => 'add'], ['class' => 'button']) ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
+                        <?= $this->Html->link(__('Editar Turno'), ['action' => 'edit', $turno->id], ['class' => 'button']) ?>
+                        <?= $this->Form->postLink(__('Excluir Turno'), ['action' => 'delete', $turno->id], ['confirm' => __('Are you sure you want to delete # {0}?', $turno->id), 'class' => 'button']) ?>
+                        <?= $this->Html->link(__('Novo Turno'), ['action' => 'add'], ['class' => 'button']) ?>
+                    <?php endif; ?>
                 </div>
             </aside>
             <h3>turno_<?= h($turno->id) ?></h3>

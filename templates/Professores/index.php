@@ -14,7 +14,7 @@ if ($user_session) {
 
 <div class="container">
 
-    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+    <?php if ($user_data['categoria'] === '1'): ?>
         <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
                     aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,7 +71,7 @@ if ($user_session) {
                         <td><?= h($professor->motivoegresso) ?></td>
                         <td class="actions">
                             <?= $this->Html->link(__('Ver'), ['action' => 'view', $professor->id]) ?>
-                            <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                            <?php if ($user_data['categoria'] === '1'): ?>
                                 <?= $this->Html->link(__('Editar'), ['action' => 'edit', $professor->id]) ?>
                                 <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $professor->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $professor->id)]) ?>
                             <?php endif; ?>

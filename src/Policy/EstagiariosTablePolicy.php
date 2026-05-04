@@ -43,12 +43,16 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
 
     /**
      * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Table\EstagiariosTable $estagiariosTable
      * @return \Authorization\Policy\Result
      */
-    public function canLancanota(IdentityInterface $userSession): Result
+    public function canLancanota(IdentityInterface $userSession, EstagiariosTable $estagiariosTable): Result
     {
         $user_data = $userSession->getOriginalData();
-        if (($user_data['categoria'] === '1') || $user_data['professor_id']) {
+        if (!empty($user_data['professor_id'])) {
+            return new Result(true);
+        }
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
             return new Result(true);
         }
 
@@ -57,9 +61,10 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
 
     /**
      * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Table\EstagiariosTable $estagiariosTable
      * @return \Authorization\Policy\Result
      */
-    public function canLancanotapdf(IdentityInterface $userSession): Result
+    public function canLancanotapdf(IdentityInterface $userSession, EstagiariosTable $estagiariosTable): Result
     {
         $user_data = $userSession->getOriginalData();
         if ($user_data['professor_id']) {
@@ -76,7 +81,25 @@ final class EstagiariosTablePolicy implements BeforePolicyInterface
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
-        return $query->where(['Estagiarios.aluno_id' => $user->aluno_id]);
+        $user_data = $user->getOriginalData();
+
+        if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
+            return $query;
+        }
+
+        if (!empty($user_data['aluno_id'])) {
+            return $query->where(['Estagiarios.aluno_id' => $user_data['aluno_id']]);
+        }
+
+        if (!empty($user_data['professor_id'])) {
+            return $query->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
+        }
+
+        if (!empty($user_data['supervisor_id'])) {
+            return $query->where(['Estagiarios.supervisor_id' => $user_data['supervisor_id']]);
+        }
+
+        return $query->where(['Estagiarios.id' => 0]);
     }
 
     /**

@@ -20,7 +20,7 @@ if ($user_session) {
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
-                    <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
+                    <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
                         <th><?= $this->Paginator->sort('id') ?></th>
                     <?php endif; ?>
                     <th><?= $this->Paginator->sort('estagiario.avaliacao.id', 'Imprime folha de atividades') ?></th>
@@ -31,7 +31,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('estagiario->supervisor->nome', 'Supervisor(a)') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->ch', 'Carga horária') ?></th>
                     <th><?= $this->Paginator->sort('estagiario->nota', 'Nota') ?></th>
-                    <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                    <?php if ($user_data['categoria'] === '1'): ?>
                         <th class="actions"><?= __('Ações') ?></th>
                     <?php endif; ?>
                 </tr>
@@ -39,7 +39,7 @@ if ($user_session) {
             <tbody>
                 <?php foreach ($estagiario as $c_estagiario): ?>
                     <tr>
-                        <?php if (($user_data['categoria'] === '1' && $user_data['entidade_id']) || $user_data['supervisor_id']): ?>
+                        <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
                             <td><?= isset($c_estagiario->id) ? $this->Html->link($c_estagiario->id, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= isset($c_estagiario->id) ? $c_estagiario->id : '' ?></td>
@@ -47,7 +47,7 @@ if ($user_session) {
 
                         <td><?= $this->Html->link('Imprime folha de atividades', ['controller' => 'estagiarios', 'action' => 'folhadeatividadespdf', $c_estagiario->id], ['class' => 'btn btn-success']) ?></td>
 
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'alunos', 'action' => 'view', $c_estagiario->aluno->id]) : '' ?></td>
                         <?php else: ?>
                             <td><?= $c_estagiario->hasValue('aluno') ? $c_estagiario->aluno->nome : '' ?></td>
@@ -59,7 +59,7 @@ if ($user_session) {
                         <td><?= $c_estagiario->hasValue('supervisor') ? $c_estagiario->supervisor->nome : '' ?></td>
                         <td><?= $c_estagiario->ch ?></td>
                         <td><?= $c_estagiario->nota ?></td>
-                        <?php if ($user_data['categoria'] === '1' && $user_data['entidade_id']): ?>
+                        <?php if ($user_data['categoria'] === '1'): ?>
                             <?php if (isset($c_estagiario->id)): ?>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Ver'), ['action' => 'view', $c_estagiario->id]) ?>
