@@ -11,7 +11,7 @@ FILES=(
 "templates/Estagiarios/edit.php"
 "templates/Estagiarios/index.php"
 "templates/Estagiarios/lancanota.php"
-"templates/Estagiarios/novotermocompromisso.php"
+"templates/Estagiarios/termocompromisso.php"
 "templates/Folhadeatividades/atividade.php"
 "templates/Folhadeatividades/edit.php"
 "templates/Inscricoes/index.php"
