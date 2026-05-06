@@ -40,19 +40,38 @@ class UsersSeed extends BaseSeed
         for ($i = 0; $i < 40; $i++) {
             $nome = $faker->name();
             $email = $faker->unique()->safeEmail();
-            $dre = (int)$faker->unique()->numerify('#########');
+            $identificacao = (int)$faker->unique()->numerify('#########');
+
+            $categoria = $faker->randomElement(['2', '3', '4']);
+            $entidade_id = $i + 1;
+            
+            $role = '';
+            $aluno_id = null;
+            $professor_id = null;
+            $supervisor_id = null;
+
+            if ($categoria === '2') {
+                $role = 'aluno';
+                $aluno_id = $entidade_id;
+            } elseif ($categoria === '3') {
+                $role = 'professor';
+                $professor_id = $entidade_id;
+            } elseif ($categoria === '4') {
+                $role = 'supervisor';
+                $supervisor_id = $entidade_id;
+            }
 
             $rows[] = [
                 'nome' => $nome,
                 'email' => $email,
                 'password' => $defaultPasswordHash,
-                'categoria' => '2',
-                'role' => 'aluno',
-                'identificacao' => $dre,
-                'entidade_id' => null,
-                'aluno_id' => null,
-                'supervisor_id' => null,
-                'professor_id' => null,
+                'categoria' => $categoria,
+                'role' => $role,
+                'identificacao' => $identificacao,
+                'entidade_id' => $entidade_id,
+                'aluno_id' => $aluno_id,
+                'supervisor_id' => $supervisor_id,
+                'professor_id' => $professor_id,
                 'ativo' => 1,
                 'criado_em' => $now,
                 'atualizado_em' => $now,
