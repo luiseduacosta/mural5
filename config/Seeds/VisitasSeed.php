@@ -47,4 +47,3 @@ class VisitasSeed extends BaseSeed
         $this->insert('visitas', $rows);
     }
 }
-
