@@ -184,8 +184,9 @@ class InscricoesController extends AppController
     public function edit(?string $id = null)
     {
         $inscricao = $this->Inscricoes->findById($id)
-            ->leftJoinWith('Alunos')
+            ->contain('Alunos')
             ->firstOrFail();
+
         $this->Authorization->skipAuthorization();
 
         $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
