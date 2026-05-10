@@ -55,12 +55,7 @@ class UsersTable extends Table
             ],
         ]);
 
-        try {
-            $tables = $this->getConnection()->getSchemaCollection()->listTables();
-        } catch (\Throwable) {
-            $tables = [];
-        }
-
+        $tables = $this->getConnection()->getSchemaCollection()->listTables();
         if (in_array('categorias', $tables, true)) {
             $this->belongsTo('Categorias', [
                 'foreignKey' => 'categoria',
