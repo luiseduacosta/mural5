@@ -90,7 +90,10 @@ class InscricoesController extends AppController
      */
     public function view(?string $id = null)
     {
-        $inscricao = $this->Inscricoes->get($id, contain: ['Alunos', 'Muralestagios' => ['Instituicoes']]);
+        $inscricao = $this->Inscricoes->findById($id)
+            ->leftJoinWith('Alunos')
+            ->leftJoinWith('Muralestagios.Instituicoes')
+            ->firstOrFail();
         $this->Authorization->skipAuthorization();
         $this->set(compact('inscricao'));
     }
@@ -180,7 +183,9 @@ class InscricoesController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $inscricao = $this->Inscricoes->get($id, contain: ['Alunos']);
+        $inscricao = $this->Inscricoes->findById($id)
+            ->contain('Alunos')
+            ->firstOrFail();
 
         $this->Authorization->skipAuthorization();
 

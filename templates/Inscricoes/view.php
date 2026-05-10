@@ -46,7 +46,7 @@ if ($user_session) {
     </nav>
 
     <div class="container">
-        <h3><?= h($inscricao->aluno->nome) ?></h3>
+        <h3><?= $inscricao->hasValue('aluno') ? h($inscricao->aluno->nome) : '' ?></h3>
         <table class="table table-striped table-hover table-responsive">
             <tr>
                 <th><?= __('Id') ?></th>
