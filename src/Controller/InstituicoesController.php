@@ -230,7 +230,7 @@ class InstituicoesController extends AppController
             ->matching('Instituicoes', function ($q) use ($instituicao_id) {
                 return $q->where(['Instituicoes.id' => $instituicao_id]);
             })
-            ->order(['nome' => 'ASC'])
+            ->orderBy(['nome' => 'ASC'])
             ->toArray();
 
             return $this->response

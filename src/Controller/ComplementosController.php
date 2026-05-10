@@ -39,9 +39,7 @@ class ComplementosController extends AppController
     public function view($id = null)
     {
         try {
-            $complemento = $this->Complementos->get($id, [
-                'contain' => ['Estagiarios'],
-            ]);
+            $complemento = $this->Complementos->get($id, contain: ['Estagiarios']);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Complemento nao foi encontrado. Tente novamente.'));
             return $this->redirect(['action' => 'index']);
@@ -92,9 +90,7 @@ class ComplementosController extends AppController
     public function edit($id = null)
     {
         try {
-            $complemento = $this->Complementos->get($id, [
-                'contain' => [],
-            ]);
+            $complemento = $this->Complementos->get($id, contain: []);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Complemento nao foi encontrado. Tente novamente.'));
             return $this->redirect(['action' => 'index']);

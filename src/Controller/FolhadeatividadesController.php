@@ -48,7 +48,7 @@ class FolhadeatividadesController extends AppController
         $query = $this->Folhadeatividades->find()
             ->where(['Folhadeatividades.estagiario_id' => $estagiario_id])
             ->contain(['Estagiarios' => ['Alunos']])
-            ->order(['Folhadeatividades.dia' => 'ASC']);
+            ->orderBy(['Folhadeatividades.dia' => 'ASC']);
 
         if ($query->count() == 0) {
             $this->Flash->error(__('Nenhuma atividade cadastrada.'));
@@ -68,9 +68,7 @@ class FolhadeatividadesController extends AppController
     public function view(?string $id = null)
     {
         try {
-             $folhadeatividade = $this->Folhadeatividades->get($id, [
-                'contain' => ['Estagiarios' => ['Alunos']],
-             ]);
+             $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Atividade não encontrada.'));
 
@@ -113,7 +111,7 @@ class FolhadeatividadesController extends AppController
 
         if ($id) {
             try {
-                $activity = $this->Folhadeatividades->get($id, ['contain' => 'Estagiarios']);
+                $activity = $this->Folhadeatividades->get($id, contain: 'Estagiarios');
                 $estagiario_id = $activity->estagiario_id;
             } catch (Exception $e) {
                 $this->Flash->error(__('Atividade não encontrada.'));
@@ -164,6 +162,16 @@ class FolhadeatividadesController extends AppController
      */
     public function add()
     {
+        $folhadeatividade = $this->Folhadeatividades->newEmptyEntity();
+
+        try {
+            $this->Authorization->authorize($folhadeatividade);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
 
         if ($estagiario_id === null) {
@@ -183,16 +191,6 @@ class FolhadeatividadesController extends AppController
             $this->Flash->error(__('Estagiário não encontrado'));
 
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
-        }
-
-        $folhadeatividade = $this->Folhadeatividades->newEmptyEntity();
-
-        try {
-            $this->Authorization->authorize($folhadeatividade);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['action' => 'index']);
         }
 
         if ($this->request->is('post')) {
@@ -217,9 +215,7 @@ class FolhadeatividadesController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $folhadeatividade = $this->Folhadeatividades->get($id, [
-                'contain' => [],
-            ]);
+            $folhadeatividade = $this->Folhadeatividades->get($id, contain: []);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 

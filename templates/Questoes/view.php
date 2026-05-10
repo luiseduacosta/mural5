@@ -63,11 +63,14 @@ if ($user_session) {
                 <td>
                     <?php
                     if (!empty($questao->options)) {
-                        $i = 0;
                         $opcoes = json_decode($questao->options, true);
-                        foreach ($opcoes as $key => $opcao):
-                            echo $key . " - " . $opcao . "<br>";
-                        endforeach;
+                        if (is_array($opcoes)) {
+                            foreach ($opcoes as $key => $opcao):
+                                echo $key . " - " . $opcao . "<br>";
+                            endforeach;
+                        } else {
+                            echo h($questao->options);
+                        }
                     }
                     ?>
                 </td>

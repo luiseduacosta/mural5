@@ -735,7 +735,7 @@ class EstagiariosController extends AppController
         $periodos = $this->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo')
             ->contain(['Professores'])
             ->where(['Professores.id' => $professor_id])
-            ->order(["periodo" => "desc"])
+            ->orderBy(["periodo" => "desc"])
             ->toArray();
 
         $periodo = $this->request->getQuery("periodo");

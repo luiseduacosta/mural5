@@ -35,9 +35,7 @@ class CategoriasController extends AppController
     {
         $this->Authorization->skipAuthorization();
         try {
-            $categoria = $this->Categorias->get($id, [
-                'contain' => [],
-            ]);
+            $categoria = $this->Categorias->get($id, contain: []);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Registro categoria nao foi encontrado. Tente novamente.'));
             return $this->redirect(['action' => 'index']);
@@ -76,9 +74,7 @@ class CategoriasController extends AppController
     public function edit($id = null)
     {
         try {
-            $categoria = $this->Categorias->get($id, [
-                'contain' => [],
-            ]);
+            $categoria = $this->Categorias->get($id, contain: []);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Registro categoria nao foi encontrado. Tente novamente.'));
             return $this->redirect(['action' => 'index']);

@@ -55,9 +55,7 @@ class AdministradoresController extends AppController
 
         if ($id) {
             try {
-                $administrador = $this->Administradores->get($id, [
-                    'contain' => ['Users'],
-                ]);
+                $administrador = $this->Administradores->get($id, contain: ['Users']);
             } catch (Exception $error) {
                 $this->Flash->error('Error: ' . $error->getMessage());
 
@@ -67,10 +65,10 @@ class AdministradoresController extends AppController
             $user_id = $this->request->getQuery('user_id');
             if ($user_id) {
                 try {
-                    $administrador = $this->Administradores->find('all', [
-                        'conditions' => ['Administradores.user_id' => $user_id],
-                        'contain' => ['Users'],
-                    ])->first();
+                    $administrador = $this->Administradores->find()
+                        ->where(['Administradores.user_id' => $user_id])
+                        ->contain(['Users'])
+                        ->first();
                 } catch (Exception $error) {
                     $this->Flash->error('Error: ' . $error->getMessage());
 

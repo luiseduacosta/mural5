@@ -68,9 +68,7 @@ class RespostasController extends AppController
         }
 
         if (!$resposta) {
-            $resposta = $this->Respostas->get($id, [
-                        'contain' => ['Estagiarios' => ['Alunos', 'Supervisores']],
-            ]);
+            $resposta = $this->Respostas->get($id, contain: ['Estagiarios' => ['Alunos', 'Supervisores']]);
             if (!$resposta) {
                 $this->Flash->error(__('Nenhuma avaliação encontrada para o estagiário ID {0}.', $estagiario_id));
 
@@ -126,6 +124,15 @@ class RespostasController extends AppController
      */
     public function add()
     {
+        $resposta = $this->Respostas->newEmptyEntity();
+        try {
+            $this->Authorization->authorize($resposta);
+        } catch (ForbiddenException $e) {
+            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
+
+            return $this->redirect(['controller' => 'Muralestagiarios', 'action' => 'index']);
+        }
+
         $estagiario_id = $this->request->getQuery('estagiario_id');
 
         if (!$estagiario_id) {
@@ -156,15 +163,6 @@ class RespostasController extends AppController
         }
 
         $this->set('estagiario', $estagiario);
-
-        $resposta = $this->Respostas->newEmptyEntity();
-        try {
-            $this->Authorization->authorize($resposta);
-        } catch (ForbiddenException $e) {
-            $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
-            return $this->redirect(['controller' => 'Muralestagiarios', 'action' => 'index']);
-        }
 
         if ($this->request->is('post')) {
             $data = $this->request->getData();
@@ -230,9 +228,7 @@ class RespostasController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $resposta = $this->Respostas->get($id, [
-                'contain' => ['Questionarios'],
-            ]);
+            $resposta = $this->Respostas->get($id, contain: ['Questionarios']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -247,9 +243,7 @@ class RespostasController extends AppController
             return $this->redirect(['controller' => 'Muralestagiarios', 'action' => 'index']);
         }
 
-        $estagiario = $this->fetchTable('Estagiarios')->get($resposta->estagiario_id, [
-            'contain' => ['Alunos'],
-        ]);
+        $estagiario = $this->fetchTable('Estagiarios')->get($resposta->estagiario_id, contain: ['Alunos']);
 
         $respostasUnique = json_decode($resposta->response, true);
         $avaliacoes = [];
@@ -414,9 +408,7 @@ class RespostasController extends AppController
                 ->where(['Questoes.questionario_id' => 1])
                 ->all();
 
-            $estagiario = $this->fetchTable('Estagiarios')->get($estagiario_id, [
-                    'contain' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes'],
-                ]);
+            $estagiario = $this->fetchTable('Estagiarios')->get($estagiario_id, contain: ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']);
 
             $respostavazia = ['respostas' => $questoes, 'estagiario' => $estagiario];
         }

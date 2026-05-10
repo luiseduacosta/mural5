@@ -241,7 +241,7 @@ class AlunosController extends AppController
         $nome = $this->getRequest()->getQuery('nome');
         if ($nome) {
             $condition = ['Alunos.nome LIKE' => '%' . $nome . '%'];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -253,7 +253,7 @@ class AlunosController extends AppController
         $dre = $this->getRequest()->getQuery('dre');
         if ($dre) {
             $condition = ['Alunos.registro' => $dre];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -265,7 +265,7 @@ class AlunosController extends AppController
         $cpf = $this->getRequest()->getQuery('cpf');
         if ($cpf) {
             $condition = ['Alunos.cpf' => $cpf];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -277,7 +277,7 @@ class AlunosController extends AppController
         $email = $this->getRequest()->getQuery('email');
         if ($email) {
             $condition = ['Users.email' => $email];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
