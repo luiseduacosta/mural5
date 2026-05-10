@@ -22,13 +22,7 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                isset($user_data['categoria'])
-                && (
-                    ($user_data['categoria'] === '1')
-                    || $user_data['aluno_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }
@@ -55,8 +49,9 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
      */
     public function canView(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        // Add ownership check if needed
-        return new Result(true);
+        return $this->sameUser($user, $folhadeatividade)
+            ? new Result(true)
+            : new Result(false, 'Erro: folhadeatividade view policy not authorized');
     }
 
     /**
@@ -66,8 +61,9 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
      */
     public function canEdit(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        // Add ownership check if needed
-        return new Result(true);
+        return $this->sameUser($user, $folhadeatividade)
+            ? new Result(true)
+            : new Result(false, 'Erro: folhadeatividade edit policy not authorized');
     }
 
     /**
@@ -77,6 +73,19 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
      */
     public function canDelete(IdentityInterface $user, Folhadeatividade $folhadeatividade): Result
     {
-        return new Result(true);
+        return $this->sameUser($user, $folhadeatividade)
+            ? new Result(true)
+            : new Result(false, 'Erro: folhadeatividade delete policy not authorized');
+    }
+
+    /**
+     * @param \Authorization\IdentityInterface $userSession
+     * @param \App\Model\Entity\Folhadeatividade $folhadeatividade
+     * @return bool
+     */
+    protected function sameUser(IdentityInterface $userSession, Folhadeatividade $folhadeatividade): bool
+    {
+        return isset($folhadeatividade->estagiario->aluno->user_id) && 
+               (int)$userSession->getIdentifier() === (int)$folhadeatividade->estagiario->aluno->user_id;
     }
 }

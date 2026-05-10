@@ -43,17 +43,17 @@ class SupervisoresController extends AppController
             $this->Flash->error(__('Nõo há registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-        $supervisor = $this->Supervisores->get($id, contain: [
-            'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
-            'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
-        ]);
-
-        $this->Authorization->authorize($supervisor);
-
-        if (!isset($supervisor)) {
+        try {
+            $supervisor = $this->Supervisores->get($id, contain: [
+                'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
+                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
+
+        $this->Authorization->authorize($supervisor);
 
         $this->set(compact('supervisor'));
     }

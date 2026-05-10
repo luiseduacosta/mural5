@@ -22,13 +22,7 @@ final class InscricaoPolicy implements BeforePolicyInterface
         if ($identity) {
             $user_data = $identity->getOriginalData();
 
-            if (
-                isset($user_data['categoria'])
-                && (
-                    ($user_data['categoria'] === '1')
-                    || $user_data['aluno_id']
-                )
-            ) {
+            if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
             }
         }

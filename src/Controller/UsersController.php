@@ -37,6 +37,7 @@ class UsersController extends AppController
         $result = $this->Authentication->getResult();
 
         if ($result && $result->isValid()) {
+            /** @var \App\Model\Entity\User $user */
             $user = $result->getData();
             $controlador = 'Users';
             $acao = 'view';
@@ -158,7 +159,7 @@ class UsersController extends AppController
             $this->Flash->error(__('Usuário ou senha inválidos'));
         }
 
-        $this->set('user', $this->Authentication->result);
+        $this->set('user', $result);
     }
 
     public function logout()
@@ -181,6 +182,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->Authorization->skipAuthorization();
+        /** @var \App\Model\Entity\User|null $user */
         $user = $this->Authentication->getIdentity();
 
         if ($user && $user->categoria === '1') {
@@ -207,7 +209,7 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         try {
-            $user = $this->Users->get($id, contain: []);
+            $user = $this->Users->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
             return $this->redirect(['action' => 'index']);
@@ -362,7 +364,7 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         try {
-            $user = $this->Users->get($id, contain: []);
+            $user = $this->Users->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
 
@@ -437,6 +439,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+        /** @var iterable<\App\Model\Entity\User> $users */
         $users = $this->Users->find('all');
         foreach ($users as $user) {
             // Sync role with categoria

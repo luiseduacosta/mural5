@@ -215,7 +215,7 @@ class FolhadeatividadesController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $folhadeatividade = $this->Folhadeatividades->get($id, contain: []);
+            $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -260,7 +260,7 @@ class FolhadeatividadesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $folhadeatividade = $this->Folhadeatividades->get($id);
+            $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 

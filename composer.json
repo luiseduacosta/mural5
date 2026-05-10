@@ -19,12 +19,16 @@
         "tecnickcom/tcpdf": "^6.7"
     },
     "require-dev": {
+        "cakedc/cakephp-phpstan": "^4.2",
         "cakephp/bake": "^3.0.0",
         "cakephp/cakephp-codesniffer": "^5.0",
         "cakephp/debug_kit": "^5.0.0",
         "fakerphp/faker": "^1.24",
         "josegonzalez/dotenv": "^4.0",
-        "phpunit/phpunit": "^10.1.0"
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^10.1.0",
+        "symfony/filesystem": "^7.0",
+        "symfony/finder": "^7.0"
     },
     "suggest": {
 "cakephp/repl": "Console tools for a REPL interface for CakePHP applications.",

@@ -68,11 +68,12 @@ class RespostasController extends AppController
         }
 
         if (!$resposta) {
-            $resposta = $this->Respostas->get($id, contain: ['Estagiarios' => ['Alunos', 'Supervisores']]);
-            if (!$resposta) {
-                $this->Flash->error(__('Nenhuma avaliação encontrada para o estagiário ID {0}.', $estagiario_id));
+            try {
+                $resposta = $this->Respostas->get($id, contain: ['Estagiarios' => ['Alunos', 'Supervisores']]);
+            } catch (RecordNotFoundException $e) {
+                $this->Flash->error(__('Nenhuma avaliação encontrada.'));
 
-                return $this->redirect(['controller' => 'Respostas', 'action' => 'add', '?' => ['estagiario_id' => $estagiario_id]]);
+                return $this->redirect(['controller' => 'Respostas', 'action' => 'index']);
             }
         }
 
@@ -380,6 +381,7 @@ class RespostasController extends AppController
             ]);
         }
 
+        $resposta = null;
         try {
             $resposta = $this->Respostas->find()
                 ->contain([

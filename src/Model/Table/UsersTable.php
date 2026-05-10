@@ -159,6 +159,7 @@ class UsersTable extends Table
      */
     public function beforeSave(\Cake\Event\EventInterface $event, \Cake\Datasource\EntityInterface $entity, \ArrayObject $options): void
     {
+        /** @var \App\Model\Entity\User $entity */
         $role = User::CATEGORIA_ROLE_MAP[$entity->categoria] ?? null;
         if ($role !== null) {
             $entity->role = $role;

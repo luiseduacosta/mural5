@@ -138,7 +138,7 @@ class ProfessoresController extends AppController
                 $userEntity->identificacao = $professorresultado->siape;
                 $userEntity->role = 'professor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
-                    $refreshUser = $this->Users->get($userEntity->id);
+                    $refreshUser = $this->fetchTable('Users')->get($userEntity->id);
                     $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do professor'));
 

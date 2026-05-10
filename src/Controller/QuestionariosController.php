@@ -155,7 +155,7 @@ class QuestionariosController extends AppController
         }
 
         // Check if the questionario has any associated respostas
-        $respostasCount = $this->Respostas->find()
+        $respostasCount = $this->fetchTable('Respostas')->find()
             ->where(['Respostas.questionario_id' => $questionario->id])
             ->count();
 

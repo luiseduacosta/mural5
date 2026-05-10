@@ -87,8 +87,8 @@ class AvaliacoesController extends AppController
         /* O menu_mural envia o cress */
         $this->Authorization->skipAuthorization();
 
-        $cress = $cress ?? null;
-        $dre = $dre ?? null;
+        $cress = $this->request->getQuery('cress');
+        $dre = $this->request->getQuery('dre');
 
         if (empty($cress)) {
             $this->Flash->error(__("Selecionar supervisor(a)."));

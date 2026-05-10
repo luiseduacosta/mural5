@@ -58,6 +58,7 @@ class AlunosController extends AppController
     public function view(?string $id = null)
     {
 
+        $aluno = null;
         $identity = $this->request->getAttribute('identity');
         if ($identity && $identity->getOriginalData()['categoria'] == 2) {
             $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
@@ -136,11 +137,12 @@ class AlunosController extends AppController
                 $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
 
                 // Update the user record with aluno_id and entidade_id
-                $usuario = $this->Users->get($user_session->id);
+                $usersTable = $this->fetchTable('Users');
+                $usuario = $usersTable->get($user_session->id);
                 $usuario->aluno_id = $aluno->id;
                 $usuario->entidade_id = $aluno->id;
-                if ($this->Users->save($usuario)) {
-                    $refreshUser = $this->Users->get($usuario->id);
+                if ($usersTable->save($usuario)) {
+                    $refreshUser = $usersTable->get($usuario->id);
                     $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do aluno'));
                 }
@@ -335,7 +337,7 @@ class AlunosController extends AppController
 
         $inicial = explode('-', $periodo_inicial);
         $atual = explode('-', $periodo_atual);
-        $semestres = ($atual[0] - $inicial[0] + 1) * 2;
+        $semestres = ((int)$atual[0] - (int)$inicial[0] + 1) * 2;
 
         $totalperiodos = $semestres; // Simplified fallback
         if ($inicial[1] == 1 && $atual[1] == 2) {

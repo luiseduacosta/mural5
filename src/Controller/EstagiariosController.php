@@ -228,6 +228,7 @@ class EstagiariosController extends AppController
      */
     public function add(?string $id = null)
     {
+        $ultimo_estagio = null;
         $estagiario = $this->Estagiarios->newEmptyEntity();
         try {
             $this->Authorization->authorize($estagiario);
@@ -760,7 +761,7 @@ class EstagiariosController extends AppController
             ->where(["Estagiarios.professor_id" => $professor_id, "Estagiarios.periodo" => $periodo]);
 
         $this->set("periodos", $periodos);
-        $this->set("periodo", $periodo ?? end($periodos)->periodo);
+        $this->set("periodo", $periodo);
         $this->set("professor", $professor);
         $this->set("estagiarios", $this->paginate($estagiarios));
     }
