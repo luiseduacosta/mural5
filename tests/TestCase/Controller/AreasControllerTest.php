@@ -23,7 +23,6 @@ class AreasControllerTest extends TestCase
      * @var array
      */
     protected array $fixtures = [
-        'app.Turmaestagios',
         'app.Estagiarios',
         'app.Muralestagios',
     ];

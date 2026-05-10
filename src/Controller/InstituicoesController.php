@@ -96,8 +96,8 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Não foi possível criar a instituição de estágio. Tente novamente.'));
         }
-        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
-        $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
+        $areas = $this->Instituicoes->Areas->find('list', keyField: 'id', valueField: 'area');
+        $supervisores = $this->Instituicoes->Supervisores->find('list', keyField: 'id', valueField: 'nome');
         $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
@@ -137,8 +137,8 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Instituição de estágio não foi atualizada.'));
         }
-        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
-        $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
+        $areas = $this->Instituicoes->Areas->find('list', keyField: 'id', valueField: 'area');
+        $supervisores = $this->Instituicoes->Supervisores->find('list', keyField: 'id', valueField: 'nome');
         $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
@@ -228,10 +228,7 @@ class InstituicoesController extends AppController
 
         $instituicao_id = $this->request->getData('id');
         try {
-            $supervisores = $this->fetchTable('Supervisores')->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'nome',
-            ])
+            $supervisores = $this->fetchTable('Supervisores')->find('list', keyField: 'id', valueField: 'nome')
             ->matching('Instituicoes', function ($q) use ($instituicao_id) {
                 return $q->where(['Instituicoes.id' => $instituicao_id]);
             })

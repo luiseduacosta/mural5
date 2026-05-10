@@ -59,11 +59,11 @@ class FolhadeatividadesTable extends Table
      * @param bool $primary Whether this is a primary query or not.
      * @return \Cake\ORM\Query
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): Query
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void
     {
         $query->orderBy(['dia' => 'ASC']);
 
-        return $query;
+        $event->setResult($query);
     }
 
     /**

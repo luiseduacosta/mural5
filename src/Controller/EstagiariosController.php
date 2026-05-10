@@ -101,10 +101,7 @@ class EstagiariosController extends AppController
         $estagiarios = $this->paginate($query, $config);
 
         /* Todos os periódos */
-        $periodototal = $this->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])->orderBy(['periodo' => 'asc']);
+        $periodototal = $this->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo')->orderBy(['periodo' => 'asc']);
 
         $periodos = $periodototal->toArray();
 
@@ -162,22 +159,19 @@ class EstagiariosController extends AppController
     public function view(?string $id = null)
     {
         try {
-            $estagiario = $this->Estagiarios->get($id, [
-                'contain' => [
-                    'Alunos',
-                    'Instituicoes',
-                    'Supervisores',
-                    'Professores',
-                    'Respostas',
-                    'Folhadeatividades' => [
-                        'sort' => ['dia' => 'desc'],
-                    ],
+            $estagiario = $this->Estagiarios->get($id, contain: [
+                'Alunos',
+                'Instituicoes',
+                'Supervisores',
+                'Professores',
+                'Respostas',
+                'Folhadeatividades' => [
+                    'sort' => ['dia' => 'desc'],
                 ],
-                'order' => [
-                    'Estagiarios.periodo' => 'ASC',
-                    'Estagiarios.nivel' => 'ASC',
-                    'Alunos.nome' => 'ASC',
-                ],
+            ], order: [
+                'Estagiarios.periodo' => 'ASC',
+                'Estagiarios.nivel' => 'ASC',
+                'Alunos.nome' => 'ASC',
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
@@ -335,7 +329,7 @@ class EstagiariosController extends AppController
 
                 return $this->redirect(['action' => 'index']);
             }
-             $alunos = $this->fetchTable('Alunos')->find('list', ['order' => ['nome' => 'asc']]);
+             $alunos = $this->fetchTable('Alunos')->find('list', order: ['nome' => 'asc']);
              $this->set('alunos', $alunos);
         }
 
@@ -344,10 +338,11 @@ class EstagiariosController extends AppController
             ->select(['mural_periodo_atual'])
             ->first();
         $this->set('periodo', $periodo->mural_periodo_atual);
+        $this->set('now', new \Cake\I18n\DateTime());
 
-        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'asc']]);
-        $supervisores = $this->fetchTable('Supervisores')->find('list', ['order' => ['nome' => 'asc']]);
-        $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'asc']]);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', order: ['instituicao' => 'asc']);
+        $supervisores = $this->fetchTable('Supervisores')->find('list', order: ['nome' => 'asc']);
+        $professores = $this->fetchTable('Professores')->find('list', order: ['nome' => 'asc']);
 
         $this->set(
             compact(
@@ -444,9 +439,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $estagiario = $this->Estagiarios->get($id, [
-                'contain' => ['Alunos', 'Supervisores', 'Instituicoes'],
-            ]);
+            $estagiario = $this->Estagiarios->get($id, contain: ['Alunos', 'Supervisores', 'Instituicoes']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
 
@@ -479,9 +472,7 @@ class EstagiariosController extends AppController
     public function declaracaodeestagiopdf(?string $id = null)
     {
         try {
-            $estagiario = $this->Estagiarios->get($id, [
-                'contain' => ['Alunos', 'Supervisores', 'Instituicoes'],
-            ]);
+            $estagiario = $this->Estagiarios->get($id, contain: ['Alunos', 'Supervisores', 'Instituicoes']);
         } catch (Exception $e) {
             $this->Flash->error(__('Sem estagio cadastrado.'));
 
@@ -552,9 +543,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $estagiario = $this->Estagiarios->get($estagiario_id, [
-                'contain' => ['Alunos', 'Supervisores', 'Instituicoes', 'Professores'],
-            ]);
+            $estagiario = $this->Estagiarios->get($estagiario_id, contain: ['Alunos', 'Supervisores', 'Instituicoes', 'Professores']);
         } catch (Exception $e) {
              $this->Flash->error(__('Estagiário não encontrado.'));
 
@@ -592,9 +581,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $estagiario = $this->Estagiarios->get($id, [
-                'contain' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'],
-            ]);
+            $estagiario = $this->Estagiarios->get($id, contain: ['Alunos', 'Instituicoes', 'Professores', 'Supervisores']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Estagiário não encontrado.'));
 
@@ -652,9 +639,9 @@ class EstagiariosController extends AppController
             }
         }
 
-        $alunos = $this->fetchTable('Alunos')->find('list', ['order' => ['nome' => 'asc']]);
-        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'asc']]);
-        $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'asc']]);
+        $alunos = $this->fetchTable('Alunos')->find('list', order: ['nome' => 'asc']);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', order: ['instituicao' => 'asc']);
+        $professores = $this->fetchTable('Professores')->find('list', order: ['nome' => 'asc']);
 
         $this->set(
             compact(
@@ -710,13 +697,20 @@ class EstagiariosController extends AppController
      */
     public function lancanota($id = null)
     {
+
+        $user_data = ['categoria' => '0', 'professor_id' => '0'];
+        if ($this->Authentication->getIdentity()) {
+            $user_data = $this->Authentication->getIdentity()->getOriginalData();
+        }
+        if ($user_data['categoria'] == '3') {
+            $professor_id = (int)$user_data['professor_id'];
+        } else {
+            $professor_id = $this->request->getQuery("professor_id");
+        }
+
         $this->Authorization->skipAuthorization();
 
-        $user = $this->Authentication->getIdentity();
-
-        $professor_id = $this->request->getQuery("professor_id");
-
-        if ($professor_id === null) {
+        if (empty($professor_id)) {
             $this->Flash->error(
                 __(
                     "Sem parâmetro para localizar os estagiários do(a) professor(a).",
@@ -725,8 +719,8 @@ class EstagiariosController extends AppController
             return $this->redirect(["action" => "index"]);
         }
 
-        if ($professor_id && $user && $user->categoria == '3') {
-            if ($professor_id != $user->professor_id) {
+        if ($professor_id && $user_data['categoria'] == '3') {
+            if ($professor_id != $user_data['professor_id']) {
                 $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
                 return $this->redirect(['action' => 'index']);
             }
@@ -738,10 +732,7 @@ class EstagiariosController extends AppController
             ->where(["id" => $professor_id])
             ->first();
 
-        $periodos = $this->Estagiarios->find('list', [
-                'keyField' => 'periodo',
-                'valueField' => 'periodo'
-            ])
+        $periodos = $this->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo')
             ->contain(['Professores'])
             ->where(['Professores.id' => $professor_id])
             ->order(["periodo" => "desc"])
@@ -764,6 +755,7 @@ class EstagiariosController extends AppController
                     "Instituicoes" => ["fields" => ["id", "instituicao"]],
                     "Folhadeatividades" => ["fields" => ["id", "estagiario_id"]],
                     "Avaliacoes" => ["fields" => ["id", "estagiario_id"]],
+                    "Respostas" => ["fields" => ["id", "estagiario_id"]]
             ])
             ->where(["Estagiarios.professor_id" => $professor_id, "Estagiarios.periodo" => $periodo]);
 

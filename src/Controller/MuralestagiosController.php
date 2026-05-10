@@ -56,11 +56,7 @@ class MuralestagiosController extends AppController
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
         /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo', order: ['periodo' => 'DESC'])->distinct(['periodo']);
 
         $periodos = $periodototal->toArray();
 
@@ -119,11 +115,7 @@ class MuralestagiosController extends AppController
 
         /** Para o administrador selecionar o aluno */
         $alunotable = $this->fetchTable('Alunos');
-        $alunos = $alunotable->find('list', [
-            'keyField' => 'registro',
-            'valueField' => 'nome',
-            'order' => ['nome' => 'ASC'],
-        ])->toArray();
+        $alunos = $alunotable->find('list', keyField: 'registro', valueField: 'nome', order: ['nome' => 'ASC'])->toArray();
 
         $this->set(compact('muralestagio', 'alunos'));
     }
@@ -183,8 +175,8 @@ class MuralestagiosController extends AppController
                  $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
         }
-        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
-        $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'ASC']]);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', order: ['instituicao' => 'ASC']);
+        $professores = $this->fetchTable('Professores')->find('list', order: ['nome' => 'ASC']);
         $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodo'));
     }
 
@@ -226,14 +218,10 @@ class MuralestagiosController extends AppController
         }
 
         /** Todos os periódos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'sort' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo', order: ['periodo' => 'DESC'])->distinct(['periodo']);
         $periodos = $periodototal->toArray();
 
-        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', order: ['instituicao' => 'ASC']);
         $this->set(compact('muralestagio', 'instituicoes', 'periodos'));
     }
 

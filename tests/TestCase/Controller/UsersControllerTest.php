@@ -27,55 +27,183 @@ class UsersControllerTest extends TestCase
         'app.Alunos',
         'app.Supervisores',
         'app.Professores',
+        'app.Administradores',
     ];
 
     /**
-     * Test index method
+     * Helper to authenticate as admin (categoria 1)
      *
      * @return void
      */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
     /**
-     * Test view method
+     * Helper to authenticate as aluno (categoria 2)
      *
      * @return void
      */
-    public function testView(): void
+    protected function loginAsAluno(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(2);
+        $this->session(['Auth' => $user]);
     }
 
     /**
-     * Test add method
+     * Test index method as admin
+     *
+     * @return void
+     */
+    public function testIndexAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/users');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Admin User');
+        $this->assertResponseContains('Aluno Test');
+    }
+
+    /**
+     * Test index method as non-admin (scoped to self)
+     *
+     * @return void
+     */
+    public function testIndexAsAluno(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/users');
+        $this->assertResponseCode(302);
+        $this->assertRedirectContains('/users/login');
+    }
+
+    /**
+     * Test view method as admin
+     *
+     * @return void
+     */
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/users/view/2');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Aluno Test');
+    }
+
+    /**
+     * Test view method as self
+     *
+     * @return void
+     */
+    public function testViewAsSelf(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/users/view/2');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Aluno Test');
+    }
+
+    /**
+     * Test view method as other user (forbidden)
+     *
+     * @return void
+     */
+    public function testViewAsOtherUser(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/users/view/1');
+        $this->assertResponseCode(403);
+    }
+
+    /**
+     * Test add method (public)
      *
      * @return void
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/add');
+        $this->assertResponseOk();
     }
 
     /**
-     * Test edit method
+     * Test edit method as admin
      *
      * @return void
      */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/users/edit/2');
+        $this->assertResponseOk();
     }
 
     /**
-     * Test delete method
+     * Test edit method as self
      *
      * @return void
      */
-    public function testDelete(): void
+    public function testEditAsSelf(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAluno();
+        $this->get('/users/edit/2');
+        $this->assertResponseOk();
+    }
+
+    /**
+     * Test edit method as other user (forbidden)
+     *
+     * @return void
+     */
+    public function testEditAsOtherUser(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/users/edit/1');
+        $this->assertResponseCode(302);
+        $this->assertRedirectContains('/users');
+    }
+
+    /**
+     * Test delete method as admin
+     *
+     * @return void
+     */
+    public function testDeleteAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/users/delete/2');
+        $this->assertResponseSuccess();
+    }
+
+    /**
+     * Test delete method as self
+     *
+     * @return void
+     */
+    public function testDeleteAsSelf(): void
+    {
+        $this->loginAsAluno();
+        $this->enableCsrfToken();
+        $this->post('/users/delete/2');
+        $this->assertResponseSuccess();
+    }
+
+    /**
+     * Test delete method as other user (forbidden)
+     *
+     * @return void
+     */
+    public function testDeleteAsOtherUser(): void
+    {
+        $this->loginAsAluno();
+        $this->enableCsrfToken();
+        $this->post('/users/delete/1');
+        $this->assertResponseCode(302);
+        $this->assertRedirectContains('/users');
     }
 }

@@ -207,9 +207,7 @@ class UsersController extends AppController
         $this->Authorization->skipAuthorization();
 
         try {
-            $user = $this->Users->get($id, [
-                'contain' => [],
-            ]);
+            $user = $this->Users->get($id, contain: []);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
             return $this->redirect(['action' => 'index']);
@@ -364,9 +362,7 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         try {
-            $user = $this->Users->get($id, [
-                'contain' => [],
-            ]);
+            $user = $this->Users->get($id, contain: []);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
 

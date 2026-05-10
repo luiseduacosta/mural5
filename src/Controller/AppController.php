@@ -32,6 +32,11 @@ use Cake\Controller\Controller;
 class AppController extends Controller
 {
     /**
+     * @var \App\Model\Entity\Configuracao|null
+     */
+    protected ?\App\Model\Entity\Configuracao $configuracao = null;
+
+    /**
      * Initialization hook method.
      *
      * Use this method to add common initialization code like loading components.

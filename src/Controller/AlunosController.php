@@ -92,7 +92,7 @@ class AlunosController extends AppController
         }
 
         try {
-            $aluno = $this->Alunos->get($id, ['contain' => $contained]);
+            $aluno = $this->Alunos->get($id, contain: $contained);
         } catch (RecordNotFoundException $e) {
             $this->Authorization->skipAuthorization();
             $this->Flash->error(__('Aluno 1 não encontrado.'));
@@ -211,7 +211,7 @@ class AlunosController extends AppController
     public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $aluno = $this->Alunos->get($id, ['contain' => ['Estagiarios']]);
+        $aluno = $this->Alunos->get($id, contain: ['Estagiarios']);
         $this->Authorization->authorize($aluno);
 
         if (count($aluno->estagiarios) > 0) {
@@ -313,7 +313,7 @@ class AlunosController extends AppController
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
-        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+        $aluno = $this->Alunos->get($id, contain: ['Turnos']);
 
         $this->Authorization->authorize($this->Alunos);
 
@@ -395,7 +395,7 @@ class AlunosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+        $aluno = $this->Alunos->get($id, contain: ['Turnos']);
 
         $this->Authorization->skipAuthorization();
 
@@ -442,10 +442,7 @@ class AlunosController extends AppController
         $this->set('periodo', $periodo);
 
         /* lista de periodos */
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);
@@ -505,10 +502,7 @@ class AlunosController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);

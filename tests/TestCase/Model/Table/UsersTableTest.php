@@ -12,8 +12,8 @@ class UsersTableTest extends TestCase
     protected $Users;
 
     protected array $fixtures = [
-        'app.users',
-        'app.categorias',
+        'app.Users',
+        'app.Categorias',
     ];
 
     public function setUp(): void

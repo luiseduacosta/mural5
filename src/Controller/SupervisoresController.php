@@ -175,7 +175,7 @@ class SupervisoresController extends AppController
             }
             $this->Flash->error(__('Registro supervisor(a) nao atualizado. Tente novamente.'));
         }
-        $instituicoes = $this->Supervisores->Instituicoes->find('list', ['limit' => 200]);
+        $instituicoes = $this->Supervisores->Instituicoes->find('list', limit: 200);
         $this->set(compact('supervisor', 'instituicoes'));
     }
 

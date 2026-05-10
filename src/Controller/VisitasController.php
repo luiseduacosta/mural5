@@ -92,7 +92,7 @@ class VisitasController extends AppController
             }
             $this->Flash->error(__('Visita não inserida.'));
         }
-        $instituicoes = $this->Visitas->Instituicoes->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $instituicoes = $this->Visitas->Instituicoes->find('list', order: ['instituicao' => 'ASC']);
         $this->set(compact('visita', 'instituicoes'));
     }
 
@@ -132,7 +132,7 @@ class VisitasController extends AppController
             }
             $this->Flash->error(__('Visita não atualizada.'));
         }
-        $instituicoes = $this->Visitas->Instituicoes->find('list', ['order' => ['instituicao' => 'ASC']]);
+        $instituicoes = $this->Visitas->Instituicoes->find('list', order: ['instituicao' => 'ASC']);
         $this->set(compact('visita', 'instituicoes'));
     }
 

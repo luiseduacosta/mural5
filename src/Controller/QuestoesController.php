@@ -120,7 +120,7 @@ class QuestoesController extends AppController
         }
 
         $questionarios = $this->Questoes->Questionarios
-            ->find('list', ['limit' => 200])
+            ->find('list', limit: 200)
             ->all();
         $this->set(compact('questao', 'questionarios'));
     }
@@ -166,7 +166,7 @@ class QuestoesController extends AppController
         }
 
         $questionarios = $this->Questoes->Questionarios
-            ->find('list', ['limit' => 200])
+            ->find('list', limit: 200)
             ->all();
 
         $this->set(compact('questao', 'questionarios'));
