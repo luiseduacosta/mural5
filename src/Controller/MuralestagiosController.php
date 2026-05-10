@@ -61,10 +61,10 @@ class MuralestagiosController extends AppController
         $query = $this->Muralestagios->find()
             ->contain(['Instituicoes']);
 
-            if ($periodo) {
-                $query->where([
-                    'Muralestagios.periodo' => $periodo,
-                ]);
+        if ($periodo) {
+            $query->where([
+                'Muralestagios.periodo' => $periodo,
+            ]);
         }
 
         $query->orderBy(['Muralestagios.data_inscricao' => 'DESC']);
