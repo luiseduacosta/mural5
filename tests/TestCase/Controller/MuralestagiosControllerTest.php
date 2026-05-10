@@ -27,55 +27,52 @@ class MuralestagiosControllerTest extends TestCase
         'app.Instituicoes',
         'app.Professores',
         'app.Inscricoes',
+        'app.Alunos',
+        'app.Users',
+        'app.Administradores',
+        'app.Configuracoes',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/muralestagios');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/muralestagios/view/1');
+        $this->assertResponseOk();
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/muralestagios/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/muralestagios/edit/1');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testDeleteAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/muralestagios/delete/1');
+        $this->assertResponseSuccess();
     }
 }

@@ -20,6 +20,12 @@ class AreasController extends AppController
      */
     public function index()
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
         try {
             $this->Authorization->authorize($this->Areas);
         } catch (\Authorization\Exception\ForbiddenException $e) {
@@ -27,7 +33,7 @@ class AreasController extends AppController
             return $this->redirect(["controller" => "Instituicoes", "action" => "index"]);
         }
         $areas = $this->paginate($this->Areas);
-        $this->set(compact('areas'));
+        $this->set(compact('areas', 'user_data'));
     }
 
     /**
@@ -39,10 +45,14 @@ class AreasController extends AppController
      */
     public function view($id = null)
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
         try {
-            $area = $this->Areas->get($id, [
-                'sort' => ['area' => 'ASC']
-            ]);
+            $area = $this->Areas->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Área não encontrada.'));
             return $this->redirect(['action' => 'index']);
@@ -54,7 +64,7 @@ class AreasController extends AppController
             $this->Flash->error(__("Acesso negado. Você não tem permissão para visualizar a área."));
             return $this->redirect(["controller" => "Muralestagios", "action" => "index"]);
         }
-        $this->set(compact('area'));
+        $this->set(compact('area', 'user_data'));
     }
 
     /**
@@ -64,6 +74,12 @@ class AreasController extends AppController
      */
     public function add()
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
         $area = $this->Areas->newEmptyEntity();
         try {
             $this->Authorization->authorize($area);
@@ -81,7 +97,7 @@ class AreasController extends AppController
             $this->Flash->error(__('Área não inserida.'));
             return $this->redirect(['action' => 'index']);
         }
-        $this->set(compact('area'));
+        $this->set(compact('area', 'user_data'));
     }
 
     /**
@@ -93,10 +109,14 @@ class AreasController extends AppController
      */
     public function edit($id = null)
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
         try {
-            $area = $this->Areas->get($id, [
-                'contain' => [],
-            ]);
+            $area = $this->Areas->get($id, contain: []);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Área não encontrada.'));
             return $this->redirect(['action' => 'index']);
@@ -118,7 +138,7 @@ class AreasController extends AppController
             $this->Flash->error(__('Área não atualizada. Tente novamente'));
             return $this->redirect(['action' => 'view', $area->id]);
         }
-        $this->set(compact('area'));
+        $this->set(compact('area', 'user_data'));
     }
 
     /**
@@ -132,9 +152,7 @@ class AreasController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $area = $this->Areas->get($id, [
-                'contain' => [],
-            ]);
+            $area = $this->Areas->get($id, contain: []);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Área não encontrada.'));
             return $this->redirect(['action' => 'index']);

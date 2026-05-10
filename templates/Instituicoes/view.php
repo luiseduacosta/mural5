@@ -325,7 +325,7 @@ if ($user_session) {
                                     <tr>
                                         <td><?= h($visitas->id) ?></td>
                                         <td><?= h($visitas->instituicao_id) ?></td>
-                                        <td><?= date('d-m-Y', strtotime($visitas->data)) ?></td>
+                                        <td><?= $visitas->data->format('d-m-Y') ?></td>
                                         <td><?= h($visitas->motivo) ?></td>
                                         <td><?= h($visitas->responsavel) ?></td>
                                         <td><?= h($visitas->descricao) ?></td>

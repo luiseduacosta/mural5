@@ -12,18 +12,8 @@ use Cake\TestSuite\TestCase;
  */
 class ProfessoresTableTest extends TestCase
 {
-    /**
-     * Test subject
-     *
-     * @var \App\Model\Table\ProfessoresTable
-     */
     protected $Professores;
 
-    /**
-     * Fixtures
-     *
-     * @var array
-     */
     protected array $fixtures = [
         'app.Professores',
         'app.Estagiarios',
@@ -31,11 +21,6 @@ class ProfessoresTableTest extends TestCase
         'app.Users',
     ];
 
-    /**
-     * setUp method
-     *
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
@@ -43,25 +28,54 @@ class ProfessoresTableTest extends TestCase
         $this->Professores = $this->getTableLocator()->get('Professores', $config);
     }
 
-    /**
-     * tearDown method
-     *
-     * @return void
-     */
     public function tearDown(): void
     {
         unset($this->Professores);
-
         parent::tearDown();
     }
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
+    public function testInitialize(): void
+    {
+        $this->assertSame('professores', $this->Professores->getTable());
+        $this->assertSame('Professores', $this->Professores->getAlias());
+        $this->assertSame('nome', $this->Professores->getDisplayField());
+        $this->assertSame('id', $this->Professores->getPrimaryKey());
+    }
+
     public function testValidationDefault(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $validator = $this->Professores->validationDefault(new \Cake\Validation\Validator());
+
+        $errors = $validator->validate([
+            'nome' => 'Professor Teste',
+            'siape' => 1234567,
+            'email' => 'professor@test.com',
+        ]);
+        $this->assertEmpty($errors, 'Valid data should pass: ' . print_r($errors, true));
+
+        $errors = $validator->validate([
+            'nome' => '',
+            'siape' => 1234567,
+        ]);
+        $this->assertArrayHasKey('nome', $errors, 'Empty nome should fail');
+
+        $errors = $validator->validate([
+            'nome' => 'Professor Teste',
+            'siape' => '',
+        ]);
+        $this->assertArrayHasKey('siape', $errors, 'Empty siape should fail');
+
+        $errors = $validator->validate([
+            'nome' => 'Professor Teste',
+            'siape' => 1234567,
+            'email' => 'invalid-email',
+        ]);
+        $this->assertArrayHasKey('email', $errors, 'Invalid email should fail');
+    }
+
+    public function testAssociations(): void
+    {
+        $this->assertTrue($this->Professores->hasAssociation('Users'));
+        $this->assertTrue($this->Professores->hasAssociation('Estagiarios'));
     }
 }

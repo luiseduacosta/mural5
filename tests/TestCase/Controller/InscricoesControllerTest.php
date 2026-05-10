@@ -26,55 +26,59 @@ class InscricoesControllerTest extends TestCase
         'app.Inscricoes',
         'app.Alunos',
         'app.Muralestagios',
+        'app.Instituicoes',
+        'app.Users',
+        'app.Administradores',
+        'app.Configuracoes',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    protected function loginAsAluno(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(2);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/inscricoes');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testViewAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/inscricoes/view/1');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testAddRedirectsWithoutMuralestagioId(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/inscricoes/add');
+        $this->assertResponseCode(302);
+    }
+
+    public function testEditAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/inscricoes/edit/1');
+        $this->assertResponseOk();
+    }
+
+    public function testDeleteAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/inscricoes/delete/1');
+        $this->assertResponseSuccess();
     }
 }

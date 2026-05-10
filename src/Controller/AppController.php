@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -62,6 +63,18 @@ class AppController extends Controller
         // Configuração do site
         $this->configuracao = $this->fetchTable('Configuracoes')->find()->first();
         $this->set('configuracao', $this->configuracao);
+    }
+
+    public function beforeFilter(\Cake\Event\EventInterface $event)
+    {
+        parent::beforeFilter($event);
+
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+        $this->set('user_data', $user_data);
     }
 
     /**

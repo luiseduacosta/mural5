@@ -51,9 +51,7 @@ class InstituicoesController extends AppController
         ini_set('memory_limit', '512M');
 
         try {
-            $instituicao = $this->Instituicoes->get($id, [
-                'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
-            ]);
+            $instituicao = $this->Instituicoes->get($id, contain: ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Instituição não encontrada.'));
 
@@ -111,9 +109,7 @@ class InstituicoesController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $instituicao = $this->Instituicoes->get($id, [
-                'contain' => ['Supervisores'],
-            ]);
+            $instituicao = $this->Instituicoes->get($id, contain: ['Supervisores']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Instituição não encontrada.'));
 
@@ -170,7 +166,9 @@ class InstituicoesController extends AppController
 
         // Check for associated records to prevent data integrity issues
         $supervisoresCount = $this->Instituicoes->Supervisores->find()
-            ->where(['instituicao_id' => $id])
+            ->matching('Instituicoes', function ($q) use ($id) {
+                return $q->where(['Instituicoes.id' => $id]);
+            })
             ->count();
 
         $estagiariosCount = $this->Instituicoes->Estagiarios->find()

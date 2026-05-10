@@ -43,11 +43,9 @@ class SupervisoresController extends AppController
             $this->Flash->error(__('Nõo há registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => [
-                'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
-                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
-            ]
+        $supervisor = $this->Supervisores->get($id, contain: [
+            'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
+            'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
         ]);
 
         $this->Authorization->authorize($supervisor);
@@ -160,9 +158,7 @@ class SupervisoresController extends AppController
         if (is_null($id)) {
             $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
         }
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Instituicoes'],
-        ]);
+        $supervisor = $this->Supervisores->get($id, contain: ['Instituicoes']);
 
         $this->Authorization->authorize($supervisor);
 
@@ -192,9 +188,7 @@ class SupervisoresController extends AppController
             $id = $this->getRequest()->getAttribute('identity')['supervisor_id'];
         }
         $this->request->allowMethod(['post', 'delete']);
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Estagiarios']
-        ]);
+        $supervisor = $this->Supervisores->get($id, contain: ['Estagiarios']);
 
         $this->Authorization->authorize($supervisor);
         if (sizeof($supervisor->estagiarios) > 0) {

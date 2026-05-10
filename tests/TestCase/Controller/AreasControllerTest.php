@@ -11,7 +11,7 @@ use Cake\TestSuite\TestCase;
 /**
  * App\Controller\AreasController Test Case
  *
- * @uses \App\Controller\TurmaestagiosController
+ * @uses \App\Controller\AreasController
  */
 class AreasControllerTest extends TestCase
 {
@@ -23,57 +23,55 @@ class AreasControllerTest extends TestCase
      * @var array
      */
     protected array $fixtures = [
-        'app.Estagiarios',
-        'app.Muralestagios',
+        'app.Areas',
+        'app.Users',
+        'app.Administradores',
+        'app.Configuracoes',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/areas');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Saúde');
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/areas/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Saúde');
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/areas/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/areas/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Saúde');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testDeleteAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/areas/delete/1');
+        $this->assertResponseSuccess();
     }
 }

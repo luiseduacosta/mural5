@@ -173,7 +173,7 @@ if ($user_session) {
                                 </td>
                                 <td><?= h($estagiarios->registro) ?></td>
                                 <td><?= h($estagiarios->ajuste2020) ?></td>
-                                <td><?= h($estagiarios->aluno->turno) ?></td>
+                                <td><?= $estagiarios->hasValue('aluno') ? h($estagiarios->aluno->turno) : "" ?></td>
                                 <td><?= h($estagiarios->nivel) ?></td>
                                 <td><?= $estagiarios->hasValue('instituicao') ? $estagiarios->instituicao->instituicao : "" ?>
                                 </td>

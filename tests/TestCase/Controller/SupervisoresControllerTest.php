@@ -27,56 +27,55 @@ class SupervisoresControllerTest extends TestCase
         'app.Estagiarios',
         'app.Users',
         'app.Instituicoes',
-        'app.InstituicaoSupervisores',
+        'app.Administradores',
+        'app.Configuracoes',
+        'app.Alunos',
+        'app.Professores',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/supervisores');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Supervisor Teste');
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/supervisores/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Supervisor Teste');
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/supervisores/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/supervisores/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Supervisor Teste');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testDeleteAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/supervisores/delete/1');
+        $this->assertResponseSuccess();
     }
 }

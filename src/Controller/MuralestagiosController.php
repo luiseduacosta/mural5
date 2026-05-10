@@ -54,11 +54,7 @@ class MuralestagiosController extends AppController
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
         /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'orderBy' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo', orderBy: ['periodo' => 'DESC'])->distinct(['periodo']);
 
         $periodos = $periodototal->toArray();
 
@@ -102,9 +98,7 @@ class MuralestagiosController extends AppController
     public function view(?string $id = null)
     {
         try {
-            $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']],
-            ]);
+            $muralestagio = $this->Muralestagios->get($id, contain: ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
 
@@ -121,11 +115,7 @@ class MuralestagiosController extends AppController
 
         /** Para o administrador selecionar o aluno */
         $alunotable = $this->fetchTable('Alunos');
-        $alunos = $alunotable->find('list', [
-            'keyField' => 'registro',
-            'valueField' => 'nome',
-            'order' => ['nome' => 'ASC'],
-        ])->toArray();
+        $alunos = $alunotable->find('list', keyField: 'registro', valueField: 'nome', order: ['nome' => 'ASC'])->toArray();
 
         $this->set(compact('muralestagio', 'alunos'));
     }
@@ -181,8 +171,8 @@ class MuralestagiosController extends AppController
                 $this->Flash->error(__('Registro de mural de estágio não foi feito. Tente novamente.'));
             }
         }
-        $instituicoes = $this->fetchTable('Instituicoes')->find('list', ['order' => ['instituicao' => 'ASC']]);
-        $professores = $this->fetchTable('Professores')->find('list', ['order' => ['nome' => 'ASC']]);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list', order: ['instituicao' => 'ASC']);
+        $professores = $this->fetchTable('Professores')->find('list', order: ['nome' => 'ASC']);
         $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodo'));
     }
 
@@ -196,9 +186,7 @@ class MuralestagiosController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes'],
-            ]);
+            $muralestagio = $this->Muralestagios->get($id, contain: ['Instituicoes']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
 
@@ -224,15 +212,11 @@ class MuralestagiosController extends AppController
         }
 
         /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-            'orderBy' => ['periodo' => 'DESC'],
-        ])->distinct(['periodo']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo', orderBy: ['periodo' => 'DESC'])->distinct(['periodo']);
         $periodos = $periodototal->toArray();
 
-        $instituicoes = $this->Muralestagios->Instituicoes->find('list', ['orderBy' => ['instituicao' => 'ASC']]);
-        $professores = $this->Muralestagios->Professores->find('list', ['orderBy' => ['nome' => 'ASC']]);
+        $instituicoes = $this->Muralestagios->Instituicoes->find('list', orderBy: ['instituicao' => 'ASC']);
+        $professores = $this->fetchTable('Professores')->find('list', orderBy: ['nome' => 'ASC']);
         $this->set(compact('muralestagio', 'instituicoes', 'professores', 'periodos'));
     }
 
@@ -262,7 +246,7 @@ class MuralestagiosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        $inscricoesCount = $this->Muralestagios->Muralinscricoes->find()
+        $inscricoesCount = $this->Muralestagios->Inscricoes->find()
             ->where(['muralestagio_id' => $id])
             ->count();
 

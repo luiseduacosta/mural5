@@ -47,9 +47,7 @@ class VisitasController extends AppController
     public function view(?string $id = null)
     {
         try {
-            $visita = $this->Visitas->get($id, [
-                'contain' => ['Instituicoes'],
-            ]);
+            $visita = $this->Visitas->get($id, contain: ['Instituicoes']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de visitas para esse número!'));
 
@@ -106,9 +104,7 @@ class VisitasController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $visita = $this->Visitas->get($id, [
-                'contain' => ['Instituicoes'],
-            ]);
+            $visita = $this->Visitas->get($id, contain: ['Instituicoes']);
         } catch (RecordNotFoundException $e) {
              $this->Flash->error(__('Não há registros de visitas para esse número!'));
 
