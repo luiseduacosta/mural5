@@ -57,6 +57,32 @@ class UsersFixture extends TestFixture
                 'professor_id' => null,
                 'ativo' => 1,
             ],
+            [
+                'id' => 3,
+                'nome' => 'Professor Test',
+                'email' => 'professor@test.com',
+                'password' => '$2y$10$8x/XdBG1gVAFKb5.B8c5heGFFxpSpZH5HJZrczICtMHDplSQujfZm',
+                'categoria' => '3',
+                'role' => 'professor',
+                'identificacao' => 1234567,
+                'aluno_id' => null,
+                'supervisor_id' => null,
+                'professor_id' => 1,
+                'ativo' => 1,
+            ],
+            [
+                'id' => 4,
+                'nome' => 'Supervisor Test',
+                'email' => 'supervisor@test.com',
+                'password' => '$2y$10$8x/XdBG1gVAFKb5.B8c5heGFFxpSpZH5HJZrczICtMHDplSQujfZm',
+                'categoria' => '4',
+                'role' => 'supervisor',
+                'identificacao' => 12345,
+                'aluno_id' => null,
+                'supervisor_id' => 1,
+                'professor_id' => null,
+                'ativo' => 1,
+            ],
         ];
         parent::init();
     }

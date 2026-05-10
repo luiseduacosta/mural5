@@ -41,6 +41,7 @@ class ProfessoresFixture extends TestFixture
                 'nome' => 'Professor Teste',
                 'siape' => 1234567,
                 'email' => 'professor@test.com',
+                'user_id' => 3,
             ],
         ];
         parent::init();

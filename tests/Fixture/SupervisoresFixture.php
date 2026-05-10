@@ -43,6 +43,7 @@ class SupervisoresFixture extends TestFixture
                 'email' => 'supervisor@test.com',
                 'cress' => 12345,
                 'regiao' => 7,
+                'user_id' => 4,
             ],
         ];
         parent::init();
