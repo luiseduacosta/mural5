@@ -176,7 +176,7 @@ class EstagiariosController extends AppController
         try {
             $estagiario = $this->Estagiarios->get($id, [
                 'contain' => [
-                    'Alunos',
+                    'Alunos' => ['Turnos'],
                     'Instituicoes',
                     'Supervisores',
                     'Professores',
@@ -218,10 +218,31 @@ class EstagiariosController extends AppController
                         if (in_array($perguntaType, ['select', 'radio', 'checkbox', 'boolean'], true)) {
                             $opcoes = json_decode((string)$pergunta->get('options'), true);
                             if (is_array($opcoes)) {
+                                $selectedOptions = [];
+                                $valueKeys = null;
+                                if (is_array($value)) {
+                                    $valueKeys = [];
+                                    foreach ($value as $valueKey) {
+                                        $valueKeys[] = is_scalar($valueKey) || $valueKey === null
+                                            ? (string)$valueKey
+                                            : json_encode($valueKey, JSON_UNESCAPED_UNICODE);
+                                    }
+                                }
                                 foreach ($opcoes as $option_key => $option_value) {
-                                    if ((string)$option_key === (string)$value) {
+                                    if (is_array($value)) {
+                                        if ($valueKeys !== null && in_array((string)$option_key, $valueKeys, true)) {
+                                            $selectedOptions[] = is_scalar($option_value)
+                                                ? (string)$option_value
+                                                : json_encode($option_value, JSON_UNESCAPED_UNICODE);
+                                        }
+                                    } elseif ((string)$option_key === (string)$value) {
                                         $avaliacoes[$perguntaText] = $option_value;
                                     }
+                                }
+                                if (is_array($value) && $selectedOptions !== []) {
+                                    $avaliacoes[$perguntaText] = implode(', ', $selectedOptions);
+                                } elseif (is_array($value)) {
+                                    $avaliacoes[$perguntaText] = json_encode($value, JSON_UNESCAPED_UNICODE);
                                 }
                             }
                         } else {
@@ -245,13 +266,16 @@ class EstagiariosController extends AppController
      */
     public function add(?string $id = null)
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => '0', 'aluno_id' => '0', 'professor_id' => '0', 'supervisor_id' => '0'];
+        if ($this->Authentication->getIdentity()) {
+            $user_data = $this->Authentication->getIdentity();
+        }
         $ultimo_estagio = null;
         $estagiario = $this->Estagiarios->newEmptyEntity();
         try {
             $this->Authorization->authorize($estagiario);
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
-
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
         }
 
@@ -262,7 +286,6 @@ class EstagiariosController extends AppController
             );
             if ($this->Estagiarios->save($estagiario)) {
                 $this->Flash->success(__('Registro de estagiario inserido.'));
-
                 return $this->redirect(['action' => 'view', $estagiario->id]);
             }
             $this->Flash->error(
@@ -271,8 +294,8 @@ class EstagiariosController extends AppController
         }
 
         $aluno_id = $this->getRequest()->getQuery('aluno_id');
-        if ($aluno_id === null && isset($this->user) && $this->user->categoria == '2') {
-            $aluno_id = $this->user->aluno_id;
+        if ($aluno_id === null && isset($user_data) && $user_data['categoria'] == '2') {
+            $aluno_id = $user_data['aluno_id'];
         }
 
         if ($aluno_id) {
@@ -333,31 +356,29 @@ class EstagiariosController extends AppController
 
             $this->set('aluno', $aluno);
         } else {
-            if (isset($this->user) && $this->user->categoria == '2') {
+            if (isset($user_data) && $user_data['categoria'] == '2') {
                 try {
-                    $aluno = $this->fetchTable('Alunos')->get($this->user->aluno_id);
+                    $aluno = $this->fetchTable('Alunos')->get($user_data['aluno_id']);
                     $this->set('aluno', $aluno);
                 } catch (RecordNotFoundException $e) {
                     $this->Flash->error(__('Aluno não encontrado.'));
-
                     return $this->redirect(['action' => 'index']);
                 }
             } else {
                 $this->Flash->error(__('Selecionar o aluno para o estágio.'));
-
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
             }
             $alunos = $this->fetchTable('Alunos')->find('list')->orderBy(['nome' => 'asc']);
-             $this->set('alunos', $alunos);
+            $this->set('alunos', $alunos);
         }
 
-        $periodo = $this->fetchTable('Configuracoes')->get($this->user->periodo_id);    
-        $this->set('periodo', $periodo->mural_periodo_atual);
+        $periodo = $this->fetchTable('Configuracoes')->get(1)->get('termo_compromisso_periodo');
+        $this->set('periodo', $periodo);
         $this->set('now', new \Cake\I18n\DateTime());
-
-        $this->set('instituicoes', $this->Estagiarios->Instituicoes->find('list')->orderBy(['instituicao' => 'asc']));
-        $this->set('supervisores', $this->Estagiarios->Supervisores->find('list')->orderBy(['nome' => 'asc']));
-        $this->set('professores', $this->Estagiarios->Professores->find('list')->orderBy(['nome' => 'asc']));
+        $this->set('ajuste2020', $ultimo_estagio->ajuste2020);
+        $this->set('instituicoes', $this->fetchTable('Instituicoes')->find('list')->orderBy(['instituicao' => 'asc']));
+        $this->set('supervisores', $this->fetchTable('Supervisores')->find('list')->orderBy(['nome' => 'asc']));
+        $this->set('professores', $this->fetchTable('Professores')->find('list')->orderBy(['nome' => 'asc']));
 
         $this->set(
             compact(
@@ -662,9 +683,9 @@ class EstagiariosController extends AppController
             }
         }
 
-        $this->set('alunos', $this->Estagiarios->Alunos->find('list')->orderBy(['nome' => 'asc']));
-        $this->set('instituicoes', $this->Estagiarios->Instituicoes->find('list')->orderBy(['instituicao' => 'asc']));
-        $this->set('professores', $this->Estagiarios->Professores->find('list')->orderBy(['nome' => 'asc']));
+        $alunos = $this->fetchTable('Alunos')->find('list')->orderBy(['nome' => 'asc']);
+        $instituicoes = $this->fetchTable('Instituicoes')->find('list')->orderBy(['instituicao' => 'asc']);
+        $professores = $this->fetchTable('Professores')->find('list')->orderBy(['nome' => 'asc']);
 
         $this->set(
             compact(

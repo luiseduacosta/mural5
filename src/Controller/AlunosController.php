@@ -328,12 +328,12 @@ class AlunosController extends AppController
         $turnos = $this->Alunos->Turnos->find('list', ['limit' => 200])->all();
 
         // Incomplete field ingresso on record of alunos
-        if (strlen($aluno->ingresso) < 6) {
+        if (strlen((string)$aluno->ingresso) < 6) {
             $this->Flash->error(__('Período de ingresso incompleto.'));
             return $this->redirect(['action' => 'view', $id]);
         }
 
-        $periodo_atual = $this->configuracao->periodo_calendario_academico;
+        $periodo_atual = $this->fetchTable('Configuracoes')->get($this->user->periodo_id)->periodo_calendario_academico;
 
         if ($novoperiodo) {
             $periodo_inicial = $novoperiodo;
