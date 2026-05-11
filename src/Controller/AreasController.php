@@ -116,7 +116,7 @@ class AreasController extends AppController
         }
 
         try {
-            $area = $this->Areas->get($id, contain: []);
+            $area = $this->Areas->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Área não encontrada.'));
             return $this->redirect(['action' => 'index']);
@@ -152,7 +152,7 @@ class AreasController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $area = $this->Areas->get($id, contain: []);
+            $area = $this->Areas->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Área não encontrada.'));
             return $this->redirect(['action' => 'index']);

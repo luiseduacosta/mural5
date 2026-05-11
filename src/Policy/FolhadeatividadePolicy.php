@@ -85,7 +85,16 @@ final class FolhadeatividadePolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Folhadeatividade $folhadeatividade): bool
     {
-        return isset($folhadeatividade->estagiario->aluno->user_id) && 
-               (int)$userSession->getIdentifier() === (int)$folhadeatividade->estagiario->aluno->user_id;
+        $user_data = $userSession->getOriginalData();
+        if (!is_array($user_data) || empty($user_data['aluno_id'])) {
+            return false;
+        }
+
+        $estagiario = $folhadeatividade->get('estagiario');
+        if (!$estagiario instanceof \Cake\Datasource\EntityInterface) {
+            return false;
+        }
+
+        return (int)$user_data['aluno_id'] === (int)$estagiario->get('aluno_id');
     }
 }

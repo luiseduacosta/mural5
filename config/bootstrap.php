@@ -94,6 +94,10 @@ if (file_exists(CONFIG . 'app_local.php')) {
     Configure::load('app_local', 'default');
 }
 
+if (!Configure::check('Synapse') && file_exists(CONFIG . 'synapse.php')) {
+    Configure::load('synapse', 'default');
+}
+
 /*
  * When debug = true the metadata cache should only last
  * for a short time.

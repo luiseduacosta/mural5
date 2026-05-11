@@ -65,7 +65,7 @@ class MuralestagiosTable extends Table
      * @param \Cake\ORM\Query $query The query object.
      * @param \ArrayObject $options The options array.
      * @param bool $primary Whether this is a primary query or not.
-     * @return \Cake\ORM\Query
+     * @return void
      */
     public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void
     {

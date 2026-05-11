@@ -32,7 +32,6 @@ final class EstagiarioPolicy implements BeforePolicyInterface
 
     /**
      * @param \Authorization\IdentityInterface $userSession
-     * @param \Cake\ORM\Table $table
      * @return \Authorization\Policy\Result
      */
     public function canIndex(IdentityInterface $userSession): Result
@@ -84,7 +83,6 @@ final class EstagiarioPolicy implements BeforePolicyInterface
 
     /**
      * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Estagiario $estagiarioData
      * @return \Authorization\Policy\Result
      */
     public function canLancanota(IdentityInterface $userSession): Result
@@ -156,6 +154,11 @@ final class EstagiarioPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Estagiario $estagiarioData): bool
     {
-        return (int)$userSession->getIdentifier() === (int)$estagiarioData->aluno->user_id;
+        $user_data = $userSession->getOriginalData();
+        if (!is_array($user_data) || empty($user_data['aluno_id'])) {
+            return false;
+        }
+
+        return (int)$user_data['aluno_id'] === (int)$estagiarioData->aluno_id;
     }
 }

@@ -7,7 +7,6 @@ namespace App\Controller;
 use Authorization\Exception\ForbiddenException;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Exception;
-use PhpParser\Node\Expr\Cast\Object_;
 
 /**
  * Respostas Controller
@@ -69,7 +68,9 @@ class RespostasController extends AppController
 
         if (!$resposta) {
             try {
-                $resposta = $this->Respostas->get($id, contain: ['Estagiarios' => ['Alunos', 'Supervisores']]);
+                $resposta = $this->Respostas->get($id, [
+                    'contain' => ['Estagiarios' => ['Alunos', 'Supervisores']],
+                ]);
             } catch (RecordNotFoundException $e) {
                 $this->Flash->error(__('Nenhuma avaliação encontrada.'));
 
@@ -98,15 +99,17 @@ class RespostasController extends AppController
                 if ($pergunta_id > 0) {
                     try {
                         $pergunta = $this->fetchTable('Questoes')->get($pergunta_id);
-                        if (in_array($pergunta->type, ['select', 'radio', 'checkbox', 'boolean'])) {
-                            $opcoes = json_decode($pergunta->options, true);
+                        $perguntaType = $pergunta->get('type');
+                        $perguntaText = (string)$pergunta->get('text');
+                        if (in_array($perguntaType, ['select', 'radio', 'checkbox', 'boolean'], true)) {
+                            $opcoes = json_decode((string)$pergunta->get('options'), true);
                             if (is_array($opcoes) && isset($opcoes[$value])) {
-                                $avaliacoes[$pergunta->text] = $opcoes[$value];
+                                $avaliacoes[$perguntaText] = $opcoes[$value];
                             } else {
-                                $avaliacoes[$pergunta->text] = $value;
+                                $avaliacoes[$perguntaText] = $value;
                             }
                         } else {
-                            $avaliacoes[$pergunta->text] = $value;
+                            $avaliacoes[$perguntaText] = $value;
                         }
                     } catch (Exception $e) {
                         // Ignore missing questions
@@ -229,7 +232,9 @@ class RespostasController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $resposta = $this->Respostas->get($id, contain: ['Questionarios']);
+            $resposta = $this->Respostas->get($id, [
+                'contain' => ['Questionarios'],
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -244,7 +249,9 @@ class RespostasController extends AppController
             return $this->redirect(['controller' => 'Muralestagiarios', 'action' => 'index']);
         }
 
-        $estagiario = $this->fetchTable('Estagiarios')->get($resposta->estagiario_id, contain: ['Alunos']);
+        $estagiario = $this->fetchTable('Estagiarios')->get($resposta->estagiario_id, [
+            'contain' => ['Alunos'],
+        ]);
 
         $respostasUnique = json_decode($resposta->response, true);
         $avaliacoes = [];
@@ -256,15 +263,16 @@ class RespostasController extends AppController
                     $pergunta_id = (int)substr($key, 9);
                     try {
                         $pergunta = $this->fetchTable('Questoes')->get($pergunta_id);
-                        $avaliacoes[$i]['id'] = $pergunta->id;
-                        $avaliacoes[$i]['questionario_id'] = $pergunta->questionario_id;
-                        $avaliacoes[$i]['text'] = $pergunta->text;
-                        $avaliacoes[$i]['type'] = $pergunta->type;
-                        $avaliacoes[$i]['options'] = $pergunta->options;
-                        $avaliacoes[$i]['ordem'] = $pergunta->ordem;
+                        $avaliacoes[$i]['id'] = $pergunta->get('id');
+                        $avaliacoes[$i]['questionario_id'] = $pergunta->get('questionario_id');
+                        $avaliacoes[$i]['text'] = $pergunta->get('text');
+                        $avaliacoes[$i]['type'] = $pergunta->get('type');
+                        $avaliacoes[$i]['options'] = $pergunta->get('options');
+                        $avaliacoes[$i]['ordem'] = $pergunta->get('ordem');
 
-                        if (in_array($pergunta->type, ['select', 'radio', 'checkbox', 'boolean'])) {
-                            $avaliacoes[$i]['options'] = json_decode($pergunta->options, true);
+                        $perguntaType = $pergunta->get('type');
+                        if (in_array($perguntaType, ['select', 'radio', 'checkbox', 'boolean'], true)) {
+                            $avaliacoes[$i]['options'] = json_decode((string)$pergunta->get('options'), true);
                         } else {
                             $avaliacoes[$i]['opcoes'] = null;
                         }
@@ -290,9 +298,10 @@ class RespostasController extends AppController
                     if (isset($questoes[$pergunta_id])) {
                         $questao = $questoes[$pergunta_id];
                         $texto_valor = $value;
-                        if (in_array($questao->type, ['select', 'radio', 'checkbox', 'boolean'])) {
-                            $opcoes = json_decode($questao->options, true);
-                            if ($questao->type === 'boolean') {
+                        $questaoType = $questao->get('type');
+                        if (in_array($questaoType, ['select', 'radio', 'checkbox', 'boolean'], true)) {
+                            $opcoes = json_decode((string)$questao->get('options'), true);
+                            if ($questaoType === 'boolean') {
                                 $opcoes = ['0' => 'Não', '1' => 'Sim'];
                             }
                             if (is_array($opcoes) && isset($opcoes[$value])) {
@@ -300,7 +309,7 @@ class RespostasController extends AppController
                             }
                         }
                         $enrichedData[$key] = [
-                            'pergunta' => $questao->text,
+                            'pergunta' => $questao->get('text'),
                             'valor' => $value,
                             'texto_valor' => $texto_valor,
                         ];
@@ -362,7 +371,6 @@ class RespostasController extends AppController
      * Imprimerespostapdf method
      *
      * @param string|null $id Resposta id.
-     * @param string|null $estagiario_id Estagiario id.
      * @return \Cake\Http\Response|null|void Renders view
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -410,7 +418,9 @@ class RespostasController extends AppController
                 ->where(['Questoes.questionario_id' => 1])
                 ->all();
 
-            $estagiario = $this->fetchTable('Estagiarios')->get($estagiario_id, contain: ['Alunos', 'Supervisores', 'Professores', 'Instituicoes']);
+            $estagiario = $this->fetchTable('Estagiarios')->get($estagiario_id, [
+                'contain' => ['Alunos', 'Supervisores', 'Professores', 'Instituicoes'],
+            ]);
 
             $respostavazia = ['respostas' => $questoes, 'estagiario' => $estagiario];
         }

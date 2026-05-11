@@ -68,7 +68,7 @@ class TurnosController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $turno = $this->Turnos->get($id, contain: []);
+        $turno = $this->Turnos->get($id);
         $this->Authorization->authorize($turno);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $turno = $this->Turnos->patchEntity($turno, $this->request->getData());

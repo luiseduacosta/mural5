@@ -24,7 +24,10 @@ class InscricoesController extends AppController
         $this->Authorization->skipAuthorization();
 
         // Optimized periods query using distinct and list to save memory
-        $periodos = $this->Inscricoes->find('list', keyField: 'periodo', valueField: 'periodo')->distinct(['periodo'])->orderBy(['periodo' => 'ASC'])->toArray();
+        $periodos = $this->Inscricoes->find('list', [
+            'keyField' => 'periodo',
+            'valueField' => 'periodo',
+        ])->distinct(['periodo'])->orderBy(['periodo' => 'ASC'])->toArray();
         $periodos = ['all' => 'Todos'] + $periodos;
 
         $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');

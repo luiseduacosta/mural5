@@ -30,7 +30,7 @@ final class QuestionarioPolicy implements BeforePolicyInterface
      * Check if $user can add questionario
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questionario $questionario
+     * @param \App\Model\Entity\Questionario $questionario
      * @return \Authorization\Policy\Result
      */
     public function canAdd(?IdentityInterface $user, Questionario $questionario): Result
@@ -50,7 +50,7 @@ final class QuestionarioPolicy implements BeforePolicyInterface
      * Check if $user can edit questionario
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questionario $questionario
+     * @param \App\Model\Entity\Questionario $questionario
      * @return \Authorization\Policy\Result
      */
     public function canEdit(?IdentityInterface $user, Questionario $questionario): Result
@@ -70,7 +70,7 @@ final class QuestionarioPolicy implements BeforePolicyInterface
      * Check if $user can delete questionario
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questionario $questionario
+     * @param \App\Model\Entity\Questionario $questionario
      * @return \Authorization\Policy\Result
      */
     public function canDelete(?IdentityInterface $user, Questionario $questionario): Result
@@ -90,7 +90,7 @@ final class QuestionarioPolicy implements BeforePolicyInterface
      * Check if $user can view questionario
      *
      * @param \Authorization\IdentityInterface|null $user The user.
-     * @param \App\Model\Entity\questionario $questionario
+     * @param \App\Model\Entity\Questionario $questionario
      * @return \Authorization\Policy\Result
      */
     public function canView(?IdentityInterface $user, Questionario $questionario): Result

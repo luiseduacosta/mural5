@@ -62,7 +62,7 @@ final class SupervisorPolicy implements BeforePolicyInterface
 
     /**
      * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Supervisor $userData
+     * @param \App\Model\Entity\Supervisor $supervisorData
      * @return \Authorization\Policy\Result
      */
     public function canEdit(IdentityInterface $userSession, Supervisor $supervisorData): Result
@@ -89,6 +89,11 @@ final class SupervisorPolicy implements BeforePolicyInterface
      */
     protected function sameUser(IdentityInterface $userSession, Supervisor $supervisorData): bool
     {
-        return (int)$userSession->getIdentifier() === (int)$supervisorData->user_id;
+        $user_data = $userSession->getOriginalData();
+        if (!is_array($user_data) || empty($user_data['id'])) {
+            return false;
+        }
+
+        return (int)$user_data['id'] === (int)$supervisorData->user_id;
     }
 }

@@ -59,7 +59,9 @@ class QuestoesController extends AppController
     public function view(?string $id = null)
     {
         try {
-            $questao = $this->Questoes->get($id, contain: ['Questionarios']);
+            $questao = $this->Questoes->get($id, [
+                'contain' => ['Questionarios'],
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -118,7 +120,7 @@ class QuestoesController extends AppController
         }
 
         $questionarios = $this->Questoes->Questionarios
-            ->find('list', limit: 200)
+            ->find('list', ['limit' => 200])
             ->all();
         $this->set(compact('questao', 'questionarios'));
     }
@@ -133,7 +135,7 @@ class QuestoesController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $questao = $this->Questoes->get($id, contain: []);
+            $questao = $this->Questoes->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -162,7 +164,7 @@ class QuestoesController extends AppController
         }
 
         $questionarios = $this->Questoes->Questionarios
-            ->find('list', limit: 200)
+            ->find('list', ['limit' => 200])
             ->all();
 
         $this->set(compact('questao', 'questionarios'));
@@ -179,7 +181,7 @@ class QuestoesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $questao = $this->Questoes->get($id, contain: []);
+            $questao = $this->Questoes->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 

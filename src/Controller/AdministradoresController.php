@@ -55,7 +55,9 @@ class AdministradoresController extends AppController
 
         if ($id) {
             try {
-                $administrador = $this->Administradores->get($id, contain: ['Users']);
+                $administrador = $this->Administradores->get($id, [
+                    'contain' => ['Users'],
+                ]);
             } catch (Exception $error) {
                 $this->Flash->error('Error: ' . $error->getMessage());
 

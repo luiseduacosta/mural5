@@ -68,7 +68,9 @@ class FolhadeatividadesController extends AppController
     public function view(?string $id = null)
     {
         try {
-             $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
+            $folhadeatividade = $this->Folhadeatividades->get($id, [
+                'contain' => ['Estagiarios' => ['Alunos']],
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Atividade não encontrada.'));
 
@@ -111,7 +113,9 @@ class FolhadeatividadesController extends AppController
 
         if ($id) {
             try {
-                $activity = $this->Folhadeatividades->get($id, contain: 'Estagiarios');
+                $activity = $this->Folhadeatividades->get($id, [
+                    'contain' => ['Estagiarios'],
+                ]);
                 $estagiario_id = $activity->estagiario_id;
             } catch (Exception $e) {
                 $this->Flash->error(__('Atividade não encontrada.'));
@@ -157,7 +161,6 @@ class FolhadeatividadesController extends AppController
     /**
      * Add method
      *
-     * @param string|null $id Estagiário id (unused in sig, used via query)
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
     public function add()
@@ -215,7 +218,9 @@ class FolhadeatividadesController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
+            $folhadeatividade = $this->Folhadeatividades->get($id, [
+                'contain' => ['Estagiarios' => ['Alunos']],
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -260,7 +265,9 @@ class FolhadeatividadesController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $folhadeatividade = $this->Folhadeatividades->get($id, contain: ['Estagiarios' => ['Alunos']]);
+            $folhadeatividade = $this->Folhadeatividades->get($id, [
+                'contain' => ['Estagiarios' => ['Alunos']],
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -301,34 +308,21 @@ class FolhadeatividadesController extends AppController
         }
 
         try {
-            $estagiario = $this->Folhadeatividades->find()
-                ->contain(['Estagiarios' => ['Alunos', 'Professores', 'Instituicoes', 'Supervisores']])
-                ->where(['Estagiarios.id' => $estagiario_id])
-                ->orderBy(['dia' => 'ASC'])
-                ->select([
-                    'dia',
-                    'inicio' => 'TIME_TO_SEC(inicio)/3600',
-                    'fim' => 'TIME_TO_SEC(fim)/3600',
-                    'total' => '(TIME_TO_SEC(fim) - TIME_TO_SEC(inicio))/3600',
-                    'atividade',
-                    'estagiario_id',
-                    'aluno_nome' => 'alunos.nome',
-                    'aluno_registro' => 'alunos.registro',
-                    'estagiario_periodo' => 'estagiarios.periodo',
-                    'estagiario_nivel' => 'estagiarios.nivel',
-                    'supervisor_nome' => 'supervisores.nome',
-                    'supervisor_cress' => 'supervisores.cress',
-                    'instituicao_nome' => 'instituicoes.nome',
-                    'professor_nome' => 'professores.nome',
-                ])
-                ->first();
+            $estagiario = $this->fetchTable('Estagiarios')->get((string)$estagiario_id, [
+                'contain' => [
+                    'Alunos',
+                    'Professores',
+                    'Instituicoes',
+                    'Supervisores',
+                    'Folhadeatividades' => [
+                        'sort' => ['dia' => 'ASC'],
+                    ],
+                ],
+            ]);
         } catch (RecordNotFoundException $e) {
-            $this->Flash->error(__('Atividade do(a) estagiário(a) não localizada.'));
+            $this->Flash->error(__('Estagiário(a) não localizado(a).'));
             return $this->redirect(['action' => 'index']);
         }
-
-        pr($estagiario);
-        die();
 
         $this->viewBuilder()->enableAutoLayout(false);
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
@@ -340,7 +334,6 @@ class FolhadeatividadesController extends AppController
                 'filename' => 'folha_de_atividades_' . $estagiario->aluno->nome . '.pdf',
             ],
         );
-        $this->set('folha', $folha);
         $this->set('estagiario', $estagiario);
     }
 

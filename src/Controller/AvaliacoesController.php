@@ -14,7 +14,7 @@ use Cake\I18n\I18n;
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  *
- * @method \App\Model\Entity\Avaliaco[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Avaliacao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AvaliacoesController extends AppController
 {
@@ -129,12 +129,14 @@ class AvaliacoesController extends AppController
     public function view($id = null)
     {
         try {
-            $avaliacao = $this->Avaliacoes->get($id, contain: [
-                "Estagiarios" => [
-                    "Alunos",
-                    "Professores",
-                    "Instituicoes",
-                    "Supervisores",
+            $avaliacao = $this->Avaliacoes->get($id, [
+                'contain' => [
+                    'Estagiarios' => [
+                        'Alunos',
+                        'Professores',
+                        'Instituicoes',
+                        'Supervisores',
+                    ],
                 ],
             ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
@@ -222,12 +224,14 @@ class AvaliacoesController extends AppController
     public function edit($id = null)
     {
         try {
-            $avaliacao = $this->Avaliacoes->get($id, contain: [
-                "Estagiarios" => [
-                    "Alunos",
-                    "Professores",
-                    "Instituicoes",
-                    "Supervisores",
+            $avaliacao = $this->Avaliacoes->get($id, [
+                'contain' => [
+                    'Estagiarios' => [
+                        'Alunos',
+                        'Professores',
+                        'Instituicoes',
+                        'Supervisores',
+                    ],
                 ],
             ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {

@@ -53,7 +53,17 @@ class ProfessoresController extends AppController
         ini_set('memory_limit', '2048M');
 
         try {
-            $professor = $this->Professores->get($id, contain: ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]);
+            $professor = $this->Professores->get($id, [
+                'contain' => [
+                    'Estagiarios' => [
+                        'sort' => ['Estagiarios.periodo DESC'],
+                        'Alunos',
+                        'Instituicoes',
+                        'Supervisores',
+                        'Professores',
+                    ],
+                ],
+            ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros para este(a) professor(a)!'));
             return $this->redirect(['action' => 'index']);
@@ -118,7 +128,7 @@ class ProfessoresController extends AppController
         if ($this->request->is('post')) {
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
-            $usercadastrado = $this->Professores->Users->find()
+            $usercadastrado = $this->fetchTable('Users')->find()
                     ->where(['categoria' => '3', 'identificacao' => $siape])
                     ->first();
             if (empty($usercadastrado)) :
@@ -175,7 +185,7 @@ class ProfessoresController extends AppController
         }
 
         try {
-            $professor = $this->Professores->get($id, contain: []);
+            $professor = $this->Professores->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Professor não encontrado.'));
             return $this->redirect(['action' => 'index']);
@@ -213,7 +223,9 @@ class ProfessoresController extends AppController
         $this->request->allowMethod(['post', 'delete']);
 
         try {
-            $professor = $this->Professores->get($id, contain: ['Estagiarios']);
+            $professor = $this->Professores->get($id, [
+                'contain' => ['Estagiarios'],
+            ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Professor não encontrado.'));
             return $this->redirect(['action' => 'index']);

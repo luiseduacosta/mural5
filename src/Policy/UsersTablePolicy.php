@@ -39,7 +39,11 @@ final class UsersTablePolicy implements BeforePolicyInterface
         $user_data = $user->getOriginalData();
 
         if (!isset($user_data['categoria']) || $user_data['categoria'] !== '1') {
-            return $query->where(['Users.id' => $user->getIdentifier()]);
+            if (!is_array($user_data) || empty($user_data['id'])) {
+                return $query->where(['Users.id' => 0]);
+            }
+
+            return $query->where(['Users.id' => $user_data['id']]);
         }
 
         return $query;

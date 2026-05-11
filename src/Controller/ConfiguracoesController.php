@@ -50,7 +50,7 @@ class ConfiguracoesController extends AppController
     {
 
         try {
-            $configuracao = $this->Configuracoes->get($id, contain: []);
+            $configuracao = $this->Configuracoes->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Configuração não foi encontrada. Tente novamente.'));
 
@@ -105,7 +105,7 @@ class ConfiguracoesController extends AppController
     {
 
         try {
-            $configuracao = $this->Configuracoes->get($id, contain: []);
+            $configuracao = $this->Configuracoes->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Configuração não foi encontrada. Tente novamente.'));
 
