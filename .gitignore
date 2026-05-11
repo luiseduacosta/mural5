@@ -6,7 +6,6 @@
 /logs/*
 /tmp/*
 /vendor/*
-/tests/*
 composer.json
 composer.lock
 
