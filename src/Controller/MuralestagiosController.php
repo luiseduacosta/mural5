@@ -70,13 +70,14 @@ class MuralestagiosController extends AppController
             ]);
         }
 
-        $query->orderBy(['Muralestagios.data_inscricao' => 'DESC']);
-
         if ($query->count() == 0) {
             $this->Flash->warning(__('Nenhum registro de mural de estágio encontrado para o período selecionado.'));
         }
 
         $muralestagios = $this->paginate($query, [
+            'order' => [
+                'Muralestagios.data_inscricao' => 'DESC',
+            ],
             'sortableFields' => [
                 'instituicao',
                 'vagas',

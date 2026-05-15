@@ -519,23 +519,36 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
+        $session = $this->request->getSession();
+        $isImpersonating = method_exists($this->Authentication, 'isImpersonating')
+            ? $this->Authentication->isImpersonating()
+            : $session->check('AuthImpersonate');
+
         $identity = $this->Authentication->getIdentity();
         $user_data = $identity->getOriginalData();
 
         // Only administrators can impersonate
-        if ($user_data['categoria'] !== '1' && !$this->request->getSession()->check('Auth.impersonating')) {
+        if ($user_data['categoria'] !== '1' && !$session->check('Auth.impersonating') && !$isImpersonating) {
             $this->Flash->error(__('Acesso negado. Apenas administradores podem alternar usuários.'));
 
             return $this->redirect(['action' => 'index']);
         }
 
         // 1. Start impersonating via GET parameter ($id)
-        if ($id && $this->request->is('get')) {
-            $targetUser = $this->Users->get($id);
+        $targetId = $id ?: $this->request->getQuery('id');
+        if ($targetId && $this->request->is('get')) {
+            $targetUser = $this->Users->get($targetId);
+
+            if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                $this->Authentication->stopImpersonating();
+                $isImpersonating = false;
+                $identity = $this->Authentication->getIdentity();
+                $user_data = $identity ? $identity->getOriginalData() : $user_data;
+            }
 
             // Store original admin ID if not already impersonating
-            if (!$this->request->getSession()->check('Auth.impersonating')) {
-                $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+            if (!$session->check('Auth.impersonating')) {
+                $session->write('Auth.impersonating', $user_data['id']);
             }
 
             $this->Authentication->impersonate($targetUser);
@@ -546,12 +559,19 @@ class UsersController extends AppController
 
         // 2. Start impersonating via form submission (using 'id')
         if ($this->request->is('post')) {
-            $id = $this->request->getQuery('id');
-            $targetUser = $this->Users->find()->where(['id' => $id])->first();
+            $targetId = $id ?: $this->request->getQuery('id');
+            $targetUser = $this->Users->find()->where(['id' => $targetId])->first();
             if ($targetUser) {
+                if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                    $this->Authentication->stopImpersonating();
+                    $isImpersonating = false;
+                    $identity = $this->Authentication->getIdentity();
+                    $user_data = $identity ? $identity->getOriginalData() : $user_data;
+                }
+
                 // Store original admin ID if not already impersonating
-                if (!$this->request->getSession()->check('Auth.impersonating')) {
-                    $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+                if (!$session->check('Auth.impersonating')) {
+                    $session->write('Auth.impersonating', $user_data['id']);
                 }
                 $this->Authentication->impersonate($targetUser);
                 $this->Flash->success(__('Você agora está acessando como ' . $targetUser->nome));
@@ -562,12 +582,11 @@ class UsersController extends AppController
         }
 
         // 3. Stop impersonating if accessed without an ID/POST and we are currently impersonating
-        if (!$this->request->is('post') && !$id && $this->request->getSession()->check('Auth.impersonating')) {
-            $originalId = $this->request->getSession()->read('Auth.impersonating');
-            $originalUser = $this->Users->get($originalId);
-
-            $this->Authentication->impersonate($originalUser);
-            $this->request->getSession()->delete('Auth.impersonating');
+        if (!$this->request->is('post') && !$targetId && ($session->check('Auth.impersonating') || $isImpersonating)) {
+            if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                $this->Authentication->stopImpersonating();
+            }
+            $session->delete('Auth.impersonating');
 
             $this->Flash->success(__('Identidade restaurada para administrador.'));
 

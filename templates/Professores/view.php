@@ -156,6 +156,7 @@ if ($user_session) {
                             <th><?= __('Aluno') ?></th>
                             <th><?= __('Registro') ?></th>
                             <th><?= __('Ajuste 2020') ?></th>
+                            <th><?= __('Turno') ?></th>
                             <th><?= __('Nivel') ?></th>
                             <th><?= __('Instituição') ?></th>
                             <th><?= __('Supervisora') ?></th>

@@ -45,6 +45,9 @@ if ($user_session) {
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
                 <?php endif; ?>
 
                 <?php if ($user_data['aluno_id']): ?>
@@ -118,7 +121,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Turno') ?></th>
-                    <td><?= h($estagiario->aluno->TurnoID->turno) ?></td>
+                    <td><?= h($estagiario->aluno?->TurnoID?->turno ?? '') ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Nível') ?></th>

@@ -35,7 +35,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Inscricao[] $inscricoes
- * @property \App\Model\Entity\Turno $turno
+ * @property \App\Model\Entity\Turno|null $TurnoID
  */
 class Aluno extends Entity
 {
@@ -74,6 +74,6 @@ class Aluno extends Entity
         'user' => true,
         'estagiarios' => true,
         'inscricoes' => true,
-        'turno' => true,
+        'TurnoID' => true,
     ];
 }

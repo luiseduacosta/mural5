@@ -45,7 +45,6 @@ if ($user_session) {
     })
 </script>
 
-
 <div class='container'>
 
     <?php if ($user_data['categoria'] === '1'): ?>
@@ -64,7 +63,7 @@ if ($user_session) {
         </nav>
     <?php endif; ?>
 
-    <?php if ($user_data['categoria'] === '1'): ?>
+    <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
 
         <h3><?= __('Estagiario(a)s') ?></h3>
 
@@ -128,7 +127,7 @@ if ($user_session) {
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
                         <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>
-                        <?php if ($user_data['categoria'] === '1'): ?>
+                        <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
                             <th><?= $this->Paginator->sort('nota') ?></th>
                             <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
                         <?php endif; ?>

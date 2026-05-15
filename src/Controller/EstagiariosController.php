@@ -34,6 +34,12 @@ class EstagiariosController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
+
         $instituicao = $this->getRequest()->getQuery('instituicao');
         $supervisor = $this->getRequest()->getQuery('supervisor');
         $professor = $this->getRequest()->getQuery('professor');
@@ -62,6 +68,11 @@ class EstagiariosController extends AppController
             $query->where(['Estagiarios.periodo' => $periodo]);
         }
 
+        if ($user_data['categoria'] === '3' && !empty($user_data['professor_id'])) {
+            $query->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
+            $professor = (string)$user_data['professor_id'];
+        }
+
         $query->orderBy(['Alunos.nome' => 'ASC']);
 
         if ($nivel) {
@@ -84,6 +95,7 @@ class EstagiariosController extends AppController
                 'Professores.id' => $professor,
             ]);
         }
+
         $config =  [ // Removed $this->paginate assignment to local var as array
             'sortableFields' => [
                 'id',
@@ -98,6 +110,7 @@ class EstagiariosController extends AppController
             ],
             'limit' => 20,
         ];
+
         $estagiarios = $this->paginate($query, $config);
 
         /* Todos os periódos */
@@ -105,6 +118,10 @@ class EstagiariosController extends AppController
             'keyField' => 'periodo',
             'valueField' => 'periodo',
         ])->orderBy(['periodo' => 'asc']);
+
+        if ($user_data['categoria'] === '3') {
+            $periodototal = $periodototal->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
+        }
 
         $periodos = $periodototal->toArray();
 
@@ -116,6 +133,10 @@ class EstagiariosController extends AppController
                 'Professores'
             ])
             ->where(['Estagiarios.periodo' => $periodo]);
+
+        if ($user_data['categoria'] === '3' && !empty($user_data['professor_id'])) {
+            $instituicoesQuery->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
+        }
 
         // Manually collecting lists to replicate original behavior of showing only relevant filter options
         // This could be optimized but sticking to migration logic
@@ -297,7 +318,6 @@ class EstagiariosController extends AppController
         if ($aluno_id === null && isset($user_data) && $user_data['categoria'] == '2') {
             $aluno_id = $user_data['aluno_id'];
         }
-
         if ($aluno_id) {
             $ultimo_estagio = $this->Estagiarios
                 ->find()
@@ -330,14 +350,14 @@ class EstagiariosController extends AppController
 
                 $periodo_config = $this->fetchTable('Configuracoes')
                     ->find()
-                    ->select(['mural_periodo_atual'])
+                    ->select(['termo_compromisso_periodo'])
                     ->first();
 
                 // Check period validity
-                if ($ultimo_estagio->periodo >= $periodo_config->mural_periodo_atual) {
+                if ($ultimo_estagio->periodo >= $periodo_config->termo_compromisso_periodo) {
                     $this->Flash->error(
                         __(
-                            'O período de estágio do aluno tem que ser igual o maior que o período atual ' . $periodo_config->mural_periodo_atual,
+                            'O período de estágio do aluno tem que ser igual o maior que o período atual ' . $periodo_config->termo_compromisso_periodo,
                         ),
                     );
 
@@ -375,7 +395,7 @@ class EstagiariosController extends AppController
         $periodo = $this->fetchTable('Configuracoes')->get(1)->get('termo_compromisso_periodo');
         $this->set('periodo', $periodo);
         $this->set('now', new \Cake\I18n\DateTime());
-        $this->set('ajuste2020', $ultimo_estagio->ajuste2020);
+        $this->set('ajuste2020', isset($ultimo_estagio->ajuste2020) ? $ultimo_estagio->ajuste2020 : '0');
         $this->set('instituicoes', $this->fetchTable('Instituicoes')->find('list')->orderBy(['instituicao' => 'asc']));
         $this->set('supervisores', $this->fetchTable('Supervisores')->find('list')->orderBy(['nome' => 'asc']));
         $this->set('professores', $this->fetchTable('Professores')->find('list')->orderBy(['nome' => 'asc']));
@@ -384,9 +404,6 @@ class EstagiariosController extends AppController
             compact(
                 'estagiario',
                 'ultimo_estagio',
-                'instituicoes',
-                'supervisores',
-                'professores'
             ),
         );
     }

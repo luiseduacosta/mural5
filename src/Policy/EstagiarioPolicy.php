@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use App\Model\Entity\Estagiario;
+use ArrayAccess;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
 use Authorization\Policy\Result;
@@ -21,6 +22,10 @@ final class EstagiarioPolicy implements BeforePolicyInterface
     {
         if ($identity) {
             $user_data = $identity->getOriginalData();
+
+            if ($user_data instanceof ArrayAccess && !empty($user_data['administrador_id'])) {
+                return true;
+            }
 
             if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
@@ -144,7 +149,13 @@ final class EstagiarioPolicy implements BeforePolicyInterface
     {
         $user_data = $userSession->getOriginalData();
 
-        return isset($user_data['professor_id']) && $user_data['professor_id'] === $estagiarioData->professor_id;
+        if ($user_data instanceof ArrayAccess || is_array($user_data)) {
+            $professorId = $user_data['professor_id'] ?? null;
+
+            return !empty($professorId) && (int)$professorId === (int)$estagiarioData->professor_id;
+        }
+
+        return false;
     }
 
     /**
@@ -155,10 +166,15 @@ final class EstagiarioPolicy implements BeforePolicyInterface
     protected function sameUser(IdentityInterface $userSession, Estagiario $estagiarioData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!is_array($user_data) || empty($user_data['aluno_id'])) {
+        if (!($user_data instanceof ArrayAccess || is_array($user_data))) {
             return false;
         }
 
-        return (int)$user_data['aluno_id'] === (int)$estagiarioData->aluno_id;
+        $alunoId = $user_data['aluno_id'] ?? null;
+        if (empty($alunoId)) {
+            return false;
+        }
+
+        return (int)$alunoId === (int)$estagiarioData->aluno_id;
     }
 }

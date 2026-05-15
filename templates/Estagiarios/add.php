@@ -6,7 +6,6 @@
  * @var \Cake\I18n\DateTime $now
  */
 declare(strict_types=1);
-
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
@@ -179,6 +178,7 @@ if ($user_session) {
                 'empty' => true,
                 'type' => 'select',
                 'options' => ['0' => 'Não', '1' => 'Sim'],
+                'value' => isset($ajuste2020) ? $ajuste2020 : '0',
                 'readonly' => false,
                 'templates' => [
                     'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-2">{{input}}</div></div>',
@@ -186,7 +186,6 @@ if ($user_session) {
                     'select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>'
                 ],
                 'id' => 'ajuste2020',
-                'value' => isset($ultimo_estagio) ? $ultimo_estagio->ajuste2020 : ''
             ]);
             echo $this->Form->control('instituicao_id', [
                 'label' => 'Instituição',

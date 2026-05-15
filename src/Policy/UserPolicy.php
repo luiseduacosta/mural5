@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Policy;
 
 use App\Model\Entity\User;
+use ArrayAccess;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
 use Authorization\Policy\Result;
@@ -21,6 +22,10 @@ final class UserPolicy implements BeforePolicyInterface
     {
         if ($identity) {
             $user_data = $identity->getOriginalData();
+
+            if ($user_data instanceof ArrayAccess && !empty($user_data['administrador_id'])) {
+                return true;
+            }
 
             if (isset($user_data['categoria']) && $user_data['categoria'] === '1') {
                 return true;
@@ -86,10 +91,18 @@ final class UserPolicy implements BeforePolicyInterface
     protected function sameUser(IdentityInterface $userSession, User $userData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!is_array($user_data) || empty($user_data['id'])) {
+
+        $sessionUserId = null;
+        if (is_array($user_data) || $user_data instanceof ArrayAccess) {
+            $sessionUserId = $user_data['id'] ?? null;
+        } elseif ($user_data instanceof User) {
+            $sessionUserId = $user_data->id ?? null;
+        }
+
+        if (empty($sessionUserId)) {
             return false;
         }
 
-        return (int)$user_data['id'] === (int)$userData->id;
+        return (int)$sessionUserId === (int)$userData->id;
     }
 }

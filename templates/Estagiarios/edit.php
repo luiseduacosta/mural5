@@ -113,11 +113,15 @@ if ($user_session) {
 
             echo $this->Form->control('complemento_id', ['label' => ['text' => 'Tipo de estágio (Pandemia)'], 'options' => [1 => 'Remoto', 2 => 'Ple'], 'empty' => "Seleciona",
                 'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                  'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
                     'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                 ]
             ]);
+
+        }
+        // Professor pode lançar nota e carga horária
+        if ($user_data['categoria'] == '1' || $user_data['categoria'] == '3') {
 
             echo $this->Form->control('nota');
 
