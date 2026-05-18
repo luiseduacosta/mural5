@@ -315,7 +315,7 @@ class EstagiariosController extends AppController
         }
 
         $aluno_id = $this->getRequest()->getQuery('aluno_id');
-        if ($aluno_id === null && isset($user_data) && $user_data['categoria'] == '2') {
+        if ($aluno_id === null && $user_data['categoria'] == '2') {
             $aluno_id = $user_data['aluno_id'];
         }
         if ($aluno_id) {
@@ -376,7 +376,7 @@ class EstagiariosController extends AppController
 
             $this->set('aluno', $aluno);
         } else {
-            if (isset($user_data) && $user_data['categoria'] == '2') {
+            if ($user_data['categoria'] == '2') {
                 try {
                     $aluno = $this->fetchTable('Alunos')->get($user_data['aluno_id']);
                     $this->set('aluno', $aluno);

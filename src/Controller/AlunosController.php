@@ -333,7 +333,7 @@ class AlunosController extends AppController
             return $this->redirect(['action' => 'view', $id]);
         }
 
-        $periodo_atual = $this->fetchTable('Configuracoes')->get($this->user->periodo_id)->periodo_calendario_academico;
+        $periodo_atual = $this->fetchTable('Configuracoes')->get(1)->periodo_calendario_academico;
 
         if ($novoperiodo) {
             $periodo_inicial = $novoperiodo;
