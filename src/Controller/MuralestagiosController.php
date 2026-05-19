@@ -54,10 +54,8 @@ class MuralestagiosController extends AppController
             $periodo = $periodoconfiguracao->mural_periodo_atual;
         }
         /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])->distinct(['periodo'])->orderBy(['periodo' => 'DESC']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo')
+            ->distinct(['periodo'])->orderBy(['periodo' => 'DESC']);
 
         $periodos = $periodototal->toArray();
 
@@ -121,10 +119,8 @@ class MuralestagiosController extends AppController
 
         /** Para o administrador selecionar o aluno */
         $alunotable = $this->fetchTable('Alunos');
-        $alunos = $alunotable->find('list', [
-            'keyField' => 'registro',
-            'valueField' => 'nome',
-        ])->orderBy(['nome' => 'ASC'])->toArray();
+        $alunos = $alunotable->find('list', keyField: 'registro', valueField: 'nome')
+            ->orderBy(['nome' => 'ASC'])->toArray();
 
         $this->set(compact('muralestagio', 'alunos'));
     }
@@ -223,10 +219,8 @@ class MuralestagiosController extends AppController
         }
 
         /** Todos os períodos */
-        $periodototal = $this->Muralestagios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])->distinct(['periodo'])->orderBy(['periodo' => 'DESC']);
+        $periodototal = $this->Muralestagios->find('list', keyField: 'periodo', valueField: 'periodo')
+            ->distinct(['periodo'])->orderBy(['periodo' => 'DESC']);
         $periodos = $periodototal->toArray();
 
         $instituicoes = $this->Muralestagios->Instituicoes->find('list')->orderBy(['instituicao' => 'ASC']);

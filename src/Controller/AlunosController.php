@@ -201,7 +201,7 @@ class AlunosController extends AppController
             }
             $this->Flash->error(__('Erro ao salvar: não foi possível salvar os dados.'));
         }
-        $turnos = $this->Alunos->Turnos->find('list', ['limit' => 200])->all();
+        $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
         $this->set(compact('aluno', 'turnos'));
     }
 
@@ -325,7 +325,7 @@ class AlunosController extends AppController
 
         $this->Authorization->authorize($this->Alunos);
 
-        $turnos = $this->Alunos->Turnos->find('list', ['limit' => 200])->all();
+        $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
 
         // Incomplete field ingresso on record of alunos
         if (strlen((string)$aluno->ingresso) < 6) {
@@ -452,10 +452,7 @@ class AlunosController extends AppController
         $this->set('periodo', $periodo);
 
         /* lista de periodos */
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);
@@ -515,10 +512,7 @@ class AlunosController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);
