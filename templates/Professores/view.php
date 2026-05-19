@@ -189,6 +189,9 @@ if ($user_session) {
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
+                                    <?php if ($user_data['categoria'] === '3'): ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -201,7 +204,8 @@ if ($user_session) {
             <h4><?= __('Atividades') ?></h4>
             <?php if (!empty($professor->estagiarios)): ?>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-responsive">
+                    <table id="table-estagiarios" class="table table-striped table-hover table-responsive">
+                        <thead>
                         <tr>
                             <?php if ($user_data['categoria'] === '1'): ?>
                                 <th><?= __('Id') ?></th>
@@ -218,8 +222,10 @@ if ($user_session) {
                             <th><?= __('CH') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
-                            <tr>
+                            <tr data-id="<?= h($estagiarios->id) ?>">
                                 <?php if ($user_data['categoria'] === '1'): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
@@ -243,18 +249,20 @@ if ($user_session) {
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->periodo) ?></td>
-                                <td><?= h($estagiarios->nota) ?></td>
-                                <td><?= h($estagiarios->ch) ?></td>
+                                <td class="text-center editable-field" data-field="nota"><?= h($estagiarios->nota) ?></td>
+                                <td class="text-center editable-field" data-field="ch"><?= h($estagiarios->ch) ?></td>
 
                                 <td class="actions">
                                     <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
-                                    <?php if ($user_data['categoria'] === '1'): ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                    <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
+                                        <button class="btn btn-sm btn-warning btn-edit">Editar</button>
+                                        <button class="btn btn-sm btn-primary btn-save" style="display:none">Salvar</button>
+                                        <button class="btn btn-sm btn-secondary btn-cancel" style="display:none">Cancelar</button>
                                     <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        </tbody>
                     </table>
                 </div>
             <?php endif; ?>
@@ -287,15 +295,17 @@ function makeRowEditable(row) {
     row.classList.add('editing');
     const cells = row.querySelectorAll('.editable-field');
     cells.forEach(cell => {
-        const text = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
-        cell.innerHTML = `<input class="form-control form-control-sm" type="text" value="${text}">`;
+        const text = cell.textContent.trim();
+        // Snapshot the original value so cancelEdit can restore it.
+        cell.dataset.original = text;
+        const escaped = text.replace(/"/g, '&quot;');
+        cell.innerHTML = `<input class="form-control form-control-sm" type="text" value="${escaped}">`;
     });
 
     // Toggle buttons
     row.querySelector('.btn-edit').style.display = 'none';
     row.querySelector('.btn-save').style.display = 'inline-block';
     row.querySelector('.btn-cancel').style.display = 'inline-block';
-
 }
 
 function saveRow(row) {
@@ -308,6 +318,7 @@ function saveRow(row) {
         const fieldName = cell.dataset.field;
         let value = input.value.trim();
         cell.textContent = value;
+        delete cell.dataset.original;
         data[fieldName] = value;
     });
  
@@ -354,8 +365,14 @@ function cancelEdit(row) {
     row.classList.remove('editing');
     const cells = row.querySelectorAll('.editable-field');
     cells.forEach(cell => {
-        cell.textContent = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
+        // Restore the snapshot taken in makeRowEditable.
+        cell.textContent = cell.dataset.original ?? '';
+        delete cell.dataset.original;
     });
+
+    row.querySelector('.btn-edit').style.display = 'inline-block';
+    row.querySelector('.btn-save').style.display = 'none';
+    row.querySelector('.btn-cancel').style.display = 'none';
 }
 
 </script>    

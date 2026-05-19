@@ -21,6 +21,12 @@ if ($user_session) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['categoria'] == '1'): ?>
                     <li class="nav-item">
+                        <?= $this->Html->link(__('Declaração'), ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('PDF'), ['controller' => 'estagiarios', 'action' => 'termodecompromissopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
                         <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
@@ -35,6 +41,12 @@ if ($user_session) {
                 <?php endif; ?>
 
                 <?php if ($user_data['aluno_id']): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('PDF'), ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>

@@ -36,7 +36,7 @@
             echo $this->Form->control("is_active", ["label" => "Ativo"]);
             echo $this->Form->control("category", ["label" => "Categoria"]);
             echo $this->Form->control("target_user_type", [
-                "label" => "Tipo de usuário alvo",
+                "label" => "Usuário alvo",
             ]);
             ?>
         </fieldset>

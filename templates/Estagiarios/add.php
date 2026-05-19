@@ -233,7 +233,7 @@ if ($user_session) {
                 ],
                 'readonly' => true
             ]);
-            if ($user_data['categoria'] === '1') {
+            if ($user_data['categoria'] === '1' || $user_data['professor_id']) {
                 echo $this->Form->control('nota', [
                     'label' => 'Nota',
                     'value' => '',

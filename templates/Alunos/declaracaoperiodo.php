@@ -42,7 +42,7 @@
     </fieldset>
     <div class="d-flex justify-content-center">
         <div class="btn-group" role="group" aria-label="Confirma">
-            <?= $this->Html->link('Imprime PDF', ['action' => 'declaracaoperiodopdf', '?' => ['id' => $aluno->id, 'totalperiodos' => $totalperiodos]], ['class' => 'button btn-info']); ?>
+            <?= $this->Html->link('Imprime PDF', ['action' => 'declaracaoperiodopdf', '?' => ['id' => $aluno->id, 'totalperiodos' => $totalperiodos]], ['class' => 'button btn-info me-1']); ?>
             <?= $this->Form->button(__('Confirmar alteraçoes'), ['type' => 'submit', 'class' => 'button']) ?>
             <?= $this->Form->end() ?>
         </div>

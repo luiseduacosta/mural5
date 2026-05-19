@@ -101,10 +101,14 @@ class EstagiariosController extends AppController
                 'id',
                 'Alunos.nome',
                 'registro',
+                'ajuste2020',
                 'nivel',
+                'tc',
+                'tc_solicitacao',
                 'Instituicoes.instituicao',
                 'Supervisores.nome',
                 'Professores.nome',
+                'periodo',
                 'nota',
                 'ch',
             ],
@@ -407,7 +411,7 @@ class EstagiariosController extends AppController
     }
 
     /**
-     * Novotermocompromisso method
+     * Termocompromisso method
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
