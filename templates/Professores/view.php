@@ -298,8 +298,20 @@ function makeRowEditable(row) {
         const text = cell.textContent.trim();
         // Snapshot the original value so cancelEdit can restore it.
         cell.dataset.original = text;
+        const field = cell.dataset.field;
         const escaped = text.replace(/"/g, '&quot;');
-        cell.innerHTML = `<input class="form-control form-control-sm" type="text" value="${escaped}">`;
+        // Field-specific inputs aligned with EstagiariosTable validation:
+        //  - nota: decimal(4,2), 0..99.99, two-decimal step
+        //  - ch:   smallint, non-negative integer
+        let attrs;
+        if (field === 'nota') {
+            attrs = 'type="number" inputmode="decimal" min="0" max="99.99" step="0.01"';
+        } else if (field === 'ch') {
+            attrs = 'type="number" inputmode="numeric" min="0" max="32767" step="1"';
+        } else {
+            attrs = 'type="text"';
+        }
+        cell.innerHTML = `<input class="form-control form-control-sm" ${attrs} value="${escaped}">`;
     });
 
     // Toggle buttons
@@ -308,18 +320,69 @@ function makeRowEditable(row) {
     row.querySelector('.btn-cancel').style.display = 'inline-block';
 }
 
+/**
+ * Validate and normalize a value for the given field.
+ * Returns { ok: true, value: <stringForServer>, display: <stringForCell> }
+ * or     { ok: false, message: <error> }.
+ */
+function normalizeField(field, raw) {
+    const value = String(raw).trim();
+    if (value === '') {
+        // Both fields allow empty per the server validator.
+        return { ok: true, value: '', display: '' };
+    }
+    if (field === 'nota') {
+        // Accept Brazilian comma decimals; normalize to dot.
+        const normalized = value.replace(',', '.');
+        if (!/^\d{1,2}(\.\d{1,2})?$/.test(normalized)) {
+            return { ok: false, message: 'Nota inválida. Use formato 0.00 a 99.99 (até 2 casas).' };
+        }
+        const n = parseFloat(normalized);
+        if (Number.isNaN(n) || n < 0 || n > 99.99) {
+            return { ok: false, message: 'Nota fora do intervalo permitido (0 a 99.99).' };
+        }
+        const fixed = n.toFixed(2);
+        return { ok: true, value: fixed, display: fixed };
+    }
+    if (field === 'ch') {
+        if (!/^\d+$/.test(value)) {
+            return { ok: false, message: 'CH inválida. Use apenas números inteiros não negativos.' };
+        }
+        const n = parseInt(value, 10);
+        if (n < 0 || n > 1000) {
+            return { ok: false, message: 'CH fora do intervalo permitido (0 a 1000).' };
+        }
+        const str = String(n);
+        return { ok: true, value: str, display: str };
+    }
+    return { ok: true, value: value, display: value };
+}
+
 function saveRow(row) {
     const cells = row.querySelectorAll('.editable-field');
     const data = {
         id: row.dataset.id
     };
-    cells.forEach(cell => {
+
+    // 1) Validate every field BEFORE mutating the DOM or sending the request.
+    const normalized = [];
+    for (const cell of cells) {
         const input = cell.querySelector('input');
         const fieldName = cell.dataset.field;
-        let value = input.value.trim();
-        cell.textContent = value;
+        const result = normalizeField(fieldName, input ? input.value : '');
+        if (!result.ok) {
+            alert(result.message);
+            input && input.focus();
+            return; // abort: keep row in editing state, no AJAX call
+        }
+        normalized.push({ cell, fieldName, result });
+    }
+
+    // 2) Apply normalized values to DOM and payload.
+    normalized.forEach(({ cell, fieldName, result }) => {
+        cell.textContent = result.display;
         delete cell.dataset.original;
-        data[fieldName] = value;
+        data[fieldName] = result.value;
     });
  
     $.ajax({
