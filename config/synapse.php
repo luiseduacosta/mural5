@@ -13,5 +13,20 @@ return [
                 'psalm' => ['enabled' => false, 'level' => 3],
             ],
         ],
+        'documentation' => [
+            'sources' => [
+                'mural5-wiki' => [
+                    'enabled' => true,
+                    'repository' => 'git@github.com:luiseduacosta/mural5.git',
+                    'branch' => 'main',
+                    'root' => '.',
+                    'metadata' => [
+                        'name' => 'Mural5 Project Documentation',
+                        'version' => '1.0',
+                        'language' => 'pt-br',
+                    ],
+                ],
+            ],
+        ],
     ],
 ];
