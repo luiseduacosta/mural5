@@ -189,6 +189,9 @@ if ($user_session) {
                                         <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                         <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
                                     <?php endif; ?>
+                                    <?php if ($user_data['categoria'] === '3'): ?>
+                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -201,7 +204,8 @@ if ($user_session) {
             <h4><?= __('Atividades') ?></h4>
             <?php if (!empty($professor->estagiarios)): ?>
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-responsive">
+                    <table id="table-estagiarios" class="table table-striped table-hover table-responsive">
+                        <thead>
                         <tr>
                             <?php if ($user_data['categoria'] === '1'): ?>
                                 <th><?= __('Id') ?></th>
@@ -218,8 +222,10 @@ if ($user_session) {
                             <th><?= __('CH') ?></th>
                             <th class="actions"><?= __('Ações') ?></th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <?php foreach ($professor->estagiarios as $estagiarios): ?>
-                            <tr>
+                            <tr data-id="<?= h($estagiarios->id) ?>">
                                 <?php if ($user_data['categoria'] === '1'): ?>
                                     <td><?= h($estagiarios->id) ?></td>
                                 <?php endif; ?>
@@ -243,18 +249,20 @@ if ($user_session) {
                                 <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link($estagiarios->supervisor->nome, ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor->id]) : "" ?>
                                 </td>
                                 <td><?= h($estagiarios->periodo) ?></td>
-                                <td><?= h($estagiarios->nota) ?></td>
-                                <td><?= h($estagiarios->ch) ?></td>
+                                <td class="text-center editable-field" data-field="nota"><?= h($estagiarios->nota) ?></td>
+                                <td class="text-center editable-field" data-field="ch"><?= h($estagiarios->ch) ?></td>
 
                                 <td class="actions">
                                     <?= $this->Html->link(__('Atividades'), ['controller' => 'Folhadeatividades', 'action' => 'index', '?' => ['estagiario_id' => $estagiarios->id]]) ?>
-                                    <?php if ($user_data['categoria'] === '1'): ?>
-                                        <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
-                                        <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir o registro # {0}?', $estagiarios->id)]) ?>
+                                    <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
+                                        <button class="btn btn-sm btn-warning btn-edit">Editar</button>
+                                        <button class="btn btn-sm btn-primary btn-save" style="display:none">Salvar</button>
+                                        <button class="btn btn-sm btn-secondary btn-cancel" style="display:none">Cancelar</button>
                                     <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        </tbody>
                     </table>
                 </div>
             <?php endif; ?>
@@ -287,15 +295,67 @@ function makeRowEditable(row) {
     row.classList.add('editing');
     const cells = row.querySelectorAll('.editable-field');
     cells.forEach(cell => {
-        const text = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
-        cell.innerHTML = `<input class="form-control form-control-sm" type="text" value="${text}">`;
+        const text = cell.textContent.trim();
+        // Snapshot the original value so cancelEdit can restore it.
+        cell.dataset.original = text;
+        const field = cell.dataset.field;
+        const escaped = text.replace(/"/g, '&quot;');
+        // Field-specific inputs aligned with EstagiariosTable validation:
+        //  - nota: decimal(4,2), 0..99.99, two-decimal step
+        //  - ch:   smallint, non-negative integer
+        let attrs;
+        if (field === 'nota') {
+            attrs = 'type="number" inputmode="decimal" min="0" max="99.99" step="0.01"';
+        } else if (field === 'ch') {
+            attrs = 'type="number" inputmode="numeric" min="0" max="32767" step="1"';
+        } else {
+            attrs = 'type="text"';
+        }
+        cell.innerHTML = `<input class="form-control form-control-sm" ${attrs} value="${escaped}">`;
     });
 
     // Toggle buttons
     row.querySelector('.btn-edit').style.display = 'none';
     row.querySelector('.btn-save').style.display = 'inline-block';
     row.querySelector('.btn-cancel').style.display = 'inline-block';
+}
 
+/**
+ * Validate and normalize a value for the given field.
+ * Returns { ok: true, value: <stringForServer>, display: <stringForCell> }
+ * or     { ok: false, message: <error> }.
+ */
+function normalizeField(field, raw) {
+    const value = String(raw).trim();
+    if (value === '') {
+        // Both fields allow empty per the server validator.
+        return { ok: true, value: '', display: '' };
+    }
+    if (field === 'nota') {
+        // Accept Brazilian comma decimals; normalize to dot.
+        const normalized = value.replace(',', '.');
+        if (!/^\d{1,2}(\.\d{1,2})?$/.test(normalized)) {
+            return { ok: false, message: 'Nota inválida. Use formato 0.00 a 99.99 (até 2 casas).' };
+        }
+        const n = parseFloat(normalized);
+        if (Number.isNaN(n) || n < 0 || n > 99.99) {
+            return { ok: false, message: 'Nota fora do intervalo permitido (0 a 99.99).' };
+        }
+        const fixed = n.toFixed(2);
+        return { ok: true, value: fixed, display: fixed };
+    }
+    if (field === 'ch') {
+        if (!/^\d+$/.test(value)) {
+            return { ok: false, message: 'CH inválida. Use apenas números inteiros não negativos.' };
+        }
+        const n = parseInt(value, 10);
+        if (n < 0 || n > 1000) {
+            return { ok: false, message: 'CH fora do intervalo permitido (0 a 1000).' };
+        }
+        const str = String(n);
+        return { ok: true, value: str, display: str };
+    }
+    return { ok: true, value: value, display: value };
 }
 
 function saveRow(row) {
@@ -303,12 +363,26 @@ function saveRow(row) {
     const data = {
         id: row.dataset.id
     };
-    cells.forEach(cell => {
+
+    // 1) Validate every field BEFORE mutating the DOM or sending the request.
+    const normalized = [];
+    for (const cell of cells) {
         const input = cell.querySelector('input');
         const fieldName = cell.dataset.field;
-        let value = input.value.trim();
-        cell.textContent = value;
-        data[fieldName] = value;
+        const result = normalizeField(fieldName, input ? input.value : '');
+        if (!result.ok) {
+            alert(result.message);
+            input && input.focus();
+            return; // abort: keep row in editing state, no AJAX call
+        }
+        normalized.push({ cell, fieldName, result });
+    }
+
+    // 2) Apply normalized values to DOM and payload.
+    normalized.forEach(({ cell, fieldName, result }) => {
+        cell.textContent = result.display;
+        delete cell.dataset.original;
+        data[fieldName] = result.value;
     });
  
     $.ajax({
@@ -354,8 +428,14 @@ function cancelEdit(row) {
     row.classList.remove('editing');
     const cells = row.querySelectorAll('.editable-field');
     cells.forEach(cell => {
-        cell.textContent = cell.textContent.trim() === '' ? '' : cell.textContent.trim();
+        // Restore the snapshot taken in makeRowEditable.
+        cell.textContent = cell.dataset.original ?? '';
+        delete cell.dataset.original;
     });
+
+    row.querySelector('.btn-edit').style.display = 'inline-block';
+    row.querySelector('.btn-save').style.display = 'none';
+    row.querySelector('.btn-cancel').style.display = 'none';
 }
 
 </script>    

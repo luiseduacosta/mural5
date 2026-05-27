@@ -15,7 +15,7 @@
             <?= $this->Html->link(__('Listar atividades'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
         </li>
         <li class="nav-item">
-            <?= $this->Html->link(__('Imprime formulário manual'), ['action' => 'atividadesmanual', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
+            <?= $this->Html->link(__('Imprime formulário manual'), ['action' => 'atividadesmanualpdf', '?' => ['estagiario_id' => $estagiario->id]], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
         </li>
     </ul>
 </nav>

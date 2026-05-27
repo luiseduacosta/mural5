@@ -101,10 +101,14 @@ class EstagiariosController extends AppController
                 'id',
                 'Alunos.nome',
                 'registro',
+                'ajuste2020',
                 'nivel',
+                'tc',
+                'tc_solicitacao',
                 'Instituicoes.instituicao',
                 'Supervisores.nome',
                 'Professores.nome',
+                'periodo',
                 'nota',
                 'ch',
             ],
@@ -114,10 +118,8 @@ class EstagiariosController extends AppController
         $estagiarios = $this->paginate($query, $config);
 
         /* Todos os periódos */
-        $periodototal = $this->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])->orderBy(['periodo' => 'asc']);
+        $periodototal = $this->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo')
+            ->orderBy(['periodo' => 'asc']);
 
         if ($user_data['categoria'] === '3') {
             $periodototal = $periodototal->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
@@ -413,7 +415,7 @@ class EstagiariosController extends AppController
     }
 
     /**
-     * Novotermocompromisso method
+     * Termocompromisso method
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
@@ -797,10 +799,7 @@ class EstagiariosController extends AppController
             ->where(["id" => $professor_id])
             ->first();
 
-        $periodos = $this->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])
+        $periodos = $this->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo')
             ->contain(['Professores'])
             ->where(['Professores.id' => $professor_id])
             ->orderBy(["periodo" => "desc"])

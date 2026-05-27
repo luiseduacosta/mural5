@@ -120,13 +120,12 @@ if ($user_session) {
                         <th><?= $this->Paginator->sort('registro') ?></th>
                         <th><?= $this->Paginator->sort('ajuste2020', 'Ajuste 2020') ?></th>
                         <th><?= $this->Paginator->sort('nivel') ?></th>
-                        <th><?= $this->Paginator->sort('tc', 'Termo de compromisso') ?></th>
+                        <th><?= $this->Paginator->sort('tc', 'TC') ?></th>
                         <th><?= $this->Paginator->sort('tc_solicitacao', 'Data TC') ?></th>
                         <th><?= $this->Paginator->sort('Instituicoes.instituicao', 'Instituicoes') ?></th>
                         <th><?= $this->Paginator->sort('Supervisores.nome', 'Supervisor') ?></th>
                         <th><?= $this->Paginator->sort('Professores.nome', 'Professor/a') ?></th>
                         <th><?= $this->Paginator->sort('periodo', 'Período') ?></th>
-                        <th><?= $this->Paginator->sort('Complemento.id', 'Tipo') ?></th>
                         <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
                             <th><?= $this->Paginator->sort('nota') ?></th>
                             <th><?= $this->Paginator->sort('ch', 'Carga horária') ?></th>
@@ -146,7 +145,7 @@ if ($user_session) {
                             <td><?= $estagiario->registro ?></td>
                             <td><?= h($estagiario->ajuste2020) == 0 ? 'Não' : 'Sim' ?></td>
                             <td><?= h($estagiario->nivel) ?></td>
-                            <td><?= $estagiario->tc ?></td>
+                            <td><?= $estagiario->tc == 0 ? 'Não' : 'Sim' ?></td>
                             <td><?= $estagiario->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiario->tc_solicitacao))) : '' ?>
                             </td>
 
@@ -161,7 +160,6 @@ if ($user_session) {
 
                             <td><?= h($estagiario->periodo) ?></td>
 
-                            <td><?= $estagiario->complemento_id ?>
                             </td>
                             <?php if ($user_data['categoria'] === '1'): ?>
                                 <?php if (isset($estagiario->nota)): ?>
