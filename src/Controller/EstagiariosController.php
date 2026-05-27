@@ -123,6 +123,10 @@ class EstagiariosController extends AppController
             $periodototal = $periodototal->where(['Estagiarios.professor_id' => $user_data['professor_id']]);
         }
 
+        if ($user_data['categoria'] === '4') {
+            $periodototal = $periodototal->where(['Estagiarios.supervisor_id' => $user_data['supervisor_id']]);
+        }
+
         $periodos = $periodototal->toArray();
 
         // Used for optional filters in view
