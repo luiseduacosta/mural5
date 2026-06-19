@@ -58,12 +58,9 @@ if ($user_session) {
                     'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                 ]]);
-                echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado'], 
-                'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
-                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-                ]]);
+                echo $this->Form->control('carga_horaria', ['label' => ['text' => 'Carga horária'], 'type' => 'number', 'empty' => true]);
+                echo $this->Form->control('requisitos', ['label' => ['text' => 'Requisitos'], 'type' => 'textarea', 'rows' => 5, 'style' => 'height: 200', 'empty' => true]);
+                echo $this->Form->control('horario', ['label' => ['text' => 'Horário da OTP'], 'options' => ['D' => 'Diurno', 'N' => 'Noturno', 'I' => 'Indeterminado']]);
                 echo $this->Form->control('data_selecao', ['label' => ['text' => 'Data da seleção'], 'empty' => true]);
                 echo $this->Form->control('data_inscricao', ['label' => ['text' => 'Encerramento das inscrições'], 'empty' => true]);
                 echo $this->Form->control('horario_selecao', ['label' => ['text' => 'Horário da seleção'], 'empty' => true]);

@@ -106,6 +106,10 @@ if ($user_session) {
                         </td>
                     </tr>
                     <tr>
+                        <th><?= __('Carga horária') ?></th>
+                        <td><?= $muralestagio->carga_horaria ?></td>
+                    </tr>
+                    <tr>
                         <th><?= __('Requisitos') ?></th>
                         <td><?= $muralestagio->requisitos ?></td>
                     </tr>
