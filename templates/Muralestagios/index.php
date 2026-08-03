@@ -32,10 +32,6 @@ if ($user_session) {
 
     <?= $this->element('templates') ?>
 
-    <div class="row">
-        <h3><?= __('Mural de estagios') ?></h3>
-    </div>
-
     <div class="row justify-content-center">
         <h1 style="text-align: center;">Mural de estágios da ESS/UFRJ. Período: <?= $periodo; ?></h1>
         <?php if ($user_data['categoria'] === '1'): ?>
@@ -79,7 +75,12 @@ if ($user_session) {
                 <?php foreach ($muralestagios as $muralestagio): ?>
                     <tr>
                         <td><?= $muralestagio->id ?></td>
-                        <td><?= $muralestagio->hasValue('instituicao') ? $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : $this->Html->link($muralestagio->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]); ?>
+                        <td>
+                            <?php if (isset($user_data) && $user_data['categoria'] != 0) : ?>
+                                <?= isset($muralestagio->instituicao_entidade->instituicao) ? $this->Html->link($muralestagio->instituicao_entidade->instituicao, ['controller' => 'Muralestagios', 'action' => 'view', $muralestagio->id]) : '' ?>
+                            <?php else : ?>
+                                <?= isset($muralestagio->instituicao_entidade) ? $muralestagio->instituicao_entidade->instituicao : '' ?>
+                            <?php endif; ?>
                         </td>
                         <td><?= $muralestagio->vagas ?></td>
                         <td><?= h($muralestagio->beneficios) ?></td>

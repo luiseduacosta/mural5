@@ -77,6 +77,7 @@ class MuralestagiosController extends AppController
                 'Muralestagios.data_inscricao' => 'DESC',
             ],
             'sortableFields' => [
+                'id',
                 'instituicao',
                 'vagas',
                 'beneficios',

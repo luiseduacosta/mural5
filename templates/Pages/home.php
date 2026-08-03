@@ -112,7 +112,7 @@ $user_session = $this->request->getAttribute('identity');
                                 <?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout'], ['class' => 'button btn-info']) ?>
                             <?php endif; ?> 
                         </h2>
-                    </div>   
+                    </div>
                     <div class="col">
                         <p class="text-justify">Prezadas(os) usuárias(os),</p>
                         <p class="text-justify">O Mural de Estágio tem a função de permitir a consulta e inscrição em vagas de estágio; retirar o Termo de Compromisso, folha de atividades, avaliação do/a supervisor/a, declaração de estágio, dentre outros.</p>

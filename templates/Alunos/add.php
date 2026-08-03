@@ -71,7 +71,7 @@ if ($user_session) {
 
 <div>
     <div class="column-responsive column-80">
-    
+
             <?php if ($user_data['categoria'] === '1') : ?>
             <nav class="navbar navbar-expand-lg navbar-light bg-light  w-75 mx-auto" id="actions-sidebar">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"

@@ -197,8 +197,8 @@ CREATE TABLE IF NOT EXISTS `alunos` (
     `bairro` VARCHAR(30) DEFAULT NULL,
     `observacoes` VARCHAR(250) DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
-    `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
-    `inscricao_count` INT(11) DEFAULT NULL DEFAULT 0,
+    `estagiario_count` INT(11) DEFAULT NULL,
+    `inscricao_count` INT(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `registro` (`registro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
