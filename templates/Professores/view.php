@@ -127,6 +127,14 @@ if ($user_session) {
                     <td><?= h($professor->departamento) ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Status') ?></th>
+                    <td><?= $professor->status !== null ? $professor->status : '' ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Quantidade de Estagiários') ?></th>
+                    <td><?= $professor->estagiarios_count ?? $professor->estagiario_count ?? 0 ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Motivo egresso') ?></th>
                     <td><?= h($professor->motivoegresso) ?></td>
                 </tr>

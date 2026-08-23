@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\Professor;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
@@ -113,6 +115,37 @@ class ProfessoresTable extends Table
             ->integer('user_id')
             ->allowEmptyString('user_id');
 
+        $validator
+            ->scalar('status')
+            ->maxLength('status', 10)
+            ->allowEmptyString('status');
+
+        $validator
+            ->integer('estagiario_count')
+            ->allowEmptyString('estagiario_count');
+
+        $validator
+            ->integer('estagiarios_count')
+            ->allowEmptyString('estagiarios_count');
+
         return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'), [
+            'errorField' => 'user_id',
+        ]);
+
+        return $rules;
+    }
+
+    /**
+     * Creates a new Professor.
+     */
+    public function createProfessor(array $data): ?Professor
+    {
+        $professor = $this->newEmptyEntity();
+        return $this->save($this->patchEntity($professor, $data));
     }
 }

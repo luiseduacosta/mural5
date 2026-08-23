@@ -476,6 +476,8 @@ main: BEGIN
     CALL SafeAddColumn('professores', 'cress', 'varchar(10) NULL');
     CALL SafeAddColumn('professores', 'regiao', 'varchar(2) NULL');
     CALL SafeAddColumn('professores', 'user_id', 'int(11) NULL');
+    CALL SafeAddColumn('professores', 'estagiarios_count', 'int(11) NULL');
+    CALL SafeAddColumn('professores', 'status', 'varchar(10) NOT NULL DEFAULT \'ativo\' COMMENT \'inativo, ativo, aposentado, etc\'');
 
     CALL SafeDropColumn('professores', 'datanascimento');
     CALL SafeDropColumn('professores', 'localnascimento');
@@ -1515,6 +1517,16 @@ FROM (
     SELECT 380 AS seq, CONCAT('ALTER TABLE `professores` ADD COLUMN `regiao` varchar(2) NULL;') AS ddl
     WHERE EXISTS (SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores')
       AND NOT EXISTS (SELECT 1 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores' AND COLUMN_NAME = 'regiao')
+
+    UNION ALL
+    SELECT 385 AS seq, CONCAT('ALTER TABLE `professores` ADD COLUMN `estagiarios_count` int(11) NULL;') AS ddl
+    WHERE EXISTS (SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores')
+      AND NOT EXISTS (SELECT 1 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores' AND COLUMN_NAME = 'estagiarios_count')
+
+    UNION ALL
+    SELECT 386 AS seq, CONCAT('ALTER TABLE `professores` ADD COLUMN `status` varchar(10) NOT NULL DEFAULT \'ativo\' COMMENT \'inativo, ativo, aposentado, etc\';') AS ddl
+    WHERE EXISTS (SELECT 1 FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores')
+      AND NOT EXISTS (SELECT 1 FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'professores' AND COLUMN_NAME = 'status')
 
     UNION ALL
     SELECT 390 AS seq, CONCAT('ALTER TABLE `professores` DROP COLUMN `datanascimento`;') AS ddl

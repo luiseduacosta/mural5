@@ -50,6 +50,8 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('curriculolattes', 'Lattes') ?></th>
                     <th><?= $this->Paginator->sort('dataingresso', 'Ingresso') ?></th>
                     <th><?= $this->Paginator->sort('departamento') ?></th>
+                    <th><?= $this->Paginator->sort('status', 'Status') ?></th>
+                    <th><?= $this->Paginator->sort('estagiarios_count', 'Estagiários') ?></th>
                     <th><?= $this->Paginator->sort('dataegresso', 'Egresso') ?></th>
                     <th><?= $this->Paginator->sort('motivoegresso', 'Motivo') ?></th>
                     <th class="actions"><?= __('Ações') ?></th>
@@ -67,6 +69,8 @@ if ($user_session) {
                         <td><?= h($professor->curriculolattes) ?></td>
                         <td><?= $professor->dataingresso ? $professor->dataingresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->departamento) ?></td>
+                        <td><?= $professor->status !== null ? $professor->status : '' ?></td>
+                        <td><?= $professor->estagiarios_count ?? $professor->estagiario_count ?? 0 ?></td>
                         <td><?= $professor->dataegresso ? $professor->dataegresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->motivoegresso) ?></td>
                         <td class="actions">

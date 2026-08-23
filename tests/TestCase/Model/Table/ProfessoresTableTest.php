@@ -50,8 +50,24 @@ class ProfessoresTableTest extends TestCase
             'nome' => 'Professor Teste',
             'siape' => 1234567,
             'email' => 'professor@test.com',
+            'status' => 'ativo',
+            'estagiarios_count' => 5,
         ]);
         $this->assertEmpty($errors, 'Valid data should pass: ' . print_r($errors, true));
+
+        $errors = $validator->validate([
+            'nome' => 'Professor Teste',
+            'siape' => 1234567,
+            'status' => 'too-long-status-string',
+        ]);
+        $this->assertArrayHasKey('status', $errors, 'Status exceeding maxLength should fail');
+
+        $errors = $validator->validate([
+            'nome' => 'Professor Teste',
+            'siape' => 1234567,
+            'estagiarios_count' => 'invalid-integer',
+        ]);
+        $this->assertArrayHasKey('estagiarios_count', $errors, 'Non-integer estagiarios_count should fail');
 
         $errors = $validator->validate([
             'nome' => '',

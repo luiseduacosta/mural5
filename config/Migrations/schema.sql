@@ -158,6 +158,8 @@ CREATE TABLE IF NOT EXISTS `professores` (
     `observacoes` TEXT DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
     `estagiario_count` INT(11) DEFAULT NULL DEFAULT 0,
+    `estagiarios_count` INT(11) DEFAULT NULL,
+    `status` VARCHAR(10) NOT NULL DEFAULT 'ativo',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

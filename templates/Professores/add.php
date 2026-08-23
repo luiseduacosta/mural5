@@ -89,6 +89,8 @@
         }
         echo $this->Form->control('dataingresso', ['empty' => true, 'label' => ['text' => 'Data de Ingresso na UFRJ/ESS']]);
         echo $this->Form->control('departamento', ['label' => ['text' => 'Departamento'], 'options' => ['Fundamentos' => 'Fundamentos', 'Métodos e técnicas' => 'Métodos e técnicas', 'Política social' => 'Política social', 'Outro' => 'Outro']]);
+        echo $this->Form->control('status', ['label' => ['text' => 'Status'], 'options' => ['ativo' => 'Ativo', 'inativo' => 'Inativo', 'aposentado' => 'Aposentado'], 'default' => 'ativo']);
+        echo $this->Form->control('estagiarios_count', ['label' => ['text' => 'Quantidade de Estagiários'], 'type' => 'number', 'default' => 0]);
         echo $this->Form->control('dataegresso', ['empty' => true, 'label' => ['text' => 'Data de Egresso']]);
         echo $this->Form->control('motivoegresso', ['label' => ['text' => 'Motivo de Egresso'], 'options' => ['Aposentadoria' => 'Aposentadoria', 'Demissão' => 'Demissão', 'Falecimento' => 'Falecimento', 'Outro' => 'Outro']]);
         /** Dados de contato */

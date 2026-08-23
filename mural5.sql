@@ -317,9 +317,10 @@ CREATE TABLE IF NOT EXISTS `professores` (
   `departamento` varchar(30) DEFAULT NULL COMMENT 'Departamento do professor: Fundamentos, Métodos e técnicas, Política social',
   `dataegresso` date DEFAULT NULL,
   `motivoegresso` varchar(100) DEFAULT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'ativo' COMMENT 'inativo, ativo, aposentado, etc',
   `observacoes` text DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `estagiario_count` int(11) DEFAULT NULL,
+  `estagiarios_count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Professores';
 

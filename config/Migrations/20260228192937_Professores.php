@@ -23,6 +23,12 @@ class Professores extends BaseMigration
         if (!$table->hasColumn('estagiario_count')) {
             $table->addColumn('estagiario_count', 'integer', ['default' => 0]);
         }
+        if (!$table->hasColumn('estagiarios_count')) {
+            $table->addColumn('estagiarios_count', 'integer', ['default' => 0, 'null' => true]);
+        }
+        if (!$table->hasColumn('status')) {
+            $table->addColumn('status', 'string', ['limit' => 10, 'default' => 'ativo', 'null' => false]);
+        }
 
         $table->update();
     }

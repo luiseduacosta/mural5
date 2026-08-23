@@ -28,6 +28,8 @@ use Cake\ORM\Entity;
  * @property string|null $observacoes
  * @property int|null $user_id
  * @property int|null $estagiario_count
+ * @property int|null $estagiarios_count
+ * @property string|null $status
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
@@ -53,6 +55,8 @@ class Professor extends Entity
         'motivoegresso' => true,
         'observacoes' => true,
         'estagiario_count' => true,
+        'estagiarios_count' => true,
+        'status' => true,
         'user_id' => true,
         'user' => true,
         'estagiarios' => true,

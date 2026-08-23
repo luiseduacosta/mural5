@@ -118,6 +118,8 @@ class Initial extends BaseMigration
             ->addColumn('observacoes', 'text', ['null' => true])
             ->addColumn('user_id', 'integer', ['limit' => 11, 'null' => true])
             ->addColumn('estagiario_count', 'integer', ['limit' => 11, 'default' => 0, 'null' => true])
+            ->addColumn('estagiarios_count', 'integer', ['limit' => 11, 'default' => 0, 'null' => true])
+            ->addColumn('status', 'string', ['limit' => 10, 'default' => 'ativo', 'null' => false])
             ->create();
 
         // 9. turnos
