@@ -175,6 +175,14 @@ final class EstagiarioPolicy implements BeforePolicyInterface
             return false;
         }
 
-        return (int)$alunoId === (int)$estagiarioData->aluno_id;
+        if ($estagiarioData->aluno_id !== null) {
+            return (int)$alunoId === (int)$estagiarioData->aluno_id;
+        }
+
+        if (isset($estagiarioData->aluno->user_id)) {
+            return (int)$user_data['id'] === (int)$estagiarioData->aluno->user_id;
+        }
+
+        return false;
     }
 }

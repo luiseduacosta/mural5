@@ -96,7 +96,7 @@ final class AlunoPolicy implements BeforePolicyInterface
     protected function sameUser(IdentityInterface $userSession, Aluno $alunoData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!is_array($user_data) || empty($user_data['id'])) {
+        if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
             return false;
         }
 

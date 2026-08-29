@@ -58,7 +58,7 @@ final class AlunosTablePolicy implements BeforePolicyInterface
             return $query;
         }
 
-        if (!is_array($user_data) || empty($user_data['id'])) {
+        if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
             return $query->where(['Alunos.id' => 0]);
         }
 

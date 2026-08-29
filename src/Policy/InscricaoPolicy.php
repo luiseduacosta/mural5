@@ -72,10 +72,18 @@ final class InscricaoPolicy implements BeforePolicyInterface
     protected function sameUser(IdentityInterface $userSession, Inscricao $inscricaoData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!is_array($user_data) || empty($user_data['aluno_id'])) {
+        if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['aluno_id'])) {
             return false;
         }
 
-        return (int)$user_data['aluno_id'] === (int)$inscricaoData->aluno_id;
+        if ($inscricaoData->aluno_id !== null) {
+            return (int)$user_data['aluno_id'] === (int)$inscricaoData->aluno_id;
+        }
+
+        if (isset($inscricaoData->aluno->user_id)) {
+            return (int)$user_data['id'] === (int)$inscricaoData->aluno->user_id;
+        }
+
+        return false;
     }
 }

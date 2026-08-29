@@ -90,7 +90,7 @@ final class SupervisorPolicy implements BeforePolicyInterface
     protected function sameUser(IdentityInterface $userSession, Supervisor $supervisorData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!is_array($user_data) || empty($user_data['id'])) {
+        if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
             return false;
         }
 

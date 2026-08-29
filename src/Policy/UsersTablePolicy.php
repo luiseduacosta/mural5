@@ -11,10 +11,10 @@ use Cake\ORM\Query;
 final class UsersTablePolicy implements BeforePolicyInterface
 {
     /**
-     * @param \Authorization\IdentityInterface|null $identity
+     * @param IdentityInterface|null $identity
      * @param mixed $resource
      * @param string $action
-     * @return \Authorization\Policy\ResultInterface|bool|null
+     * @return ResultInterface|bool|null
      */
     public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
@@ -30,16 +30,16 @@ final class UsersTablePolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $user
-     * @param \Cake\ORM\Query $query
-     * @return \Cake\ORM\Query
+     * @param IdentityInterface $user
+     * @param Query $query
+     * @return Query
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
         $user_data = $user->getOriginalData();
 
         if (!isset($user_data['categoria']) || $user_data['categoria'] !== '1') {
-            if (!is_array($user_data) || empty($user_data['id'])) {
+            if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
                 return $query->where(['Users.id' => 0]);
             }
 
