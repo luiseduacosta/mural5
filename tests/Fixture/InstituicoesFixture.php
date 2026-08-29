@@ -27,7 +27,7 @@ class InstituicoesFixture extends TestFixture
         'expira' => ['type' => 'date', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'seguro' => ['type' => 'string', 'length' => 1, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'observacoes' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'estagiario_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
+        'estagiarios_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => '0', 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
@@ -55,7 +55,7 @@ class InstituicoesFixture extends TestFixture
                 'expira' => '2026-12-31',
                 'seguro' => '1',
                 'observacoes' => 'Convênio ativo',
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
             ],
             [
                 'id' => 2,
@@ -76,7 +76,7 @@ class InstituicoesFixture extends TestFixture
                 'expira' => '2027-06-30',
                 'seguro' => '0',
                 'observacoes' => null,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
             ],
         ];
         parent::init();

@@ -177,6 +177,10 @@ class AlunosTable extends Table
             ->integer('user_id')
             ->allowEmptyString('user_id');
 
+        $validator
+            ->integer('estagiarios_count')
+            ->allowEmptyString('estagiarios_count');
+
         return $validator;
     }
 

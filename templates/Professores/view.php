@@ -132,7 +132,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Quantidade de Estagiários') ?></th>
-                    <td><?= $professor->estagiarios_count ?? $professor->estagiario_count ?? 0 ?></td>
+                    <td><?= $professor->estagiarios_count ?? 0 ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Motivo egresso') ?></th>

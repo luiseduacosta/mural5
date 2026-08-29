@@ -70,7 +70,7 @@ if ($user_session) {
                         <td><?= $professor->dataingresso ? $professor->dataingresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->departamento) ?></td>
                         <td><?= $professor->status !== null ? $professor->status : '' ?></td>
-                        <td><?= $professor->estagiarios_count ?? $professor->estagiario_count ?? 0 ?></td>
+                        <td><?= $professor->estagiarios_count ?? 0 ?></td>
                         <td><?= $professor->dataegresso ? $professor->dataegresso->format('d-m-Y') : '' ?></td>
                         <td><?= h($professor->motivoegresso) ?></td>
                         <td class="actions">

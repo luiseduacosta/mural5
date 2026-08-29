@@ -27,6 +27,7 @@ class SupervisoresFixture extends TestFixture
         'regiao' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '7', 'comment' => '', 'precision' => null],
         'cargo' => ['type' => 'string', 'length' => 25, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'observacoes' => ['type' => 'text', 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'estagiarios_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => 0, 'comment' => '', 'precision' => null],
         'user_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -43,6 +44,7 @@ class SupervisoresFixture extends TestFixture
                 'email' => 'supervisor@test.com',
                 'cress' => 12345,
                 'regiao' => 7,
+                'estagiarios_count' => 0,
                 'user_id' => 4,
             ],
         ];

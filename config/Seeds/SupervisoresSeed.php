@@ -43,7 +43,7 @@ class SupervisoresSeed extends BaseSeed
                 'cargo' => $faker->optional(0.6)->randomElement(['Assistente social', 'Coordenador(a)', 'Supervisor(a)']),
                 'observacoes' => $faker->optional(0.25)->sentence(),
                 'user_id' => null,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
             ];
         }
 

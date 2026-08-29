@@ -28,7 +28,6 @@ class ProfessoresFixture extends TestFixture
         'motivoegresso' => ['type' => 'string', 'length' => 100, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'observacoes' => ['type' => 'text', 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'user_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'estagiario_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => 0, 'comment' => '', 'precision' => null],
         'estagiarios_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => 0, 'comment' => '', 'precision' => null],
         'status' => ['type' => 'string', 'length' => 10, 'null' => false, 'default' => 'ativo', 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -45,7 +44,6 @@ class ProfessoresFixture extends TestFixture
                 'siape' => 1234567,
                 'email' => 'professor@test.com',
                 'user_id' => 3,
-                'estagiario_count' => 0,
                 'estagiarios_count' => 0,
                 'status' => 'ativo',
             ],

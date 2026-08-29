@@ -99,7 +99,7 @@ class AlunosSeed extends BaseSeed
                 'bairro' => $faker->words(2, true),
                 'observacoes' => $faker->optional(0.4)->sentence(),
                 'user_id' => $userId,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
                 'inscricao_count' => 0,
             ];
         }

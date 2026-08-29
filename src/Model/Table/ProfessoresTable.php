@@ -121,10 +121,6 @@ class ProfessoresTable extends Table
             ->allowEmptyString('status');
 
         $validator
-            ->integer('estagiario_count')
-            ->allowEmptyString('estagiario_count');
-
-        $validator
             ->integer('estagiarios_count')
             ->allowEmptyString('estagiarios_count');
 

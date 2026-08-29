@@ -43,7 +43,7 @@ class ProfessoresSeed extends BaseSeed
                 'motivoegresso' => null,
                 'observacoes' => $faker->optional(0.3)->sentence(),
                 'user_id' => null,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
             ];
         }
 

@@ -29,6 +29,7 @@ class AlunosFixture extends TestFixture
         'municipio' => ['type' => 'string', 'length' => 30, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'bairro' => ['type' => 'string', 'length' => 30, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'observacoes' => ['type' => 'string', 'length' => 250, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'estagiarios_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => 0, 'comment' => '', 'precision' => null],
         'user_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -60,6 +61,7 @@ class AlunosFixture extends TestFixture
                 'municipio' => 'Rio de Janeiro',
                 'bairro' => 'Centro',
                 'observacoes' => 'Test student',
+                'estagiarios_count' => 0,
                 'user_id' => 2,
             ],
         ];

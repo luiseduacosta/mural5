@@ -27,6 +27,7 @@ use Cake\ORM\Entity;
  * @property string $cargo
  * @property string|null $observacoes
  * @property int|null $user_id
+ * @property int|null $estagiarios_count
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
@@ -52,7 +53,7 @@ class Supervisor extends Entity
         'cargo' => true,
         'observacoes' => true,
         'user_id' => true,
-        'estagiario_count' => true,
+        'estagiarios_count' => true,
         'estagiarios' => true,
         'instituicoes' => true,
     ];
