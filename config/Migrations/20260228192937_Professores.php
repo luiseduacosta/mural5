@@ -29,6 +29,15 @@ class Professores extends BaseMigration
         if (!$table->hasColumn('status')) {
             $table->addColumn('status', 'string', ['limit' => 10, 'default' => 'ativo', 'null' => false]);
         }
+        if (!$table->hasColumn('tipocargo')) {
+            $table->addColumn('tipocargo', 'string', ['limit' => 20, 'default' => null, 'null' => true]);
+        }
+        if (!$table->hasColumn('created')) {
+            $table->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'null' => false]);
+        }
+        if (!$table->hasColumn('modified')) {
+            $table->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP', 'null' => false]);
+        }
 
         $table->update();
     }

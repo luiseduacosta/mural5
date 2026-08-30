@@ -111,7 +111,7 @@
         echo $this->Form->control('curriculolattes', ['label' => ['text' => 'Currículo Lattes']]);
         echo $this->Form->control('atualizacaolattes', ['empty' => true, 'label' => ['text' => 'Atualização Lattes']]);
         /** Outras informações */
-        echo $this->Form->control('observacoes', ['label' => ['text' => 'Outra inoformações']]);
+        echo $this->Form->control('observacoes', ['label' => ['text' => 'Outras informações']]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Confirma'), ['class' => 'btn btn-primary']) ?>

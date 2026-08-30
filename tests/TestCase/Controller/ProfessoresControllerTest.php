@@ -48,16 +48,6 @@ class ProfessoresControllerTest extends TestCase
         $this->assertResponseContains('Estagiários');
     }
 
-    public function testViewAsAdmin(): void
-    {
-        $this->loginAsAdmin();
-        $this->get('/professores/view/1');
-        $this->assertResponseOk();
-        $this->assertResponseContains('Professor Teste');
-        $this->assertResponseContains('Status');
-        $this->assertResponseContains('Quantidade de Estagiários');
-    }
-
     public function testAdd(): void
     {
         $this->loginAsAdmin();
@@ -65,6 +55,8 @@ class ProfessoresControllerTest extends TestCase
         $this->assertResponseOk();
         $this->assertResponseContains('name="status"');
         $this->assertResponseContains('name="estagiarios_count"');
+        $this->assertResponseContains('name="curriculolattes"');
+        $this->assertResponseContains('name="atualizacaolattes"');
     }
 
     public function testEditAsAdmin(): void
@@ -75,6 +67,19 @@ class ProfessoresControllerTest extends TestCase
         $this->assertResponseContains('Professor Teste');
         $this->assertResponseContains('name="status"');
         $this->assertResponseContains('name="estagiarios_count"');
+        $this->assertResponseContains('name="curriculolattes"');
+        $this->assertResponseContains('name="atualizacaolattes"');
+    }
+
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/professores/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Professor Teste');
+        $this->assertResponseContains('Status');
+        $this->assertResponseContains('Quantidade de Estagiários');
+        $this->assertResponseContains('1234567890123456');
     }
 
     public function testDeleteAsAdmin(): void

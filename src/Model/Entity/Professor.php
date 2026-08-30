@@ -10,25 +10,25 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $nome
- * @property string $cpf
- * @property string $siape
- * @property string $cress
- * @property string $regiao
+ * @property string|null $cpf
+ * @property int $siape
+ * @property int|null $cress
+ * @property int|null $regiao
  * @property string $codigo_telefone
- * @property string $telefone
+ * @property string|null $telefone
  * @property string $codigo_celular
- * @property string $celular
- * @property string $email
+ * @property string|null $celular
+ * @property string|null $email
  * @property string|null $curriculolattes
- * @property \Cake\I18n\FrozenDate|null $atualizacaolattes
- * @property \Cake\I18n\FrozenDate|null $dataingresso
+ * @property \Cake\I18n\Date|null $atualizacaolattes
+ * @property \Cake\I18n\Date|null $dataingresso
  * @property string|null $departamento
- * @property \Cake\I18n\FrozenDate|null $dataegresso
+ * @property \Cake\I18n\Date|null $dataegresso
  * @property string|null $motivoegresso
  * @property string|null $observacoes
+ * @property string $status
  * @property int|null $user_id
  * @property int|null $estagiarios_count
- * @property string|null $status
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios

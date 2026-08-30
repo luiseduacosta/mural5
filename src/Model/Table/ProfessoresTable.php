@@ -3,13 +3,28 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use ArrayObject;
 use App\Model\Entity\Professor;
+use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use function is_string;
 
 class ProfessoresTable extends Table
 {
+    public const STATUS_ATIVO = 'ativo';
+    public const STATUS_APOSENTADO = 'aposentado';
+    public const STATUS_INATIVO = 'inativo';
+
+    private const STATUS_NORMALIZATION_MAP = [
+        'active' => self::STATUS_ATIVO,
+        'activo' => self::STATUS_ATIVO,
+        'retired' => self::STATUS_APOSENTADO,
+        'inactive' => self::STATUS_INATIVO,
+        'inactivo' => self::STATUS_INATIVO,
+    ];
+
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -44,16 +59,15 @@ class ProfessoresTable extends Table
             ->allowEmptyString('cpf');
 
         $validator
-            ->scalar('siape')
-            ->maxLength('siape', 8)
+            ->integer('siape')
             ->notEmptyString('siape');
 
         $validator
-            ->nonNegativeInteger('cress')
+            ->integer('cress')
             ->allowEmptyString('cress');
 
         $validator
-            ->nonNegativeInteger('regiao')
+            ->integer('regiao')
             ->allowEmptyString('regiao');
 
         $validator
@@ -78,6 +92,7 @@ class ProfessoresTable extends Table
 
         $validator
             ->email('email')
+            ->maxLength('email', 40)
             ->allowEmptyString('email');
 
         $validator
@@ -118,6 +133,11 @@ class ProfessoresTable extends Table
         $validator
             ->scalar('status')
             ->maxLength('status', 10)
+            ->inList('status', [
+                self::STATUS_ATIVO,
+                self::STATUS_APOSENTADO,
+                self::STATUS_INATIVO,
+            ], 'Status deve ser um de: ativo, aposentado, inativo.')
             ->allowEmptyString('status');
 
         $validator
@@ -134,6 +154,27 @@ class ProfessoresTable extends Table
         ]);
 
         return $rules;
+    }
+
+    /**
+     * Normaliza apelidos de status ("active" -> "ativo"...) antes da validação.
+     * Um status vazio é removido para manter o valor atual (ou o padrão "ativo").
+     */
+    public function beforeMarshal(EventInterface $_event, ArrayObject $data, ArrayObject $_options): void
+    {
+        unset($_event, $_options);
+
+        $status = $data['status'] ?? null;
+        if ($status === '') {
+            unset($data['status']);
+
+            return;
+        }
+        if (!is_string($status)) {
+            return;
+        }
+
+        $data['status'] = self::STATUS_NORMALIZATION_MAP[$status] ?? $status;
     }
 
     /**
