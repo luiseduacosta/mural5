@@ -34,6 +34,15 @@ class ProfessoresTable extends Table
         $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created' => 'new',
+                    'modified' => 'always',
+                ],
+            ],
+        ]);
+
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
         ]);
@@ -50,7 +59,7 @@ class ProfessoresTable extends Table
 
         $validator
             ->scalar('nome')
-            ->maxLength('nome', 50)
+            ->maxLength('nome', 200)
             ->notEmptyString('nome');
 
         $validator
@@ -59,15 +68,19 @@ class ProfessoresTable extends Table
             ->allowEmptyString('cpf');
 
         $validator
-            ->integer('siape')
-            ->notEmptyString('siape');
+            ->scalar('siape')
+            ->maxLength('siape', 8)
+            ->regex('siape', '/^[0-9]{7,8}$/', 'O Siape deve conter apenas números e ter entre 7 e 8 dígitos.')
+            ->allowEmptyString('siape');
 
         $validator
-            ->integer('cress')
+            ->scalar('cress')
+            ->maxLength('cress', 10)
             ->allowEmptyString('cress');
 
         $validator
-            ->integer('regiao')
+            ->scalar('regiao')
+            ->maxLength('regiao', 2)
             ->allowEmptyString('regiao');
 
         $validator
@@ -92,7 +105,7 @@ class ProfessoresTable extends Table
 
         $validator
             ->email('email')
-            ->maxLength('email', 40)
+            ->maxLength('email', 255)
             ->allowEmptyString('email');
 
         $validator
@@ -107,6 +120,11 @@ class ProfessoresTable extends Table
         $validator
             ->date('dataingresso')
             ->allowEmptyDate('dataingresso');
+
+        $validator
+            ->scalar('tipocargo')
+            ->maxLength('tipocargo', 20)
+            ->allowEmptyString('tipocargo');
 
         $validator
             ->scalar('departamento')

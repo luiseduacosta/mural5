@@ -87,7 +87,10 @@
         } else {
             echo $this->Form->control('siape', ['required' => true, 'label' => ['text' => 'SIAPE']]);
         }
+        echo $this->Form->control('cress', ['label' => ['text' => 'CRESS']]);
+        echo $this->Form->control('regiao', ['label' => ['text' => 'Região']]);
         echo $this->Form->control('dataingresso', ['empty' => true, 'label' => ['text' => 'Data de Ingresso na UFRJ/ESS']]);
+        echo $this->Form->control('tipocargo', ['label' => ['text' => 'Tipo de Cargo'], 'options' => ['efetivo' => 'Efetivo', 'substituto' => 'Substituto', 'temporario' => 'Temporário', 'visitante' => 'Visitante'], 'empty' => '-- Selecione --']);
         echo $this->Form->control('departamento', ['label' => ['text' => 'Departamento'], 'options' => ['Fundamentos' => 'Fundamentos', 'Métodos e técnicas' => 'Métodos e técnicas', 'Política social' => 'Política social', 'Outro' => 'Outro']]);
         echo $this->Form->control('status', ['label' => ['text' => 'Status'], 'options' => ['ativo' => 'Ativo', 'inativo' => 'Inativo', 'aposentado' => 'Aposentado'], 'default' => 'ativo']);
         echo $this->Form->control('estagiarios_count', ['label' => ['text' => 'Quantidade de Estagiários'], 'type' => 'number', 'default' => 0]);

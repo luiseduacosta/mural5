@@ -77,9 +77,9 @@ class ProfessoresTableTest extends TestCase
 
         $errors = $validator->validate([
             'nome' => 'Professor Teste',
-            'siape' => '',
+            'siape' => 'abc',
         ]);
-        $this->assertArrayHasKey('siape', $errors, 'Empty siape should fail');
+        $this->assertArrayHasKey('siape', $errors, 'Non-numeric siape should fail');
 
         $errors = $validator->validate([
             'nome' => 'Professor Teste',
@@ -94,16 +94,16 @@ class ProfessoresTableTest extends TestCase
         $validator = $this->Professores->validationDefault(new \Cake\Validation\Validator());
 
         $errors = $validator->validate([
-            'nome' => str_repeat('A', 51),
+            'nome' => str_repeat('A', 201),
             'siape' => '1234567',
         ]);
-        $this->assertArrayHasKey('nome', $errors, 'Nome exceeding 50 chars should fail');
+        $this->assertArrayHasKey('nome', $errors, 'Nome exceeding 200 chars should fail');
 
         $errors = $validator->validate([
-            'nome' => str_repeat('A', 50),
+            'nome' => str_repeat('A', 200),
             'siape' => '1234567',
         ]);
-        $this->assertArrayNotHasKey('nome', $errors ?? [], 'Nome at exactly 50 chars should pass');
+        $this->assertArrayNotHasKey('nome', $errors ?? [], 'Nome at exactly 200 chars should pass');
     }
 
     public function testValidationStatusInList(): void

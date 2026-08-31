@@ -81,6 +81,10 @@ if ($user_session) {
                     <td><?= $professor->cress ?></td>
                 </tr>
                 <tr>
+                    <th><?= __('Região') ?></th>
+                    <td><?= $professor->regiao ? h($professor->regiao) : '' ?></td>
+                </tr>
+                <tr>
                     <th><?= __('Nome') ?></th>
                     <td><?= h($professor->nome) ?></td>
                 </tr>
@@ -125,6 +129,10 @@ if ($user_session) {
                 <tr>
                     <th><?= __('Departamento') ?></th>
                     <td><?= h($professor->departamento) ?></td>
+                </tr>
+                <tr>
+                    <th><?= __('Tipo de Cargo') ?></th>
+                    <td><?= $professor->tipocargo ? h($professor->tipocargo) : '' ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Status') ?></th>

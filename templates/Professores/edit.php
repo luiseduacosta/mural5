@@ -95,7 +95,10 @@
         echo $this->Form->control('cpf', ['label' => ['text' => 'CPF'], 'value' => $professor->cpf, 'readonly' => false, 'pattern' => '\d{3}\.\d{3}\.\d{3}-\d{2}', 'placeholder' => '000.000.000-00', 'required' => true]);
         /** Dados funcionais */
         echo $this->Form->control('siape', ['readonly' => false, 'label' => ['text' => 'SIAPE']]);
+        echo $this->Form->control('cress', ['label' => ['text' => 'CRESS']]);
+        echo $this->Form->control('regiao', ['label' => ['text' => 'Região']]);
         echo $this->Form->control('dataingresso', ['empty' => true, 'label' => ['text' => 'Data de Ingresso']]);
+        echo $this->Form->control('tipocargo', ['label' => ['text' => 'Tipo de Cargo'], 'options' => ['efetivo' => 'Efetivo', 'substituto' => 'Substituto', 'temporario' => 'Temporário', 'visitante' => 'Visitante'], 'empty' => '-- Selecione --']);
         echo $this->Form->control('departamento', ['label' => ['text' => 'Departamento'], 'options' => ['Fundamentos' => 'Fundamentos', 'Métodos e técnicas' => 'Métodos e técnicas', 'Política social' => 'Política social', 'Outro' => 'Outro']]);
         echo $this->Form->control('status', ['label' => ['text' => 'Status'], 'options' => ['ativo' => 'Ativo', 'inativo' => 'Inativo', 'aposentado' => 'Aposentado']]);
         echo $this->Form->control('estagiarios_count', ['label' => ['text' => 'Quantidade de Estagiários'], 'type' => 'number']);
