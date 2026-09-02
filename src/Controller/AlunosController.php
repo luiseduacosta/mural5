@@ -323,7 +323,7 @@ class AlunosController extends AppController
             'contain' => ['Turnos'],
         ]);
 
-        $this->Authorization->authorize($this->Alunos);
+        $this->Authorization->authorize($aluno, 'declaracaoperiodo');
 
         $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
 
@@ -382,8 +382,6 @@ class AlunosController extends AppController
      */
     public function declaracaoperiodopdf(?string $id = null)
     {
-        $this->Authorization->skipAuthorization();
-
         $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
@@ -407,7 +405,7 @@ class AlunosController extends AppController
             'contain' => ['Turnos'],
         ]);
 
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($aluno, 'declaracaoperiodopdf');
 
         $this->viewBuilder()->setLayout('pdf/default');
         $this->viewBuilder()->setClassName('CakePdf.Pdf');

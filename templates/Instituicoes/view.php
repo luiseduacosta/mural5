@@ -15,35 +15,27 @@ if ($user_session) {
 <?= $this->element('templates') ?>
 
 <div class="container">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-header">
+        <div>
+            <h1 class="mb-1"><?= h($instituicao->instituicao) ?></h1>
+            <p class="text-muted mb-0">Detalhes da instituição e registros vinculados.</p>
+        </div>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggler">
-                <ul class="navbar-nav ms-auto mt-lg-0">
-                    <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-                        </li>
-                    <?php endif; ?>
-                    <?php if (($user_data['categoria'] === '1') && $user_data['supervisor_id']): ?>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-                        </li>
-                        <li class="nav-item">
-                            <?= $this->Html->link(__('Nova Instituição'), ['action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-                        </li>
-                        <li class="nav-item">
-                            <?= $this->Form->postLink(__('Excluir Instituição'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
-                        </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
-        </nav>
+        <div class="d-flex flex-wrap gap-2">
+            <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
+                <?= $this->Html->link(__('Editar Instituição'), ['action' => 'edit', $instituicao->id], ['class' => 'btn btn-primary']) ?>
+            <?php endif; ?>
+            <?php if (($user_data['categoria'] === '1') && $user_data['supervisor_id']): ?>
+                <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-outline-secondary']) ?>
+                <?= $this->Html->link(__('Nova Instituição'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Form->postLink(__('Excluir Instituição'), ['action' => 'delete', $instituicao->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $instituicao->id), 'class' => 'btn btn-danger']) ?>
+            <?php endif; ?>
+        </div>
+    </div>
 
-<div class="row">
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-0">
+            <ul class="nav nav-tabs nav-fill border-0 px-3 pt-3" role="tablist">
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#instituicao" role="tab" aria-controls="instituicao"
@@ -66,13 +58,15 @@ if ($user_session) {
                 aria-selected="false">Visitas</a>
         </li>
     </ul>
-</div>
+            </ul>
+        </div>
+    </div>
 
 <div class="row">
-    <div class="tab-content">
-        <div id="instituicao" class="tab-pane container active show">
-            <h3><?= $instituicao->instituicao ?></h3>
-            <table class="table table-responsive table-hover table-striped">
+    <div class="tab-content card border-0 shadow-sm">
+        <div id="instituicao" class="tab-pane container active show p-3">
+            <h3 class="mb-3"><?= $instituicao->instituicao ?></h3>
+            <table class="table table-hover table-striped align-middle mb-0">
                 <tr>
                     <th><?= __('Id') ?></th>
                     <td><?= $instituicao->id ?></td>
@@ -206,10 +200,10 @@ if ($user_session) {
                                     <th><?= __('Ajuste 2020') ?></th>
                                     <th><?= __('Tc') ?></th>
                                     <th><?= __('Tc Solicitação') ?></th>
-                                    <th><?= __('Nota') ?></th>
-                                    <th><?= __('CH') ?></th>
-                                    <th><?= __('Observações') ?></th>
                                     <?php if ($user_data['categoria'] === '1'): ?>
+                                        <th><?= __('Nota') ?></th>
+                                        <th><?= __('CH') ?></th>
+                                        <th><?= __('Observações') ?></th>
                                         <th class="actions"><?= __('Ações') ?></th>
                                     <?php endif; ?>
                                 </tr>
@@ -224,7 +218,7 @@ if ($user_session) {
                                             <td><?= $estagiarios->hasValue('aluno') ? $estagiarios->aluno->nome : '' ?></td>
                                         <?php endif; ?>
 
-                                <td><?= h($estagiarios->registro) ?></td>
+                                        <td><?= h($estagiarios->registro) ?></td>
 
                                         <?php if ($user_data['categoria'] === '1'): ?>
                                             <td><?= $estagiarios->hasValue('supervisor') ? $this->Html->link(h($estagiarios->supervisor->nome), ['controller' => 'supervisores', 'action' => 'view', $estagiarios->supervisor_id]) : '' ?>
@@ -241,25 +235,22 @@ if ($user_session) {
                                             <td><?= $estagiarios->hasValue('professor') ? $estagiarios->professor->nome : '' ?></td>
                                         <?php endif; ?>
 
-                                <td><?= h($estagiarios->periodo) ?></td>
-                                <td><?= h($estagiarios->nivel) ?></td>
+                                        <td><?= h($estagiarios->periodo) ?></td>
+                                        <td><?= h($estagiarios->nivel) ?></td>
+                                        <td><?= h($estagiarios->ajuste2020) ?></td>
+                                        <td><?= h($estagiarios->tc) ?></td>
                                         <?php if ($user_data['categoria'] === '1'): ?>
-                                            <td><?= h($estagiarios->ajuste2020) ?></td>
-                                            <td><?= h($estagiarios->tc) ?></td>
                                             <td><?= $estagiarios->tc_solicitacao ? date('d-m-Y', strtotime(h($estagiarios->tc_solicitacao))) : '' ?>
                                             </td>
                                             <td><?= !is_null($estagiarios->nota) ? $this->Number->format($estagiarios->nota, ['places' => 2]) : 'Sem dados' ?>
                                             </td>
                                             <td><?= h($estagiarios->ch) ?></td>
-                                        <?php else: ?>
                                             <td><?= h($estagiarios->observacoes) ?></td>
-                                        <?php endif; ?>
                                             <td class="actions">
                                                 <?= $this->Html->link(__('Ver'), ['controller' => 'Estagiarios', 'action' => 'view', $estagiarios->id]) ?>
                                                 <?= $this->Html->link(__('Editar'), ['controller' => 'Estagiarios', 'action' => 'edit', $estagiarios->id]) ?>
                                                 <?= $this->Form->postLink(__('Excluir'), ['controller' => 'Estagiarios', 'action' => 'delete', $estagiarios->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiarios->id)]) ?>
                                             </td>
-                                        <?php if ($user_data['categoria'] === '1'): ?>
                                             <td><?= h($estagiarios->observacoes) ?></td>
                                         <?php endif; ?>
                                     </tr>

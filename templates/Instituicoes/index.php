@@ -13,27 +13,23 @@ if ($user_session) {
 ?>
 
 <div class="container">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-header">
+        <div>
+            <h1 class="mb-1"><?= __('Instituições') ?></h1>
+            <p class="text-muted mb-0">Consulta e gestão das instituições vinculadas ao programa.</p>
+        </div>
 
-    <?php if ($user_data['categoria'] === '1'): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                    aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggler ">
-                <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Nova instituição'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'font-size: 10pt;']) ?>
-                    </li>
-                </ul>
+        <?php if ($user_data['categoria'] === '1'): ?>
+            <div>
+                <?= $this->Html->link(__('Nova instituição'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
             </div>
-        </nav>
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
-    <h3><?= __('Instituições') ?></h3>
-
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-responsive">
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle mb-0">
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
@@ -78,16 +74,21 @@ if ($user_session) {
         </table>
     </div>
 
+            </table>
+        </div>
+    </div>
+
     <div class="d-flex justify-content-center">
         <div class="paginator">
-            <ul class="pagination">
+            <ul class="pagination pagination-sm justify-content-center flex-wrap">
                 <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
                 <?= $this->Paginator->prev('< ' . __('anterior')) ?>
                 <?= $this->Paginator->numbers() ?>
                 <?= $this->Paginator->next(__('próximo') . ' >') ?>
                 <?= $this->Paginator->last(__('último') . ' >>') ?>
             </ul>
-            <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) de um total de {{count}}.')) ?>
+            <p class="text-center text-muted mb-0">
+                <?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) de um total de {{count}}.')) ?>
             </p>
         </div>
     </div>

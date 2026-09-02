@@ -10,14 +10,30 @@ if ($user_session) {
 <!-- templates/element/submenu_navegacao.php -->
 <script>
     addEventListener('load', () => {
-        /* sub menu unselect */
         const navInputs = [...document.querySelectorAll('.toggle-input:not(#nav-toggler)')];
-        const unselect = (inputBox) => { inputBox.checked = false };
-        const unselectAll = (event) => { navInputs.forEach( (inputBox) => { 
-            if (inputBox !== event.target) unselect(inputBox) 
-        })};
-        addEventListener('mouseup', unselectAll);
-        addEventListener('touchend', unselectAll);
+        const closeOthers = (keepOpen) => {
+            navInputs.forEach((input) => {
+                if (input !== keepOpen) {
+                    input.checked = false;
+                }
+            });
+        };
+
+        navInputs.forEach((input) => {
+            input.addEventListener('click', (event) => {
+                event.stopPropagation();
+                closeOthers(input);
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!target.closest('.toggle-label') && !target.closest('.toggle-input')) {
+                navInputs.forEach((input) => {
+                    input.checked = false;
+                });
+            }
+        });
     });
 </script>
     
