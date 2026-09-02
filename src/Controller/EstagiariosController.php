@@ -220,7 +220,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'view');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
 
@@ -300,7 +300,7 @@ class EstagiariosController extends AppController
         $ultimo_estagio = null;
         $estagiario = $this->Estagiarios->newEmptyEntity();
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'add');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
             return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
@@ -419,7 +419,7 @@ class EstagiariosController extends AppController
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function termocompromisso(?string $id = null)
     {
@@ -430,12 +430,13 @@ class EstagiariosController extends AppController
                 $aluno_id = $this->user->aluno_id;
             }
         }
+        $this->Authorization->skipAuthorization();
 
         if ($aluno_id === null) {
             $this->Flash->error(__('Selecionar o aluno para o termo de compromisso'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
-
+        
         $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
@@ -457,7 +458,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'termocompromisso');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
             return $this->redirect(['controller' => 'Estagiarios', 'action' => 'index']);
@@ -488,7 +489,7 @@ class EstagiariosController extends AppController
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function termodecompromissopdf(?string $id = null)
     {
@@ -528,22 +529,41 @@ class EstagiariosController extends AppController
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function declaracaodeestagiopdf(?string $id = null)
     {
+        $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
+        
+        if ($estagiario_id !== null) {
+            $id = $estagiario_id;
+        }
+
+        if ($id === null) {
+            if (isset($this->user) && $this->user->categoria == '2') {
+                $id = $this->user->aluno_id;
+            }
+        }
+
+        $this->Authorization->skipAuthorization();
+
+        if ($id === null) {
+            $this->Flash->error(__('Sem parâmetro para localizar o estagiário'));
+            return $this->redirect(['action' => 'index']);
+        }
+
         try {
             $estagiario = $this->Estagiarios->get($id, [
                 'contain' => ['Alunos', 'Supervisores', 'Instituicoes'],
             ]);
-        } catch (Exception $e) {
+        } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Sem estagio cadastrado.'));
 
             return $this->redirect(['action' => 'index']);
         }
 
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'declaracaodeestagiopdf');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
 
@@ -587,7 +607,7 @@ class EstagiariosController extends AppController
      *
      * @param string|null $id Estagiario id.
      * @return \Cake\Http\Response|null|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function folhadeatividadespdf(?string $id = null) // ID param seems unused in original, uses query param
     {
@@ -609,7 +629,7 @@ class EstagiariosController extends AppController
             $estagiario = $this->Estagiarios->get($estagiario_id, [
                 'contain' => ['Alunos', 'Supervisores', 'Instituicoes', 'Professores'],
             ]);
-        } catch (Exception $e) {
+        } catch (RecordNotFoundException $e) {
              $this->Flash->error(__('Estagiário não encontrado.'));
 
              return $this->redirect(['action' => 'index']);
@@ -656,7 +676,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'edit');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
 
@@ -740,7 +760,7 @@ class EstagiariosController extends AppController
         }
 
         try {
-            $this->Authorization->authorize($estagiario);
+            $this->Authorization->authorize($estagiario, 'delete');
         } catch (ForbiddenException $e) {
             $this->Flash->error(__('Acesso negado. Você não tem permissão para acessar esta página.'));
 

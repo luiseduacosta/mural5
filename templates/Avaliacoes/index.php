@@ -42,7 +42,7 @@
             <?php foreach ($estagiarios as $c_estagiario): ?>
                 <tr>
                     <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
-                        <td><?= $this->Html->link($c_estagiario->aluno->nome, ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) ?></td>
+                        <td><?= $this->Html->link($c_estagiario->aluno->nome ?? 'Sem nome', ['controller' => 'estagiarios', 'action' => 'view', $c_estagiario->id]) ?></td>
                     <?php else: ?>
                         <td><?= $c_estagiario->aluno->nome ?></td>
                     <?php endif; ?>

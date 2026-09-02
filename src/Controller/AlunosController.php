@@ -310,6 +310,8 @@ class AlunosController extends AppController
         $totalperiodos = $this->request->getQuery('totalperiodos');
         $novoperiodo = $this->request->getQuery('novoperiodo');
 
+        $this->Authorization->skipAuthorization();
+        
         if ($user_data && $user_data['aluno_id']) {
             $id = $user_data['aluno_id'];
         }
