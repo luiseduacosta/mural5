@@ -20,7 +20,7 @@ use Cake\ORM\Entity;
  * @property string $municipio
  * @property string $cep
  * @property string $telefone
- * @property string|null $beneficio
+ * @property string|null $beneficios
  * @property string|null $fim_de_semana
  * @property string $local_inscricao
  * @property int $convenio
@@ -49,7 +49,7 @@ class Instituicao extends Entity
         'municipio' => true,
         'cep' => true,
         'telefone' => true,
-        'beneficio' => true,
+        'beneficios' => true,
         'fim_de_semana' => true,
         'convenio' => true,
         'expira' => true,

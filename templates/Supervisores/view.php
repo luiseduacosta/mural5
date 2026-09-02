@@ -110,16 +110,8 @@ if ($user_session) {
                             <td><?= h($supervisor->email) ?></td>
                         </tr>
                         <tr>
-                            <th><?= __('DDD') ?></th>
-                            <td><?= h($supervisor->codigo_telefone) ?></td>
-                        </tr>
-                        <tr>
                             <th><?= __('Telefone') ?></th>
                             <td><?= h($supervisor->telefone) ?></td>
-                        </tr>
-                        <tr>
-                            <th><?= __('DDD') ?></th>
-                            <td><?= h($supervisor->codigo_celular) ?></td>
                         </tr>
                         <tr>
                             <th><?= __('Celular') ?></th>

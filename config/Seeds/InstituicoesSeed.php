@@ -46,7 +46,7 @@ class InstituicoesSeed extends BaseSeed
                 'municipio' => $faker->city(),
                 'cep' => $faker->postcode(),
                 'telefone' => $faker->phoneNumber(),
-                'beneficio' => $faker->randomElement(['VT', 'VR', 'Auxílio transporte', null]),
+                'beneficios' => $faker->randomElement(['VT', 'VR', 'Auxílio transporte', null]),
                 'fim_de_semana' => $faker->randomElement(['0', '1', '2']),
                 'convenio' => $faker->randomElement([null, 0, 1]),
                 'expira' => $faker->optional(0.5)->date(),

@@ -67,16 +67,8 @@ if ($user_session) {
                     <td><?= $aluno->nome ? $this->Html->link(h($aluno->nome), ['action' => 'view', $aluno->id]) : '' ?></td>
                     <td><?= h($aluno->registro) ?></td>
                     <td><?= $aluno->email ? $this->Html->link(h($aluno->email), ['mailto' => $aluno->email]) : '' ?></td>
-                    <?php if (!empty((string)$aluno->telefone) && strlen((string)$aluno->telefone) < 10) : ?>
-                        <td><?= $aluno->telefone ? '(' . $aluno->codigo_telefone . ') ' . h($aluno->telefone) : '' ?></td>
-                    <?php else : ?>
-                        <td><?= h($aluno->telefone) ?></td>
-                    <?php endif; ?>
-                    <?php if (!empty((string)$aluno->celular) && strlen((string)$aluno->celular) < 10) : ?>
-                        <td><?= $aluno->celular ? '(' . $aluno->codigo_celular . ') ' . h($aluno->celular) : '' ?></td>
-                    <?php else : ?>
-                        <td><?= h($aluno->celular) ?></td>
-                    <?php endif; ?>
+                    <td><?= h($aluno->telefone ?? '') ?></td>
+                    <td><?= h($aluno->celular ?? '') ?></td>
                     <td><?= h($aluno->cpf) ?></td>
                     <td><?= h($aluno->ingresso) ?? 's/d' ?></td>
                     <td><?= h($aluno->TurnoID->turno ?? '') ?></td>

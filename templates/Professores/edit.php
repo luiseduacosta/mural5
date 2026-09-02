@@ -15,14 +15,6 @@
         $('#cpf').mask('000.000.000-00');
         $('#cep').mask('00000-000');
 
-        if ($('#codigo_telefone').val() === '' ) {
-            codigo = '21';
-        } else {
-            codigo = $('#codigo_telefone').val();
-        }
-        if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
-            $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
-        }
         var telMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
         };
@@ -34,14 +26,6 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#codigo_celular').val() === '' ) {
-            codigo = '21';
-        } else {
-            codigo = $('#codigo_celular').val();
-        }
-        if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
-            $('#celular').val('(' + codigo + ') ' + $('#celular').val());
-        }
         var celMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000.0000' : '(00) 0000.00009';
         };
@@ -105,9 +89,7 @@
         echo $this->Form->control('dataegresso', ['empty' => true, 'label' => ['text' => 'Data de Egresso']]);
         echo $this->Form->control('motivoegresso', ['label' => ['text' => 'Motivo de Egresso'], 'options' => ['Aposentadoria' => 'Aposentadoria', 'Demissão' => 'Demissão', 'Falecimento' => 'Falecimento', 'Outro' => 'Outro']]);
         /** Dados de contato */
-        echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD do Telefone']]);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone']]);
-        echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD do Celular']]);
         echo $this->Form->control('celular', ['label' => ['text' => 'Celular']]);
         echo $this->Form->control('email', ['label' => ['text' => 'E-mail']]);
         /** Dados de currículos */

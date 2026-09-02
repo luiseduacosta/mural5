@@ -62,7 +62,7 @@ if ($user_session) {
         echo $this->Form->control('municipio', ['label' => ['text' => 'Município'], 'class' => 'form-control']);
         echo $this->Form->control('cep', ['label' => ['text' => 'CEP'], 'id' => 'cep', 'required' => false, 'keypress()', 'class' => 'form-control']);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone'], 'id' => 'telefone', 'required' => true, 'keypress()', 'class' => 'form-control']);
-        echo $this->Form->control('beneficio', ['label' => ['text' => 'Benefícios'], 'class' => 'form-control']);
+        echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios'], 'class' => 'form-control']);
         echo $this->Form->control('fim_de_semana', ['label' => ['text' => 'Estágio no final de semana?'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'class' => 'form-control']);
         echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'placeholder' => 'Número do convêncio registrado na PR4', 'required' => true, 'class' => 'form-control']);
         echo $this->Form->control('expira', ['label' => ['text' => 'Data de encerramento do convênio'], 'empty' => true, 'class' => 'form-control']);

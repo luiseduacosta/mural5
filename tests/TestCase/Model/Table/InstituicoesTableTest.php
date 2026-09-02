@@ -60,7 +60,7 @@ class InstituicoesTableTest extends TestCase
             'municipio' => 'Rio de Janeiro',
             'cep' => '21941-590',
             'telefone' => '(21) 3938-1000',
-            'beneficio' => 'VT',
+            'beneficios' => 'VT',
             'fim_de_semana' => '0',
             'convenio' => 1,
             'expira' => '2026-12-31',

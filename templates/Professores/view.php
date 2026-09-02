@@ -93,16 +93,8 @@ if ($user_session) {
                     <td><?= h($professor->cpf) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Ddd Telefone') ?></th>
-                    <td><?= h($professor->codigo_telefone) ?></td>
-                </tr>
-                <tr>
                     <th><?= __('Telefone') ?></th>
                     <td><?= h($professor->telefone) ?></td>
-                </tr>
-                <tr>
-                    <th><?= __('Ddd Celular') ?></th>
-                    <td><?= h($professor->codigo_celular) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Celular') ?></th>

@@ -109,9 +109,7 @@ if ($user_session) {
         'templates' => ['inputContainer' => '<div class="row col-md-12 {{type}}{{required}}">{{content}}</div>',
                         'label' => '<label class="col-sm-3 col-form-label"{{attrs}}>{{text}}</label>',
                         'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>']]);
-        echo $this->Form->control('codigo_telefone', ['label' => ['text' => 'DDD'], 'readonly' => true]);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone'], 'readonly' => false]);
-        echo $this->Form->control('codigo_celular', ['label' => ['text' => 'DDD'], 'readonly' => true]);
         echo $this->Form->control('celular', ['label' => ['text' => 'Celular'], 'readonly' => false]);
         echo $this->Form->control('email', ['label' => ['text' => 'E-mail'], 'readonly' => true ]);
         echo $this->Form->control('cpf', ['label' => ['text' => 'CPF'], 'readonly' => false]);

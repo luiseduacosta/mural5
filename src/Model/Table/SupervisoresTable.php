@@ -75,19 +75,9 @@ class SupervisoresTable extends Table
             ->allowEmptyString('cep');
 
         $validator
-            ->scalar('codigo_telefone')
-            ->maxLength('codigo_telefone', 2)
-            ->allowEmptyString('codigo_telefone');
-
-        $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
             ->allowEmptyString('telefone');
-
-        $validator
-            ->scalar('codigo_celular')
-            ->maxLength('codigo_celular', 2)
-            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')

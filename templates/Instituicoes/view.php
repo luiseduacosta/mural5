@@ -125,7 +125,7 @@ if ($user_session) {
 
                 <tr>
                     <th><?= __('Benefício') ?></th>
-                    <td><?= h($instituicao->beneficio) ?></td>
+                    <td><?= h($instituicao->beneficios) ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Fim de Semana') ?></th>

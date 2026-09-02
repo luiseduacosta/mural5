@@ -40,9 +40,7 @@ if ($user_session) {
                     <th><?= $this->Paginator->sort('nome') ?></th>
                     <th><?= $this->Paginator->sort('cress') ?></th>
                     <th><?= $this->Paginator->sort('regiao') ?></th>
-                    <th><?= $this->Paginator->sort('codigo_telefone', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('telefone') ?></th>
-                    <th><?= $this->Paginator->sort('codigo_celular', 'DDD') ?></th>
                     <th><?= $this->Paginator->sort('celular') ?></th>
                     <th><?= $this->Paginator->sort('email') ?></th>
                     <?php if ($user_data['categoria'] === '1'): ?>
@@ -62,9 +60,7 @@ if ($user_session) {
                         <?php endif; ?>
                         <td><?= $supervisor->cress ?></td>
                         <td><?= $supervisor->regiao ?></td>
-                        <td><?= h($supervisor->codigo_telefone) ?></td>
                         <td><?= h($supervisor->telefone) ?></td>
-                        <td><?= h($supervisor->codigo_celular) ?></td>
                         <td><?= h($supervisor->celular) ?></td>
                         <td><?= h($supervisor->email) ?></td>
                         <?php if ($user_data['categoria'] === '1'): ?>

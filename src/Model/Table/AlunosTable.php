@@ -103,19 +103,9 @@ class AlunosTable extends Table
             ->allowEmptyString('turno_id');
 
         $validator
-            ->integer('codigo_telefone')
-            ->maxLength('codigo_telefone', 2)
-            ->allowEmptyString('codigo_telefone');
-
-        $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
             ->allowEmptyString('telefone');
-
-        $validator
-            ->integer('codigo_celular')
-            ->maxLength('codigo_celular', 2)
-            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')

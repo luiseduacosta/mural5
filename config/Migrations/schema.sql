@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `instituicoes` (
     `municipio` VARCHAR(30) DEFAULT NULL,
     `cep` CHAR(9) NOT NULL DEFAULT '',
     `telefone` VARCHAR(50) NOT NULL DEFAULT '',
-    `beneficio` VARCHAR(50) DEFAULT NULL,
+    `beneficios` VARCHAR(50) DEFAULT NULL,
     `fim_de_semana` CHAR(1) DEFAULT '0',
     `convenio` INT(4) DEFAULT NULL,
     `expira` DATE DEFAULT NULL,
