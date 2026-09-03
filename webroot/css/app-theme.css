@@ -230,9 +230,9 @@ nav.responsive-nav {
     position: sticky;
     top: 0;
     z-index: 1030;
-    padding: 0.7rem 1rem;
+    padding: 0 15px;
     max-width: 1400px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 0;
     border-radius: 0 0 1rem 1rem;
 }
 
@@ -268,6 +268,7 @@ nav.responsive-nav .responsive-toggle-dropdown {
     border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 0.8rem;
     box-shadow: var(--app-shadow);
+    margin-bottom: 0;
 }
 
 nav.responsive-nav .toggle-dropdown a,

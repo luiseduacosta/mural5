@@ -37,9 +37,9 @@ if ($user_session) {
     });
 </script>
     
-<nav class="responsive-nav sticky-top w-80 mx-auto mb-3">
+<nav class="responsive-nav sticky-top w-80 mx-auto">
     <?php
-        $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '50', 'width' => '150', 'alt' => 'ESS']);
+        $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '45', 'width' => '150', 'alt' => 'ESS']);
         echo $this->Html->link($logo, $this->getRequest()->getRequestTarget() == '/' ? 'http://www.ess.ufrj.br' : '/', ['escape' => false, 'full' => true]);
     ?>
 

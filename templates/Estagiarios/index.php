@@ -47,26 +47,19 @@ if ($user_session) {
 
 <div class='container'>
 
-    <?php if ($user_data['categoria'] === '1'): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-                aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggler">
-                <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
-                    </li>
-                </ul>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-header">
+        <div>
+            <h1 class="mb-1"><?= __('Estagiario(a)s') ?></h1>
+            <p class="text-muted mb-0">Estagiários cadastrados no sistema.</p>
+        </div>
+        <?php if ($user_data['categoria'] === '1') : ?>
+            <div class="d-flex flex-wrap gap-2">        
+                <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 16px;']) ?>
             </div>
-        </nav>
-    <?php endif; ?>
+        <?php endif; ?>
+    </div>
 
     <?php if ($user_data['categoria'] === '1' || $user_data['categoria'] === '3'): ?>
-
-        <h3><?= __('Estagiario(a)s') ?></h3>
-
         <div class="row mb-3">
             <div class="col-sm-1">
                 <div class="form-group">
