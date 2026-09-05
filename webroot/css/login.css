@@ -1,0 +1,156 @@
+/* Login page — Mural5 (tokens from DESIGN.md / app-theme.css) */
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1rem 2rem;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    box-shadow: var(--app-shadow);
+    overflow: hidden;
+}
+
+.login-card-header {
+    background: linear-gradient(135deg, var(--app-brand) 0%, var(--app-brand-dark) 100%);
+    padding: 1.75rem 2rem;
+    color: #fff;
+}
+
+.login-card-header h1 {
+    color: #fff;
+    font-size: 1.375rem;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.login-card-header p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8125rem;
+    margin: 0.25rem 0 0;
+}
+
+.login-card-body {
+    padding: 2rem;
+}
+
+.login-card-body h2 {
+    font-size: 1.125rem;
+    margin: 0;
+}
+
+.login-subtitle {
+    color: var(--app-muted);
+    font-size: 0.875rem;
+    margin: 0.25rem 0 1.5rem;
+}
+
+.login-field {
+    margin-bottom: 1.125rem;
+}
+
+.login-field label {
+    display: block;
+    font-size: 0.8125rem;
+    margin-bottom: 0.375rem;
+}
+
+.login-field input[type="email"],
+.login-field input[type="password"] {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 0.875rem;
+    border: 1px solid var(--app-border);
+    border-radius: 0.75rem;
+    background: #fff;
+    font-size: 0.9375rem;
+    color: var(--app-text);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.login-field input:focus {
+    outline: none;
+    border-color: rgba(43, 108, 156, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(43, 108, 156, 0.12);
+}
+
+.btn-login {
+    width: 100%;
+    height: 44px;
+    margin-top: 0.5rem;
+    background: var(--app-brand);
+    border: 1px solid var(--app-brand);
+    border-radius: 0.6rem;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.btn-login:hover {
+    background: var(--app-brand-dark);
+    border-color: var(--app-brand-dark);
+}
+
+.login-footer-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.login-footer-actions .link {
+    color: var(--app-brand);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-footer-actions .link:hover {
+    text-decoration: underline;
+}
+
+.login-footer-actions .btn-outline {
+    display: inline-block;
+    padding: 0.625rem 1rem;
+    background: #fff;
+    border: 1px solid var(--app-brand);
+    border-radius: 0.6rem;
+    color: var(--app-brand);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: background 0.2s ease-in-out;
+}
+
+.login-footer-actions .btn-outline:hover {
+    background: var(--app-brand-soft);
+    text-decoration: none;
+}
+
+@media (max-width: 480px) {
+    .login-card-header {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .login-card-body {
+        padding: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-field input,
+    .btn-login,
+    .login-footer-actions .btn-outline {
+        transition: none;
+    }
+}

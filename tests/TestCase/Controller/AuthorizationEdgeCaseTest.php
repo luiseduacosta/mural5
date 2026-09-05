@@ -259,4 +259,17 @@ class AuthorizationEdgeCaseTest extends TestCase
         $this->get('/areas/delete/1');
         $this->assertResponseCode(405);
     }
+
+    /**
+     * DebugKit ignoreAuthorization option must be enabled so DebugKit toolbar requests
+     * do not throw AuthorizationRequiredException.
+     */
+    public function testDebugKitIgnoreAuthorizationConfigured(): void
+    {
+        $this->assertTrue(
+            \Cake\Core\Configure::read('DebugKit.ignoreAuthorization'),
+            'DebugKit.ignoreAuthorization should be true by default to allow DebugKit requests.'
+        );
+    }
 }
+

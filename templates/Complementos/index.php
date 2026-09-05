@@ -13,60 +13,48 @@ if ($user_session) {
 ?>
 
 <div class="container">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h1 class="mb-1"><?= __('Complemento de estagiário') ?></h1>
+            <p class="text-muted mb-0">Relação geral dos complementos cadastrados no sistema.</p>
+        </div>
+        <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary me-2']) ?>
+    </div>
 
-    <?php if ($user_data['categoria'] === '1'): ?>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerComplemento"
-                aria-controls="navbarTogglerComplemento" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarTogglerComplemento">
-                <ul class="navbar-nav ms-auto mt-lg-0">
-                    <li class="nav-item">
-                        <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary me-2 float-end', 'style' => 'font-size: 10pt;']) ?>
-                    </li>
-                </ul>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th><?= $this->Paginator->sort('id') ?></th>
+                            <th><?= $this->Paginator->sort('periodo_especial') ?></th>
+                            <th><?= __('Ações') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($complementos as $complemento): ?>
+                            <tr>
+                                <td><?= $complemento->id ?></td>
+                                <td><?= h($complemento->periodo_especial) ?></td>
+                                <td>
+                                    <?= $this->Html->link(__('Ver'), ['action' => 'view', $complemento->id]) ?>
+                                    <?= $this->Html->link(__('Editar'), ['action' => 'edit', $complemento->id]) ?>
+                                    <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id)]) ?>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
-        </nav>
-    <?php endif; ?>
+        </div>
+    </div>
 
-<div class="container col-lg-12 shadow p-3 mb-5 bg-white rounded">
-    <h3><?= __('Complemento de estagiário') ?></h3>
-    <table class="table table-striped table-hover table-responsive">
-        <thead class="thead-dark">
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('periodo_especial') ?></th>
-                <th><?= __('Ações') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($complementos as $complemento): ?>
-                <tr>
-                    <td><?= $complemento->id ?></td>
-                    <td><?= h($complemento->periodo_especial) ?></td>
-                    <td>
-                        <?= $this->Html->link(__('Ver'), ['action' => 'view', $complemento->id]) ?>
-                        <?= $this->Html->link(__('Editar'), ['action' => 'edit', $complemento->id]) ?>
-                        <?= $this->Form->postLink(__('Excluir'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id)]) ?>
+    <?= $this->element('templates') ?>
 
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<?= $this->element('templates') ?>
-
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
-        <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('próximo') . ' >') ?>
-        <?= $this->Paginator->last(__('último') . ' >>') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) do {{count}} total')) ?>
-    </p>
+    <div class="d-flex justify-content-center mt-4">
+        <?= $this->element('paginator') ?>
+    </div>
+    <?= $this->element('paginator_count') ?>
 </div>

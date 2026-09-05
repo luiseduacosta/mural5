@@ -28,10 +28,6 @@ if (isset($this->getRequest()->getAttribute('identity')['categoria'])) {
             </li>
 
             <li class = "nav-item">
-                <?php echo $this->Html->link('Grupo Google', 'https://groups.google.com/forum/#!forum/estagio_ess', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
-            </li>
-
-            <li class = "nav-item">
                 <?php echo $this->Html->link('Fale conosco', 'mailto: estagio@ess.ufrj.br', ['class' => 'nav-link', 'style' => 'background-color: #2b6c9c; color: white']); ?>
             </li>
 

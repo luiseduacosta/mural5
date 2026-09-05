@@ -91,16 +91,8 @@ if ($user_session) {
     </div>
 
     <div class="d-flex justify-content-center mt-4">
-        <div class="paginator text-center">
-            <ul class="pagination mb-2">
-                <?= $this->Paginator->first('<< ' . __('first')) ?>
-                <?= $this->Paginator->prev('< ' . __('previous')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('next') . ' >') ?>
-                <?= $this->Paginator->last(__('last') . ' >>') ?>
-            </ul>
-            <p class="mb-0 text-muted"><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-        </div>
+        <?= $this->element('paginator') ?>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>
 </div>

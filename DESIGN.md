@@ -139,6 +139,8 @@ allowed is the navigation bar's brand→brand-dark sweep.
   background with `brand-dark` uppercase text; row hover rgba(43,108,156,0.03).
 - **Navigation**: sticky, `nav-gradient` background, white text (5.6:1 contrast, AA),
   dropdowns on `brand-dark` with 0.8rem radius.
+- **Pagination**: Bootstrap 5 `.pagination justify-content-center` (element `paginator`) with
+  muted small counter text (element `paginator_count`).
 - **Badges/flash**: pill radius (999px); success flash rgba(25,135,84,0.08) fill with 0.15-alpha border.
 
 ## Motion

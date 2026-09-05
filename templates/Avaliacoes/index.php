@@ -3,25 +3,23 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Avaliacao[]|\Cake\Collection\CollectionInterface $avaliacaoes
  */
+declare(strict_types=1);
 ?>
+<?= $this->element('templates') ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerAvaliacoes"
-        aria-controls="navbarTogglerAvaliacoes" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarTogglerAvaliacoes">
-        <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
-            </li>                
-        <?php endif; ?>
-    </ul>
-</nav>
+<div class="container">
 
-<h3><?= __('Avaliações') ?></h3>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h3><?= __('Avaliações') ?></h3>
+        </div>
+        <div>
+            <?php if (($user_data['categoria'] === '1') || $user_data['supervisor_id']): ?>
+                <?= $this->Html->link(__('Nova Avaliação'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>                
+            <?php endif; ?>
+        </div>
+    </div>
 
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
     <table class="table table-striped table-responsive table-hover">
         <thead class="table-dark">
             <tr>
@@ -73,5 +71,8 @@
             <?php endforeach; ?>
         </tbody>
         </table>
+    <div class="d-flex justify-content-center mt-4">
+        <?= $this->element('paginator') ?>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

@@ -15,7 +15,7 @@ if ($user_session) {
 <div class="container">
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-header">
         <div>
-            <h1 class="mb-1"><?= __('Lista de Alunos(as)') ?></h1>
+            <h1 class="mb-1"><?= __('Alunos(as)') ?></h1>
             <p class="text-muted mb-0">Relação geral dos estudantes cadastrados no sistema.</p>
         </div>
 
@@ -31,10 +31,6 @@ if ($user_session) {
 
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body p-0">
-            <div class="paginator px-3 pt-3">
-                <?= $this->element('paginator'); ?>
-            </div>
-
             <div class="table-responsive">
                 <table class="table table-striped table-hover align-middle mb-0">
                     <thead>

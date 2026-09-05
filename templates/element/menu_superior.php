@@ -40,6 +40,7 @@ if ($user_session) {
 <nav class="responsive-nav sticky-top w-80 mx-auto">
     <?php
         $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '45', 'width' => '150', 'alt' => 'ESS']);
+        $logo .= '<span class="nav-brand-sub">Mural de Estágios</span>';
         echo $this->Html->link($logo, $this->getRequest()->getRequestTarget() == '/' ? 'http://www.ess.ufrj.br' : '/', ['escape' => false, 'full' => true]);
     ?>
 
@@ -61,7 +62,7 @@ if ($user_session) {
                     <li><?php echo $this->Html->link('Termo de compromisso', ['controller' => 'Estagiarios', 'action' => 'termocompromisso']); ?></li>
                     <li><?php echo $this->Html->link('Declaração de estágio', ['controller' => 'Estagiarios', 'action' => 'declaracaodeestagiopdf']); ?></li>
                     <li><?php echo $this->Html->link('Folha de atividades', ['controller' => 'Folhadeatividades', 'action' => 'index']); ?></li>
-                    <li><?php echo $this->Html->link('Avaliação discente', ['controller' => 'Avaliacoes', 'action' => 'index']); ?></li>
+                    <li><?php echo $this->Html->link('Avaliação discente', ['controller' => 'Avaliacoes', 'action' => 'imprimeavaliacaopdf']); ?></li>
 
             </menu>
         </li>
@@ -127,6 +128,7 @@ if ($user_session) {
                         <li><?php echo $this->Html->link('Retornar ao Administrador', ['controller' => 'Users', 'action' => 'alternarusuario'], ['style' => 'color: #ffc107; font-weight: bold;']); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->Html->link('Minha conta', ['controller' => 'Users', 'action' => 'view', $user_session->id]); ?></li>
+                    <li class="dropdown-sep" role="separator"></li>
                     <li><?php echo $this->Html->link('Sair (' . $user_session->get('email') . ')', ['controller' => 'Users', 'action' => 'logout']); ?></li>
                 <?php else : ?>
                     <li><?php echo $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login']); ?></li>

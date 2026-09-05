@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline' 'self' https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'unsafe-inline' 'self'; img-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' data: https://fonts.googleapis.com https://fonts.gstatic.com; media-src 'self' data: blob: https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'none'; frame-src 'none'; object-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="kun-component-prototype" content="1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login — Mural5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #2B6C9C;
+    --brand-dark: #1D4F7A;
+    --brand-soft: #EAF3FB;
+    --bg: #F4F7FB;
+    --surface: #FFFFFF;
+    --border: #DFE7F1;
+    --text: #1F2937;
+    --muted: #6B7280;
+    --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --font-nav: "Raleway", "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Top navigation (app shell) */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0.5rem 1.2rem rgba(29,79,122,0.18);
+    font-family: var(--font-nav);
+  }
+  .brand-logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .brand-logo small { font-weight: 600; font-size: 12px; opacity: .85; letter-spacing: .08em; }
+  .topnav nav { display: flex; align-items: center; gap: 22px; }
+  .topnav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 2px;
+  }
+  .topnav a:hover { text-decoration: underline; text-decoration-color: rgba(255,255,255,.8); }
+  .user-menu { position: relative; }
+  .user-menu summary {
+    color: #fff; font-size: 14px; font-weight: 600; cursor: pointer; list-style: none;
+  }
+  .user-menu summary::after { content: " ▾"; font-size: 12px; }
+  .user-menu .dropdown {
+    position: absolute; right: 0; top: 30px; min-width: 180px;
+    background: var(--brand-dark);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    box-shadow: 0 0.75rem 1.5rem rgba(31,41,55,0.18);
+    padding: 6px 0;
+    display: none;
+  }
+  .user-menu[open] .dropdown { display: block; }
+  .user-menu .dropdown a {
+    display: block; padding: 10px 16px; color: #fff; text-decoration: none; font-size: 14px;
+  }
+  .user-menu .dropdown a:hover { background: rgba(255,255,255,0.08); text-decoration: none; }
+
+  /* Main content */
+  main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 72px 20px 48px; }
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 0.75rem 1.5rem rgba(31,41,55,0.08);
+    overflow: hidden;
+  }
+  .card-header {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+    padding: 28px 32px;
+    color: #fff;
+  }
+  .card-header h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .card-header p { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 4px; }
+  .card-body { padding: 32px; }
+  .card-body h2 { font-size: 18px; color: var(--brand-dark); letter-spacing: -0.02em; }
+  .card-body .subtitle { font-size: 14px; color: var(--muted); margin: 4px 0 24px; }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--brand-dark); margin-bottom: 6px; }
+  .field { margin-bottom: 18px; }
+  input[type="email"], input[type="password"] {
+    width: 100%; height: 44px; padding: 0 14px;
+    border: 1px solid var(--border); border-radius: 12px;
+    background: #fff; font-size: 15px; color: var(--text);
+    transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+  }
+  input:focus {
+    outline: none;
+    border-color: rgba(43,108,156,0.6);
+    box-shadow: 0 0 0 0.2rem rgba(43,108,156,0.12);
+  }
+  .btn-primary {
+    width: 100%; height: 44px; margin-top: 8px;
+    background: var(--brand); border: 1px solid var(--brand); border-radius: 10px;
+    color: #fff; font-weight: 600; font-size: 15px; cursor: pointer;
+    transition: background .2s ease-in-out, border-color .2s ease-in-out;
+  }
+  .btn-primary:hover { background: var(--brand-dark); border-color: var(--brand-dark); }
+  .card-footer-actions {
+    margin-top: 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+  .link { color: var(--brand); font-size: 14px; font-weight: 600; text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+  .btn-outline {
+    padding: 10px 16px;
+    background: #fff; border: 1px solid var(--brand); border-radius: 10px;
+    color: var(--brand); font-weight: 600; font-size: 14px; cursor: pointer;
+    transition: background .2s ease-in-out;
+  }
+  .btn-outline:hover { background: var(--brand-soft); }
+
+  /* Footer (app shell) */
+  footer {
+    background: var(--brand-dark);
+    color: rgba(255,255,255,0.9);
+    padding: 22px 24px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    font-size: 13px;
+  }
+  footer .ufrj-mark {
+    font-family: var(--font-nav); font-weight: 700; font-size: 14px; letter-spacing: .04em;
+    border: 1px solid rgba(255,255,255,0.5); border-radius: 6px; padding: 4px 10px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body data-kun-component-root>
+  <header class="topnav">
+    <a class="brand-logo" href="/">ESS <small>UFRJ</small></a>
+    <nav>
+      <a href="/muralestagios">Mural</a>
+      <a href="mailto:contato@ess.ufrj.br">Fale conosco</a>
+      <details class="user-menu">
+        <summary>Usuário</summary>
+        <div class="dropdown">
+          <a href="/users/login">Login</a>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <div class="card-header">
+        <h1>Mural de Estágios</h1>
+        <p>ESS/UFRJ — Estágio Supervisionado</p>
+      </div>
+      <div class="card-body">
+        <h2>Acesso ao sistema</h2>
+        <p class="subtitle">Por favor informe seu usuário e senha</p>
+        <form>
+          <div class="field">
+            <label for="email">Usuário</label>
+            <input id="email" type="email" placeholder="Seu e-mail" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Senha</label>
+            <input id="password" type="password" placeholder="Sua senha" autocomplete="current-password" required>
+          </div>
+          <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <div class="card-footer-actions">
+          <a class="link" href="/users/add">Esqueceu a senha?</a>
+          <button type="button" class="btn-outline">Cadastro de novo usuário(a)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>ESS/UFRJ — Mural de Estágios</span>
+    <span class="ufrj-mark">UFRJ</span>
+  </footer>
+</body>
+</html>

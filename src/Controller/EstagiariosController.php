@@ -96,7 +96,7 @@ class EstagiariosController extends AppController
             ]);
         }
 
-        $config =  [ // Removed $this->paginate assignment to local var as array
+        $config =  [
             'sortableFields' => [
                 'id',
                 'Alunos.nome',
@@ -436,7 +436,7 @@ class EstagiariosController extends AppController
             $this->Flash->error(__('Selecionar o aluno para o termo de compromisso'));
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
-        
+
         $estagiario = $this->Estagiarios
             ->find()
             ->where(['aluno_id' => $aluno_id])
@@ -534,7 +534,7 @@ class EstagiariosController extends AppController
     public function declaracaodeestagiopdf(?string $id = null)
     {
         $estagiario_id = $this->getRequest()->getQuery('estagiario_id');
-        
+
         if ($estagiario_id !== null) {
             $id = $estagiario_id;
         }

@@ -13,10 +13,6 @@ if ($user_session) {
 ?>
 
 <nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
         <?php if ($user_data['categoria'] === '1'): ?>
         <li class="nav-item">
@@ -35,18 +31,16 @@ if ($user_session) {
     </ul>
 </nav>
 
-        <div class="column-responsive column-80">
-            <div class="complementos form content">
-                <?= $this->Form->create($complemento) ?>
-                <fieldset>
-                    <legend><?= __('Editar complemento de estágio') ?></legend>
-                    <?php if ($user_data['categoria'] === '1'): ?>
-                        <?php
-                        echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
-                        ?>
-                    <?php endif; ?>
-                </fieldset>
-                <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
-                <?= $this->Form->end() ?>
-            </div>
-        </div>
+<div class="container">
+    <?= $this->Form->create($complemento) ?>
+    <fieldset>
+        <legend><?= __('Editar complemento de estágio') ?></legend>
+        <?php if ($user_data['categoria'] === '1'): ?>
+            <?php
+            echo $this->Form->control('periodo_especial', ['label' => 'Período especial']);
+            ?>
+        <?php endif; ?>
+    </fieldset>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-success']) ?>
+    <?= $this->Form->end() ?>
+</div>

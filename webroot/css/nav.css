@@ -20,6 +20,33 @@ nav {
   grid-gap: 20px;
   z-index: 1;
 }
+/* DESKTOP ONLY: menu container fits exactly inside the nav bar */
+@media only screen and (min-width: 769px) {
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  nav > a:first-child {
+    flex: 0 0 auto;
+  }
+
+  nav > menu.responsive-toggle-dropdown {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  nav > menu.responsive-toggle-dropdown > .menu-user {
+    margin-left: auto;
+  }
+}
+
 nav,
 nav .toggle-dropdown,
 nav .responsive-toggle-dropdown {

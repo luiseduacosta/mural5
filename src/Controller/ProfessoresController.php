@@ -223,6 +223,7 @@ class ProfessoresController extends AppController
         try {
             $professor = $this->Professores->get($id, contain: ['Estagiarios']);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Authorization->skipAuthorization();
             $this->Flash->error(__('Professor não encontrado.'));
             return $this->redirect(['action' => 'index']);
         }

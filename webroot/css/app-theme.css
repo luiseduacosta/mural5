@@ -226,14 +226,50 @@ nav.navbar {
     box-shadow: 0 0.5rem 1.2rem rgba(29, 79, 122, 0.18);
 }
 
+/* Override legacy nav.css generic nav { position: fixed; top: 0; height: 50px }
+   and body { margin-top: 60px } because the menu now lives at the bottom of index pages.
+   Using !important because legacy nav.css has aggressive generic nav{} + @media queries
+   that apply fixed/top positioning; equal specificity with later file was still being
+   overridden by the generic nav rules. */
+body {
+    margin-top: 0 !important;
+}
+
+/* Revert the paginator nav (aria-label="Paginação") to normal static flow —
+   legacy nav.css generic nav{} fixed rules also target this <nav> tag, so
+   must neutralize them here with scoped override. */
+nav[aria-label="Paginação"] {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    display: block !important;
+    z-index: auto !important;
+    grid-template-columns: none !important;
+}
+
 nav.responsive-nav {
-    position: sticky;
-    top: 0;
-    z-index: 1030;
-    padding: 0 15px;
-    max-width: 1400px;
-    margin: 0 auto 0;
-    border-radius: 0 0 1rem 1rem;
+    position: sticky !important;
+    bottom: 0 !important;
+    top: auto !important;
+    z-index: 1030 !important;
+    padding: 0 15px !important;
+    max-width: 1400px !important;
+    margin: 1rem auto 0 !important;
+    border-radius: 1rem 1rem 0 0 !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    background: var(--app-brand-dark) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+    font-family: 'Raleway', sans-serif !important;
+    grid-template-columns: none !important;
 }
 
 nav.responsive-nav menu,
@@ -344,6 +380,119 @@ footer img[alt="CakePHP"] {
     }
 
     nav.responsive-nav {
-        border-radius: 0 0 0.8rem 0.8rem;
+        border-radius: 0.8rem 0.8rem 0 0 !important;
+    }
+}
+
+/* Menu superior — DESIGN.md polish (pill items, refined dropdowns) */
+nav.responsive-nav > a:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+nav.responsive-nav > a:first-child:hover {
+    text-decoration: none;
+}
+
+nav.responsive-nav .nav-brand-sub {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.75);
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+    padding-left: 12px;
+    white-space: nowrap;
+}
+
+nav.responsive-nav > menu.responsive-toggle-dropdown > li > a,
+nav.responsive-nav > menu.responsive-toggle-dropdown > li > label {
+    display: inline-flex;
+    align-items: center;
+    height: 50px;
+    line-height: normal;
+    padding: 0 14px;
+    border-radius: 10px;
+    transition: background 0.2s ease-in-out;
+}
+
+nav.responsive-nav > menu.responsive-toggle-dropdown > li > a:hover,
+nav.responsive-nav > menu.responsive-toggle-dropdown > li > label:hover,
+nav.responsive-nav > menu.responsive-toggle-dropdown > li > .toggle-input:checked ~ label {
+    background: rgba(255, 255, 255, 0.14);
+    text-decoration: none;
+}
+
+nav.responsive-nav .toggle-dropdown {
+    min-width: 224px;
+    border-radius: 12px;
+    padding: 6px 0;
+    box-shadow: 0 0.75rem 1.5rem rgba(31, 41, 55, 0.25);
+}
+
+nav.responsive-nav .toggle-dropdown a {
+    padding: 10px 16px;
+}
+
+nav.responsive-nav .toggle-dropdown .dropdown-sep {
+    display: block;
+    height: 1px;
+    padding: 0;
+    margin: 5px 0;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+/* Override legacy nav.css inline menu-user behavior — keep dropdown pattern on all screens.
+   Legacy nav.css @≥1120px forces .toggle-dropdown inline, hides label, and sets conflicting
+   fixed heights (50px). The responsive-nav design uses a Usuário ▾ dropdown everywhere.
+   Since the nav is now at the TOP (after user corrected the order), dropdowns open DOWNWARD (top:100%). */
+@media (min-width: 768px) {
+    nav.responsive-nav .menu-declaracoes .toggle-dropdown,
+    nav.responsive-nav .menu-consulta .toggle-dropdown,
+    nav.responsive-nav .menu-admin .toggle-dropdown,
+    nav.responsive-nav .menu-user .toggle-dropdown {
+        position: absolute;
+        top: 100%;
+        bottom: auto;
+        right: 0;
+        height: auto;
+        margin-top: 4px;
+    }
+    nav.responsive-nav .menu-declaracoes .toggle-dropdown { left: 0; right: auto; }
+    nav.responsive-nav .menu-consulta .toggle-dropdown { left: 0; right: auto; }
+    nav.responsive-nav .menu-admin .toggle-dropdown { left: 0; right: auto; }
+}
+@media (min-width: 1120px) {
+    nav.responsive-nav .menu-user .toggle-input:not(:checked) ~ .toggle-dropdown {
+        display: none;
+    }
+    nav.responsive-nav .menu-user label.toggle-label {
+        display: inline-flex !important;
+    }
+    nav.responsive-nav .menu-user li {
+        display: block;
+        height: auto;
+        line-height: normal;
+    }
+    nav.responsive-nav .menu-user li a {
+        display: block !important;
+        line-height: 1.4 !important;
+        padding: 10px 16px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 320px;
+    }
+}
+
+@media (max-width: 900px) {
+    nav.responsive-nav .nav-brand-sub {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    nav.responsive-nav > menu.responsive-toggle-dropdown > li > a,
+    nav.responsive-nav > menu.responsive-toggle-dropdown > li > label {
+        transition: none;
     }
 }

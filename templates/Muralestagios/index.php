@@ -1,8 +1,4 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Muralestagio[]|\Cake\Collection\CollectionInterface $muralestagios
- */
 declare(strict_types=1);
 
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
@@ -94,11 +90,8 @@ if ($user_session) {
         </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-4">
-        <div class="paginator">
-            <ul class="pagination mb-2">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-footer">
+        <?= $this->element('paginator') ?>
+        <?= $this->element('paginator_count') ?>
     </div>
 </div>

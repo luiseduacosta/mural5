@@ -1,8 +1,4 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Supervisor[]|\Cake\Collection\CollectionInterface $supervisores
- */
 declare(strict_types=1);
 
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
@@ -15,7 +11,8 @@ if ($user_session) {
 <div class="container">
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
         <div>
-            <h3 class="mb-0"><?= __('Supervisore(a)s') ?></h3>
+            <h1 class="mb-1"><?= __('Supervisores(as)') ?></h1>
+            <p class="text-muted mb-0">Relação geral dos supervisores cadastrados no sistema.</p>
         </div>
         <?php if ($user_data['categoria'] === '1'): ?>
             <div>
@@ -72,15 +69,7 @@ if ($user_session) {
     </div>
 
     <div class="d-flex justify-content-center mt-4">
-        <div class="paginator">
-            <ul class="pagination mb-2">
-                <?= $this->Paginator->first('<< ' . __('primeiro')) ?>
-                <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-                <?= $this->Paginator->numbers() ?>
-                <?= $this->Paginator->next(__('próximo') . ' >') ?>
-                <?= $this->Paginator->last(__('último') . ' >>') ?>
-            </ul>
-            <p class="text-center text-muted mb-0"><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}, mostrando {{current}} registro(s) de um total de {{count}}.')) ?></p>
-        </div>
+        <?= $this->element('paginator') ?>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

@@ -59,6 +59,7 @@ $this->set('categoria', $categoria);
             <?= $this->Flash->render() ?>
             <?= $this->fetch('content') ?>
         </div>
+
         <?= $this->element('footer'); ?>
     </body>
 </html>

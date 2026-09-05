@@ -311,7 +311,7 @@ class AlunosController extends AppController
         $novoperiodo = $this->request->getQuery('novoperiodo');
 
         $this->Authorization->skipAuthorization();
-        
+
         if ($user_data && $user_data['aluno_id']) {
             $id = $user_data['aluno_id'];
         }
@@ -398,8 +398,7 @@ class AlunosController extends AppController
         }
 
         if ($id === null) {
-            $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
-
+            $this->Flash->error(__('Selecione o(a) aluno(a).'));
             return $this->redirect(['action' => 'index']);
         }
 

@@ -53,7 +53,7 @@ if ($user_session) {
             <p class="text-muted mb-0">Estagiários cadastrados no sistema.</p>
         </div>
         <?php if ($user_data['categoria'] === '1') : ?>
-            <div class="d-flex flex-wrap gap-2">        
+            <div class="d-flex flex-wrap gap-2">
                 <?= $this->Html->link(__('Novo(a) estagiário(a)'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 16px;']) ?>
             </div>
         <?php endif; ?>
@@ -175,6 +175,9 @@ if ($user_session) {
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 page-footer">
         <?= $this->element('paginator') ?>
+        <?= $this->element('paginator_count') ?>
     </div>
 </div>
