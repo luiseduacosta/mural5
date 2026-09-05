@@ -12,10 +12,10 @@ use Authorization\Policy\ResultInterface;
 final class AlunoPolicy implements BeforePolicyInterface
 {
     /**
-     * @param \Authorization\IdentityInterface|null $identity
+     * @param IdentityInterface|null $identity
      * @param mixed $resource
      * @param string $action
-     * @return \Authorization\Policy\ResultInterface|bool|null
+     * @return ResultInterface|bool|null
      */
     public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
@@ -31,9 +31,9 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
-     * @return \Authorization\Policy\Result
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
+     * @return Result
      */
     public function canView(IdentityInterface $userSession, Aluno $alunoData): Result
     {
@@ -43,9 +43,9 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
-     * @return \Authorization\Policy\Result
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
+     * @return Result
      */
     public function canEdit(IdentityInterface $userSession, Aluno $alunoData): Result
     {
@@ -55,9 +55,9 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
-     * @return \Authorization\Policy\Result
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
+     * @return Result
      */
     public function canDelete(IdentityInterface $userSession, Aluno $alunoData): Result
     {
@@ -65,9 +65,9 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
-     * @return \Authorization\Policy\Result
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
+     * @return Result
      */
     public function canDeclaracaoperiodo(IdentityInterface $userSession, Aluno $alunoData): Result
     {
@@ -77,9 +77,9 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
-     * @return \Authorization\Policy\Result
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
+     * @return Result
      */
     public function canDeclaracaoperiodopdf(IdentityInterface $userSession, Aluno $alunoData): Result
     {
@@ -89,17 +89,33 @@ final class AlunoPolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $userSession
-     * @param \App\Model\Entity\Aluno $alunoData
+     * @param IdentityInterface $userSession
+     * @param Aluno $alunoData
      * @return bool
      */
     protected function sameUser(IdentityInterface $userSession, Aluno $alunoData): bool
     {
         $user_data = $userSession->getOriginalData();
-        if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
+        if (!($user_data instanceof \ArrayAccess || is_array($user_data))) {
             return false;
         }
 
-        return (int)$user_data['id'] === (int)$alunoData->user_id;
+        // Aluno user: must be the same aluno record (resolved via aluno_id FK from User entity)
+        $alunoId = $user_data['aluno_id'] ?? null;
+        if (!empty($alunoId)) {
+            return (int)$alunoId === (int)$alunoData->id;
+        }
+
+        // Professor or Supervisor user: allow access to any aluno record (typical oversight role)
+        if (!empty($user_data['professor_id']) || !empty($user_data['supervisor_id'])) {
+            return true;
+        }
+
+        // Final fallback: legacy user_id match (kept for data consistency in edge cases)
+        if (!empty($user_data['id']) && $alunoData->has('user_id') && $alunoData->user_id !== null) {
+            return (int)$user_data['id'] === (int)$alunoData->user_id;
+        }
+
+        return false;
     }
 }

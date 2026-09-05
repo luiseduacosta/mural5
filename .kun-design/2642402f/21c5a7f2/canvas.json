@@ -1,0 +1,133 @@
+{
+  "version": 2,
+  "rootId": "__root__",
+  "objects": {
+    "__root__": {
+      "id": "__root__",
+      "type": "frame",
+      "name": "Root",
+      "parentId": null,
+      "frameId": null,
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [
+        "s_mtntuyh1_1",
+        "s_mtntuzal_2",
+        "s_mtntw13t_3"
+      ]
+    },
+    "s_mtntuyh1_1": {
+      "id": "s_mtntuyh1_1",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "12ba72c4",
+      "embeddedArtifact": {
+        "id": "12ba72c4",
+        "kind": "html",
+        "versionId": "12ba72c4-v1"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtntuzal_2": {
+      "id": "s_mtntuzal_2",
+      "type": "frame",
+      "name": "Are you going to make the changes on the",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": 720,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "e4b982fa",
+      "embeddedArtifact": {
+        "id": "e4b982fa",
+        "kind": "html",
+        "versionId": "e4b982fa-v1"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtntw13t_3": {
+      "id": "s_mtntw13t_3",
+      "type": "frame",
+      "name": "Are you going to make the changes on the",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": 720,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "e4b982fa",
+      "embeddedArtifact": {
+        "id": "e4b982fa",
+        "kind": "html",
+        "versionId": "e4b982fa-v2"
+      },
+      "devicePreset": "desktop"
+    }
+  },
+  "motion": {
+    "version": 1,
+    "timelines": {}
+  },
+  "rendererReplayWatermarkTurnId": "turn_f69bff5b88f74745813f7eb7dfe2bb49"
+}

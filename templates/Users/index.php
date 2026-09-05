@@ -6,6 +6,9 @@ $user_session = $this->request->getAttribute('identity');
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
 }
+$q = $q ?? '';
+$hasUsers = $users->count() > 0;
+$filteredEmpty = $q !== '' && !$hasUsers;
 ?>
 
 <div class="container">
@@ -21,6 +24,48 @@ if ($user_session) {
         <?php endif; ?>
     </div>
 
+    <?php if ($hasUsers || $q !== ''): ?>
+        <div class="card mb-4 shadow-sm border-0 bg-light">
+            <div class="card-body py-3">
+                <form method="get" action="<?= h($this->Url->build(['action' => 'index'])) ?>"
+                      class="row g-2 align-items-center" role="search">
+                    <div class="col-12 col-md">
+                        <label class="form-label visually-hidden"
+                               for="usersSearch"><?= __('Buscar por nome ou e-mail') ?></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round">
+                                    <circle cx="11" cy="11" r="7"/>
+                                    <path d="m20 20-3.5-3.5"/>
+                                </svg>
+                            </span>
+                            <input class="form-control border-start-0 ps-0" type="search" id="usersSearch" name="q"
+                                   value="<?= h($q) ?>"
+                                   placeholder="<?= __('Buscar por nome ou e-mail') ?>" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-auto d-flex gap-2">
+                        <button class="btn btn-primary" type="submit"><?= __('Buscar') ?></button>
+                        <?php if ($q !== ''): ?>
+                            <a class="btn btn-outline-secondary"
+                               href="<?= h($this->Url->build(['action' => 'index'])) ?>">
+                                <?= __('Limpar busca') ?>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($filteredEmpty): ?>
+        <div class="alert alert-secondary" role="alert">
+            <?= __('Nenhum usuário corresponde a <strong>{0}</strong>. Verifique o termo digitado ou limpe a busca.', h($q)) ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($hasUsers): ?>
     <div class="table-responsive">
         <table class="table table-striped table-hover table-responsive">
             <thead>
@@ -70,4 +115,5 @@ if ($user_session) {
         <?= $this->element('paginator') ?>
     </div>
     <?= $this->element('paginator_count') ?>
+    <?php endif; ?>
 </div>

@@ -23,30 +23,19 @@ if ($user_session) {
 
 <?php $this->element('templates') ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['categoria'] === '1'): ?>
-            <li class="nav-item">
-                <?=
-                $this->Form->postLink(
-                        __('Excluir'),
-                        ['action' => 'delete', $instituicao->id],
-                        ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']
-                )
-                ?>
-            </li>
-        <?php endif; ?>
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-        </li>
-    </ul>
-</nav>
-
 <div class="container col-lg-10 shadow p-3 mb-5 bg-white rounded">
+    <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 mb-3">
+        <?php if ($user_data['categoria'] === '1'): ?>
+            <?=
+            $this->Form->postLink(
+                    __('Excluir'),
+                    ['action' => 'delete', $instituicao->id],
+                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $instituicao->id), 'class' => 'btn btn-outline-danger']
+            )
+            ?>
+        <?php endif; ?>
+        <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-outline-secondary']) ?>
+    </div>
     <?= $this->Form->create($instituicao) ?>
     <fieldset>
         <legend><?= __('Editar instituição') ?></legend>

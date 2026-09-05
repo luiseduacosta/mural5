@@ -278,27 +278,34 @@ class MuralestagiosController extends AppController
      * Imprimir PDF com as inscrições para seleção do estagiário
      *
      * @param string|null $id Muralestagio id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return \Cake\Http\Response|null|void Redirects on error, renders PDF view otherwise.
      */
-    public function imprimepdf($id = null)
+    public function imprimepdf(?string $id = null)
     {
-        $muralestagio = $this->Muralestagios->find()
-            ->contain(['Inscricoes' => ['Alunos']])
-            ->where(['Muralestagios.id' => $id])
-            ->first();
+        if ($id === null) {
+            $this->Flash->error(__('Selecione o mural de estágio.'));
 
-        try {
-            $this->Authorization->authorize($muralestagio);
-        } catch (ForbiddenException $error) {
-            $this->Flash->error('Authorization error: ' . $error->getMessage());
-            return $this->redirect(['controller' => 'Muralestagios', 'action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
 
+        try {
+            $muralestagio = $this->Muralestagios->get($id, [
+                'contain' => ['Inscricoes' => ['Alunos']],
+            ]);
+        } catch (RecordNotFoundException $e) {
+            $this->Flash->error(__('Mural de estágio não encontrado.'));
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        $this->Authorization->authorize($muralestagio, 'imprimepdf');
+
         $this->viewBuilder()->setLayout('default');
-        $this->viewBuilder()->setClassName("CakePdf.Pdf");
-        $this->viewBuilder()->setOption("pdfConfig", [
-            "orientation" => "portrait",
+        $this->viewBuilder()->setClassName('CakePdf.Pdf');
+        $this->viewBuilder()->setOption('pdfConfig', [
+            'orientation' => 'portrait',
+            'download' => true,
+            'filename' => 'inscricoes_mural_' . $id . '.pdf',
         ]);
 
         $this->set(compact('muralestagio'));

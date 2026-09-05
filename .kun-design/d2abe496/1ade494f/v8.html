@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mural de Estágios · ESS/UFRJ — Capa de acesso</title>
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f4f7fb; --surface:#ffffff; --brand:#2b6c9c; --brand-dark:#1d4f7a;
+  --brand-soft:#eaf3fb; --line:#dfe7f1; --ink:#1f2937; --muted:#4f5d6b;
+  --ok:#198754; --danger:#b02a37; --ring:rgba(43,108,156,.35);
+  --r-lg:26px; --r-md:16px; --r-sm:12px;
+  --shadow:0 22px 55px rgba(29,79,122,.28);
+  --font:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+.page{max-width:1280px;margin:0 auto;padding:clamp(10px,1.6vw,22px);display:flex;flex-direction:column;gap:16px;min-height:100%}
+/* ---------- cover panel ---------- */
+.cover{position:relative;flex:1;min-height:620px;border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(22px,3vw,42px);background:linear-gradient(135deg,var(--brand) 0%,var(--brand-dark) 100%);box-shadow:var(--shadow)}
+.cover::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 420px at 18% -8%,rgba(255,255,255,.16),transparent 60%),radial-gradient(560px 300px at 108% 118%,rgba(255,255,255,.09),transparent 60%)}
+.cover::after{content:"";position:absolute;top:-240px;left:46%;width:560px;height:560px;border:1px solid rgba(255,255,255,.13);border-radius:50%;pointer-events:none}
+.cover>*{position:relative;z-index:1}
+/* top mini-bar inside cover */
+.cover-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;color:#fff;line-height:1.25}
+.brand b{display:block;font-size:17px;letter-spacing:-.01em}
+.brand .tag{font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#cfe4f5}
+.chip-period{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600}
+.chip-period i{width:7px;height:7px;border-radius:50%;background:#9fd6b4}
+/* hero grid */
+.cover-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,440px);gap:clamp(24px,4vw,56px);align-items:center;padding:34px 0 10px}
+.eyebrow{margin:22px 0 4px;font-size:12px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:#d7eaf8}
+h1{margin:0;font-size:clamp(40px,5.2vw,72px);line-height:1.02;letter-spacing:-.02em;color:#fff}
+h1 .w1{font-weight:800}h1 .w2{font-weight:500;color:#eef7fd}
+.tagline{margin:18px 0 0;max-width:56ch;font-size:clamp(14px,1.25vw,17px);color:rgba(255,255,255,.92);font-weight:500}
+.roles{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.roles span{border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600}
+/* access card */
+.access{background:var(--surface);border-radius:22px;padding:clamp(20px,2vw,30px);box-shadow:0 18px 44px rgba(10,30,50,.22)}
+.access h2{margin:0;font-size:21px;letter-spacing:-.01em}
+.access .sub{margin:6px 0 20px;font-size:13.5px;color:var(--muted)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.field input{width:100%;min-height:46px;border:1px solid #c9d7e4;border-radius:var(--r-sm);padding:10px 13px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink);transition:border-color .15s ease-out,box-shadow .15s ease-out}
+.field input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--ring)}
+.field .ferr{display:none;font-size:12px;color:var(--danger);margin-top:5px;font-weight:600}
+.field.invalid input{border-color:var(--danger)}
+.field.invalid .ferr{display:block}
+.pw-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:-2px 0 16px}
+.pw-row label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);font-weight:500;cursor:pointer}
+.pw-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--brand)}
+.pw-row .link{font-size:13px;font-weight:600;color:var(--brand-dark);text-decoration:underline;text-underline-offset:3px;background:none;border:0;padding:4px 2px;cursor:pointer;font-family:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;border-radius:var(--r-sm);border:1px solid transparent;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .15s ease-out,transform .1s ease-out,opacity .15s ease-out}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--brand);color:#fff}
+.btn-primary:hover{background:var(--brand-dark)}
+.btn-primary:disabled{opacity:.7;cursor:wait}
+.btn-ghost{background:var(--surface);border-color:#c9d7e4;color:var(--brand-dark)}
+.btn-ghost:hover{border-color:var(--brand);background:var(--brand-soft)}
+.divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#8aa0b4;font-size:12px;font-weight:600}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+.msg{display:none;margin:0 0 14px;padding:11px 13px;border-radius:var(--r-sm);font-size:13.5px;font-weight:600;line-height:1.45}
+.msg.ok{display:block;background:#e8f6ee;color:#14643f;border:1px solid #bfe3cd}
+.msg.err{display:block;background:#fdeeee;color:var(--danger);border:1px solid #f2c4c8}
+.demo-hint{margin:16px 0 0;font-size:12px;color:#7c8fa1;text-align:center}
+:focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:6px}
+/* ---------- footer ---------- */
+.footbar{text-align:center;padding:6px 8px 2px;font-size:12.5px;color:var(--muted)}
+.footbar b{color:var(--brand-dark);font-weight:700}
+/* toasts */
+#toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:10px;z-index:50}
+.toast{background:#fff;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:12px;padding:12px 16px;font-size:13.5px;font-weight:600;box-shadow:0 12px 30px rgba(31,41,55,.16);max-width:min(360px,calc(100vw - 36px));animation:toastIn .18s ease-out both}
+.toast.ok{border-left-color:var(--ok)}
+/* motion */
+.up{animation:up .5s cubic-bezier(.22,.61,.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.up,.toast{animation:none}.btn{transition:none}}
+@media (max-width:960px){.cover-grid{grid-template-columns:1fr}.access{max-width:480px}.cover{min-height:0}}
+@media (max-width:520px){.brand b{font-size:15px}.chip-period{font-size:11.5px;padding:6px 11px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<section class="cover" data-ds-section="Capa do aplicativo" aria-label="Capa do Mural de Estágios">
+  <header class="cover-top" data-ds-section="Barra da capa">
+    <div class="brand">
+      <svg width="36" height="36" viewBox="0 0 96 96" aria-hidden="true">
+        <rect x="10" y="10" width="76" height="76" rx="20" fill="none" stroke="#ffffff" stroke-width="5"/>
+        <rect x="30" y="24" width="34" height="48" rx="9" fill="#ffffff" opacity=".38"/>
+        <rect x="42" y="36" width="34" height="44" rx="9" fill="#ffffff"/>
+        <circle cx="59" cy="28" r="8.5" fill="none" stroke="#1d4f7a" stroke-width="5.5"/>
+        <circle cx="59" cy="28" r="2.1" fill="#1d4f7a"/>
+      </svg>
+      <span><b>Mural de Estágios</b><br><span class="tag">ESS · UFRJ</span></span>
+    </div>
+    <span class="chip-period"><i></i>Período 2026.1 · Coordenação de Estágio</span>
+  </header>
+
+  <div class="cover-grid">
+    <div class="hero up" style="animation-delay:.05s">
+      <svg width="132" height="132" viewBox="0 0 96 96" role="img" aria-label="Símbolo do Mural de Estágios">
+        <rect x="10" y="10" width="76" height="76" rx="20" fill="none" stroke="#ffffff" stroke-width="5"/>
+        <rect x="30" y="24" width="34" height="48" rx="9" fill="#ffffff" opacity=".38"/>
+        <rect x="42" y="36" width="34" height="44" rx="9" fill="#ffffff"/>
+        <circle cx="59" cy="28" r="8.5" fill="none" stroke="#1d4f7a" stroke-width="5.5"/>
+        <circle cx="59" cy="28" r="2.1" fill="#1d4f7a"/>
+      </svg>
+      <p class="eyebrow">Universidade Federal do Rio de Janeiro</p>
+      <h1><span class="w1">Mural</span> <span class="w2">de Estágios</span></h1>
+      <p class="tagline">O quadro digital de estágios da Escola de Serviço Social — acompanhamento de alunos, vagas, termos e declarações em um só lugar.</p>
+      <div class="roles">
+        <span>Alunos</span><span>Professores</span><span>Supervisores</span><span>Coordenação</span>
+      </div>
+    </div>
+
+    <aside class="access up" style="animation-delay:.12s" data-ds-section="Cartão de acesso" aria-label="Acesso ao sistema">
+      <h2>Acesso ao mural</h2>
+      <p class="sub">Entre com seu e-mail institucional para acompanhar estágios, documentos e vagas.</p>
+      <form id="loginForm" novalidate>
+        <p class="msg" id="msgArea" role="status" aria-live="polite"></p>
+        <div class="field" id="fEmail">
+          <label for="fe">E-mail institucional</label>
+          <input type="email" id="fe" name="email" autocomplete="username" placeholder="nome@ess.ufrj.br">
+          <p class="ferr">Informe seu e-mail institucional (ex.: nome@ess.ufrj.br).</p>
+        </div>
+        <div class="field" id="fPw">
+          <label for="fp">Senha</label>
+          <input type="password" id="fp" name="senha" autocomplete="current-password" placeholder="••••••••">
+          <p class="ferr">Informe sua senha de acesso.</p>
+        </div>
+        <div class="pw-row">
+          <label><input type="checkbox" id="keep"> Manter conectado nesta máquina</label>
+          <button type="button" class="link" id="btnForgot">Esqueci minha senha</button>
+        </div>
+        <button type="submit" class="btn btn-primary" id="btnSubmit">Entrar no sistema</button>
+        <div class="divider">ou</div>
+        <button type="button" class="btn btn-ghost" id="btnRequest">Solicitar acesso à Coordenação</button>
+        <p class="demo-hint">Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.</p>
+      </form>
+    </aside>
+  </div>
+</section>
+
+<footer class="footbar" data-ds-section="Rodapé">
+  <b>Mural de Estágios</b> · Escola de Serviço Social — Universidade Federal do Rio de Janeiro<br>
+  © 2026 Coordenação de Estágio · uso restrito à comunidade ESS/UFRJ
+</footer>
+</div>
+
+<div id="toasts" aria-live="polite"></div>
+
+<script>
+(function () {
+  var form = document.getElementById('loginForm');
+  var email = document.getElementById('fe');
+  var pw = document.getElementById('fp');
+  var btn = document.getElementById('btnSubmit');
+  var msg = document.getElementById('msgArea');
+  function toast(text, ok) {
+    var t = document.createElement('div');
+    t.className = 'toast' + (ok ? ' ok' : '');
+    t.textContent = text;
+    document.getElementById('toasts').appendChild(t);
+    setTimeout(function () { t.remove(); }, 4200);
+  }
+  document.getElementById('btnForgot').addEventListener('click', function () {
+    toast('Instruções de recuperação serão enviadas ao seu e-mail institucional.');
+  });
+  document.getElementById('btnRequest').addEventListener('click', function () {
+    toast('Pedido registrado — a Coordenação de Estágio responderá pelo e-mail institucional.');
+  });
+  document.getElementById('keep').addEventListener('change', function (e) {
+    toast(e.target.checked ? 'Sessão persistente ativada nesta máquina.' : 'Sessão persistente desativada nesta máquina.');
+  });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    msg.className = 'msg';
+    var okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+    var okPw = pw.value.length > 0;
+    document.getElementById('fEmail').classList.toggle('invalid', !okEmail);
+    document.getElementById('fPw').classList.toggle('invalid', !okPw);
+    if (!okEmail || !okPw) return;
+    btn.disabled = true;
+    btn.textContent = 'Verificando acesso…';
+    setTimeout(function () {
+      msg.className = 'msg ok';
+      msg.textContent = 'Acesso autorizado. Bem-vindo(a) ao Mural de Estágios!';
+      toast('Login realizado com sucesso.', true);
+      btn.disabled = false;
+      btn.textContent = 'Entrar no sistema';
+      form.reset();
+    }, 950);
+  });
+})();
+</script></body>
+</html>

@@ -1,0 +1,39 @@
+{
+  "id": "e4b982fa",
+  "kind": "html",
+  "title": "Are you going to make the changes on the",
+  "relativePath": ".kun-design/2642402f/e4b982fa/v2.html",
+  "createdAt": "2026-09-05T03:32:54.172Z",
+  "updatedAt": "2026-09-05T03:33:43.180Z",
+  "versions": [
+    {
+      "id": "e4b982fa-v2",
+      "relativePath": ".kun-design/2642402f/e4b982fa/v2.html",
+      "createdAt": "2026-09-05T03:33:43.180Z",
+      "summary": "Draft the design brief & plan: Are you going to make the changes on the templates files of areas? What I have to do?"
+    },
+    {
+      "id": "e4b982fa-v1",
+      "relativePath": ".kun-design/2642402f/e4b982fa/v1.html",
+      "createdAt": "2026-09-05T03:32:54.172Z",
+      "summary": "Are you going to make the changes on the templates files of areas? What I have to do?"
+    }
+  ],
+  "designMdPath": ".kun-design/2642402f/e4b982fa/DESIGN.md",
+  "previewStatus": "pending",
+  "node": {
+    "x": 720,
+    "y": -400,
+    "width": 1280,
+    "height": 800,
+    "sizeMode": "auto",
+    "viewMode": "preview",
+    "boardHidden": false
+  },
+  "direction": {
+    "id": "1a7077ae",
+    "name": "Are you going to make",
+    "status": "active",
+    "createdAt": "2026-09-05T03:32:54.171Z"
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mural de Estágios · ESS/UFRJ — Logotipo</title>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;background:#f4f7fb;color:#1f2937;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:44px 24px 60px}
+/* --- presentation tile --- */
+.tile{position:relative;border-radius:28px;overflow:hidden;background:linear-gradient(135deg,#2b6c9c 0%,#1d4f7a 100%);box-shadow:0 26px 60px rgba(29,79,122,.32);display:grid;place-items:center;min-height:600px;padding:72px 36px 56px;text-align:center}
+.tile::before{content:"";position:absolute;inset:0;pointer-events:none;background:
+ radial-gradient(1150px 480px at 50% -12%,rgba(255,255,255,.16),transparent 62%),
+ radial-gradient(640px 320px at 86% 116%,rgba(255,255,255,.08),transparent 60%)}
+.tile::after{content:"";position:absolute;left:50%;top:-170px;width:520px;height:520px;transform:translateX(-50%);border:1px solid rgba(255,255,255,.14);border-radius:50%;pointer-events:none}
+.hero{position:relative;z-index:1;display:grid;justify-items:center;gap:4px}
+.mk{display:block}
+.eyebrow{margin:26px 0 6px;font-size:13px;font-weight:700;letter-spacing:.34em;text-transform:uppercase;color:#d9e9f6}
+h1{margin:0;font-size:clamp(46px,7vw,84px);line-height:1.02;letter-spacing:-.02em}
+h1 .w1{font-weight:800}
+h1 .w2{font-weight:500;color:#f2f8fd}
+.lead{margin:18px 0 0;font-size:17px;color:#d9e9f6;font-weight:500}
+.tcap{margin:34px 0 0;font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#c2d9ea}
+/* --- variants --- */
+h2{margin:64px 0 6px;font-size:22px;letter-spacing:-.01em}
+.hint{margin:0 0 22px;font-size:14px;color:#4b5a6a}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:#fff;border:1px solid #dfe7f1;border-radius:20px;padding:26px 26px 22px}
+.card .lab{display:block;margin-bottom:18px;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#4b5a6a}
+.lockup{display:flex;align-items:center;gap:18px}
+.wm{line-height:1.05}
+.wm .w1{font-weight:800}
+.wm .w2{font-weight:600}
+.wm .sub{display:block;margin-top:6px;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#5b6b7c}
+.mono .wm{color:#1d4f7a}
+.mono .wm .sub{color:#5b6b7c}
+.foot{margin-top:40px;font-size:12px;color:#6b7a89;text-align:center}
+/* motion, with reduced-motion fallback */
+.anim{animation:rise .6s cubic-bezier(.22,.61,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.anim{animation:none}}
+@media (max-width:760px){.cards{grid-template-columns:1fr}.tile{min-height:0;padding:64px 24px 48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<g id="mk-tile">
+<rect x="10" y="10" width="76" height="76" rx="20" fill="none" stroke="#ffffff" stroke-width="5"/>
+<rect x="30" y="24" width="34" height="48" rx="9" fill="#ffffff" opacity=".38"/>
+<rect x="42" y="36" width="34" height="44" rx="9" fill="#ffffff"/>
+<circle cx="59" cy="28" r="8.5" fill="none" stroke="#1d4f7a" stroke-width="5.5"/>
+<circle cx="59" cy="28" r="2.1" fill="#1d4f7a"/>
+</g>
+<g id="mk-light">
+<rect x="10" y="10" width="76" height="76" rx="20" fill="none" stroke="#1d4f7a" stroke-width="5"/>
+<rect x="30" y="24" width="34" height="48" rx="9" fill="#eaf3fb" opacity=".38"/>
+<rect x="42" y="36" width="34" height="44" rx="9" fill="#eaf3fb"/>
+<circle cx="59" cy="28" r="8.5" fill="none" stroke="#1d4f7a" stroke-width="5.5"/>
+<circle cx="59" cy="28" r="2.1" fill="#1d4f7a"/>
+</g>
+<g id="mk-mono">
+<rect x="10" y="10" width="76" height="76" rx="20" fill="none" stroke="#1d4f7a" stroke-width="5"/>
+<rect x="30" y="24" width="34" height="48" rx="9" fill="#1d4f7a" opacity=".38"/>
+<rect x="42" y="36" width="34" height="44" rx="9" fill="#1d4f7a"/>
+<circle cx="59" cy="28" r="8.5" fill="none" stroke="#1d4f7a" stroke-width="5.5"/>
+<circle cx="59" cy="28" r="2.1" fill="#1d4f7a"/>
+</g>
+</defs></svg>
+
+<section class="tile" aria-label="Versão principal do logotipo">
+<div class="hero">
+<svg class="mk anim" style="animation-delay:.05s" width="150" height="150" viewBox="0 0 96 96" role="img" aria-label="Símbolo Mural de Estágios"><use href="#mk-tile"/></svg>
+<p class="eyebrow anim" style="animation-delay:.12s">ESS · UFRJ</p>
+<h1 class="anim" style="animation-delay:.18s"><span class="w1">Mural</span> <span class="w2">de Estágios</span></h1>
+<p class="lead anim" style="animation-delay:.24s">Quadro digital de estágios e documentos</p>
+<p class="tcap anim" style="animation-delay:.3s">Versão principal · fundo institucional</p>
+</div>
+</section>
+
+<section aria-labelledby="variacoes">
+<h2 id="variacoes" class="anim">Variações de uso</h2>
+<p class="hint anim">Uma marca geométrica vetorial — quadro de mural, avisos empilhados e alfinete — recolorível e legível em tamanhos pequenos.</p>
+<div class="cards">
+<div class="card anim" style="animation-delay:.06s">
+<span class="lab">Horizontal · cor</span>
+<div class="lockup">
+<svg class="mk" width="72" height="72" viewBox="0 0 96 96" role="img" aria-label="Símbolo"><use href="#mk-light"/></svg>
+<p class="wm" style="font-size:24px"><span class="w1">Mural</span> <span class="w2">de Estágios</span><span class="sub">ESS · UFRJ</span></p>
+</div>
+<p class="hint" style="margin:18px 0 0">Cabeçalhos de páginas, assinaturas de e-mail e documentos institucionais.</p>
+</div>
+
+<div class="card mono anim" style="animation-delay:.12s">
+<span class="lab">Monocromático · 1 cor</span>
+<div class="lockup">
+<svg class="mk" width="84" height="84" viewBox="0 0 96 96" role="img" aria-label="Símbolo monocromático"><use href="#mk-mono"/></svg>
+<p class="wm" style="font-size:26px"><span class="w1">Mural</span> <span class="w2">de Estágios</span><span class="sub">1 cor · #1d4f7a</span></p>
+</div>
+<p class="hint" style="margin:18px 0 0">Para impressão monocromática, relevo, selos e fundos claros.</p>
+</div>
+</div>
+</section>
+
+<footer class="foot">Mural de Estágios · ESS/UFRJ — marca desenhada sobre os tokens visuais do sistema (#2b6c9c · #1d4f7a).</footer>
+</div>
+</body>
+</html>

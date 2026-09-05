@@ -75,4 +75,11 @@ class MuralestagiosControllerTest extends TestCase
         $this->post('/muralestagios/delete/1');
         $this->assertResponseSuccess();
     }
+
+    public function testImprimepdfAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/muralestagios/imprimepdf/1');
+        $this->assertResponseOk();
+    }
 }

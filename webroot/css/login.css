@@ -1,156 +1,66 @@
-/* Login page — Mural5 (tokens from DESIGN.md / app-theme.css) */
-
-.login-page {
-    display: flex;
-    justify-content: center;
-    padding: 3rem 1rem 2rem;
+/* Login / cover page — Mural de Estágios (ESS · UFRJ)
+   Uses the app tokens from app-theme.css (--app-brand #2b6c9c, --app-brand-dark #1d4f7a). */
+.login-cover{
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--app-brand) 0%,var(--app-brand-dark) 100%);
+  box-shadow:0 22px 55px rgba(29,79,122,.28);
+  padding:clamp(18px,2.4vw,34px);
+  display:flex;
+  flex-direction:column;
+  gap:clamp(14px,2vw,22px);
 }
-
-.login-card {
-    width: 100%;
-    max-width: 460px;
-    background: var(--app-surface);
-    border: 1px solid var(--app-border);
-    border-radius: 1rem;
-    box-shadow: var(--app-shadow);
-    overflow: hidden;
-}
-
-.login-card-header {
-    background: linear-gradient(135deg, var(--app-brand) 0%, var(--app-brand-dark) 100%);
-    padding: 1.75rem 2rem;
-    color: #fff;
-}
-
-.login-card-header h1 {
-    color: #fff;
-    font-size: 1.375rem;
-    margin: 0;
-    letter-spacing: -0.02em;
-}
-
-.login-card-header p {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 0.8125rem;
-    margin: 0.25rem 0 0;
-}
-
-.login-card-body {
-    padding: 2rem;
-}
-
-.login-card-body h2 {
-    font-size: 1.125rem;
-    margin: 0;
-}
-
-.login-subtitle {
-    color: var(--app-muted);
-    font-size: 0.875rem;
-    margin: 0.25rem 0 1.5rem;
-}
-
-.login-field {
-    margin-bottom: 1.125rem;
-}
-
-.login-field label {
-    display: block;
-    font-size: 0.8125rem;
-    margin-bottom: 0.375rem;
-}
-
-.login-field input[type="email"],
-.login-field input[type="password"] {
-    width: 100%;
-    height: 44px;
-    min-height: 44px;
-    padding: 0 0.875rem;
-    border: 1px solid var(--app-border);
-    border-radius: 0.75rem;
-    background: #fff;
-    font-size: 0.9375rem;
-    color: var(--app-text);
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.login-field input:focus {
-    outline: none;
-    border-color: rgba(43, 108, 156, 0.6);
-    box-shadow: 0 0 0 0.2rem rgba(43, 108, 156, 0.12);
-}
-
-.btn-login {
-    width: 100%;
-    height: 44px;
-    margin-top: 0.5rem;
-    background: var(--app-brand);
-    border: 1px solid var(--app-brand);
-    border-radius: 0.6rem;
-    color: #fff;
-    font-weight: 600;
-    font-size: 0.9375rem;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out, border-color 0.2s ease-in-out;
-}
-
-.btn-login:hover {
-    background: var(--app-brand-dark);
-    border-color: var(--app-brand-dark);
-}
-
-.login-footer-actions {
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-}
-
-.login-footer-actions .link {
-    color: var(--app-brand);
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-.login-footer-actions .link:hover {
-    text-decoration: underline;
-}
-
-.login-footer-actions .btn-outline {
-    display: inline-block;
-    padding: 0.625rem 1rem;
-    background: #fff;
-    border: 1px solid var(--app-brand);
-    border-radius: 0.6rem;
-    color: var(--app-brand);
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-decoration: none;
-    transition: background 0.2s ease-in-out;
-}
-
-.login-footer-actions .btn-outline:hover {
-    background: var(--app-brand-soft);
-    text-decoration: none;
-}
-
-@media (max-width: 480px) {
-    .login-card-header {
-        padding: 1.25rem 1.5rem;
-    }
-
-    .login-card-body {
-        padding: 1.5rem;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .login-field input,
-    .btn-login,
-    .login-footer-actions .btn-outline {
-        transition: none;
-    }
-}
+.login-cover::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(980px 420px at 18% -8%,rgba(255,255,255,.16),transparent 60%),
+             radial-gradient(560px 300px at 108% 118%,rgba(255,255,255,.09),transparent 60%)}
+.login-cover>*{position:relative;z-index:1}
+/* top row */
+.login-cover-top{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.login-brand{display:flex;align-items:center;gap:11px;color:#fff}
+.login-brand b{font-size:16px;font-weight:700;letter-spacing:0;line-height:1.15;display:block}
+.login-brand .mini{font-size:10.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#cfe4f5}
+.login-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;letter-spacing:0}
+.login-chip i{width:7px;height:7px;border-radius:50%;background:#9fd6b4;flex:none}
+/* hero grid */
+.login-cover-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(320px,430px);gap:clamp(22px,3.5vw,48px);align-items:center}
+.login-hero .eyebrow{margin:18px 0 4px;font-size:11.5px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#d7eaf8}
+.login-hero h1{margin:0;font-size:clamp(34px,4.2vw,62px);line-height:1.04;letter-spacing:0;color:#fff;font-weight:800}
+.login-hero h1 .w2{font-weight:500;color:#eef7fd}
+.login-hero .tagline{margin:16px 0 0;max-width:52ch;font-size:clamp(13.5px,1.15vw,16px);line-height:1.6;color:rgba(255,255,255,.92);font-weight:500}
+.login-roles{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.login-roles span{border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;letter-spacing:0}
+/* access card */
+.login-card{background:var(--app-surface,#fff);border-radius:14px;padding:clamp(18px,1.8vw,26px);box-shadow:0 18px 44px rgba(10,30,50,.22)}
+.login-card h2{margin:0;font-size:20px;font-weight:700;letter-spacing:0;color:var(--app-text,#1f2937)}
+.login-card .sub{margin:6px 0 18px;font-size:13.5px;color:var(--app-muted,#52606e);line-height:1.55}
+.login-form .input{margin:0 0 14px}
+.login-form label{display:block;font-size:12.5px;font-weight:700;margin-bottom:6px;color:var(--app-text,#1f2937)}
+.login-form input[type="email"],
+.login-form input[type="password"]{width:100%;min-height:46px;border:1px solid #c9d7e4;border-radius:8px;padding:10px 13px;
+  font-size:15px;font-family:inherit;color:var(--app-text,#1f2937);background:#fff;
+  transition:border-color .15s ease-out,box-shadow .15s ease-out}
+.login-form input:focus{outline:none;border-color:var(--app-brand);box-shadow:0 0 0 3px rgba(43,108,156,.28)}
+.login-form .error-message{margin:6px 0 0;font-size:12.5px;font-weight:600;color:var(--app-danger,#b02a37)}
+.login-btn{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:48px;border:1px solid transparent;
+  border-radius:8px;background:var(--app-brand,#2b6c9c);color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:background .15s ease-out}
+.login-btn:hover{background:var(--app-brand-dark,#1d4f7a)}
+.login-divider{display:flex;align-items:center;gap:12px;margin:16px 0;color:#8aa0b4;font-size:12px;font-weight:600}
+.login-divider::before,.login-divider::after{content:"";flex:1;height:1px;background:var(--app-border,#dfe7f1)}
+.login-btn-ghost{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:46px;border:1px solid #c9d7e4;
+  border-radius:8px;background:var(--app-surface,#fff);color:var(--app-brand-dark,#1d4f7a);font-size:14.5px;font-weight:700;
+  text-decoration:none;font-family:inherit;cursor:pointer;transition:border-color .15s ease-out,background .15s ease-out}
+.login-btn-ghost:hover{border-color:var(--app-brand);background:var(--app-brand-soft,#eaf3fb)}
+.login-links{display:flex;justify-content:center;margin-top:14px}
+.login-links a{display:inline-flex;align-items:center;min-height:40px;padding:8px 6px;font-size:13px;font-weight:600;
+  color:var(--app-brand-dark,#1d4f7a);text-decoration:underline;text-underline-offset:3px}
+/* footer */
+.login-foot{margin:18px 0 6px;text-align:center;font-size:12.5px;color:var(--app-muted,#52606e);line-height:1.7}
+.login-foot b{color:var(--app-brand-dark,#1d4f7a);font-weight:700}
+:focus-visible{outline:3px solid rgba(43,108,156,.35);outline-offset:2px;border-radius:6px}
+/* responsive */
+@media (max-width:980px){.login-cover-grid{grid-template-columns:1fr}.login-hero h1{font-size:clamp(30px,6vw,44px)}}
+@media (max-width:520px){.login-brand b{font-size:14.5px}.login-chip{font-size:11.5px;padding:6px 11px}}
+@media (prefers-reduced-motion:reduce){.login-form input,.login-btn,.login-btn-ghost{transition:none}}

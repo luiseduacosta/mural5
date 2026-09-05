@@ -10,6 +10,9 @@ use Cake\I18n\DateTime;
 I18n::setLocale('pt-BR');
 $hoje = DateTime::now('America/Sao_Paulo');
 
+$this->setLayout('default');
+$this->assign('title', 'Avaliação do Estagiário');
+
 $supervisora = isset($avaliacao->estagiario->supervisor->nome) ? $avaliacao->estagiario->supervisor->nome : "____________________";
 $regiao = isset($avaliacao->estagiario->supervisor->regiao) ? $avaliacao->estagiario->supervisor->regiao : '__';
 $cress = isset($avaliacao->estagiario->supervisor->cress) ? $avaliacao->estagiario->supervisor->cress : '_____';

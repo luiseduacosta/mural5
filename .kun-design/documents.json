@@ -1,5 +1,24 @@
 {
   "version": 1,
-  "activeDocumentId": null,
-  "documents": []
+  "activeDocumentId": "d2abe496",
+  "documents": [
+    {
+      "id": "2642402f",
+      "title": "Verify and improve the areas templates",
+      "titleOrigin": "generated",
+      "order": 0,
+      "createdAt": "2026-09-05T03:23:25.124Z",
+      "updatedAt": "2026-09-05T03:38:00.498Z",
+      "activeArtifactId": "21c5a7f2"
+    },
+    {
+      "id": "d2abe496",
+      "title": "Fix the file declaracaoperiodo at the template",
+      "titleOrigin": "generated",
+      "order": 1,
+      "createdAt": "2026-09-05T17:24:55.201Z",
+      "updatedAt": "2026-09-05T19:05:50.788Z",
+      "activeArtifactId": "2205a428"
+    }
+  ]
 }

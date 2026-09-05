@@ -185,3 +185,396 @@ ul {
     box-shadow: none;
     padding: 0.65rem 0.9rem;
 }
+
+/* ==========================================================================
+   Módulo Áreas de instituições — redesign aprovado (brief .kun-design/2642402f)
+   Compõe sobre os tokens --app-* de app-theme.css (ESS azul #2b6c9c).
+   ========================================================================== */
+
+.ui-area-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Breadcrumb */
+.ui-breadcrumb .breadcrumb {
+    margin: 0 0 1.4rem;
+    font-size: 0.9rem;
+}
+.ui-breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+    color: var(--app-muted);
+}
+.ui-breadcrumb .breadcrumb-item a {
+    color: var(--app-brand-dark);
+    font-weight: 600;
+    text-decoration: none;
+}
+.ui-breadcrumb .breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* Page header */
+.ui-pagehead {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.ui-pagehead h1 {
+    margin: 0 0 0.35rem;
+    font-size: 1.75rem;
+    letter-spacing: -0.01em;
+    color: var(--app-brand-dark);
+}
+.ui-pagehead-sub {
+    margin: 0;
+    color: var(--app-muted);
+    font-size: 0.92rem;
+}
+.ui-pagehead-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+}
+.ui-pagehead-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    white-space: nowrap;
+}
+
+/* Toolbar / search */
+.ui-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.25rem;
+}
+.ui-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: min(100%, 26rem);
+}
+.ui-search-icon {
+    position: absolute;
+    left: 0.95rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--app-muted);
+    display: inline-flex;
+    pointer-events: none;
+}
+.ui-search .form-control {
+    padding-left: 2.7rem;
+}
+.ui-search-clear {
+    font-size: 0.88rem;
+    color: var(--app-brand-dark);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.ui-search-clear:hover {
+    text-decoration: underline;
+}
+
+/* Chips / badges */
+.ui-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.75rem;
+    border-radius: 999px;
+    background: var(--app-brand-soft);
+    color: var(--app-brand-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.ui-chip--empty {
+    background: #eef1f5;
+    color: var(--app-muted);
+}
+
+/* Panel */
+.ui-panel {
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+    box-shadow: var(--app-shadow);
+}
+.ui-panel--table {
+    overflow: hidden;
+}
+.ui-panel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1.35rem;
+    border-bottom: 1px solid var(--app-border);
+}
+.ui-panel-head h2 {
+    margin: 0;
+    font-size: 1.08rem;
+    color: var(--app-brand-dark);
+}
+.ui-panel-body {
+    padding: 1.35rem;
+}
+
+/* Áreas table */
+.ui-areas-table th {
+    white-space: nowrap;
+}
+.ui-areas-table td {
+    vertical-align: middle;
+}
+.ui-areas-table td a.ui-area-link {
+    font-weight: 600;
+    color: var(--app-brand-dark);
+    text-decoration: none;
+}
+.ui-areas-table td a.ui-area-link:hover {
+    text-decoration: underline;
+}
+td.ui-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 0.35rem;
+}
+td.ui-actions .btn:first-child {
+    margin-left: 0;
+}
+.ui-ic {
+    width: 15px;
+    height: 15px;
+    flex: none;
+}
+
+/* Empty states */
+.ui-empty {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+.ui-empty-icon {
+    width: 3.4rem;
+    height: 3.4rem;
+    margin: 0 auto 1rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--app-brand-soft);
+    color: var(--app-brand-dark);
+}
+.ui-empty h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.15rem;
+    color: var(--app-brand-dark);
+}
+.ui-empty p {
+    max-width: 30rem;
+    margin: 0 auto 1.15rem;
+    color: var(--app-muted);
+}
+
+/* Instituições list (detail) */
+.ui-inst-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.ui-inst-list li + li {
+    border-top: 1px solid var(--app-border);
+}
+.ui-inst-link {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.85rem 1.35rem;
+    color: var(--app-brand-dark);
+    text-decoration: none;
+    transition: background 0.15s ease-out;
+}
+.ui-inst-link:hover {
+    background: var(--app-brand-soft);
+}
+.ui-inst-name {
+    font-weight: 600;
+}
+.ui-inst-city {
+    margin-left: auto;
+    color: var(--app-muted);
+    font-size: 0.85rem;
+}
+.ui-inst-chev {
+    color: var(--app-muted);
+    display: inline-flex;
+}
+
+/* Forms (add/edit) */
+.ui-panel--form {
+    max-width: 46rem;
+    padding: 1.6rem;
+}
+.ui-field .form-label {
+    font-weight: 600;
+    color: var(--app-brand-dark);
+}
+.ui-required {
+    color: var(--app-danger);
+}
+.ui-field .form-control.is-invalid {
+    border-color: var(--app-danger);
+}
+.ui-field .form-control.is-invalid:focus {
+    border-color: var(--app-danger);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.15);
+}
+.ui-field-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.45rem;
+    font-size: 0.85rem;
+    color: var(--app-muted);
+}
+.ui-counter {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+.ui-field-errors {
+    list-style: none;
+    margin: 0.55rem 0 0;
+    padding: 0;
+}
+.ui-field-errors li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    color: var(--app-danger);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+.ui-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 1.6rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--app-border);
+}
+
+/* Pagination */
+.ui-pagination {
+    display: flex;
+    justify-content: center;
+    padding: 1.1rem 0 0;
+}
+.ui-pagination .page-link {
+    color: var(--app-brand-dark);
+}
+.ui-pagination .page-item.active .page-link {
+    background: var(--app-brand);
+    border-color: var(--app-brand);
+}
+.ui-pagination-count {
+    padding: 0.6rem 0 0.2rem;
+}
+
+/* Delete confirm modal */
+.areas-modal .modal-content {
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
+}
+.areas-modal .modal-title {
+    color: var(--app-brand-dark);
+    font-weight: 700;
+}
+.areas-modal .modal-footer {
+    border-top: 1px solid var(--app-border);
+}
+#deleteAreaForm {
+    margin: 0;
+}
+#deleteAreaForm .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Responsive: list rows become stacked cards on phones */
+@media (max-width: 767.98px) {
+    .ui-areas-table thead {
+        display: none;
+    }
+    .ui-areas-table,
+    .ui-areas-table tbody,
+    .ui-areas-table tr,
+    .ui-areas-table td {
+        display: block;
+        width: 100%;
+    }
+    .ui-areas-table tbody tr {
+        border: 1px solid var(--app-border);
+        border-radius: 0.9rem;
+        margin: 0 0 0.9rem;
+        box-shadow: var(--app-shadow);
+    }
+    .ui-areas-table tbody tr td {
+        border: 0 !important;
+        padding: 0.65rem 1rem;
+    }
+    .ui-areas-table td[data-label]:not(.ui-actions)::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--app-muted);
+        margin-bottom: 0.15rem;
+    }
+    td.ui-actions {
+        text-align: left !important;
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        border-top: 1px dashed var(--app-border);
+        margin-top: 0.4rem;
+    }
+    td.ui-actions .btn {
+        margin-left: 0 !important;
+    }
+    .ui-search {
+        width: 100%;
+    }
+    .ui-pagehead h1 {
+        font-size: 1.45rem;
+    }
+}
+
+/* Accessibility: focus + reduced motion */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--app-brand);
+    outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+        scroll-behavior: auto !important;
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "21c5a7f2",
+  "kind": "canvas",
+  "title": "Design board",
+  "relativePath": ".kun-design/2642402f/21c5a7f2/canvas.json",
+  "createdAt": "2026-09-05T03:23:25.353Z",
+  "updatedAt": "2026-09-05T03:23:25.353Z",
+  "versions": [
+    {
+      "id": "21c5a7f2-v1",
+      "relativePath": ".kun-design/2642402f/21c5a7f2/canvas.json",
+      "createdAt": "2026-09-05T03:23:25.353Z",
+      "summary": ""
+    }
+  ],
+  "node": {
+    "x": 160,
+    "y": 150,
+    "width": 420,
+    "height": 340,
+    "sizeMode": "auto",
+    "viewMode": "preview"
+  }
+}

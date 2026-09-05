@@ -60,10 +60,9 @@
 <?php $this->Form->setTemplates(['option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>']); ?>
 <?php // Option group element used in select pickers. ?>
 <?php $this->Form->setTemplates(['optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>']); ?>
-<?php // Select element, ?>
-<?php $this->Form->setTemplates(['select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>']); ?>
-<?php // Multi-select element, ?>
-<?php $this->Form->setTemplates(['selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>']); ?>
+<?php // Select element, wrapped in col-sm-9 so it sits on the same row as its label. ?>
+<?php $this->Form->setTemplates(['select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>']); ?>
+<?php // Multi-select element, ?><?php $this->Form->setTemplates(['selectMultiple' => '<div class="col-sm-9"><select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select></div>']); ?>
 <?php // Radio input element, ?>
 <?php $this->Form->setTemplates(['radio' => '<input class="form-check-input" type="radio" name="{{name}}" value="{{value}}"{{attrs}}>']); ?>
 <?php // Wrapping container for radio input/label, ?>

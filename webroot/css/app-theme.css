@@ -227,10 +227,10 @@ nav.navbar {
 }
 
 /* Override legacy nav.css generic nav { position: fixed; top: 0; height: 50px }
-   and body { margin-top: 60px } because the menu now lives at the bottom of index pages.
-   Using !important because legacy nav.css has aggressive generic nav{} + @media queries
-   that apply fixed/top positioning; equal specificity with later file was still being
-   overridden by the generic nav rules. */
+   and body { margin-top: 60px } because the responsive menu is a sticky header
+   at the top of every page. Using !important because legacy nav.css has aggressive
+   generic nav{} + @media queries that apply fixed/top positioning; equal specificity
+   with a later file was still being overridden by the generic nav rules. */
 body {
     margin-top: 0 !important;
 }
@@ -251,15 +251,36 @@ nav[aria-label="Paginação"] {
     grid-template-columns: none !important;
 }
 
+/* Breadcrumb navigation rendered inside page content must stay in normal flow,
+   below the sticky top menu — neutralize the same legacy nav.css generic rules. */
+nav.ui-breadcrumb {
+    position: static !important;
+    top: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+    height: auto !important;
+    background: transparent !important;
+    display: block !important;
+    overflow: visible !important;
+    z-index: auto !important;
+    grid-template-columns: none !important;
+    font-family: inherit !important;
+}
+nav.ui-breadcrumb li {
+    white-space: normal;
+}
+
 nav.responsive-nav {
     position: sticky !important;
-    bottom: 0 !important;
-    top: auto !important;
+    top: 0 !important;
+    bottom: auto !important;
     z-index: 1030 !important;
     padding: 0 15px !important;
     max-width: 1400px !important;
-    margin: 1rem auto 0 !important;
-    border-radius: 1rem 1rem 0 0 !important;
+    margin: 0 auto !important;
+    border-radius: 0 0 1rem 1rem !important;
     left: auto !important;
     right: auto !important;
     width: auto !important;

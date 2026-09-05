@@ -78,6 +78,7 @@ if ($user_session) {
                 <li><?php echo $this->Html->link('Alunos(as)', ['controller' => 'Alunos', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Supervisores(as)', ['controller' => 'Supervisores', 'action' => 'index']); ?></li>                
                 <li><?php echo $this->Html->link('Instituições', ['controller' => 'Instituicoes', 'action' => 'index']); ?></li>
+                    <li><?php echo $this->Html->link('Áreas', ['controller' => 'Areas', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Inscrições', ['controller' => 'Inscricoes', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Estagiários(as)', ['controller' => 'Estagiarios', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Professores(as)', ['controller' => 'Professores', 'action' => 'index']); ?></li>

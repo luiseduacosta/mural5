@@ -1,8 +1,16 @@
 <?php
 // setlocale (LC_TIME, 'pt_BR');
-$dia = strftime('%e', time());
-$mes = strftime('%B', time());
-$ano = strftime('%Y', time());
+use Cake\I18n\DateTime;
+use Cake\I18n\I18n;
+
+I18n::setLocale('pt-BR');
+$hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
+$dia = $hoje->day;
+$mes = $hoje->monthName;
+$ano = $hoje->year;
+
+$this->layout = 'default';
+$this->assign('title', 'Avaliação Discente');
 
 if (isset($estagiario->supervisor->nome)) {
     $supervisora = $estagiario->supervisor->nome;

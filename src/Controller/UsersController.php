@@ -181,15 +181,35 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->Authorization->skipAuthorization();
-        /** @var \App\Model\Entity\User|null $user */
+        $this->Authorization->authorize($this->Users);
+        /** @var User|null $user */
         $user = $this->Authentication->getIdentity();
 
         if ($user && $user->categoria === '1') {
-            $users = $this->paginate(
-                $this->Users->find()->contain(['Alunos', 'Supervisores', 'Professores'])
-            );
-            $this->set(compact('users'));
+            $q = trim((string)$this->request->getQuery('q', ''));
+            $query = $this->Users->find()->contain(['Alunos', 'Supervisores', 'Professores']);
+
+            if ($q !== '') {
+                $like = '%' . str_replace(['%', '_'], '', $q) . '%';
+                $query->where([
+                    'OR' => [
+                        'Users.nome LIKE' => $like,
+                        'Users.email LIKE' => $like,
+                    ],
+                ]);
+            }
+
+            $this->paginate = [
+                'limit' => 20,
+                'order' => ['Users.nome' => 'ASC'],
+                'sortableFields' => [
+                    'id', 'nome', 'email', 'categoria',
+                    'identificacao', 'entidade_id',
+                    'aluno_id', 'supervisor_id', 'professor_id',
+                ],
+            ];
+            $users = $this->paginate($query);
+            $this->set(compact('users', 'q'));
         } else {
             $this->Flash->error(__('Usuário não autorizado'));
 
@@ -202,7 +222,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function view(?string $id = null)
     {
@@ -359,7 +379,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -398,7 +418,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -439,7 +459,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        /** @var iterable<\App\Model\Entity\User> $users */
+        /** @var iterable<User> $users */
         $users = $this->Users->find('all');
         foreach ($users as $user) {
             // Sync role with categoria

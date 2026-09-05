@@ -408,7 +408,9 @@ class AlunosController extends AppController
 
         $this->Authorization->authorize($aluno, 'declaracaoperiodopdf');
 
-        $this->viewBuilder()->setLayout('pdf/default');
+        // PdfView already scopes layouts to templates/layout/pdf/, so the layout
+        // name is 'default' (templates/layout/pdf/default.php) — not 'pdf/default'.
+        $this->viewBuilder()->setLayout('default');
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption('pdfConfig', [
             'orientation' => 'portrait',

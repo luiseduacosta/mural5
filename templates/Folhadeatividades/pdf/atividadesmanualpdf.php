@@ -30,6 +30,9 @@ use Cake\I18n\I18n;
 
 I18n::setLocale('pt-BR');
 $hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
+
+$this->layout = 'default';
+$this->assign('title', 'Folha de Atividades');
 ?>
 
 <h2 style="text-align:center; line-height: 80%; margin: 0">
