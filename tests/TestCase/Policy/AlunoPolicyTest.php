@@ -81,7 +81,7 @@ class AlunoPolicyTest extends TestCase
         $aluno = $this->getAlunoIdentity(2);
         $otherAluno = $this->getAlunoIdentity(3);
 
-        $resource = new Aluno(['user_id' => 2]);
+        $resource = new Aluno(['id' => 2, 'user_id' => 2]);
         $this->assertTrue($this->AlunoPolicy->canView($aluno, $resource)->getStatus());
         $this->assertFalse($this->AlunoPolicy->canView($otherAluno, $resource)->getStatus());
     }
@@ -91,7 +91,7 @@ class AlunoPolicyTest extends TestCase
         $aluno = $this->getAlunoIdentity(2);
         $otherAluno = $this->getAlunoIdentity(3);
 
-        $resource = new Aluno(['user_id' => 2]);
+        $resource = new Aluno(['id' => 2, 'user_id' => 2]);
         $this->assertTrue($this->AlunoPolicy->canEdit($aluno, $resource)->getStatus());
         $this->assertFalse($this->AlunoPolicy->canEdit($otherAluno, $resource)->getStatus());
     }
@@ -110,7 +110,7 @@ class AlunoPolicyTest extends TestCase
         $aluno = $this->getAlunoIdentity(2);
         $otherAluno = $this->getAlunoIdentity(3);
 
-        $resource = new Aluno(['user_id' => 2]);
+        $resource = new Aluno(['id' => 2, 'user_id' => 2]);
         $this->assertTrue($this->AlunoPolicy->canDeclaracaoperiodo($aluno, $resource)->getStatus());
         $this->assertFalse($this->AlunoPolicy->canDeclaracaoperiodo($otherAluno, $resource)->getStatus());
     }

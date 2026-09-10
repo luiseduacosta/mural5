@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
+use App\Model\Table\UsersTable;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
 use Authorization\Policy\ResultInterface;
 use Cake\ORM\Query;
 
@@ -27,6 +29,20 @@ final class UsersTablePolicy implements BeforePolicyInterface
         }
 
         return null;
+    }
+
+    /**
+     * @param IdentityInterface $userSession
+     * @param UsersTable $usersTable
+     * @return Result
+     */
+    public function canIndex(IdentityInterface $userSession, UsersTable $usersTable): Result
+    {
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], ['1', '2', '3', '4'])
+            ? new Result(true)
+            : new Result(false, 'Erro: users index policy not authorized');
     }
 
     /**
