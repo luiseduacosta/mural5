@@ -1,0 +1,14 @@
+.git
+.gitignore
+.env
+.qoder
+.vscode
+.phpunit.cache
+logs/*
+tmp/*
+node_modules
+coverage
+*.md
+Dockerfile
+docker-compose.yml
+.dockerignore

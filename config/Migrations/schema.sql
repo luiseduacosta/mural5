@@ -1,21 +1,7 @@
--- =====================================================
--- Mural de Estágios - Schema Migration
--- Database: mural5
--- Charset: utf8mb4
--- =====================================================
--- Usage:
---   mysql -u root -p mural5 < config/Migrations/schema.sql
---   mysql -u root -p mural5_test < config/Migrations/schema.sql
--- =====================================================
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 SET NAMES utf8mb4;
 
--- =====================================================
--- Table: categorias
--- =====================================================
 CREATE TABLE IF NOT EXISTS `categorias` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `categoria` VARCHAR(50) NOT NULL,
@@ -28,9 +14,6 @@ INSERT INTO `categorias` (`id`, `categoria`) VALUES
 (3, 'Professor'),
 (4, 'Supervisor');
 
--- =====================================================
--- Table: users
--- =====================================================
 CREATE TABLE IF NOT EXISTS `users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(128) NOT NULL,
@@ -49,9 +32,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: administradores
--- =====================================================
 CREATE TABLE IF NOT EXISTS `administradores` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(128) NOT NULL,
@@ -60,9 +40,6 @@ CREATE TABLE IF NOT EXISTS `administradores` (
     UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: areas
--- =====================================================
 CREATE TABLE IF NOT EXISTS `areas` (
     `id` SMALLINT(3) NOT NULL AUTO_INCREMENT,
     `area` VARCHAR(90) NOT NULL DEFAULT '',
@@ -71,9 +48,6 @@ CREATE TABLE IF NOT EXISTS `areas` (
 
 INSERT INTO `areas` (`id`, `area`) VALUES (1, 'Saúde'), (2, 'Educação'), (3, 'Assistência Social');
 
--- =====================================================
--- Table: instituicoes
--- =====================================================
 CREATE TABLE IF NOT EXISTS `instituicoes` (
     `id` INT(4) NOT NULL AUTO_INCREMENT,
     `area_id` SMALLINT(3) DEFAULT NULL,
@@ -97,9 +71,6 @@ CREATE TABLE IF NOT EXISTS `instituicoes` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: supervisores
--- =====================================================
 CREATE TABLE IF NOT EXISTS `supervisores` (
     `id` INT(4) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(70) NOT NULL,
@@ -124,9 +95,6 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: inst_super (junction table)
--- =====================================================
 CREATE TABLE IF NOT EXISTS `inst_super` (
     `id` INT(4) NOT NULL AUTO_INCREMENT,
     `instituicao_id` SMALLINT(4) NOT NULL,
@@ -134,9 +102,6 @@ CREATE TABLE IF NOT EXISTS `inst_super` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: professores
--- =====================================================
 CREATE TABLE IF NOT EXISTS `professores` (
     `id` INT(3) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(200) NOT NULL,
@@ -165,9 +130,6 @@ CREATE TABLE IF NOT EXISTS `professores` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: turnos
--- =====================================================
 CREATE TABLE IF NOT EXISTS `turnos` (
     `id` SMALLINT(3) NOT NULL AUTO_INCREMENT,
     `turno` VARCHAR(70) DEFAULT NULL,
@@ -176,9 +138,6 @@ CREATE TABLE IF NOT EXISTS `turnos` (
 
 INSERT INTO `turnos` (`id`, `turno`) VALUES (1, 'diurno'), (2, 'noturno'), (3, 'integral'), (4, 'outro');
 
--- =====================================================
--- Table: alunos
--- =====================================================
 CREATE TABLE IF NOT EXISTS `alunos` (
     `id` INT(4) NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(50) NOT NULL,
@@ -207,9 +166,6 @@ CREATE TABLE IF NOT EXISTS `alunos` (
     UNIQUE KEY `registro` (`registro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: complementos
--- =====================================================
 CREATE TABLE IF NOT EXISTS `complementos` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `periodo_especial` VARCHAR(10) DEFAULT NULL,
@@ -218,9 +174,6 @@ CREATE TABLE IF NOT EXISTS `complementos` (
 
 INSERT INTO `complementos` (`id`, `periodo_especial`) VALUES (1, 'REMOTO'), (2, 'PLE');
 
--- =====================================================
--- Table: estagiarios
--- =====================================================
 CREATE TABLE IF NOT EXISTS `estagiarios` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `aluno_id` INT(11) NOT NULL,
@@ -243,9 +196,6 @@ CREATE TABLE IF NOT EXISTS `estagiarios` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: folhadeatividades
--- =====================================================
 CREATE TABLE IF NOT EXISTS `folhadeatividades` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `estagiario_id` INT(11) NOT NULL,
@@ -257,9 +207,6 @@ CREATE TABLE IF NOT EXISTS `folhadeatividades` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: mural_estagios
--- =====================================================
 CREATE TABLE IF NOT EXISTS `mural_estagios` (
     `id` INT(3) NOT NULL AUTO_INCREMENT,
     `instituicao_id` INT(4) NOT NULL,
@@ -284,9 +231,6 @@ CREATE TABLE IF NOT EXISTS `mural_estagios` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: inscricoes
--- =====================================================
 CREATE TABLE IF NOT EXISTS `inscricoes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `registro` INT(9) NOT NULL,
@@ -298,9 +242,6 @@ CREATE TABLE IF NOT EXISTS `inscricoes` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: avaliacoes (deprecated)
--- =====================================================
 CREATE TABLE IF NOT EXISTS `avaliacoes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `estagiario_id` INT(11) NOT NULL,
@@ -329,9 +270,6 @@ CREATE TABLE IF NOT EXISTS `avaliacoes` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: questionarios
--- =====================================================
 CREATE TABLE IF NOT EXISTS `questionarios` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `title` VARCHAR(255) NOT NULL,
@@ -344,9 +282,6 @@ CREATE TABLE IF NOT EXISTS `questionarios` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: questoes
--- =====================================================
 CREATE TABLE IF NOT EXISTS `questoes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `questionario_id` INT(11) NOT NULL,
@@ -360,9 +295,6 @@ CREATE TABLE IF NOT EXISTS `questoes` (
     KEY `questionario_id` (`questionario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: respostas
--- =====================================================
 CREATE TABLE IF NOT EXISTS `respostas` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `questionario_id` INT(11) NOT NULL,
@@ -374,18 +306,12 @@ CREATE TABLE IF NOT EXISTS `respostas` (
     KEY `estagiarios_id` (`estagiario_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: turmas
--- =====================================================
 CREATE TABLE IF NOT EXISTS `turmas` (
     `id` SMALLINT(3) NOT NULL AUTO_INCREMENT,
     `turma` VARCHAR(70) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: configuracoes
--- =====================================================
 CREATE TABLE IF NOT EXISTS `configuracoes` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `instituicao` VARCHAR(120) NOT NULL DEFAULT 'ESS/UFRJ',
@@ -400,9 +326,6 @@ CREATE TABLE IF NOT EXISTS `configuracoes` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- =====================================================
--- Table: visitas
--- =====================================================
 CREATE TABLE IF NOT EXISTS `visitas` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `instituicao_id` INT(11) NOT NULL,
@@ -414,14 +337,8 @@ CREATE TABLE IF NOT EXISTS `visitas` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- =====================================================
--- Foreign Keys
--- =====================================================
 ALTER TABLE `questoes` ADD CONSTRAINT `questoes_ibfk_1` FOREIGN KEY (`questionario_id`) REFERENCES `questionarios` (`id`) ON DELETE CASCADE;
 
--- =====================================================
--- Seed Data
--- =====================================================
 INSERT INTO `configuracoes` (`id`, `instituicao`, `mural_periodo_atual`, `curso_turma_atual`, `termo_compromisso_periodo`, `termo_compromisso_inicio`, `termo_compromisso_final`, `periodo_calendario_academico`) VALUES
 (1, 'ESS/UFRJ', '2025-1', 1, '2025-1', '2025-03-01', '2025-07-31', '2025-1');
 

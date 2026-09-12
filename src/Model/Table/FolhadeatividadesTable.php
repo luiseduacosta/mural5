@@ -61,7 +61,9 @@ class FolhadeatividadesTable extends Table
      */
     public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void
     {
-        $query->orderBy(['dia' => 'ASC']);
+        if ($query->clause('order') === null && $query->clause('group') === null) {
+            $query->orderBy(['dia' => 'ASC']);
+        }
 
         $event->setResult($query);
     }

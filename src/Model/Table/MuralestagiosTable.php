@@ -61,15 +61,17 @@ class MuralestagiosTable extends Table
     /**
      * Before find callback to apply default ordering.
      *
-     * @param \Cake\Event\EventInterface $event The beforeFind event.
-     * @param \Cake\ORM\Query $query The query object.
+     * @param EventInterface $event The beforeFind event.
+     * @param Query $query The query object.
      * @param \ArrayObject $options The options array.
      * @param bool $primary Whether this is a primary query or not.
      * @return void
      */
     public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void
     {
-        $query->orderBy(['data_inscricao' => 'DESC']);
+        if ($query->clause('order') === null && $query->clause('group') === null) {
+            $query->orderBy(['data_inscricao' => 'DESC']);
+        }
 
         $event->setResult($query);
     }

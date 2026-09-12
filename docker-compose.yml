@@ -1,0 +1,48 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mural5_app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+    environment:
+      - DEBUG=true
+      - DATABASE_URL=mysql://mural:mural@db:3306/mural5
+      - DATABASE_TEST_URL=mysql://mural:mural@db:3306/mural5_test
+      - SECURITY_SALT=6a4dda5da422ac17fcffa1395a37968211044894a581109ba167ea1217c0953d
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mural5_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mural5
+      MYSQL_USER: mural
+      MYSQL_PASSWORD: mural
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./config/Migrations/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: mural5_phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: mural
+      PMA_PASSWORD: mural
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

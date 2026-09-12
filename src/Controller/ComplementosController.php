@@ -15,7 +15,7 @@ class ComplementosController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Network\Response|null|void Renders view
      */
     public function index()
     {

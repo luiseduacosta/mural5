@@ -389,7 +389,7 @@ CREATE TABLE IF NOT EXISTS `supervisores` (
   `telefone` varchar(15) DEFAULT NULL,
   `celular` varchar(15) DEFAULT NULL,
   `cress` int(6) NOT NULL COMMENT 'CRESS do supervisor',
-  `regiao` tinyint(2) NOT NULL DEFAULT '7ª' COMMENT 'Região do supervisor',
+  `regiao` tinyint(2) NOT NULL DEFAULT 7 COMMENT 'Região do supervisor',
   `endereco` varchar(100) DEFAULT NULL,
   `bairro` varchar(30) DEFAULT NULL,
   `municipio` varchar(30) DEFAULT NULL,
