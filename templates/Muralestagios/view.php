@@ -78,13 +78,13 @@ if ($user_session) {
                                 case 0:
                                     echo "Não";
                                     break;
-                                case 1;
+                                case 1:
                                     echo "Sim";
                                     break;
                                 case 2:
                                     echo "Parcialmente";
                                     break;
-                                default;
+                                default:
                                     echo "Não";
                                     break;
                             }

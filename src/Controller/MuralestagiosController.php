@@ -101,9 +101,7 @@ class MuralestagiosController extends AppController
     public function view(?string $id = null)
     {
         try {
-            $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']],
-            ]);
+            $muralestagio = $this->Muralestagios->get($id, contain: ['Instituicoes', 'Inscricoes' => ['Alunos', 'Muralestagios']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
 
@@ -192,9 +190,7 @@ class MuralestagiosController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Instituicoes'],
-            ]);
+            $muralestagio = $this->Muralestagios->get($id, contain: ['Instituicoes']);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Não há registros de estágio para esse número!'));
 
@@ -289,9 +285,7 @@ class MuralestagiosController extends AppController
         }
 
         try {
-            $muralestagio = $this->Muralestagios->get($id, [
-                'contain' => ['Inscricoes' => ['Alunos']],
-            ]);
+            $muralestagio = $this->Muralestagios->get($id, contain: ['Inscricoes' => ['Alunos']]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Mural de estágio não encontrado.'));
 

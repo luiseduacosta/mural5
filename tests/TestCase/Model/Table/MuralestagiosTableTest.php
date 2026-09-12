@@ -46,8 +46,10 @@ class MuralestagiosTableTest extends TestCase
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '1',
             'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
             'email' => 'teste@mural.com.br',
         ]);
@@ -55,48 +57,98 @@ class MuralestagiosTableTest extends TestCase
 
         $errors = $validator->validate([
             'instituicao_id' => '',
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '1',
             'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
         ]);
         $this->assertArrayHasKey('instituicao_id', $errors, 'Empty instituicao_id should fail');
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => '',
+            'convenio' => '1',
+            'vagas' => 5,
+            'final_de_semana' => '0',
+            'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
+        ]);
+        $this->assertArrayHasKey('instituicao', $errors, 'Empty instituicao should fail');
+
+        $errors = $validator->validate([
+            'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '',
             'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
         ]);
         $this->assertArrayHasKey('convenio', $errors, 'Empty convenio should fail');
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => 'X',
             'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
         ]);
         $this->assertArrayHasKey('convenio', $errors, 'Invalid convenio should fail');
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '1',
             'vagas' => '',
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
         ]);
         $this->assertArrayHasKey('vagas', $errors, 'Empty vagas should fail');
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '1',
             'vagas' => 5,
+            'final_de_semana' => '',
+            'local_inscricao' => '0',
+            'email' => 'teste@mural.com.br',
+        ]);
+        $this->assertArrayHasKey('final_de_semana', $errors, 'Empty final_de_semana should fail');
+
+        $errors = $validator->validate([
+            'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
+            'convenio' => '1',
+            'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '',
+            'email' => 'teste@mural.com.br',
         ]);
         $this->assertArrayHasKey('local_inscricao', $errors, 'Empty local_inscricao should fail');
 
         $errors = $validator->validate([
             'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
             'convenio' => '1',
             'vagas' => 5,
+            'final_de_semana' => '0',
+            'local_inscricao' => '0',
+            'email' => '',
+        ]);
+        $this->assertArrayHasKey('email', $errors, 'Empty email should fail');
+
+        $errors = $validator->validate([
+            'instituicao_id' => 1,
+            'instituicao' => 'Hospital UFRJ',
+            'convenio' => '1',
+            'vagas' => 5,
+            'final_de_semana' => '0',
             'local_inscricao' => '0',
             'email' => 'invalid-email',
         ]);

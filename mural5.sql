@@ -49,7 +49,9 @@ CREATE TABLE IF NOT EXISTS `alunos` (
   `ingresso` char(6) NOT NULL,
   `turno_id` smallint(3) DEFAULT NULL,
   `registro` int(9) NOT NULL DEFAULT 0,
+  `codigo_telefone` tinyint(2) NOT NULL DEFAULT 21 COMMENT 'Código de área do telefone',
   `telefone` varchar(15) DEFAULT NULL COMMENT 'Formato: (xx) xxxx.xxxx)',
+  `codigo_celular` tinyint(2) NOT NULL DEFAULT 21 COMMENT 'Código de área do celular',
   `celular` varchar(15) DEFAULT NULL COMMENT 'Formato: (xx) xxxxx.xxxx)',
   `email` varchar(255) DEFAULT NULL,
   `cpf` varchar(14) NOT NULL COMMENT 'Formato: xxx.xxx.xxx-xx',
@@ -280,15 +282,15 @@ CREATE TABLE IF NOT EXISTS `mural_estagios` (
   `requisitos` varchar(455) DEFAULT NULL,
   `horario` char(1) DEFAULT NULL COMMENT 'D=Diurno, N=Noturno, A=Ambos',
   `data_selecao` date DEFAULT NULL,
+  `horario_selecao` time DEFAULT NULL,
   `data_inscricao` date DEFAULT NULL COMMENT 'Data limite de encerramento das inscrições no mural',
-  `horario_selecao` varchar(5) DEFAULT NULL,
   `local_selecao` varchar(70) DEFAULT NULL,
   `forma_selecao` char(1) DEFAULT NULL COMMENT '0=Entrevista, 1=CR, 2=Prova, 3=Outra',
   `contato` varchar(70) DEFAULT NULL,
-  `outras` text DEFAULT NULL,
   `periodo` varchar(6) DEFAULT NULL,
   `local_inscricao` set('0','1') NOT NULL DEFAULT '0' COMMENT '0=Instituicao, 1=Coordenação de Estágio',
   `email` varchar(70) NOT NULL,
+  `outras` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Mural de ofertas de estágios.';
 

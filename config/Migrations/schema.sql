@@ -160,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `alunos` (
     `bairro` VARCHAR(30) DEFAULT NULL,
     `observacoes` VARCHAR(250) DEFAULT NULL,
     `user_id` INT(11) DEFAULT NULL,
-    `estagiario_count` INT(11) DEFAULT NULL,
+    `estagiarios_count` INT(11) DEFAULT NULL,
     `inscricao_count` INT(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `registro` (`registro`)
@@ -219,15 +219,15 @@ CREATE TABLE IF NOT EXISTS `mural_estagios` (
     `requisitos` VARCHAR(455) DEFAULT NULL,
     `horario` CHAR(1) DEFAULT NULL,
     `data_selecao` DATE DEFAULT NULL,
+    `horario_selecao` TIME DEFAULT NULL,
     `data_inscricao` DATE DEFAULT NULL,
-    `horario_selecao` VARCHAR(5) DEFAULT NULL,
     `local_selecao` VARCHAR(70) DEFAULT NULL,
     `forma_selecao` CHAR(1) DEFAULT NULL,
     `contato` VARCHAR(70) DEFAULT NULL,
-    `outras` TEXT DEFAULT NULL,
     `periodo` VARCHAR(6) DEFAULT NULL,
     `local_inscricao` SET('0','1') NOT NULL DEFAULT '0',
     `email` VARCHAR(70) NOT NULL,
+    `outras` TEXT DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

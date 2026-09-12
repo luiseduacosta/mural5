@@ -72,7 +72,7 @@ if ($user_session) {
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                 ]]);
                 echo $this->Form->control('contato', ['label' => ['text' => 'Contato'], 'empty' => true]);
-                echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'empty' => true]);
+                echo $this->Form->control('email', ['label' => ['text' => 'Email'], 'type' => 'email', 'required' => true]);
                 echo $this->Form->control('periodo', ['label' => ['text' => 'Período'], 'type' => 'text', 'empty' => true]);
                 echo $this->Form->control('local_inscricao', ['label' => ['text' => 'Local da inscrição'], 'options' => ['0' => 'Somente no mural da Coordenação de Estágio/ESS', '1' => 'Diretamente na Instituição e na Coordenação de Estágio/ESS'], 
                 'templates' => [
