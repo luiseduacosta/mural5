@@ -35,7 +35,6 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
 
         $result = $this->Authentication->getResult();
-
         if ($result && $result->isValid()) {
             /** @var \App\Model\Entity\User $user */
             $user = $result->getData();
@@ -122,7 +121,6 @@ class UsersController extends AppController
                         $administrador = $this->fetchTable('Administradores')->find()
                             ->where(['Administradores.user_id' => $user->id])
                             ->first();
-
                         if (empty($administrador)) {
                             $this->Flash->error(__('Registro de administrador não encontrado.'));
                             $this->Authentication->logout();
