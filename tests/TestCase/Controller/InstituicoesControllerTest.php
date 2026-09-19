@@ -9,9 +9,9 @@ use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Controller\InstituicaoController Test Case
+ * App\Controller\InstituicoesController Test Case
  *
- * @uses \App\Controller\InstituicaoController
+ * @uses \App\Controller\InstituicoesController
  */
 class InstituicoesControllerTest extends TestCase
 {
@@ -30,55 +30,55 @@ class InstituicoesControllerTest extends TestCase
         'app.Visitas',
         'app.Supervisores',
         'app.InstituicaoSupervisores',
+        'app.Users',
+        'app.Administradores',
+        'app.Configuracoes',
+        'app.Alunos',
+        'app.Professores',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/instituicoes');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Hospital Universitário');
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/instituicoes/view/1');
+        $this->assertResponseOk();
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/instituicoes/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/instituicoes/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Hospital Universitário');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testDeleteAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/instituicoes/delete/1');
+        $this->assertResponseSuccess();
     }
 }

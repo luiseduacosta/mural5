@@ -16,9 +16,7 @@ class SupervisoresFixture extends TestFixture
         'bairro' => ['type' => 'string', 'length' => 30, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'municipio' => ['type' => 'string', 'length' => 30, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'cep' => ['type' => 'string', 'length' => 9, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'codigo_telefone' => ['type' => 'string', 'length' => 2, 'null' => true, 'default' => '21', 'comment' => '', 'precision' => null],
         'telefone' => ['type' => 'string', 'length' => 15, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'codigo_celular' => ['type' => 'string', 'length' => 2, 'null' => true, 'default' => '21', 'comment' => '', 'precision' => null],
         'celular' => ['type' => 'string', 'length' => 15, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'email' => ['type' => 'string', 'length' => 50, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'escola' => ['type' => 'string', 'length' => 70, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
@@ -27,6 +25,7 @@ class SupervisoresFixture extends TestFixture
         'regiao' => ['type' => 'tinyinteger', 'length' => null, 'unsigned' => false, 'null' => false, 'default' => '7', 'comment' => '', 'precision' => null],
         'cargo' => ['type' => 'string', 'length' => 25, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'observacoes' => ['type' => 'text', 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'estagiarios_count' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => 0, 'comment' => '', 'precision' => null],
         'user_id' => ['type' => 'integer', 'length' => null, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
@@ -43,6 +42,8 @@ class SupervisoresFixture extends TestFixture
                 'email' => 'supervisor@test.com',
                 'cress' => 12345,
                 'regiao' => 7,
+                'estagiarios_count' => 0,
+                'user_id' => 4,
             ],
         ];
         parent::init();

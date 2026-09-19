@@ -10,20 +10,37 @@ if ($user_session) {
 <!-- templates/element/submenu_navegacao.php -->
 <script>
     addEventListener('load', () => {
-        /* sub menu unselect */
         const navInputs = [...document.querySelectorAll('.toggle-input:not(#nav-toggler)')];
-        const unselect = (inputBox) => { inputBox.checked = false };
-        const unselectAll = (event) => { navInputs.forEach( (inputBox) => { 
-            if (inputBox !== event.target) unselect(inputBox) 
-        })};
-        addEventListener('mouseup', unselectAll);
-        addEventListener('touchend', unselectAll);
+        const closeOthers = (keepOpen) => {
+            navInputs.forEach((input) => {
+                if (input !== keepOpen) {
+                    input.checked = false;
+                }
+            });
+        };
+
+        navInputs.forEach((input) => {
+            input.addEventListener('click', (event) => {
+                event.stopPropagation();
+                closeOthers(input);
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!target.closest('.toggle-label') && !target.closest('.toggle-input')) {
+                navInputs.forEach((input) => {
+                    input.checked = false;
+                });
+            }
+        });
     });
 </script>
     
-<nav class="responsive-nav sticky-top w-80 mx-auto mb-3">
+<nav class="responsive-nav sticky-top w-80 mx-auto">
     <?php
-        $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '50', 'width' => '150', 'alt' => 'ESS']);
+        $logo = $this->Html->image('logoess_horizontal-azul.svg', ['height' => '45', 'width' => '150', 'alt' => 'ESS']);
+        $logo .= '<span class="nav-brand-sub">Mural de Estágios</span>';
         echo $this->Html->link($logo, $this->getRequest()->getRequestTarget() == '/' ? 'http://www.ess.ufrj.br' : '/', ['escape' => false, 'full' => true]);
     ?>
 
@@ -45,7 +62,7 @@ if ($user_session) {
                     <li><?php echo $this->Html->link('Termo de compromisso', ['controller' => 'Estagiarios', 'action' => 'termocompromisso']); ?></li>
                     <li><?php echo $this->Html->link('Declaração de estágio', ['controller' => 'Estagiarios', 'action' => 'declaracaodeestagiopdf']); ?></li>
                     <li><?php echo $this->Html->link('Folha de atividades', ['controller' => 'Folhadeatividades', 'action' => 'index']); ?></li>
-                    <li><?php echo $this->Html->link('Avaliação discente', ['controller' => 'Avaliacoes', 'action' => 'index']); ?></li>
+                    <li><?php echo $this->Html->link('Avaliação discente', ['controller' => 'Avaliacoes', 'action' => 'imprimeavaliacaopdf']); ?></li>
 
             </menu>
         </li>
@@ -61,6 +78,7 @@ if ($user_session) {
                 <li><?php echo $this->Html->link('Alunos(as)', ['controller' => 'Alunos', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Supervisores(as)', ['controller' => 'Supervisores', 'action' => 'index']); ?></li>                
                 <li><?php echo $this->Html->link('Instituições', ['controller' => 'Instituicoes', 'action' => 'index']); ?></li>
+                    <li><?php echo $this->Html->link('Áreas', ['controller' => 'Areas', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Inscrições', ['controller' => 'Inscricoes', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Estagiários(as)', ['controller' => 'Estagiarios', 'action' => 'index']); ?></li>
                 <li><?php echo $this->Html->link('Professores(as)', ['controller' => 'Professores', 'action' => 'index']); ?></li>
@@ -111,6 +129,7 @@ if ($user_session) {
                         <li><?php echo $this->Html->link('Retornar ao Administrador', ['controller' => 'Users', 'action' => 'alternarusuario'], ['style' => 'color: #ffc107; font-weight: bold;']); ?></li>
                     <?php endif; ?>
                     <li><?php echo $this->Html->link('Minha conta', ['controller' => 'Users', 'action' => 'view', $user_session->id]); ?></li>
+                    <li class="dropdown-sep" role="separator"></li>
                     <li><?php echo $this->Html->link('Sair (' . $user_session->get('email') . ')', ['controller' => 'Users', 'action' => 'logout']); ?></li>
                 <?php else : ?>
                     <li><?php echo $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login']); ?></li>

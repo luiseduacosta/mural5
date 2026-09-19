@@ -58,6 +58,7 @@ class AlunosController extends AppController
     public function view(?string $id = null)
     {
 
+        $aluno = null;
         $identity = $this->request->getAttribute('identity');
         if ($identity && $identity->getOriginalData()['categoria'] == 2) {
             $aluno = $this->Alunos->find()->where(['Alunos.id' => $identity->getOriginalData()['aluno_id']]);
@@ -92,7 +93,9 @@ class AlunosController extends AppController
         }
 
         try {
-            $aluno = $this->Alunos->get($id, ['contain' => $contained]);
+            $aluno = $this->Alunos->get($id, [
+                'contain' => $contained,
+            ]);
         } catch (RecordNotFoundException $e) {
             $this->Authorization->skipAuthorization();
             $this->Flash->error(__('Aluno 1 não encontrado.'));
@@ -136,11 +139,12 @@ class AlunosController extends AppController
                 $this->Flash->success(__('O aluno foi adicionado com sucesso.'));
 
                 // Update the user record with aluno_id and entidade_id
-                $usuario = $this->Users->get($user_session->id);
+                $usersTable = $this->fetchTable('Users');
+                $usuario = $usersTable->get($user_session->id);
                 $usuario->aluno_id = $aluno->id;
                 $usuario->entidade_id = $aluno->id;
-                if ($this->Users->save($usuario)) {
-                    $refreshUser = $this->Users->get($usuario->id);
+                if ($usersTable->save($usuario)) {
+                    $refreshUser = $usersTable->get($usuario->id);
                     $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do aluno'));
                 }
@@ -211,7 +215,9 @@ class AlunosController extends AppController
     public function delete(?string $id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $aluno = $this->Alunos->get($id, ['contain' => ['Estagiarios']]);
+        $aluno = $this->Alunos->get($id, [
+            'contain' => ['Estagiarios'],
+        ]);
         $this->Authorization->authorize($aluno);
 
         if (count($aluno->estagiarios) > 0) {
@@ -241,7 +247,7 @@ class AlunosController extends AppController
         $nome = $this->getRequest()->getQuery('nome');
         if ($nome) {
             $condition = ['Alunos.nome LIKE' => '%' . $nome . '%'];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -253,7 +259,7 @@ class AlunosController extends AppController
         $dre = $this->getRequest()->getQuery('dre');
         if ($dre) {
             $condition = ['Alunos.registro' => $dre];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -265,7 +271,7 @@ class AlunosController extends AppController
         $cpf = $this->getRequest()->getQuery('cpf');
         if ($cpf) {
             $condition = ['Alunos.cpf' => $cpf];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -277,7 +283,7 @@ class AlunosController extends AppController
         $email = $this->getRequest()->getQuery('email');
         if ($email) {
             $condition = ['Users.email' => $email];
-            $busca = $this->Alunos->find('all', ['conditions' => $condition ])->contain(['Users']);
+            $busca = $this->Alunos->find('all')->where($condition)->contain(['Users']);
             $alunos = $this->paginate($busca, [
                 'sortableFields' => ['registro', 'nome', 'cpf', 'email'],
             ]);
@@ -304,6 +310,8 @@ class AlunosController extends AppController
         $totalperiodos = $this->request->getQuery('totalperiodos');
         $novoperiodo = $this->request->getQuery('novoperiodo');
 
+        $this->Authorization->skipAuthorization();
+
         if ($user_data && $user_data['aluno_id']) {
             $id = $user_data['aluno_id'];
         }
@@ -313,19 +321,21 @@ class AlunosController extends AppController
             return $this->redirect(['controller' => 'Alunos', 'action' => 'index']);
         }
 
-        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+        $aluno = $this->Alunos->get($id, [
+            'contain' => ['Turnos'],
+        ]);
 
-        $this->Authorization->authorize($this->Alunos);
+        $this->Authorization->authorize($aluno, 'declaracaoperiodo');
 
         $turnos = $this->Alunos->Turnos->find('list', limit: 200)->all();
 
         // Incomplete field ingresso on record of alunos
-        if (strlen($aluno->ingresso) < 6) {
+        if (strlen((string)$aluno->ingresso) < 6) {
             $this->Flash->error(__('Período de ingresso incompleto.'));
             return $this->redirect(['action' => 'view', $id]);
         }
 
-        $periodo_atual = $this->configuracao->periodo_calendario_academico;
+        $periodo_atual = $this->fetchTable('Configuracoes')->get(1)->periodo_calendario_academico;
 
         if ($novoperiodo) {
             $periodo_inicial = $novoperiodo;
@@ -335,7 +345,7 @@ class AlunosController extends AppController
 
         $inicial = explode('-', $periodo_inicial);
         $atual = explode('-', $periodo_atual);
-        $semestres = ($atual[0] - $inicial[0] + 1) * 2;
+        $semestres = ((int)$atual[0] - (int)$inicial[0] + 1) * 2;
 
         $totalperiodos = $semestres; // Simplified fallback
         if ($inicial[1] == 1 && $atual[1] == 2) {
@@ -374,8 +384,6 @@ class AlunosController extends AppController
      */
     public function declaracaoperiodopdf(?string $id = null)
     {
-        $this->Authorization->skipAuthorization();
-
         $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
         $user_session = $this->request->getAttribute('identity');
         if ($user_session) {
@@ -390,16 +398,19 @@ class AlunosController extends AppController
         }
 
         if ($id === null) {
-            $this->Flash->error(__("Operação não pode ser realizada porque o 'id' não foi informado."));
-
+            $this->Flash->error(__('Selecione o(a) aluno(a).'));
             return $this->redirect(['action' => 'index']);
         }
 
-        $aluno = $this->Alunos->get($id, ['contain' => ['Turnos']]);
+        $aluno = $this->Alunos->get($id, [
+            'contain' => ['Turnos'],
+        ]);
 
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($aluno, 'declaracaoperiodopdf');
 
-        $this->viewBuilder()->setLayout('pdf/default');
+        // PdfView already scopes layouts to templates/layout/pdf/, so the layout
+        // name is 'default' (templates/layout/pdf/default.php) — not 'pdf/default'.
+        $this->viewBuilder()->setLayout('default');
         $this->viewBuilder()->setClassName('CakePdf.Pdf');
         $this->viewBuilder()->setOption('pdfConfig', [
             'orientation' => 'portrait',
@@ -442,10 +453,7 @@ class AlunosController extends AppController
         $this->set('periodo', $periodo);
 
         /* lista de periodos */
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);
@@ -505,10 +513,7 @@ class AlunosController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
-        $periodototal = $this->Alunos->Estagiarios->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ]);
+        $periodototal = $this->Alunos->Estagiarios->find('list', keyField: 'periodo', valueField: 'periodo');
         $periodos = $periodototal->toArray();
         $periodos = array_merge($periodos, ['all' => 'Todos']);
         $periodos = array_reverse($periodos);

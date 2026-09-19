@@ -112,7 +112,7 @@ $user_session = $this->request->getAttribute('identity');
                                 <?= $this->Html->link(__('Logout'), ['controller' => 'users', 'action' => 'logout'], ['class' => 'button btn-info']) ?>
                             <?php endif; ?> 
                         </h2>
-                    </div>   
+                    </div>
                     <div class="col">
                         <p class="text-justify">Prezadas(os) usuárias(os),</p>
                         <p class="text-justify">O Mural de Estágio tem a função de permitir a consulta e inscrição em vagas de estágio; retirar o Termo de Compromisso, folha de atividades, avaliação do/a supervisor/a, declaração de estágio, dentre outros.</p>
@@ -225,7 +225,7 @@ $user_session = $this->request->getAttribute('identity');
                                 <li class="bullet problem">Your logs directory is NOT writable.</li>
                             <?php endif; ?>
 
-                            <?php $settings = Cache::getConfig('_cake_core_'); ?>
+                            <?php $settings = Cache::getConfig('_cake_translations_'); ?>
                             <?php if (!empty($settings)) : ?>
                                 <li class="bullet success">The <em><?= h($settings['className']) ?></em> is being used for core caching. To change the config edit config/app.php</li>
                             <?php else : ?>

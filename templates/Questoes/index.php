@@ -71,9 +71,13 @@ if ($user_session) {
                                 $opcoes = json_decode(
                                     $questao->options, true
                                 );
-                                foreach ($opcoes as $key => $opcao):
-                                    echo $key . " - " . $opcao . "<br>";
-                                endforeach;
+                                if (is_array($opcoes)) {
+                                    foreach ($opcoes as $key => $opcao):
+                                        echo $key . " - " . $opcao . "<br>";
+                                    endforeach;
+                                } else {
+                                    echo h($questao->options);
+                                }
                             } ?>
                         </td>
                         <td><?= $questao->ordem === null

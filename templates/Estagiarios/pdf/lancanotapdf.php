@@ -3,9 +3,10 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Estagiario[]|\Cake\Collection\CollectionInterface $estagiarios
  */
-
 declare(strict_types=1);
 
+$this->setLayout('default');
+$this->assign('title', 'Lançamento de Notas');
 ?>
 
 <div style="text-align: center; margin-bottom: 20px;">

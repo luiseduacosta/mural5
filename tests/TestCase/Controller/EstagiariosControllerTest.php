@@ -28,56 +28,86 @@ class EstagiariosControllerTest extends TestCase
         'app.Instituicoes',
         'app.Supervisores',
         'app.Professores',
-        'app.Turmaestagios',
+        'app.Configuracoes',
+        'app.Users',
+        'app.Administradores',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    protected function loginAsAluno(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(2);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/estagiarios?periodo=2025-1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testIndexAsAluno(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAluno();
+        $this->get('/estagiarios?periodo=2025-1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testViewAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/estagiarios/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testViewAsAluno(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/estagiarios/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testAddAsAdminWithAlunoId(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/estagiarios/add?aluno_id=1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testEditAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/estagiarios/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Editar Estagiário(a)');
+    }
+
+    public function testEditAsAluno(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/estagiarios/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testDeleteAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/estagiarios/delete/1');
+        $this->assertResponseSuccess();
     }
 }

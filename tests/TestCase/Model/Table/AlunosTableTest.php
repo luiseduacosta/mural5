@@ -12,9 +12,9 @@ class AlunosTableTest extends TestCase
     protected $Alunos;
 
     protected array $fixtures = [
-        'app.alunos',
-        'app.turnos',
-        'app.users',
+        'app.Alunos',
+        'app.Turnos',
+        'app.Users',
     ];
 
     public function setUp(): void
@@ -40,11 +40,12 @@ class AlunosTableTest extends TestCase
 
     public function testValidationDefault(): void
     {
-        $validator = $this->Alunos->validationDefault(new \Cake\Validation\Validator());
+        $validator = $this->Alunos->getValidator();
 
         $errors = $validator->validate([
             'nome' => 'John Doe',
             'registro' => 12345,
+            'ingresso' => '2020-1',
             'cpf' => '123.456.789-00',
             'nascimento' => '2000-01-15',
         ]);

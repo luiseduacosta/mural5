@@ -43,19 +43,25 @@ class SupervisoresController extends AppController
             $this->Flash->error(__('Nõo há registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
-        $supervisor = $this->Supervisores->get($id, [
-            'contain' => [
-                'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
-                'Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos' => ['sort' => ['Alunos.nome ASC']], 'Professores', 'Folhadeatividades', 'Avaliacoes']
-            ]
-        ]);
-
-        $this->Authorization->authorize($supervisor);
-
-        if (!isset($supervisor)) {
+        try {
+            $supervisor = $this->Supervisores->get($id, [
+                'contain' => [
+                    'Instituicoes' => ['sort' => ['Instituicoes.instituicao ASC']],
+                    'Estagiarios' => [
+                        'sort' => ['Estagiarios.periodo DESC'],
+                        'Alunos' => ['sort' => ['Alunos.nome ASC']],
+                        'Professores',
+                        'Folhadeatividades',
+                        'Avaliacoes',
+                    ],
+                ],
+            ]);
+        } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros de supervisor para esse numero!'));
             return $this->redirect(['action' => 'index']);
         }
+
+        $this->Authorization->authorize($supervisor);
 
         $this->set(compact('supervisor'));
     }
@@ -106,7 +112,7 @@ class SupervisoresController extends AppController
              * Verifico se já é um usuário cadastrado no users.
              */
             $cress = $this->request->getData('cress');
-            $usercadastrado = $this->Supervisores->Users->find()
+            $usercadastrado = $this->fetchTable('Users')->find()
                 ->where(['categoria' => '4', 'identificacao' => $cress])
                 ->first();
             if (empty($usercadastrado)) :
@@ -175,7 +181,7 @@ class SupervisoresController extends AppController
             }
             $this->Flash->error(__('Registro supervisor(a) nao atualizado. Tente novamente.'));
         }
-        $instituicoes = $this->Supervisores->Instituicoes->find('list', ['limit' => 200]);
+        $instituicoes = $this->Supervisores->Instituicoes->find('list', limit: 200);
         $this->set(compact('supervisor', 'instituicoes'));
     }
 
@@ -193,7 +199,7 @@ class SupervisoresController extends AppController
         }
         $this->request->allowMethod(['post', 'delete']);
         $supervisor = $this->Supervisores->get($id, [
-            'contain' => ['Estagiarios']
+            'contain' => ['Estagiarios'],
         ]);
 
         $this->Authorization->authorize($supervisor);

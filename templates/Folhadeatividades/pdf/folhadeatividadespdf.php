@@ -11,6 +11,9 @@ use Cake\I18n\I18n;
 I18n::setLocale('pt-BR');
 $hoje = DateTime::now('America/Sao_Paulo', 'pt-BR');
 
+$this->setLayout('default');
+$this->assign('title', 'Folha de Atividades');
+
 $supervisora = isset($estagiario->supervisor->nome);
 if ($supervisora) {
     $supervisora = $estagiario->supervisor->nome;

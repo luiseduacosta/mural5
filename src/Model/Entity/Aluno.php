@@ -14,9 +14,7 @@ use Cake\ORM\Entity;
  * @property int $registro
  * @property int|null $ingresso
  * @property int|null $turno_id
- * @property int $codigo_telefone
  * @property string|null $telefone
- * @property int $codigo_celular
  * @property string|null $celular
  * @property string|null $email
  * @property string|null $cpf
@@ -28,14 +26,14 @@ use Cake\ORM\Entity;
  * @property string|null $municipio
  * @property string|null $bairro
  * @property string|null $observacoes
- * @property int|null $estagiario_count
+ * @property int|null $estagiarios_count
  * @property int|null $inscricao_count
  * @property int $user_id
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
  * @property \App\Model\Entity\Inscricao[] $inscricoes
- * @property \App\Model\Entity\Turno $turno
+ * @property \App\Model\Entity\Turno|null $TurnoID
  */
 class Aluno extends Entity
 {
@@ -54,9 +52,7 @@ class Aluno extends Entity
         'registro' => true,
         'ingresso' => true,
         'turno_id' => true,
-        'codigo_telefone' => true,
         'telefone' => true,
-        'codigo_celular' => true,
         'celular' => true,
         'email' => true,
         'cpf' => true,
@@ -68,12 +64,12 @@ class Aluno extends Entity
         'municipio' => true,
         'bairro' => true,
         'observacoes' => true,
-        'estagiario_count' => true,
+        'estagiarios_count' => true,
         'inscricao_count' => true,
         'user_id' => true,
         'user' => true,
         'estagiarios' => true,
         'inscricoes' => true,
-        'turno' => true,
+        'TurnoID' => true,
     ];
 }

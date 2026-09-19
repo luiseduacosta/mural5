@@ -11,7 +11,7 @@ use Cake\I18n\I18n;
 I18n::setLocale('pt-BR');
 $hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
 
-$this->layout = 'pdf/default';
+$this->layout = 'default';
 $this->assign('title', 'Declaração de Estágio');
 
 $nivel = $estagiario->nivel;

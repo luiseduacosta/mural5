@@ -12,12 +12,12 @@ class EstagiariosTableTest extends TestCase
     protected $Estagiarios;
 
     protected array $fixtures = [
-        'app.estagiarios',
-        'app.alunos',
-        'app.instituicoes',
-        'app.supervisores',
-        'app.professores',
-        'app.complementos',
+        'app.Estagiarios',
+        'app.Alunos',
+        'app.Instituicoes',
+        'app.Supervisores',
+        'app.Professores',
+        'app.Complementos',
     ];
 
     public function setUp(): void

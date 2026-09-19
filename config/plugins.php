@@ -11,5 +11,8 @@ return [
     'Migrations' => [
         'onlyCli' => true,
     ],
+    'Synapse' => [
+        'onlyCli' => true,
+        'optional' => true,
+    ],
 ];
-

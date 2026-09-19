@@ -1,0 +1,88 @@
+{
+  "id": "1ade494f",
+  "kind": "html",
+  "title": "Logo",
+  "relativePath": ".kun-design/d2abe496/1ade494f/v11.html",
+  "createdAt": "2026-09-05T17:35:36.678Z",
+  "updatedAt": "2026-09-05T19:05:50.184Z",
+  "versions": [
+    {
+      "id": "1ade494f-v11",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v11.html",
+      "createdAt": "2026-09-05T19:05:50.184Z",
+      "summary": "Align the buttons to the right."
+    },
+    {
+      "id": "1ade494f-v10",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v10.html",
+      "createdAt": "2026-09-05T19:02:20.195Z",
+      "summary": "The template users view needs to be update because has a secondary nav menu that we are not using now. Let only the buttons."
+    },
+    {
+      "id": "1ade494f-v9",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v9.html",
+      "createdAt": "2026-09-05T18:57:20.666Z",
+      "summary": "Ok. Option A."
+    },
+    {
+      "id": "1ade494f-v8",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v8.html",
+      "createdAt": "2026-09-05T18:55:54.308Z",
+      "summary": "And now, how to place this page at the initial page or something similar?"
+    },
+    {
+      "id": "1ade494f-v7",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v7.html",
+      "createdAt": "2026-09-05T18:31:15.884Z",
+      "summary": "I like the logo you made. Is more than a logo, it seems to be cover or the first page of the app. I didn't think about a first page like this cover you made. But it looks very good that I feel interesent  to use it."
+    },
+    {
+      "id": "1ade494f-v6",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v6.html",
+      "createdAt": "2026-09-05T18:25:09.875Z",
+      "summary": "There is a pretty image at the Whiteboard, that you made. What is? Is to be used in this app as the home page? Tell me."
+    },
+    {
+      "id": "1ade494f-v5",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v5.html",
+      "createdAt": "2026-09-05T18:02:39.947Z",
+      "summary": "Hum... You replace 'Declaração' with 'Alunos'. There is not any phrase in this place. Only the logo and titles that are just in the correct place."
+    },
+    {
+      "id": "1ade494f-v4",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v4.html",
+      "createdAt": "2026-09-05T17:59:41.565Z",
+      "summary": "Fine! There is a phrase 'Declaração' at the top of the document that is not to be there. Delete the string."
+    },
+    {
+      "id": "1ade494f-v3",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v3.html",
+      "createdAt": "2026-09-05T17:52:51.637Z",
+      "summary": "The PDF must have a logo on the header. The text 'Declaração de Período' is not to be on the PDF document. Put above the 'Coordenação de Estágio' title, 'Universidade Federal do Rio de Janeiro', them in the next row: 'Escola de Serviço Social', them 'Coordenação de Estágio', and finally 'Declaração'. This all is the header. On the top of the header must be the 'logoess_horizontal-azul'. Them, above the header, the body, and finally the local and data."
+    },
+    {
+      "id": "1ade494f-v2",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v2.html",
+      "createdAt": "2026-09-05T17:37:45.558Z",
+      "summary": "When the user clicks on the button 'Imprime PDF' the message is: 'The layout file pdf/default.php can not be found or does not exist. ' Fix."
+    },
+    {
+      "id": "1ade494f-v1",
+      "relativePath": ".kun-design/d2abe496/1ade494f/v1.html",
+      "createdAt": "2026-09-05T17:35:36.678Z",
+      "summary": ""
+    }
+  ],
+  "previewStatus": "ready",
+  "role": "logo",
+  "node": {
+    "x": -640,
+    "y": -400,
+    "width": 7680,
+    "height": 855,
+    "sizeMode": "auto",
+    "viewMode": "preview",
+    "boardHidden": false
+  },
+  "designMdPath": ".kun-design/d2abe496/1ade494f/DESIGN.md"
+}

@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Categoria[]|\Cake\Collection\CollectionInterface $categorias
  */
+declare(strict_types=1);
 ?>
 
 <div class="container">
@@ -35,14 +36,8 @@
             </tbody>
         </table>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('primeira')) ?>
-            <?= $this->Paginator->prev('< ' . __('anterior')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('próxima') . ' >') ?>
-            <?= $this->Paginator->last(__('última') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Página {{page}} de {{pages}}')) ?></p>
+    <div class="d-flex justify-content-center mt-4">
+        <?= $this->element('paginator') ?>
     </div>
+    <?= $this->element('paginator_count') ?>
 </div>

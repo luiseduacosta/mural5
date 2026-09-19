@@ -1,8 +1,4 @@
 <?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Complemento $complemento
- */
 declare(strict_types=1);
 
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
@@ -12,30 +8,16 @@ if ($user_session) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-light btn-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
-        </li>
-        <?php if ($user_data['categoria'] === '1'): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary me-2']) ?>
-            </li>
-            <li class="nav-item">
-                <?= $this->Form->postLink(__('Excluir registro'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id), 'class' => 'btn btn-danger', 'style' => 'font-size: 10pt;']) ?>
-            </li>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary me-2', 'style' => 'font-size: 10pt;']) ?>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+    <?= $this->Html->link(__('Listar registros'), ['action' => 'index'], ['class' => 'btn btn-primary']) ?>
+    <?php if ($user_data['categoria'] === '1'): ?>
+        <?= $this->Html->link(__('Editar registro'), ['action' => 'edit', $complemento->id], ['class' => 'btn btn-primary']) ?>
+        <?= $this->Form->postLink(__('Excluir registro'), ['action' => 'delete', $complemento->id], ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $complemento->id), 'class' => 'btn btn-danger']) ?>
+        <?= $this->Html->link(__('Novo registro'), ['action' => 'add'], ['class' => 'btn btn-primary']) ?>
+    <?php endif; ?>
+</div>
 
-<div class="container col-lg-12 shadow p-3 mb-5 bg-white rounded">
+<div class="container">
     <h3><?= h($complemento->id) ?></h3>
     <table class="table table-responsive table-striped table-hover">
         <tr>

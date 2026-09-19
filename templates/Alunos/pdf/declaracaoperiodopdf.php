@@ -1,36 +1,43 @@
 <?php
 /**
  * Certificado de Período PDF
- * 
+ *
  * @var \App\Model\Entity\Aluno $aluno
  * @var int $totalperiodos
  */
-namespace App\View\PDF; 
+use Cake\I18n\DateTime;
 use Cake\I18n\I18n;
-use Cake\I18n\Date;
 
 I18n::setLocale('pt-BR');
-$hoje = Date::now('America/Sao_Paulo');
+$hoje = DateTime::now('America/Sao_Paulo', 'pt_BR');
 
-$dia = $hoje->i18nFormat('d');
-$mes = $hoje->i18nFormat('MMMM');
-$ano = $hoje->i18nFormat('Y');
-
-if ($aluno->TurnoID->turno && $aluno->TurnoID->turno == 'diurno') {
+if (($aluno->TurnoID->turno ?? null) == 'diurno') {
     $duracaocurso = '8';
-} elseif ($aluno->TurnoID->turno && $aluno->TurnoID->turno == 'noturno') {
+} elseif (($aluno->TurnoID->turno ?? null) == 'noturno') {
     $duracaocurso = '10';
 }
 
+// PdfView already scopes layouts to templates/layout/pdf/, so the name is 'default'
+// (the controller sets layout = 'default' in viewBuilder(), and CakePdf prepends 'pdf/').
 $this->layout = 'default';
-$this->assign('title', 'Certificado de Período');
+$this->assign('title', 'Declaração de Período');
+
+// ESS logo (horizontal, blue) rasterized as PNG because DomPDF does not render SVG.
+$logoPath = dirname(__DIR__, 3) . DS . 'webroot' . DS . 'img' . DS . 'logoess_horizontal-azul.png';
+$logoDataUri = '';
+if (is_readable($logoPath)) {
+    $logoDataUri = 'data:image/png;base64,' . base64_encode((string)file_get_contents($logoPath));
+}
 ?>
 
-<h1 style="text-align:center">
-    <!-- Logo rendered by PDF layout -->
-    Coordenação de Estágio<br />
-    Declaração
-</h1>
+<div style="text-align:center;">
+    <?php if ($logoDataUri !== '') : ?>
+        <img src="<?= $logoDataUri ?>" alt="Escola de Serviço Social" style="width:220px;" />
+    <?php endif; ?>
+    <p style="margin:18px 0 2px; font-size:14px;">Universidade Federal do Rio de Janeiro</p>
+    <p style="margin:0 0 2px; font-size:14px;">Escola de Serviço Social</p>
+    <p style="margin:16px 0 0; font-size:15px; font-weight:bold;">Coordenação de Estágio</p>
+</div>
 <br />
 <br />
 <p style="text-align:justify; line-height: 2.5;">
@@ -52,7 +59,6 @@ $this->assign('title', 'Certificado de Período');
 <p style="text-align:right">Rio de Janeiro, <?= $hoje->i18nFormat("dd ' de ' MMMM ' de ' yyyy") ?>.</p>
 
 <br style='line-height: 10.0'/>
-
 
 <table style="margin-left: auto; margin-right: auto;">
         <tr style="text-align:center">

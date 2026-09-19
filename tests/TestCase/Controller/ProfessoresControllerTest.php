@@ -11,7 +11,7 @@ use Cake\TestSuite\TestCase;
 /**
  * App\Controller\ProfessoresController Test Case
  *
- * @uses \App\Controller\ProfessortesController
+ * @uses \App\Controller\ProfessoresController
  */
 class ProfessoresControllerTest extends TestCase
 {
@@ -27,55 +27,66 @@ class ProfessoresControllerTest extends TestCase
         'app.Estagiarios',
         'app.Muralestagios',
         'app.Users',
+        'app.Administradores',
+        'app.Configuracoes',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    public function testIndexAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/professores');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Professor Teste');
+        $this->assertResponseContains('Status');
+        $this->assertResponseContains('Estagiários');
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/professores/add');
+        $this->assertResponseOk();
+        $this->assertResponseContains('name="status"');
+        $this->assertResponseContains('name="estagiarios_count"');
+        $this->assertResponseContains('name="curriculolattes"');
+        $this->assertResponseContains('name="atualizacaolattes"');
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/professores/edit/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Professor Teste');
+        $this->assertResponseContains('name="status"');
+        $this->assertResponseContains('name="estagiarios_count"');
+        $this->assertResponseContains('name="curriculolattes"');
+        $this->assertResponseContains('name="atualizacaolattes"');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testViewAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/professores/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Professor Teste');
+        $this->assertResponseContains('Status');
+        $this->assertResponseContains('Quantidade de Estagiários');
+        $this->assertResponseContains('1234567890123456');
+    }
+
+    public function testDeleteAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/professores/delete/1');
+        $this->assertResponseSuccess();
     }
 }

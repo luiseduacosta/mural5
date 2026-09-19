@@ -24,10 +24,8 @@ class InscricoesController extends AppController
         $this->Authorization->skipAuthorization();
 
         // Optimized periods query using distinct and list to save memory
-        $periodos = $this->Inscricoes->find('list', [
-            'keyField' => 'periodo',
-            'valueField' => 'periodo',
-        ])->distinct(['periodo'])->order(['periodo' => 'ASC'])->toArray();
+        $periodos = $this->Inscricoes->find('list', keyField: 'periodo', valueField: 'periodo')
+            ->distinct(['periodo'])->orderBy(['periodo' => 'ASC'])->toArray();
         $periodos = ['all' => 'Todos'] + $periodos;
 
         $periodo = $this->request->getQuery('periodo') ?? $this->request->getData('periodo');
@@ -93,9 +91,10 @@ class InscricoesController extends AppController
      */
     public function view(?string $id = null)
     {
-        $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Alunos', 'Muralestagios' => ['Instituicoes']],
-        ]);
+        $inscricao = $this->Inscricoes->findById($id)
+            ->leftJoinWith('Alunos')
+            ->leftJoinWith('Muralestagios.Instituicoes')
+            ->firstOrFail();
         $this->Authorization->skipAuthorization();
         $this->set(compact('inscricao'));
     }
@@ -185,11 +184,17 @@ class InscricoesController extends AppController
      */
     public function edit(?string $id = null)
     {
-        $inscricao = $this->Inscricoes->get($id, [
-            'contain' => ['Alunos'],
-        ]);
+        $inscricao = $this->Inscricoes->findById($id)
+            ->contain('Alunos')
+            ->firstOrFail();
 
         $this->Authorization->skipAuthorization();
+
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $inscricao = $this->Inscricoes->patchEntity($inscricao, $this->request->getData());
@@ -200,7 +205,8 @@ class InscricoesController extends AppController
             }
             $this->Flash->error(__('The inscricao could not be saved. Please, try again.'));
         }
-        $this->set(compact('inscricao'));
+        $muralestagios = $this->fetchTable('Muralestagios')->find('list');
+        $this->set(compact('inscricao', 'user_data', 'muralestagios'));
     }
 
     /**

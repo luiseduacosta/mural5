@@ -84,9 +84,7 @@ class AlunosSeed extends BaseSeed
                 'ingresso' => $ingresso,
                 'turno_id' => $faker->randomElement($turnoIds),
                 'registro' => $registro,
-                'codigo_telefone' => 21,
                 'telefone' => $faker->optional(0.7)->numerify('####-####'),
-                'codigo_celular' => 21,
                 'celular' => $celular,
                 'email' => (string)$user['email'],
                 'cpf' => $cpf,
@@ -99,7 +97,7 @@ class AlunosSeed extends BaseSeed
                 'bairro' => $faker->words(2, true),
                 'observacoes' => $faker->optional(0.4)->sentence(),
                 'user_id' => $userId,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
                 'inscricao_count' => 0,
             ];
         }

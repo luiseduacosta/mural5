@@ -5,10 +5,8 @@
  * @var \App\Model\Entity\Aluno $alunos
  */
 declare(strict_types=1);
-
 $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
 $user_session = $this->request->getAttribute('identity');
-
 if ($user_session) {
     $user_data = $user_session->getOriginalData();
 }
@@ -23,10 +21,19 @@ if ($user_session) {
             <ul class="navbar-nav ms-auto mt-lg-0">
                 <?php if ($user_data['categoria'] == '1'): ?>
                     <li class="nav-item">
+                        <?= $this->Html->link(__('Declaração'), ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('PDF'), ['controller' => 'estagiarios', 'action' => 'termodecompromissopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
                         <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item">
-                        <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add'], ['class' => 'btn btn-primary float-end', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                        <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Inserir Estagiario'), ['action' => 'add', '?' => ['aluno_id' => $estagiario->aluno_id]], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                     <li class="nav-item active">
                         <?= $this->Form->postLink(__('Excluir Estagiario'), ['action' => 'delete', $estagiario->id], ['confirm' => __('Tem certeza que quer excluir este registro # {0}?', $estagiario->id), 'class' => 'btn btn-danger me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
@@ -34,6 +41,12 @@ if ($user_session) {
                 <?php endif; ?>
 
                 <?php if ($user_data['aluno_id']): ?>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Termo de compromisso'), ['controller' => 'estagiarios', 'action' => 'termodecompromisso', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('PDF'), ['controller' => 'estagiarios', 'action' => 'declaracaodeestagiopdf', $estagiario->id], ['class' => 'btn btn-info me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
@@ -43,6 +56,9 @@ if ($user_session) {
                 <?php if ($user_data['professor_id']): ?>
                     <li class="nav-item">
                         <?= $this->Html->link(__('Editar Estagiario'), ['action' => 'edit', $estagiario->id], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
+                    </li>
+                    <li class="nav-item">
+                        <?= $this->Html->link(__('Listar Estagiarios'), ['action' => 'index'], ['class' => 'btn btn-primary me-2', 'style' => 'max-width:120px; word-wrap:break-word; font-size:14px']) ?>
                     </li>
                 <?php endif; ?>
 
@@ -117,7 +133,7 @@ if ($user_session) {
                 </tr>
                 <tr>
                     <th><?= __('Turno') ?></th>
-                    <td><?= h($estagiario->aluno->turno) ?></td>
+                    <td><?= h($estagiario->aluno?->TurnoID?->turno ?? '') ?></td>
                 </tr>
                 <tr>
                     <th><?= __('Nível') ?></th>

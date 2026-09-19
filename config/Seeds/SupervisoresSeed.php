@@ -31,9 +31,7 @@ class SupervisoresSeed extends BaseSeed
                 'bairro' => $faker->optional(0.7)->words(2, true),
                 'municipio' => $faker->optional(0.7)->city(),
                 'cep' => $faker->optional(0.7)->numerify('#####-###'),
-                'codigo_telefone' => '21',
                 'telefone' => $faker->optional(0.7)->numerify('####-####'),
-                'codigo_celular' => '21',
                 'celular' => $faker->optional(0.7)->numerify('#####-####'),
                 'email' => substr($faker->unique()->safeEmail(), 0, 50),
                 'escola' => $faker->optional(0.5)->company(),
@@ -43,7 +41,7 @@ class SupervisoresSeed extends BaseSeed
                 'cargo' => $faker->optional(0.6)->randomElement(['Assistente social', 'Coordenador(a)', 'Supervisor(a)']),
                 'observacoes' => $faker->optional(0.25)->sentence(),
                 'user_id' => null,
-                'estagiario_count' => 0,
+                'estagiarios_count' => 0,
             ];
         }
 

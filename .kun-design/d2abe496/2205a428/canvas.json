@@ -1,0 +1,559 @@
+{
+  "version": 2,
+  "rootId": "__root__",
+  "objects": {
+    "__root__": {
+      "id": "__root__",
+      "type": "frame",
+      "name": "Root",
+      "parentId": null,
+      "frameId": null,
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [
+        "s_mtonypko_1",
+        "s_mtoo1h0l_2",
+        "s_mtookw5m_3",
+        "s_mtootogj_4",
+        "s_mtooxi3k_5",
+        "s_mtopqfpq_6",
+        "s_mtopya4m_7",
+        "s_mtoqtyvy_8",
+        "s_mtoqvtj0_9",
+        "s_mtor28n5_a",
+        "s_mtor6qo7_b"
+      ]
+    },
+    "s_mtonypko_1": {
+      "id": "s_mtonypko_1",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v1"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtoo1h0l_2": {
+      "id": "s_mtoo1h0l_2",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v2"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtookw5m_3": {
+      "id": "s_mtookw5m_3",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v3"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtootogj_4": {
+      "id": "s_mtootogj_4",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v4"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtooxi3k_5": {
+      "id": "s_mtooxi3k_5",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v5"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtopqfpq_6": {
+      "id": "s_mtopqfpq_6",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 1280,
+      "height": 800,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v6"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtopya4m_7": {
+      "id": "s_mtopya4m_7",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 855,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v7"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtoqtyvy_8": {
+      "id": "s_mtoqtyvy_8",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 855,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v8"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtoqvtj0_9": {
+      "id": "s_mtoqvtj0_9",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 855,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v9"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtor28n5_a": {
+      "id": "s_mtor28n5_a",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 855,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v10"
+      },
+      "devicePreset": "desktop"
+    },
+    "s_mtor6qo7_b": {
+      "id": "s_mtor6qo7_b",
+      "type": "frame",
+      "name": "Logo",
+      "parentId": "__root__",
+      "frameId": null,
+      "x": -640,
+      "y": -400,
+      "width": 7680,
+      "height": 855,
+      "rotation": 0,
+      "opacity": 1,
+      "visible": true,
+      "locked": false,
+      "fills": [
+        {
+          "type": "solid",
+          "color": "#ffffff",
+          "opacity": 1
+        }
+      ],
+      "strokes": [],
+      "cornerRadius": 0,
+      "children": [],
+      "clipContent": true,
+      "htmlArtifactId": "1ade494f",
+      "embeddedArtifact": {
+        "id": "1ade494f",
+        "kind": "html",
+        "versionId": "1ade494f-v11"
+      },
+      "devicePreset": "desktop"
+    }
+  },
+  "motion": {
+    "version": 1,
+    "timelines": {}
+  },
+  "rendererReplayWatermarkTurnId": "turn_a5aa6a97d6fa44c4b33bc98e862b8b12",
+  "codeBindings": [
+    {
+      "id": "binding_s_mtonypko_1_kun-design_d2abe496_1ade494f_v1_html",
+      "designObjectId": "s_mtonypko_1",
+      "kind": "file",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v1.html"
+      },
+      "status": "stale",
+      "createdAt": "2026-09-05T17:38:17.701Z",
+      "updatedAt": "2026-09-05T17:38:55.018Z",
+      "metadata": {
+        "tagName": "div",
+        "rect": {
+          "left": 248,
+          "top": 0,
+          "width": 1040,
+          "height": 104
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtonypko_1_variacoes_kun-design_d2abe496_1ade494f_v1_html",
+      "designObjectId": "s_mtonypko_1",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v1.html",
+        "domId": "variacoes"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T17:38:55.018Z",
+      "updatedAt": "2026-09-05T17:39:06.216Z",
+      "metadata": {
+        "tagName": "h2",
+        "text": "Variações de uso",
+        "rect": {
+          "left": 264,
+          "top": 708,
+          "width": 992,
+          "height": 26
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtopya4m_7_loginForm_kun-design_d2abe496_1ade494f_v7_html",
+      "designObjectId": "s_mtopya4m_7",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v7.html",
+        "domId": "loginForm"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T18:33:03.145Z",
+      "updatedAt": "2026-09-05T18:55:55.394Z",
+      "metadata": {
+        "tagName": "form",
+        "text": "E-mail institucional Senha Manter conectado nesta máquina Esqueci minha senha Entrar no sistema ou Solicitar acesso à Coordenação Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.",
+        "rect": {
+          "left": 4774,
+          "top": 290,
+          "width": 380,
+          "height": 408
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtoqtyvy_8_loginForm_kun-design_d2abe496_1ade494f_v8_html",
+      "designObjectId": "s_mtoqtyvy_8",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v8.html",
+        "domId": "loginForm"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T18:55:55.600Z",
+      "updatedAt": "2026-09-05T18:57:21.782Z",
+      "metadata": {
+        "tagName": "form",
+        "text": "E-mail institucional Senha Manter conectado nesta máquina Esqueci minha senha Entrar no sistema ou Solicitar acesso à Coordenação Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.",
+        "rect": {
+          "left": 4774,
+          "top": 290,
+          "width": 380,
+          "height": 408
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtoqvtj0_9_loginForm_kun-design_d2abe496_1ade494f_v9_html",
+      "designObjectId": "s_mtoqvtj0_9",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v9.html",
+        "domId": "loginForm"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T18:57:21.976Z",
+      "updatedAt": "2026-09-05T19:02:21.295Z",
+      "metadata": {
+        "tagName": "form",
+        "text": "E-mail institucional Senha Manter conectado nesta máquina Esqueci minha senha Entrar no sistema ou Solicitar acesso à Coordenação Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.",
+        "rect": {
+          "left": 4774,
+          "top": 290,
+          "width": 380,
+          "height": 408
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtor28n5_a_loginForm_kun-design_d2abe496_1ade494f_v10_html",
+      "designObjectId": "s_mtor28n5_a",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v10.html",
+        "domId": "loginForm"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T19:02:21.500Z",
+      "updatedAt": "2026-09-05T19:05:51.296Z",
+      "metadata": {
+        "tagName": "form",
+        "text": "E-mail institucional Senha Manter conectado nesta máquina Esqueci minha senha Entrar no sistema ou Solicitar acesso à Coordenação Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.",
+        "rect": {
+          "left": 4774,
+          "top": 290,
+          "width": 380,
+          "height": 408
+        }
+      }
+    },
+    {
+      "id": "binding_s_mtor6qo7_b_loginForm_kun-design_d2abe496_1ade494f_v11_html",
+      "designObjectId": "s_mtor6qo7_b",
+      "kind": "dom-node",
+      "target": {
+        "sourceFile": ".kun-design/d2abe496/1ade494f/v11.html",
+        "domId": "loginForm"
+      },
+      "status": "active",
+      "createdAt": "2026-09-05T19:05:51.487Z",
+      "updatedAt": "2026-09-05T19:05:51.487Z",
+      "metadata": {
+        "tagName": "form",
+        "text": "E-mail institucional Senha Manter conectado nesta máquina Esqueci minha senha Entrar no sistema ou Solicitar acesso à Coordenação Ambiente de demonstração — qualquer e-mail e senha liberam o acesso.",
+        "rect": {
+          "left": 4774,
+          "top": 290,
+          "width": 380,
+          "height": 408
+        }
+      }
+    }
+  ]
+}

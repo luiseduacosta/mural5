@@ -52,7 +52,13 @@ class InstituicoesController extends AppController
 
         try {
             $instituicao = $this->Instituicoes->get($id, [
-                'contain' => ['Areas', 'Supervisores', 'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'], 'Muralestagios', 'Visitas'],
+                'contain' => [
+                    'Areas',
+                    'Supervisores',
+                    'Estagiarios' => ['Alunos', 'Instituicoes', 'Professores', 'Supervisores'],
+                    'Muralestagios',
+                    'Visitas',
+                ],
             ]);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Instituição não encontrada.'));
@@ -96,8 +102,8 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Não foi possível criar a instituição de estágio. Tente novamente.'));
         }
-        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
-        $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
+        $areas = $this->Instituicoes->Areas->find('list', keyField: 'id', valueField: 'area');
+        $supervisores = $this->Instituicoes->Supervisores->find('list', keyField: 'id', valueField: 'nome');
         $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
@@ -137,8 +143,8 @@ class InstituicoesController extends AppController
             }
             $this->Flash->error(__('Instituição de estágio não foi atualizada.'));
         }
-        $areas = $this->Instituicoes->Areas->find('list', ['keyField' => 'id', 'valueField' => 'area']);
-        $supervisores = $this->Instituicoes->Supervisores->find('list', ['keyField' => 'id', 'valueField' => 'nome']);
+        $areas = $this->Instituicoes->Areas->find('list', keyField: 'id', valueField: 'area');
+        $supervisores = $this->Instituicoes->Supervisores->find('list', keyField: 'id', valueField: 'nome');
         $this->set(compact('instituicao', 'areas', 'supervisores'));
     }
 
@@ -170,7 +176,9 @@ class InstituicoesController extends AppController
 
         // Check for associated records to prevent data integrity issues
         $supervisoresCount = $this->Instituicoes->Supervisores->find()
-            ->where(['instituicao_id' => $id])
+            ->matching('Instituicoes', function ($q) use ($id) {
+                return $q->where(['Instituicoes.id' => $id]);
+            })
             ->count();
 
         $estagiariosCount = $this->Instituicoes->Estagiarios->find()
@@ -228,15 +236,10 @@ class InstituicoesController extends AppController
 
         $instituicao_id = $this->request->getData('id');
         try {
-            $supervisores = $this->fetchTable('Supervisores')->find('list', [
-                'keyField' => 'id',
-                'valueField' => 'nome',
-            ])
-            ->matching('Instituicoes', function ($q) use ($instituicao_id) {
-                return $q->where(['Instituicoes.id' => $instituicao_id]);
-            })
-            ->order(['nome' => 'ASC'])
-            ->toArray();
+            $supervisores = $this->fetchTable('Supervisores')->find('list', keyField: 'id', valueField: 'nome')
+                ->matching('Instituicoes', function ($q) use ($instituicao_id) {
+                    return $q->where(['Instituicoes.id' => $instituicao_id]);
+                })->orderBy(['nome' => 'ASC'])->toArray();
 
             return $this->response
                 ->withType('application/json')
@@ -269,7 +272,7 @@ class InstituicoesController extends AppController
 
             $instituicoes = $this->paginate($query);
             $this->set('instituicoes', $instituicoes);
-            $this->render('index');
+            return $this->render('index');
         } else {
             $this->Flash->error(__('Digite um nome para busca'));
 

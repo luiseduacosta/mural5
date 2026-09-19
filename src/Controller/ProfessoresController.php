@@ -53,9 +53,15 @@ class ProfessoresController extends AppController
         ini_set('memory_limit', '2048M');
 
         try {
-            $professor = $this->Professores->get($id, [
-                'contain' => ['Estagiarios' => ['sort' => ['Estagiarios.periodo DESC'], 'Alunos', 'Instituicoes', 'Supervisores', 'Professores']]
-                    ]);
+            $professor = $this->Professores->get($id, contain: [
+                'Estagiarios' => [
+                    'sort' => ['Estagiarios.periodo DESC'],
+                    'Alunos',
+                    'Instituicoes',
+                    'Supervisores',
+                    'Professores',
+                ],
+            ]);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Nao ha registros para este(a) professor(a)!'));
             return $this->redirect(['action' => 'index']);
@@ -120,7 +126,7 @@ class ProfessoresController extends AppController
         if ($this->request->is('post')) {
             /** Busca se já está cadastrado como user */
             $siape = $this->request->getData('siape');
-            $usercadastrado = $this->Professores->Users->find()
+            $usercadastrado = $this->fetchTable('Users')->find()
                     ->where(['categoria' => '3', 'identificacao' => $siape])
                     ->first();
             if (empty($usercadastrado)) :
@@ -140,7 +146,7 @@ class ProfessoresController extends AppController
                 $userEntity->identificacao = $professorresultado->siape;
                 $userEntity->role = 'professor';
                 if ($this->fetchTable('Users')->save($userEntity)) {
-                    $refreshUser = $this->Users->get($userEntity->id);
+                    $refreshUser = $this->fetchTable('Users')->get($userEntity->id);
                     $this->Authentication->setIdentity($refreshUser);
                     $this->Flash->success(__('Usuário atualizado com o id do professor'));
 
@@ -170,11 +176,14 @@ class ProfessoresController extends AppController
      */
     public function edit($id = null)
     {
+        $user_data = ['categoria' => '0', 'entidade_id' => 0, 'aluno_id' => 0, 'professor_id' => 0, 'supervisor_id' => 0];
+        $user_session = $this->request->getAttribute('identity');
+        if ($user_session) {
+            $user_data = $user_session->getOriginalData();
+        }
 
         try {
-            $professor = $this->Professores->get($id, [
-                'contain' => [],
-            ]);
+            $professor = $this->Professores->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Professor não encontrado.'));
             return $this->redirect(['action' => 'index']);
@@ -196,7 +205,7 @@ class ProfessoresController extends AppController
             }
             $this->Flash->error(__('Registro do(a) professor(a) no foi atualizado. Tente novamente.'));
         }
-        $this->set(compact('professor'));
+        $this->set(compact('professor', 'user_data'));
     }
 
     /**
@@ -212,10 +221,9 @@ class ProfessoresController extends AppController
         $this->request->allowMethod(['post', 'delete']);
 
         try {
-            $professor = $this->Professores->get($id, [
-                'contain' => ['Estagiarios']
-            ]);
+            $professor = $this->Professores->get($id, contain: ['Estagiarios']);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
+            $this->Authorization->skipAuthorization();
             $this->Flash->error(__('Professor não encontrado.'));
             return $this->redirect(['action' => 'index']);
         }

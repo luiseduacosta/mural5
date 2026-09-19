@@ -111,9 +111,7 @@ class QuestionariosController extends AppController
     public function edit(?string $id = null)
     {
         try {
-            $questionario = $this->Questionarios->get($id, [
-                'contain' => [],
-            ]);
+            $questionario = $this->Questionarios->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -151,9 +149,7 @@ class QuestionariosController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         try {
-            $questionario = $this->Questionarios->get($id, [
-                'contain' => [],
-            ]);
+            $questionario = $this->Questionarios->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Registro não encontrado.'));
 
@@ -161,7 +157,7 @@ class QuestionariosController extends AppController
         }
 
         // Check if the questionario has any associated respostas
-        $respostasCount = $this->Respostas->find()
+        $respostasCount = $this->fetchTable('Respostas')->find()
             ->where(['Respostas.questionario_id' => $questionario->id])
             ->count();
 

@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace App\Policy;
 
+use App\Model\Table\UsersTable;
 use Authorization\IdentityInterface;
 use Authorization\Policy\BeforePolicyInterface;
+use Authorization\Policy\Result;
 use Authorization\Policy\ResultInterface;
 use Cake\ORM\Query;
 
 final class UsersTablePolicy implements BeforePolicyInterface
 {
     /**
-     * @param \Authorization\IdentityInterface|null $identity
+     * @param IdentityInterface|null $identity
      * @param mixed $resource
      * @param string $action
-     * @return \Authorization\Policy\ResultInterface|bool|null
+     * @return ResultInterface|bool|null
      */
     public function before(?IdentityInterface $identity, mixed $resource, string $action): ResultInterface|bool|null
     {
@@ -30,16 +32,34 @@ final class UsersTablePolicy implements BeforePolicyInterface
     }
 
     /**
-     * @param \Authorization\IdentityInterface $user
-     * @param \Cake\ORM\Query $query
-     * @return \Cake\ORM\Query
+     * @param IdentityInterface $userSession
+     * @param UsersTable $usersTable
+     * @return Result
+     */
+    public function canIndex(IdentityInterface $userSession, UsersTable $usersTable): Result
+    {
+        $user_data = $userSession->getOriginalData();
+
+        return $user_data && in_array($user_data['categoria'], ['1', '2', '3', '4'])
+            ? new Result(true)
+            : new Result(false, 'Erro: users index policy not authorized');
+    }
+
+    /**
+     * @param IdentityInterface $user
+     * @param Query $query
+     * @return Query
      */
     public function scopeIndex(IdentityInterface $user, Query $query): Query
     {
         $user_data = $user->getOriginalData();
 
         if (!isset($user_data['categoria']) || $user_data['categoria'] !== '1') {
-            return $query->where(['Users.id' => $user->getIdentifier()]);
+            if (!($user_data instanceof \ArrayAccess || is_array($user_data)) || empty($user_data['id'])) {
+                return $query->where(['Users.id' => 0]);
+            }
+
+            return $query->where(['Users.id' => $user_data['id']]);
         }
 
         return $query;

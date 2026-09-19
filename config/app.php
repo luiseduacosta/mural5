@@ -107,7 +107,7 @@ return [
          * Duration will be set to '+2 minutes' in bootstrap.php when debug = true
          * If you set 'className' => 'Null' core cache will be disabled.
          */
-        '_cake_core_' => [
+        '_cake_translations_' => [
             'className' => FileEngine::class,
             'prefix' => 'myapp_cake_core_',
             'path' => CACHE . 'persistent' . DS,
@@ -413,7 +413,7 @@ return [
     'DebugKit' => [
         'forceEnable' => filter_var(env('DEBUG_KIT_FORCE_ENABLE', false), FILTER_VALIDATE_BOOLEAN),
         'safeTld' => env('DEBUG_KIT_SAFE_TLD', null),
-        'ignoreAuthorization' => env('DEBUG_KIT_IGNORE_AUTHORIZATION', false)
+        'ignoreAuthorization' => filter_var(env('DEBUG_KIT_IGNORE_AUTHORIZATION', true), FILTER_VALIDATE_BOOLEAN),
     ],
     'CakePdf' => [
         'engine' => 'CakePdf.DomPdf',

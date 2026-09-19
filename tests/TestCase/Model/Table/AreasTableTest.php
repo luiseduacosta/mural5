@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\AreainstituicoesTable;
+use App\Model\Table\AreasTable;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\AreainstituicoesTable Test Case
+ * App\Model\Table\AreasTable Test Case
  */
 class AreasTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \App\Model\Table\AreainstituicoesTable
+     * @var \App\Model\Table\AreasTable
      */
     protected $Areas;
 
@@ -24,7 +24,9 @@ class AreasTableTest extends TestCase
      *
      * @var array
      */
-    protected array $fixtures = [];
+    protected array $fixtures = [
+        'app.Areas',
+    ];
 
     /**
      * setUp method
@@ -34,8 +36,8 @@ class AreasTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = $this->getTableLocator()->exists('Areainstituicoes') ? [] : ['className' => AreainstituicoesTable::class];
-        $this->Areas = $this->getTableLocator()->get('Areainstituicoes', $config);
+        $config = $this->getTableLocator()->exists('Areas') ? [] : ['className' => AreasTable::class];
+        $this->Areas = $this->getTableLocator()->get('Areas', $config);
     }
 
     /**
@@ -57,7 +59,7 @@ class AreasTableTest extends TestCase
      */
     public function testValidationDefault(): void
     {
-        $validator = $this->Areas->validationDefault(new \Cake\Validation\Validator());
+        $validator = $this->Areas->getValidator();
 
         // Test valid data passes
         $errors = $validator->validate([
@@ -86,8 +88,8 @@ class AreasTableTest extends TestCase
      */
     public function testInitialize(): void
     {
-        $this->assertSame('area_instituicoes', $this->Areas->getTable());
-        $this->assertSame('Areainstituicoes', $this->Areas->getAlias());
+        $this->assertSame('areas', $this->Areas->getTable());
+        $this->assertSame('Areas', $this->Areas->getAlias());
         $this->assertSame('area', $this->Areas->getDisplayField());
         $this->assertSame('id', $this->Areas->getPrimaryKey());
     }

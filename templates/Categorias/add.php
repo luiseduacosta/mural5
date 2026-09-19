@@ -3,6 +3,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Categoria $categoria
  */
+declare(strict_types=1);
 ?>
 
 <div class="container">

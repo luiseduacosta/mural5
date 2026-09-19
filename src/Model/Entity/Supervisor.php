@@ -15,9 +15,7 @@ use Cake\ORM\Entity;
  * @property string $bairro
  * @property string $municipio
  * @property string $cep
- * @property string $codigo_telefone
  * @property string $telefone
- * @property string $codigo_celular
  * @property string $celular
  * @property string $email
  * @property string $escola
@@ -27,6 +25,7 @@ use Cake\ORM\Entity;
  * @property string $cargo
  * @property string|null $observacoes
  * @property int|null $user_id
+ * @property int|null $estagiarios_count
  *
  * @property \App\Model\Entity\User $user
  * @property \App\Model\Entity\Estagiario[] $estagiarios
@@ -40,9 +39,7 @@ class Supervisor extends Entity
         'bairro' => true,
         'municipio' => true,
         'cep' => true,
-        'codigo_telefone' => true,
         'telefone' => true,
-        'codigo_celular' => true,
         'celular' => true,
         'email' => true,
         'escola' => true,
@@ -52,7 +49,7 @@ class Supervisor extends Entity
         'cargo' => true,
         'observacoes' => true,
         'user_id' => true,
-        'estagiario_count' => true,
+        'estagiarios_count' => true,
         'estagiarios' => true,
         'instituicoes' => true,
     ];

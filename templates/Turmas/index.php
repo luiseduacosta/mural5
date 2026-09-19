@@ -66,10 +66,6 @@ if ($user_session) {
     <?= $this->element('templates'); ?>
 
     <div class="d-flex justify-content-center">
-        <div class="paginator">
-            <ul class="pagination">
-                <?= $this->element('paginator') ?>
-            </ul>
-        </div>
+        <?= $this->element('paginator') ?>
         <?= $this->element('paginator_count') ?>
     </div>

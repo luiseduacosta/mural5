@@ -23,30 +23,19 @@ if ($user_session) {
 
 <?php $this->element('templates') ?>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-            aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['categoria'] === '1'): ?>
-            <li class="nav-item">
-                <?=
-                $this->Form->postLink(
-                        __('Excluir'),
-                        ['action' => 'delete', $instituicao->id],
-                        ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $instituicao->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']
-                )
-                ?>
-            </li>
-        <?php endif; ?>
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-        </li>
-    </ul>
-</nav>
-
 <div class="container col-lg-10 shadow p-3 mb-5 bg-white rounded">
+    <div class="d-flex flex-wrap justify-content-end align-items-center gap-2 mb-3">
+        <?php if ($user_data['categoria'] === '1'): ?>
+            <?=
+            $this->Form->postLink(
+                    __('Excluir'),
+                    ['action' => 'delete', $instituicao->id],
+                    ['confirm' => __('Tem certeza que deseja excluir este registo # {0}?', $instituicao->id), 'class' => 'btn btn-outline-danger']
+            )
+            ?>
+        <?php endif; ?>
+        <?= $this->Html->link(__('Listar instituições'), ['action' => 'index'], ['class' => 'btn btn-outline-secondary']) ?>
+    </div>
     <?= $this->Form->create($instituicao) ?>
     <fieldset>
         <legend><?= __('Editar instituição') ?></legend>
@@ -62,7 +51,7 @@ if ($user_session) {
         echo $this->Form->control('municipio', ['label' => ['text' => 'Município'], 'class' => 'form-control']);
         echo $this->Form->control('cep', ['label' => ['text' => 'CEP'], 'id' => 'cep', 'required' => false, 'keypress()', 'class' => 'form-control']);
         echo $this->Form->control('telefone', ['label' => ['text' => 'Telefone'], 'id' => 'telefone', 'required' => true, 'keypress()', 'class' => 'form-control']);
-        echo $this->Form->control('beneficio', ['label' => ['text' => 'Benefícios'], 'class' => 'form-control']);
+        echo $this->Form->control('beneficios', ['label' => ['text' => 'Benefícios'], 'class' => 'form-control']);
         echo $this->Form->control('fim_de_semana', ['label' => ['text' => 'Estágio no final de semana?'], 'options' => ['0' => 'Não', '1' => 'Sim'], 'class' => 'form-control']);
         echo $this->Form->control('convenio', ['label' => ['text' => 'Convênio'], 'placeholder' => 'Número do convêncio registrado na PR4', 'required' => true, 'class' => 'form-control']);
         echo $this->Form->control('expira', ['label' => ['text' => 'Data de encerramento do convênio'], 'empty' => true, 'class' => 'form-control']);

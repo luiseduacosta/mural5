@@ -3,11 +3,28 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use ArrayObject;
+use App\Model\Entity\Professor;
+use Cake\Event\EventInterface;
+use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use function is_string;
 
 class ProfessoresTable extends Table
 {
+    public const STATUS_ATIVO = 'ativo';
+    public const STATUS_APOSENTADO = 'aposentado';
+    public const STATUS_INATIVO = 'inativo';
+
+    private const STATUS_NORMALIZATION_MAP = [
+        'active' => self::STATUS_ATIVO,
+        'activo' => self::STATUS_ATIVO,
+        'retired' => self::STATUS_APOSENTADO,
+        'inactive' => self::STATUS_INATIVO,
+        'inactivo' => self::STATUS_INATIVO,
+    ];
+
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -16,6 +33,15 @@ class ProfessoresTable extends Table
         $this->setAlias('Professores');
         $this->setDisplayField('nome');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp', [
+            'events' => [
+                'Model.beforeSave' => [
+                    'created' => 'new',
+                    'modified' => 'always',
+                ],
+            ],
+        ]);
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -33,7 +59,7 @@ class ProfessoresTable extends Table
 
         $validator
             ->scalar('nome')
-            ->maxLength('nome', 50)
+            ->maxLength('nome', 200)
             ->notEmptyString('nome');
 
         $validator
@@ -44,30 +70,23 @@ class ProfessoresTable extends Table
         $validator
             ->scalar('siape')
             ->maxLength('siape', 8)
-            ->notEmptyString('siape');
+            ->regex('siape', '/^[0-9]{7,8}$/', 'O Siape deve conter apenas números e ter entre 7 e 8 dígitos.')
+            ->allowEmptyString('siape');
 
         $validator
-            ->nonNegativeInteger('cress')
+            ->scalar('cress')
+            ->maxLength('cress', 10)
             ->allowEmptyString('cress');
 
         $validator
-            ->nonNegativeInteger('regiao')
+            ->scalar('regiao')
+            ->maxLength('regiao', 2)
             ->allowEmptyString('regiao');
-
-        $validator
-            ->scalar('codigo_telefone')
-            ->maxLength('codigo_telefone', 2)
-            ->allowEmptyString('codigo_telefone');
 
         $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
             ->allowEmptyString('telefone');
-
-        $validator
-            ->scalar('codigo_celular')
-            ->maxLength('codigo_celular', 2)
-            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')
@@ -76,6 +95,7 @@ class ProfessoresTable extends Table
 
         $validator
             ->email('email')
+            ->maxLength('email', 255)
             ->allowEmptyString('email');
 
         $validator
@@ -90,6 +110,11 @@ class ProfessoresTable extends Table
         $validator
             ->date('dataingresso')
             ->allowEmptyDate('dataingresso');
+
+        $validator
+            ->scalar('tipocargo')
+            ->maxLength('tipocargo', 20)
+            ->allowEmptyString('tipocargo');
 
         $validator
             ->scalar('departamento')
@@ -113,6 +138,59 @@ class ProfessoresTable extends Table
             ->integer('user_id')
             ->allowEmptyString('user_id');
 
+        $validator
+            ->scalar('status')
+            ->maxLength('status', 10)
+            ->inList('status', [
+                self::STATUS_ATIVO,
+                self::STATUS_APOSENTADO,
+                self::STATUS_INATIVO,
+            ], 'Status deve ser um de: ativo, aposentado, inativo.')
+            ->allowEmptyString('status');
+
+        $validator
+            ->integer('estagiarios_count')
+            ->allowEmptyString('estagiarios_count');
+
         return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'), [
+            'errorField' => 'user_id',
+        ]);
+
+        return $rules;
+    }
+
+    /**
+     * Normaliza apelidos de status ("active" -> "ativo"...) antes da validação.
+     * Um status vazio é removido para manter o valor atual (ou o padrão "ativo").
+     */
+    public function beforeMarshal(EventInterface $_event, ArrayObject $data, ArrayObject $_options): void
+    {
+        unset($_event, $_options);
+
+        $status = $data['status'] ?? null;
+        if ($status === '') {
+            unset($data['status']);
+
+            return;
+        }
+        if (!is_string($status)) {
+            return;
+        }
+
+        $data['status'] = self::STATUS_NORMALIZATION_MAP[$status] ?? $status;
+    }
+
+    /**
+     * Creates a new Professor.
+     */
+    public function createProfessor(array $data): ?Professor
+    {
+        $professor = $this->newEmptyEntity();
+        return $this->save($this->patchEntity($professor, $data));
     }
 }

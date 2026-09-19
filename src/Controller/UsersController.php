@@ -35,8 +35,8 @@ class UsersController extends AppController
         $this->request->allowMethod(['get', 'post']);
 
         $result = $this->Authentication->getResult();
-
         if ($result && $result->isValid()) {
+            /** @var \App\Model\Entity\User $user */
             $user = $result->getData();
             $controlador = 'Users';
             $acao = 'view';
@@ -121,7 +121,6 @@ class UsersController extends AppController
                         $administrador = $this->fetchTable('Administradores')->find()
                             ->where(['Administradores.user_id' => $user->id])
                             ->first();
-
                         if (empty($administrador)) {
                             $this->Flash->error(__('Registro de administrador não encontrado.'));
                             $this->Authentication->logout();
@@ -158,7 +157,7 @@ class UsersController extends AppController
             $this->Flash->error(__('Usuário ou senha inválidos'));
         }
 
-        $this->set('user', $this->Authentication->result);
+        $this->set('user', $result);
     }
 
     public function logout()
@@ -180,14 +179,35 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $this->Authorization->skipAuthorization();
+        $this->Authorization->authorize($this->Users);
+        /** @var User|null $user */
         $user = $this->Authentication->getIdentity();
 
         if ($user && $user->categoria === '1') {
-            $users = $this->paginate(
-                $this->Users->find()->contain(['Alunos', 'Supervisores', 'Professores'])
-            );
-            $this->set(compact('users'));
+            $q = trim((string)$this->request->getQuery('q', ''));
+            $query = $this->Users->find()->contain(['Alunos', 'Supervisores', 'Professores']);
+
+            if ($q !== '') {
+                $like = '%' . str_replace(['%', '_'], '', $q) . '%';
+                $query->where([
+                    'OR' => [
+                        'Users.nome LIKE' => $like,
+                        'Users.email LIKE' => $like,
+                    ],
+                ]);
+            }
+
+            $this->paginate = [
+                'limit' => 20,
+                'order' => ['Users.nome' => 'ASC'],
+                'sortableFields' => [
+                    'id', 'nome', 'email', 'categoria',
+                    'identificacao', 'entidade_id',
+                    'aluno_id', 'supervisor_id', 'professor_id',
+                ],
+            ];
+            $users = $this->paginate($query);
+            $this->set(compact('users', 'q'));
         } else {
             $this->Flash->error(__('Usuário não autorizado'));
 
@@ -200,16 +220,14 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function view(?string $id = null)
     {
         $this->Authorization->skipAuthorization();
 
         try {
-            $user = $this->Users->get($id, [
-                'contain' => [],
-            ]);
+            $user = $this->Users->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
             return $this->redirect(['action' => 'index']);
@@ -359,14 +377,12 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
         try {
-            $user = $this->Users->get($id, [
-                'contain' => [],
-            ]);
+            $user = $this->Users->get($id);
         } catch (RecordNotFoundException $e) {
             $this->Flash->error(__('Usuário não encontrado.'));
 
@@ -400,7 +416,7 @@ class UsersController extends AppController
      *
      * @param string|null $id User id.
      * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
@@ -441,6 +457,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
+        /** @var iterable<User> $users */
         $users = $this->Users->find('all');
         foreach ($users as $user) {
             // Sync role with categoria
@@ -520,23 +537,36 @@ class UsersController extends AppController
     {
         $this->Authorization->skipAuthorization();
 
+        $session = $this->request->getSession();
+        $isImpersonating = method_exists($this->Authentication, 'isImpersonating')
+            ? $this->Authentication->isImpersonating()
+            : $session->check('AuthImpersonate');
+
         $identity = $this->Authentication->getIdentity();
         $user_data = $identity->getOriginalData();
 
         // Only administrators can impersonate
-        if ($user_data['categoria'] !== '1' && !$this->request->getSession()->check('Auth.impersonating')) {
+        if ($user_data['categoria'] !== '1' && !$session->check('Auth.impersonating') && !$isImpersonating) {
             $this->Flash->error(__('Acesso negado. Apenas administradores podem alternar usuários.'));
 
             return $this->redirect(['action' => 'index']);
         }
 
         // 1. Start impersonating via GET parameter ($id)
-        if ($id && $this->request->is('get')) {
-            $targetUser = $this->Users->get($id);
+        $targetId = $id ?: $this->request->getQuery('id');
+        if ($targetId && $this->request->is('get')) {
+            $targetUser = $this->Users->get($targetId);
+
+            if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                $this->Authentication->stopImpersonating();
+                $isImpersonating = false;
+                $identity = $this->Authentication->getIdentity();
+                $user_data = $identity ? $identity->getOriginalData() : $user_data;
+            }
 
             // Store original admin ID if not already impersonating
-            if (!$this->request->getSession()->check('Auth.impersonating')) {
-                $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+            if (!$session->check('Auth.impersonating')) {
+                $session->write('Auth.impersonating', $user_data['id']);
             }
 
             $this->Authentication->impersonate($targetUser);
@@ -547,12 +577,19 @@ class UsersController extends AppController
 
         // 2. Start impersonating via form submission (using 'id')
         if ($this->request->is('post')) {
-            $id = $this->request->getQuery('id');
-            $targetUser = $this->Users->find()->where(['id' => $id])->first();
+            $targetId = $id ?: $this->request->getQuery('id');
+            $targetUser = $this->Users->find()->where(['id' => $targetId])->first();
             if ($targetUser) {
+                if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                    $this->Authentication->stopImpersonating();
+                    $isImpersonating = false;
+                    $identity = $this->Authentication->getIdentity();
+                    $user_data = $identity ? $identity->getOriginalData() : $user_data;
+                }
+
                 // Store original admin ID if not already impersonating
-                if (!$this->request->getSession()->check('Auth.impersonating')) {
-                    $this->request->getSession()->write('Auth.impersonating', $user_data['id']);
+                if (!$session->check('Auth.impersonating')) {
+                    $session->write('Auth.impersonating', $user_data['id']);
                 }
                 $this->Authentication->impersonate($targetUser);
                 $this->Flash->success(__('Você agora está acessando como ' . $targetUser->nome));
@@ -563,12 +600,11 @@ class UsersController extends AppController
         }
 
         // 3. Stop impersonating if accessed without an ID/POST and we are currently impersonating
-        if (!$this->request->is('post') && !$id && $this->request->getSession()->check('Auth.impersonating')) {
-            $originalId = $this->request->getSession()->read('Auth.impersonating');
-            $originalUser = $this->Users->get($originalId);
-
-            $this->Authentication->impersonate($originalUser);
-            $this->request->getSession()->delete('Auth.impersonating');
+        if (!$this->request->is('post') && !$targetId && ($session->check('Auth.impersonating') || $isImpersonating)) {
+            if ($isImpersonating && method_exists($this->Authentication, 'stopImpersonating')) {
+                $this->Authentication->stopImpersonating();
+            }
+            $session->delete('Auth.impersonating');
 
             $this->Flash->success(__('Identidade restaurada para administrador.'));
 

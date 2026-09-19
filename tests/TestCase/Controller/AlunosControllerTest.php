@@ -26,55 +26,82 @@ class AlunosControllerTest extends TestCase
         'app.Alunos',
         'app.Estagiarios',
         'app.Inscricoes',
+        'app.Users',
+        'app.Administradores',
     ];
 
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
+    protected function loginAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(1);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+    protected function loginAsAluno(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $users = $this->getTableLocator()->get('Users');
+        $user = $users->get(2);
+        $this->session(['Auth' => $user]);
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+    public function testIndexAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/alunos');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testIndexAsAluno(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/alunos');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testViewAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->get('/alunos/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
+    public function testViewAsSelf(): void
+    {
+        $this->loginAsAluno();
+        $this->get('/alunos/view/1');
+        $this->assertResponseOk();
+        $this->assertResponseContains('Test Student');
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/alunos/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testEditAsAdmin(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAdmin();
+        $this->get('/alunos/edit/1');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testEditAsSelf(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->loginAsAluno();
+        $this->get('/alunos/edit/1');
+        $this->assertResponseOk();
+    }
+
+    public function testDeleteAsAdmin(): void
+    {
+        $this->loginAsAdmin();
+        $this->enableCsrfToken();
+        $this->post('/alunos/delete/1');
+        $this->assertResponseSuccess();
     }
 }

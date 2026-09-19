@@ -20,14 +20,14 @@ use Cake\ORM\Entity;
  * @property string $municipio
  * @property string $cep
  * @property string $telefone
- * @property string|null $beneficio
+ * @property string|null $beneficios
  * @property string|null $fim_de_semana
  * @property string $local_inscricao
  * @property int $convenio
  * @property int|null $expira
  * @property string|null $seguro
  * @property string|null $observacoes
- * @property int|null $estagiario_count
+ * @property int|null $estagiarios_count
  *
  * @property \App\Model\Entity\Area $area
  * @property \App\Model\Entity\Estagiario[] $estagiarios
@@ -49,13 +49,13 @@ class Instituicao extends Entity
         'municipio' => true,
         'cep' => true,
         'telefone' => true,
-        'beneficio' => true,
+        'beneficios' => true,
         'fim_de_semana' => true,
         'convenio' => true,
         'expira' => true,
         'seguro' => true,
         'observacoes' => true,
-        'estagiario_count' => true,
+        'estagiarios_count' => true,
         'area' => true,
         'estagiarios' => true,
         'muralestagios' => true,

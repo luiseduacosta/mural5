@@ -13,62 +13,39 @@ if ($user_session) {
 ?>
 
 <div class="container">
+    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+        <div>
+            <h3 class="mb-0"><?= __('Detalhes da visita') ?></h3>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <?php if ($user_data['categoria'] === '1'): ?>
+                <?= $this->Html->link(__('Editar visita'), ['controller' => 'Visitas', 'action' => 'edit', $visita->id], ['class' => 'btn btn-primary']) ?>
+                <?= $this->Html->link(__('Nova visita'), ['controller' => 'Visitas', 'action' => 'add'], ['class' => 'btn btn-success']) ?>
+                <?= $this->Form->postLink(__('Excluir visita'), ['controller' => 'Visitas', 'action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que deseja excluir este registro de visita {0}?', $visita->id), 'class' => 'btn btn-danger']) ?>
+            <?php endif; ?>
+            <?= $this->Html->link(__('Listar visitas'), ['controller' => 'Visitas', 'action' => 'index'], ['class' => 'btn btn-outline-primary']) ?>
+        </div>
+    </div>
 
-<nav class="navbar navbar-expand-lg py-2 navbar-light bg-light w-75 mx-auto" id="actions-sidebar">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggler"
-        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav collapse navbar-collapse" id="navbarToggler">
-        <?php if ($user_data['categoria'] === '1'): ?>
-            <li class="nav-item">
-                <?= $this->Html->link(__('Editar visita'), ['controller' => 'Visitas', 'action' => 'edit', $visita->id], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-            </li>
-            <li class='nav-item'>
-                <?= $this->Form->postLink(__('Excluir visita'), ['controller' => 'Visitas', 'action' => 'delete', $visita->id], ['confirm' => __('Tem certeza que deseja excluir este registro de visita {0}?', $visita->id), 'class' => 'btn btn-danger me-1', 'style' => 'font-size: 10pt;']) ?>
-            </li>
-            <li class='nav-item'>
-                <?= $this->Html->link(__('Nova visita'), ['controller' => 'Visitas', 'action' => 'add'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-            </li>
-        <?php endif; ?>
-        <li class="nav-item">
-            <?= $this->Html->link(__('Listar visitas'), ['controller' => 'Visitas', 'action' => 'index'], ['class' => 'btn btn-primary me-1', 'style' => 'font-size: 10pt;']) ?>
-        </li>
-    </ul>
-</nav>
-
-<div class="container col-lg-8 shadow p-3 mb-5 bg-white rounded">
-    <table class="table table-striped table-hover table-responsive">
-        <tr>
-            <th><?= __('Id') ?></th>
-            <td><?= $this->Number->format($visita->id) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Instituição') ?></th>
-            <td><?= $visita->has('instituicao') ? $this->Html->link($visita->instituicao['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao['id']]) : '' ?>
-            </td>
-        </tr>
-        <tr>
-            <th><?= __('Motivo') ?></th>
-            <td><?= h($visita->motivo) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Responsável') ?></th>
-            <td><?= h($visita->responsavel) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Avaliação') ?></th>
-            <td><?= h($visita->avaliacao) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Data') ?></th>
-            <td><?= h($visita->data) ?></td>
-        </tr>
-    </table>
-    <div class="text">
-        <strong><?= __('Descrição') ?></strong>
-        <blockquote>
-            <?= $this->Text->autoParagraph(h($visita->descricao)); ?>
-        </blockquote>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover mb-0">
+                <tr><th><?= __('Id') ?></th><td><?= $this->Number->format($visita->id) ?></td></tr>
+                <tr>
+                    <th><?= __('Instituição') ?></th>
+                    <td><?= $visita->has('instituicao') ? $this->Html->link($visita->instituicao['instituicao'], ['controller' => 'Instituicoes', 'action' => 'view', $visita->instituicao['id']]) : '' ?></td>
+                </tr>
+                <tr><th><?= __('Motivo') ?></th><td><?= h($visita->motivo) ?></td></tr>
+                <tr><th><?= __('Responsável') ?></th><td><?= h($visita->responsavel) ?></td></tr>
+                <tr><th><?= __('Avaliação') ?></th><td><?= h($visita->avaliacao) ?></td></tr>
+                <tr><th><?= __('Data') ?></th><td><?= h($visita->data) ?></td></tr>
+            </table>
+            <div class="p-3 border-top">
+                <h5><?= __('Descrição') ?></h5>
+                <div class="bg-light border rounded p-3">
+                    <?= $this->Text->autoParagraph(h($visita->descricao)); ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

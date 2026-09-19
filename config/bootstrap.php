@@ -94,13 +94,17 @@ if (file_exists(CONFIG . 'app_local.php')) {
     Configure::load('app_local', 'default');
 }
 
+if (!Configure::check('Synapse') && file_exists(CONFIG . 'synapse.php')) {
+    Configure::load('synapse', 'default');
+}
+
 /*
  * When debug = true the metadata cache should only last
  * for a short time.
  */
 if (Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+2 minutes');
-    Configure::write('Cache._cake_core_.duration', '+2 minutes');
+    Configure::write('Cache._cake_translations_.duration', '+2 minutes');
     // disable router cache during development
     Configure::write('Cache._cake_routes_.duration', '+2 seconds');
 }

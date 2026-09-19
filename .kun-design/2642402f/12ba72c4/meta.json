@@ -1,0 +1,28 @@
+{
+  "id": "12ba72c4",
+  "kind": "html",
+  "title": "Logo",
+  "relativePath": ".kun-design/2642402f/12ba72c4/v1.html",
+  "createdAt": "2026-09-05T03:32:53.109Z",
+  "updatedAt": "2026-09-05T03:32:53.109Z",
+  "versions": [
+    {
+      "id": "12ba72c4-v1",
+      "relativePath": ".kun-design/2642402f/12ba72c4/v1.html",
+      "createdAt": "2026-09-05T03:32:53.109Z",
+      "summary": ""
+    }
+  ],
+  "previewStatus": "pending",
+  "role": "logo",
+  "node": {
+    "x": -640,
+    "y": -400,
+    "width": 1280,
+    "height": 800,
+    "sizeMode": "auto",
+    "viewMode": "preview",
+    "boardHidden": false
+  },
+  "designMdPath": ".kun-design/2642402f/12ba72c4/DESIGN.md"
+}

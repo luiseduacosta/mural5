@@ -53,7 +53,7 @@ if ($user_session) {
         <legend><?= __('Editar Estagiário(a)') ?></legend>
         <?php
 
-        if ($user_data['categoria'] != '1') {
+        if ($user_data['categoria'] == '2') {
             echo $this->Form->control('aluno_id', [
                 'label' => ['text' => 'Aluno(a)'],
                 'options' => $alunos,
@@ -75,34 +75,32 @@ if ($user_session) {
 
             echo $this->Form->control('tc_solicitacao', ['label' => ['text' => 'Data da solicitação do TC']]);
 
-        }
+        } elseif ($user_data['categoria'] == '1') {
 
-        echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso assinado'], 'options' => [0 => "Nao", 1 => "Sim"],
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-            ]
-        ]);
+            echo $this->Form->control('tc', ['label' => ['text' => 'Termo de compromisso assinado'], 'options' => [0 => "Nao", 1 => "Sim"],
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]
+            ]);
 
-        echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-            ]
-        ]);
+            echo $this->Form->control('instituicao_id', ['label' => ['text' => 'Instituição'], 'options' => $instituicoes, 
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]
+            ]);
 
-        echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true,
-            'templates' => [
-                'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
-                'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
-                'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
-            ]
-        ]);
-
-        if ($user_data['categoria'] == '1') {
-            
+            echo $this->Form->control('supervisor_id', ['label' => ['text' => 'Supervisor(a)'], 'options' => $supervisores, 'empty' => true,
+                'templates' => [
+                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                    'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
+                    'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
+                ]
+            ]);
+           
             echo $this->Form->control('professor_id', ['label' => ['text' => 'Professor(a)'], 'options' => $professores, 'empty' => true,
                 'templates' => [
                     'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
@@ -115,11 +113,15 @@ if ($user_session) {
 
             echo $this->Form->control('complemento_id', ['label' => ['text' => 'Tipo de estágio (Pandemia)'], 'options' => [1 => 'Remoto', 2 => 'Ple'], 'empty' => "Seleciona",
                 'templates' => [
-                    'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
+                  'formGroup' => '<div class="form-group row">{{label}}<div class="col-sm-9">{{input}}</div></div>',
                     'label' => '<label class="col-sm-3 form-label"{{attrs}}>{{text}}</label>',
                     'select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>',
                 ]
             ]);
+
+        }
+        // Professor pode lançar nota e carga horária
+        if ($user_data['categoria'] == '1' || $user_data['categoria'] == '3') {
 
             echo $this->Form->control('nota');
 

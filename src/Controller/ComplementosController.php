@@ -15,7 +15,7 @@ class ComplementosController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return \Cake\Network\Response|null|void Renders view
      */
     public function index()
     {
@@ -92,9 +92,7 @@ class ComplementosController extends AppController
     public function edit($id = null)
     {
         try {
-            $complemento = $this->Complementos->get($id, [
-                'contain' => [],
-            ]);
+            $complemento = $this->Complementos->get($id);
         } catch (\Cake\Datasource\Exception\RecordNotFoundException $e) {
             $this->Flash->error(__('Complemento nao foi encontrado. Tente novamente.'));
             return $this->redirect(['action' => 'index']);

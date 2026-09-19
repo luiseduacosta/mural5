@@ -14,7 +14,7 @@ use Cake\I18n\I18n;
  * @property \Authorization\Controller\Component\AuthorizationComponent $Authorization
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  *
- * @method \App\Model\Entity\Avaliaco[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \App\Model\Entity\Avaliacao[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class AvaliacoesController extends AppController
 {
@@ -87,8 +87,8 @@ class AvaliacoesController extends AppController
         /* O menu_mural envia o cress */
         $this->Authorization->skipAuthorization();
 
-        $cress = $cress ?? null;
-        $dre = $dre ?? null;
+        $cress = $this->request->getQuery('cress');
+        $dre = $this->request->getQuery('dre');
 
         if (empty($cress)) {
             $this->Flash->error(__("Selecionar supervisor(a)."));
@@ -113,7 +113,7 @@ class AvaliacoesController extends AppController
                     "Folhadeatividades",
                 ])
                 ->where(["Supervisores.cress" => $cress])
-                ->order(["periodo" => "desc"])
+                ->orderBy(["periodo" => "desc"])
                 ->first();
             $this->set("estagiario", $estagiario);
         }
@@ -130,12 +130,12 @@ class AvaliacoesController extends AppController
     {
         try {
             $avaliacao = $this->Avaliacoes->get($id, [
-                "contain" => [
-                    "Estagiarios" => [
-                        "Alunos",
-                        "Professores",
-                        "Instituicoes",
-                        "Supervisores",
+                'contain' => [
+                    'Estagiarios' => [
+                        'Alunos',
+                        'Professores',
+                        'Instituicoes',
+                        'Supervisores',
                     ],
                 ],
             ]);
@@ -163,6 +163,13 @@ class AvaliacoesController extends AppController
      */
     public function add($id = null)
     {
+        $avaliacao = $this->Avaliacoes->newEmptyEntity();
+        try {
+            $this->Authorization->authorize($avaliacao);
+        } catch (\Authorization\Exception\ForbiddenException $e) {
+            $this->Flash->error(__("Acesso negado. Você não tem permissão para adicionar esta avaliação."));
+            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
+        }
 
         $estagiario_id = $this->request->getQuery("estagiario_id");
         if ($estagiario_id == null) {
@@ -180,14 +187,6 @@ class AvaliacoesController extends AppController
                 "action" => "view",
                 $avaliacaoestagiario->id,
             ]);
-        }
-
-        $avaliacao = $this->Avaliacoes->newEmptyEntity();
-        try {
-            $this->Authorization->authorize($avaliacao);
-        } catch (\Authorization\Exception\ForbiddenException $e) {
-            $this->Flash->error(__("Acesso negado. Você não tem permissão para adicionar esta avaliação."));
-            return $this->redirect(["controller" => "avaliacoes", "action" => "index"]);
         }
 
         if ($this->request->is("post")) {
@@ -226,12 +225,12 @@ class AvaliacoesController extends AppController
     {
         try {
             $avaliacao = $this->Avaliacoes->get($id, [
-                "contain" => [
-                    "Estagiarios" => [
-                        "Alunos",
-                        "Professores",
-                        "Instituicoes",
-                        "Supervisores",
+                'contain' => [
+                    'Estagiarios' => [
+                        'Alunos',
+                        'Professores',
+                        'Instituicoes',
+                        'Supervisores',
                     ],
                 ],
             ]);

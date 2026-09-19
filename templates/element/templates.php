@@ -60,10 +60,9 @@
 <?php $this->Form->setTemplates(['option' => '<option value="{{value}}"{{attrs}}>{{text}}</option>']); ?>
 <?php // Option group element used in select pickers. ?>
 <?php $this->Form->setTemplates(['optgroup' => '<optgroup label="{{label}}"{{attrs}}>{{content}}</optgroup>']); ?>
-<?php // Select element, ?>
-<?php $this->Form->setTemplates(['select' => '<select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select>']); ?>
-<?php // Multi-select element, ?>
-<?php $this->Form->setTemplates(['selectMultiple' => '<select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select>']); ?>
+<?php // Select element, wrapped in col-sm-9 so it sits on the same row as its label. ?>
+<?php $this->Form->setTemplates(['select' => '<div class="col-sm-9"><select class="form-select" name="{{name}}"{{attrs}}>{{content}}</select></div>']); ?>
+<?php // Multi-select element, ?><?php $this->Form->setTemplates(['selectMultiple' => '<div class="col-sm-9"><select name="{{name}}[]" multiple="multiple"{{attrs}}>{{content}}</select></div>']); ?>
 <?php // Radio input element, ?>
 <?php $this->Form->setTemplates(['radio' => '<input class="form-check-input" type="radio" name="{{name}}" value="{{value}}"{{attrs}}>']); ?>
 <?php // Wrapping container for radio input/label, ?>
@@ -104,10 +103,6 @@
 <?php $this->Html->setTemplates(['link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>']); ?>
 <?php $this->Html->setTemplates(['mailto' => '<a href="mailto:{{url}}"{{attrs}}>{{content}}</a>']); ?>
 <?php $this->Html->setTemplates(['image' => '<img src="{{url}}"{{attrs}}>']); ?>
-<?php $this->Html->setTemplates(['tableheader' => '<th{{attrs}}>{{content}}</th>']); ?>
-<?php $this->Html->setTemplates(['tableheaderrow' => '<tr{{attrs}}>{{content}}</tr>']); ?>
-<?php $this->Html->setTemplates(['tablecell' => '<td{{attrs}}>{{content}}</td>']); ?>
-<?php $this->Html->setTemplates(['tablerow' => '<tr{{attrs}}>{{content}}</tr>']); ?>
 <?php $this->Html->setTemplates(['block' => '<div{{attrs}}>{{content}}</div>']); ?>
 <?php $this->Html->setTemplates(['blockstart' => '<div{{attrs}}>']); ?>
 <?php $this->Html->setTemplates(['blockend' => '</div>']); ?>
@@ -128,3 +123,22 @@
 <?php $this->Html->setTemplates(['javascriptlink' => '<script src="{{url}}"{{attrs}}></script>']); ?>
 <?php $this->Html->setTemplates(['javascriptend' => '</script>']); ?>
 <?php $this->Html->setTemplates(['confirmJs' => '{{confirm}}']); ?>
+
+<?php // Table templates ?>
+<?php $this->Html->setTemplates(['table' => '<table{{attrs}} class="table table-bordered table-striped table-hover">{{content}}</table>']); ?>
+<?php $this->Html->setTemplates(['tableheader' => '<thead{{attrs}}>{{content}}</thead>']); ?>
+<?php $this->Html->setTemplates(['tableheaderrow' => '<th{{attrs}}>{{content}}</th>']); ?>
+<?php $this->Html->setTemplates(['tablebody' => '<tbody{{attrs}}>{{content}}</tbody>']); ?>
+<?php $this->Html->setTemplates(['tablerow' => '<tr{{attrs}}>{{content}}</tr>']); ?>
+<?php $this->Html->setTemplates(['tablecell' => '<td{{attrs}}>{{content}}</td>']); ?>
+<?php $this->Html->setTemplates(['tablefooter' => '<tfoot{{attrs}}>{{content}}</tfoot>']); ?>
+<?php $this->Html->setTemplates(['tablefooterrow' => '<tr{{attrs}}>{{content}}</tr>']); ?>
+
+<?php // Nav templates ?>
+<?php $this->Html->setTemplates(['navstart' => '<nav{{attrs}} class="navbar navbar-expand-lg navbar-light bg-light">']); ?>
+<?php $this->Html->setTemplates(['navbutton' => '<button{{attrs}} class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">{{text}}</button>']); ?>
+<?php $this->Html->setTemplates(['navspan' => '<span{{attrs}} class="navbar-toggler-icon"></span>']); ?>
+<?php $this->Html->setTemplates(['navul' => '<ul{{attrs}} class="navbar-nav collapse navbar-collapse">{{content}}</ul>']); ?>
+<?php $this->Html->setTemplates(['navli' => '<li{{attrs}} class="nav-item">{{content}}</li>']); ?>
+<?php $this->Html->setTemplates(['navlink' => '<a class="nav-link" href="{{url}}"{{attrs}}>{{text}}</a>']); ?>
+<?php $this->Html->setTemplates(['navend' => '</nav>']); ?>

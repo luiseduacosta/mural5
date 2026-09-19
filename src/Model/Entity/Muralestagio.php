@@ -9,12 +9,12 @@ use Cake\ORM\Entity;
  * Muralestagio Entity
  *
  * @property int $id
- * @property int|null $instituicao_id
+ * @property int $instituicao_id
  * @property string $instituicao
  * @property string $convenio
  * @property int $vagas
  * @property string|null $beneficios
- * @property string|null $final_de_semana
+ * @property string $final_de_semana
  * @property int|null $carga_horaria
  * @property string|null $requisitos
  * @property string|null $horario
@@ -27,7 +27,7 @@ use Cake\ORM\Entity;
  * @property string|null $outras
  * @property string|null $periodo
  * @property string $local_inscricao
- * @property string|null $email
+ * @property string $email
  *
  * @property \App\Model\Entity\Instituicao $instituicao_rel
  */

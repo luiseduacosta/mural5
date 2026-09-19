@@ -135,9 +135,9 @@ class InstituicoesTable extends Table
             ->allowEmptyString('telefone');
 
         $validator
-            ->scalar('beneficio')
-            ->maxLength('beneficio', 50)
-            ->allowEmptyString('beneficio');
+            ->scalar('beneficios')
+            ->maxLength('beneficios', 50)
+            ->allowEmptyString('beneficios');
 
         $validator
             ->scalar('fim_de_semana')

@@ -10,15 +10,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#cpf').mask('000.000.000-00');
-        
-        if ($('#codigo_telefone').val() === '' ) {
-            codigo = '21';
-        } else {
-            codigo = $('#codigo_telefone').val();
-        }
-        if ($('#telefone').val().length >= 8 && $('#telefone').val().length <= 10) {
-            $('#telefone').val('(' + codigo + ') ' + $('#telefone').val());
-        }
+
         var telMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-0000';
         };
@@ -30,14 +22,6 @@
         };
         $('#telefone').mask(telMaskBehavior, telOptions);
 
-        if ($('#codigo_celular').val() === '' ) {
-            codigo = '21';
-        } else {
-            codigo = $('#codigo_celular').val();
-        }
-        if ($('#celular').val().length >= 8 && $('#celular').val().length <= 10) {
-            $('#celular').val('(' + codigo + ') ' + $('#celular').val());
-        }
         var celMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-0000';
         };
@@ -107,19 +91,11 @@
             "mask" => "00000-000",
             "placeholder" => "00000-000",
         ]);
-        echo $this->Form->control("codigo_telefone", [
-            "label" => ["text" => "DDD"],
-            "type" => "number",
-        ]);
         echo $this->Form->control("telefone", [
             "label" => ["text" => "Telefone"],
             "type" => "text",
             "mask" => "(00) 0000-0000",
             "placeholder" => "(00) 0000-0000",
-        ]);
-        echo $this->Form->control("codigo_celular", [
-            "label" => ["text" => "DDD"],
-            "type" => "number",
         ]);
         echo $this->Form->control("celular", [
             "label" => ["text" => "Celular"],

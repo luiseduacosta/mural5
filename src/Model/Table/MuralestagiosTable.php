@@ -61,17 +61,19 @@ class MuralestagiosTable extends Table
     /**
      * Before find callback to apply default ordering.
      *
-     * @param \Cake\Event\EventInterface $event The beforeFind event.
-     * @param \Cake\ORM\Query $query The query object.
+     * @param EventInterface $event The beforeFind event.
+     * @param Query $query The query object.
      * @param \ArrayObject $options The options array.
      * @param bool $primary Whether this is a primary query or not.
-     * @return \Cake\ORM\Query
+     * @return void
      */
-    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): Query
+    public function beforeFind(EventInterface $event, Query $query, ArrayObject $options, bool $primary): void
     {
-        $query->order(['data_inscricao' => 'DESC']);
+        if ($query->clause('order') === null && $query->clause('group') === null) {
+            $query->orderBy(['data_inscricao' => 'DESC']);
+        }
 
-        return $query;
+        $event->setResult($query);
     }
 
     /**
@@ -89,6 +91,11 @@ class MuralestagiosTable extends Table
         $validator
                 ->integer('instituicao_id')
                 ->notEmptyString('instituicao_id');
+
+        $validator
+                ->scalar('instituicao')
+                ->maxLength('instituicao', 100)
+                ->notEmptyString('instituicao');
 
         $validator
                 ->scalar('convenio')
@@ -109,7 +116,7 @@ class MuralestagiosTable extends Table
                 ->scalar('final_de_semana')
                 ->maxLength('final_de_semana', 1)
                 ->inList('final_de_semana', ['0', '1', '2'])
-                ->allowEmptyString('final_de_semana');
+                ->notEmptyString('final_de_semana');
 
         $validator
                 ->nonNegativeInteger('carga_horaria')
@@ -168,7 +175,8 @@ class MuralestagiosTable extends Table
 
         $validator
                 ->email('email')
-                ->allowEmptyString('email');
+                ->maxLength('email', 70)
+                ->notEmptyString('email');
 
         return $validator;
     }

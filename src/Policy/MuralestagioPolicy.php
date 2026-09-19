@@ -51,6 +51,16 @@ final class MuralestagioPolicy implements BeforePolicyInterface
     }
 
     /**
+     * @param \Authorization\IdentityInterface|null $user
+     * @param \App\Model\Entity\Muralestagio $muralestagio
+     * @return \Authorization\Policy\Result
+     */
+    public function canImprimepdf(?IdentityInterface $user, Muralestagio $muralestagio): Result
+    {
+        return new Result(true);
+    }
+
+    /**
      * @param \Authorization\IdentityInterface $user
      * @param \App\Model\Entity\Muralestagio $muralestagio
      * @return \Authorization\Policy\Result

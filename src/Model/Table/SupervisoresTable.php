@@ -6,6 +6,11 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+/**
+ * @property \App\Model\Table\EstagiariosTable&\Cake\ORM\Association\HasMany $Estagiarios
+ * @property \App\Model\Table\InstituicoesTable&\Cake\ORM\Association\BelongsToMany $Instituicoes
+ * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
+ */
 class SupervisoresTable extends Table
 {
     public function initialize(array $config): void
@@ -70,19 +75,9 @@ class SupervisoresTable extends Table
             ->allowEmptyString('cep');
 
         $validator
-            ->scalar('codigo_telefone')
-            ->maxLength('codigo_telefone', 2)
-            ->allowEmptyString('codigo_telefone');
-
-        $validator
             ->scalar('telefone')
             ->maxLength('telefone', 15)
             ->allowEmptyString('telefone');
-
-        $validator
-            ->scalar('codigo_celular')
-            ->maxLength('codigo_celular', 2)
-            ->allowEmptyString('codigo_celular');
 
         $validator
             ->scalar('celular')

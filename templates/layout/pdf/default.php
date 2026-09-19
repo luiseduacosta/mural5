@@ -20,7 +20,9 @@ $defaultMargin = 50;
 <html>
 <head>
     <meta charset="UTF-8">
-    <?= $this->fetch('title') ?>
+    <title>
+        <?= $this->fetch('title') ?>
+    </title>
 </head>
 <body style="max-width: 100%; margin: <?= $defaultMargin ?>px">
     <?= $this->fetch('content') ?>
